@@ -119,26 +119,26 @@ type ValueOf<T> = T[keyof T];
 
 type InferSchema<T> = T extends ZodTypeAny ? z.infer<T> : never;
 
-type ResolvedTargetFor<T> = Extract<T, { lemmaKind: unknown }>;
+type ResolvedLemmaFor<T> = Extract<T, { lemmaKind: unknown }>;
 
-type UnresolvedTargetFor<T> = Exclude<T, { lemmaKind: unknown }>;
+type UnresolvedLemmaFor<T> = Exclude<T, { lemmaKind: unknown }>;
 
-type ResolvedSurfaceValueFor<T> = T extends { target: infer Target }
-	? [ResolvedTargetFor<Target>] extends [never]
+type ResolvedSurfaceValueFor<T> = T extends { lemma: infer SurfaceLemma }
+	? [ResolvedLemmaFor<SurfaceLemma>] extends [never]
 		? never
 		: Prettify<
-				Omit<T, "target"> & {
-					target: ResolvedTargetFor<Target>;
+				Omit<T, "lemma"> & {
+					lemma: ResolvedLemmaFor<SurfaceLemma>;
 				}
 			>
 	: never;
 
-type UnresolvedSurfaceValueFor<T> = T extends { target: infer Target }
-	? [UnresolvedTargetFor<Target>] extends [never]
+type UnresolvedSurfaceValueFor<T> = T extends { lemma: infer SurfaceLemma }
+	? [UnresolvedLemmaFor<SurfaceLemma>] extends [never]
 		? never
 		: Prettify<
-				Omit<T, "target"> & {
-					target: UnresolvedTargetFor<Target>;
+				Omit<T, "lemma"> & {
+					lemma: UnresolvedLemmaFor<SurfaceLemma>;
 				}
 			>
 	: never;

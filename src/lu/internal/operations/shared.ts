@@ -28,7 +28,7 @@ export type SurfaceLike<L extends TargetLanguage = TargetLanguage> = {
 	language: L;
 	normalizedFullSurface: string;
 	surfaceKind: string;
-	target: { canonicalLemma: string } | LemmaLike<L>;
+	lemma: { canonicalLemma: string } | LemmaLike<L>;
 };
 
 export type UnknownSelectionLikeFor<L extends TargetLanguage = TargetLanguage> =
@@ -52,11 +52,11 @@ export type SurfaceOfSelection<S extends { surface: unknown }> = S extends {
 	: never;
 
 export type ResolvedSurfaceLikeFor<L extends TargetLanguage = TargetLanguage> =
-	SurfaceLike<L> & { target: LemmaLike<L> };
+	SurfaceLike<L> & { lemma: LemmaLike<L> };
 
 export type UnresolvedSurfaceLikeFor<
 	L extends TargetLanguage = TargetLanguage,
-> = SurfaceLike<L> & { target: { canonicalLemma: string } };
+> = SurfaceLike<L> & { lemma: { canonicalLemma: string } };
 
 export type CompatibleLemmaForSurface<S extends SurfaceLike> = S extends {
 	discriminators: infer D;
@@ -80,16 +80,16 @@ export type CompatibleLemmaForSurface<S extends SurfaceLike> = S extends {
 export type ResolvedSurfaceWithLemma<
 	S extends UnresolvedSurfaceLikeFor,
 	T extends CompatibleLemmaForSurface<S>,
-> = Omit<S, "target"> & { target: T };
+> = Omit<S, "lemma"> & { lemma: T };
 
-export type UnresolvedSurfaceOf<S extends SurfaceLike> = Omit<S, "target"> & {
-	target: Pick<S["target"], "canonicalLemma">;
+export type UnresolvedSurfaceOf<S extends SurfaceLike> = Omit<S, "lemma"> & {
+	lemma: Pick<S["lemma"], "canonicalLemma">;
 };
 
-export type LemmaOfSurface<S extends { target: unknown }> = S extends {
-	target: infer SurfaceTarget;
+export type LemmaOfSurface<S extends { lemma: unknown }> = S extends {
+	lemma: infer SurfaceLemma;
 }
-	? Extract<SurfaceTarget, { lemmaKind: unknown }>
+	? Extract<SurfaceLemma, { lemmaKind: unknown }>
 	: never;
 
 type LemmaDiscriminatorOf<T extends LemmaLike> = T extends {
@@ -117,7 +117,7 @@ export type ResolvedLemmaSurfaceFor<T extends LemmaLike> = {
 	language: T["language"];
 	normalizedFullSurface: string;
 	surfaceKind: "Lemma";
-	target: T;
+	lemma: T;
 };
 
 export type StandardFullSelectionForSurface<
@@ -145,13 +145,13 @@ export function assertLanguageMatch(
 	}
 }
 
-export function hasResolvedSurfaceTarget<L extends TargetLanguage>(
+export function hasResolvedSurfaceLemma<L extends TargetLanguage>(
 	surface: SurfaceLike<L>,
 ): surface is ResolvedSurfaceLikeFor<L> {
 	return (
-		typeof surface.target === "object" &&
-		surface.target !== null &&
-		"lemmaKind" in surface.target
+		typeof surface.lemma === "object" &&
+		surface.lemma !== null &&
+		"lemmaKind" in surface.lemma
 	);
 }
 
@@ -183,9 +183,9 @@ export function assertSurfaceMatchesLemma<
 >(surface: S, lemma: T): void {
 	assertLanguageMatch(surface.language, lemma.language);
 
-	if (surface.target.canonicalLemma !== lemma.canonicalLemma) {
+	if (surface.lemma.canonicalLemma !== lemma.canonicalLemma) {
 		throw new Error(
-			`lingOperation canonical lemma mismatch: expected ${surface.target.canonicalLemma}, received ${lemma.canonicalLemma}`,
+			`lingOperation canonical lemma mismatch: expected ${surface.lemma.canonicalLemma}, received ${lemma.canonicalLemma}`,
 		);
 	}
 

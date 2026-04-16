@@ -50,26 +50,26 @@ function unionLeafSchemas(value: unknown): z.ZodTypeAny {
 	]);
 }
 
-function hasResolvedTarget(value: unknown): boolean {
+function hasResolvedLemmaOnSurface(value: unknown): boolean {
 	return (
 		typeof value === "object" &&
 		value !== null &&
-		"target" in value &&
-		typeof (value as { target: unknown }).target === "object" &&
-		(value as { target: object | null }).target !== null &&
-		"lemmaKind" in ((value as { target: object }).target as object)
+		"lemma" in value &&
+		typeof (value as { lemma: unknown }).lemma === "object" &&
+		(value as { lemma: object | null }).lemma !== null &&
+		"lemmaKind" in ((value as { lemma: object }).lemma as object)
 	);
 }
 
 function buildUnresolvedSurfaceSchema(language: TargetLanguage): z.ZodTypeAny {
 	return unionLeafSchemas(SurfaceSchema[language]).superRefine(
 		(value, ctx) => {
-			if (hasResolvedTarget(value)) {
+			if (hasResolvedLemmaOnSurface(value)) {
 				ctx.addIssue({
 					code: z.ZodIssueCode.custom,
 					message:
-						"Unresolved surfaces require a canonical-lemma target",
-					path: ["target"],
+						"Unresolved surfaces require a canonical-lemma reference",
+					path: ["lemma"],
 				});
 			}
 		},
@@ -121,7 +121,7 @@ export function isPlainObject(
 	return typeof value === "object" && value !== null && !Array.isArray(value);
 }
 
-export function hasResolvedSurfaceTarget(value: unknown): boolean {
+export function hasResolvedSurfaceLemma(value: unknown): boolean {
 	return (
 		isPlainObject(value) &&
 		"lemmaKind" in value &&

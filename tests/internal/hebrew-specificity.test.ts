@@ -40,7 +40,7 @@ describe("Hebrew schema specificity", () => {
 					language: "Hebrew",
 					normalizedFullSurface: "katvu",
 					surfaceKind: "Inflection",
-					target: {
+					lemma: {
 						canonicalLemma: "katav",
 					},
 				},
@@ -64,7 +64,7 @@ describe("Hebrew schema specificity", () => {
 					language: "Hebrew",
 					normalizedFullSurface: "shnatayim",
 					surfaceKind: "Inflection",
-					target: {
+					lemma: {
 						canonicalLemma: "shana",
 					},
 				},

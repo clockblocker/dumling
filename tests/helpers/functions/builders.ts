@@ -7,7 +7,7 @@ export function makeLexemeSurfaceReference<lemmaSubKind extends string>(
 			lemmaKind: "Lexeme" as const,
 			lemmaSubKind,
 		},
-		target: {
+		lemma: {
 			canonicalLemma,
 		},
 	};
@@ -22,7 +22,7 @@ export function makeMorphemeSurfaceReference<lemmaSubKind extends string>(
 			lemmaKind: "Morpheme" as const,
 			lemmaSubKind,
 		},
-		target: {
+		lemma: {
 			canonicalLemma,
 		},
 	};
@@ -37,7 +37,7 @@ export function makePhrasemeSurfaceReference<lemmaSubKind extends string>(
 			lemmaKind: "Phraseme" as const,
 			lemmaSubKind,
 		},
-		target: {
+		lemma: {
 			canonicalLemma,
 		},
 	};

@@ -4,7 +4,7 @@ Typesafe schemas, types, IDs, and operations for learner-facing linguistic annot
 
 `dumling` keeps three linked DTOs separate:
 
-- `Lemma`: the dictionary target
+- `Lemma`: the dictionary lemma
 - `Surface`: the normalized full form in context
 - `Selection`: the exact text the learner highlighted
 
@@ -20,7 +20,7 @@ Mark [gvae] up on it
 
 `dumling` lets you describe that note at three levels at once.
 
-The `Lemma` is the dictionary target:
+The `Lemma` is the dictionary lemma:
 
 <!-- README_BLOCK:story-give-up-lemma -->
 
@@ -32,13 +32,17 @@ The `Selection` is the exact observed highlight in the learner's text:
 
 <!-- README_BLOCK:story-gvae-selection -->
 
-That is the value of the model at a glance: the learner can select a typo or only part of a multi-token expression, while the deeper linguistic target stays stable.
+That is the value of the model at a glance: the learner can select a typo or only part of a multi-token expression, while the deeper linguistic lemma stays stable.
 
 In this example:
 
 - the `Lemma` stays `give up`
 - the `Surface` stays `gave up`
 - the `Selection` stays `gvae`
+
+As IDs, those same three objects become:
+
+<!-- README_BLOCK:story-give-up-ids -->
 
 That separation is what makes typo handling, spelling variants, phrasal verbs, idioms, and partial highlights fit into one consistent shape.
 

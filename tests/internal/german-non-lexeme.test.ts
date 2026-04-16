@@ -140,7 +140,7 @@ describe("German non-lexeme schemas", () => {
 					language: "German",
 					normalizedFullSurface: "hait",
 					surfaceKind: "Lemma",
-					target: {
+					lemma: {
 						canonicalLemma: "heit",
 					},
 				},
@@ -159,7 +159,7 @@ describe("German non-lexeme schemas", () => {
 					language: "German",
 					normalizedFullSurface: "ins Gras beißen",
 					surfaceKind: "Lemma",
-					target: {
+					lemma: {
 						canonicalLemma: "ins Gras beißen",
 					},
 				},
@@ -169,7 +169,7 @@ describe("German non-lexeme schemas", () => {
 		expect(phrasemeResult.success).toBe(true);
 	});
 
-	it("rejects decorated unresolved morpheme targets", () => {
+	it("rejects decorated unresolved morpheme lemmas", () => {
 		const result =
 			SelectionSchema.German.Typo.Lemma.Morpheme.Suffix.safeParse({
 				language: "German",
@@ -184,7 +184,7 @@ describe("German non-lexeme schemas", () => {
 					language: "German",
 					normalizedFullSurface: "hait",
 					surfaceKind: "Lemma",
-					target: {
+					lemma: {
 						canonicalLemma: "-heit",
 					},
 				},

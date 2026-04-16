@@ -39,7 +39,7 @@ const simpleWalkSelection = {
 		language: "English",
 		normalizedFullSurface: "walk",
 		surfaceKind: "Inflection",
-		target: {
+		lemma: {
 			canonicalLemma: "walk",
 		},
 	},

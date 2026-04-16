@@ -18,7 +18,7 @@ type AbstractUnresolvedSurfaceFor<
 > = SK extends SurfaceKind
 	? Prettify<
 			SurfaceBaseFor<SK, LK, D> & {
-				target: UnresolvedSurfaceTargetFor<LK, D>;
+				lemma: UnresolvedSurfaceLemmaFor<LK, D>;
 			}
 		>
 	: never;
@@ -30,7 +30,7 @@ type AbstractResolvedSurfaceFor<
 > = SK extends SurfaceKind
 	? Prettify<
 			SurfaceBaseFor<SK, LK, D> & {
-				target: ResolvedSurfaceTargetFor<LK, D>;
+				lemma: ResolvedSurfaceLemmaFor<LK, D>;
 			}
 		>
 	: never;
@@ -99,12 +99,12 @@ type KnownSelectionBaseFor<
 	surface: SurfaceFor<SK, LK, D>;
 };
 
-type UnresolvedSurfaceTargetFor<
+type UnresolvedSurfaceLemmaFor<
 	LK extends LemmaKind = LemmaKind,
 	D extends LemmaDiscriminatorFor<LK> = LemmaDiscriminatorFor<LK>,
 > = Pick<AbstractLemma<LK, D>, "canonicalLemma">;
 
-type ResolvedSurfaceTargetFor<
+type ResolvedSurfaceLemmaFor<
 	LK extends LemmaKind = LemmaKind,
 	D extends LemmaDiscriminatorFor<LK> = LemmaDiscriminatorFor<LK>,
 > = AbstractLemma<LK, D>;
@@ -130,9 +130,9 @@ type SurfaceFor<
 > = SK extends SurfaceKind
 	? Prettify<
 			{
-				target:
-					| UnresolvedSurfaceTargetFor<LK, D>
-					| ResolvedSurfaceTargetFor<LK, D>;
+				lemma:
+					| UnresolvedSurfaceLemmaFor<LK, D>
+					| ResolvedSurfaceLemmaFor<LK, D>;
 			} & SurfaceBaseFor<SK, LK, D>
 		>
 	: never;

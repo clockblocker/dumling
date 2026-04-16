@@ -19,7 +19,7 @@ export const hebrewKatvuResolvedInflectionSurface = {
 	language: "Hebrew",
 	normalizedFullSurface: "כתבו",
 	surfaceKind: "Inflection",
-	target: hebrewKatavLemma,
+	lemma: hebrewKatavLemma,
 } satisfies ResolvedSurface<
 	"Hebrew",
 	"Standard",
@@ -42,7 +42,7 @@ export const hebrewKatvuUnresolvedInflectionSurface = {
 	language: "Hebrew",
 	normalizedFullSurface: "כתבו",
 	surfaceKind: "Inflection",
-	target: {
+	lemma: {
 		canonicalLemma: "כתב",
 	},
 } satisfies UnresolvedSurface<
@@ -62,7 +62,7 @@ export const hebrewShanaResolvedLemmaSurface = {
 	language: "Hebrew",
 	normalizedFullSurface: "שנה",
 	surfaceKind: "Lemma",
-	target: hebrewShanaLemma,
+	lemma: hebrewShanaLemma,
 } satisfies ResolvedSurface<"Hebrew", "Standard", "Lemma", "Lexeme", "NOUN">;
 
 // Attestation: "[ארה״ב] הודיעה על צעד חדש."
@@ -74,5 +74,5 @@ export const hebrewUsAbbreviationResolvedLemmaSurface = {
 	language: "Hebrew",
 	normalizedFullSurface: "ארה״ב",
 	surfaceKind: "Lemma",
-	target: hebrewUsAbbreviationLemma,
+	lemma: hebrewUsAbbreviationLemma,
 } satisfies ResolvedSurface<"Hebrew", "Standard", "Lemma", "Lexeme", "PROPN">;

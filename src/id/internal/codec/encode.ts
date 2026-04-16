@@ -8,7 +8,7 @@ import type { SpellingRelation } from "../../../lu/universal/enums/core/selectio
 import type { ConcreteDumlingIdKind, KnownSelection, DumlingId } from "../../types";
 import {
 	getRuntimeSchema,
-	hasResolvedSurfaceTarget,
+	hasResolvedSurfaceLemma,
 	isPlainObject,
 } from "../guards";
 import type { ParsedFeatureBag, ParsedFeatureValue } from "../wire/feature-bag";
@@ -133,22 +133,22 @@ function serializeSurfacePayload(
 	if (kind === "ResolvedSurface") {
 		return joinTokens([
 			...surfaceParts,
-			serializeLemmaPayload(value.target as Lemma),
+			serializeLemmaPayload(value.lemma as Lemma),
 		]);
 	}
 
 	return joinTokens([
 		...surfaceParts,
-		escapeToken(value.target.canonicalLemma),
+		escapeToken(value.lemma.canonicalLemma),
 	]);
 }
 
 function inferSurfaceDumlingIdKind(
 	value: {
-		target: { canonicalLemma: string } | Lemma;
+		lemma: { canonicalLemma: string } | Lemma;
 	} & (ResolvedSurface | UnresolvedSurface),
 ): "ResolvedSurface" | "UnresolvedSurface" {
-	return hasResolvedSurfaceTarget(value.target)
+	return hasResolvedSurfaceLemma(value.lemma)
 		? "ResolvedSurface"
 		: "UnresolvedSurface";
 }

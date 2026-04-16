@@ -57,7 +57,7 @@ describe("lingOperation", () => {
 			language: "English",
 			normalizedFullSurface: "walk",
 			surfaceKind: "Lemma",
-			target: lemma,
+			lemma: lemma,
 		});
 		expect(
 			lingSchemaFor.ResolvedSurface.English.Standard.Lemma.Lexeme.VERB.safeParse(
@@ -77,7 +77,7 @@ describe("lingOperation", () => {
 			),
 		).toEqual({
 			...unresolvedSurface,
-			target: lemma,
+			lemma: lemma,
 		});
 	});
 
@@ -88,7 +88,7 @@ describe("lingOperation", () => {
 
 		expect(unresolvedSurface).toEqual({
 			...resolvedSurface,
-			target: {
+			lemma: {
 				canonicalLemma: "walk",
 			},
 		});
@@ -227,7 +227,7 @@ describe("lingOperation", () => {
 					language: "English",
 					normalizedFullSurface: "walk",
 					surfaceKind: "Lemma",
-					target: {
+					lemma: {
 						canonicalLemma: "walk",
 					},
 				} as unknown as GermanUnresolvedSurfaceInput,
@@ -261,7 +261,7 @@ describe("lingOperation", () => {
 			language: "German",
 			normalizedFullSurface: "See",
 			surfaceKind: "Lemma",
-			target: germanLemma,
+			lemma: germanLemma,
 		});
 		expect(
 			germanOps.unresolve.surface(
@@ -275,7 +275,7 @@ describe("lingOperation", () => {
 			language: "German",
 			normalizedFullSurface: "See",
 			surfaceKind: "Lemma",
-			target: {
+			lemma: {
 				canonicalLemma: "See",
 			},
 		});

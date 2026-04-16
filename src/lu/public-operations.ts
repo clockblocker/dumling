@@ -17,7 +17,7 @@ import {
 	assertLanguageMatch,
 	assertSurfaceMatchesLemma,
 	getLemmaDiscriminators,
-	hasResolvedSurfaceTarget,
+	hasResolvedSurfaceLemma,
 } from "./internal/operations/shared";
 import type { TargetLanguage } from "./universal/enums/core/language";
 
@@ -29,8 +29,8 @@ export const extractSurfaceFromSelection = ((
 		: selection.surface) as ExtractSurfaceFromSelectionFn;
 
 export const extractLemmaFromSurface = ((surface: SurfaceLike) =>
-	hasResolvedSurfaceTarget(surface)
-		? surface.target
+	hasResolvedSurfaceLemma(surface)
+		? surface.lemma
 		: null) as ExtractLemmaFromSurfaceFn;
 
 export const toResolvedLemmaSurface = ((lemma: LemmaLike) => {
@@ -41,7 +41,7 @@ export const toResolvedLemmaSurface = ((lemma: LemmaLike) => {
 		language: lemma.language,
 		normalizedFullSurface: operationPack.normalizeLemmaSurface(lemma),
 		surfaceKind: "Lemma",
-		target: lemma,
+		lemma,
 	};
 }) as ToResolvedLemmaSurfaceFn;
 
@@ -84,16 +84,16 @@ export const resolveUnresolvedSurfaceWithLemma = ((
 
 	return {
 		...surface,
-		target: lemma,
+		lemma,
 	};
 }) as ResolveUnresolvedSurfaceWithLemmaFn;
 
 export const unresolveSurface = ((surface: SurfaceLike) =>
-	hasResolvedSurfaceTarget(surface)
+	hasResolvedSurfaceLemma(surface)
 		? {
 				...surface,
-				target: {
-					canonicalLemma: surface.target.canonicalLemma,
+				lemma: {
+					canonicalLemma: surface.lemma.canonicalLemma,
 				},
 			}
 		: surface) as UnresolveSurfaceFn;

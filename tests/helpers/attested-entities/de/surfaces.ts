@@ -10,5 +10,5 @@ export const germanHausResolvedLemmaSurface = {
 	language: "German",
 	normalizedFullSurface: "Haus",
 	surfaceKind: "Lemma",
-	target: germanHausLemma,
+	lemma: germanHausLemma,
 } satisfies ResolvedSurface<"German", "Standard", "Lemma", "Lexeme", "NOUN">;

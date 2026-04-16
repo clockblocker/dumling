@@ -18,7 +18,7 @@ export const englishWalkResolvedInflectionSurface = {
 	language: "English",
 	normalizedFullSurface: "walk",
 	surfaceKind: "Inflection",
-	target: englishWalkLemma,
+	lemma: englishWalkLemma,
 } satisfies ResolvedSurface<
 	"English",
 	"Standard",
@@ -40,7 +40,7 @@ export const englishWalkUnresolvedInflectionSurface = {
 	language: "English",
 	normalizedFullSurface: "walk",
 	surfaceKind: "Inflection",
-	target: {
+	lemma: {
 		canonicalLemma: "walk",
 	},
 } satisfies UnresolvedSurface<
@@ -60,7 +60,7 @@ export const englishWalkResolvedLemmaSurface = {
 	language: "English",
 	normalizedFullSurface: "walk",
 	surfaceKind: "Lemma",
-	target: englishWalkLemma,
+	lemma: englishWalkLemma,
 } satisfies ResolvedSurface<"English", "Standard", "Lemma", "Lexeme", "VERB">;
 
 // Attestation: "They [walk] home together."
@@ -72,7 +72,7 @@ export const englishWalkUnresolvedLemmaSurface = {
 	language: "English",
 	normalizedFullSurface: "walk",
 	surfaceKind: "Lemma",
-	target: {
+	lemma: {
 		canonicalLemma: "walk",
 	},
 } satisfies Surface<"English", "Standard", "Lemma", "Lexeme", "VERB">;
@@ -90,7 +90,7 @@ export const englishGiveUpTypoUnresolvedInflectionSurface = {
 	language: "English",
 	normalizedFullSurface: "gave up",
 	surfaceKind: "Inflection",
-	target: {
+	lemma: {
 		canonicalLemma: "give up",
 	},
 } satisfies UnresolvedSurface<

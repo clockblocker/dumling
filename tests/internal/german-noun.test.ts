@@ -135,7 +135,7 @@ describe("German noun schemas", () => {
 					language: "German",
 					normalizedFullSurface: "Haus",
 					surfaceKind: "Lemma",
-					target: {
+					lemma: {
 						canonicalLemma: "Haus",
 						inherentFeatures: {},
 						language: "German",
@@ -217,7 +217,7 @@ describe("German noun schemas", () => {
 		).toBe(false);
 	});
 
-	it("accepts detached and hydrated lemma targets", () => {
+	it("accepts detached and hydrated surface lemmas", () => {
 		const detached = GermanNounSchemas.LemmaSelectionSchema.safeParse({
 			language: "German",
 			orthographicStatus: "Standard",
@@ -243,7 +243,7 @@ describe("German noun schemas", () => {
 				language: "German",
 				normalizedFullSurface: "Haus",
 				surfaceKind: "Lemma",
-				target: {
+				lemma: {
 					...germanHausLemma,
 				},
 			},
@@ -267,7 +267,7 @@ describe("German noun schemas", () => {
 				language: "German",
 				normalizedFullSurface: "Haus",
 				surfaceKind: "Lemma",
-				target: {
+				lemma: {
 					...germanHausLemma,
 					language: "English",
 				},
@@ -286,7 +286,7 @@ describe("German noun schemas", () => {
 				language: "German",
 				normalizedFullSurface: "Haus",
 				surfaceKind: "Lemma",
-				target: {
+				lemma: {
 					canonicalLemma: "Haus",
 					language: "German",
 					lemmaKind: "Phraseme",
@@ -308,7 +308,7 @@ describe("German noun schemas", () => {
 				language: "German",
 				normalizedFullSurface: "Haus",
 				surfaceKind: "Lemma",
-				target: {
+				lemma: {
 					canonicalLemma: "Haus",
 					inherentFeatures: {},
 					language: "German",
@@ -324,7 +324,7 @@ describe("German noun schemas", () => {
 		expect(wrongSubKind.success).toBe(false);
 	});
 
-	it("rejects invalid target unions and non-inflectional feature leakage", () => {
+	it("rejects invalid lemma unions and non-inflectional feature leakage", () => {
 		const bothTargetFields =
 			GermanNounSchemas.LemmaSelectionSchema.safeParse({
 				language: "German",
@@ -336,7 +336,7 @@ describe("German noun schemas", () => {
 					language: "German",
 					normalizedFullSurface: "Haus",
 					surfaceKind: "Lemma",
-					target: {
+					lemma: {
 						canonicalLemma: "Haus",
 						lemmaKind: "Lexeme",
 					},

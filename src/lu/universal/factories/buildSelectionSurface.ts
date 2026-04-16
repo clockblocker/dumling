@@ -57,7 +57,7 @@ export type SelectionSurfaceValueFor<
 		};
 		language: LanguageLiteral;
 		normalizedFullSurface: string;
-		target: { canonicalLemma: string } | Lemma;
+		lemma: { canonicalLemma: string } | Lemma;
 	}
 >;
 
@@ -123,7 +123,7 @@ export function buildSelectionSurfaceSchema<
 				.strict(),
 			language: z.literal(language),
 			normalizedFullSurface: z.string(),
-			target: z.union([
+			lemma: z.union([
 				z
 					.object({
 						canonicalLemma: getCanonicalLemmaSchema(lemmaSchema),
@@ -140,20 +140,20 @@ export function buildSelectionSurfaceSchema<
 					lemmaSubKind: unknown;
 				};
 				language: string;
-				target: { canonicalLemma: string } | Record<string, unknown>;
+				lemma: { canonicalLemma: string } | Record<string, unknown>;
 			};
 
-			if (isUnresolvedSurfaceTarget(typedSurface.target)) {
+			if (isUnresolvedSurfaceLemma(typedSurface.lemma)) {
 				return;
 			}
 
-			const hydratedLemma = typedSurface.target;
+			const hydratedLemma = typedSurface.lemma;
 			if (hydratedLemma.language !== typedSurface.language) {
 				ctx.addIssue({
 					code: z.ZodIssueCode.custom,
 					message:
 						"hydrated lemma language must match surface language",
-					path: ["target", "language"],
+					path: ["lemma", "language"],
 				});
 			}
 
@@ -166,7 +166,7 @@ export function buildSelectionSurfaceSchema<
 				ctx.addIssue({
 					code: z.ZodIssueCode.custom,
 					message: "hydrated lemmaKind must match discriminators",
-					path: ["target", "lemma", "lemmaKind"],
+					path: ["lemma", "lemmaKind"],
 				});
 			}
 
@@ -174,7 +174,7 @@ export function buildSelectionSurfaceSchema<
 				ctx.addIssue({
 					code: z.ZodIssueCode.custom,
 					message: "hydrated lemmaSubKind must match discriminators",
-					path: ["target", "lemma", lemmaSubKindKey],
+					path: ["lemma", lemmaSubKindKey],
 				});
 			}
 		}) as SelectionSurfaceSchemaFor<
@@ -213,10 +213,10 @@ function getLemmaSubKindKey(
 	return matchingKey;
 }
 
-function isUnresolvedSurfaceTarget(
-	target: { canonicalLemma: string } | Record<string, unknown>,
-): target is { canonicalLemma: string } {
-	return "canonicalLemma" in target && !("lemmaKind" in target);
+function isUnresolvedSurfaceLemma(
+	lemma: { canonicalLemma: string } | Record<string, unknown>,
+): lemma is { canonicalLemma: string } {
+	return "canonicalLemma" in lemma && !("lemmaKind" in lemma);
 }
 
 function getCanonicalLemmaSchema(lemmaSchema: z.ZodTypeAny): z.ZodTypeAny {

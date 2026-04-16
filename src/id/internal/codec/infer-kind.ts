@@ -1,5 +1,5 @@
 import type { ConcreteDumlingIdKind } from "../../types";
-import { hasResolvedSurfaceTarget, isPlainObject } from "../guards";
+import { hasResolvedSurfaceLemma, isPlainObject } from "../guards";
 
 export function inferConcreteDumlingIdKind(value: unknown): ConcreteDumlingIdKind {
 	if (!isPlainObject(value)) {
@@ -18,7 +18,7 @@ export function inferConcreteDumlingIdKind(value: unknown): ConcreteDumlingIdKin
 		"lemmaKind" in value &&
 		typeof value.lemmaKind === "string" &&
 		!("surface" in value) &&
-		!("target" in value)
+		!("lemma" in value)
 	) {
 		return "Lemma";
 	}
@@ -26,9 +26,9 @@ export function inferConcreteDumlingIdKind(value: unknown): ConcreteDumlingIdKin
 	if (
 		"surfaceKind" in value &&
 		typeof value.surfaceKind === "string" &&
-		"target" in value
+		"lemma" in value
 	) {
-		return hasResolvedSurfaceTarget(value.target)
+		return hasResolvedSurfaceLemma(value.lemma)
 			? "ResolvedSurface"
 			: "UnresolvedSurface";
 	}

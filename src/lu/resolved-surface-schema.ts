@@ -11,13 +11,13 @@ type SurfaceSchemaBySurfaceKind = Record<string, SurfaceSchemaByLemmaKind>;
 
 type SurfaceSchemaLanguageLike = Record<string, SurfaceSchemaBySurfaceKind>;
 
-type ResolvedTargetFor<T> = Extract<T, { lemmaKind: unknown }>;
+type ResolvedLemmaFor<T> = Extract<T, { lemmaKind: unknown }>;
 
-type ResolvedSurfaceValueFor<T> = T extends { target: infer Target }
-	? [ResolvedTargetFor<Target>] extends [never]
+type ResolvedSurfaceValueFor<T> = T extends { lemma: infer SurfaceLemma }
+	? [ResolvedLemmaFor<SurfaceLemma>] extends [never]
 		? never
-		: Omit<T, "target"> & {
-				target: ResolvedTargetFor<Target>;
+		: Omit<T, "lemma"> & {
+				lemma: ResolvedLemmaFor<SurfaceLemma>;
 			}
 	: never;
 
@@ -79,23 +79,23 @@ function buildResolvedSurfaceSchema<T extends SurfaceSchemaLeaf>(
 	schema: T,
 ): ResolvedSurfaceSchemaFor<T> {
 	return schema.superRefine((value, ctx) => {
-		if (!hasResolvedSurfaceTarget(value)) {
+		if (!hasResolvedSurfaceLemma(value)) {
 			ctx.addIssue({
 				code: z.ZodIssueCode.custom,
-				message: "Resolved surfaces require a full lemma target",
-				path: ["target"],
+				message: "Resolved surfaces require a full lemma",
+				path: ["lemma"],
 			});
 		}
 	}) as unknown as ResolvedSurfaceSchemaFor<T>;
 }
 
-function hasResolvedSurfaceTarget(value: unknown): boolean {
+function hasResolvedSurfaceLemma(value: unknown): boolean {
 	return (
 		typeof value === "object" &&
 		value !== null &&
-		"target" in value &&
-		typeof (value as { target: unknown }).target === "object" &&
-		(value as { target: object | null }).target !== null &&
-		"lemmaKind" in ((value as { target: object }).target as object)
+		"lemma" in value &&
+		typeof (value as { lemma: unknown }).lemma === "object" &&
+		(value as { lemma: object | null }).lemma !== null &&
+		"lemmaKind" in ((value as { lemma: object }).lemma as object)
 	);
 }

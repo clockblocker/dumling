@@ -6,7 +6,7 @@ Typesafe schemas, types, IDs, and operations for learner-facing linguistic annot
 
 `dumling` keeps three linked DTOs separate:
 
-- `Lemma`: the dictionary target
+- `Lemma`: the dictionary lemma
 - `Surface`: the normalized full form in context
 - `Selection`: the exact text the learner highlighted
 
@@ -22,7 +22,7 @@ Mark [gvae] up on it
 
 `dumling` lets you describe that note at three levels at once.
 
-The `Lemma` is the dictionary target:
+The `Lemma` is the dictionary lemma:
 
 ```ts
 const giveUpLemma = {
@@ -52,7 +52,7 @@ const gaveUpSurface = {
 	language: "English",
 	normalizedFullSurface: "gave up",
 	surfaceKind: "Inflection",
-	target: giveUpLemma,
+	lemma: giveUpLemma,
 } satisfies ResolvedSurface<
 	"English",
 	"Typo",
@@ -75,13 +75,26 @@ const gvaeSelection = {
 } satisfies Selection<"English", "Typo", "Inflection", "Lexeme", "VERB">;
 ```
 
-That is the value of the model at a glance: the learner can select a typo or only part of a multi-token expression, while the deeper linguistic target stays stable.
+That is the value of the model at a glance: the learner can select a typo or only part of a multi-token expression, while the deeper linguistic lemma stays stable.
 
 In this example:
 
 - the `Lemma` stays `give up`
 - the `Surface` stays `gave up`
 - the `Selection` stays `gvae`
+
+As IDs, those same three objects become:
+
+```ts
+const giveUpLemmaId = dumling.idCodec.English.makeDumlingIdFor(giveUpLemma);
+// "ling:v1:EN:LEM;give up;Lexeme;VERB;phrasal=Yes;🏳️"
+
+const gaveUpSurfaceId = dumling.idCodec.English.makeDumlingIdFor(gaveUpSurface);
+// "ling:v1:EN:SURF-RES;gave up;Inflection;Lexeme;VERB;tense=Past,verbForm=Fin;give up;Lexeme;VERB;phrasal=Yes;🏳️"
+
+const gvaeSelectionId = dumling.idCodec.English.makeDumlingIdFor(gvaeSelection);
+// "ling:v1:EN:SEL;Typo;Canonical;Partial;gvae;SURF-RES;gave up;Inflection;Lexeme;VERB;tense=Past,verbForm=Fin;give up;Lexeme;VERB;phrasal=Yes;🏳️"
+```
 
 That separation is what makes typo handling, spelling variants, phrasal verbs, idioms, and partial highlights fit into one consistent shape.
 

@@ -32,7 +32,7 @@ const gaveUpSurface = {
 	language: "English",
 	normalizedFullSurface: "gave up",
 	surfaceKind: "Inflection",
-	target: giveUpLemma,
+	lemma: giveUpLemma,
 } satisfies ResolvedSurface<
 	"English",
 	"Typo",
@@ -52,6 +52,17 @@ const gvaeSelection = {
 	surface: gaveUpSurface,
 } satisfies Selection<"English", "Typo", "Inflection", "Lexeme", "VERB">;
 // README_BLOCK:story-gvae-selection:end
+
+// README_BLOCK:story-give-up-ids:start
+const giveUpLemmaId = dumling.idCodec.English.makeDumlingIdFor(giveUpLemma);
+// "ling:v1:EN:LEM;give up;Lexeme;VERB;phrasal=Yes;🏳️"
+
+const gaveUpSurfaceId = dumling.idCodec.English.makeDumlingIdFor(gaveUpSurface);
+// "ling:v1:EN:SURF-RES;gave up;Inflection;Lexeme;VERB;tense=Past,verbForm=Fin;give up;Lexeme;VERB;phrasal=Yes;🏳️"
+
+const gvaeSelectionId = dumling.idCodec.English.makeDumlingIdFor(gvaeSelection);
+// "ling:v1:EN:SEL;Typo;Canonical;Partial;gvae;SURF-RES;gave up;Inflection;Lexeme;VERB;tense=Past,verbForm=Fin;give up;Lexeme;VERB;phrasal=Yes;🏳️"
+// README_BLOCK:story-give-up-ids:end
 
 // README_BLOCK:quickstart-walk:start
 const walkLemma = {

@@ -198,7 +198,7 @@ function parseSurfacePayload(
 		lemmaKind,
 		lemmaSubKind,
 		inflectionalFeaturesToken,
-		targetPayload,
+		lemmaPayload,
 	] = parts as [string, string, string, string, string, string];
 
 	return {
@@ -209,10 +209,10 @@ function parseSurfacePayload(
 			normalizedFullSurfaceToken,
 			surfaceKind,
 		}),
-		target:
+		lemma:
 			kind === "ResolvedSurface"
-				? parseLemmaPayload(language, targetPayload)
-				: { canonicalLemma: unescapeToken(targetPayload) },
+				? parseLemmaPayload(language, lemmaPayload)
+				: { canonicalLemma: unescapeToken(lemmaPayload) },
 	};
 }
 
