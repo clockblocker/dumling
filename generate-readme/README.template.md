@@ -12,7 +12,7 @@ It currently ships curated registries for `English`, `German`, and `Hebrew`, plu
 
 ## Core idea
 
-Start with the learner-facing mistake:
+Start with the learner's exact highlighted text:
 
 ```text
 Mark [gvae] up on it
