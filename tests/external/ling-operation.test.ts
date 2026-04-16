@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it } from "bun:test";
 import { type Selection, lingOperation, lingSchemaFor } from "../../src";
 import {
 	englishWalkLemma,

@@ -17,7 +17,7 @@
 		"strictNullChecks": true,
 		"strictPropertyInitialization": false,
 		"target": "ESNext",
-		"types": ["node", "vitest/globals"],
+		"types": ["node", "bun-types"],
 		"verbatimModuleSyntax": true
 	},
 	"include": ["generate-readme/**/*.ts", "src/**/*.ts", "tests/**/*.ts"]

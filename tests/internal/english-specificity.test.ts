@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it } from "bun:test";
 import { EnglishAdjectiveSchemas } from "../../src/lu/language-packs/english/lu/lexeme/pos/english-adjective";
 import { EnglishAdpositionSchemas } from "../../src/lu/language-packs/english/lu/lexeme/pos/english-adposition";
 import { EnglishAuxiliarySchemas } from "../../src/lu/language-packs/english/lu/lexeme/pos/english-auxiliary";

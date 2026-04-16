@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it } from "bun:test";
 import { lingSchemaFor } from "../../src";
 import { GermanAdjectiveSchemas } from "../../src/lu/language-packs/german/lu/lexeme/pos/german-adjective";
 import { GermanAdpositionSchemas } from "../../src/lu/language-packs/german/lu/lexeme/pos/german-adposition";
