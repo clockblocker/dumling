@@ -8,12 +8,21 @@ import {
 
 test("README examples expose all named blocks used by the template", () => {
 	const blocks = collectExampleBlocks();
+	const templateText = readFileSync(
+		new URL("../../generate-readme/README.template.md", import.meta.url),
+		"utf8",
+	);
+	const templateBlockNames = [
+		...templateText.matchAll(/<!-- README_BLOCK:([a-z0-9-]+) -->/g),
+	].map((match) => match[1]);
 
 	expect(blocks.size).toBeGreaterThan(0);
-	expect(blocks.has("core-simple-selection")).toBe(true);
-	expect(blocks.has("core-simple-lemma")).toBe(true);
-	expect(blocks.has("core-idiom-selection")).toBe(true);
-	expect(blocks.has("core-lemma-surface-distinction")).toBe(true);
+	expect(templateBlockNames.length).toBeGreaterThan(0);
+
+	for (const blockName of templateBlockNames) {
+		expect(blockName).toBeDefined();
+		expect(blocks.has(blockName!)).toBe(true);
+	}
 });
 
 test("generated README matches the committed README", () => {
