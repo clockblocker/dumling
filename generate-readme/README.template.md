@@ -1,14 +1,14 @@
 # `dumling`
 
-Typesafe schemas and types for practical, learner-facing segmentation of text.
+Typesafe schemas, types, IDs, and operations for practical, learner-facing segmentation of text.
 
-The package models a layered analysis:
+The package models three linked layers:
 
 - `Selection`: what the user actually highlighted
 - `Surface`: the normalized full form that highlight belongs to
 - `Lemma`: the normalized dictionary form assigned to that surface
 
-It currently exposes curated registries for `German` and `English`, plus a small relations API for lexical and morphological links.
+It currently exposes curated registries for `English`, `German`, and `Hebrew`, plus relation helpers for lexical and morphological links.
 
 ## Core idea
 
@@ -30,9 +30,7 @@ That is still a valid classification. The selection is partial, but the deeper l
 
 And the assigned lemma can be validated independently:
 
-`meaningInEmojis` is part of lemma identity and should describe the sense itself, not the literal imagery of the written form.
-
-<!-- README_BLOCK:core-simple-lemma -->
+`meaningInEmojis` is part of lemma identity and should describe the sense itself, not the literal imagery of the written form. For `giveUpLemma`, the interesting identity fields are `canonicalLemma: "give up"`, `inherentFeatures.phrasal: "Yes"`, and `meaningInEmojis: "🏳️"`.
 
 This gives you three orthogonal axes of strictness:
 
@@ -44,7 +42,7 @@ A recognized typo does not need to break deeper classification if the surface is
 
 Selection-level `spellingRelation` is separate from the UD feature `variant`. The former links obvious spelling alternants such as `armor` / `armour`; the latter stays a lexical feature where UD needs it.
 
-Although mainly based on the work of UD, this model has a human student of a new language in mind and hence differs from UD in compounded linguistic units.
+The model borrows from UD, but stays learner-facing, especially around multi-token and compounded units.
 
 For example, the same separation also allows classifying the idiom in
 
@@ -52,21 +50,17 @@ For example, the same separation also allows classifying the idiom in
 This game was a [walk] in the park
 ```
 
-as part of the idiom "a walk in the park", directly at the lemma-surface layer:
-
-<!-- README_BLOCK:core-idiom-selection -->
-
-Here, `surfaceKind: "Lemma"` is appropriate because the selection is attached directly to the idiom lemma instead of to a separate inflected surface.
+as part of the idiom `a walk in the park`, directly at the lemma-surface layer. In `idiomPartSelection`, the interesting part is `surfaceKind: "Lemma"` together with `target.lemmaKind: "Phraseme"` and `target.phrasemeKind: "Idiom"`.
 
 Spelling variants now live on the selection, not on `surfaceKind`. The surface stays structural (`Lemma` or `Inflection`), while the selection records whether the observed spelling is canonical or an accepted variant.
 
 For plain spelling alternants such as `armor` / `armour`:
 
-<!-- README_BLOCK:core-spelling-variant-selection -->
+`armourSelection` keeps `spellingRelation: "Variant"` while `target.canonicalLemma` stays `armor`.
 
 And the same mechanism works for inflected Hebrew forms, including pointed vs unpointed spellings:
 
-<!-- README_BLOCK:core-hebrew-pointed-variant-selection -->
+`pointedHebrewSelection` keeps `spellingRelation: "Variant"` while `target.canonicalLemma` stays `כתב`.
 
 The DTO keeps the learner-facing selection separate from the deeper linguistic layers:
 
@@ -77,11 +71,7 @@ The DTO keeps the learner-facing selection separate from the deeper linguistic l
 - the full orthographically normalized surface that the highlighted text belongs to: `normalizedFullSurface`
 - the lexical target that the surface resolves to: `target.canonicalLemma`
 
-In the examples below, the user highlights only one piece of an inflected multi-token surface, but the model still preserves the full surface and lemma.
-
-The selections target the lemmas `give up` and `aufpassen`, while the realized normalized surfaces are `gave up` and `pass auf`.
-
-<!-- README_BLOCK:core-lemma-surface-distinction -->
+In a partial multi-token selection, the model still preserves both the target lemma and the realized normalized surface. For example, `giveUpPartialSelection` targets `give up` while its surface is `gave up`; a German counterpart such as `passAufSelection` can target `aufpassen` while its surface is `pass auf`.
 
 This allows for both:
 

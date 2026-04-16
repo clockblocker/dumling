@@ -2,15 +2,15 @@
 
 # `dumling`
 
-Typesafe schemas and types for practical, learner-facing segmentation of text.
+Typesafe schemas, types, IDs, and operations for practical, learner-facing segmentation of text.
 
-The package models a layered analysis:
+The package models three linked layers:
 
 - `Selection`: what the user actually highlighted
 - `Surface`: the normalized full form that highlight belongs to
 - `Lemma`: the normalized dictionary form assigned to that surface
 
-It currently exposes curated registries for `German` and `English`, plus a small relations API for lexical and morphological links.
+It currently exposes curated registries for `English`, `German`, and `Hebrew`, plus relation helpers for lexical and morphological links.
 
 ## Core idea
 
@@ -63,20 +63,7 @@ const giveUpPartialSelection = {
 
 And the assigned lemma can be validated independently:
 
-`meaningInEmojis` is part of lemma identity and should describe the sense itself, not the literal imagery of the written form.
-
-```ts
-const giveUpLemma = {
-	canonicalLemma: "give up",
-	inherentFeatures: {
-		phrasal: "Yes",
-	},
-	language: "English",
-	lemmaKind: "Lexeme",
-	meaningInEmojis: "🏳️",
-	pos: "VERB",
-} satisfies Lemma<"English", "Lexeme", "VERB">;
-```
+`meaningInEmojis` is part of lemma identity and should describe the sense itself, not the literal imagery of the written form. For `giveUpLemma`, the interesting identity fields are `canonicalLemma: "give up"`, `inherentFeatures.phrasal: "Yes"`, and `meaningInEmojis: "🏳️"`.
 
 This gives you three orthogonal axes of strictness:
 
@@ -88,7 +75,7 @@ A recognized typo does not need to break deeper classification if the surface is
 
 Selection-level `spellingRelation` is separate from the UD feature `variant`. The former links obvious spelling alternants such as `armor` / `armour`; the latter stays a lexical feature where UD needs it.
 
-Although mainly based on the work of UD, this model has a human student of a new language in mind and hence differs from UD in compounded linguistic units.
+The model borrows from UD, but stays learner-facing, especially around multi-token and compounded units.
 
 For example, the same separation also allows classifying the idiom in
 
@@ -96,90 +83,17 @@ For example, the same separation also allows classifying the idiom in
 This game was a [walk] in the park
 ```
 
-as part of the idiom "a walk in the park", directly at the lemma-surface layer:
-
-```ts
-const idiomPartSelection = {
-	language: "English",
-	orthographicStatus: "Standard",
-	selectionCoverage: "Partial",
-	spelledSelection: "walk",
-	spellingRelation: "Canonical",
-	surface: {
-		discriminators: {
-			lemmaKind: "Phraseme",
-			lemmaSubKind: "Idiom",
-		},
-		language: "English",
-		normalizedFullSurface: "a walk in the park",
-		surfaceKind: "Lemma",
-		target: {
-			canonicalLemma: "a walk in the park",
-			language: "English",
-			lemmaKind: "Phraseme",
-			meaningInEmojis: "😌👌",
-			phrasemeKind: "Idiom",
-		},
-	},
-} satisfies Selection<"English", "Standard", "Lemma", "Phraseme", "Idiom">;
-```
-
-Here, `surfaceKind: "Lemma"` is appropriate because the selection is attached directly to the idiom lemma instead of to a separate inflected surface.
+as part of the idiom `a walk in the park`, directly at the lemma-surface layer. In `idiomPartSelection`, the interesting part is `surfaceKind: "Lemma"` together with `target.lemmaKind: "Phraseme"` and `target.phrasemeKind: "Idiom"`.
 
 Spelling variants now live on the selection, not on `surfaceKind`. The surface stays structural (`Lemma` or `Inflection`), while the selection records whether the observed spelling is canonical or an accepted variant.
 
 For plain spelling alternants such as `armor` / `armour`:
 
-```ts
-const armourSelection = {
-	language: "English",
-	orthographicStatus: "Standard",
-	selectionCoverage: "Full",
-	spelledSelection: "armour",
-	spellingRelation: "Variant",
-	surface: {
-		discriminators: {
-			lemmaKind: "Lexeme",
-			lemmaSubKind: "NOUN",
-		},
-		language: "English",
-		normalizedFullSurface: "armour",
-		surfaceKind: "Lemma",
-		target: {
-			canonicalLemma: "armor",
-		},
-	},
-} satisfies Selection<"English", "Standard", "Lemma", "Lexeme", "NOUN">;
-```
+`armourSelection` keeps `spellingRelation: "Variant"` while `target.canonicalLemma` stays `armor`.
 
 And the same mechanism works for inflected Hebrew forms, including pointed vs unpointed spellings:
 
-```ts
-const pointedHebrewSelection = {
-	language: "Hebrew",
-	orthographicStatus: "Standard",
-	selectionCoverage: "Full",
-	spelledSelection: "כָּתְבוּ",
-	spellingRelation: "Variant",
-	surface: {
-		discriminators: {
-			lemmaKind: "Lexeme",
-			lemmaSubKind: "VERB",
-		},
-		inflectionalFeatures: {
-			number: "Plur",
-			person: ["1", "2", "3"],
-			tense: "Past",
-		},
-		language: "Hebrew",
-		normalizedFullSurface: "כָּתְבוּ",
-		surfaceKind: "Inflection",
-		target: {
-			canonicalLemma: "כתב",
-		},
-	},
-} satisfies Selection<"Hebrew", "Standard", "Inflection", "Lexeme", "VERB">;
-```
+`pointedHebrewSelection` keeps `spellingRelation: "Variant"` while `target.canonicalLemma` stays `כתב`.
 
 The DTO keeps the learner-facing selection separate from the deeper linguistic layers:
 
@@ -190,59 +104,7 @@ The DTO keeps the learner-facing selection separate from the deeper linguistic l
 - the full orthographically normalized surface that the highlighted text belongs to: `normalizedFullSurface`
 - the lexical target that the surface resolves to: `target.canonicalLemma`
 
-In the examples below, the user highlights only one piece of an inflected multi-token surface, but the model still preserves the full surface and lemma.
-
-The selections target the lemmas `give up` and `aufpassen`, while the realized normalized surfaces are `gave up` and `pass auf`.
-
-```ts
-const gaveUpSelection = {
-	language: "English",
-	orthographicStatus: "Standard",
-	selectionCoverage: "Partial",
-	spelledSelection: "up",
-	spellingRelation: "Canonical",
-	surface: {
-		discriminators: {
-			lemmaKind: "Lexeme",
-			lemmaSubKind: "VERB",
-		},
-		inflectionalFeatures: {
-			tense: "Past",
-			verbForm: "Fin",
-		},
-		language: "English",
-		normalizedFullSurface: "gave up",
-		surfaceKind: "Inflection",
-		target: {
-			canonicalLemma: "give up",
-		},
-	},
-} satisfies Selection<"English", "Standard", "Inflection", "Lexeme", "VERB">;
-
-const passAufSelection = {
-	language: "German",
-	orthographicStatus: "Standard",
-	selectionCoverage: "Partial",
-	spelledSelection: "auf",
-	spellingRelation: "Canonical",
-	surface: {
-		discriminators: {
-			lemmaKind: "Lexeme",
-			lemmaSubKind: "VERB",
-		},
-		inflectionalFeatures: {
-			mood: "Imp",
-			verbForm: "Fin",
-		},
-		language: "German",
-		normalizedFullSurface: "pass auf",
-		surfaceKind: "Inflection",
-		target: {
-			canonicalLemma: "aufpassen",
-		},
-	},
-} satisfies Selection<"German", "Standard", "Inflection", "Lexeme", "VERB">;
-```
+In a partial multi-token selection, the model still preserves both the target lemma and the realized normalized surface. For example, `giveUpPartialSelection` targets `give up` while its surface is `gave up`; a German counterpart such as `passAufSelection` can target `aufpassen` while its surface is `pass auf`.
 
 This allows for both:
 
