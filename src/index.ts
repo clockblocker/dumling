@@ -16,8 +16,9 @@ import {
 	toStandardFullSelectionFromLemma,
 	unresolveSurface,
 } from "./lu/public-operations";
+import type { TargetLanguage } from "./lu/universal/enums/core/language";
 
-export const lingSchemaFor = {
+const schemaFor = {
 	Lemma: LemmaSchema,
 	ResolvedSurface: ResolvedSurfaceSchema,
 	Selection: SelectionSchema,
@@ -25,7 +26,7 @@ export const lingSchemaFor = {
 	UnresolvedSurface: SurfaceSchema,
 };
 
-export const lingOperation = {
+const operation = {
 	convert: {
 		lemma: {
 			toResolvedLemmaSurface,
@@ -54,7 +55,7 @@ export const lingOperation = {
 	},
 } as const;
 
-export const DumlingIdCodec = {
+const idCodec = {
 	English: lingIdApiForLanguage("English"),
 	forLanguage: lingIdApiForLanguage,
 	German: lingIdApiForLanguage("German"),
@@ -65,8 +66,11 @@ export const DumlingIdCodec = {
 	[L in TargetLanguage]: DumlingIdApiFor<L>;
 };
 
-import type { TargetLanguage } from "./lu/universal/enums/core/language";
-import type { DumlingEntity } from "./lu/universal/enums/core/ling-entity";
+export const dumling = {
+	idCodec,
+	operation,
+	schemaFor,
+} as const;
 
 export type {
 	ConcreteDumlingIdKind,

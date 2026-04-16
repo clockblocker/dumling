@@ -4,16 +4,20 @@ import {
 	type KnownSelection,
 	LexicalRelationsSchema,
 	type DumlingId,
-	DumlingIdCodec,
 	type DumlingIdValueFor,
 	MorphologicalRelationsSchema,
 	RelationTargetDumlingIdsSchema,
 	type Relations,
 	type Selection,
-	lingOperation,
-	lingSchemaFor,
+	dumling,
 } from "../../src";
 import { englishWalkLemma } from "../helpers";
+
+const {
+	idCodec: DumlingIdCodec,
+	operation: lingOperation,
+	schemaFor: lingSchemaFor,
+} = dumling;
 
 type Equal<A, B> = (<T>() => T extends A ? 1 : 2) extends <T>() => T extends B
 	? 1
@@ -47,22 +51,26 @@ type _selectionStillIncludesUnknownOutsideDumlingIdApi = Assert<
 
 describe("public API usage", () => {
 	it("exposes the curated root API surface", () => {
-		expect(typeof linguistics.DumlingIdCodec.forLanguage).toBe("function");
-		expect(typeof linguistics.lingOperation.forLanguage).toBe("function");
+		expect(typeof linguistics.dumling.idCodec.forLanguage).toBe("function");
+		expect(typeof linguistics.dumling.operation.forLanguage).toBe("function");
 		expect(
-			typeof linguistics.lingOperation.resolve.unresolvedSurface
+			typeof linguistics.dumling.operation.resolve.unresolvedSurface
 				.withLemma,
 		).toBe("function");
-		expect(typeof linguistics.lingOperation.unresolve.surface).toBe(
+		expect(typeof linguistics.dumling.operation.unresolve.surface).toBe(
 			"function",
 		);
-		expect(linguistics.DumlingIdCodec).toBe(DumlingIdCodec);
-		expect(linguistics.lingOperation).toBe(lingOperation);
-		expect(linguistics.lingSchemaFor).toBe(lingSchemaFor);
-		expect(linguistics.DumlingIdCodec.English).toBeDefined();
-		expect(linguistics.DumlingIdCodec.German).toBeDefined();
-		expect(linguistics.DumlingIdCodec.Hebrew).toBeDefined();
+		expect(linguistics.dumling).toBe(dumling);
+		expect(linguistics.dumling.idCodec).toBe(DumlingIdCodec);
+		expect(linguistics.dumling.operation).toBe(lingOperation);
+		expect(linguistics.dumling.schemaFor).toBe(lingSchemaFor);
+		expect(linguistics.dumling.idCodec.English).toBeDefined();
+		expect(linguistics.dumling.idCodec.German).toBeDefined();
+		expect(linguistics.dumling.idCodec.Hebrew).toBeDefined();
 		expect("buildToDumlingConverters" in linguistics).toBe(false);
+		expect("DumlingIdCodec" in linguistics).toBe(false);
+		expect("lingOperation" in linguistics).toBe(false);
+		expect("lingSchemaFor" in linguistics).toBe(false);
 		expect("DumlingId" in linguistics).toBe(false);
 		expect("ParsedShallowSurfaceDto" in linguistics).toBe(false);
 		expect("parseDumlingId" in linguistics).toBe(false);

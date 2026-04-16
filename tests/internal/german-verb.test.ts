@@ -1,15 +1,15 @@
 import { describe, expect, it } from "bun:test";
 import {
+	dumling,
 	LexicalRelationsSchema,
-	DumlingIdCodec,
 	MorphologicalRelationsSchema,
 	getInverseLexicalRelation,
 	getInverseMorphologicalRelation,
-	lingSchemaFor,
 } from "../../src";
 import { GermanVerbSchemas } from "../../src/lu/language-packs/german/lu/lexeme/pos/german-verb";
 import { makeLexemeSurfaceReference } from "../helpers";
 
+const { idCodec: DumlingIdCodec, schemaFor: lingSchemaFor } = dumling;
 const { Selection: SelectionSchema } = lingSchemaFor;
 
 const relationId = (canonicalLemma: string) =>

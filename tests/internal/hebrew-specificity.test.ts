@@ -1,8 +1,9 @@
 import { describe, expect, it } from "bun:test";
-import { lingSchemaFor } from "../../src";
+import { dumling } from "../../src";
 import { HebrewNounSchemas } from "../../src/lu/language-packs/hebrew/lu/lexeme/pos/hebrew-noun";
 import { HebrewVerbSchemas } from "../../src/lu/language-packs/hebrew/lu/lexeme/pos/hebrew-verb";
 
+const { schemaFor: lingSchemaFor } = dumling;
 const { Lemma: LemmaSchema, Selection: SelectionSchema } = lingSchemaFor;
 
 describe("Hebrew schema specificity", () => {

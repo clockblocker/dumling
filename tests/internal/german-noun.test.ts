@@ -1,10 +1,8 @@
 import { describe, expect, it } from "bun:test";
-import type { Lemma } from "../../src";
+import { dumling, type Lemma } from "../../src";
 import {
 	LexicalRelationsSchema,
-	DumlingIdCodec,
 	MorphologicalRelationsSchema,
-	lingSchemaFor,
 } from "../../src";
 import { GermanNounSchemas } from "../../src/lu/language-packs/german/lu/lexeme/pos/german-noun";
 import {
@@ -13,6 +11,7 @@ import {
 	makeLexemeSurfaceReference,
 } from "../helpers";
 
+const { idCodec: DumlingIdCodec, schemaFor: lingSchemaFor } = dumling;
 const { Lemma: LemmaSchema, Selection: SelectionSchema } = lingSchemaFor;
 
 const relationId = (canonicalLemma: string) =>

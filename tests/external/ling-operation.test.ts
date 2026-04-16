@@ -1,5 +1,5 @@
 import { describe, expect, it } from "bun:test";
-import { type Selection, lingOperation, lingSchemaFor } from "../../src";
+import { dumling, type Selection } from "../../src";
 import {
 	englishWalkLemma,
 	englishWalkResolvedLemmaSelection,
@@ -7,6 +7,8 @@ import {
 	englishWalkUnresolvedLemmaSurface,
 	germanMasculineSeeLemma,
 } from "../helpers";
+
+const { operation: lingOperation, schemaFor: lingSchemaFor } = dumling;
 
 describe("lingOperation", () => {
 	it("extracts null from unknown selections", () => {

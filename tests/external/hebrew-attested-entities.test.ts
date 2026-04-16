@@ -1,5 +1,5 @@
 import { describe, expect, it } from "bun:test";
-import { DumlingIdCodec, lingOperation, lingSchemaFor } from "../../src";
+import { dumling } from "../../src";
 import {
 	hebrewKatavLemma,
 	hebrewKatvuPointedVariantSelection,
@@ -13,6 +13,12 @@ import {
 	hebrewUsAbbreviationResolvedLemmaSurface,
 	hebrewUsAbbreviationSelection,
 } from "../helpers";
+
+const {
+	idCodec: DumlingIdCodec,
+	operation: lingOperation,
+	schemaFor: lingSchemaFor,
+} = dumling;
 
 describe("Hebrew attested entities", () => {
 	it("stay valid against the public Hebrew schemas", () => {

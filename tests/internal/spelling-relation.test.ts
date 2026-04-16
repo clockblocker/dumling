@@ -1,10 +1,12 @@
 import { describe, expect, it } from "bun:test";
-import { lingSchemaFor } from "../../src";
+import { dumling } from "../../src";
 import {
 	englishWalkResolvedLemmaSelection,
 	englishWalkStandardFullSelection,
 	hebrewKatvuUnresolvedInflectionSurface,
 } from "../helpers";
+
+const { schemaFor: lingSchemaFor } = dumling;
 
 describe("selection spelling relation", () => {
 	it("accepts lemma selections marked as spelling variants", () => {

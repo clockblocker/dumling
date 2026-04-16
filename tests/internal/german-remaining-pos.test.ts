@@ -1,5 +1,5 @@
 import { describe, expect, it } from "bun:test";
-import { lingSchemaFor } from "../../src";
+import { dumling } from "../../src";
 import { GermanAdjectiveSchemas } from "../../src/lu/language-packs/german/lu/lexeme/pos/german-adjective";
 import { GermanAdpositionSchemas } from "../../src/lu/language-packs/german/lu/lexeme/pos/german-adposition";
 import { GermanAdverbSchemas } from "../../src/lu/language-packs/german/lu/lexeme/pos/german-adverb";
@@ -18,6 +18,7 @@ import { GermanSubordinatingConjunctionSchemas } from "../../src/lu/language-pac
 import { GermanSymbolSchemas } from "../../src/lu/language-packs/german/lu/lexeme/pos/german-symbol";
 import { makeLexemeSurfaceReference } from "../helpers";
 
+const { schemaFor: lingSchemaFor } = dumling;
 const { Lemma: LemmaSchema, Selection: SelectionSchema } = lingSchemaFor;
 
 describe("German remaining POS schemas", () => {

@@ -1,10 +1,9 @@
 import { describe, expect, it } from "bun:test";
 import {
+	dumling,
 	type KnownSelection,
 	type Lemma,
-	DumlingIdCodec,
 	type UnresolvedSurface,
-	lingOperation,
 } from "../../../src";
 import {
 	englishGiveUpTypoPartialGvaeSelection,
@@ -15,6 +14,8 @@ import {
 	englishWalkUnresolvedInflectionSurface,
 	germanMasculineSeeLemma,
 } from "../../helpers";
+
+const { idCodec: DumlingIdCodec, operation: lingOperation } = dumling;
 
 describe("DumlingIdCodec", () => {
 	it("encodes and decodes each concrete entity kind", () => {
