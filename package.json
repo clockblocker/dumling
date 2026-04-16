@@ -3,6 +3,7 @@
 	"version": "0.1.0",
 	"description": "Typesafe schemas and operations for learner-facing linguistic segmentation.",
 	"type": "module",
+	"packageManager": "bun@1.3.0",
 	"license": "MIT",
 	"sideEffects": false,
 	"main": "./dist/index.js",
@@ -30,14 +31,14 @@
 		"access": "public"
 	},
 	"scripts": {
-		"build": "tsup src/index.ts --format esm --dts --clean",
-		"check": "tsc --noEmit",
-		"fix": "biome check --write .",
-		"generate:readme": "node --import tsx generate-readme/generate-readme.ts",
-		"knip": "knip",
-		"lint": "biome check .",
-		"prepack": "npm run generate:readme && npm run build",
-		"test": "vitest run"
+		"build": "bunx tsup src/index.ts --format esm --dts --clean",
+		"check": "bunx tsc --noEmit",
+		"fix": "bunx @biomejs/biome check --write .",
+		"generate:readme": "bun run generate-readme/generate-readme.ts",
+		"knip": "bunx knip",
+		"lint": "bunx @biomejs/biome check .",
+		"prepack": "bun run generate:readme && bun run build",
+		"test": "bunx vitest run"
 	},
 	"dependencies": {
 		"neverthrow": "^8.2.0",
