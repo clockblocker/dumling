@@ -15,8 +15,8 @@ import {
 	type LexicalRelations as LexicalRelationsShape,
 	MorphologicalRelationsSchema as MorphologicalRelationsSchemaInternal,
 	type MorphologicalRelations as MorphologicalRelationsShape,
-	RelationTargetLingIdsSchema as RelationTargetLingIdsSchemaInternal,
-	type RelationTargetLingIds as RelationTargetLingIdsShape,
+	RelationTargetDumlingIdsSchema as RelationTargetDumlingIdsSchemaInternal,
+	type RelationTargetDumlingIds as RelationTargetDumlingIdsShape,
 } from "./relation";
 
 export {
@@ -31,7 +31,7 @@ export {
 
 export const LexicalRelation = LexicalRelationSchema.enum;
 export const MorphologicalRelation = MorphologicalRelationSchema.enum;
-export const RelationTargetLingIdsSchema = RelationTargetLingIdsSchemaInternal;
+export const RelationTargetDumlingIdsSchema = RelationTargetDumlingIdsSchemaInternal;
 export const LexicalRelationsSchema = LexicalRelationsSchemaInternal;
 export const MorphologicalRelationsSchema =
 	MorphologicalRelationsSchemaInternal;
@@ -54,7 +54,7 @@ export const Relations = {
 export declare namespace Relations {
 	export type LexicalRelation = LexicalRelationShape;
 	export type MorphologicalRelation = MorphologicalRelationShape;
-	export type TargetLingIds = RelationTargetLingIdsShape;
+	export type TargetDumlingIds = RelationTargetDumlingIdsShape;
 	export type LexicalRelations = LexicalRelationsShape;
 	export type MorphologicalRelations = MorphologicalRelationsShape;
 }

@@ -1,7 +1,7 @@
 import { describe, expect, it } from "bun:test";
 import {
 	LexicalRelationsSchema,
-	LingIdCodec,
+	DumlingIdCodec,
 	MorphologicalRelationsSchema,
 	getInverseLexicalRelation,
 	getInverseMorphologicalRelation,
@@ -13,7 +13,7 @@ import { makeLexemeSurfaceReference } from "../helpers";
 const { Selection: SelectionSchema } = lingSchemaFor;
 
 const relationId = (canonicalLemma: string) =>
-	LingIdCodec.German.makeLingIdFor({
+	DumlingIdCodec.German.makeDumlingIdFor({
 		canonicalLemma,
 		inherentFeatures: {},
 		language: "German",

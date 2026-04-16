@@ -1,11 +1,11 @@
-import type { LingIdDecodeError, LingIdDecodeErrorCode } from "../types";
+import type { DumlingIdDecodeError, DumlingIdDecodeErrorCode } from "../types";
 
 export function lingIdDecodeError(
-	code: LingIdDecodeErrorCode,
+	code: DumlingIdDecodeErrorCode,
 	input: string,
 	message: string,
 	cause?: unknown,
-): LingIdDecodeError {
+): DumlingIdDecodeError {
 	return {
 		code,
 		...(cause === undefined ? {} : { cause }),

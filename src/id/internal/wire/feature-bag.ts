@@ -58,7 +58,7 @@ export function parseFeatureBag(token: string): ParsedFeatureBag {
 			const separatorIndex = entry.indexOf("=");
 
 			if (separatorIndex === -1) {
-				throw new Error(`Malformed feature entry in Ling ID: ${entry}`);
+				throw new Error(`Malformed feature entry in Dumling ID: ${entry}`);
 			}
 
 			const key = unescapeToken(entry.slice(0, separatorIndex));

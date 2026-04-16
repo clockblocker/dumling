@@ -2,9 +2,9 @@ import { type Result, err, ok } from "neverthrow";
 import type { Lemma } from "../../../lu/public-entities";
 import type { TargetLanguage } from "../../../lu/universal/enums/core/language";
 import type {
-	ConcreteLingIdKind,
-	LingIdDecodeError,
-	LingIdValueFor,
+	ConcreteDumlingIdKind,
+	DumlingIdDecodeError,
+	DumlingIdValueFor,
 } from "../../types";
 import { lingIdDecodeError } from "../errors";
 import { getRuntimeSchema } from "../guards";
@@ -16,22 +16,22 @@ import {
 	unescapeToken,
 } from "../wire/tokens";
 
-export function decodeLingId<L extends TargetLanguage>(
+export function decodeDumlingId<L extends TargetLanguage>(
 	language: L,
 	input: string,
-): Result<LingIdValueFor<ConcreteLingIdKind, L>, LingIdDecodeError> {
-	return decodeLingIdInternal(language, input);
+): Result<DumlingIdValueFor<ConcreteDumlingIdKind, L>, DumlingIdDecodeError> {
+	return decodeDumlingIdInternal(language, input);
 }
 
-export function decodeLingIdAs<
+export function decodeDumlingIdAs<
 	L extends TargetLanguage,
-	K extends ConcreteLingIdKind,
+	K extends ConcreteDumlingIdKind,
 >(
 	language: L,
 	expectedKind: K,
 	input: string,
-): Result<LingIdValueFor<K, L>, LingIdDecodeError> {
-	const decoded = decodeLingIdInternal(language, input);
+): Result<DumlingIdValueFor<K, L>, DumlingIdDecodeError> {
+	const decoded = decodeDumlingIdInternal(language, input);
 
 	if (decoded.isErr()) {
 		return err(decoded.error);
@@ -44,18 +44,18 @@ export function decodeLingIdAs<
 			lingIdDecodeError(
 				"EntityMismatch",
 				input,
-				`Ling ID entity mismatch: expected ${expectedKind}, received ${header.kind}`,
+				`Dumling ID entity mismatch: expected ${expectedKind}, received ${header.kind}`,
 			),
 		);
 	}
 
-	return ok(decoded.value as LingIdValueFor<K, L>);
+	return ok(decoded.value as DumlingIdValueFor<K, L>);
 }
 
-function decodeLingIdInternal<L extends TargetLanguage>(
+function decodeDumlingIdInternal<L extends TargetLanguage>(
 	language: L,
 	input: string,
-): Result<LingIdValueFor<ConcreteLingIdKind, L>, LingIdDecodeError> {
+): Result<DumlingIdValueFor<ConcreteDumlingIdKind, L>, DumlingIdDecodeError> {
 	let header: ReturnType<typeof parseHeader>;
 
 	try {
@@ -69,7 +69,7 @@ function decodeLingIdInternal<L extends TargetLanguage>(
 			lingIdDecodeError(
 				"LanguageMismatch",
 				input,
-				`Ling ID language mismatch: expected ${language}, received ${header.language}`,
+				`Dumling ID language mismatch: expected ${language}, received ${header.language}`,
 			),
 		);
 	}
@@ -83,7 +83,7 @@ function decodeLingIdInternal<L extends TargetLanguage>(
 			lingIdDecodeError(
 				"PayloadDecodeFailed",
 				input,
-				"Failed to parse Ling ID payload",
+				"Failed to parse Dumling ID payload",
 				cause,
 			),
 		);
@@ -98,20 +98,20 @@ function decodeLingIdInternal<L extends TargetLanguage>(
 			lingIdDecodeError(
 				"PayloadDecodeFailed",
 				input,
-				"Decoded Ling ID payload does not match the entity schema",
+				"Decoded Dumling ID payload does not match the entity schema",
 				validation.error,
 			),
 		);
 	}
 
-	return ok(validation.data as LingIdValueFor<ConcreteLingIdKind, L>);
+	return ok(validation.data as DumlingIdValueFor<ConcreteDumlingIdKind, L>);
 }
 
-function classifyHeaderError(input: string, cause: unknown): LingIdDecodeError {
+function classifyHeaderError(input: string, cause: unknown): DumlingIdDecodeError {
 	const message =
-		cause instanceof Error ? cause.message : "Malformed Ling ID";
+		cause instanceof Error ? cause.message : "Malformed Dumling ID";
 
-	if (message.startsWith("Unsupported Ling ID version:")) {
+	if (message.startsWith("Unsupported Dumling ID version:")) {
 		return lingIdDecodeError("UnsupportedVersion", input, message, cause);
 	}
 
@@ -119,7 +119,7 @@ function classifyHeaderError(input: string, cause: unknown): LingIdDecodeError {
 		return lingIdDecodeError("UnsupportedLanguage", input, message, cause);
 	}
 
-	if (message.startsWith("Unsupported Ling ID kind:")) {
+	if (message.startsWith("Unsupported Dumling ID kind:")) {
 		return lingIdDecodeError(
 			"UnsupportedEntityKind",
 			input,
@@ -128,12 +128,12 @@ function classifyHeaderError(input: string, cause: unknown): LingIdDecodeError {
 		);
 	}
 
-	return lingIdDecodeError("MalformedLingId", input, message, cause);
+	return lingIdDecodeError("MalformedDumlingId", input, message, cause);
 }
 
 function parsePayload(
 	language: TargetLanguage,
-	kind: ConcreteLingIdKind,
+	kind: ConcreteDumlingIdKind,
 	body: string,
 ): unknown {
 	switch (kind) {
@@ -155,7 +155,7 @@ function parseSelectionPayload(
 	const parts = splitLeadingTokens(body, 6, "selection");
 
 	if (parts.length !== 6) {
-		throw new Error(`Malformed selection payload in Ling ID: ${body}`);
+		throw new Error(`Malformed selection payload in Dumling ID: ${body}`);
 	}
 
 	const [
@@ -189,7 +189,7 @@ function parseSurfacePayload(
 	const parts = splitLeadingTokens(body, 6, "surface");
 
 	if (parts.length !== 6) {
-		throw new Error(`Malformed surface payload in Ling ID: ${body}`);
+		throw new Error(`Malformed surface payload in Dumling ID: ${body}`);
 	}
 
 	const [
@@ -278,7 +278,7 @@ function parseLemmaPayload(language: TargetLanguage, body: string): Lemma {
 	const parts = splitLeadingTokens(body, 5, "lemma");
 
 	if (parts.length !== 5) {
-		throw new Error(`Malformed lemma payload in Ling ID: ${body}`);
+		throw new Error(`Malformed lemma payload in Dumling ID: ${body}`);
 	}
 
 	const [
@@ -333,6 +333,6 @@ function parseLemmaPayload(language: TargetLanguage, body: string): Lemma {
 			} as Lemma;
 		}
 		default:
-			throw new Error(`Unsupported lemma kind in Ling ID: ${lemmaKind}`);
+			throw new Error(`Unsupported lemma kind in Dumling ID: ${lemmaKind}`);
 	}
 }

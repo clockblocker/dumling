@@ -2,7 +2,7 @@ import { describe, expect, it } from "bun:test";
 import {
 	type KnownSelection,
 	type Lemma,
-	LingIdCodec,
+	DumlingIdCodec,
 	type UnresolvedSurface,
 	lingOperation,
 } from "../../../src";
@@ -16,37 +16,37 @@ import {
 	germanMasculineSeeLemma,
 } from "../../helpers";
 
-describe("LingIdCodec", () => {
+describe("DumlingIdCodec", () => {
 	it("encodes and decodes each concrete entity kind", () => {
 		const lemma = englishWalkLemma;
 		const resolvedSurface = englishWalkResolvedInflectionSurface;
 		const unresolvedSurface = englishWalkUnresolvedInflectionSurface;
 		const selection = englishWalkStandardFullSelection;
 
-		const lemmaId = LingIdCodec.English.makeLingIdFor(lemma);
-		const resolvedId = LingIdCodec.English.makeLingIdFor(resolvedSurface);
+		const lemmaId = DumlingIdCodec.English.makeDumlingIdFor(lemma);
+		const resolvedId = DumlingIdCodec.English.makeDumlingIdFor(resolvedSurface);
 		const unresolvedId =
-			LingIdCodec.English.makeLingIdFor(unresolvedSurface);
-		const selectionId = LingIdCodec.English.makeLingIdFor(selection);
+			DumlingIdCodec.English.makeDumlingIdFor(unresolvedSurface);
+		const selectionId = DumlingIdCodec.English.makeDumlingIdFor(selection);
 
 		expect(lemmaId.startsWith("ling:v1:EN:LEM;")).toBe(true);
 		expect(resolvedId.startsWith("ling:v1:EN:SURF-RES;")).toBe(true);
 		expect(unresolvedId.startsWith("ling:v1:EN:SURF-UNRES;")).toBe(true);
 		expect(selectionId.startsWith("ling:v1:EN:SEL;")).toBe(true);
 
-		const decodedLemma = LingIdCodec.English.tryToDecodeAs(
+		const decodedLemma = DumlingIdCodec.English.tryToDecodeAs(
 			"Lemma",
 			lemmaId,
 		);
-		const decodedResolved = LingIdCodec.English.tryToDecodeAs(
+		const decodedResolved = DumlingIdCodec.English.tryToDecodeAs(
 			"ResolvedSurface",
 			resolvedId,
 		);
-		const decodedUnresolved = LingIdCodec.English.tryToDecodeAs(
+		const decodedUnresolved = DumlingIdCodec.English.tryToDecodeAs(
 			"UnresolvedSurface",
 			unresolvedId,
 		);
-		const decodedSelection = LingIdCodec.English.tryToDecodeAs(
+		const decodedSelection = DumlingIdCodec.English.tryToDecodeAs(
 			"Selection",
 			selectionId,
 		);
@@ -72,31 +72,31 @@ describe("LingIdCodec", () => {
 		};
 
 		expect(() =>
-			LingIdCodec.English.makeLingIdFor(
+			DumlingIdCodec.English.makeDumlingIdFor(
 				unknownSelection as unknown as KnownSelection<"English">,
 			),
-		).toThrow("Unknown selections cannot be encoded as Ling IDs");
+		).toThrow("Unknown selections cannot be encoded as Dumling IDs");
 	});
 
 	it("returns structured errors for malformed ids and language mismatch", () => {
-		const malformed = LingIdCodec.English.tryToDecode("not-a-ling-id");
-		const germanLemmaId = LingIdCodec.German.makeLingIdFor(
+		const malformed = DumlingIdCodec.English.tryToDecode("not-a-ling-id");
+		const germanLemmaId = DumlingIdCodec.German.makeDumlingIdFor(
 			germanMasculineSeeLemma satisfies Lemma<"German", "Lexeme", "NOUN">,
 		);
-		const mismatch = LingIdCodec.English.tryToDecode(germanLemmaId);
+		const mismatch = DumlingIdCodec.English.tryToDecode(germanLemmaId);
 
 		expect(malformed.isErr()).toBe(true);
-		expect(malformed._unsafeUnwrapErr().code).toBe("MalformedLingId");
+		expect(malformed._unsafeUnwrapErr().code).toBe("MalformedDumlingId");
 		expect(mismatch.isErr()).toBe(true);
 		expect(mismatch._unsafeUnwrapErr().code).toBe("LanguageMismatch");
 	});
 
 	it("returns entity mismatch for kind-specific decode requests", () => {
-		const resolvedId = LingIdCodec.English.makeLingIdFor(
+		const resolvedId = DumlingIdCodec.English.makeDumlingIdFor(
 			englishWalkResolvedInflectionSurface,
 		);
 
-		const mismatch = LingIdCodec.English.tryToDecodeAs("Lemma", resolvedId);
+		const mismatch = DumlingIdCodec.English.tryToDecodeAs("Lemma", resolvedId);
 
 		expect(mismatch.isErr()).toBe(true);
 		expect(mismatch._unsafeUnwrapErr().code).toBe("EntityMismatch");
@@ -130,8 +130,8 @@ describe("LingIdCodec", () => {
 			"VERB"
 		>;
 
-		expect(LingIdCodec.English.makeLingIdFor(left)).toBe(
-			LingIdCodec.English.makeLingIdFor(right),
+		expect(DumlingIdCodec.English.makeDumlingIdFor(left)).toBe(
+			DumlingIdCodec.English.makeDumlingIdFor(right),
 		);
 	});
 
@@ -139,9 +139,9 @@ describe("LingIdCodec", () => {
 		const upSelection = englishGiveUpTypoPartialUpSelection;
 		const gvaeSelection = englishGiveUpTypoPartialGvaeSelection;
 
-		const upSelectionId = LingIdCodec.English.makeLingIdFor(upSelection);
+		const upSelectionId = DumlingIdCodec.English.makeDumlingIdFor(upSelection);
 		const gvaeSelectionId =
-			LingIdCodec.English.makeLingIdFor(gvaeSelection);
+			DumlingIdCodec.English.makeDumlingIdFor(gvaeSelection);
 
 		expect(upSelectionId).not.toBe(gvaeSelectionId);
 
@@ -150,12 +150,12 @@ describe("LingIdCodec", () => {
 		const gvaeSurface =
 			lingOperation.extract.surface.fromSelection(gvaeSelection);
 
-		expect(LingIdCodec.English.makeLingIdFor(upSurface)).toBe(
-			LingIdCodec.English.makeLingIdFor(gvaeSurface),
+		expect(DumlingIdCodec.English.makeDumlingIdFor(upSurface)).toBe(
+			DumlingIdCodec.English.makeDumlingIdFor(gvaeSurface),
 		);
 	});
 
-	it("keeps canonical and variant selections distinct in Ling IDs", () => {
+	it("keeps canonical and variant selections distinct in Dumling IDs", () => {
 		const canonicalSelection = englishWalkStandardFullSelection;
 		const variantSelection = {
 			...englishWalkStandardFullSelection,
@@ -164,12 +164,12 @@ describe("LingIdCodec", () => {
 		};
 
 		const canonicalId =
-			LingIdCodec.English.makeLingIdFor(canonicalSelection);
-		const variantId = LingIdCodec.English.makeLingIdFor(variantSelection);
+			DumlingIdCodec.English.makeDumlingIdFor(canonicalSelection);
+		const variantId = DumlingIdCodec.English.makeDumlingIdFor(variantSelection);
 
 		expect(canonicalId).not.toBe(variantId);
 		expect(
-			LingIdCodec.English.tryToDecodeAs(
+			DumlingIdCodec.English.tryToDecodeAs(
 				"Selection",
 				variantId,
 			)._unsafeUnwrap().spellingRelation,

@@ -5,7 +5,7 @@ import type {
 } from "../../../lu/public-entities";
 import type { TargetLanguage } from "../../../lu/universal/enums/core/language";
 import type { SpellingRelation } from "../../../lu/universal/enums/core/selection";
-import type { ConcreteLingIdKind, KnownSelection, LingId } from "../../types";
+import type { ConcreteDumlingIdKind, KnownSelection, DumlingId } from "../../types";
 import {
 	getRuntimeSchema,
 	hasResolvedSurfaceTarget,
@@ -19,7 +19,7 @@ import {
 	joinTokens,
 	serializeOptionalToken,
 } from "../wire/tokens";
-import { inferConcreteLingIdKind } from "./infer-kind";
+import { inferConcreteDumlingIdKind } from "./infer-kind";
 
 type EncodableValue<L extends TargetLanguage> =
 	| Lemma<L>
@@ -27,33 +27,33 @@ type EncodableValue<L extends TargetLanguage> =
 	| ResolvedSurface<L>
 	| UnresolvedSurface<L>;
 
-export function encodeLingId<L extends TargetLanguage>(
+export function encodeDumlingId<L extends TargetLanguage>(
 	language: L,
 	value: Lemma<L>,
-): LingId<"Lemma", L>;
-export function encodeLingId<L extends TargetLanguage>(
+): DumlingId<"Lemma", L>;
+export function encodeDumlingId<L extends TargetLanguage>(
 	language: L,
 	value: KnownSelection<L>,
-): LingId<"Selection", L>;
-export function encodeLingId<L extends TargetLanguage>(
+): DumlingId<"Selection", L>;
+export function encodeDumlingId<L extends TargetLanguage>(
 	language: L,
 	value: ResolvedSurface<L>,
-): LingId<"ResolvedSurface", L>;
-export function encodeLingId<L extends TargetLanguage>(
+): DumlingId<"ResolvedSurface", L>;
+export function encodeDumlingId<L extends TargetLanguage>(
 	language: L,
 	value: UnresolvedSurface<L>,
-): LingId<"UnresolvedSurface", L>;
-export function encodeLingId<L extends TargetLanguage>(
+): DumlingId<"UnresolvedSurface", L>;
+export function encodeDumlingId<L extends TargetLanguage>(
 	language: L,
 	value: EncodableValue<L>,
-): LingId<ConcreteLingIdKind, L> {
-	const kind = inferConcreteLingIdKind(value);
+): DumlingId<ConcreteDumlingIdKind, L> {
+	const kind = inferConcreteDumlingIdKind(value);
 	assertLanguageMatch(language, value);
 	const validation = getRuntimeSchema(language, kind).safeParse(value);
 
 	if (!validation.success) {
 		throw new Error(
-			`Invalid ${kind} for Ling ID encoding: ${validation.error.issues
+			`Invalid ${kind} for Dumling ID encoding: ${validation.error.issues
 				.map((issue) => issue.message)
 				.join("; ")}`,
 		);
@@ -63,8 +63,8 @@ export function encodeLingId<L extends TargetLanguage>(
 		kind,
 		validation.data as EncodableValue<L>,
 	);
-	return `${buildHeader(language, kind)};${payload}` as LingId<
-		ConcreteLingIdKind,
+	return `${buildHeader(language, kind)};${payload}` as DumlingId<
+		ConcreteDumlingIdKind,
 		L
 	>;
 }
@@ -75,18 +75,18 @@ function assertLanguageMatch(expected: TargetLanguage, value: unknown): void {
 		!("language" in value) ||
 		typeof value.language !== "string"
 	) {
-		throw new Error("Ling ID encoding expects a language-tagged entity");
+		throw new Error("Dumling ID encoding expects a language-tagged entity");
 	}
 
 	if (value.language !== expected) {
 		throw new Error(
-			`Ling ID builder language mismatch: expected ${expected}, received ${value.language}`,
+			`Dumling ID builder language mismatch: expected ${expected}, received ${value.language}`,
 		);
 	}
 }
 
 function serializePayload(
-	kind: ConcreteLingIdKind,
+	kind: ConcreteDumlingIdKind,
 	value: EncodableValue<TargetLanguage>,
 ): string {
 	switch (kind) {
@@ -108,7 +108,7 @@ function serializePayload(
 }
 
 function serializeSelectionPayload(value: KnownSelection): string {
-	const surfaceKind = inferSurfaceLingIdKind(value.surface);
+	const surfaceKind = inferSurfaceDumlingIdKind(value.surface);
 
 	return joinTokens([
 		value.orthographicStatus,
@@ -143,7 +143,7 @@ function serializeSurfacePayload(
 	]);
 }
 
-function inferSurfaceLingIdKind(
+function inferSurfaceDumlingIdKind(
 	value: {
 		target: { canonicalLemma: string } | Lemma;
 	} & (ResolvedSurface | UnresolvedSurface),

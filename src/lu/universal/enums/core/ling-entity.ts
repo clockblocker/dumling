@@ -1,4 +1,4 @@
-export type LingEntity =
+export type DumlingEntity =
 	| "Selection"
 	| "ResolvedSurface"
 	| "UnresolvedSurface"

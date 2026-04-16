@@ -2,7 +2,7 @@ import z from "zod/v3";
 import type { TargetLanguage } from "./enums/core/language";
 import type { OrthographicStatus } from "./enums/core/selection";
 
-export function withLingIdSurfaceDtoCompatibility<T extends z.ZodTypeAny>({
+export function withDumlingIdSurfaceDtoCompatibility<T extends z.ZodTypeAny>({
 	language,
 	orthographicStatus,
 	schema,
@@ -13,9 +13,9 @@ export function withLingIdSurfaceDtoCompatibility<T extends z.ZodTypeAny>({
 }): T {
 	return z.preprocess(
 		(input) =>
-			stripLingIdMetadata(input, {
+			stripDumlingIdMetadata(input, {
 				expectedLanguage: language,
-				expectedLingKind: "Surface",
+				expectedDumlingKind: "Surface",
 				expectedOrthographicStatus: orthographicStatus,
 				keys: ["lingKind", "orthographicStatus"],
 			}),
@@ -23,16 +23,16 @@ export function withLingIdSurfaceDtoCompatibility<T extends z.ZodTypeAny>({
 	) as unknown as T;
 }
 
-function stripLingIdMetadata(
+function stripDumlingIdMetadata(
 	input: unknown,
 	{
 		expectedLanguage,
-		expectedLingKind,
+		expectedDumlingKind,
 		expectedOrthographicStatus,
 		keys,
 	}: {
 		expectedLanguage?: TargetLanguage;
-		expectedLingKind: "Lemma" | "Surface";
+		expectedDumlingKind: "Lemma" | "Surface";
 		expectedOrthographicStatus?: Exclude<OrthographicStatus, "Unknown">;
 		keys: readonly string[];
 	},
@@ -41,7 +41,7 @@ function stripLingIdMetadata(
 		return input;
 	}
 
-	if (input.lingKind !== expectedLingKind) {
+	if (input.lingKind !== expectedDumlingKind) {
 		return input;
 	}
 

@@ -1,5 +1,5 @@
 import type { TargetLanguage } from "../../../lu/universal/enums/core/language";
-import type { ConcreteLingIdKind } from "../../types";
+import type { ConcreteDumlingIdKind } from "../../types";
 import { codeToLanguage, languageToCode } from "./language-codes";
 
 type WireKindCode = "LEM" | "SEL" | "SURF-RES" | "SURF-UNRES";
@@ -9,43 +9,43 @@ const KIND_TO_WIRE = {
 	ResolvedSurface: "SURF-RES",
 	Selection: "SEL",
 	UnresolvedSurface: "SURF-UNRES",
-} as const satisfies Record<ConcreteLingIdKind, WireKindCode>;
+} as const satisfies Record<ConcreteDumlingIdKind, WireKindCode>;
 
 const WIRE_TO_KIND = {
 	LEM: "Lemma",
 	SEL: "Selection",
 	"SURF-RES": "ResolvedSurface",
 	"SURF-UNRES": "UnresolvedSurface",
-} as const satisfies Record<WireKindCode, ConcreteLingIdKind>;
+} as const satisfies Record<WireKindCode, ConcreteDumlingIdKind>;
 
-export function encodeWireKind(kind: ConcreteLingIdKind): WireKindCode {
+export function encodeWireKind(kind: ConcreteDumlingIdKind): WireKindCode {
 	return KIND_TO_WIRE[kind];
 }
 
 export function decodeWireKind(
 	wireKind: string,
-): ConcreteLingIdKind | undefined {
-	return (WIRE_TO_KIND as Record<string, ConcreteLingIdKind | undefined>)[
+): ConcreteDumlingIdKind | undefined {
+	return (WIRE_TO_KIND as Record<string, ConcreteDumlingIdKind | undefined>)[
 		wireKind
 	];
 }
 
 export function buildHeader(
 	language: TargetLanguage,
-	kind: ConcreteLingIdKind,
+	kind: ConcreteDumlingIdKind,
 ): string {
 	return `ling:v1:${languageToCode(language)}:${encodeWireKind(kind)}`;
 }
 
 export function parseHeader(id: string): {
 	body: string;
-	kind: ConcreteLingIdKind;
+	kind: ConcreteDumlingIdKind;
 	language: TargetLanguage;
 } {
 	const separatorIndex = id.indexOf(";");
 
 	if (separatorIndex === -1) {
-		throw new Error(`Malformed Ling ID: ${id}`);
+		throw new Error(`Malformed Dumling ID: ${id}`);
 	}
 
 	const header = id.slice(0, separatorIndex);
@@ -53,7 +53,7 @@ export function parseHeader(id: string): {
 	const headerParts = header.split(":");
 
 	if (headerParts.length !== 4) {
-		throw new Error(`Malformed Ling ID header: ${header}`);
+		throw new Error(`Malformed Dumling ID header: ${header}`);
 	}
 
 	const [namespace, version, languageCode, wireKind] = headerParts as [
@@ -64,25 +64,25 @@ export function parseHeader(id: string): {
 	];
 
 	if (namespace !== "ling") {
-		throw new Error(`Malformed Ling ID namespace: ${namespace}`);
+		throw new Error(`Malformed Dumling ID namespace: ${namespace}`);
 	}
 
 	if (version !== "v1") {
-		throw new Error(`Unsupported Ling ID version: ${version}`);
+		throw new Error(`Unsupported Dumling ID version: ${version}`);
 	}
 
 	const language = codeToLanguage(languageCode);
 
 	if (language === undefined) {
 		throw new Error(
-			`Unsupported language code in Ling ID: ${languageCode}`,
+			`Unsupported language code in Dumling ID: ${languageCode}`,
 		);
 	}
 
 	const kind = decodeWireKind(wireKind);
 
 	if (kind === undefined) {
-		throw new Error(`Unsupported Ling ID kind: ${wireKind}`);
+		throw new Error(`Unsupported Dumling ID kind: ${wireKind}`);
 	}
 
 	return { body, kind, language };

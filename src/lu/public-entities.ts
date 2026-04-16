@@ -10,7 +10,7 @@ import { HebrewSelectionSchema } from "./language-packs/hebrew/hebrew-selection"
 import { buildResolvedSurfaceSchemaForLanguage } from "./resolved-surface-schema";
 import type { TargetLanguage } from "./universal/enums/core/language";
 import type { OrthographicStatus } from "./universal/enums/core/selection";
-import { withLingIdSurfaceDtoCompatibility } from "./universal/ling-id-schema-compat";
+import { withDumlingIdSurfaceDtoCompatibility } from "./universal/ling-id-schema-compat";
 
 type SupportedLanguage = TargetLanguage;
 type KnownOrthographicStatus = Exclude<OrthographicStatus, "Unknown">;
@@ -416,7 +416,7 @@ function buildSurfaceSchemaForSurfaceKind<
 				Object.entries(discriminators).map(
 					([discriminator, selectionSchema]) => [
 						discriminator,
-						withLingIdSurfaceDtoCompatibility({
+						withDumlingIdSurfaceDtoCompatibility({
 							language,
 							orthographicStatus,
 							schema: getSurfaceSchemaFromSelectionSchema(

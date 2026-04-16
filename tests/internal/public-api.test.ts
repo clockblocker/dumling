@@ -3,11 +3,11 @@ import * as linguistics from "../../src";
 import {
 	type KnownSelection,
 	LexicalRelationsSchema,
-	type LingId,
-	LingIdCodec,
-	type LingIdValueFor,
+	type DumlingId,
+	DumlingIdCodec,
+	type DumlingIdValueFor,
 	MorphologicalRelationsSchema,
-	RelationTargetLingIdsSchema,
+	RelationTargetDumlingIdsSchema,
 	type Relations,
 	type Selection,
 	lingOperation,
@@ -28,14 +28,14 @@ type _knownSelectionExcludesUnknown = Assert<
 >;
 
 type _selectionDecodeHelperStaysConcrete = Assert<
-	Equal<LingIdValueFor<"Selection", "English">, KnownSelection<"English">>
+	Equal<DumlingIdValueFor<"Selection", "English">, KnownSelection<"English">>
 >;
 
 type _relationTargetsAreLemmaIds = Assert<
-	Equal<Relations.TargetLingIds[number], LingId<"Lemma">>
+	Equal<Relations.TargetDumlingIds[number], DumlingId<"Lemma">>
 >;
 
-type _selectionStillIncludesUnknownOutsideLingIdApi = Assert<
+type _selectionStillIncludesUnknownOutsideDumlingIdApi = Assert<
 	Equal<
 		Extract<
 			Selection<"English">,
@@ -47,7 +47,7 @@ type _selectionStillIncludesUnknownOutsideLingIdApi = Assert<
 
 describe("public API usage", () => {
 	it("exposes the curated root API surface", () => {
-		expect(typeof linguistics.LingIdCodec.forLanguage).toBe("function");
+		expect(typeof linguistics.DumlingIdCodec.forLanguage).toBe("function");
 		expect(typeof linguistics.lingOperation.forLanguage).toBe("function");
 		expect(
 			typeof linguistics.lingOperation.resolve.unresolvedSurface
@@ -56,18 +56,18 @@ describe("public API usage", () => {
 		expect(typeof linguistics.lingOperation.unresolve.surface).toBe(
 			"function",
 		);
-		expect(linguistics.LingIdCodec).toBe(LingIdCodec);
+		expect(linguistics.DumlingIdCodec).toBe(DumlingIdCodec);
 		expect(linguistics.lingOperation).toBe(lingOperation);
 		expect(linguistics.lingSchemaFor).toBe(lingSchemaFor);
-		expect(linguistics.LingIdCodec.English).toBeDefined();
-		expect(linguistics.LingIdCodec.German).toBeDefined();
-		expect(linguistics.LingIdCodec.Hebrew).toBeDefined();
-		expect("buildToLingConverters" in linguistics).toBe(false);
-		expect("LingId" in linguistics).toBe(false);
+		expect(linguistics.DumlingIdCodec.English).toBeDefined();
+		expect(linguistics.DumlingIdCodec.German).toBeDefined();
+		expect(linguistics.DumlingIdCodec.Hebrew).toBeDefined();
+		expect("buildToDumlingConverters" in linguistics).toBe(false);
+		expect("DumlingId" in linguistics).toBe(false);
 		expect("ParsedShallowSurfaceDto" in linguistics).toBe(false);
-		expect("parseLingId" in linguistics).toBe(false);
-		expect("parseShallowSurfaceLingId" in linguistics).toBe(false);
-		expect("LingConverters" in linguistics).toBe(false);
+		expect("parseDumlingId" in linguistics).toBe(false);
+		expect("parseShallowSurfaceDumlingId" in linguistics).toBe(false);
+		expect("DumlingConverters" in linguistics).toBe(false);
 		expect("SelectionSchema" in linguistics).toBe(false);
 		expect("LemmaSchema" in linguistics).toBe(false);
 		expect("ResolvedSurfaceSchema" in linguistics).toBe(false);
@@ -76,7 +76,7 @@ describe("public API usage", () => {
 	});
 
 	it("keeps schemas and relations available from the package root", () => {
-		const lemmaId = LingIdCodec.English.makeLingIdFor(englishWalkLemma);
+		const lemmaId = DumlingIdCodec.English.makeDumlingIdFor(englishWalkLemma);
 
 		expect(
 			lingSchemaFor.Selection.English.Standard.Inflection.Lexeme.VERB,
@@ -85,10 +85,10 @@ describe("public API usage", () => {
 			lingSchemaFor.ResolvedSurface.German.Standard.Lemma.Lexeme.NOUN,
 		).toBeDefined();
 		expect(
-			RelationTargetLingIdsSchema.parse([lemmaId] as LingId<"Lemma">[]),
-		).toEqual([lemmaId] as LingId<"Lemma">[]);
+			RelationTargetDumlingIdsSchema.parse([lemmaId] as DumlingId<"Lemma">[]),
+		).toEqual([lemmaId] as DumlingId<"Lemma">[]);
 		expect(() =>
-			RelationTargetLingIdsSchema.parse([
+			RelationTargetDumlingIdsSchema.parse([
 				"ling:v1:EN:SURF-RES;walk;Inflection;Lexeme;VERB;tense=Pres,verbForm=Fin;walk;Lexeme;VERB;-;%F0%9F%9A%B6",
 			]),
 		).toThrow();

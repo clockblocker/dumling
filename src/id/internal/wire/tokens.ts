@@ -35,7 +35,7 @@ export function splitLeadingTokens(
 		const separatorIndex = remainder.indexOf(";");
 
 		if (separatorIndex === -1) {
-			throw new Error(`Malformed ${label} payload in Ling ID: ${body}`);
+			throw new Error(`Malformed ${label} payload in Dumling ID: ${body}`);
 		}
 
 		parts.push(remainder.slice(0, separatorIndex));

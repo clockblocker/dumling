@@ -7,7 +7,7 @@ import type {
 } from "../lu/public-entities";
 import type { TargetLanguage } from "../lu/universal/enums/core/language";
 
-export type ConcreteLingIdKind =
+export type ConcreteDumlingIdKind =
 	| "Lemma"
 	| "Selection"
 	| "ResolvedSurface"
@@ -18,8 +18,8 @@ export type KnownSelection<L extends TargetLanguage = TargetLanguage> = Exclude<
 	{ orthographicStatus: "Unknown" }
 >;
 
-export type LingId<
-	LIK extends ConcreteLingIdKind = ConcreteLingIdKind,
+export type DumlingId<
+	LIK extends ConcreteDumlingIdKind = ConcreteDumlingIdKind,
 	L extends TargetLanguage = TargetLanguage,
 > = string & {
 	readonly __lingIdBrand: unique symbol;
@@ -27,8 +27,8 @@ export type LingId<
 	readonly __language?: L;
 };
 
-export type LingIdValueFor<
-	LIK extends ConcreteLingIdKind,
+export type DumlingIdValueFor<
+	LIK extends ConcreteDumlingIdKind,
 	L extends TargetLanguage,
 > = LIK extends "Lemma"
 	? Lemma<L>
@@ -40,8 +40,8 @@ export type LingIdValueFor<
 				? UnresolvedSurface<L>
 				: never;
 
-export type LingIdDecodeErrorCode =
-	| "MalformedLingId"
+export type DumlingIdDecodeErrorCode =
+	| "MalformedDumlingId"
 	| "UnsupportedVersion"
 	| "UnsupportedLanguage"
 	| "UnsupportedEntityKind"
@@ -49,36 +49,36 @@ export type LingIdDecodeErrorCode =
 	| "EntityMismatch"
 	| "PayloadDecodeFailed";
 
-export type LingIdDecodeError = {
-	code: LingIdDecodeErrorCode;
+export type DumlingIdDecodeError = {
+	code: DumlingIdDecodeErrorCode;
 	message: string;
 	input: string;
 	cause?: unknown;
 };
 
-export type LingIdApiFor<L extends TargetLanguage> = {
-	makeLingIdFor: {
-		(value: Lemma<L>): LingId<"Lemma", L>;
-		(value: KnownSelection<L>): LingId<"Selection", L>;
-		(value: ResolvedSurface<L>): LingId<"ResolvedSurface", L>;
-		(value: UnresolvedSurface<L>): LingId<"UnresolvedSurface", L>;
+export type DumlingIdApiFor<L extends TargetLanguage> = {
+	makeDumlingIdFor: {
+		(value: Lemma<L>): DumlingId<"Lemma", L>;
+		(value: KnownSelection<L>): DumlingId<"Selection", L>;
+		(value: ResolvedSurface<L>): DumlingId<"ResolvedSurface", L>;
+		(value: UnresolvedSurface<L>): DumlingId<"UnresolvedSurface", L>;
 	};
 	tryToDecode: (
 		id: string,
-	) => Result<LingIdValueFor<ConcreteLingIdKind, L>, LingIdDecodeError>;
+	) => Result<DumlingIdValueFor<ConcreteDumlingIdKind, L>, DumlingIdDecodeError>;
 	tryToDecodeAs: {
-		(kind: "Lemma", id: string): Result<Lemma<L>, LingIdDecodeError>;
+		(kind: "Lemma", id: string): Result<Lemma<L>, DumlingIdDecodeError>;
 		(
 			kind: "Selection",
 			id: string,
-		): Result<KnownSelection<L>, LingIdDecodeError>;
+		): Result<KnownSelection<L>, DumlingIdDecodeError>;
 		(
 			kind: "ResolvedSurface",
 			id: string,
-		): Result<ResolvedSurface<L>, LingIdDecodeError>;
+		): Result<ResolvedSurface<L>, DumlingIdDecodeError>;
 		(
 			kind: "UnresolvedSurface",
 			id: string,
-		): Result<UnresolvedSurface<L>, LingIdDecodeError>;
+		): Result<UnresolvedSurface<L>, DumlingIdDecodeError>;
 	};
 };

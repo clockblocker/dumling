@@ -1,5 +1,5 @@
 import { describe, expect, it } from "bun:test";
-import { LingIdCodec, lingOperation, lingSchemaFor } from "../../src";
+import { DumlingIdCodec, lingOperation, lingSchemaFor } from "../../src";
 import {
 	hebrewKatavLemma,
 	hebrewKatvuPointedVariantSelection,
@@ -90,62 +90,62 @@ describe("Hebrew attested entities", () => {
 		).toBe(hebrewShanaLemma);
 	});
 
-	it("round-trip through the Hebrew Ling ID codec", () => {
-		const lemmaId = LingIdCodec.Hebrew.makeLingIdFor(hebrewKatavLemma);
-		const resolvedSurfaceId = LingIdCodec.Hebrew.makeLingIdFor(
+	it("round-trip through the Hebrew Dumling ID codec", () => {
+		const lemmaId = DumlingIdCodec.Hebrew.makeDumlingIdFor(hebrewKatavLemma);
+		const resolvedSurfaceId = DumlingIdCodec.Hebrew.makeDumlingIdFor(
 			hebrewKatvuResolvedInflectionSurface,
 		);
-		const unresolvedSurfaceId = LingIdCodec.Hebrew.makeLingIdFor(
+		const unresolvedSurfaceId = DumlingIdCodec.Hebrew.makeDumlingIdFor(
 			hebrewKatvuUnresolvedInflectionSurface,
 		);
-		const selectionId = LingIdCodec.Hebrew.makeLingIdFor(
+		const selectionId = DumlingIdCodec.Hebrew.makeDumlingIdFor(
 			hebrewKatvuStandardFullSelection,
 		);
-		const pointedVariantSelectionId = LingIdCodec.Hebrew.makeLingIdFor(
+		const pointedVariantSelectionId = DumlingIdCodec.Hebrew.makeDumlingIdFor(
 			hebrewKatvuPointedVariantSelection,
 		);
-		const abbreviationLemmaId = LingIdCodec.Hebrew.makeLingIdFor(
+		const abbreviationLemmaId = DumlingIdCodec.Hebrew.makeDumlingIdFor(
 			hebrewUsAbbreviationLemma,
 		);
-		const abbreviationSelectionId = LingIdCodec.Hebrew.makeLingIdFor(
+		const abbreviationSelectionId = DumlingIdCodec.Hebrew.makeDumlingIdFor(
 			hebrewUsAbbreviationSelection,
 		);
 
 		expect(
-			LingIdCodec.Hebrew.tryToDecodeAs("Lemma", lemmaId)._unsafeUnwrap(),
+			DumlingIdCodec.Hebrew.tryToDecodeAs("Lemma", lemmaId)._unsafeUnwrap(),
 		).toEqual(hebrewKatavLemma);
 		expect(
-			LingIdCodec.Hebrew.tryToDecodeAs(
+			DumlingIdCodec.Hebrew.tryToDecodeAs(
 				"ResolvedSurface",
 				resolvedSurfaceId,
 			)._unsafeUnwrap(),
 		).toEqual(hebrewKatvuResolvedInflectionSurface);
 		expect(
-			LingIdCodec.Hebrew.tryToDecodeAs(
+			DumlingIdCodec.Hebrew.tryToDecodeAs(
 				"UnresolvedSurface",
 				unresolvedSurfaceId,
 			)._unsafeUnwrap(),
 		).toEqual(hebrewKatvuUnresolvedInflectionSurface);
 		expect(
-			LingIdCodec.Hebrew.tryToDecodeAs(
+			DumlingIdCodec.Hebrew.tryToDecodeAs(
 				"Selection",
 				selectionId,
 			)._unsafeUnwrap(),
 		).toEqual(hebrewKatvuStandardFullSelection);
 		expect(
-			LingIdCodec.Hebrew.tryToDecodeAs(
+			DumlingIdCodec.Hebrew.tryToDecodeAs(
 				"Selection",
 				pointedVariantSelectionId,
 			)._unsafeUnwrap(),
 		).toEqual(hebrewKatvuPointedVariantSelection);
 		expect(
-			LingIdCodec.Hebrew.tryToDecodeAs(
+			DumlingIdCodec.Hebrew.tryToDecodeAs(
 				"Lemma",
 				abbreviationLemmaId,
 			)._unsafeUnwrap(),
 		).toEqual(hebrewUsAbbreviationLemma);
 		expect(
-			LingIdCodec.Hebrew.tryToDecodeAs(
+			DumlingIdCodec.Hebrew.tryToDecodeAs(
 				"Selection",
 				abbreviationSelectionId,
 			)._unsafeUnwrap(),

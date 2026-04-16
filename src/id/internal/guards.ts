@@ -6,7 +6,7 @@ import {
 	SurfaceSchema,
 } from "../../lu/public-entities";
 import type { TargetLanguage } from "../../lu/universal/enums/core/language";
-import type { ConcreteLingIdKind } from "../types";
+import type { ConcreteDumlingIdKind } from "../types";
 
 function isZodSchema(value: unknown): value is z.ZodTypeAny {
 	return value instanceof z.ZodType;
@@ -105,12 +105,12 @@ const runtimeSchemas = {
 		UnresolvedSurface: buildUnresolvedSurfaceSchema("Hebrew"),
 	},
 } satisfies {
-	[L in TargetLanguage]: Record<ConcreteLingIdKind, z.ZodTypeAny>;
+	[L in TargetLanguage]: Record<ConcreteDumlingIdKind, z.ZodTypeAny>;
 };
 
 export function getRuntimeSchema(
 	language: TargetLanguage,
-	kind: ConcreteLingIdKind,
+	kind: ConcreteDumlingIdKind,
 ): z.ZodTypeAny {
 	return runtimeSchemas[language][kind];
 }

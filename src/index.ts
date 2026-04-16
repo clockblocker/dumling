@@ -1,5 +1,5 @@
-import { lingIdApiForLanguage } from "./ling-id/public";
-import type { LingIdApiFor } from "./ling-id/types";
+import { lingIdApiForLanguage } from "./id/public";
+import type { DumlingIdApiFor } from "./id/types";
 import {
 	LemmaSchema,
 	ResolvedSurfaceSchema,
@@ -17,15 +17,7 @@ import {
 	unresolveSurface,
 } from "./lu/public-operations";
 
-export type LingSchemaRegistry = {
-	Lemma: typeof LemmaSchema;
-	ResolvedSurface: typeof ResolvedSurfaceSchema;
-	Selection: typeof SelectionSchema;
-	Surface: typeof SurfaceSchema;
-	UnresolvedSurface: typeof SurfaceSchema;
-};
-
-export const lingSchemaFor: LingSchemaRegistry = {
+export const lingSchemaFor = {
 	Lemma: LemmaSchema,
 	ResolvedSurface: ResolvedSurfaceSchema,
 	Selection: SelectionSchema,
@@ -62,28 +54,28 @@ export const lingOperation = {
 	},
 } as const;
 
-export const LingIdCodec = {
+export const DumlingIdCodec = {
 	English: lingIdApiForLanguage("English"),
 	forLanguage: lingIdApiForLanguage,
 	German: lingIdApiForLanguage("German"),
 	Hebrew: lingIdApiForLanguage("Hebrew"),
 } satisfies {
-	forLanguage<L extends TargetLanguage>(language: L): LingIdApiFor<L>;
+	forLanguage<L extends TargetLanguage>(language: L): DumlingIdApiFor<L>;
 } & {
-	[L in TargetLanguage]: LingIdApiFor<L>;
+	[L in TargetLanguage]: DumlingIdApiFor<L>;
 };
 
 import type { TargetLanguage } from "./lu/universal/enums/core/language";
-import type { LingEntity } from "./lu/universal/enums/core/ling-entity";
+import type { DumlingEntity } from "./lu/universal/enums/core/ling-entity";
 
 export type {
-	ConcreteLingIdKind,
+	ConcreteDumlingIdKind,
 	KnownSelection,
-	LingId,
-	LingIdDecodeError,
-	LingIdDecodeErrorCode,
-	LingIdValueFor,
-} from "./ling-id/public";
+	DumlingId,
+	DumlingIdDecodeError,
+	DumlingIdDecodeErrorCode,
+	DumlingIdValueFor,
+} from "./id/public";
 
 export type {
 	Lemma,
