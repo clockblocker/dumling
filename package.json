@@ -1,0 +1,55 @@
+{
+	"name": "dumling",
+	"version": "0.1.0",
+	"description": "Typesafe schemas and operations for learner-facing linguistic segmentation.",
+	"type": "module",
+	"license": "MIT",
+	"sideEffects": false,
+	"main": "./dist/index.js",
+	"types": "./dist/index.d.ts",
+	"exports": {
+		".": {
+			"types": "./dist/index.d.ts",
+			"import": "./dist/index.js"
+		},
+		"./package.json": "./package.json"
+	},
+	"files": ["dist", "README.md", "LICENSE"],
+	"engines": {
+		"node": ">=20"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/clockblocker/dumling.git"
+	},
+	"bugs": {
+		"url": "https://github.com/clockblocker/dumling/issues"
+	},
+	"homepage": "https://github.com/clockblocker/dumling#readme",
+	"publishConfig": {
+		"access": "public"
+	},
+	"scripts": {
+		"build": "tsup src/index.ts --format esm --dts --clean",
+		"check": "tsc --noEmit",
+		"fix": "biome check --write .",
+		"generate:readme": "node --import tsx generate-readme/generate-readme.ts",
+		"knip": "knip",
+		"lint": "biome check .",
+		"prepack": "npm run generate:readme && npm run build",
+		"test": "vitest run"
+	},
+	"dependencies": {
+		"neverthrow": "^8.2.0",
+		"zod": "3.25.76"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "^1.9.4",
+		"@types/node": "^24.5.2",
+		"knip": "^5.82.1",
+		"tsup": "^8.5.0",
+		"tsx": "^4.20.5",
+		"typescript": "5.9.3",
+		"vitest": "^3.2.4"
+	}
+}
