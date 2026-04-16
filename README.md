@@ -52,10 +52,8 @@ const gaveUpSurface = {
 	language: "English",
 	normalizedFullSurface: "gave up",
 	surfaceKind: "Inflection",
-	target: {
-		canonicalLemma: "give up",
-	},
-} satisfies UnresolvedSurface<
+	target: giveUpLemma,
+} satisfies ResolvedSurface<
 	"English",
 	"Typo",
 	"Inflection",
