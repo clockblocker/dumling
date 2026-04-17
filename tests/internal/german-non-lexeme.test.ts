@@ -28,9 +28,7 @@ describe("German non-lexeme schemas", () => {
 			>;
 
 		expect(morpheme.morphemeKind).toBe("Prefix");
-		expect(phraseme.surface.discriminators.lemmaSubKind).toBe(
-			"DiscourseFormula",
-		);
+		expect(phraseme.surface.lemma.phrasemeKind).toBe("DiscourseFormula");
 	});
 
 	it("accepts German morpheme lemmas", () => {
@@ -132,11 +130,8 @@ describe("German non-lexeme schemas", () => {
 				orthographicStatus: "Typo",
 				selectionCoverage: "Full",
 				spelledSelection: "hait",
+				spellingRelation: "Canonical",
 				surface: {
-					discriminators: {
-						lemmaKind: "Morpheme",
-						lemmaSubKind: "Suffix",
-					},
 					language: "German",
 					normalizedFullSurface: "hait",
 					surfaceKind: "Lemma",
@@ -155,11 +150,8 @@ describe("German non-lexeme schemas", () => {
 				orthographicStatus: "Typo",
 				selectionCoverage: "Full",
 				spelledSelection: "ins Graß beißen",
+				spellingRelation: "Canonical",
 				surface: {
-					discriminators: {
-						lemmaKind: "Phraseme",
-						lemmaSubKind: "Idiom",
-					},
 					language: "German",
 					normalizedFullSurface: "ins Gras beißen",
 					surfaceKind: "Lemma",
@@ -184,11 +176,8 @@ describe("German non-lexeme schemas", () => {
 				orthographicStatus: "Typo",
 				selectionCoverage: "Full",
 				spelledSelection: "hait",
+				spellingRelation: "Canonical",
 				surface: {
-					discriminators: {
-						lemmaKind: "Morpheme",
-						lemmaSubKind: "Suffix",
-					},
 					language: "German",
 					normalizedFullSurface: "hait",
 					surfaceKind: "Lemma",

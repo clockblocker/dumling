@@ -1,15 +1,14 @@
 import type { TargetLanguage } from "../../../src/lu/universal/enums/core/language";
 
-export function makeLexemeSurfaceReference<lemmaSubKind extends string>(
-	language: TargetLanguage,
+export function makeLexemeSurfaceReference<
+	L extends TargetLanguage,
+	lemmaSubKind extends string,
+>(
+	language: L,
 	lemmaSubKind: lemmaSubKind,
 	canonicalLemma: string,
 ) {
 	return {
-		discriminators: {
-			lemmaKind: "Lexeme" as const,
-			lemmaSubKind,
-		},
 		lemma: {
 			canonicalLemma,
 			inherentFeatures: {},
@@ -21,16 +20,15 @@ export function makeLexemeSurfaceReference<lemmaSubKind extends string>(
 	};
 }
 
-export function makeMorphemeSurfaceReference<lemmaSubKind extends string>(
-	language: TargetLanguage,
+export function makeMorphemeSurfaceReference<
+	L extends TargetLanguage,
+	lemmaSubKind extends string,
+>(
+	language: L,
 	lemmaSubKind: lemmaSubKind,
 	canonicalLemma: string,
 ) {
 	return {
-		discriminators: {
-			lemmaKind: "Morpheme" as const,
-			lemmaSubKind,
-		},
 		lemma: {
 			canonicalLemma,
 			language,
@@ -41,16 +39,15 @@ export function makeMorphemeSurfaceReference<lemmaSubKind extends string>(
 	};
 }
 
-export function makePhrasemeSurfaceReference<lemmaSubKind extends string>(
-	language: TargetLanguage,
+export function makePhrasemeSurfaceReference<
+	L extends TargetLanguage,
+	lemmaSubKind extends string,
+>(
+	language: L,
 	lemmaSubKind: lemmaSubKind,
 	canonicalLemma: string,
 ) {
 	return {
-		discriminators: {
-			lemmaKind: "Phraseme" as const,
-			lemmaSubKind,
-		},
 		lemma: {
 			canonicalLemma,
 			language,

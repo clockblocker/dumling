@@ -8,9 +8,9 @@ import type { LemmaDiscriminatorFor } from "../lemma-discriminator";
 import type { KnownSelectionSchemaFor } from "./buildKnownSelection";
 import { buildSelectionSchemaCore } from "./buildSelectionSchemaCore";
 import type {
-	SelectionLemmaIdentityShapeFor,
-	SelectionSurfaceSchemaFor,
-} from "./buildSelectionSurface";
+	SurfaceLemmaIdentityShapeFor,
+	SurfaceSchemaFor,
+} from "./buildSurfaceSchema";
 import type { LemmaSchemaDescriptor } from "./lemma-schema-descriptor";
 
 type EmptyZodRawShape = Record<never, never>;
@@ -26,7 +26,7 @@ type BuildInflectionSelectionArgs<
 > = {
 	inflectionalFeaturesSchema: InflectionalFeaturesSchema;
 	lemma: LemmaDescriptor;
-	lemmaIdentityShape: SelectionLemmaIdentityShapeFor<LK, D>;
+	lemmaIdentityShape: SurfaceLemmaIdentityShapeFor<LK, D>;
 	orthographicStatus?: OrthographicStatusLiteral;
 	spellingRelation?: SpellingRelation;
 	surfaceExtraShape?: SurfaceExtraShape;
@@ -64,9 +64,9 @@ export function buildInflectionSelection<
 >): KnownSelectionSchemaFor<
 	LemmaDescriptor["language"],
 	OrthographicStatusLiteral,
-	SelectionSurfaceSchemaFor<
+	SurfaceSchemaFor<
 		LemmaDescriptor["language"],
-		SelectionLemmaIdentityShapeFor<LK, D>,
+		SurfaceLemmaIdentityShapeFor<LK, D>,
 		LemmaDescriptor["schema"],
 		InflectionSurfaceShape<InflectionalFeaturesSchema, SurfaceExtraShape>
 	>

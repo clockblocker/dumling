@@ -24,49 +24,44 @@ type AbstractSurfaceFor<
 	: never;
 
 export type AbstractSelectionFor<
-	OS extends OrthographicStatus = OrthographicStatus,
+	OS extends Exclude<OrthographicStatus, "Unknown"> = Exclude<
+		OrthographicStatus,
+		"Unknown"
+	>,
 	SK extends SurfaceKind = SurfaceKind,
 	LK extends LemmaKind = LemmaKind,
 	D extends LemmaDiscriminatorFor<LK> = LemmaDiscriminatorFor<LK>,
-> = OS extends "Unknown"
-	? {
-			language: TargetLanguage;
-			orthographicStatus: OS;
-			spelledSelection: string;
-		}
-	: OS extends "Standard"
+> = OS extends "Standard"
+	? Prettify<
+			HydratedSelectionBaseFor<OS, SK, LK, D> &
+				(
+					| {
+							selectionCoverage: "Full";
+					  }
+					| {
+							selectionCoverage: "Partial";
+					  }
+				)
+		>
+	: OS extends "Typo"
 		? Prettify<
-				KnownSelectionBaseFor<OS, SK, LK, D> &
-					(
-						| {
-								selectionCoverage: "Full";
-						  }
-						| {
-								selectionCoverage: "Partial";
-						  }
-					)
+				HydratedSelectionBaseFor<OS, SK, LK, D> & {
+					selectionCoverage: SelectionCoverage;
+				}
 			>
-		: OS extends "Typo"
-			? Prettify<
-					KnownSelectionBaseFor<OS, SK, LK, D> & {
-						selectionCoverage: SelectionCoverage;
-					}
-				>
-			: never;
+		: never;
 
-type DiscriminatorsFor<
-	LK extends LemmaKind = LemmaKind,
-	D extends LemmaDiscriminatorFor<LK> = LemmaDiscriminatorFor<LK>,
-> = Prettify<{
-	lemmaKind: LK;
-	lemmaSubKind: D;
-}>;
+export type AbstractObservedSelectionFor = {
+	language: TargetLanguage;
+	orthographicStatus: "Unknown";
+	spelledSelection: string;
+};
 
 type SurfaceFieldsFor<SK extends SurfaceKind> = SK extends "Inflection"
 	? { inflectionalFeatures: Partial<AbstractFeatures> }
 	: Record<never, never>;
 
-type KnownSelectionBaseFor<
+type HydratedSelectionBaseFor<
 	OS extends Exclude<OrthographicStatus, "Unknown">,
 	SK extends SurfaceKind = SurfaceKind,
 	LK extends LemmaKind = LemmaKind,
@@ -74,7 +69,7 @@ type KnownSelectionBaseFor<
 > = {
 	language: TargetLanguage;
 	orthographicStatus: OS;
-	spellingRelation?: SpellingRelation;
+	spellingRelation: SpellingRelation;
 	spelledSelection: string;
 	surface: SurfaceFor<SK, LK, D>;
 };
@@ -88,9 +83,7 @@ type SurfaceBaseFor<
 		language: TargetLanguage;
 		surfaceKind: SK;
 		normalizedFullSurface: string;
-	} & SurfaceFieldsFor<SK> & {
-			discriminators: DiscriminatorsFor<LK, D>;
-		}
+	} & SurfaceFieldsFor<SK>
 >;
 
 type SurfaceFor<

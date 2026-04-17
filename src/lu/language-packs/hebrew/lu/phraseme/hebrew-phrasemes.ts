@@ -1,6 +1,7 @@
 import type {
 	LemmaSchemaLanguageShape,
 	SelectionSchemaLanguageShape,
+	SurfaceSchemaLanguageShape,
 } from "../../../../registry-shapes";
 import { buildHebrewPhrasemeBundle } from "./shared/build-hebrew-phraseme-bundle";
 
@@ -30,6 +31,13 @@ export const HebrewStandardLemmaPhrasemeSelectionSchemas = {
 	Idiom: HebrewIdiomBundle.StandardLemmaSelectionSchema,
 	Proverb: HebrewProverbBundle.StandardLemmaSelectionSchema,
 } satisfies SelectionSchemaLanguageShape["Standard"]["Lemma"]["Phraseme"];
+
+export const HebrewLemmaPhrasemeSurfaceSchemas = {
+	Aphorism: HebrewAphorismBundle.LemmaSurfaceSchema,
+	DiscourseFormula: HebrewDiscourseFormulaBundle.LemmaSurfaceSchema,
+	Idiom: HebrewIdiomBundle.LemmaSurfaceSchema,
+	Proverb: HebrewProverbBundle.LemmaSurfaceSchema,
+} satisfies SurfaceSchemaLanguageShape["Lemma"]["Phraseme"];
 
 export const HebrewTypoLemmaPhrasemeSelectionSchemas = {
 	Aphorism: HebrewAphorismBundle.TypoLemmaSelectionSchema,

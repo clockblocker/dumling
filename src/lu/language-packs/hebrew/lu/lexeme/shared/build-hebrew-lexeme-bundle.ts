@@ -1,7 +1,7 @@
 import z from "zod/v3";
 import type { Pos } from "../../../../../universal/enums/kind/pos";
-import { buildInflectionSelection } from "../../../../../universal/factories/buildInflectionSelection";
-import { buildLemmaSelection } from "../../../../../universal/factories/buildLemmaSelection";
+import { buildKnownSelectionSchema } from "../../../../../universal/factories/buildKnownSelection";
+import { buildSurfaceSchema } from "../../../../../universal/factories/buildSurfaceSchema";
 import { defineLemmaSchemaDescriptor } from "../../../../../universal/factories/lemma-schema-descriptor";
 import { MeaningInEmojisSchema } from "../../../../../universal/meaning-in-emojis";
 
@@ -36,28 +36,41 @@ export function buildHebrewLexemeBundle<
 			})
 			.strict(),
 	});
+	const lemmaSurface = buildSurfaceSchema({
+		lemma,
+		lemmaIdentityShape,
+		surfaceShape: {
+			surfaceKind: z.literal("Lemma"),
+		},
+	});
+	const inflectionSurface = buildSurfaceSchema({
+		lemma,
+		lemmaIdentityShape,
+		surfaceShape: {
+			inflectionalFeatures: inflectionalFeaturesSchema,
+			surfaceKind: z.literal("Inflection"),
+		},
+	});
 
 	return {
-		InflectionSelectionSchema: buildInflectionSelection({
-			inflectionalFeaturesSchema,
-			lemma,
-			lemmaIdentityShape,
+		InflectionSelectionSchema: buildKnownSelectionSchema({
+			orthographicStatus: "Standard",
+			surface: inflectionSurface,
 		}),
+		InflectionSurfaceSchema: inflectionSurface.schema,
 		LemmaSchema: lemma.schema,
-		LemmaSelectionSchema: buildLemmaSelection({
-			lemma,
-			lemmaIdentityShape,
+		LemmaSelectionSchema: buildKnownSelectionSchema({
+			orthographicStatus: "Standard",
+			surface: lemmaSurface,
 		}),
-		TypoInflectionSelectionSchema: buildInflectionSelection({
-			inflectionalFeaturesSchema,
-			lemma,
-			lemmaIdentityShape,
+		LemmaSurfaceSchema: lemmaSurface.schema,
+		TypoInflectionSelectionSchema: buildKnownSelectionSchema({
 			orthographicStatus: "Typo",
+			surface: inflectionSurface,
 		}),
-		TypoLemmaSelectionSchema: buildLemmaSelection({
-			lemma,
-			lemmaIdentityShape,
+		TypoLemmaSelectionSchema: buildKnownSelectionSchema({
 			orthographicStatus: "Typo",
+			surface: lemmaSurface,
 		}),
 	};
 }

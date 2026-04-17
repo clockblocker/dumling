@@ -1,6 +1,7 @@
 import type {
 	LemmaSchemaLanguageShape,
 	SelectionSchemaLanguageShape,
+	SurfaceSchemaLanguageShape,
 } from "../../../../registry-shapes";
 import { GermanAdjectiveSchemas } from "./pos/german-adjective";
 import { GermanAdpositionSchemas } from "./pos/german-adposition";
@@ -60,6 +61,26 @@ export const GermanStandardInflectionLexemeSelectionSchemas = {
 	X: GermanOtherSchemas.InflectionSelectionSchema,
 } satisfies SelectionSchemaLanguageShape["Standard"]["Inflection"]["Lexeme"];
 
+export const GermanInflectionLexemeSurfaceSchemas = {
+	ADJ: GermanAdjectiveSchemas.InflectionSurfaceSchema,
+	ADP: GermanAdpositionSchemas.InflectionSurfaceSchema,
+	ADV: GermanAdverbSchemas.InflectionSurfaceSchema,
+	AUX: GermanAuxiliarySchemas.InflectionSurfaceSchema,
+	CCONJ: GermanCoordinatingConjunctionSchemas.InflectionSurfaceSchema,
+	DET: GermanDeterminerSchemas.InflectionSurfaceSchema,
+	INTJ: GermanInterjectionSchemas.InflectionSurfaceSchema,
+	NOUN: GermanNounSchemas.InflectionSurfaceSchema,
+	NUM: GermanNumeralSchemas.InflectionSurfaceSchema,
+	PART: GermanParticleSchemas.InflectionSurfaceSchema,
+	PRON: GermanPronounSchemas.InflectionSurfaceSchema,
+	PROPN: GermanProperNounSchemas.InflectionSurfaceSchema,
+	PUNCT: GermanPunctuationSchemas.InflectionSurfaceSchema,
+	SCONJ: GermanSubordinatingConjunctionSchemas.InflectionSurfaceSchema,
+	SYM: GermanSymbolSchemas.InflectionSurfaceSchema,
+	VERB: GermanVerbSchemas.InflectionSurfaceSchema,
+	X: GermanOtherSchemas.InflectionSurfaceSchema,
+} satisfies SurfaceSchemaLanguageShape["Inflection"]["Lexeme"];
+
 export const GermanStandardLemmaLexemeSelectionSchemas = {
 	ADJ: GermanAdjectiveSchemas.LemmaSelectionSchema,
 	ADP: GermanAdpositionSchemas.LemmaSelectionSchema,
@@ -79,6 +100,26 @@ export const GermanStandardLemmaLexemeSelectionSchemas = {
 	VERB: GermanVerbSchemas.LemmaSelectionSchema,
 	X: GermanOtherSchemas.LemmaSelectionSchema,
 } satisfies SelectionSchemaLanguageShape["Standard"]["Lemma"]["Lexeme"];
+
+export const GermanLemmaLexemeSurfaceSchemas = {
+	ADJ: GermanAdjectiveSchemas.LemmaSurfaceSchema,
+	ADP: GermanAdpositionSchemas.LemmaSurfaceSchema,
+	ADV: GermanAdverbSchemas.LemmaSurfaceSchema,
+	AUX: GermanAuxiliarySchemas.LemmaSurfaceSchema,
+	CCONJ: GermanCoordinatingConjunctionSchemas.LemmaSurfaceSchema,
+	DET: GermanDeterminerSchemas.LemmaSurfaceSchema,
+	INTJ: GermanInterjectionSchemas.LemmaSurfaceSchema,
+	NOUN: GermanNounSchemas.LemmaSurfaceSchema,
+	NUM: GermanNumeralSchemas.LemmaSurfaceSchema,
+	PART: GermanParticleSchemas.LemmaSurfaceSchema,
+	PRON: GermanPronounSchemas.LemmaSurfaceSchema,
+	PROPN: GermanProperNounSchemas.LemmaSurfaceSchema,
+	PUNCT: GermanPunctuationSchemas.LemmaSurfaceSchema,
+	SCONJ: GermanSubordinatingConjunctionSchemas.LemmaSurfaceSchema,
+	SYM: GermanSymbolSchemas.LemmaSurfaceSchema,
+	VERB: GermanVerbSchemas.LemmaSurfaceSchema,
+	X: GermanOtherSchemas.LemmaSurfaceSchema,
+} satisfies SurfaceSchemaLanguageShape["Lemma"]["Lexeme"];
 
 export const GermanTypoInflectionLexemeSelectionSchemas = {
 	ADJ: GermanAdjectiveSchemas.TypoInflectionSelectionSchema,

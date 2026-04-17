@@ -14,10 +14,6 @@ const englishGiveUpLemma = {
 
 // Attestation: "They [walk] home together."
 export const englishWalkInflectionSurface = {
-	discriminators: {
-		lemmaKind: "Lexeme",
-		lemmaSubKind: "VERB",
-	},
 	inflectionalFeatures: {
 		tense: "Pres",
 		verbForm: "Fin",
@@ -28,7 +24,6 @@ export const englishWalkInflectionSurface = {
 	lemma: englishWalkLemma,
 } satisfies Surface<
 	"English",
-	"Standard",
 	"Inflection",
 	"Lexeme",
 	"VERB"
@@ -36,22 +31,14 @@ export const englishWalkInflectionSurface = {
 
 // Attestation: "They [walk] home together."
 export const englishWalkLemmaSurface = {
-	discriminators: {
-		lemmaKind: "Lexeme",
-		lemmaSubKind: "VERB",
-	},
 	language: "English",
 	normalizedFullSurface: "walk",
 	surfaceKind: "Lemma",
 	lemma: englishWalkLemma,
-} satisfies Surface<"English", "Standard", "Lemma", "Lexeme", "VERB">;
+} satisfies Surface<"English", "Lemma", "Lexeme", "VERB">;
 
 // Attestation: "Mark gvae [up] on it."
 export const englishGiveUpTypoInflectionSurface = {
-	discriminators: {
-		lemmaKind: "Lexeme",
-		lemmaSubKind: "VERB",
-	},
 	inflectionalFeatures: {
 		tense: "Past",
 		verbForm: "Fin",
@@ -62,7 +49,6 @@ export const englishGiveUpTypoInflectionSurface = {
 	lemma: englishGiveUpLemma,
 } satisfies Surface<
 	"English",
-	"Typo",
 	"Inflection",
 	"Lexeme",
 	"VERB"

@@ -1,6 +1,11 @@
 import { lingIdApiForLanguage } from "./id/public";
 import type { DumlingIdApiFor } from "./id/types";
-import { LemmaSchema, SelectionSchema, SurfaceSchema } from "./lu/public-entities";
+import {
+	LemmaSchema,
+	ObservedSelectionSchema,
+	SelectionSchema,
+	SurfaceSchema,
+} from "./lu/public-entities";
 import {
 	extractLemmaFromSurface,
 	extractSurfaceFromSelection,
@@ -15,12 +20,14 @@ import type { LemmaDiscriminatorFor } from "./lu/universal/lemma-discriminator";
 
 type SchemaForApi = {
 	readonly Lemma: typeof LemmaSchema;
+	readonly ObservedSelection: typeof ObservedSelectionSchema;
 	readonly Selection: typeof SelectionSchema;
 	readonly Surface: typeof SurfaceSchema;
 };
 
 const schemaFor: SchemaForApi = {
 	Lemma: LemmaSchema,
+	ObservedSelection: ObservedSelectionSchema,
 	Selection: SelectionSchema,
 	Surface: SurfaceSchema,
 };
@@ -97,7 +104,6 @@ export type UniversalLemmaSubKind =
 
 export type {
 	ConcreteDumlingIdKind,
-	KnownSelection,
 	DumlingId,
 	DumlingIdDecodeError,
 	DumlingIdDecodeErrorCode,
@@ -106,6 +112,7 @@ export type {
 
 export type {
 	Lemma,
+	ObservedSelection,
 	Selection,
 	Surface,
 } from "./lu/public-entities";

@@ -15,7 +15,7 @@ type SelectionShapeFor<
 > = {
 	language: z.ZodLiteral<LanguageLiteral>;
 	orthographicStatus: z.ZodLiteral<OrthographicStatusLiteral>;
-	spellingRelation: z.ZodOptional<typeof SpellingRelation>;
+	spellingRelation: typeof SpellingRelation;
 	spelledSelection: z.ZodString;
 	selectionCoverage: typeof SelectionCoverage;
 	surface: SurfaceSchema;
@@ -28,7 +28,7 @@ type StandardSelectionValueFor<
 	| {
 			language: LanguageLiteral;
 			orthographicStatus: "Standard";
-			spellingRelation?: z.infer<typeof SpellingRelation>;
+			spellingRelation: z.infer<typeof SpellingRelation>;
 			selectionCoverage: "Full";
 			spelledSelection: string;
 			surface: z.infer<SurfaceSchema>;
@@ -36,7 +36,7 @@ type StandardSelectionValueFor<
 	| {
 			language: LanguageLiteral;
 			orthographicStatus: "Standard";
-			spellingRelation?: z.infer<typeof SpellingRelation>;
+			spellingRelation: z.infer<typeof SpellingRelation>;
 			selectionCoverage: "Partial";
 			spelledSelection: string;
 			surface: z.infer<SurfaceSchema>;
@@ -48,7 +48,7 @@ type TypoSelectionValueFor<
 > = {
 	language: LanguageLiteral;
 	orthographicStatus: "Typo";
-	spellingRelation?: z.infer<typeof SpellingRelation>;
+	spellingRelation: z.infer<typeof SpellingRelation>;
 	selectionCoverage: z.infer<typeof SelectionCoverage>;
 	spelledSelection: string;
 	surface: z.infer<SurfaceSchema>;
@@ -161,8 +161,8 @@ function buildStandardKnownSelectionSchema<
 }): KnownSelectionSchemaFor<LanguageLiteral, "Standard", SurfaceSchema> {
 	const spellingRelationSchema =
 		spellingRelation === undefined
-			? SpellingRelation.optional()
-			: z.literal(spellingRelation).optional();
+			? SpellingRelation
+			: z.literal(spellingRelation);
 	const sharedShape = {
 		language: z.literal(language),
 		orthographicStatus: z.literal("Standard"),
@@ -184,10 +184,13 @@ function buildStandardKnownSelectionSchema<
 		})
 		.strict();
 
-	return withShape(z.union([fullSchema, partialSchema]), {
-		...sharedShape,
-		selectionCoverage: SelectionCoverage,
-	}) as KnownSelectionSchemaFor<LanguageLiteral, "Standard", SurfaceSchema>;
+	return withShape(
+		withCanonicalSpellingRelationDefault(z.union([fullSchema, partialSchema])),
+		{
+			...sharedShape,
+			selectionCoverage: SelectionCoverage,
+		},
+	) as KnownSelectionSchemaFor<LanguageLiteral, "Standard", SurfaceSchema>;
 }
 
 function buildTypoKnownSelectionSchema<
@@ -204,18 +207,22 @@ function buildTypoKnownSelectionSchema<
 }): KnownSelectionSchemaFor<LanguageLiteral, "Typo", SurfaceSchema> {
 	const spellingRelationSchema =
 		spellingRelation === undefined
-			? SpellingRelation.optional()
-			: z.literal(spellingRelation).optional();
+			? SpellingRelation
+			: z.literal(spellingRelation);
 	return z
-		.object({
-			language: z.literal(language),
-			orthographicStatus: z.literal("Typo"),
-			selectionCoverage: SelectionCoverage,
-			spelledSelection: z.string(),
-			spellingRelation: spellingRelationSchema,
-			surface: surfaceSchema,
-		})
-		.strict() as KnownSelectionSchemaFor<
+		.preprocess(
+			normalizeSelectionSpellingRelation,
+			z
+				.object({
+					language: z.literal(language),
+					orthographicStatus: z.literal("Typo"),
+					selectionCoverage: SelectionCoverage,
+					spelledSelection: z.string(),
+					spellingRelation: spellingRelationSchema,
+					surface: surfaceSchema,
+				})
+				.strict(),
+		) as KnownSelectionSchemaFor<
 		LanguageLiteral,
 		"Typo",
 		SurfaceSchema
@@ -227,4 +234,25 @@ function withShape<
 	Shape extends Record<string, z.ZodTypeAny>,
 >(schema: Schema, shape: Shape): Schema & { shape: Shape } {
 	return Object.assign(schema, { shape });
+}
+
+function withCanonicalSpellingRelationDefault<Schema extends z.ZodTypeAny>(
+	schema: Schema,
+): Schema {
+	return z.preprocess(normalizeSelectionSpellingRelation, schema) as Schema;
+}
+
+function normalizeSelectionSpellingRelation(input: unknown): unknown {
+	if (typeof input !== "object" || input === null || Array.isArray(input)) {
+		return input;
+	}
+
+	if ("spellingRelation" in input) {
+		return input;
+	}
+
+	return {
+		...input,
+		spellingRelation: "Canonical",
+	};
 }

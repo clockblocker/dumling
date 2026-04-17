@@ -10,10 +10,10 @@ import {
 	buildKnownSelectionSchema,
 } from "./buildKnownSelection";
 import {
-	type SelectionLemmaIdentityShapeFor,
-	type SelectionSurfaceSchemaFor,
-	buildSelectionSurfaceSchema,
-} from "./buildSelectionSurface";
+	type SurfaceLemmaIdentityShapeFor,
+	type SurfaceSchemaFor,
+	buildSurfaceSchema,
+} from "./buildSurfaceSchema";
 import type { LemmaSchemaDescriptor } from "./lemma-schema-descriptor";
 
 type KnownOrthographicStatus = Exclude<OrthographicStatus, "Unknown">;
@@ -23,9 +23,9 @@ type SurfaceSchemaForDescriptorSelection<
 	LK extends LemmaKind,
 	D extends LemmaDiscriminatorFor<LK>,
 	SurfaceShape extends z.ZodRawShape,
-> = SelectionSurfaceSchemaFor<
+> = SurfaceSchemaFor<
 	LemmaDescriptor["language"],
-	SelectionLemmaIdentityShapeFor<LK, D>,
+	SurfaceLemmaIdentityShapeFor<LK, D>,
 	LemmaDescriptor["schema"],
 	SurfaceShape
 >;
@@ -38,7 +38,7 @@ type BuildSelectionSchemaCoreArgs<
 	SurfaceShape extends z.ZodRawShape,
 > = {
 	lemma: LemmaDescriptor;
-	lemmaIdentityShape: SelectionLemmaIdentityShapeFor<LK, D>;
+	lemmaIdentityShape: SurfaceLemmaIdentityShapeFor<LK, D>;
 	orthographicStatus?: OrthographicStatusLiteral;
 	spellingRelation?: SpellingRelation;
 	surfaceShape: SurfaceShape;
@@ -74,7 +74,7 @@ export function buildSelectionSchemaCore<
 		SurfaceShape
 	>;
 
-	const surface = buildSelectionSurfaceSchema({
+	const surface = buildSurfaceSchema({
 		lemma,
 		lemmaIdentityShape,
 		surfaceShape,

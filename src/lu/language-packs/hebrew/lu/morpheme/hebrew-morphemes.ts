@@ -1,6 +1,7 @@
 import type {
 	LemmaSchemaLanguageShape,
 	SelectionSchemaLanguageShape,
+	SurfaceSchemaLanguageShape,
 } from "../../../../registry-shapes";
 import { buildHebrewMorphemeBundle } from "./shared/build-hebrew-morpheme-bundle";
 
@@ -65,6 +66,20 @@ export const HebrewStandardLemmaMorphemeSelectionSchemas = {
 	ToneMarking: HebrewToneMarkingBundle.StandardLemmaSelectionSchema,
 	Transfix: HebrewTransfixBundle.StandardLemmaSelectionSchema,
 } satisfies SelectionSchemaLanguageShape["Standard"]["Lemma"]["Morpheme"];
+
+export const HebrewLemmaMorphemeSurfaceSchemas = {
+	Circumfix: HebrewCircumfixBundle.LemmaSurfaceSchema,
+	Clitic: HebrewCliticBundle.LemmaSurfaceSchema,
+	Duplifix: HebrewDuplifixBundle.LemmaSurfaceSchema,
+	Infix: HebrewInfixBundle.LemmaSurfaceSchema,
+	Interfix: HebrewInterfixBundle.LemmaSurfaceSchema,
+	Prefix: HebrewPrefixBundle.LemmaSurfaceSchema,
+	Root: HebrewRootBundle.LemmaSurfaceSchema,
+	Suffix: HebrewSuffixBundle.LemmaSurfaceSchema,
+	Suffixoid: HebrewSuffixoidBundle.LemmaSurfaceSchema,
+	ToneMarking: HebrewToneMarkingBundle.LemmaSurfaceSchema,
+	Transfix: HebrewTransfixBundle.LemmaSurfaceSchema,
+} satisfies SurfaceSchemaLanguageShape["Lemma"]["Morpheme"];
 
 export const HebrewTypoLemmaMorphemeSelectionSchemas = {
 	Circumfix: HebrewCircumfixBundle.TypoLemmaSelectionSchema,

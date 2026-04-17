@@ -1,8 +1,8 @@
 import { describe, expect, it } from "bun:test";
 import * as linguistics from "../../src";
 import {
-	type KnownSelection,
 	type DumlingIdValueFor,
+	type ObservedSelection,
 	type Selection,
 	type SupportedLang,
 	type UniversalLemmaKind,
@@ -29,22 +29,16 @@ type Equal<A, B> = (<T>() => T extends A ? 1 : 2) extends <T>() => T extends B
 
 type Assert<T extends true> = T;
 
-type _knownSelectionExcludesUnknown = Assert<
-	Equal<KnownSelection<"English">["orthographicStatus"], "Standard" | "Typo">
+type _selectionOnlyContainsHydratedStatuses = Assert<
+	Equal<Selection<"English">["orthographicStatus"], "Standard" | "Typo">
 >;
 
 type _selectionDecodeHelperStaysConcrete = Assert<
-	Equal<DumlingIdValueFor<"Selection", "English">, KnownSelection<"English">>
+	Equal<DumlingIdValueFor<"Selection", "English">, Selection<"English">>
 >;
 
-type _selectionStillIncludesUnknownOutsideDumlingIdApi = Assert<
-	Equal<
-		Extract<
-			Selection<"English">,
-			{ orthographicStatus: "Unknown" }
-		>["orthographicStatus"],
-		"Unknown"
-	>
+type _observedSelectionCarriesUnknownDiscriminant = Assert<
+	Equal<ObservedSelection<"English">["orthographicStatus"], "Unknown">
 >;
 
 type _supportedLangAliasMatchesTargetLanguage = Assert<
@@ -89,6 +83,7 @@ describe("public API usage", () => {
 		expect(
 			lingSchemaFor.Selection.English.Standard.Inflection.Lexeme.VERB,
 		).toBeDefined();
-		expect(lingSchemaFor.Surface.German.Standard.Lemma.Lexeme.NOUN).toBeDefined();
+		expect(lingSchemaFor.Surface.German.Lemma.Lexeme.NOUN).toBeDefined();
+		expect(lingSchemaFor.ObservedSelection.English).toBeDefined();
 	});
 });

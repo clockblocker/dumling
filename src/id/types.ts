@@ -4,11 +4,6 @@ import type { TargetLanguage } from "../lu/universal/enums/core/language";
 
 export type ConcreteDumlingIdKind = "Lemma" | "Selection" | "Surface";
 
-export type KnownSelection<L extends TargetLanguage = TargetLanguage> = Exclude<
-	Selection<L>,
-	{ orthographicStatus: "Unknown" }
->;
-
 export type DumlingId<
 	LIK extends ConcreteDumlingIdKind = ConcreteDumlingIdKind,
 	L extends TargetLanguage = TargetLanguage,
@@ -24,7 +19,7 @@ export type DumlingIdValueFor<
 > = LIK extends "Lemma"
 	? Lemma<L>
 	: LIK extends "Selection"
-		? KnownSelection<L>
+		? Selection<L>
 		: LIK extends "Surface"
 			? Surface<L>
 			: never;
@@ -48,7 +43,7 @@ export type DumlingIdDecodeError = {
 export type DumlingIdApiFor<L extends TargetLanguage> = {
 	makeDumlingIdFor: {
 		(value: Lemma<L>): DumlingId<"Lemma", L>;
-		(value: KnownSelection<L>): DumlingId<"Selection", L>;
+		(value: Selection<L>): DumlingId<"Selection", L>;
 		(value: Surface<L>): DumlingId<"Surface", L>;
 	};
 	tryToDecode: (
@@ -59,7 +54,7 @@ export type DumlingIdApiFor<L extends TargetLanguage> = {
 		(
 			kind: "Selection",
 			id: string,
-		): Result<KnownSelection<L>, DumlingIdDecodeError>;
+		): Result<Selection<L>, DumlingIdDecodeError>;
 		(
 			kind: "Surface",
 			id: string,

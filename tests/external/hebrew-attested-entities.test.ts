@@ -35,17 +35,17 @@ describe("Hebrew attested entities", () => {
 			).success,
 		).toBe(true);
 		expect(
-			lingSchemaFor.Surface.Hebrew.Standard.Inflection.Lexeme.VERB.safeParse(
+			lingSchemaFor.Surface.Hebrew.Inflection.Lexeme.VERB.safeParse(
 				hebrewKatvuInflectionSurface,
 			).success,
 		).toBe(true);
 		expect(
-			lingSchemaFor.Surface.Hebrew.Standard.Lemma.Lexeme.NOUN.safeParse(
+			lingSchemaFor.Surface.Hebrew.Lemma.Lexeme.NOUN.safeParse(
 				hebrewShanaLemmaSurface,
 			).success,
 		).toBe(true);
 		expect(
-			lingSchemaFor.Surface.Hebrew.Standard.Lemma.Lexeme.PROPN.safeParse(
+			lingSchemaFor.Surface.Hebrew.Lemma.Lexeme.PROPN.safeParse(
 				hebrewUsAbbreviationLemmaSurface,
 			).success,
 		).toBe(true);

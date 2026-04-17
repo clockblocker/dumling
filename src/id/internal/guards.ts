@@ -48,26 +48,17 @@ function unionLeafSchemas(value: unknown): z.ZodTypeAny {
 const runtimeSchemas = {
 	English: {
 		Lemma: unionLeafSchemas(LemmaSchema.English),
-		Selection: unionLeafSchemas({
-			Standard: SelectionSchema.English.Standard,
-			Typo: SelectionSchema.English.Typo,
-		}),
+		Selection: unionLeafSchemas(SelectionSchema.English),
 		Surface: unionLeafSchemas(SurfaceSchema.English),
 	},
 	German: {
 		Lemma: unionLeafSchemas(LemmaSchema.German),
-		Selection: unionLeafSchemas({
-			Standard: SelectionSchema.German.Standard,
-			Typo: SelectionSchema.German.Typo,
-		}),
+		Selection: unionLeafSchemas(SelectionSchema.German),
 		Surface: unionLeafSchemas(SurfaceSchema.German),
 	},
 	Hebrew: {
 		Lemma: unionLeafSchemas(LemmaSchema.Hebrew),
-		Selection: unionLeafSchemas({
-			Standard: SelectionSchema.Hebrew.Standard,
-			Typo: SelectionSchema.Hebrew.Typo,
-		}),
+		Selection: unionLeafSchemas(SelectionSchema.Hebrew),
 		Surface: unionLeafSchemas(SurfaceSchema.Hebrew),
 	},
 } satisfies {

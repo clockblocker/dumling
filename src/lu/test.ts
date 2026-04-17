@@ -2,13 +2,7 @@
 import type { Lemma, Selection, Surface } from "../index";
 
 type Test = Selection<"English", "Standard", "Inflection", "Lexeme", "ADJ">;
-type asdas = Surface<
-	"English",
-	"Standard",
-	"Inflection",
-	"Lexeme",
-	"ADJ"
->;
+type asdas = Surface<"English", "Inflection", "Lexeme", "ADJ">;
 
 type Test1 = Lemma<"German", "Phraseme", "Idiom">; // Pass auf dich auf
 //
@@ -24,11 +18,8 @@ const simpleWalkSelection = {
 	orthographicStatus: "Standard",
 	selectionCoverage: "Full",
 	spelledSelection: "walk",
+	spellingRelation: "Canonical",
 	surface: {
-		discriminators: {
-			lemmaKind: "Lexeme",
-			lemmaSubKind: "VERB",
-		},
 		inflectionalFeatures: {
 			tense: "Pres",
 			verbForm: "Fin",

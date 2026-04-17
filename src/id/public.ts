@@ -5,7 +5,6 @@ import type { DumlingIdApiFor } from "./types";
 
 export type {
 	ConcreteDumlingIdKind,
-	KnownSelection,
 	DumlingId,
 	DumlingIdDecodeError,
 	DumlingIdDecodeErrorCode,
@@ -17,7 +16,7 @@ export function lingIdApiForLanguage<L extends TargetLanguage>(
 ): DumlingIdApiFor<L> {
 	return {
 		makeDumlingIdFor: ((value) =>
-			encodeDumlingId(language, value)) as DumlingIdApiFor<L>["makeDumlingIdFor"],
+			encodeDumlingId(language, value as never)) as DumlingIdApiFor<L>["makeDumlingIdFor"],
 		tryToDecode: (id: string) => decodeDumlingId(language, id),
 		tryToDecodeAs: ((kind, id: string) =>
 			decodeDumlingIdAs(

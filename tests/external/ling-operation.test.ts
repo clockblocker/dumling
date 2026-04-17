@@ -1,5 +1,5 @@
 import { describe, expect, it } from "bun:test";
-import { dumling, type Selection } from "../../src";
+import { dumling, type ObservedSelection } from "../../src";
 import {
 	englishWalkLemma,
 	englishWalkLemmaSelection,
@@ -10,16 +10,17 @@ import {
 const { operation: lingOperation, schemaFor: lingSchemaFor } = dumling;
 
 describe("lingOperation", () => {
-	it("extracts null from unknown selections", () => {
+	it("keeps observed selections separate from hydrated extraction helpers", () => {
 		const unknownSelection = {
 			language: "English",
 			orthographicStatus: "Unknown",
 			spelledSelection: "walq",
-		} satisfies Selection<"English", "Unknown">;
+		} satisfies ObservedSelection<"English">;
 
 		expect(
-			lingOperation.extract.surface.fromSelection(unknownSelection),
-		).toBe(null);
+			lingSchemaFor.ObservedSelection.English.safeParse(unknownSelection)
+				.success,
+		).toBe(true);
 	});
 
 	it("extracts the exact surface from known selections", () => {
@@ -41,19 +42,14 @@ describe("lingOperation", () => {
 		const surface = lingOperation.convert.lemma.toSurface(lemma);
 
 		expect(surface).toEqual({
-			discriminators: {
-				lemmaKind: "Lexeme",
-				lemmaSubKind: "VERB",
-			},
 			language: "English",
 			normalizedFullSurface: "walk",
 			surfaceKind: "Lemma",
 			lemma: lemma,
 		});
 		expect(
-			lingSchemaFor.Surface.English.Standard.Lemma.Lexeme.VERB.safeParse(
-				surface,
-			).success,
+			lingSchemaFor.Surface.English.Lemma.Lexeme.VERB.safeParse(surface)
+				.success,
 		).toBe(true);
 	});
 
@@ -126,10 +122,6 @@ describe("lingOperation", () => {
 		const germanOps = lingOperation.forLanguage("German");
 
 		expect(germanOps.convert.lemma.toSurface(germanLemma)).toEqual({
-			discriminators: {
-				lemmaKind: "Lexeme",
-				lemmaSubKind: "NOUN",
-			},
 			language: "German",
 			normalizedFullSurface: "See",
 			surfaceKind: "Lemma",

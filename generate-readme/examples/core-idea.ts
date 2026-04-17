@@ -21,10 +21,6 @@ const giveUpLemma = {
 
 // README_BLOCK:story-gave-up-surface:start
 const gaveUpSurface = {
-	discriminators: {
-		lemmaKind: "Lexeme",
-		lemmaSubKind: "VERB",
-	},
 	inflectionalFeatures: {
 		tense: "Past",
 		verbForm: "Fin",
@@ -35,7 +31,6 @@ const gaveUpSurface = {
 	lemma: giveUpLemma,
 } satisfies Surface<
 	"English",
-	"Typo",
 	"Inflection",
 	"Lexeme",
 	"VERB"

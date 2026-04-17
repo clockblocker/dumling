@@ -26,18 +26,16 @@ export type SelectionSchemaLanguageShape = {
 			[LK in SupportedSelectionLemmaKindFor<SK>]: DiscriminatorSchemaShape<LK>;
 		};
 	};
-} & {
-	Unknown: z.ZodTypeAny;
 };
 
-type SurfaceSchemaLanguageShape = {
-	[OS in Exclude<OrthographicStatus, "Unknown">]: {
-		[SK in SupportedSelectionSurfaceKind]: {
-			[LK in SupportedSelectionLemmaKindFor<SK>]: DiscriminatorSchemaShape<LK>;
-		};
+export type SurfaceSchemaLanguageShape = {
+	[SK in SupportedSelectionSurfaceKind]: {
+		[LK in SupportedSelectionLemmaKindFor<SK>]: DiscriminatorSchemaShape<LK>;
 	};
 };
 
 export type LemmaSchemaLanguageShape = {
 	[LK in LemmaKind]: DiscriminatorSchemaShape<LK>;
 };
+
+export type ObservedSelectionSchemaLanguageShape = z.ZodTypeAny;

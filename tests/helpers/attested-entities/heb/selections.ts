@@ -1,4 +1,4 @@
-import type { KnownSelection, Selection } from "../../../../src";
+import type { Selection } from "../../../../src";
 import {
 	hebrewKatvuInflectionSurface,
 	hebrewShanaLemmaSurface,
@@ -13,7 +13,7 @@ export const hebrewKatvuStandardFullSelection = {
 	spelledSelection: "כתבו",
 	spellingRelation: "Canonical",
 	surface: hebrewKatvuInflectionSurface,
-} satisfies KnownSelection<"Hebrew">;
+} satisfies Selection<"Hebrew">;
 
 // Attestation: "עוד [שנה] עברה."
 export const hebrewShanaLemmaSelection = {
@@ -46,4 +46,4 @@ export const hebrewKatvuPointedVariantSelection = {
 		...hebrewKatvuInflectionSurface,
 		normalizedFullSurface: "כָּתְבוּ",
 	},
-} satisfies KnownSelection<"Hebrew">;
+} satisfies Selection<"Hebrew">;

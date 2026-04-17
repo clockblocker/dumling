@@ -200,16 +200,25 @@ function parseSurfacePayload(
 		inflectionalFeaturesToken,
 		lemmaPayload,
 	] = parts as [string, string, string, string, string, string];
+	const lemma = parseLemmaPayload(language, lemmaPayload);
+
+	if (lemma.lemmaKind !== lemmaKind) {
+		throw new Error("Surface payload lemma kind does not match nested lemma");
+	}
+
+	if (getLemmaSubKind(lemma) !== lemmaSubKind) {
+		throw new Error(
+			"Surface payload lemma subkind does not match nested lemma",
+		);
+	}
 
 	return {
 		...parseSurfaceCore(language, {
 			inflectionalFeaturesToken,
-			lemmaKind,
-			lemmaSubKind,
 			normalizedFullSurfaceToken,
 			surfaceKind,
 		}),
-		lemma: parseLemmaPayload(language, lemmaPayload),
+		lemma,
 	};
 }
 
@@ -217,23 +226,15 @@ function parseSurfaceCore(
 	language: TargetLanguage,
 	{
 		inflectionalFeaturesToken,
-		lemmaKind,
-		lemmaSubKind,
 		normalizedFullSurfaceToken,
 		surfaceKind,
 	}: {
 		inflectionalFeaturesToken: string;
-		lemmaKind: string;
-		lemmaSubKind: string;
 		normalizedFullSurfaceToken: string;
 		surfaceKind: string;
 	},
 ) {
 	return {
-		discriminators: {
-			lemmaKind,
-			lemmaSubKind,
-		},
 		...(surfaceKind === "Inflection"
 			? {
 					inflectionalFeatures: parseFeatureBag(
@@ -323,5 +324,16 @@ function parseLemmaPayload(language: TargetLanguage, body: string): Lemma {
 		}
 		default:
 			throw new Error(`Unsupported lemma kind in Dumling ID: ${lemmaKind}`);
+	}
+}
+
+function getLemmaSubKind(lemma: Lemma): string {
+	switch (lemma.lemmaKind) {
+		case "Lexeme":
+			return lemma.pos;
+		case "Morpheme":
+			return lemma.morphemeKind;
+		case "Phraseme":
+			return lemma.phrasemeKind;
 	}
 }

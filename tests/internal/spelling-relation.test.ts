@@ -69,7 +69,7 @@ describe("selection spelling relation", () => {
 	});
 
 	it("keeps unknown selections free of spelling metadata", () => {
-		const result = lingSchemaFor.Selection.English.Unknown.safeParse({
+		const result = lingSchemaFor.ObservedSelection.English.safeParse({
 			language: "English",
 			orthographicStatus: "Unknown",
 			spelledSelection: "colour",

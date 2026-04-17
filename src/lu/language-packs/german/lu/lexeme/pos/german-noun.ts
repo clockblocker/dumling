@@ -2,10 +2,12 @@ import z from "zod/v3";
 import { UniversalFeature } from "../../../../../universal/enums/feature";
 import { buildInflectionSelection } from "../../../../../universal/factories/buildInflectionSelection";
 import { buildLemmaSelection } from "../../../../../universal/factories/buildLemmaSelection";
+import { buildSurfaceSchema } from "../../../../../universal/factories/buildSurfaceSchema";
 import { defineLemmaSchemaDescriptor } from "../../../../../universal/factories/lemma-schema-descriptor";
 import type {
 	LemmaSchemaFor,
 	SelectionSchemaFor,
+	SurfaceSchemaFor,
 } from "../../../../../universal/helpers/schema-targets";
 import { featureSchema } from "../../../../../universal/helpers/schema-targets";
 import { MeaningInEmojisSchema } from "../../../../../universal/meaning-in-emojis";
@@ -45,6 +47,23 @@ const GermanNounLemmaSchema = GermanNounLemma.schema satisfies LemmaSchemaFor<
 	"NOUN"
 >;
 
+const GermanNounInflectionSurfaceSchema = buildSurfaceSchema({
+	lemma: GermanNounLemma,
+	lemmaIdentityShape: GermanNounLemmaIdentityShape,
+	surfaceShape: {
+		inflectionalFeatures: GermanNounInflectionalFeaturesSchema,
+		surfaceKind: z.literal("Inflection"),
+	},
+}).schema satisfies SurfaceSchemaFor<"Inflection", "Lexeme", "NOUN">;
+
+const GermanNounLemmaSurfaceSchema = buildSurfaceSchema({
+	lemma: GermanNounLemma,
+	lemmaIdentityShape: GermanNounLemmaIdentityShape,
+	surfaceShape: {
+		surfaceKind: z.literal("Lemma"),
+	},
+}).schema satisfies SurfaceSchemaFor<"Lemma", "Lexeme", "NOUN">;
+
 const GermanNounInflectionSelectionSchema = buildInflectionSelection({
 	inflectionalFeaturesSchema: GermanNounInflectionalFeaturesSchema,
 	lemma: GermanNounLemma,
@@ -71,8 +90,10 @@ const GermanNounTypoLemmaSelectionSchema = buildLemmaSelection({
 
 export const GermanNounSchemas = {
 	InflectionSelectionSchema: GermanNounInflectionSelectionSchema,
+	InflectionSurfaceSchema: GermanNounInflectionSurfaceSchema,
 	LemmaSchema: GermanNounLemmaSchema,
 	LemmaSelectionSchema: GermanNounLemmaSelectionSchema,
+	LemmaSurfaceSchema: GermanNounLemmaSurfaceSchema,
 	TypoInflectionSelectionSchema: GermanNounTypoInflectionSelectionSchema,
 	TypoLemmaSelectionSchema: GermanNounTypoLemmaSelectionSchema,
 };

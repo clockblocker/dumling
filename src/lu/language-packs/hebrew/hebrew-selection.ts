@@ -1,6 +1,9 @@
 import z from "zod/v3";
-import type { SelectionSchemaLanguageShape } from "../../registry-shapes";
-import type { SelectionSchemaFor } from "../../universal/helpers/schema-targets";
+import type {
+	ObservedSelectionSchemaLanguageShape,
+	SelectionSchemaLanguageShape,
+} from "../../registry-shapes";
+import type { ObservedSelectionSchemaFor } from "../../universal/helpers/schema-targets";
 import {
 	HebrewStandardInflectionLexemeSelectionSchemas,
 	HebrewStandardLemmaLexemeSelectionSchemas,
@@ -16,13 +19,13 @@ import {
 	HebrewTypoLemmaPhrasemeSelectionSchemas,
 } from "./lu/phraseme/hebrew-phrasemes";
 
-const HebrewUnknownSelectionSchema = z
+export const HebrewObservedSelectionSchema = z
 	.object({
 		language: z.literal("Hebrew"),
 		orthographicStatus: z.literal("Unknown"),
 		spelledSelection: z.string(),
 	})
-	.strict() satisfies SelectionSchemaFor<"Unknown">;
+	.strict() satisfies ObservedSelectionSchemaFor;
 
 export const HebrewSelectionSchema = {
 	Standard: {
@@ -45,5 +48,7 @@ export const HebrewSelectionSchema = {
 			Phraseme: HebrewTypoLemmaPhrasemeSelectionSchemas,
 		},
 	},
-	Unknown: HebrewUnknownSelectionSchema,
 } satisfies SelectionSchemaLanguageShape;
+
+const _hebrewObservedSelectionSchemaShapeCheck =
+	HebrewObservedSelectionSchema satisfies ObservedSelectionSchemaLanguageShape;

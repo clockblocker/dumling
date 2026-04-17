@@ -41,10 +41,6 @@ The `Surface` is the normalized full form that the note belongs to:
 
 ```ts
 const gaveUpSurface = {
-	discriminators: {
-		lemmaKind: "Lexeme",
-		lemmaSubKind: "VERB",
-	},
 	inflectionalFeatures: {
 		tense: "Past",
 		verbForm: "Fin",
@@ -55,7 +51,6 @@ const gaveUpSurface = {
 	lemma: giveUpLemma,
 } satisfies Surface<
 	"English",
-	"Typo",
 	"Inflection",
 	"Lexeme",
 	"VERB"

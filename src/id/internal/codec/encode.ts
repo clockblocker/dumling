@@ -1,10 +1,8 @@
-import type { Lemma, Surface } from "../../../lu/public-entities";
+import type { Lemma, Selection, Surface } from "../../../lu/public-entities";
 import type { TargetLanguage } from "../../../lu/universal/enums/core/language";
-import type { SpellingRelation } from "../../../lu/universal/enums/core/selection";
 import type {
 	ConcreteDumlingIdKind,
 	DumlingId,
-	KnownSelection,
 } from "../../types";
 import { getRuntimeSchema, isPlainObject } from "../guards";
 import type { ParsedFeatureBag, ParsedFeatureValue } from "../wire/feature-bag";
@@ -19,7 +17,7 @@ import { inferConcreteDumlingIdKind } from "./infer-kind";
 
 type EncodableValue<L extends TargetLanguage> =
 	| Lemma<L>
-	| KnownSelection<L>
+	| Selection<L>
 	| Surface<L>;
 
 export function encodeDumlingId<L extends TargetLanguage>(
@@ -28,7 +26,7 @@ export function encodeDumlingId<L extends TargetLanguage>(
 ): DumlingId<"Lemma", L>;
 export function encodeDumlingId<L extends TargetLanguage>(
 	language: L,
-	value: KnownSelection<L>,
+	value: Selection<L>,
 ): DumlingId<"Selection", L>;
 export function encodeDumlingId<L extends TargetLanguage>(
 	language: L,
@@ -84,25 +82,25 @@ function serializePayload(
 		case "Lemma":
 			return serializeLemmaPayload(value as Lemma);
 		case "Selection":
-			return serializeSelectionPayload(value as KnownSelection);
+			return serializeSelectionPayload(
+				value as import("../../../lu/public-entities").Selection,
+			);
 		case "Surface":
 			return serializeSurfacePayload(value as Surface);
 	}
 }
 
-function serializeSelectionPayload(value: KnownSelection): string {
+function serializeSelectionPayload(
+	value: Selection,
+): string {
 	return joinTokens([
 		value.orthographicStatus,
-		getSelectionSpellingRelation(value),
+		value.spellingRelation,
 		value.selectionCoverage,
 		escapeToken(value.spelledSelection),
 		encodeWireKind("Surface"),
 		serializeSurfacePayload(value.surface),
 	]);
-}
-
-function getSelectionSpellingRelation(value: KnownSelection): SpellingRelation {
-	return value.spellingRelation ?? "Canonical";
 }
 
 function serializeSurfacePayload(value: Surface): string {
@@ -116,8 +114,8 @@ function serializeSurfaceBase(value: Surface): string[] {
 	return [
 		escapeToken(value.normalizedFullSurface),
 		value.surfaceKind,
-		value.discriminators.lemmaKind,
-		value.discriminators.lemmaSubKind,
+		value.lemma.lemmaKind,
+		getLemmaSubKind(value.lemma),
 		value.surfaceKind === "Inflection"
 			? serializeFeatureBag(
 					(("inflectionalFeatures" in value

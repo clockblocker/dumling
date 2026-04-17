@@ -1,6 +1,7 @@
 import type {
 	LemmaSchemaLanguageShape,
 	SelectionSchemaLanguageShape,
+	SurfaceSchemaLanguageShape,
 } from "../../../../registry-shapes";
 import { EnglishAdjectiveSchemas } from "./pos/english-adjective";
 import { EnglishAdpositionSchemas } from "./pos/english-adposition";
@@ -60,6 +61,26 @@ export const EnglishStandardInflectionLexemeSelectionSchemas = {
 	X: EnglishOtherSchemas.InflectionSelectionSchema,
 } satisfies SelectionSchemaLanguageShape["Standard"]["Inflection"]["Lexeme"];
 
+export const EnglishInflectionLexemeSurfaceSchemas = {
+	ADJ: EnglishAdjectiveSchemas.InflectionSurfaceSchema,
+	ADP: EnglishAdpositionSchemas.InflectionSurfaceSchema,
+	ADV: EnglishAdverbSchemas.InflectionSurfaceSchema,
+	AUX: EnglishAuxiliarySchemas.InflectionSurfaceSchema,
+	CCONJ: EnglishCoordinatingConjunctionSchemas.InflectionSurfaceSchema,
+	DET: EnglishDeterminerSchemas.InflectionSurfaceSchema,
+	INTJ: EnglishInterjectionSchemas.InflectionSurfaceSchema,
+	NOUN: EnglishNounSchemas.InflectionSurfaceSchema,
+	NUM: EnglishNumeralSchemas.InflectionSurfaceSchema,
+	PART: EnglishParticleSchemas.InflectionSurfaceSchema,
+	PRON: EnglishPronounSchemas.InflectionSurfaceSchema,
+	PROPN: EnglishProperNounSchemas.InflectionSurfaceSchema,
+	PUNCT: EnglishPunctuationSchemas.InflectionSurfaceSchema,
+	SCONJ: EnglishSubordinatingConjunctionSchemas.InflectionSurfaceSchema,
+	SYM: EnglishSymbolSchemas.InflectionSurfaceSchema,
+	VERB: EnglishVerbSchemas.InflectionSurfaceSchema,
+	X: EnglishOtherSchemas.InflectionSurfaceSchema,
+} satisfies SurfaceSchemaLanguageShape["Inflection"]["Lexeme"];
+
 export const EnglishStandardLemmaLexemeSelectionSchemas = {
 	ADJ: EnglishAdjectiveSchemas.LemmaSelectionSchema,
 	ADP: EnglishAdpositionSchemas.LemmaSelectionSchema,
@@ -79,6 +100,26 @@ export const EnglishStandardLemmaLexemeSelectionSchemas = {
 	VERB: EnglishVerbSchemas.LemmaSelectionSchema,
 	X: EnglishOtherSchemas.LemmaSelectionSchema,
 } satisfies SelectionSchemaLanguageShape["Standard"]["Lemma"]["Lexeme"];
+
+export const EnglishLemmaLexemeSurfaceSchemas = {
+	ADJ: EnglishAdjectiveSchemas.LemmaSurfaceSchema,
+	ADP: EnglishAdpositionSchemas.LemmaSurfaceSchema,
+	ADV: EnglishAdverbSchemas.LemmaSurfaceSchema,
+	AUX: EnglishAuxiliarySchemas.LemmaSurfaceSchema,
+	CCONJ: EnglishCoordinatingConjunctionSchemas.LemmaSurfaceSchema,
+	DET: EnglishDeterminerSchemas.LemmaSurfaceSchema,
+	INTJ: EnglishInterjectionSchemas.LemmaSurfaceSchema,
+	NOUN: EnglishNounSchemas.LemmaSurfaceSchema,
+	NUM: EnglishNumeralSchemas.LemmaSurfaceSchema,
+	PART: EnglishParticleSchemas.LemmaSurfaceSchema,
+	PRON: EnglishPronounSchemas.LemmaSurfaceSchema,
+	PROPN: EnglishProperNounSchemas.LemmaSurfaceSchema,
+	PUNCT: EnglishPunctuationSchemas.LemmaSurfaceSchema,
+	SCONJ: EnglishSubordinatingConjunctionSchemas.LemmaSurfaceSchema,
+	SYM: EnglishSymbolSchemas.LemmaSurfaceSchema,
+	VERB: EnglishVerbSchemas.LemmaSurfaceSchema,
+	X: EnglishOtherSchemas.LemmaSurfaceSchema,
+} satisfies SurfaceSchemaLanguageShape["Lemma"]["Lexeme"];
 
 export const EnglishTypoInflectionLexemeSelectionSchemas = {
 	ADJ: EnglishAdjectiveSchemas.TypoInflectionSelectionSchema,

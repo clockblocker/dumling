@@ -1,6 +1,7 @@
 import type {
 	LemmaSchemaLanguageShape,
 	SelectionSchemaLanguageShape,
+	SurfaceSchemaLanguageShape,
 } from "../../../../registry-shapes";
 import { HebrewAdjectiveSchemas } from "./pos/hebrew-adjective";
 import { HebrewAdpositionSchemas } from "./pos/hebrew-adposition";
@@ -57,6 +58,25 @@ export const HebrewStandardInflectionLexemeSelectionSchemas = {
 	X: HebrewOtherSchemas.InflectionSelectionSchema,
 } satisfies SelectionSchemaLanguageShape["Standard"]["Inflection"]["Lexeme"];
 
+export const HebrewInflectionLexemeSurfaceSchemas = {
+	ADJ: HebrewAdjectiveSchemas.InflectionSurfaceSchema,
+	ADP: HebrewAdpositionSchemas.InflectionSurfaceSchema,
+	ADV: HebrewAdverbSchemas.InflectionSurfaceSchema,
+	AUX: HebrewAuxiliarySchemas.InflectionSurfaceSchema,
+	CCONJ: HebrewCoordinatingConjunctionSchemas.InflectionSurfaceSchema,
+	DET: HebrewDeterminerSchemas.InflectionSurfaceSchema,
+	INTJ: HebrewInterjectionSchemas.InflectionSurfaceSchema,
+	NOUN: HebrewNounSchemas.InflectionSurfaceSchema,
+	NUM: HebrewNumeralSchemas.InflectionSurfaceSchema,
+	PRON: HebrewPronounSchemas.InflectionSurfaceSchema,
+	PROPN: HebrewProperNounSchemas.InflectionSurfaceSchema,
+	PUNCT: HebrewPunctuationSchemas.InflectionSurfaceSchema,
+	SCONJ: HebrewSubordinatingConjunctionSchemas.InflectionSurfaceSchema,
+	SYM: HebrewSymbolSchemas.InflectionSurfaceSchema,
+	VERB: HebrewVerbSchemas.InflectionSurfaceSchema,
+	X: HebrewOtherSchemas.InflectionSurfaceSchema,
+} satisfies SurfaceSchemaLanguageShape["Inflection"]["Lexeme"];
+
 export const HebrewStandardLemmaLexemeSelectionSchemas = {
 	ADJ: HebrewAdjectiveSchemas.LemmaSelectionSchema,
 	ADP: HebrewAdpositionSchemas.LemmaSelectionSchema,
@@ -75,6 +95,25 @@ export const HebrewStandardLemmaLexemeSelectionSchemas = {
 	VERB: HebrewVerbSchemas.LemmaSelectionSchema,
 	X: HebrewOtherSchemas.LemmaSelectionSchema,
 } satisfies SelectionSchemaLanguageShape["Standard"]["Lemma"]["Lexeme"];
+
+export const HebrewLemmaLexemeSurfaceSchemas = {
+	ADJ: HebrewAdjectiveSchemas.LemmaSurfaceSchema,
+	ADP: HebrewAdpositionSchemas.LemmaSurfaceSchema,
+	ADV: HebrewAdverbSchemas.LemmaSurfaceSchema,
+	AUX: HebrewAuxiliarySchemas.LemmaSurfaceSchema,
+	CCONJ: HebrewCoordinatingConjunctionSchemas.LemmaSurfaceSchema,
+	DET: HebrewDeterminerSchemas.LemmaSurfaceSchema,
+	INTJ: HebrewInterjectionSchemas.LemmaSurfaceSchema,
+	NOUN: HebrewNounSchemas.LemmaSurfaceSchema,
+	NUM: HebrewNumeralSchemas.LemmaSurfaceSchema,
+	PRON: HebrewPronounSchemas.LemmaSurfaceSchema,
+	PROPN: HebrewProperNounSchemas.LemmaSurfaceSchema,
+	PUNCT: HebrewPunctuationSchemas.LemmaSurfaceSchema,
+	SCONJ: HebrewSubordinatingConjunctionSchemas.LemmaSurfaceSchema,
+	SYM: HebrewSymbolSchemas.LemmaSurfaceSchema,
+	VERB: HebrewVerbSchemas.LemmaSurfaceSchema,
+	X: HebrewOtherSchemas.LemmaSurfaceSchema,
+} satisfies SurfaceSchemaLanguageShape["Lemma"]["Lexeme"];
 
 export const HebrewTypoInflectionLexemeSelectionSchemas = {
 	ADJ: HebrewAdjectiveSchemas.TypoInflectionSelectionSchema,

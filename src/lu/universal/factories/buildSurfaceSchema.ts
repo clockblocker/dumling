@@ -12,11 +12,11 @@ type InferShape<Shape extends z.ZodRawShape> = {
 	[K in keyof Shape]: z.infer<Shape[K]>;
 };
 
-export type SelectionLemmaIdentityShape = z.ZodRawShape & {
+export type SurfaceLemmaIdentityShape = z.ZodRawShape & {
 	lemmaKind: z.ZodTypeAny;
 };
 
-export type SelectionLemmaIdentityShapeFor<
+export type SurfaceLemmaIdentityShapeFor<
 	LK extends LemmaKind,
 	D extends LemmaDiscriminatorFor<LK>,
 > = LK extends "Lexeme"
@@ -36,38 +36,29 @@ export type SelectionLemmaIdentityShapeFor<
 				}
 			: never;
 
-type InferredLemmaIdentityFor<Shape extends SelectionLemmaIdentityShape> =
+type InferredLemmaIdentityFor<Shape extends SurfaceLemmaIdentityShape> =
 	InferShape<Shape>;
 
-type LemmaSubKindKeyForValue<T extends { lemmaKind: unknown }> = Extract<
-	keyof T,
-	LemmaSubKindKey
->;
-
-export type SelectionSurfaceValueFor<
+export type SurfaceValueFor<
 	LanguageLiteral extends string,
 	LemmaIdentity extends { lemmaKind: unknown },
 	Lemma,
 	Surface,
 > = Prettify<
 	Surface & {
-		discriminators: {
-			lemmaKind: LemmaIdentity["lemmaKind"];
-			lemmaSubKind: LemmaIdentity[LemmaSubKindKeyForValue<LemmaIdentity>];
-		};
 		language: LanguageLiteral;
 		normalizedFullSurface: string;
 		lemma: Lemma;
 	}
 >;
 
-export type SelectionSurfaceSchemaFor<
+export type SurfaceSchemaFor<
 	LanguageLiteral extends string,
-	LemmaIdentityShape extends SelectionLemmaIdentityShape,
+	LemmaIdentityShape extends SurfaceLemmaIdentityShape,
 	LemmaSchema extends z.ZodTypeAny,
 	SurfaceShape extends z.ZodRawShape,
 > = z.ZodType<
-	SelectionSurfaceValueFor<
+	SurfaceValueFor<
 		LanguageLiteral,
 		InferredLemmaIdentityFor<LemmaIdentityShape>,
 		z.infer<LemmaSchema>,
@@ -75,13 +66,13 @@ export type SelectionSurfaceSchemaFor<
 	>
 >;
 
-type SelectionSurfaceSchemaDescriptorFor<
+type SurfaceSchemaDescriptorFor<
 	LemmaDescriptor extends LemmaSchemaDescriptor<z.ZodTypeAny>,
-	LemmaIdentityShape extends SelectionLemmaIdentityShape,
+	LemmaIdentityShape extends SurfaceLemmaIdentityShape,
 	SurfaceShape extends z.ZodRawShape,
 > = {
 	language: LemmaDescriptor["language"];
-	schema: SelectionSurfaceSchemaFor<
+	schema: SurfaceSchemaFor<
 		LemmaDescriptor["language"],
 		LemmaIdentityShape,
 		LemmaDescriptor["schema"],
@@ -89,9 +80,9 @@ type SelectionSurfaceSchemaDescriptorFor<
 	>;
 };
 
-export function buildSelectionSurfaceSchema<
+export function buildSurfaceSchema<
 	LemmaDescriptor extends LemmaSchemaDescriptor<z.ZodTypeAny>,
-	LemmaIdentityShape extends SelectionLemmaIdentityShape,
+	LemmaIdentityShape extends SurfaceLemmaIdentityShape,
 	SurfaceShape extends z.ZodRawShape,
 >({
 	lemma,
@@ -101,26 +92,17 @@ export function buildSelectionSurfaceSchema<
 	lemma: LemmaDescriptor;
 	lemmaIdentityShape: LemmaIdentityShape;
 	surfaceShape: SurfaceShape;
-}): SelectionSurfaceSchemaDescriptorFor<
+}): SurfaceSchemaDescriptorFor<
 	LemmaDescriptor,
 	LemmaIdentityShape,
 	SurfaceShape
 > {
 	const { language, schema: lemmaSchema } = lemma;
 	const lemmaSubKindKey = getLemmaSubKindKey(lemmaIdentityShape);
-	const lemmaSubKindSchema = lemmaIdentityShape[
-		lemmaSubKindKey
-	] as z.ZodTypeAny;
 
 	const schema = z
 		.object(surfaceShape)
 		.extend({
-			discriminators: z
-				.object({
-					lemmaKind: lemmaIdentityShape.lemmaKind,
-					lemmaSubKind: lemmaSubKindSchema,
-				})
-				.strict(),
 			language: z.literal(language),
 			normalizedFullSurface: z.string(),
 			lemma: lemmaSchema,
@@ -128,10 +110,6 @@ export function buildSelectionSurfaceSchema<
 		.strict()
 		.superRefine((surface, ctx) => {
 			const typedSurface = surface as {
-				discriminators: {
-					lemmaKind: unknown;
-					lemmaSubKind: unknown;
-				};
 				language: string;
 				lemma: Record<string, unknown>;
 			};
@@ -145,24 +123,28 @@ export function buildSelectionSurfaceSchema<
 				});
 			}
 
-			const lemmaSubKind = typedSurface.lemma[lemmaSubKindKey];
-
-			if (typedSurface.lemma.lemmaKind !== typedSurface.discriminators.lemmaKind) {
+			if (
+				typedSurface.lemma.lemmaKind !==
+				getLiteralValue(lemmaIdentityShape.lemmaKind)
+			) {
 				ctx.addIssue({
 					code: z.ZodIssueCode.custom,
-					message: "surface lemmaKind must match discriminators",
+					message: "surface lemmaKind must match surface kind schema",
 					path: ["lemma", "lemmaKind"],
 				});
 			}
 
-			if (lemmaSubKind !== typedSurface.discriminators.lemmaSubKind) {
+			if (
+				typedSurface.lemma[lemmaSubKindKey] !==
+				getLiteralValue(lemmaIdentityShape[lemmaSubKindKey] as z.ZodTypeAny)
+			) {
 				ctx.addIssue({
 					code: z.ZodIssueCode.custom,
-					message: "surface lemmaSubKind must match discriminators",
+					message: "surface lemma subkind must match surface kind schema",
 					path: ["lemma", lemmaSubKindKey],
 				});
 			}
-		}) as SelectionSurfaceSchemaFor<
+		}) as SurfaceSchemaFor<
 		LemmaDescriptor["language"],
 		LemmaIdentityShape,
 		LemmaDescriptor["schema"],
@@ -176,11 +158,12 @@ export function buildSelectionSurfaceSchema<
 }
 
 function getLemmaSubKindKey(
-	lemmaIdentityShape: SelectionLemmaIdentityShape,
+	lemmaIdentityShape: SurfaceLemmaIdentityShape,
 ): LemmaSubKindKey {
 	const matchingKeys = lemmaSubKindKeys.filter(
 		(key) => key in lemmaIdentityShape,
 	);
+
 	if (matchingKeys.length !== 1) {
 		throw new Error(
 			"lemmaIdentityShape must include exactly one of pos, morphemeKind, or phrasemeKind",
@@ -196,4 +179,8 @@ function getLemmaSubKindKey(
 	}
 
 	return matchingKey;
+}
+
+function getLiteralValue(schema: z.ZodTypeAny): unknown {
+	return (schema as z.ZodLiteral<unknown>)._def.value;
 }

@@ -1,8 +1,8 @@
 import { describe, expect, it } from "bun:test";
 import {
 	dumling,
-	type KnownSelection,
 	type Lemma,
+	type ObservedSelection,
 } from "../../../src";
 import {
 	englishGiveUpTypoPartialGvaeSelection,
@@ -55,11 +55,11 @@ describe("DumlingIdCodec", () => {
 			language: "English",
 			orthographicStatus: "Unknown",
 			spelledSelection: "wlk",
-		};
+		} satisfies ObservedSelection<"English">;
 
 		expect(() =>
 			DumlingIdCodec.English.makeDumlingIdFor(
-				unknownSelection as unknown as KnownSelection<"English">,
+				unknownSelection as never,
 			),
 		).toThrow("Unknown selections cannot be encoded as Dumling IDs");
 	});
@@ -92,15 +92,15 @@ describe("DumlingIdCodec", () => {
 		const left = {
 			...englishWalkInflectionSurface,
 			inflectionalFeatures: {
-				tense: "Pres",
-				verbForm: "Fin",
+				tense: "Pres" as const,
+				verbForm: "Fin" as const,
 			},
 		};
 		const right = {
 			...englishWalkInflectionSurface,
 			inflectionalFeatures: {
-				tense: "Pres",
-				verbForm: "Fin",
+				tense: "Pres" as const,
+				verbForm: "Fin" as const,
 			},
 		};
 

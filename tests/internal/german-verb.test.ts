@@ -5,9 +5,6 @@ import {
 import { GermanVerbSchemas } from "../../src/lu/language-packs/german/lu/lexeme/pos/german-verb";
 import { makeLexemeSurfaceReference } from "../helpers";
 
-const { schemaFor: lingSchemaFor } = dumling;
-const { Selection: SelectionSchema } = lingSchemaFor;
-
 describe("German verb schemas", () => {
 	it("accepts supported German verb inflectional features", () => {
 		const result = GermanVerbSchemas.InflectionSelectionSchema.safeParse({
@@ -15,6 +12,7 @@ describe("German verb schemas", () => {
 			orthographicStatus: "Standard",
 			selectionCoverage: "Full",
 			spelledSelection: "ging",
+			spellingRelation: "Canonical",
 			surface: {
 				...makeLexemeSurfaceReference("German", "VERB", "gehen"),
 				inflectionalFeatures: {
@@ -39,6 +37,7 @@ describe("German verb schemas", () => {
 			orthographicStatus: "Standard",
 			selectionCoverage: "Full",
 			spelledSelection: "gehend",
+			spellingRelation: "Canonical",
 			surface: {
 				...makeLexemeSurfaceReference("German", "VERB", "gehen"),
 				inflectionalFeatures: {
@@ -146,6 +145,7 @@ describe("German verb schemas", () => {
 				orthographicStatus: "Standard",
 				selectionCoverage: "Full",
 				spelledSelection: "gegangen",
+				spellingRelation: "Canonical",
 				surface: {
 					...makeLexemeSurfaceReference("German", "VERB", "gehen"),
 					inflectionalFeatures: {
@@ -181,6 +181,7 @@ describe("German verb schemas", () => {
 			orthographicStatus: "Standard",
 			selectionCoverage: "Partial",
 			spelledSelection: "gehen",
+			spellingRelation: "Canonical",
 			surface: {
 				...makeLexemeSurfaceReference("German", "VERB", "spazieren gehen"),
 				language: "German",
@@ -199,6 +200,7 @@ describe("German verb schemas", () => {
 				orthographicStatus: "Typo",
 				selectionCoverage: "Full",
 				spelledSelection: "geheh",
+				spellingRelation: "Canonical",
 				surface: {
 					...makeLexemeSurfaceReference("German", "VERB", "gehen"),
 					inflectionalFeatures: {
@@ -225,6 +227,7 @@ describe("German verb schemas", () => {
 				orthographicStatus: "Standard",
 				selectionCoverage: "Partial",
 				spelledSelection: "gehen",
+				spellingRelation: "Canonical",
 				surface: {
 					...makeLexemeSurfaceReference("German", "VERB", "spazieren gehen"),
 					language: "German",
@@ -241,6 +244,7 @@ describe("German verb schemas", () => {
 				orthographicStatus: "Typo",
 				selectionCoverage: "Partial",
 				spelledSelection: "geheh",
+				spellingRelation: "Canonical",
 				surface: {
 					...makeLexemeSurfaceReference("German", "VERB", "gehen"),
 					language: "German",
@@ -258,6 +262,7 @@ describe("German verb schemas", () => {
 				orthographicStatus: "Standard",
 				selectionCoverage: "Full",
 				spelledSelection: "geht",
+				spellingRelation: "Canonical",
 				surface: {
 					...makeLexemeSurfaceReference("German", "VERB", "gehen"),
 					inflectionalFeatures: {
@@ -281,6 +286,7 @@ describe("German verb schemas", () => {
 				orthographicStatus: "Standard",
 				selectionCoverage: "Full",
 				spelledSelection: "geh",
+				spellingRelation: "Canonical",
 				surface: {
 					...makeLexemeSurfaceReference("German", "VERB", "gehen"),
 					inflectionalFeatures: {
@@ -297,7 +303,7 @@ describe("German verb schemas", () => {
 	});
 
 	it("accepts unknown selections without a surface", () => {
-		const result = SelectionSchema.German.Unknown.safeParse({
+		const result = dumling.schemaFor.ObservedSelection.German.safeParse({
 			language: "German",
 			orthographicStatus: "Unknown",
 			spelledSelection: "unknown",

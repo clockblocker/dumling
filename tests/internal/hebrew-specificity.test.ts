@@ -28,11 +28,8 @@ describe("Hebrew schema specificity", () => {
 				orthographicStatus: "Standard",
 				selectionCoverage: "Full",
 				spelledSelection: "katvu",
+				spellingRelation: "Canonical",
 				surface: {
-					discriminators: {
-						lemmaKind: "Lexeme",
-						lemmaSubKind: "VERB",
-					},
 					inflectionalFeatures: {
 						number: "Plur",
 						person: "3",
@@ -52,11 +49,8 @@ describe("Hebrew schema specificity", () => {
 				orthographicStatus: "Standard",
 				selectionCoverage: "Full",
 				spelledSelection: "shnatayim",
+				spellingRelation: "Canonical",
 				surface: {
-					discriminators: {
-						lemmaKind: "Lexeme",
-						lemmaSubKind: "NOUN",
-					},
 					inflectionalFeatures: {
 						number: ["Dual", "Plur"],
 					},

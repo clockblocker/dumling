@@ -1,6 +1,9 @@
 import z from "zod/v3";
-import type { SelectionSchemaLanguageShape } from "../../registry-shapes";
-import type { SelectionSchemaFor } from "../../universal/helpers/schema-targets";
+import type {
+	ObservedSelectionSchemaLanguageShape,
+	SelectionSchemaLanguageShape,
+} from "../../registry-shapes";
+import type { ObservedSelectionSchemaFor } from "../../universal/helpers/schema-targets";
 import {
 	GermanStandardInflectionLexemeSelectionSchemas,
 	GermanStandardLemmaLexemeSelectionSchemas,
@@ -16,13 +19,13 @@ import {
 	GermanTypoLemmaPhrasemeSelectionSchemas,
 } from "./lu/phraseme/german-phrasemes";
 
-const GermanUnknownSelectionSchema = z
+export const GermanObservedSelectionSchema = z
 	.object({
 		language: z.literal("German"),
 		orthographicStatus: z.literal("Unknown"),
 		spelledSelection: z.string(),
 	})
-	.strict() satisfies SelectionSchemaFor<"Unknown">;
+	.strict() satisfies ObservedSelectionSchemaFor;
 
 export const GermanSelectionSchema = {
 	Standard: {
@@ -45,5 +48,7 @@ export const GermanSelectionSchema = {
 			Phraseme: GermanTypoLemmaPhrasemeSelectionSchemas,
 		},
 	},
-	Unknown: GermanUnknownSelectionSchema,
 } satisfies SelectionSchemaLanguageShape;
+
+const _germanObservedSelectionSchemaShapeCheck =
+	GermanObservedSelectionSchema satisfies ObservedSelectionSchemaLanguageShape;

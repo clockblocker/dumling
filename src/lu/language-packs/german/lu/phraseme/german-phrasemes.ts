@@ -1,6 +1,7 @@
 import type {
 	LemmaSchemaLanguageShape,
 	SelectionSchemaLanguageShape,
+	SurfaceSchemaLanguageShape,
 } from "../../../../registry-shapes";
 import { buildGermanPhrasemeBundle } from "./shared/build-german-phraseme-bundle";
 
@@ -30,6 +31,13 @@ export const GermanStandardLemmaPhrasemeSelectionSchemas = {
 	Idiom: GermanIdiomBundle.StandardLemmaSelectionSchema,
 	Proverb: GermanProverbBundle.StandardLemmaSelectionSchema,
 } satisfies SelectionSchemaLanguageShape["Standard"]["Lemma"]["Phraseme"];
+
+export const GermanLemmaPhrasemeSurfaceSchemas = {
+	Aphorism: GermanAphorismBundle.LemmaSurfaceSchema,
+	DiscourseFormula: GermanDiscourseFormulaBundle.LemmaSurfaceSchema,
+	Idiom: GermanIdiomBundle.LemmaSurfaceSchema,
+	Proverb: GermanProverbBundle.LemmaSurfaceSchema,
+} satisfies SurfaceSchemaLanguageShape["Lemma"]["Phraseme"];
 
 export const GermanTypoLemmaPhrasemeSelectionSchemas = {
 	Aphorism: GermanAphorismBundle.TypoLemmaSelectionSchema,

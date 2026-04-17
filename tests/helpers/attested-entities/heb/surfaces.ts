@@ -7,10 +7,6 @@ import {
 
 // Attestation: "הם [כתבו] מכתב."
 export const hebrewKatvuInflectionSurface = {
-	discriminators: {
-		lemmaKind: "Lexeme",
-		lemmaSubKind: "VERB",
-	},
 	inflectionalFeatures: {
 		number: "Plur",
 		person: "3",
@@ -22,7 +18,6 @@ export const hebrewKatvuInflectionSurface = {
 	lemma: hebrewKatavLemma,
 } satisfies Surface<
 	"Hebrew",
-	"Standard",
 	"Inflection",
 	"Lexeme",
 	"VERB"
@@ -30,24 +25,16 @@ export const hebrewKatvuInflectionSurface = {
 
 // Attestation: "עוד [שנה] עברה."
 export const hebrewShanaLemmaSurface = {
-	discriminators: {
-		lemmaKind: "Lexeme",
-		lemmaSubKind: "NOUN",
-	},
 	language: "Hebrew",
 	normalizedFullSurface: "שנה",
 	surfaceKind: "Lemma",
 	lemma: hebrewShanaLemma,
-} satisfies Surface<"Hebrew", "Standard", "Lemma", "Lexeme", "NOUN">;
+} satisfies Surface<"Hebrew", "Lemma", "Lexeme", "NOUN">;
 
 // Attestation: "[ארה״ב] הודיעה על צעד חדש."
 export const hebrewUsAbbreviationLemmaSurface = {
-	discriminators: {
-		lemmaKind: "Lexeme",
-		lemmaSubKind: "PROPN",
-	},
 	language: "Hebrew",
 	normalizedFullSurface: "ארה״ב",
 	surfaceKind: "Lemma",
 	lemma: hebrewUsAbbreviationLemma,
-} satisfies Surface<"Hebrew", "Standard", "Lemma", "Lexeme", "PROPN">;
+} satisfies Surface<"Hebrew", "Lemma", "Lexeme", "PROPN">;

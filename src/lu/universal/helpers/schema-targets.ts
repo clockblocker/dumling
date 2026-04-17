@@ -1,6 +1,9 @@
 import z from "zod/v3";
 import type { AbstractLemma } from "../abstract-lemma";
-import type { AbstractSelectionFor } from "../abstract-selection";
+import type {
+	AbstractObservedSelectionFor,
+	AbstractSelectionFor,
+} from "../abstract-selection";
 import type {
 	LemmaKind,
 	OrthographicStatus,
@@ -20,18 +23,40 @@ export type LemmaSchemaFor<
 > = z.ZodType<LemmaFor<LK, D>>;
 
 export type SelectionFor<
-	OS extends OrthographicStatus = OrthographicStatus,
+	OS extends Exclude<OrthographicStatus, "Unknown"> = Exclude<
+		OrthographicStatus,
+		"Unknown"
+	>,
 	SK extends SurfaceKind = SurfaceKind,
 	LK extends LemmaKind = LemmaKind,
 	D extends LemmaDiscriminatorFor<LK> = LemmaDiscriminatorFor<LK>,
 > = AbstractSelectionFor<OS, SK, LK, D>;
 
 export type SelectionSchemaFor<
-	OS extends OrthographicStatus = OrthographicStatus,
+	OS extends Exclude<OrthographicStatus, "Unknown"> = Exclude<
+		OrthographicStatus,
+		"Unknown"
+	>,
 	SK extends SurfaceKind = SurfaceKind,
 	LK extends LemmaKind = LemmaKind,
 	D extends LemmaDiscriminatorFor<LK> = LemmaDiscriminatorFor<LK>,
 > = z.ZodType<SelectionFor<OS, SK, LK, D>>;
+
+export type SurfaceFor<
+	SK extends SurfaceKind = SurfaceKind,
+	LK extends LemmaKind = LemmaKind,
+	D extends LemmaDiscriminatorFor<LK> = LemmaDiscriminatorFor<LK>,
+> = AbstractSelectionFor<"Standard", SK, LK, D>["surface"];
+
+export type SurfaceSchemaFor<
+	SK extends SurfaceKind = SurfaceKind,
+	LK extends LemmaKind = LemmaKind,
+	D extends LemmaDiscriminatorFor<LK> = LemmaDiscriminatorFor<LK>,
+> = z.ZodType<SurfaceFor<SK, LK, D>>;
+
+export type ObservedSelectionFor = AbstractObservedSelectionFor;
+
+export type ObservedSelectionSchemaFor = z.ZodType<ObservedSelectionFor>;
 
 type RestrictableFeatureSchemaShape = Partial<{
 	[K in keyof AbstractFeatures]: z.ZodTypeAny;

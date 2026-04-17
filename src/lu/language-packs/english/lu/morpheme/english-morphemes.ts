@@ -1,6 +1,7 @@
 import type {
 	LemmaSchemaLanguageShape,
 	SelectionSchemaLanguageShape,
+	SurfaceSchemaLanguageShape,
 } from "../../../../registry-shapes";
 import { buildEnglishMorphemeBundle } from "./shared/build-english-morpheme-bundle";
 
@@ -65,6 +66,20 @@ export const EnglishStandardLemmaMorphemeSelectionSchemas = {
 	ToneMarking: EnglishToneMarkingBundle.StandardLemmaSelectionSchema,
 	Transfix: EnglishTransfixBundle.StandardLemmaSelectionSchema,
 } satisfies SelectionSchemaLanguageShape["Standard"]["Lemma"]["Morpheme"];
+
+export const EnglishLemmaMorphemeSurfaceSchemas = {
+	Circumfix: EnglishCircumfixBundle.LemmaSurfaceSchema,
+	Clitic: EnglishCliticBundle.LemmaSurfaceSchema,
+	Duplifix: EnglishDuplifixBundle.LemmaSurfaceSchema,
+	Infix: EnglishInfixBundle.LemmaSurfaceSchema,
+	Interfix: EnglishInterfixBundle.LemmaSurfaceSchema,
+	Prefix: EnglishPrefixBundle.LemmaSurfaceSchema,
+	Root: EnglishRootBundle.LemmaSurfaceSchema,
+	Suffix: EnglishSuffixBundle.LemmaSurfaceSchema,
+	Suffixoid: EnglishSuffixoidBundle.LemmaSurfaceSchema,
+	ToneMarking: EnglishToneMarkingBundle.LemmaSurfaceSchema,
+	Transfix: EnglishTransfixBundle.LemmaSurfaceSchema,
+} satisfies SurfaceSchemaLanguageShape["Lemma"]["Morpheme"];
 
 export const EnglishTypoLemmaMorphemeSelectionSchemas = {
 	Circumfix: EnglishCircumfixBundle.TypoLemmaSelectionSchema,

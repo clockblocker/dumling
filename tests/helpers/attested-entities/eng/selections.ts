@@ -1,4 +1,4 @@
-import type { KnownSelection, Selection } from "../../../../src";
+import type { Selection } from "../../../../src";
 import {
 	englishGiveUpTypoInflectionSurface,
 	englishWalkInflectionSurface,
@@ -13,7 +13,7 @@ export const englishWalkStandardFullSelection = {
 	spelledSelection: "walk",
 	spellingRelation: "Canonical",
 	surface: englishWalkInflectionSurface,
-} satisfies KnownSelection<"English">;
+} satisfies Selection<"English">;
 
 // Attestation: "They [walk] home together."
 export const englishWalkLemmaSelection = {

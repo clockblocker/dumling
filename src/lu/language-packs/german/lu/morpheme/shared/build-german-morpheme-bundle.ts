@@ -1,7 +1,8 @@
 import z from "zod/v3";
 import { UniversalFeature } from "../../../../../universal/enums/feature";
 import type { MorphemeKind } from "../../../../../universal/enums/kind/morpheme-kind";
-import { buildLemmaSelection } from "../../../../../universal/factories/buildLemmaSelection";
+import { buildKnownSelectionSchema } from "../../../../../universal/factories/buildKnownSelection";
+import { buildSurfaceSchema } from "../../../../../universal/factories/buildSurfaceSchema";
 import { defineLemmaSchemaDescriptor } from "../../../../../universal/factories/lemma-schema-descriptor";
 import { MeaningInEmojisSchema } from "../../../../../universal/meaning-in-emojis";
 import { MorphemeCanonicalLemmaSchema } from "../../../../../universal/morpheme-canonical-lemma";
@@ -32,17 +33,24 @@ export function buildGermanMorphemeBundle<MK extends MorphemeKind>({
 			})
 			.strict(),
 	});
+	const lemmaSurface = buildSurfaceSchema({
+		lemma,
+		lemmaIdentityShape,
+		surfaceShape: {
+			surfaceKind: z.literal("Lemma"),
+		},
+	});
 
 	return {
 		LemmaSchema: lemma.schema,
-		StandardLemmaSelectionSchema: buildLemmaSelection({
-			lemma,
-			lemmaIdentityShape,
+		LemmaSurfaceSchema: lemmaSurface.schema,
+		StandardLemmaSelectionSchema: buildKnownSelectionSchema({
+			orthographicStatus: "Standard",
+			surface: lemmaSurface,
 		}),
-		TypoLemmaSelectionSchema: buildLemmaSelection({
-			lemma,
-			lemmaIdentityShape,
+		TypoLemmaSelectionSchema: buildKnownSelectionSchema({
 			orthographicStatus: "Typo",
+			surface: lemmaSurface,
 		}),
 	};
 }

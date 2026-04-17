@@ -1,7 +1,8 @@
 import z from "zod/v3";
 import { UniversalFeature } from "../../../../../universal/enums/feature";
 import type { PhrasemeKind } from "../../../../../universal/enums/kind/phraseme-kind";
-import { buildLemmaSelection } from "../../../../../universal/factories/buildLemmaSelection";
+import { buildKnownSelectionSchema } from "../../../../../universal/factories/buildKnownSelection";
+import { buildSurfaceSchema } from "../../../../../universal/factories/buildSurfaceSchema";
 import { defineLemmaSchemaDescriptor } from "../../../../../universal/factories/lemma-schema-descriptor";
 import { MeaningInEmojisSchema } from "../../../../../universal/meaning-in-emojis";
 
@@ -49,17 +50,24 @@ export function buildGermanPhrasemeBundle<PK extends PhrasemeKind>({
 		phrasemeKind: z.literal(phrasemeKind),
 	} satisfies z.ZodRawShape;
 	const lemma = buildPhrasemeLemmaDescriptor(phrasemeKind);
+	const lemmaSurface = buildSurfaceSchema({
+		lemma,
+		lemmaIdentityShape,
+		surfaceShape: {
+			surfaceKind: z.literal("Lemma"),
+		},
+	});
 
 	return {
 		LemmaSchema: lemma.schema,
-		StandardLemmaSelectionSchema: buildLemmaSelection({
-			lemma,
-			lemmaIdentityShape,
+		LemmaSurfaceSchema: lemmaSurface.schema,
+		StandardLemmaSelectionSchema: buildKnownSelectionSchema({
+			orthographicStatus: "Standard",
+			surface: lemmaSurface,
 		}),
-		TypoLemmaSelectionSchema: buildLemmaSelection({
-			lemma,
-			lemmaIdentityShape,
+		TypoLemmaSelectionSchema: buildKnownSelectionSchema({
 			orthographicStatus: "Typo",
+			surface: lemmaSurface,
 		}),
 	};
 }

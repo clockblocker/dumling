@@ -98,11 +98,8 @@ describe("German noun schemas", () => {
 				orthographicStatus: "Standard",
 				selectionCoverage: "Full",
 				spelledSelection: "Haus",
+				spellingRelation: "Canonical",
 				surface: {
-					discriminators: {
-						lemmaKind: "Lexeme",
-						lemmaSubKind: "NOUN",
-					},
 					language: "German",
 					normalizedFullSurface: "Haus",
 					surfaceKind: "Lemma",
@@ -142,6 +139,7 @@ describe("German noun schemas", () => {
 			orthographicStatus: "Standard",
 			selectionCoverage: "Partial",
 			spelledSelection: "Bahnhof",
+			spellingRelation: "Canonical",
 			surface: {
 				...makeLexemeSurfaceReference("German", "NOUN", "Hauptbahnhof"),
 				language: "German",
@@ -160,6 +158,7 @@ describe("German noun schemas", () => {
 				orthographicStatus: "Typo",
 				selectionCoverage: "Full",
 				spelledSelection: "Hun des",
+				spellingRelation: "Canonical",
 				surface: {
 					...makeLexemeSurfaceReference("German", "NOUN", "Hund"),
 					inflectionalFeatures: {
@@ -181,6 +180,7 @@ describe("German noun schemas", () => {
 			orthographicStatus: "Standard",
 			selectionCoverage: "Full",
 			spelledSelection: "Haus",
+			spellingRelation: "Canonical",
 			surface: {
 				...makeLexemeSurfaceReference("German", "NOUN", "Haus"),
 				language: "German",
@@ -193,11 +193,8 @@ describe("German noun schemas", () => {
 			orthographicStatus: "Standard",
 			selectionCoverage: "Full",
 			spelledSelection: "Haus",
+			spellingRelation: "Canonical",
 			surface: {
-				discriminators: {
-					lemmaKind: "Lexeme",
-					lemmaSubKind: "NOUN",
-				},
 				language: "German",
 				normalizedFullSurface: "Haus",
 				surfaceKind: "Lemma",
@@ -217,11 +214,8 @@ describe("German noun schemas", () => {
 			orthographicStatus: "Standard",
 			selectionCoverage: "Full",
 			spelledSelection: "Haus",
+			spellingRelation: "Canonical",
 			surface: {
-				discriminators: {
-					lemmaKind: "Lexeme",
-					lemmaSubKind: "NOUN",
-				},
 				language: "German",
 				normalizedFullSurface: "Haus",
 				surfaceKind: "Lemma",
@@ -236,11 +230,8 @@ describe("German noun schemas", () => {
 			orthographicStatus: "Standard",
 			selectionCoverage: "Full",
 			spelledSelection: "Haus",
+			spellingRelation: "Canonical",
 			surface: {
-				discriminators: {
-					lemmaKind: "Lexeme",
-					lemmaSubKind: "NOUN",
-				},
 				language: "German",
 				normalizedFullSurface: "Haus",
 				surfaceKind: "Lemma",
@@ -258,11 +249,8 @@ describe("German noun schemas", () => {
 			orthographicStatus: "Standard",
 			selectionCoverage: "Full",
 			spelledSelection: "Haus",
+			spellingRelation: "Canonical",
 			surface: {
-				discriminators: {
-					lemmaKind: "Lexeme",
-					lemmaSubKind: "NOUN",
-				},
 				language: "German",
 				normalizedFullSurface: "Haus",
 				surfaceKind: "Lemma",
@@ -289,6 +277,7 @@ describe("German noun schemas", () => {
 				orthographicStatus: "Standard",
 				selectionCoverage: "Full",
 				spelledSelection: "Haus",
+				spellingRelation: "Canonical",
 				surface: {
 					...makeLexemeSurfaceReference("German", "NOUN", "Haus"),
 					language: "German",
@@ -305,11 +294,8 @@ describe("German noun schemas", () => {
 			orthographicStatus: "Standard",
 			selectionCoverage: "Full",
 			spelledSelection: "Haus",
+			spellingRelation: "Canonical",
 			surface: {
-				discriminators: {
-					lemmaKind: "Lexeme",
-					lemmaSubKind: "NOUN",
-				},
 				language: "German",
 				normalizedFullSurface: "Haus",
 				surfaceKind: "Lemma",
@@ -321,6 +307,7 @@ describe("German noun schemas", () => {
 				orthographicStatus: "Standard",
 				selectionCoverage: "Full",
 				spelledSelection: "Haus",
+				spellingRelation: "Canonical",
 				surface: {
 					...makeLexemeSurfaceReference("German", "NOUN", "Haus"),
 					inflectionalFeatures: {

@@ -1,6 +1,6 @@
 import { getOperationPack } from "./internal/operations/operation-pack-registry";
 import {
-	type KnownSelectionLikeFor,
+	type HydratedSelectionLikeFor,
 	type LemmaLike,
 	type LemmaOfSurface,
 	type LemmaSurfaceFor,
@@ -8,18 +8,15 @@ import {
 	type StandardFullSelectionForSurface,
 	type SurfaceLike,
 	type SurfaceOfSelection,
-	type UnknownSelectionLikeFor,
 	assertLanguageMatch,
-	getLemmaDiscriminators,
 } from "./internal/operations/shared";
 import type { TargetLanguage } from "./universal/enums/core/language";
 
-export const extractSurfaceFromSelection = ((
-	selection: UnknownSelectionLikeFor | KnownSelectionLikeFor,
-) =>
-	selection.orthographicStatus === "Unknown"
-		? null
-		: selection.surface) as ExtractSurfaceFromSelectionFn;
+export const extractSurfaceFromSelection = (<
+	S extends HydratedSelectionLikeFor,
+>(
+	selection: S,
+) => selection.surface as SurfaceOfSelection<S>) as ExtractSurfaceFromSelectionFn;
 
 export const extractLemmaFromSurface = ((surface: SurfaceLike) =>
 	surface.lemma) as ExtractLemmaFromSurfaceFn;
@@ -28,7 +25,6 @@ export const toSurface = ((lemma: LemmaLike) => {
 	const operationPack = getOperationPack(lemma.language);
 
 	return {
-		discriminators: getLemmaDiscriminators(lemma),
 		language: lemma.language,
 		normalizedFullSurface: operationPack.normalizeLemmaSurface(lemma),
 		surfaceKind: "Lemma",
@@ -97,20 +93,12 @@ export function operationForLanguage<L extends TargetLanguage>(language: L) {
 		return extractLemmaFromSurface(surface);
 	}
 
-	function boundExtractSurfaceFromSelection(
-		selection: UnknownSelectionLikeFor<L>,
-	): null;
 	function boundExtractSurfaceFromSelection<
-		S extends KnownSelectionLikeFor<L>,
-	>(selection: S): SurfaceOfSelection<S>;
-	function boundExtractSurfaceFromSelection(
-		selection: UnknownSelectionLikeFor<L> | KnownSelectionLikeFor<L>,
-	) {
+		S extends HydratedSelectionLikeFor<L>,
+	>(selection: S): SurfaceOfSelection<S> {
 		assertLanguageMatch(language, selection.language);
 
-		return selection.orthographicStatus === "Unknown"
-			? null
-			: selection.surface;
+		return selection.surface as SurfaceOfSelection<S>;
 	}
 
 	const api = {
@@ -142,12 +130,7 @@ type StandardFullSelectionOptions = {
 };
 
 type ExtractSurfaceFromSelectionFn<L extends TargetLanguage = TargetLanguage> =
-	{
-		(selection: UnknownSelectionLikeFor<L>): null;
-		<S extends KnownSelectionLikeFor<L>>(
-			selection: S,
-		): SurfaceOfSelection<S>;
-	};
+	<S extends HydratedSelectionLikeFor<L>>(selection: S) => SurfaceOfSelection<S>;
 
 type ExtractLemmaFromSurfaceFn<L extends TargetLanguage = TargetLanguage> = {
 	<S extends SurfaceLike<L>>(surface: S): LemmaOfSurface<S>;
