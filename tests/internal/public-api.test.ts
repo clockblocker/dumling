@@ -4,8 +4,16 @@ import {
 	type KnownSelection,
 	type DumlingIdValueFor,
 	type Selection,
+	type SupportedLang,
+	type UniversalLemmaKind,
+	type UniversalLemmaSubKind,
 	dumling,
 } from "../../src";
+import type { TargetLanguage } from "../../src/lu/universal/enums/core/language";
+import type { LemmaKind } from "../../src/lu/universal/enums/core/selection";
+import type { MorphemeKind } from "../../src/lu/universal/enums/kind/morpheme-kind";
+import type { PhrasemeKind } from "../../src/lu/universal/enums/kind/phraseme-kind";
+import type { Pos } from "../../src/lu/universal/enums/kind/pos";
 
 const {
 	idCodec: DumlingIdCodec,
@@ -37,6 +45,18 @@ type _selectionStillIncludesUnknownOutsideDumlingIdApi = Assert<
 		>["orthographicStatus"],
 		"Unknown"
 	>
+>;
+
+type _supportedLangAliasMatchesTargetLanguage = Assert<
+	Equal<SupportedLang, TargetLanguage>
+>;
+
+type _universalLemmaKindAliasMatchesInternalKind = Assert<
+	Equal<UniversalLemmaKind, LemmaKind>
+>;
+
+type _universalLemmaSubKindIsFlattenedUniversalUnion = Assert<
+	Equal<UniversalLemmaSubKind, Pos | MorphemeKind | PhrasemeKind>
 >;
 
 describe("public API usage", () => {

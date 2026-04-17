@@ -1,6 +1,6 @@
 {
 	"name": "dumling",
-	"version": "0.1.0",
+	"version": "0.1.1",
 	"description": "Typesafe schemas and operations for learner-facing linguistic segmentation.",
 	"type": "module",
 	"packageManager": "bun@1.3.0",

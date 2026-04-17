@@ -16,7 +16,9 @@ import {
 	toStandardFullSelectionFromLemma,
 	unresolveSurface,
 } from "./lu/public-operations";
+import type { LemmaKind } from "./lu/universal/enums/core/selection";
 import type { TargetLanguage } from "./lu/universal/enums/core/language";
+import type { LemmaDiscriminatorFor } from "./lu/universal/lemma-discriminator";
 
 type SchemaForApi = {
 	readonly Lemma: typeof LemmaSchema;
@@ -114,6 +116,11 @@ export const dumling: DumlingApi = {
 	operation,
 	schemaFor,
 };
+
+export type SupportedLang = TargetLanguage;
+export type UniversalLemmaKind = LemmaKind;
+export type UniversalLemmaSubKind =
+	LemmaDiscriminatorFor<UniversalLemmaKind>;
 
 export type {
 	ConcreteDumlingIdKind,
