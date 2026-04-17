@@ -2,7 +2,7 @@
 
 # `dumling`
 
-Typesafe schemas, types, IDs, and operations for learner-facing linguistic annotation.
+`dumling` is a TypeScript and Zod package for learner-facing linguistic annotation. It models linked `lemma`, `surface`, and `selection` DTOs and generates stable `IDs` for each layer.
 
 `dumling` keeps three linked DTOs separate:
 
@@ -11,6 +11,16 @@ Typesafe schemas, types, IDs, and operations for learner-facing linguistic annot
 - `Selection`: the exact text the learner highlighted
 
 It currently ships curated registries for `English`, `German`, and `Hebrew`.
+
+## Entrypoints
+
+| Import path | Purpose |
+| --- | --- |
+| `dumling` | Root convenience exports: `dumling`, `idCodec`, `operation` |
+| `dumling/id` | Language-scoped ID encoders, decoders, and ID result types |
+| `dumling/operation` | Convert and extract helpers as named exports |
+| `dumling/schema` | Runtime Zod schema registries grouped by entity kind |
+| `dumling/entities` | Public DTO types for lemmas, surfaces, and selections |
 
 ## Core idea
 
@@ -81,13 +91,13 @@ In this example:
 As IDs, those same three objects become:
 
 ```ts
-const giveUpLemmaId = dumling.idCodec.English.makeDumlingIdFor(giveUpLemma);
+const giveUpLemmaId = idCodec.English.makeDumlingIdFor(giveUpLemma);
 // "ling:v1:EN:LEM;give up;Lexeme;VERB;phrasal=Yes;🏳️"
 
-const gaveUpSurfaceId = dumling.idCodec.English.makeDumlingIdFor(gaveUpSurface);
+const gaveUpSurfaceId = idCodec.English.makeDumlingIdFor(gaveUpSurface);
 // "ling:v1:EN:SURF;gave up;Inflection;Lexeme;VERB;tense=Past,verbForm=Fin;give up;Lexeme;VERB;phrasal=Yes;🏳️"
 
-const gvaeSelectionId = dumling.idCodec.English.makeDumlingIdFor(gvaeSelection);
+const gvaeSelectionId = idCodec.English.makeDumlingIdFor(gvaeSelection);
 // "ling:v1:EN:SEL;Typo;Canonical;Partial;gvae;SURF;gave up;Inflection;Lexeme;VERB;tense=Past,verbForm=Fin;give up;Lexeme;VERB;phrasal=Yes;🏳️"
 ```
 
@@ -101,9 +111,13 @@ Install the package:
 npm install dumling
 ```
 
-Minimal end-to-end usage from the public root API:
+Minimal end-to-end usage with named exports and subpath imports:
 
 ```ts
+import { idCodec, operation } from "dumling";
+import type { Lemma } from "dumling/entities";
+import { schemaFor } from "dumling/schema";
+
 const walkLemma = {
 	canonicalLemma: "walk",
 	inherentFeatures: {},
@@ -113,26 +127,43 @@ const walkLemma = {
 	pos: "VERB",
 } satisfies Lemma<"English", "Lexeme", "VERB">;
 
-const walkSurface = dumling.operation.convert.lemma.toSurface(walkLemma);
+const walkSurface = operation.convert.lemma.toSurface(walkLemma);
 
-const walkSelection =
-	dumling.operation.convert.surface.toStandardFullSelection(walkSurface, {
+const walkSelection = operation.convert.surface.toStandardFullSelection(
+	walkSurface,
+	{
 		spelledSelection: "walk",
-	});
+	},
+);
 
-const walkSelectionId = dumling.idCodec.English.makeDumlingIdFor(walkSelection);
+const walkSelectionId = idCodec.English.makeDumlingIdFor(walkSelection);
 
 const parsedWalkSelection =
-	dumling.schemaFor.Selection.English.Standard.Lemma.Lexeme.VERB.parse(
-		walkSelection,
-	);
+	schemaFor.Selection.English.Standard.Lemma.Lexeme.VERB.parse(walkSelection);
 ```
 
 The root export is intentionally small:
 
-- `dumling.schemaFor`: Zod schema registries by language and entity kind
-- `dumling.operation`: convert and extract helpers
-- `dumling.idCodec`: stable IDs for lemmas, surfaces, and selections
+- `dumling`: convenience namespace for `idCodec` and `operation`
+- `idCodec`: stable IDs for lemmas, surfaces, and selections
+- `operation`: convert and extract helpers
+
+Use explicit subpaths for heavier public surfaces:
+
+- `dumling/schema`: Zod schema registries by language and entity kind
+- `dumling/entities`: DTO types for lemmas, surfaces, and selections
+
+## Concepts / Search Terms
+
+People often look for this package using adjacent terms:
+
+- linguistic annotation
+- learner annotation
+- lemma and inflection modeling
+- surface form normalization
+- selection DTOs
+- Zod schema registries
+- stable linguistic IDs
 
 ## Model notes
 

@@ -1,5 +1,6 @@
 import { describe, expect, it } from "bun:test";
-import { dumling, type Lemma } from "../../src";
+import type { Lemma } from "../../src/entities";
+import { schemaFor } from "../../src/schema";
 import { GermanNounSchemas } from "../../src/lu/language-packs/german/lu/lexeme/pos/german-noun";
 import {
 	germanHausLemma,
@@ -7,8 +8,7 @@ import {
 	makeLexemeSurfaceReference,
 } from "../helpers";
 
-const { schemaFor: lingSchemaFor } = dumling;
-const { Lemma: LemmaSchema, Selection: SelectionSchema } = lingSchemaFor;
+const { Lemma: LemmaSchema, Selection: SelectionSchema } = schemaFor;
 
 describe("German noun schemas", () => {
 	it("exposes inferred lemma types from the registry", () => {

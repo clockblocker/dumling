@@ -1,9 +1,8 @@
 import { describe, expect, it } from "bun:test";
 import {
 	dumling,
-	type Lemma,
-	type ObservedSelection,
 } from "../../../src";
+import type { Lemma, ObservedSelection } from "../../../src/entities";
 import {
 	englishGiveUpTypoPartialGvaeSelection,
 	englishGiveUpTypoPartialUpSelection,

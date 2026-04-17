@@ -1,4 +1,5 @@
 dist
+.types-temp
 node_modules
 .npm-cache
 coverage

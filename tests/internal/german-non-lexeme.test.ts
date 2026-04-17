@@ -1,5 +1,6 @@
 import { describe, expect, it } from "bun:test";
-import { dumling, type Lemma, type Selection } from "../../src";
+import type { Lemma, Selection } from "../../src/entities";
+import { schemaFor } from "../../src/schema";
 import { GermanMorphemeLemmaSchemas } from "../../src/lu/language-packs/german/lu/morpheme/german-morphemes";
 import { GermanPhrasemeLemmaSchemas } from "../../src/lu/language-packs/german/lu/phraseme/german-phrasemes";
 import {
@@ -8,8 +9,7 @@ import {
 	germanAufJedenFallPartialSelection,
 } from "../helpers";
 
-const { schemaFor: lingSchemaFor } = dumling;
-const { Lemma: LemmaSchema, Selection: SelectionSchema } = lingSchemaFor;
+const { Lemma: LemmaSchema, Selection: SelectionSchema } = schemaFor;
 
 describe("German non-lexeme schemas", () => {
 	it("exposes inferred morpheme and phraseme lemma types from the registry", () => {

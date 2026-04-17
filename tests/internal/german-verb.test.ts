@@ -1,7 +1,5 @@
 import { describe, expect, it } from "bun:test";
-import {
-	dumling,
-} from "../../src";
+import { schemaFor } from "../../src/schema";
 import { GermanVerbSchemas } from "../../src/lu/language-packs/german/lu/lexeme/pos/german-verb";
 import { makeLexemeSurfaceReference } from "../helpers";
 
@@ -303,7 +301,7 @@ describe("German verb schemas", () => {
 	});
 
 	it("accepts unknown selections without a surface", () => {
-		const result = dumling.schemaFor.ObservedSelection.German.safeParse({
+		const result = schemaFor.ObservedSelection.German.safeParse({
 			language: "German",
 			orthographicStatus: "Unknown",
 			spelledSelection: "unknown",

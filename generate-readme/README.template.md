@@ -1,6 +1,6 @@
 # `dumling`
 
-Typesafe schemas, types, IDs, and operations for learner-facing linguistic annotation.
+`dumling` is a TypeScript and Zod package for learner-facing linguistic annotation. It models linked `lemma`, `surface`, and `selection` DTOs and generates stable `IDs` for each layer.
 
 `dumling` keeps three linked DTOs separate:
 
@@ -9,6 +9,16 @@ Typesafe schemas, types, IDs, and operations for learner-facing linguistic annot
 - `Selection`: the exact text the learner highlighted
 
 It currently ships curated registries for `English`, `German`, and `Hebrew`.
+
+## Entrypoints
+
+| Import path | Purpose |
+| --- | --- |
+| `dumling` | Root convenience exports: `dumling`, `idCodec`, `operation` |
+| `dumling/id` | Language-scoped ID encoders, decoders, and ID result types |
+| `dumling/operation` | Convert and extract helpers as named exports |
+| `dumling/schema` | Runtime Zod schema registries grouped by entity kind |
+| `dumling/entities` | Public DTO types for lemmas, surfaces, and selections |
 
 ## Core idea
 
@@ -54,15 +64,32 @@ Install the package:
 npm install dumling
 ```
 
-Minimal end-to-end usage from the public root API:
+Minimal end-to-end usage with named exports and subpath imports:
 
 <!-- README_BLOCK:quickstart-walk -->
 
 The root export is intentionally small:
 
-- `dumling.schemaFor`: Zod schema registries by language and entity kind
-- `dumling.operation`: convert and extract helpers
-- `dumling.idCodec`: stable IDs for lemmas, surfaces, and selections
+- `dumling`: convenience namespace for `idCodec` and `operation`
+- `idCodec`: stable IDs for lemmas, surfaces, and selections
+- `operation`: convert and extract helpers
+
+Use explicit subpaths for heavier public surfaces:
+
+- `dumling/schema`: Zod schema registries by language and entity kind
+- `dumling/entities`: DTO types for lemmas, surfaces, and selections
+
+## Concepts / Search Terms
+
+People often look for this package using adjacent terms:
+
+- linguistic annotation
+- learner annotation
+- lemma and inflection modeling
+- surface form normalization
+- selection DTOs
+- Zod schema registries
+- stable linguistic IDs
 
 ## Model notes
 

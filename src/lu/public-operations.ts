@@ -12,15 +12,18 @@ import {
 } from "./internal/operations/shared";
 import type { TargetLanguage } from "./universal/enums/core/language";
 
+/** @public Returns the already-hydrated surface payload from a selection DTO without recomputing anything. */
 export const extractSurfaceFromSelection = (<
 	S extends HydratedSelectionLikeFor,
 >(
 	selection: S,
 ) => selection.surface as SurfaceOfSelection<S>) as ExtractSurfaceFromSelectionFn;
 
+/** @public Returns the lemma payload already attached to a surface DTO. */
 export const extractLemmaFromSurface = ((surface: SurfaceLike) =>
 	surface.lemma) as ExtractLemmaFromSurfaceFn;
 
+/** @public Builds the canonical lemma-backed surface DTO used when no separate inflected surface is involved. */
 export const toSurface = ((lemma: LemmaLike) => {
 	const operationPack = getOperationPack(lemma.language);
 
@@ -32,6 +35,7 @@ export const toSurface = ((lemma: LemmaLike) => {
 	};
 }) as ToSurfaceFn;
 
+/** @public Builds the canonical `Standard` + `Full` selection DTO for an existing surface, optionally overriding the displayed spelling. */
 export const toStandardFullSelection = ((
 	surface: SurfaceLike,
 	options = {},
@@ -51,6 +55,7 @@ export const toStandardFullSelection = ((
 	};
 }) as ToStandardFullSelectionFromSurfaceFn;
 
+/** @public Builds the canonical `Standard` + `Full` selection DTO from a lemma by first deriving its lemma-backed surface DTO. */
 export const toStandardFullSelectionFromLemma = ((
 	lemma: LemmaLike,
 	options = {},
@@ -60,6 +65,7 @@ export const toStandardFullSelectionFromLemma = ((
 		options,
 	)) as ToStandardFullSelectionFromLemmaFn;
 
+/** @public Creates a language-bound operation helper set that rejects mixed-language DTOs before any conversion or extraction runs. */
 export function operationForLanguage<L extends TargetLanguage>(language: L) {
 	function boundToSurface<T extends LemmaLike<L>>(lemma: T): LemmaSurfaceFor<T> {
 		assertLanguageMatch(language, lemma.language);

@@ -1,5 +1,7 @@
 import { describe, expect, it } from "bun:test";
-import { dumling, type ObservedSelection } from "../../src";
+import { dumling } from "../../src";
+import type { ObservedSelection } from "../../src/entities";
+import { schemaFor } from "../../src/schema";
 import {
 	englishWalkLemma,
 	englishWalkLemmaSelection,
@@ -7,7 +9,7 @@ import {
 	germanMasculineSeeLemma,
 } from "../helpers";
 
-const { operation: lingOperation, schemaFor: lingSchemaFor } = dumling;
+const { operation: lingOperation } = dumling;
 
 describe("lingOperation", () => {
 	it("keeps observed selections separate from hydrated extraction helpers", () => {
@@ -18,8 +20,7 @@ describe("lingOperation", () => {
 		} satisfies ObservedSelection<"English">;
 
 		expect(
-			lingSchemaFor.ObservedSelection.English.safeParse(unknownSelection)
-				.success,
+			schemaFor.ObservedSelection.English.safeParse(unknownSelection).success,
 		).toBe(true);
 	});
 
@@ -48,8 +49,7 @@ describe("lingOperation", () => {
 			lemma: lemma,
 		});
 		expect(
-			lingSchemaFor.Surface.English.Lemma.Lexeme.VERB.safeParse(surface)
-				.success,
+			schemaFor.Surface.English.Lemma.Lexeme.VERB.safeParse(surface).success,
 		).toBe(true);
 	});
 
@@ -73,7 +73,7 @@ describe("lingOperation", () => {
 			surface,
 		});
 		expect(
-			lingSchemaFor.Selection.English.Standard.Lemma.Lexeme.VERB.safeParse(
+			schemaFor.Selection.English.Standard.Lemma.Lexeme.VERB.safeParse(
 				selection,
 			).success,
 		).toBe(true);

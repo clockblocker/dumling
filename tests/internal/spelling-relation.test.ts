@@ -1,17 +1,15 @@
 import { describe, expect, it } from "bun:test";
-import { dumling } from "../../src";
+import { schemaFor } from "../../src/schema";
 import {
 	englishWalkLemmaSelection,
 	englishWalkStandardFullSelection,
 	hebrewKatvuInflectionSurface,
 } from "../helpers";
 
-const { schemaFor: lingSchemaFor } = dumling;
-
 describe("selection spelling relation", () => {
 	it("accepts lemma selections marked as spelling variants", () => {
 		const result =
-			lingSchemaFor.Selection.English.Standard.Lemma.Lexeme.VERB.safeParse(
+			schemaFor.Selection.English.Standard.Lemma.Lexeme.VERB.safeParse(
 				{
 					...englishWalkLemmaSelection,
 					spellingRelation: "Variant",
@@ -23,7 +21,7 @@ describe("selection spelling relation", () => {
 
 	it("accepts inflection selections marked as spelling variants", () => {
 		const result =
-			lingSchemaFor.Selection.English.Standard.Inflection.Lexeme.VERB.safeParse(
+			schemaFor.Selection.English.Standard.Inflection.Lexeme.VERB.safeParse(
 				{
 					...englishWalkStandardFullSelection,
 					spellingRelation: "Variant",
@@ -35,7 +33,7 @@ describe("selection spelling relation", () => {
 
 	it("accepts Hebrew pointed inflection variants without variant surface kinds", () => {
 		const result =
-			lingSchemaFor.Selection.Hebrew.Standard.Inflection.Lexeme.VERB.safeParse(
+			schemaFor.Selection.Hebrew.Standard.Inflection.Lexeme.VERB.safeParse(
 				{
 					language: "Hebrew",
 					orthographicStatus: "Standard",
@@ -57,7 +55,7 @@ describe("selection spelling relation", () => {
 			englishWalkLemmaSelection;
 
 		const result =
-			lingSchemaFor.Selection.English.Standard.Lemma.Lexeme.VERB.safeParse(
+			schemaFor.Selection.English.Standard.Lemma.Lexeme.VERB.safeParse(
 				legacySelection,
 			);
 
@@ -66,7 +64,7 @@ describe("selection spelling relation", () => {
 
 	it("rejects legacy surfaceKind variant payloads", () => {
 		const result =
-			lingSchemaFor.Selection.English.Standard.Lemma.Lexeme.VERB.safeParse(
+			schemaFor.Selection.English.Standard.Lemma.Lexeme.VERB.safeParse(
 				{
 					...englishWalkLemmaSelection,
 					spellingRelation: "Variant",
@@ -81,7 +79,7 @@ describe("selection spelling relation", () => {
 	});
 
 	it("keeps unknown selections free of spelling metadata", () => {
-		const result = lingSchemaFor.ObservedSelection.English.safeParse({
+		const result = schemaFor.ObservedSelection.English.safeParse({
 			language: "English",
 			orthographicStatus: "Unknown",
 			spelledSelection: "colour",

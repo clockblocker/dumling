@@ -1,5 +1,5 @@
 import { describe, expect, it } from "bun:test";
-import { dumling } from "../../src";
+import { schemaFor } from "../../src/schema";
 import { GermanAdjectiveSchemas } from "../../src/lu/language-packs/german/lu/lexeme/pos/german-adjective";
 import { GermanAdpositionSchemas } from "../../src/lu/language-packs/german/lu/lexeme/pos/german-adposition";
 import { GermanAdverbSchemas } from "../../src/lu/language-packs/german/lu/lexeme/pos/german-adverb";
@@ -18,8 +18,7 @@ import { GermanSubordinatingConjunctionSchemas } from "../../src/lu/language-pac
 import { GermanSymbolSchemas } from "../../src/lu/language-packs/german/lu/lexeme/pos/german-symbol";
 import { makeLexemeSurfaceReference } from "../helpers";
 
-const { schemaFor: lingSchemaFor } = dumling;
-const { Lemma: LemmaSchema, Selection: SelectionSchema } = lingSchemaFor;
+const { Lemma: LemmaSchema, Selection: SelectionSchema } = schemaFor;
 
 describe("German remaining POS schemas", () => {
 	it("accepts core inflectional schemas across the richer POS classes", () => {

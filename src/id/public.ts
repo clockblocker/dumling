@@ -1,7 +1,6 @@
-import type { TargetLanguage } from "../lu/universal/enums/core/language";
 import { decodeDumlingId, decodeDumlingIdAs } from "./internal/codec/decode";
 import { encodeDumlingId } from "./internal/codec/encode";
-import type { DumlingIdApiFor } from "./types";
+import type { DumlingIdApiFor, DumlingIdLanguage } from "./types";
 
 export type {
 	ConcreteDumlingIdKind,
@@ -11,7 +10,12 @@ export type {
 	DumlingIdValueFor,
 } from "./types";
 
-export function lingIdApiForLanguage<L extends TargetLanguage>(
+/**
+ * Creates language-scoped encoders and decoders for stable Dumling IDs.
+ */
+export function lingIdApiForLanguage<
+	L extends DumlingIdLanguage,
+>(
 	language: L,
 ): DumlingIdApiFor<L> {
 	return {
