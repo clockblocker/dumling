@@ -4,20 +4,8 @@ import type {
 	SelectionSchemaLanguageShape,
 } from "../../registry-shapes";
 import type { ObservedSelectionSchemaFor } from "../../universal/helpers/schema-targets";
-import {
-	EnglishStandardInflectionLexemeSelectionSchemas,
-	EnglishStandardLemmaLexemeSelectionSchemas,
-	EnglishTypoInflectionLexemeSelectionSchemas,
-	EnglishTypoLemmaLexemeSelectionSchemas,
-} from "./lu/lexeme/english-lexemes";
-import {
-	EnglishStandardLemmaMorphemeSelectionSchemas,
-	EnglishTypoLemmaMorphemeSelectionSchemas,
-} from "./lu/morpheme/english-morphemes";
-import {
-	EnglishStandardLemmaPhrasemeSelectionSchemas,
-	EnglishTypoLemmaPhrasemeSelectionSchemas,
-} from "./lu/phraseme/english-phrasemes";
+import { deriveSelectionSchemaLanguage } from "../../universal/factories/deriveKnownSelectionSchemas";
+import { EnglishSurfaceSchema } from "./english-surface";
 
 export const EnglishObservedSelectionSchema = z
 	.object({
@@ -27,28 +15,10 @@ export const EnglishObservedSelectionSchema = z
 	})
 	.strict() satisfies ObservedSelectionSchemaFor;
 
-export const EnglishSelectionSchema = {
-	Standard: {
-		Inflection: {
-			Lexeme: EnglishStandardInflectionLexemeSelectionSchemas,
-		},
-		Lemma: {
-			Lexeme: EnglishStandardLemmaLexemeSelectionSchemas,
-			Morpheme: EnglishStandardLemmaMorphemeSelectionSchemas,
-			Phraseme: EnglishStandardLemmaPhrasemeSelectionSchemas,
-		},
-	},
-	Typo: {
-		Inflection: {
-			Lexeme: EnglishTypoInflectionLexemeSelectionSchemas,
-		},
-		Lemma: {
-			Lexeme: EnglishTypoLemmaLexemeSelectionSchemas,
-			Morpheme: EnglishTypoLemmaMorphemeSelectionSchemas,
-			Phraseme: EnglishTypoLemmaPhrasemeSelectionSchemas,
-		},
-	},
-} satisfies SelectionSchemaLanguageShape;
+export const EnglishSelectionSchema = deriveSelectionSchemaLanguage({
+	language: "English",
+	surfaceSchema: EnglishSurfaceSchema,
+}) satisfies SelectionSchemaLanguageShape;
 
 const _englishObservedSelectionSchemaShapeCheck =
 	EnglishObservedSelectionSchema satisfies ObservedSelectionSchemaLanguageShape;

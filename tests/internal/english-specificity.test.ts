@@ -20,6 +20,7 @@ describe("English schema specificity", () => {
 			EnglishAdjectiveSchemas.InflectionSelectionSchema.safeParse({
 				language: "English",
 				orthographicStatus: "Standard",
+				spellingRelation: "Canonical",
 				selectionCoverage: "Full",
 				spelledSelection: "smaller",
 				surface: {
@@ -38,6 +39,7 @@ describe("English schema specificity", () => {
 			EnglishAdjectiveSchemas.InflectionSelectionSchema.safeParse({
 				language: "English",
 				orthographicStatus: "Standard",
+				spellingRelation: "Canonical",
 				selectionCoverage: "Full",
 				spelledSelection: "small",
 				surface: {
@@ -56,6 +58,7 @@ describe("English schema specificity", () => {
 			EnglishAdpositionSchemas.InflectionSelectionSchema.safeParse({
 				language: "English",
 				orthographicStatus: "Standard",
+				spellingRelation: "Canonical",
 				selectionCoverage: "Full",
 				spelledSelection: "to",
 				surface: {
@@ -76,6 +79,7 @@ describe("English schema specificity", () => {
 			EnglishNounSchemas.InflectionSelectionSchema.safeParse({
 				language: "English",
 				orthographicStatus: "Standard",
+				spellingRelation: "Canonical",
 				selectionCoverage: "Full",
 				spelledSelection: "scissors",
 				surface: {
@@ -94,6 +98,7 @@ describe("English schema specificity", () => {
 			EnglishNounSchemas.InflectionSelectionSchema.safeParse({
 				language: "English",
 				orthographicStatus: "Standard",
+				spellingRelation: "Canonical",
 				selectionCoverage: "Full",
 				spelledSelection: "dog",
 				surface: {
@@ -112,6 +117,7 @@ describe("English schema specificity", () => {
 			EnglishProperNounSchemas.InflectionSelectionSchema.safeParse({
 				language: "English",
 				orthographicStatus: "Standard",
+				spellingRelation: "Canonical",
 				selectionCoverage: "Full",
 				spelledSelection: "Anna",
 				surface: {
@@ -158,6 +164,7 @@ describe("English schema specificity", () => {
 			EnglishVerbSchemas.InflectionSelectionSchema.safeParse({
 				language: "English",
 				orthographicStatus: "Standard",
+				spellingRelation: "Canonical",
 				selectionCoverage: "Full",
 				spelledSelection: "washed",
 				surface: {
@@ -176,6 +183,7 @@ describe("English schema specificity", () => {
 			EnglishAuxiliarySchemas.InflectionSelectionSchema.safeParse({
 				language: "English",
 				orthographicStatus: "Standard",
+				spellingRelation: "Canonical",
 				selectionCoverage: "Full",
 				spelledSelection: "is",
 				surface: {
@@ -205,6 +213,7 @@ describe("English schema specificity", () => {
 			EnglishVerbSchemas.InflectionSelectionSchema.safeParse({
 				language: "English",
 				orthographicStatus: "Standard",
+				spellingRelation: "Canonical",
 				selectionCoverage: "Full",
 				spelledSelection: "washing",
 				surface: {
@@ -223,6 +232,7 @@ describe("English schema specificity", () => {
 			EnglishVerbSchemas.InflectionSelectionSchema.safeParse({
 				language: "English",
 				orthographicStatus: "Standard",
+				spellingRelation: "Canonical",
 				selectionCoverage: "Full",
 				spelledSelection: "washed",
 				surface: {
@@ -241,6 +251,7 @@ describe("English schema specificity", () => {
 			EnglishAuxiliarySchemas.InflectionSelectionSchema.safeParse({
 				language: "English",
 				orthographicStatus: "Standard",
+				spellingRelation: "Canonical",
 				selectionCoverage: "Full",
 				spelledSelection: "being",
 				surface: {
@@ -314,6 +325,7 @@ describe("English schema specificity", () => {
 			EnglishPronounSchemas.InflectionSelectionSchema.safeParse({
 				language: "English",
 				orthographicStatus: "Standard",
+				spellingRelation: "Canonical",
 				selectionCoverage: "Full",
 				spelledSelection: "him",
 				surface: {
@@ -332,6 +344,7 @@ describe("English schema specificity", () => {
 			EnglishPronounSchemas.InflectionSelectionSchema.safeParse({
 				language: "English",
 				orthographicStatus: "Standard",
+				spellingRelation: "Canonical",
 				selectionCoverage: "Full",
 				spelledSelection: "him",
 				surface: {
@@ -408,6 +421,7 @@ describe("English schema specificity", () => {
 			EnglishDeterminerSchemas.InflectionSelectionSchema.safeParse({
 				language: "English",
 				orthographicStatus: "Standard",
+				spellingRelation: "Canonical",
 				selectionCoverage: "Full",
 				spelledSelection: "this",
 				surface: {
@@ -428,6 +442,7 @@ describe("English schema specificity", () => {
 			EnglishNumeralSchemas.InflectionSelectionSchema.safeParse({
 				language: "English",
 				orthographicStatus: "Standard",
+				spellingRelation: "Canonical",
 				selectionCoverage: "Full",
 				spelledSelection: "two",
 				surface: {
@@ -462,6 +477,7 @@ describe("English schema specificity", () => {
 			EnglishSymbolSchemas.InflectionSelectionSchema.safeParse({
 				language: "English",
 				orthographicStatus: "Standard",
+				spellingRelation: "Canonical",
 				selectionCoverage: "Full",
 				spelledSelection: "%",
 				surface: {
@@ -480,6 +496,7 @@ describe("English schema specificity", () => {
 			EnglishSymbolSchemas.InflectionSelectionSchema.safeParse({
 				language: "English",
 				orthographicStatus: "Standard",
+				spellingRelation: "Canonical",
 				selectionCoverage: "Full",
 				spelledSelection: "%",
 				surface: {

@@ -1,12 +1,10 @@
 import z from "zod/v3";
 import { UniversalFeature } from "../../../../../universal/enums/feature";
-import { buildInflectionSelection } from "../../../../../universal/factories/buildInflectionSelection";
-import { buildLemmaSelection } from "../../../../../universal/factories/buildLemmaSelection";
 import { buildSurfaceSchema } from "../../../../../universal/factories/buildSurfaceSchema";
+import { deriveKnownSelectionSchemaProps } from "../../../../../universal/factories/deriveKnownSelectionSchemas";
 import { defineLemmaSchemaDescriptor } from "../../../../../universal/factories/lemma-schema-descriptor";
 import type {
 	LemmaSchemaFor,
-	SelectionSchemaFor,
 	SurfaceSchemaFor,
 } from "../../../../../universal/helpers/schema-targets";
 import { featureSchema } from "../../../../../universal/helpers/schema-targets";
@@ -64,29 +62,21 @@ const GermanNounLemmaSurfaceSchema = buildSurfaceSchema({
 	},
 }).schema satisfies SurfaceSchemaFor<"Lemma", "Lexeme", "NOUN">;
 
-const GermanNounInflectionSelectionSchema = buildInflectionSelection({
-	inflectionalFeaturesSchema: GermanNounInflectionalFeaturesSchema,
-	lemma: GermanNounLemma,
-	lemmaIdentityShape: GermanNounLemmaIdentityShape,
-}) satisfies SelectionSchemaFor<"Standard", "Inflection", "Lexeme", "NOUN">;
-
-const GermanNounLemmaSelectionSchema = buildLemmaSelection({
-	lemma: GermanNounLemma,
-	lemmaIdentityShape: GermanNounLemmaIdentityShape,
-}) satisfies SelectionSchemaFor<"Standard", "Lemma", "Lexeme", "NOUN">;
-
-const GermanNounTypoInflectionSelectionSchema = buildInflectionSelection({
-	inflectionalFeaturesSchema: GermanNounInflectionalFeaturesSchema,
-	lemma: GermanNounLemma,
-	lemmaIdentityShape: GermanNounLemmaIdentityShape,
-	orthographicStatus: "Typo",
-}) satisfies SelectionSchemaFor<"Typo", "Inflection", "Lexeme", "NOUN">;
-
-const GermanNounTypoLemmaSelectionSchema = buildLemmaSelection({
-	lemma: GermanNounLemma,
-	lemmaIdentityShape: GermanNounLemmaIdentityShape,
-	orthographicStatus: "Typo",
-}) satisfies SelectionSchemaFor<"Typo", "Lemma", "Lexeme", "NOUN">;
+const GermanNounSelectionSchemas = deriveKnownSelectionSchemaProps({
+	language: "German",
+	surfaceSchemas: {
+		InflectionSurfaceSchema: GermanNounInflectionSurfaceSchema,
+		LemmaSurfaceSchema: GermanNounLemmaSurfaceSchema,
+	},
+});
+const GermanNounInflectionSelectionSchema =
+	GermanNounSelectionSchemas.InflectionSelectionSchema;
+const GermanNounLemmaSelectionSchema =
+	GermanNounSelectionSchemas.LemmaSelectionSchema;
+const GermanNounTypoInflectionSelectionSchema =
+	GermanNounSelectionSchemas.TypoInflectionSelectionSchema;
+const GermanNounTypoLemmaSelectionSchema =
+	GermanNounSelectionSchemas.TypoLemmaSelectionSchema;
 
 export const GermanNounSchemas = {
 	InflectionSelectionSchema: GermanNounInflectionSelectionSchema,

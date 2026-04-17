@@ -1,6 +1,5 @@
 import type {
 	LemmaSchemaLanguageShape,
-	SelectionSchemaLanguageShape,
 	SurfaceSchemaLanguageShape,
 } from "../../../../registry-shapes";
 import { buildGermanMorphemeBundle } from "./shared/build-german-morpheme-bundle";
@@ -53,20 +52,6 @@ export const GermanMorphemeLemmaSchemas = {
 	Transfix: GermanTransfixBundle.LemmaSchema,
 } satisfies LemmaSchemaLanguageShape["Morpheme"];
 
-export const GermanStandardLemmaMorphemeSelectionSchemas = {
-	Circumfix: GermanCircumfixBundle.StandardLemmaSelectionSchema,
-	Clitic: GermanCliticBundle.StandardLemmaSelectionSchema,
-	Duplifix: GermanDuplifixBundle.StandardLemmaSelectionSchema,
-	Infix: GermanInfixBundle.StandardLemmaSelectionSchema,
-	Interfix: GermanInterfixBundle.StandardLemmaSelectionSchema,
-	Prefix: GermanPrefixBundle.StandardLemmaSelectionSchema,
-	Root: GermanRootBundle.StandardLemmaSelectionSchema,
-	Suffix: GermanSuffixBundle.StandardLemmaSelectionSchema,
-	Suffixoid: GermanSuffixoidBundle.StandardLemmaSelectionSchema,
-	ToneMarking: GermanToneMarkingBundle.StandardLemmaSelectionSchema,
-	Transfix: GermanTransfixBundle.StandardLemmaSelectionSchema,
-} satisfies SelectionSchemaLanguageShape["Standard"]["Lemma"]["Morpheme"];
-
 export const GermanLemmaMorphemeSurfaceSchemas = {
 	Circumfix: GermanCircumfixBundle.LemmaSurfaceSchema,
 	Clitic: GermanCliticBundle.LemmaSurfaceSchema,
@@ -80,17 +65,3 @@ export const GermanLemmaMorphemeSurfaceSchemas = {
 	ToneMarking: GermanToneMarkingBundle.LemmaSurfaceSchema,
 	Transfix: GermanTransfixBundle.LemmaSurfaceSchema,
 } satisfies SurfaceSchemaLanguageShape["Lemma"]["Morpheme"];
-
-export const GermanTypoLemmaMorphemeSelectionSchemas = {
-	Circumfix: GermanCircumfixBundle.TypoLemmaSelectionSchema,
-	Clitic: GermanCliticBundle.TypoLemmaSelectionSchema,
-	Duplifix: GermanDuplifixBundle.TypoLemmaSelectionSchema,
-	Infix: GermanInfixBundle.TypoLemmaSelectionSchema,
-	Interfix: GermanInterfixBundle.TypoLemmaSelectionSchema,
-	Prefix: GermanPrefixBundle.TypoLemmaSelectionSchema,
-	Root: GermanRootBundle.TypoLemmaSelectionSchema,
-	Suffix: GermanSuffixBundle.TypoLemmaSelectionSchema,
-	Suffixoid: GermanSuffixoidBundle.TypoLemmaSelectionSchema,
-	ToneMarking: GermanToneMarkingBundle.TypoLemmaSelectionSchema,
-	Transfix: GermanTransfixBundle.TypoLemmaSelectionSchema,
-} satisfies SelectionSchemaLanguageShape["Typo"]["Lemma"]["Morpheme"];

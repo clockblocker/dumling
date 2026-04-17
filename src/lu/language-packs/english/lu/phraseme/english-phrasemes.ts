@@ -1,6 +1,5 @@
 import type {
 	LemmaSchemaLanguageShape,
-	SelectionSchemaLanguageShape,
 	SurfaceSchemaLanguageShape,
 } from "../../../../registry-shapes";
 import { buildEnglishPhrasemeBundle } from "./shared/build-english-phraseme-bundle";
@@ -25,24 +24,9 @@ export const EnglishPhrasemeLemmaSchemas = {
 	Proverb: EnglishProverbBundle.LemmaSchema,
 } satisfies LemmaSchemaLanguageShape["Phraseme"];
 
-export const EnglishStandardLemmaPhrasemeSelectionSchemas = {
-	Aphorism: EnglishAphorismBundle.StandardLemmaSelectionSchema,
-	DiscourseFormula:
-		EnglishDiscourseFormulaBundle.StandardLemmaSelectionSchema,
-	Idiom: EnglishIdiomBundle.StandardLemmaSelectionSchema,
-	Proverb: EnglishProverbBundle.StandardLemmaSelectionSchema,
-} satisfies SelectionSchemaLanguageShape["Standard"]["Lemma"]["Phraseme"];
-
 export const EnglishLemmaPhrasemeSurfaceSchemas = {
 	Aphorism: EnglishAphorismBundle.LemmaSurfaceSchema,
 	DiscourseFormula: EnglishDiscourseFormulaBundle.LemmaSurfaceSchema,
 	Idiom: EnglishIdiomBundle.LemmaSurfaceSchema,
 	Proverb: EnglishProverbBundle.LemmaSurfaceSchema,
 } satisfies SurfaceSchemaLanguageShape["Lemma"]["Phraseme"];
-
-export const EnglishTypoLemmaPhrasemeSelectionSchemas = {
-	Aphorism: EnglishAphorismBundle.TypoLemmaSelectionSchema,
-	DiscourseFormula: EnglishDiscourseFormulaBundle.TypoLemmaSelectionSchema,
-	Idiom: EnglishIdiomBundle.TypoLemmaSelectionSchema,
-	Proverb: EnglishProverbBundle.TypoLemmaSelectionSchema,
-} satisfies SelectionSchemaLanguageShape["Typo"]["Lemma"]["Phraseme"];

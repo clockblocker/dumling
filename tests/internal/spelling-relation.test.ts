@@ -52,6 +52,18 @@ describe("selection spelling relation", () => {
 		expect(result.success).toBe(true);
 	});
 
+	it("requires spellingRelation once a selection is hydrated", () => {
+		const { spellingRelation: _spellingRelation, ...legacySelection } =
+			englishWalkLemmaSelection;
+
+		const result =
+			lingSchemaFor.Selection.English.Standard.Lemma.Lexeme.VERB.safeParse(
+				legacySelection,
+			);
+
+		expect(result.success).toBe(false);
+	});
+
 	it("rejects legacy surfaceKind variant payloads", () => {
 		const result =
 			lingSchemaFor.Selection.English.Standard.Lemma.Lexeme.VERB.safeParse(

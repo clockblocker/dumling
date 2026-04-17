@@ -1,6 +1,5 @@
 import type {
 	LemmaSchemaLanguageShape,
-	SelectionSchemaLanguageShape,
 	SurfaceSchemaLanguageShape,
 } from "../../../../registry-shapes";
 import { buildHebrewMorphemeBundle } from "./shared/build-hebrew-morpheme-bundle";
@@ -53,20 +52,6 @@ export const HebrewMorphemeLemmaSchemas = {
 	Transfix: HebrewTransfixBundle.LemmaSchema,
 } satisfies LemmaSchemaLanguageShape["Morpheme"];
 
-export const HebrewStandardLemmaMorphemeSelectionSchemas = {
-	Circumfix: HebrewCircumfixBundle.StandardLemmaSelectionSchema,
-	Clitic: HebrewCliticBundle.StandardLemmaSelectionSchema,
-	Duplifix: HebrewDuplifixBundle.StandardLemmaSelectionSchema,
-	Infix: HebrewInfixBundle.StandardLemmaSelectionSchema,
-	Interfix: HebrewInterfixBundle.StandardLemmaSelectionSchema,
-	Prefix: HebrewPrefixBundle.StandardLemmaSelectionSchema,
-	Root: HebrewRootBundle.StandardLemmaSelectionSchema,
-	Suffix: HebrewSuffixBundle.StandardLemmaSelectionSchema,
-	Suffixoid: HebrewSuffixoidBundle.StandardLemmaSelectionSchema,
-	ToneMarking: HebrewToneMarkingBundle.StandardLemmaSelectionSchema,
-	Transfix: HebrewTransfixBundle.StandardLemmaSelectionSchema,
-} satisfies SelectionSchemaLanguageShape["Standard"]["Lemma"]["Morpheme"];
-
 export const HebrewLemmaMorphemeSurfaceSchemas = {
 	Circumfix: HebrewCircumfixBundle.LemmaSurfaceSchema,
 	Clitic: HebrewCliticBundle.LemmaSurfaceSchema,
@@ -80,17 +65,3 @@ export const HebrewLemmaMorphemeSurfaceSchemas = {
 	ToneMarking: HebrewToneMarkingBundle.LemmaSurfaceSchema,
 	Transfix: HebrewTransfixBundle.LemmaSurfaceSchema,
 } satisfies SurfaceSchemaLanguageShape["Lemma"]["Morpheme"];
-
-export const HebrewTypoLemmaMorphemeSelectionSchemas = {
-	Circumfix: HebrewCircumfixBundle.TypoLemmaSelectionSchema,
-	Clitic: HebrewCliticBundle.TypoLemmaSelectionSchema,
-	Duplifix: HebrewDuplifixBundle.TypoLemmaSelectionSchema,
-	Infix: HebrewInfixBundle.TypoLemmaSelectionSchema,
-	Interfix: HebrewInterfixBundle.TypoLemmaSelectionSchema,
-	Prefix: HebrewPrefixBundle.TypoLemmaSelectionSchema,
-	Root: HebrewRootBundle.TypoLemmaSelectionSchema,
-	Suffix: HebrewSuffixBundle.TypoLemmaSelectionSchema,
-	Suffixoid: HebrewSuffixoidBundle.TypoLemmaSelectionSchema,
-	ToneMarking: HebrewToneMarkingBundle.TypoLemmaSelectionSchema,
-	Transfix: HebrewTransfixBundle.TypoLemmaSelectionSchema,
-} satisfies SelectionSchemaLanguageShape["Typo"]["Lemma"]["Morpheme"];

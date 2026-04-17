@@ -27,6 +27,7 @@ describe("German remaining POS schemas", () => {
 			GermanAdjectiveSchemas.InflectionSelectionSchema.safeParse({
 				language: "German",
 				orthographicStatus: "Standard",
+				spellingRelation: "Canonical",
 				selectionCoverage: "Full",
 				spelledSelection: "kleiner",
 				surface: {
@@ -48,6 +49,7 @@ describe("German remaining POS schemas", () => {
 			GermanAdpositionSchemas.InflectionSelectionSchema.safeParse({
 				language: "German",
 				orthographicStatus: "Standard",
+				spellingRelation: "Canonical",
 				selectionCoverage: "Full",
 				spelledSelection: "zu",
 				surface: {
@@ -64,6 +66,7 @@ describe("German remaining POS schemas", () => {
 			GermanAuxiliarySchemas.InflectionSelectionSchema.safeParse({
 				language: "German",
 				orthographicStatus: "Standard",
+				spellingRelation: "Canonical",
 				selectionCoverage: "Full",
 				spelledSelection: "war",
 				surface: {
@@ -86,6 +89,7 @@ describe("German remaining POS schemas", () => {
 			GermanDeterminerSchemas.InflectionSelectionSchema.safeParse({
 				language: "German",
 				orthographicStatus: "Standard",
+				spellingRelation: "Canonical",
 				selectionCoverage: "Full",
 				spelledSelection: "dieser",
 				surface: {
@@ -106,6 +110,7 @@ describe("German remaining POS schemas", () => {
 			GermanPronounSchemas.InflectionSelectionSchema.safeParse({
 				language: "German",
 				orthographicStatus: "Standard",
+				spellingRelation: "Canonical",
 				selectionCoverage: "Full",
 				spelledSelection: "sich",
 				surface: {
@@ -126,6 +131,7 @@ describe("German remaining POS schemas", () => {
 			GermanProperNounSchemas.InflectionSelectionSchema.safeParse({
 				language: "German",
 				orthographicStatus: "Standard",
+				spellingRelation: "Canonical",
 				selectionCoverage: "Full",
 				spelledSelection: "Angelas",
 				surface: {
@@ -270,6 +276,7 @@ describe("German remaining POS schemas", () => {
 			GermanAuxiliarySchemas.InflectionSelectionSchema.safeParse({
 				language: "German",
 				orthographicStatus: "Standard",
+				spellingRelation: "Canonical",
 				selectionCoverage: "Full",
 				spelledSelection: "worden",
 				surface: {
@@ -290,6 +297,7 @@ describe("German remaining POS schemas", () => {
 			GermanDeterminerSchemas.InflectionSelectionSchema.safeParse({
 				language: "German",
 				orthographicStatus: "Standard",
+				spellingRelation: "Canonical",
 				selectionCoverage: "Full",
 				spelledSelection: "dessen",
 				surface: {
@@ -477,7 +485,8 @@ describe("German remaining POS schemas", () => {
 				{
 					language: "German",
 					orthographicStatus: "Standard",
-					selectionCoverage: "Full",
+				spellingRelation: "Canonical",
+				selectionCoverage: "Full",
 					spelledSelection: "und",
 					surface: {
 						...makeLexemeSurfaceReference("German", "CCONJ", "und"),
@@ -494,6 +503,7 @@ describe("German remaining POS schemas", () => {
 			GermanInterjectionSchemas.InflectionSelectionSchema.safeParse({
 				language: "German",
 				orthographicStatus: "Standard",
+				spellingRelation: "Canonical",
 				selectionCoverage: "Full",
 				spelledSelection: "ach",
 				surface: {
@@ -510,6 +520,7 @@ describe("German remaining POS schemas", () => {
 			GermanPunctuationSchemas.InflectionSelectionSchema.safeParse({
 				language: "German",
 				orthographicStatus: "Standard",
+				spellingRelation: "Canonical",
 				selectionCoverage: "Full",
 				spelledSelection: ",",
 				surface: {
@@ -527,7 +538,8 @@ describe("German remaining POS schemas", () => {
 				{
 					language: "German",
 					orthographicStatus: "Standard",
-					selectionCoverage: "Full",
+				spellingRelation: "Canonical",
+				selectionCoverage: "Full",
 					spelledSelection: "weil",
 					surface: {
 						...makeLexemeSurfaceReference("German", "SCONJ", "weil"),
@@ -572,6 +584,7 @@ describe("German remaining POS schemas", () => {
 			GermanOtherSchemas.InflectionSelectionSchema.safeParse({
 				language: "German",
 				orthographicStatus: "Standard",
+				spellingRelation: "Canonical",
 				selectionCoverage: "Full",
 				spelledSelection: "foobar",
 				surface: {
@@ -590,6 +603,7 @@ describe("German remaining POS schemas", () => {
 			GermanAdpositionSchemas.InflectionSelectionSchema.safeParse({
 				language: "German",
 				orthographicStatus: "Standard",
+				spellingRelation: "Canonical",
 				selectionCoverage: "Full",
 				spelledSelection: "zu",
 				surface: {
@@ -647,6 +661,7 @@ describe("German remaining POS schemas", () => {
 			GermanDeterminerSchemas.InflectionSelectionSchema.safeParse({
 				language: "German",
 				orthographicStatus: "Standard",
+				spellingRelation: "Canonical",
 				selectionCoverage: "Full",
 				spelledSelection: "dessen",
 				surface: {
@@ -680,6 +695,7 @@ describe("German remaining POS schemas", () => {
 			GermanAuxiliarySchemas.InflectionSelectionSchema.safeParse({
 				language: "German",
 				orthographicStatus: "Standard",
+				spellingRelation: "Canonical",
 				selectionCoverage: "Full",
 				spelledSelection: "sei",
 				surface: {

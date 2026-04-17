@@ -4,20 +4,8 @@ import type {
 	SelectionSchemaLanguageShape,
 } from "../../registry-shapes";
 import type { ObservedSelectionSchemaFor } from "../../universal/helpers/schema-targets";
-import {
-	GermanStandardInflectionLexemeSelectionSchemas,
-	GermanStandardLemmaLexemeSelectionSchemas,
-	GermanTypoInflectionLexemeSelectionSchemas,
-	GermanTypoLemmaLexemeSelectionSchemas,
-} from "./lu/lexeme/german-lexemes";
-import {
-	GermanStandardLemmaMorphemeSelectionSchemas,
-	GermanTypoLemmaMorphemeSelectionSchemas,
-} from "./lu/morpheme/german-morphemes";
-import {
-	GermanStandardLemmaPhrasemeSelectionSchemas,
-	GermanTypoLemmaPhrasemeSelectionSchemas,
-} from "./lu/phraseme/german-phrasemes";
+import { deriveSelectionSchemaLanguage } from "../../universal/factories/deriveKnownSelectionSchemas";
+import { GermanSurfaceSchema } from "./german-surface";
 
 export const GermanObservedSelectionSchema = z
 	.object({
@@ -27,28 +15,10 @@ export const GermanObservedSelectionSchema = z
 	})
 	.strict() satisfies ObservedSelectionSchemaFor;
 
-export const GermanSelectionSchema = {
-	Standard: {
-		Inflection: {
-			Lexeme: GermanStandardInflectionLexemeSelectionSchemas,
-		},
-		Lemma: {
-			Lexeme: GermanStandardLemmaLexemeSelectionSchemas,
-			Morpheme: GermanStandardLemmaMorphemeSelectionSchemas,
-			Phraseme: GermanStandardLemmaPhrasemeSelectionSchemas,
-		},
-	},
-	Typo: {
-		Inflection: {
-			Lexeme: GermanTypoInflectionLexemeSelectionSchemas,
-		},
-		Lemma: {
-			Lexeme: GermanTypoLemmaLexemeSelectionSchemas,
-			Morpheme: GermanTypoLemmaMorphemeSelectionSchemas,
-			Phraseme: GermanTypoLemmaPhrasemeSelectionSchemas,
-		},
-	},
-} satisfies SelectionSchemaLanguageShape;
+export const GermanSelectionSchema = deriveSelectionSchemaLanguage({
+	language: "German",
+	surfaceSchema: GermanSurfaceSchema,
+}) satisfies SelectionSchemaLanguageShape;
 
 const _germanObservedSelectionSchemaShapeCheck =
 	GermanObservedSelectionSchema satisfies ObservedSelectionSchemaLanguageShape;

@@ -1,6 +1,5 @@
 import type {
 	LemmaSchemaLanguageShape,
-	SelectionSchemaLanguageShape,
 	SurfaceSchemaLanguageShape,
 } from "../../../../registry-shapes";
 import { buildEnglishMorphemeBundle } from "./shared/build-english-morpheme-bundle";
@@ -53,20 +52,6 @@ export const EnglishMorphemeLemmaSchemas = {
 	Transfix: EnglishTransfixBundle.LemmaSchema,
 } satisfies LemmaSchemaLanguageShape["Morpheme"];
 
-export const EnglishStandardLemmaMorphemeSelectionSchemas = {
-	Circumfix: EnglishCircumfixBundle.StandardLemmaSelectionSchema,
-	Clitic: EnglishCliticBundle.StandardLemmaSelectionSchema,
-	Duplifix: EnglishDuplifixBundle.StandardLemmaSelectionSchema,
-	Infix: EnglishInfixBundle.StandardLemmaSelectionSchema,
-	Interfix: EnglishInterfixBundle.StandardLemmaSelectionSchema,
-	Prefix: EnglishPrefixBundle.StandardLemmaSelectionSchema,
-	Root: EnglishRootBundle.StandardLemmaSelectionSchema,
-	Suffix: EnglishSuffixBundle.StandardLemmaSelectionSchema,
-	Suffixoid: EnglishSuffixoidBundle.StandardLemmaSelectionSchema,
-	ToneMarking: EnglishToneMarkingBundle.StandardLemmaSelectionSchema,
-	Transfix: EnglishTransfixBundle.StandardLemmaSelectionSchema,
-} satisfies SelectionSchemaLanguageShape["Standard"]["Lemma"]["Morpheme"];
-
 export const EnglishLemmaMorphemeSurfaceSchemas = {
 	Circumfix: EnglishCircumfixBundle.LemmaSurfaceSchema,
 	Clitic: EnglishCliticBundle.LemmaSurfaceSchema,
@@ -80,17 +65,3 @@ export const EnglishLemmaMorphemeSurfaceSchemas = {
 	ToneMarking: EnglishToneMarkingBundle.LemmaSurfaceSchema,
 	Transfix: EnglishTransfixBundle.LemmaSurfaceSchema,
 } satisfies SurfaceSchemaLanguageShape["Lemma"]["Morpheme"];
-
-export const EnglishTypoLemmaMorphemeSelectionSchemas = {
-	Circumfix: EnglishCircumfixBundle.TypoLemmaSelectionSchema,
-	Clitic: EnglishCliticBundle.TypoLemmaSelectionSchema,
-	Duplifix: EnglishDuplifixBundle.TypoLemmaSelectionSchema,
-	Infix: EnglishInfixBundle.TypoLemmaSelectionSchema,
-	Interfix: EnglishInterfixBundle.TypoLemmaSelectionSchema,
-	Prefix: EnglishPrefixBundle.TypoLemmaSelectionSchema,
-	Root: EnglishRootBundle.TypoLemmaSelectionSchema,
-	Suffix: EnglishSuffixBundle.TypoLemmaSelectionSchema,
-	Suffixoid: EnglishSuffixoidBundle.TypoLemmaSelectionSchema,
-	ToneMarking: EnglishToneMarkingBundle.TypoLemmaSelectionSchema,
-	Transfix: EnglishTransfixBundle.TypoLemmaSelectionSchema,
-} satisfies SelectionSchemaLanguageShape["Typo"]["Lemma"]["Morpheme"];

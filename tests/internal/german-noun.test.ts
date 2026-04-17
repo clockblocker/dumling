@@ -25,6 +25,7 @@ describe("German noun schemas", () => {
 		const result = GermanNounSchemas.InflectionSelectionSchema.safeParse({
 			language: "German",
 			orthographicStatus: "Standard",
+			spellingRelation: "Canonical",
 			selectionCoverage: "Full",
 			spelledSelection: "Kindern",
 			surface: {
@@ -46,6 +47,7 @@ describe("German noun schemas", () => {
 		const result = GermanNounSchemas.InflectionSelectionSchema.safeParse({
 			language: "German",
 			orthographicStatus: "Standard",
+			spellingRelation: "Canonical",
 			selectionCoverage: "Full",
 			spelledSelection: "Kindern",
 			surface: {

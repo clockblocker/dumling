@@ -1,7 +1,7 @@
 import z from "zod/v3";
 import type { Pos } from "../../../../../universal/enums/kind/pos";
-import { buildKnownSelectionSchema } from "../../../../../universal/factories/buildKnownSelection";
 import { buildSurfaceSchema } from "../../../../../universal/factories/buildSurfaceSchema";
+import { deriveKnownSelectionSchemaProps } from "../../../../../universal/factories/deriveKnownSelectionSchemas";
 import { defineLemmaSchemaDescriptor } from "../../../../../universal/factories/lemma-schema-descriptor";
 import { MeaningInEmojisSchema } from "../../../../../universal/meaning-in-emojis";
 
@@ -51,26 +51,17 @@ export function buildHebrewLexemeBundle<
 			surfaceKind: z.literal("Inflection"),
 		},
 	});
+	const surfaceSchemas = {
+		InflectionSurfaceSchema: inflectionSurface.schema,
+		LemmaSurfaceSchema: lemmaSurface.schema,
+	};
 
 	return {
-		InflectionSelectionSchema: buildKnownSelectionSchema({
-			orthographicStatus: "Standard",
-			surface: inflectionSurface,
-		}),
-		InflectionSurfaceSchema: inflectionSurface.schema,
 		LemmaSchema: lemma.schema,
-		LemmaSelectionSchema: buildKnownSelectionSchema({
-			orthographicStatus: "Standard",
-			surface: lemmaSurface,
-		}),
-		LemmaSurfaceSchema: lemmaSurface.schema,
-		TypoInflectionSelectionSchema: buildKnownSelectionSchema({
-			orthographicStatus: "Typo",
-			surface: inflectionSurface,
-		}),
-		TypoLemmaSelectionSchema: buildKnownSelectionSchema({
-			orthographicStatus: "Typo",
-			surface: lemmaSurface,
+		...surfaceSchemas,
+		...deriveKnownSelectionSchemaProps({
+			language: lemma.language,
+			surfaceSchemas,
 		}),
 	};
 }

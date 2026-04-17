@@ -15,7 +15,7 @@ type SelectionShapeFor<
 > = {
 	language: z.ZodLiteral<LanguageLiteral>;
 	orthographicStatus: z.ZodLiteral<OrthographicStatusLiteral>;
-	spellingRelation: typeof SpellingRelation;
+	spellingRelation: z.ZodType<z.infer<typeof SpellingRelation>>;
 	spelledSelection: z.ZodString;
 	selectionCoverage: typeof SelectionCoverage;
 	surface: SurfaceSchema;
@@ -66,13 +66,13 @@ export type KnownSelectionSchemaFor<
 	LanguageLiteral extends TargetLanguage,
 	OrthographicStatusLiteral extends KnownOrthographicStatus,
 	SurfaceSchema extends z.ZodTypeAny,
-> = z.ZodType<
-	KnownSelectionValueFor<
+> = Omit<z.ZodTypeAny, "_input" | "_output"> & {
+	_input: unknown;
+	_output: KnownSelectionValueFor<
 		LanguageLiteral,
 		OrthographicStatusLiteral,
 		SurfaceSchema
-	>
-> & {
+	>;
 	shape: SelectionShapeFor<
 		LanguageLiteral,
 		OrthographicStatusLiteral,
@@ -184,13 +184,14 @@ function buildStandardKnownSelectionSchema<
 		})
 		.strict();
 
-	return withShape(
-		withCanonicalSpellingRelationDefault(z.union([fullSchema, partialSchema])),
-		{
-			...sharedShape,
-			selectionCoverage: SelectionCoverage,
-		},
-	) as KnownSelectionSchemaFor<LanguageLiteral, "Standard", SurfaceSchema>;
+	return withShape(z.union([fullSchema, partialSchema]), {
+		...sharedShape,
+		selectionCoverage: SelectionCoverage,
+	}) as unknown as KnownSelectionSchemaFor<
+		LanguageLiteral,
+		"Standard",
+		SurfaceSchema
+	>;
 }
 
 function buildTypoKnownSelectionSchema<
@@ -210,19 +211,15 @@ function buildTypoKnownSelectionSchema<
 			? SpellingRelation
 			: z.literal(spellingRelation);
 	return z
-		.preprocess(
-			normalizeSelectionSpellingRelation,
-			z
-				.object({
-					language: z.literal(language),
-					orthographicStatus: z.literal("Typo"),
-					selectionCoverage: SelectionCoverage,
-					spelledSelection: z.string(),
-					spellingRelation: spellingRelationSchema,
-					surface: surfaceSchema,
-				})
-				.strict(),
-		) as KnownSelectionSchemaFor<
+		.object({
+			language: z.literal(language),
+			orthographicStatus: z.literal("Typo"),
+			selectionCoverage: SelectionCoverage,
+			spelledSelection: z.string(),
+			spellingRelation: spellingRelationSchema,
+			surface: surfaceSchema,
+		})
+		.strict() as unknown as KnownSelectionSchemaFor<
 		LanguageLiteral,
 		"Typo",
 		SurfaceSchema
@@ -233,26 +230,10 @@ function withShape<
 	Schema extends z.ZodTypeAny,
 	Shape extends Record<string, z.ZodTypeAny>,
 >(schema: Schema, shape: Shape): Schema & { shape: Shape } {
-	return Object.assign(schema, { shape });
-}
+	Object.defineProperty(schema, "shape", {
+		configurable: true,
+		value: shape,
+	});
 
-function withCanonicalSpellingRelationDefault<Schema extends z.ZodTypeAny>(
-	schema: Schema,
-): Schema {
-	return z.preprocess(normalizeSelectionSpellingRelation, schema) as Schema;
-}
-
-function normalizeSelectionSpellingRelation(input: unknown): unknown {
-	if (typeof input !== "object" || input === null || Array.isArray(input)) {
-		return input;
-	}
-
-	if ("spellingRelation" in input) {
-		return input;
-	}
-
-	return {
-		...input,
-		spellingRelation: "Canonical",
-	};
+	return schema as Schema & { shape: Shape };
 }
