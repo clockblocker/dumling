@@ -46,23 +46,6 @@ export type LemmaOfSurface<S extends { lemma: unknown }> = S extends {
 	? SurfaceLemma
 	: never;
 
-type LemmaDiscriminatorOf<T extends LemmaLike> = T extends {
-	lemmaKind: "Lexeme";
-	pos: infer D;
-}
-	? Extract<D, string>
-	: T extends {
-				lemmaKind: "Morpheme";
-				morphemeKind: infer D;
-			}
-		? Extract<D, string>
-		: T extends {
-					lemmaKind: "Phraseme";
-					phrasemeKind: infer D;
-				}
-			? Extract<D, string>
-			: never;
-
 export type LemmaSurfaceFor<T extends LemmaLike> = {
 	language: T["language"];
 	normalizedFullSurface: string;

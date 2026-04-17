@@ -11,18 +11,6 @@ import type {
 import type { AbstractFeatures } from "./enums/feature";
 import type { LemmaDiscriminatorFor } from "./lemma-discriminator";
 
-type AbstractSurfaceFor<
-	SK extends SurfaceKind = SurfaceKind,
-	LK extends LemmaKind = LemmaKind,
-	D extends LemmaDiscriminatorFor<LK> = LemmaDiscriminatorFor<LK>,
-> = SK extends SurfaceKind
-	? Prettify<
-			SurfaceBaseFor<SK, LK, D> & {
-				lemma: AbstractLemma<LK, D>;
-			}
-		>
-	: never;
-
 export type AbstractSelectionFor<
 	OS extends Exclude<OrthographicStatus, "Unknown"> = Exclude<
 		OrthographicStatus,
@@ -76,8 +64,6 @@ type HydratedSelectionBaseFor<
 
 type SurfaceBaseFor<
 	SK extends SurfaceKind = SurfaceKind,
-	LK extends LemmaKind = LemmaKind,
-	D extends LemmaDiscriminatorFor<LK> = LemmaDiscriminatorFor<LK>,
 > = Prettify<
 	{
 		language: TargetLanguage;
@@ -94,6 +80,6 @@ type SurfaceFor<
 	? Prettify<
 			{
 				lemma: AbstractLemma<LK, D>;
-			} & SurfaceBaseFor<SK, LK, D>
+			} & SurfaceBaseFor<SK>
 		>
 	: never;

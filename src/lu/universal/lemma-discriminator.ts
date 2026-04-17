@@ -10,14 +10,3 @@ export type LemmaDiscriminatorFor<LK extends LemmaKind> = LK extends "Lexeme"
 		: LK extends "Phraseme"
 			? PhrasemeKind
 			: never;
-
-type LemmaIdentityFieldsFor<
-	LK extends LemmaKind,
-	D extends LemmaDiscriminatorFor<LK>,
-> = LK extends "Lexeme"
-	? { pos: D }
-	: LK extends "Morpheme"
-		? { morphemeKind: D }
-		: LK extends "Phraseme"
-			? { phrasemeKind: D }
-			: never;

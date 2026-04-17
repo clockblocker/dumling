@@ -37,5 +37,3 @@ export type SurfaceSchemaLanguageShape = {
 export type LemmaSchemaLanguageShape = {
 	[LK in LemmaKind]: DiscriminatorSchemaShape<LK>;
 };
-
-export type ObservedSelectionSchemaLanguageShape = z.ZodTypeAny;

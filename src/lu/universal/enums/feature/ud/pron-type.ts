@@ -17,21 +17,3 @@ const pronTypeValues = [
 // Source: https://universaldependencies.org/u/feat/PronType.html
 export const PronType = z.enum(pronTypeValues);
 export type PronType = z.infer<typeof PronType>;
-
-const reprForPronType = {
-	Art: "article",
-	Dem: "demonstrative",
-	Emp: "emphatic",
-	Exc: "exclamative",
-	Ind: "indefinite",
-	Int: "interrogative",
-	Neg: "negative",
-	Prs: "personal",
-	Rcp: "reciprocal",
-	Rel: "relative",
-	Tot: "total",
-} satisfies Record<PronType, string>;
-
-function getReprForPronType(pronType: PronType) {
-	return reprForPronType[pronType];
-}

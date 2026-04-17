@@ -1,7 +1,5 @@
 import z from "zod/v3";
 import type { Prettify } from "../../../types/helpers";
-import type { LemmaKind } from "../enums/core/selection";
-import type { LemmaDiscriminatorFor } from "../lemma-discriminator";
 import type { LemmaSchemaDescriptor } from "./lemma-schema-descriptor";
 
 const lemmaSubKindKeys = ["morphemeKind", "phrasemeKind", "pos"] as const;
@@ -16,32 +14,8 @@ type SurfaceLemmaIdentityShape = z.ZodRawShape & {
 	lemmaKind: z.ZodTypeAny;
 };
 
-type SurfaceLemmaIdentityShapeFor<
-	LK extends LemmaKind,
-	D extends LemmaDiscriminatorFor<LK>,
-> = LK extends "Lexeme"
-	? {
-			lemmaKind: z.ZodLiteral<LK>;
-			pos: z.ZodLiteral<D>;
-		}
-	: LK extends "Morpheme"
-		? {
-				lemmaKind: z.ZodLiteral<LK>;
-				morphemeKind: z.ZodLiteral<D>;
-			}
-		: LK extends "Phraseme"
-			? {
-					lemmaKind: z.ZodLiteral<LK>;
-					phrasemeKind: z.ZodLiteral<D>;
-				}
-			: never;
-
-type InferredLemmaIdentityFor<Shape extends SurfaceLemmaIdentityShape> =
-	InferShape<Shape>;
-
 type SurfaceValueFor<
 	LanguageLiteral extends string,
-	LemmaIdentity extends { lemmaKind: unknown },
 	Lemma,
 	Surface,
 > = Prettify<
@@ -54,13 +28,11 @@ type SurfaceValueFor<
 
 type SurfaceSchemaFor<
 	LanguageLiteral extends string,
-	LemmaIdentityShape extends SurfaceLemmaIdentityShape,
 	LemmaSchema extends z.ZodTypeAny,
 	SurfaceShape extends z.ZodRawShape,
 > = z.ZodType<
 	SurfaceValueFor<
 		LanguageLiteral,
-		InferredLemmaIdentityFor<LemmaIdentityShape>,
 		z.infer<LemmaSchema>,
 		InferShape<SurfaceShape>
 	>
@@ -68,13 +40,11 @@ type SurfaceSchemaFor<
 
 type SurfaceSchemaDescriptorFor<
 	LemmaDescriptor extends LemmaSchemaDescriptor<z.ZodTypeAny>,
-	LemmaIdentityShape extends SurfaceLemmaIdentityShape,
 	SurfaceShape extends z.ZodRawShape,
 > = {
 	language: LemmaDescriptor["language"];
 	schema: SurfaceSchemaFor<
 		LemmaDescriptor["language"],
-		LemmaIdentityShape,
 		LemmaDescriptor["schema"],
 		SurfaceShape
 	>;
@@ -94,7 +64,6 @@ export function buildSurfaceSchema<
 	surfaceShape: SurfaceShape;
 }): SurfaceSchemaDescriptorFor<
 	LemmaDescriptor,
-	LemmaIdentityShape,
 	SurfaceShape
 > {
 	const { language, schema: lemmaSchema } = lemma;
@@ -144,12 +113,11 @@ export function buildSurfaceSchema<
 					path: ["lemma", lemmaSubKindKey],
 				});
 			}
-		}) as SurfaceSchemaFor<
-		LemmaDescriptor["language"],
-		LemmaIdentityShape,
-		LemmaDescriptor["schema"],
-		SurfaceShape
-	>;
+			}) as SurfaceSchemaFor<
+				LemmaDescriptor["language"],
+				LemmaDescriptor["schema"],
+				SurfaceShape
+			>;
 
 	return {
 		language,

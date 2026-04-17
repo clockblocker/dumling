@@ -59,6 +59,8 @@ const gvaeSelectionId = dumling.idCodec.English.makeDumlingIdFor(gvaeSelection);
 // "ling:v1:EN:SEL;Typo;Canonical;Partial;gvae;SURF;gave up;Inflection;Lexeme;VERB;tense=Past,verbForm=Fin;give up;Lexeme;VERB;phrasal=Yes;🏳️"
 // README_BLOCK:story-give-up-ids:end
 
+void [giveUpLemmaId, gaveUpSurfaceId, gvaeSelectionId];
+
 // README_BLOCK:quickstart-walk:start
 const walkLemma = {
 	canonicalLemma: "walk",
@@ -83,3 +85,5 @@ const parsedWalkSelection =
 		walkSelection,
 	);
 // README_BLOCK:quickstart-walk:end
+
+void [walkSelectionId, parsedWalkSelection];

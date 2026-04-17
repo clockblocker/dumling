@@ -11,16 +11,3 @@ const phrasemeKindValues = [
 export const PhrasemeKind = z.enum(phrasemeKindValues);
 export type PhrasemeKind = z.infer<typeof PhrasemeKind>;
 export const PHRASEME_KIND_KEY = "phrasemeKind";
-
-const PHRASEME_KINDS = PhrasemeKind.options;
-
-const reprForPhrasemeKind = {
-	Aphorism: "aphorism",
-	DiscourseFormula: "discourse formula",
-	Idiom: "idiom",
-	Proverb: "proverb",
-} satisfies Record<PhrasemeKind, string>;
-
-function getReprForPhrasemeKind(phrasemeKind: PhrasemeKind) {
-	return reprForPhrasemeKind[phrasemeKind];
-}

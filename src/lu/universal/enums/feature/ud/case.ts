@@ -1,81 +1,41 @@
 import { z } from "zod/v3";
 
 const caseValues = [
-	"Acc",
-	"Abe",
-	"Ben",
-	"Cau",
-	"Cmp",
-	"Cns",
-	"Com",
-	"Dat",
-	"Dis",
-	"Equ",
-	"Gen",
-	"Ins",
-	"Par",
-	"Tem",
-	"Abl",
-	"Add",
-	"Ade",
-	"All",
-	"Del",
-	"Ela",
-	"Ess",
-	"Ill",
-	"Ine",
-	"Lat",
-	"Loc",
-	"Nom",
-	"Per",
-	"Sbe",
-	"Sbl",
-	"Spl",
-	"Sub",
-	"Sup",
-	"Ter",
+	"Acc", // accusative
+	"Abe", // abessive; caritive | privative
+	"Ben", // benefactive; destinative
+	"Cau", // causative; motivative | purposive
+	"Cmp", // comparative
+	"Cns", // considerative
+	"Com", // comitative; associative
+	"Dat", // dative
+	"Dis", // distributive
+	"Equ", // equative
+	"Gen", // genitive
+	"Ins", // instrumental; instructive
+	"Par", // partitive
+	"Tem", // temporal
+	"Abl", // ablative; adelative
+	"Add", // additive
+	"Ade", // adessive
+	"All", // allative; adlative
+	"Del", // delative; superelative
+	"Ela", // elative; inelative
+	"Ess", // essive; prolative
+	"Ill", // illative; inlative
+	"Ine", // inessive
+	"Lat", // lative; directional allative
+	"Loc", // locative
+	"Nom", // nominative
+	"Per", // perlative
+	"Sbe", // subelative
+	"Sbl", // sublative
+	"Spl", // superlative
+	"Sub", // subessive
+	"Sup", // superessive
+	"Ter", // terminative; terminal allative
 ] as const;
 
 // Source: https://universaldependencies.org/u/feat/Case.html
 export const Case = z.enum(caseValues);
 export type Case = z.infer<typeof Case>;
-
-const reprForCase = {
-	Abe: "abessive", // caritive | privative
-	Abl: "ablative", // adelative
-	Acc: "accusative",
-	Add: "additive",
-	Ade: "adessive",
-	All: "allative", // adlative
-	Ben: "benefactive", // destinative
-	Cau: "causative", // motivative | purposive
-	Cmp: "comparative",
-	Cns: "considerative",
-	Com: "comitative", // associative
-	Dat: "dative",
-	Del: "delative", // superelative
-	Dis: "distributive",
-	Ela: "elative", // inelative
-	Equ: "equative",
-	Ess: "essive", // prolative
-	Gen: "genitive",
-	Ill: "illative", // inlative
-	Ine: "inessive",
-	Ins: "instrumental", // instructive
-	Lat: "lative", // directional allative
-	Loc: "locative",
-	Nom: "nominative",
-	Par: "partitive",
-	Per: "perlative",
-	Sbe: "subelative",
-	Sbl: "sublative",
-	Spl: "superlative",
-	Sub: "subessive",
-	Sup: "superessive",
-	Tem: "temporal",
-	Ter: "terminative", // terminal allative
-} satisfies Record<Case, string>;
-
-function getReprForCase(caseValue: Case) {
-	return reprForCase[caseValue];
-}

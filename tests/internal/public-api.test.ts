@@ -29,27 +29,27 @@ type Equal<A, B> = (<T>() => T extends A ? 1 : 2) extends <T>() => T extends B
 
 type Assert<T extends true> = T;
 
-type _selectionOnlyContainsHydratedStatuses = Assert<
+export type _selectionOnlyContainsHydratedStatuses = Assert<
 	Equal<Selection<"English">["orthographicStatus"], "Standard" | "Typo">
 >;
 
-type _selectionDecodeHelperStaysConcrete = Assert<
+export type _selectionDecodeHelperStaysConcrete = Assert<
 	Equal<DumlingIdValueFor<"Selection", "English">, Selection<"English">>
 >;
 
-type _observedSelectionCarriesUnknownDiscriminant = Assert<
+export type _observedSelectionCarriesUnknownDiscriminant = Assert<
 	Equal<ObservedSelection<"English">["orthographicStatus"], "Unknown">
 >;
 
-type _supportedLangAliasMatchesTargetLanguage = Assert<
+export type _supportedLangAliasMatchesTargetLanguage = Assert<
 	Equal<SupportedLang, TargetLanguage>
 >;
 
-type _universalLemmaKindAliasMatchesInternalKind = Assert<
+export type _universalLemmaKindAliasMatchesInternalKind = Assert<
 	Equal<UniversalLemmaKind, LemmaKind>
 >;
 
-type _universalLemmaSubKindIsFlattenedUniversalUnion = Assert<
+export type _universalLemmaSubKindIsFlattenedUniversalUnion = Assert<
 	Equal<UniversalLemmaSubKind, Pos | MorphemeKind | PhrasemeKind>
 >;
 

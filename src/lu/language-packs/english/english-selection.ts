@@ -1,6 +1,5 @@
 import z from "zod/v3";
 import type {
-	ObservedSelectionSchemaLanguageShape,
 	SelectionSchemaLanguageShape,
 } from "../../registry-shapes";
 import type { ObservedSelectionSchemaFor } from "../../universal/helpers/schema-targets";
@@ -19,6 +18,3 @@ export const EnglishSelectionSchema = deriveSelectionSchemaLanguage({
 	language: "English",
 	surfaceSchema: EnglishSurfaceSchema,
 }) satisfies SelectionSchemaLanguageShape;
-
-const _englishObservedSelectionSchemaShapeCheck =
-	EnglishObservedSelectionSchema satisfies ObservedSelectionSchemaLanguageShape;

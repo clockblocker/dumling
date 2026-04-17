@@ -6,7 +6,6 @@ import type {
 } from "../abstract-selection";
 import type {
 	LemmaKind,
-	OrthographicStatus,
 	SurfaceKind,
 } from "../enums/core/selection";
 import type { AbstractFeatures } from "../enums/feature";
@@ -21,26 +20,6 @@ export type LemmaSchemaFor<
 	LK extends LemmaKind = LemmaKind,
 	D extends LemmaDiscriminatorFor<LK> = LemmaDiscriminatorFor<LK>,
 > = z.ZodType<LemmaFor<LK, D>>;
-
-type SelectionFor<
-	OS extends Exclude<OrthographicStatus, "Unknown"> = Exclude<
-		OrthographicStatus,
-		"Unknown"
-	>,
-	SK extends SurfaceKind = SurfaceKind,
-	LK extends LemmaKind = LemmaKind,
-	D extends LemmaDiscriminatorFor<LK> = LemmaDiscriminatorFor<LK>,
-> = AbstractSelectionFor<OS, SK, LK, D>;
-
-type SelectionSchemaFor<
-	OS extends Exclude<OrthographicStatus, "Unknown"> = Exclude<
-		OrthographicStatus,
-		"Unknown"
-	>,
-	SK extends SurfaceKind = SurfaceKind,
-	LK extends LemmaKind = LemmaKind,
-	D extends LemmaDiscriminatorFor<LK> = LemmaDiscriminatorFor<LK>,
-> = z.ZodType<SelectionFor<OS, SK, LK, D>>;
 
 export type SurfaceFor<
 	SK extends SurfaceKind = SurfaceKind,
@@ -57,10 +36,6 @@ export type SurfaceSchemaFor<
 export type ObservedSelectionFor = AbstractObservedSelectionFor;
 
 export type ObservedSelectionSchemaFor = z.ZodType<ObservedSelectionFor>;
-
-type RestrictableFeatureSchemaShape = Partial<{
-	[K in keyof AbstractFeatures]: z.ZodTypeAny;
-}>;
 
 type ValidFeatureSchemaShape<Shape extends z.ZodRawShape> = {
 	[K in keyof Shape]: K extends keyof AbstractFeatures

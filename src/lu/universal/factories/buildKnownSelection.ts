@@ -6,6 +6,102 @@ import {
 	SpellingRelation,
 } from "../enums/core/selection";
 
+export type KnownSelectionValueFor<
+	LanguageLiteral extends TargetLanguage,
+	OrthographicStatusLiteral extends KnownOrthographicStatus,
+	SurfaceSchema extends z.ZodTypeAny,
+> = OrthographicStatusLiteral extends "Standard"
+	? StandardSelectionValueFor<LanguageLiteral, SurfaceSchema>
+	: TypoSelectionValueFor<LanguageLiteral, SurfaceSchema>;
+
+export type KnownSelectionSchemaFor<
+	LanguageLiteral extends TargetLanguage,
+	OrthographicStatusLiteral extends KnownOrthographicStatus,
+	SurfaceSchema extends z.ZodTypeAny,
+> = Omit<z.ZodTypeAny, "_input" | "_output"> & {
+	_input: unknown;
+	_output: KnownSelectionValueFor<
+		LanguageLiteral,
+		OrthographicStatusLiteral,
+		SurfaceSchema
+	>;
+	shape: SelectionShapeFor<
+		LanguageLiteral,
+		OrthographicStatusLiteral,
+		SurfaceSchema
+	>;
+};
+
+export function buildKnownSelectionSchema<
+	LanguageLiteral extends TargetLanguage,
+	SurfaceSchema extends z.ZodTypeAny,
+>(args: {
+	orthographicStatus: KnownOrthographicStatus;
+	spellingRelation?: z.infer<typeof SpellingRelation>;
+	surface: {
+		language: LanguageLiteral;
+		schema: SurfaceSchema;
+	};
+}):
+	| KnownSelectionSchemaFor<LanguageLiteral, "Standard", SurfaceSchema>
+	| KnownSelectionSchemaFor<LanguageLiteral, "Typo", SurfaceSchema>;
+
+export function buildKnownSelectionSchema<
+	LanguageLiteral extends TargetLanguage,
+	SurfaceSchema extends z.ZodTypeAny,
+>(args: {
+	orthographicStatus: "Standard";
+	spellingRelation?: z.infer<typeof SpellingRelation>;
+	surface: {
+		language: LanguageLiteral;
+		schema: SurfaceSchema;
+	};
+}): KnownSelectionSchemaFor<LanguageLiteral, "Standard", SurfaceSchema>;
+
+export function buildKnownSelectionSchema<
+	LanguageLiteral extends TargetLanguage,
+	SurfaceSchema extends z.ZodTypeAny,
+>(args: {
+	orthographicStatus: "Typo";
+	spellingRelation?: z.infer<typeof SpellingRelation>;
+	surface: {
+		language: LanguageLiteral;
+		schema: SurfaceSchema;
+	};
+}): KnownSelectionSchemaFor<LanguageLiteral, "Typo", SurfaceSchema>;
+
+export function buildKnownSelectionSchema<
+	LanguageLiteral extends TargetLanguage,
+	SurfaceSchema extends z.ZodTypeAny,
+>({
+	orthographicStatus,
+	spellingRelation,
+	surface,
+}: {
+	orthographicStatus: KnownOrthographicStatus;
+	spellingRelation?: z.infer<typeof SpellingRelation>;
+	surface: {
+		language: LanguageLiteral;
+		schema: SurfaceSchema;
+	};
+}) {
+	const { language, schema: surfaceSchema } = surface;
+
+	if (orthographicStatus === "Standard") {
+		return buildStandardKnownSelectionSchema({
+			language,
+			spellingRelation,
+			surfaceSchema,
+		});
+	}
+
+	return buildTypoKnownSelectionSchema({
+		language,
+		spellingRelation,
+		surfaceSchema,
+	});
+}
+
 type KnownOrthographicStatus = Exclude<OrthographicStatus, "Unknown">;
 
 type SelectionShapeFor<
@@ -53,99 +149,6 @@ type TypoSelectionValueFor<
 	spelledSelection: string;
 	surface: z.infer<SurfaceSchema>;
 };
-
-export type KnownSelectionValueFor<
-	LanguageLiteral extends TargetLanguage,
-	OrthographicStatusLiteral extends KnownOrthographicStatus,
-	SurfaceSchema extends z.ZodTypeAny,
-> = OrthographicStatusLiteral extends "Standard"
-	? StandardSelectionValueFor<LanguageLiteral, SurfaceSchema>
-	: TypoSelectionValueFor<LanguageLiteral, SurfaceSchema>;
-
-export type KnownSelectionSchemaFor<
-	LanguageLiteral extends TargetLanguage,
-	OrthographicStatusLiteral extends KnownOrthographicStatus,
-	SurfaceSchema extends z.ZodTypeAny,
-> = Omit<z.ZodTypeAny, "_input" | "_output"> & {
-	_input: unknown;
-	_output: KnownSelectionValueFor<
-		LanguageLiteral,
-		OrthographicStatusLiteral,
-		SurfaceSchema
-	>;
-	shape: SelectionShapeFor<
-		LanguageLiteral,
-		OrthographicStatusLiteral,
-		SurfaceSchema
-	>;
-};
-
-export function buildKnownSelectionSchema<
-	LanguageLiteral extends TargetLanguage,
-	SurfaceSchema extends z.ZodTypeAny,
->(args: {
-	orthographicStatus: KnownOrthographicStatus;
-	spellingRelation?: z.infer<typeof SpellingRelation>;
-	surface: {
-		language: LanguageLiteral;
-		schema: SurfaceSchema;
-	};
-}):
-	| KnownSelectionSchemaFor<LanguageLiteral, "Standard", SurfaceSchema>
-	| KnownSelectionSchemaFor<LanguageLiteral, "Typo", SurfaceSchema>;
-export function buildKnownSelectionSchema<
-	LanguageLiteral extends TargetLanguage,
-	SurfaceSchema extends z.ZodTypeAny,
->(args: {
-	orthographicStatus: "Standard";
-	spellingRelation?: z.infer<typeof SpellingRelation>;
-	surface: {
-		language: LanguageLiteral;
-		schema: SurfaceSchema;
-	};
-}): KnownSelectionSchemaFor<LanguageLiteral, "Standard", SurfaceSchema>;
-export function buildKnownSelectionSchema<
-	LanguageLiteral extends TargetLanguage,
-	SurfaceSchema extends z.ZodTypeAny,
->(args: {
-	orthographicStatus: "Typo";
-	spellingRelation?: z.infer<typeof SpellingRelation>;
-	surface: {
-		language: LanguageLiteral;
-		schema: SurfaceSchema;
-	};
-}): KnownSelectionSchemaFor<LanguageLiteral, "Typo", SurfaceSchema>;
-export function buildKnownSelectionSchema<
-	LanguageLiteral extends TargetLanguage,
-	SurfaceSchema extends z.ZodTypeAny,
->({
-	orthographicStatus,
-	spellingRelation,
-	surface,
-}: {
-	orthographicStatus: KnownOrthographicStatus;
-	spellingRelation?: z.infer<typeof SpellingRelation>;
-	surface: {
-		language: LanguageLiteral;
-		schema: SurfaceSchema;
-	};
-}) {
-	const { language, schema: surfaceSchema } = surface;
-
-	if (orthographicStatus === "Standard") {
-		return buildStandardKnownSelectionSchema({
-			language,
-			spellingRelation,
-			surfaceSchema,
-		});
-	}
-
-	return buildTypoKnownSelectionSchema({
-		language,
-		spellingRelation,
-		surfaceSchema,
-	});
-}
 
 function buildStandardKnownSelectionSchema<
 	LanguageLiteral extends TargetLanguage,
