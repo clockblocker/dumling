@@ -10,7 +10,7 @@ Typesafe schemas, types, IDs, and operations for learner-facing linguistic annot
 - `Surface`: the normalized full form in context
 - `Selection`: the exact text the learner highlighted
 
-It currently ships curated registries for `English`, `German`, and `Hebrew`, plus helpers for lexical and morphological relations.
+It currently ships curated registries for `English`, `German`, and `Hebrew`.
 
 ## Core idea
 
@@ -140,7 +140,6 @@ The root export is intentionally small:
 - `dumling.schemaFor`: Zod schema registries by language and entity kind
 - `dumling.operation`: convert, extract, resolve, and unresolve helpers
 - `dumling.idCodec`: stable IDs for lemmas, surfaces, and selections
-- `Relations`: lexical and morphological relation helpers and schemas
 
 ## Model notes
 

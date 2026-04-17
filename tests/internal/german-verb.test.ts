@@ -1,26 +1,12 @@
 import { describe, expect, it } from "bun:test";
 import {
 	dumling,
-	LexicalRelationsSchema,
-	MorphologicalRelationsSchema,
-	getInverseLexicalRelation,
-	getInverseMorphologicalRelation,
 } from "../../src";
 import { GermanVerbSchemas } from "../../src/lu/language-packs/german/lu/lexeme/pos/german-verb";
 import { makeLexemeSurfaceReference } from "../helpers";
 
-const { idCodec: DumlingIdCodec, schemaFor: lingSchemaFor } = dumling;
+const { schemaFor: lingSchemaFor } = dumling;
 const { Selection: SelectionSchema } = lingSchemaFor;
-
-const relationId = (canonicalLemma: string) =>
-	DumlingIdCodec.German.makeDumlingIdFor({
-		canonicalLemma,
-		inherentFeatures: {},
-		language: "German",
-		lemmaKind: "Lexeme",
-		meaningInEmojis: "🔗",
-		pos: "VERB",
-	});
 
 describe("German verb schemas", () => {
 	it("accepts supported German verb inflectional features", () => {
@@ -174,21 +160,6 @@ describe("German verb schemas", () => {
 		).toBe(true);
 	});
 
-	it("validates relation payloads via the dedicated relation schemas", () => {
-		expect(
-			LexicalRelationsSchema.safeParse({
-				hypernym: [relationId("Fortbewegung")],
-				synonym: [relationId("Laufen")],
-			}).success,
-		).toBe(true);
-		expect(
-			MorphologicalRelationsSchema.safeParse({
-				derivedFrom: [relationId("Gang")],
-				sourceFor: [relationId("Ausgang")],
-			}).success,
-		).toBe(true);
-	});
-
 	it("rejects unsupported inherent feature keys", () => {
 		const result = GermanVerbSchemas.LemmaSchema.safeParse({
 			canonicalLemma: "gehen",
@@ -335,25 +306,4 @@ describe("German verb schemas", () => {
 		expect(result.success).toBe(true);
 	});
 
-	it("accepts duplicate relation ids and rejects non-string relation payloads", () => {
-		expect(
-			LexicalRelationsSchema.safeParse({
-				synonym: [relationId("Laufen"), relationId("Laufen")],
-			}).success,
-		).toBe(true);
-		expect(
-			LexicalRelationsSchema.safeParse({
-				synonym: [false],
-			}).success,
-		).toBe(false);
-	});
-
-	it("exposes total inverse relation helpers", () => {
-		expect(getInverseLexicalRelation("hypernym")).toBe("hyponym");
-		expect(getInverseLexicalRelation("synonym")).toBe("synonym");
-		expect(getInverseMorphologicalRelation("derivedFrom")).toBe(
-			"sourceFor",
-		);
-		expect(getInverseMorphologicalRelation("usedIn")).toBe("consistsOf");
-	});
 });

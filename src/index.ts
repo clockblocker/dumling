@@ -18,7 +18,15 @@ import {
 } from "./lu/public-operations";
 import type { TargetLanguage } from "./lu/universal/enums/core/language";
 
-const schemaFor = {
+type SchemaForApi = {
+	readonly Lemma: typeof LemmaSchema;
+	readonly ResolvedSurface: typeof ResolvedSurfaceSchema;
+	readonly Selection: typeof SelectionSchema;
+	readonly Surface: typeof SurfaceSchema;
+	readonly UnresolvedSurface: typeof SurfaceSchema;
+};
+
+const schemaFor: SchemaForApi = {
 	Lemma: LemmaSchema,
 	ResolvedSurface: ResolvedSurfaceSchema,
 	Selection: SelectionSchema,
@@ -26,7 +34,36 @@ const schemaFor = {
 	UnresolvedSurface: SurfaceSchema,
 };
 
-const operation = {
+type OperationApi = {
+	readonly convert: {
+		readonly lemma: {
+			readonly toResolvedLemmaSurface: typeof toResolvedLemmaSurface;
+			readonly toStandardFullSelection: typeof toStandardFullSelectionFromLemma;
+		};
+		readonly surface: {
+			readonly toStandardFullSelection: typeof toStandardFullSelection;
+		};
+	};
+	readonly extract: {
+		readonly lemma: {
+			readonly fromSurface: typeof extractLemmaFromSurface;
+		};
+		readonly surface: {
+			readonly fromSelection: typeof extractSurfaceFromSelection;
+		};
+	};
+	readonly forLanguage: typeof operationForLanguage;
+	readonly resolve: {
+		readonly unresolvedSurface: {
+			readonly withLemma: typeof resolveUnresolvedSurfaceWithLemma;
+		};
+	};
+	readonly unresolve: {
+		readonly surface: typeof unresolveSurface;
+	};
+};
+
+const operation: OperationApi = {
 	convert: {
 		lemma: {
 			toResolvedLemmaSurface,
@@ -53,7 +90,7 @@ const operation = {
 	unresolve: {
 		surface: unresolveSurface,
 	},
-} as const;
+};
 
 const idCodec = {
 	English: lingIdApiForLanguage("English"),
@@ -66,11 +103,17 @@ const idCodec = {
 	[L in TargetLanguage]: DumlingIdApiFor<L>;
 };
 
-export const dumling = {
+export type DumlingApi = {
+	readonly idCodec: typeof idCodec;
+	readonly operation: typeof operation;
+	readonly schemaFor: typeof schemaFor;
+};
+
+export const dumling: DumlingApi = {
 	idCodec,
 	operation,
 	schemaFor,
-} as const;
+};
 
 export type {
 	ConcreteDumlingIdKind,
@@ -88,5 +131,3 @@ export type {
 	Surface,
 	UnresolvedSurface,
 } from "./lu/public-entities";
-
-export * from "./relations/public";

@@ -1,9 +1,5 @@
 import { describe, expect, it } from "bun:test";
 import { dumling, type Lemma } from "../../src";
-import {
-	LexicalRelationsSchema,
-	MorphologicalRelationsSchema,
-} from "../../src";
 import { GermanNounSchemas } from "../../src/lu/language-packs/german/lu/lexeme/pos/german-noun";
 import {
 	germanHausLemma,
@@ -11,18 +7,8 @@ import {
 	makeLexemeSurfaceReference,
 } from "../helpers";
 
-const { idCodec: DumlingIdCodec, schemaFor: lingSchemaFor } = dumling;
+const { schemaFor: lingSchemaFor } = dumling;
 const { Lemma: LemmaSchema, Selection: SelectionSchema } = lingSchemaFor;
-
-const relationId = (canonicalLemma: string) =>
-	DumlingIdCodec.German.makeDumlingIdFor({
-		canonicalLemma,
-		inherentFeatures: {},
-		language: "German",
-		lemmaKind: "Lexeme",
-		meaningInEmojis: "🔗",
-		pos: "NOUN",
-	});
 
 describe("German noun schemas", () => {
 	it("exposes inferred lemma types from the registry", () => {
@@ -95,21 +81,6 @@ describe("German noun schemas", () => {
 		});
 
 		expect(result.success).toBe(false);
-	});
-
-	it("validates relation payloads via the dedicated relation schemas", () => {
-		expect(
-			LexicalRelationsSchema.safeParse({
-				hypernym: [relationId("Lebewesen")],
-				synonym: [relationId("Nachkomme")],
-			}).success,
-		).toBe(true);
-		expect(
-			MorphologicalRelationsSchema.safeParse({
-				derivedFrom: [relationId("Kind")],
-				sourceFor: [relationId("Kindheit")],
-			}).success,
-		).toBe(true);
 	});
 
 	it("rejects invalid meaningInEmojis payloads", () => {
@@ -202,19 +173,6 @@ describe("German noun schemas", () => {
 			});
 
 		expect(result.success).toBe(true);
-	});
-
-	it("accepts duplicate relation ids and rejects non-string relation payloads", () => {
-		expect(
-			LexicalRelationsSchema.safeParse({
-				synonym: [relationId("Auto"), relationId("Auto")],
-			}).success,
-		).toBe(true);
-		expect(
-			LexicalRelationsSchema.safeParse({
-				synonym: [123],
-			}).success,
-		).toBe(false);
 	});
 
 	it("accepts detached and hydrated surface lemmas", () => {

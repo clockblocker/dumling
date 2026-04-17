@@ -2,16 +2,10 @@ import { describe, expect, it } from "bun:test";
 import * as linguistics from "../../src";
 import {
 	type KnownSelection,
-	LexicalRelationsSchema,
-	type DumlingId,
 	type DumlingIdValueFor,
-	MorphologicalRelationsSchema,
-	RelationTargetDumlingIdsSchema,
-	type Relations,
 	type Selection,
 	dumling,
 } from "../../src";
-import { englishWalkLemma } from "../helpers";
 
 const {
 	idCodec: DumlingIdCodec,
@@ -33,10 +27,6 @@ type _knownSelectionExcludesUnknown = Assert<
 
 type _selectionDecodeHelperStaysConcrete = Assert<
 	Equal<DumlingIdValueFor<"Selection", "English">, KnownSelection<"English">>
->;
-
-type _relationTargetsAreLemmaIds = Assert<
-	Equal<Relations.TargetDumlingIds[number], DumlingId<"Lemma">>
 >;
 
 type _selectionStillIncludesUnknownOutsideDumlingIdApi = Assert<
@@ -83,30 +73,12 @@ describe("public API usage", () => {
 		expect("UnresolvedSurfaceSchema" in linguistics).toBe(false);
 	});
 
-	it("keeps schemas and relations available from the package root", () => {
-		const lemmaId = DumlingIdCodec.English.makeDumlingIdFor(englishWalkLemma);
-
+	it("keeps schemas available from the package root", () => {
 		expect(
 			lingSchemaFor.Selection.English.Standard.Inflection.Lexeme.VERB,
 		).toBeDefined();
 		expect(
 			lingSchemaFor.ResolvedSurface.German.Standard.Lemma.Lexeme.NOUN,
 		).toBeDefined();
-		expect(
-			RelationTargetDumlingIdsSchema.parse([lemmaId] as DumlingId<"Lemma">[]),
-		).toEqual([lemmaId] as DumlingId<"Lemma">[]);
-		expect(() =>
-			RelationTargetDumlingIdsSchema.parse([
-				"ling:v1:EN:SURF-RES;walk;Inflection;Lexeme;VERB;tense=Pres,verbForm=Fin;walk;Lexeme;VERB;-;%F0%9F%9A%B6",
-			]),
-		).toThrow();
-		expect(LexicalRelationsSchema.parse({ synonym: [] })).toEqual({
-			synonym: [],
-		});
-		expect(MorphologicalRelationsSchema.parse({ derivedFrom: [] })).toEqual(
-			{
-				derivedFrom: [],
-			},
-		);
 	});
 });
