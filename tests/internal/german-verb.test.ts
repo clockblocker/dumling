@@ -16,7 +16,7 @@ describe("German verb schemas", () => {
 			selectionCoverage: "Full",
 			spelledSelection: "ging",
 			surface: {
-				...makeLexemeSurfaceReference("VERB", "gehen"),
+				...makeLexemeSurfaceReference("German", "VERB", "gehen"),
 				inflectionalFeatures: {
 					mood: "Sub",
 					number: "Sing",
@@ -40,7 +40,7 @@ describe("German verb schemas", () => {
 			selectionCoverage: "Full",
 			spelledSelection: "gehend",
 			surface: {
-				...makeLexemeSurfaceReference("VERB", "gehen"),
+				...makeLexemeSurfaceReference("German", "VERB", "gehen"),
 				inflectionalFeatures: {
 					mood: "Cnd",
 					number: "Dual",
@@ -147,7 +147,7 @@ describe("German verb schemas", () => {
 				selectionCoverage: "Full",
 				spelledSelection: "gegangen",
 				surface: {
-					...makeLexemeSurfaceReference("VERB", "gehen"),
+					...makeLexemeSurfaceReference("German", "VERB", "gehen"),
 					inflectionalFeatures: {
 						aspect: "Perf",
 						verbForm: "Part",
@@ -182,7 +182,7 @@ describe("German verb schemas", () => {
 			selectionCoverage: "Partial",
 			spelledSelection: "gehen",
 			surface: {
-				...makeLexemeSurfaceReference("VERB", "spazieren gehen"),
+				...makeLexemeSurfaceReference("German", "VERB", "spazieren gehen"),
 				language: "German",
 				normalizedFullSurface: "spazieren gehen",
 				surfaceKind: "Lemma",
@@ -200,7 +200,7 @@ describe("German verb schemas", () => {
 				selectionCoverage: "Full",
 				spelledSelection: "geheh",
 				surface: {
-					...makeLexemeSurfaceReference("VERB", "gehen"),
+					...makeLexemeSurfaceReference("German", "VERB", "gehen"),
 					inflectionalFeatures: {
 						mood: "Ind",
 						number: "Sing",
@@ -226,7 +226,7 @@ describe("German verb schemas", () => {
 				selectionCoverage: "Partial",
 				spelledSelection: "gehen",
 				surface: {
-					...makeLexemeSurfaceReference("VERB", "spazieren gehen"),
+					...makeLexemeSurfaceReference("German", "VERB", "spazieren gehen"),
 					language: "German",
 					normalizedFullSurface: "spazieren gehen",
 					surfaceKind: "Lemma",
@@ -242,7 +242,7 @@ describe("German verb schemas", () => {
 				selectionCoverage: "Partial",
 				spelledSelection: "geheh",
 				surface: {
-					...makeLexemeSurfaceReference("VERB", "gehen"),
+					...makeLexemeSurfaceReference("German", "VERB", "gehen"),
 					language: "German",
 					normalizedFullSurface: "geheh",
 					surfaceKind: "Lemma",
@@ -259,7 +259,7 @@ describe("German verb schemas", () => {
 				selectionCoverage: "Full",
 				spelledSelection: "geht",
 				surface: {
-					...makeLexemeSurfaceReference("VERB", "gehen"),
+					...makeLexemeSurfaceReference("German", "VERB", "gehen"),
 					inflectionalFeatures: {
 						gender: "Fem",
 						mood: "Ind",
@@ -282,7 +282,7 @@ describe("German verb schemas", () => {
 				selectionCoverage: "Full",
 				spelledSelection: "geh",
 				surface: {
-					...makeLexemeSurfaceReference("VERB", "gehen"),
+					...makeLexemeSurfaceReference("German", "VERB", "gehen"),
 					inflectionalFeatures: {
 						mood: "Imp",
 						tense: "Past",

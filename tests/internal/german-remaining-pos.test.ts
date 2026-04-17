@@ -30,7 +30,7 @@ describe("German remaining POS schemas", () => {
 				selectionCoverage: "Full",
 				spelledSelection: "kleiner",
 				surface: {
-					...makeLexemeSurfaceReference("ADJ", "klein"),
+					...makeLexemeSurfaceReference("German", "ADJ", "klein"),
 					inflectionalFeatures: {
 						case: "Dat",
 						degree: "Cmp",
@@ -51,7 +51,7 @@ describe("German remaining POS schemas", () => {
 				selectionCoverage: "Full",
 				spelledSelection: "zu",
 				surface: {
-					...makeLexemeSurfaceReference("ADP", "zu"),
+					...makeLexemeSurfaceReference("German", "ADP", "zu"),
 					inflectionalFeatures: {},
 					language: "German",
 					normalizedFullSurface: "zu",
@@ -67,7 +67,7 @@ describe("German remaining POS schemas", () => {
 				selectionCoverage: "Full",
 				spelledSelection: "war",
 				surface: {
-					...makeLexemeSurfaceReference("AUX", "sein"),
+					...makeLexemeSurfaceReference("German", "AUX", "sein"),
 					inflectionalFeatures: {
 						mood: "Ind",
 						number: "Sing",
@@ -89,7 +89,7 @@ describe("German remaining POS schemas", () => {
 				selectionCoverage: "Full",
 				spelledSelection: "dieser",
 				surface: {
-					...makeLexemeSurfaceReference("DET", "dies"),
+					...makeLexemeSurfaceReference("German", "DET", "dies"),
 					inflectionalFeatures: {
 						case: "Nom",
 						gender: "Masc",
@@ -109,7 +109,7 @@ describe("German remaining POS schemas", () => {
 				selectionCoverage: "Full",
 				spelledSelection: "sich",
 				surface: {
-					...makeLexemeSurfaceReference("PRON", "sich"),
+					...makeLexemeSurfaceReference("German", "PRON", "sich"),
 					inflectionalFeatures: {
 						case: "Dat",
 						number: "Sing",
@@ -129,7 +129,7 @@ describe("German remaining POS schemas", () => {
 				selectionCoverage: "Full",
 				spelledSelection: "Angelas",
 				surface: {
-					...makeLexemeSurfaceReference("PROPN", "Angela"),
+					...makeLexemeSurfaceReference("German", "PROPN", "Angela"),
 					inflectionalFeatures: {
 						case: "Gen",
 						number: "Sing",
@@ -273,7 +273,7 @@ describe("German remaining POS schemas", () => {
 				selectionCoverage: "Full",
 				spelledSelection: "worden",
 				surface: {
-					...makeLexemeSurfaceReference("AUX", "werden"),
+					...makeLexemeSurfaceReference("German", "AUX", "werden"),
 					inflectionalFeatures: {
 						aspect: "Perf",
 						verbForm: "Part",
@@ -293,7 +293,7 @@ describe("German remaining POS schemas", () => {
 				selectionCoverage: "Full",
 				spelledSelection: "dessen",
 				surface: {
-					...makeLexemeSurfaceReference("DET", "dessen"),
+					...makeLexemeSurfaceReference("German", "DET", "dessen"),
 					inflectionalFeatures: {
 						gender: ["Masc", "Neut"],
 						"gender[psor]": ["Masc", "Neut"],
@@ -480,7 +480,7 @@ describe("German remaining POS schemas", () => {
 					selectionCoverage: "Full",
 					spelledSelection: "und",
 					surface: {
-						...makeLexemeSurfaceReference("CCONJ", "und"),
+						...makeLexemeSurfaceReference("German", "CCONJ", "und"),
 						inflectionalFeatures: {},
 						language: "German",
 						normalizedFullSurface: "und",
@@ -497,7 +497,7 @@ describe("German remaining POS schemas", () => {
 				selectionCoverage: "Full",
 				spelledSelection: "ach",
 				surface: {
-					...makeLexemeSurfaceReference("INTJ", "ach"),
+					...makeLexemeSurfaceReference("German", "INTJ", "ach"),
 					inflectionalFeatures: {},
 					language: "German",
 					normalizedFullSurface: "ach",
@@ -513,7 +513,7 @@ describe("German remaining POS schemas", () => {
 				selectionCoverage: "Full",
 				spelledSelection: ",",
 				surface: {
-					...makeLexemeSurfaceReference("PUNCT", ","),
+					...makeLexemeSurfaceReference("German", "PUNCT", ","),
 					inflectionalFeatures: {},
 					language: "German",
 					normalizedFullSurface: ",",
@@ -530,7 +530,7 @@ describe("German remaining POS schemas", () => {
 					selectionCoverage: "Full",
 					spelledSelection: "weil",
 					surface: {
-						...makeLexemeSurfaceReference("SCONJ", "weil"),
+						...makeLexemeSurfaceReference("German", "SCONJ", "weil"),
 						inflectionalFeatures: {},
 						language: "German",
 						normalizedFullSurface: "weil",
@@ -575,7 +575,7 @@ describe("German remaining POS schemas", () => {
 				selectionCoverage: "Full",
 				spelledSelection: "foobar",
 				surface: {
-					...makeLexemeSurfaceReference("X", "foobar"),
+					...makeLexemeSurfaceReference("German", "X", "foobar"),
 					inflectionalFeatures: {
 						tense: "Past",
 					},
@@ -593,7 +593,7 @@ describe("German remaining POS schemas", () => {
 				selectionCoverage: "Full",
 				spelledSelection: "zu",
 				surface: {
-					...makeLexemeSurfaceReference("ADP", "zu"),
+					...makeLexemeSurfaceReference("German", "ADP", "zu"),
 					inflectionalFeatures: {
 						case: "Dat",
 					},
@@ -650,7 +650,7 @@ describe("German remaining POS schemas", () => {
 				selectionCoverage: "Full",
 				spelledSelection: "dessen",
 				surface: {
-					...makeLexemeSurfaceReference("DET", "dessen"),
+					...makeLexemeSurfaceReference("German", "DET", "dessen"),
 					inflectionalFeatures: {
 						gender: ["Masc", "Neut", "Neut"],
 					},
@@ -683,7 +683,7 @@ describe("German remaining POS schemas", () => {
 				selectionCoverage: "Full",
 				spelledSelection: "sei",
 				surface: {
-					...makeLexemeSurfaceReference("AUX", "sein"),
+					...makeLexemeSurfaceReference("German", "AUX", "sein"),
 					inflectionalFeatures: {
 						mood: "Sub",
 						person: "3",

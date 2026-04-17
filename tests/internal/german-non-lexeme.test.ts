@@ -142,6 +142,10 @@ describe("German non-lexeme schemas", () => {
 					surfaceKind: "Lemma",
 					lemma: {
 						canonicalLemma: "heit",
+						language: "German",
+						lemmaKind: "Morpheme",
+						meaningInEmojis: "🧩",
+						morphemeKind: "Suffix",
 					},
 				},
 			});
@@ -161,6 +165,10 @@ describe("German non-lexeme schemas", () => {
 					surfaceKind: "Lemma",
 					lemma: {
 						canonicalLemma: "ins Gras beißen",
+						language: "German",
+						lemmaKind: "Phraseme",
+						meaningInEmojis: "💬",
+						phrasemeKind: "Idiom",
 					},
 				},
 			});
@@ -186,6 +194,10 @@ describe("German non-lexeme schemas", () => {
 					surfaceKind: "Lemma",
 					lemma: {
 						canonicalLemma: "-heit",
+						language: "German",
+						lemmaKind: "Morpheme",
+						meaningInEmojis: "🧩",
+						morphemeKind: "Suffix",
 					},
 				},
 			});

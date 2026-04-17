@@ -2,9 +2,8 @@ import { describe, expect, it } from "bun:test";
 import { dumling, type Selection } from "../../src";
 import {
 	englishWalkLemma,
-	englishWalkResolvedLemmaSelection,
-	englishWalkResolvedLemmaSurface,
-	englishWalkUnresolvedLemmaSurface,
+	englishWalkLemmaSelection,
+	englishWalkLemmaSurface,
 	germanMasculineSeeLemma,
 } from "../helpers";
 
@@ -24,32 +23,24 @@ describe("lingOperation", () => {
 	});
 
 	it("extracts the exact surface from known selections", () => {
-		const selection = englishWalkResolvedLemmaSelection;
+		const selection = englishWalkLemmaSelection;
 
 		expect(lingOperation.extract.surface.fromSelection(selection)).toBe(
 			selection.surface,
 		);
 	});
 
-	it("extracts hydrated lemmas from resolved surfaces and null from unresolved ones", () => {
-		const lemma = englishWalkLemma;
-		const resolvedSurface = englishWalkResolvedLemmaSurface;
-		const unresolvedSurface = englishWalkUnresolvedLemmaSurface;
-
-		expect(lingOperation.extract.lemma.fromSurface(resolvedSurface)).toBe(
-			lemma,
-		);
-		expect(lingOperation.extract.lemma.fromSurface(unresolvedSurface)).toBe(
-			null,
+	it("extracts hydrated lemmas from surfaces", () => {
+		expect(lingOperation.extract.lemma.fromSurface(englishWalkLemmaSurface)).toBe(
+			englishWalkLemma,
 		);
 	});
 
-	it("builds valid resolved lemma surfaces", () => {
+	it("builds valid lemma surfaces", () => {
 		const lemma = englishWalkLemma;
-		const resolvedSurface =
-			lingOperation.convert.lemma.toResolvedLemmaSurface(lemma);
+		const surface = lingOperation.convert.lemma.toSurface(lemma);
 
-		expect(resolvedSurface).toEqual({
+		expect(surface).toEqual({
 			discriminators: {
 				lemmaKind: "Lexeme",
 				lemmaSubKind: "VERB",
@@ -60,92 +51,18 @@ describe("lingOperation", () => {
 			lemma: lemma,
 		});
 		expect(
-			lingSchemaFor.ResolvedSurface.English.Standard.Lemma.Lexeme.VERB.safeParse(
-				resolvedSurface,
+			lingSchemaFor.Surface.English.Standard.Lemma.Lexeme.VERB.safeParse(
+				surface,
 			).success,
 		).toBe(true);
 	});
 
-	it("resolves unresolved surfaces with matching lemmas", () => {
-		const lemma = englishWalkLemma;
-		const unresolvedSurface = englishWalkUnresolvedLemmaSurface;
-
-		expect(
-			lingOperation.resolve.unresolvedSurface.withLemma(
-				unresolvedSurface,
-				lemma,
-			),
-		).toEqual({
-			...unresolvedSurface,
-			lemma: lemma,
-		});
-	});
-
-	it("unresolves resolved surfaces and leaves unresolved ones alone", () => {
-		const resolvedSurface = englishWalkResolvedLemmaSurface;
-		const unresolvedSurface =
-			lingOperation.unresolve.surface(resolvedSurface);
-
-		expect(unresolvedSurface).toEqual({
-			...resolvedSurface,
-			lemma: {
-				canonicalLemma: "walk",
-			},
-		});
-		expect(lingOperation.extract.lemma.fromSurface(unresolvedSurface)).toBe(
-			null,
-		);
-		expect(lingOperation.unresolve.surface(unresolvedSurface)).toBe(
-			unresolvedSurface,
-		);
-	});
-
-	it("rejects resolving unresolved surfaces with non-matching lemmas", () => {
-		const unresolvedSurface = englishWalkUnresolvedLemmaSurface;
-
-		expect(() =>
-			lingOperation.resolve.unresolvedSurface.withLemma(
-				unresolvedSurface,
-				germanMasculineSeeLemma as never,
-			),
-		).toThrow(
-			"lingOperation language mismatch: expected English, received German",
-		);
-		expect(() =>
-			lingOperation.resolve.unresolvedSurface.withLemma(
-				unresolvedSurface,
-				{
-					...englishWalkLemma,
-					canonicalLemma: "stroll",
-				},
-			),
-		).toThrow(
-			"lingOperation canonical lemma mismatch: expected walk, received stroll",
-		);
-		expect(() =>
-			lingOperation.resolve.unresolvedSurface.withLemma(
-				unresolvedSurface,
-				{
-					canonicalLemma: "walk",
-					inherentFeatures: {},
-					language: "English",
-					lemmaKind: "Lexeme",
-					meaningInEmojis: "🚶",
-					pos: "NOUN",
-				} as never,
-			),
-		).toThrow(
-			"lingOperation surface/lemma discriminator mismatch: expected Lexeme/VERB, received Lexeme/NOUN",
-		);
-	});
-
 	it("wraps surfaces into valid standard full selections and honors overrides", () => {
 		const lemma = englishWalkLemma;
-		const resolvedSurface =
-			lingOperation.convert.lemma.toResolvedLemmaSurface(lemma);
+		const surface = lingOperation.convert.lemma.toSurface(lemma);
 
 		const selection = lingOperation.convert.surface.toStandardFullSelection(
-			resolvedSurface,
+			surface,
 			{
 				spelledSelection: "Walk",
 			},
@@ -157,7 +74,7 @@ describe("lingOperation", () => {
 			selectionCoverage: "Full",
 			spelledSelection: "Walk",
 			spellingRelation: "Canonical",
-			surface: resolvedSurface,
+			surface,
 		});
 		expect(
 			lingSchemaFor.Selection.English.Standard.Lemma.Lexeme.VERB.safeParse(
@@ -175,7 +92,7 @@ describe("lingOperation", () => {
 			}),
 		).toEqual(
 			lingOperation.convert.surface.toStandardFullSelection(
-				lingOperation.convert.lemma.toResolvedLemmaSurface(lemma),
+				lingOperation.convert.lemma.toSurface(lemma),
 				{
 					spelledSelection: "Walk",
 				},
@@ -185,62 +102,19 @@ describe("lingOperation", () => {
 
 	it("enforces bound language matching at runtime", () => {
 		const germanOps = lingOperation.forLanguage("German");
-		type GermanLemmaInput = Parameters<
-			typeof germanOps.convert.lemma.toResolvedLemmaSurface
-		>[0];
+		type GermanLemmaInput = Parameters<typeof germanOps.convert.lemma.toSurface>[0];
 		type GermanSurfaceInput = Parameters<
 			typeof germanOps.convert.surface.toStandardFullSelection
 		>[0];
-		type GermanUnresolvedSurfaceInput = Parameters<
-			typeof germanOps.resolve.unresolvedSurface.withLemma
-		>[0];
-		type GermanResolvedLemmaInput = Parameters<
-			typeof germanOps.resolve.unresolvedSurface.withLemma
-		>[1];
-		type GermanSurfaceForUnresolve = Parameters<
-			typeof germanOps.unresolve.surface
-		>[0];
 
 		expect(() =>
-			germanOps.convert.lemma.toResolvedLemmaSurface(
-				englishWalkLemma as unknown as GermanLemmaInput,
-			),
+			germanOps.convert.lemma.toSurface(englishWalkLemma as unknown as GermanLemmaInput),
 		).toThrow(
 			"lingOperation language mismatch: expected German, received English",
 		);
 		expect(() =>
 			germanOps.convert.surface.toStandardFullSelection(
-				lingOperation.convert.lemma.toResolvedLemmaSurface(
-					englishWalkLemma,
-				) as unknown as GermanSurfaceInput,
-			),
-		).toThrow(
-			"lingOperation language mismatch: expected German, received English",
-		);
-		expect(() =>
-			germanOps.resolve.unresolvedSurface.withLemma(
-				{
-					discriminators: {
-						lemmaKind: "Lexeme",
-						lemmaSubKind: "NOUN",
-					},
-					language: "English",
-					normalizedFullSurface: "walk",
-					surfaceKind: "Lemma",
-					lemma: {
-						canonicalLemma: "walk",
-					},
-				} as unknown as GermanUnresolvedSurfaceInput,
-				germanMasculineSeeLemma as unknown as GermanResolvedLemmaInput,
-			),
-		).toThrow(
-			"lingOperation language mismatch: expected German, received English",
-		);
-		expect(() =>
-			germanOps.unresolve.surface(
-				lingOperation.convert.lemma.toResolvedLemmaSurface(
-					englishWalkLemma,
-				) as unknown as GermanSurfaceForUnresolve,
+				lingOperation.convert.lemma.toSurface(englishWalkLemma) as unknown as GermanSurfaceInput,
 			),
 		).toThrow(
 			"lingOperation language mismatch: expected German, received English",
@@ -251,9 +125,7 @@ describe("lingOperation", () => {
 		const germanLemma = germanMasculineSeeLemma;
 		const germanOps = lingOperation.forLanguage("German");
 
-		expect(
-			germanOps.convert.lemma.toResolvedLemmaSurface(germanLemma),
-		).toEqual({
+		expect(germanOps.convert.lemma.toSurface(germanLemma)).toEqual({
 			discriminators: {
 				lemmaKind: "Lexeme",
 				lemmaSubKind: "NOUN",
@@ -262,22 +134,6 @@ describe("lingOperation", () => {
 			normalizedFullSurface: "See",
 			surfaceKind: "Lemma",
 			lemma: germanLemma,
-		});
-		expect(
-			germanOps.unresolve.surface(
-				germanOps.convert.lemma.toResolvedLemmaSurface(germanLemma),
-			),
-		).toEqual({
-			discriminators: {
-				lemmaKind: "Lexeme",
-				lemmaSubKind: "NOUN",
-			},
-			language: "German",
-			normalizedFullSurface: "See",
-			surfaceKind: "Lemma",
-			lemma: {
-				canonicalLemma: "See",
-			},
 		});
 	});
 });

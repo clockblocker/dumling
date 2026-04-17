@@ -3,15 +3,13 @@ import {
 	dumling,
 	type KnownSelection,
 	type Lemma,
-	type UnresolvedSurface,
 } from "../../../src";
 import {
 	englishGiveUpTypoPartialGvaeSelection,
 	englishGiveUpTypoPartialUpSelection,
 	englishWalkLemma,
-	englishWalkResolvedInflectionSurface,
+	englishWalkInflectionSurface,
 	englishWalkStandardFullSelection,
-	englishWalkUnresolvedInflectionSurface,
 	germanMasculineSeeLemma,
 } from "../../helpers";
 
@@ -20,45 +18,32 @@ const { idCodec: DumlingIdCodec, operation: lingOperation } = dumling;
 describe("DumlingIdCodec", () => {
 	it("encodes and decodes each concrete entity kind", () => {
 		const lemma = englishWalkLemma;
-		const resolvedSurface = englishWalkResolvedInflectionSurface;
-		const unresolvedSurface = englishWalkUnresolvedInflectionSurface;
+		const surface = englishWalkInflectionSurface;
 		const selection = englishWalkStandardFullSelection;
 
 		const lemmaId = DumlingIdCodec.English.makeDumlingIdFor(lemma);
-		const resolvedId = DumlingIdCodec.English.makeDumlingIdFor(resolvedSurface);
-		const unresolvedId =
-			DumlingIdCodec.English.makeDumlingIdFor(unresolvedSurface);
+		const surfaceId = DumlingIdCodec.English.makeDumlingIdFor(surface);
 		const selectionId = DumlingIdCodec.English.makeDumlingIdFor(selection);
 
 		expect(lemmaId.startsWith("ling:v1:EN:LEM;")).toBe(true);
-		expect(resolvedId.startsWith("ling:v1:EN:SURF-RES;")).toBe(true);
-		expect(unresolvedId.startsWith("ling:v1:EN:SURF-UNRES;")).toBe(true);
+		expect(surfaceId.startsWith("ling:v1:EN:SURF;")).toBe(true);
 		expect(selectionId.startsWith("ling:v1:EN:SEL;")).toBe(true);
 
 		const decodedLemma = DumlingIdCodec.English.tryToDecodeAs(
 			"Lemma",
 			lemmaId,
 		);
-		const decodedResolved = DumlingIdCodec.English.tryToDecodeAs(
-			"ResolvedSurface",
-			resolvedId,
-		);
-		const decodedUnresolved = DumlingIdCodec.English.tryToDecodeAs(
-			"UnresolvedSurface",
-			unresolvedId,
-		);
+		const decodedSurface = DumlingIdCodec.English.tryToDecodeAs("Surface", surfaceId);
 		const decodedSelection = DumlingIdCodec.English.tryToDecodeAs(
 			"Selection",
 			selectionId,
 		);
 
 		expect(decodedLemma.isOk()).toBe(true);
-		expect(decodedResolved.isOk()).toBe(true);
-		expect(decodedUnresolved.isOk()).toBe(true);
+		expect(decodedSurface.isOk()).toBe(true);
 		expect(decodedSelection.isOk()).toBe(true);
 		expect(decodedLemma._unsafeUnwrap()).toEqual(lemma);
-		expect(decodedResolved._unsafeUnwrap()).toEqual(resolvedSurface);
-		expect(decodedUnresolved._unsafeUnwrap()).toEqual(unresolvedSurface);
+		expect(decodedSurface._unsafeUnwrap()).toEqual(surface);
 		expect(decodedSelection._unsafeUnwrap()).toEqual(selection);
 		expect(decodedSelection._unsafeUnwrap().orthographicStatus).not.toBe(
 			"Unknown",
@@ -94,7 +79,7 @@ describe("DumlingIdCodec", () => {
 
 	it("returns entity mismatch for kind-specific decode requests", () => {
 		const resolvedId = DumlingIdCodec.English.makeDumlingIdFor(
-			englishWalkResolvedInflectionSurface,
+			englishWalkInflectionSurface,
 		);
 
 		const mismatch = DumlingIdCodec.English.tryToDecodeAs("Lemma", resolvedId);
@@ -105,31 +90,19 @@ describe("DumlingIdCodec", () => {
 
 	it("serializes feature bags canonically", () => {
 		const left = {
-			...englishWalkUnresolvedInflectionSurface,
+			...englishWalkInflectionSurface,
 			inflectionalFeatures: {
 				tense: "Pres",
 				verbForm: "Fin",
 			},
-		} satisfies UnresolvedSurface<
-			"English",
-			"Standard",
-			"Inflection",
-			"Lexeme",
-			"VERB"
-		>;
+		};
 		const right = {
-			...englishWalkUnresolvedInflectionSurface,
+			...englishWalkInflectionSurface,
 			inflectionalFeatures: {
 				tense: "Pres",
 				verbForm: "Fin",
 			},
-		} satisfies UnresolvedSurface<
-			"English",
-			"Standard",
-			"Inflection",
-			"Lexeme",
-			"VERB"
-		>;
+		};
 
 		expect(DumlingIdCodec.English.makeDumlingIdFor(left)).toBe(
 			DumlingIdCodec.English.makeDumlingIdFor(right),

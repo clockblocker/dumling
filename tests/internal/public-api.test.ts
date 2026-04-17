@@ -63,13 +63,7 @@ describe("public API usage", () => {
 	it("exposes the curated root API surface", () => {
 		expect(typeof linguistics.dumling.idCodec.forLanguage).toBe("function");
 		expect(typeof linguistics.dumling.operation.forLanguage).toBe("function");
-		expect(
-			typeof linguistics.dumling.operation.resolve.unresolvedSurface
-				.withLemma,
-		).toBe("function");
-		expect(typeof linguistics.dumling.operation.unresolve.surface).toBe(
-			"function",
-		);
+		expect(typeof linguistics.dumling.operation.convert.lemma.toSurface).toBe("function");
 		expect(linguistics.dumling).toBe(dumling);
 		expect(linguistics.dumling.idCodec).toBe(DumlingIdCodec);
 		expect(linguistics.dumling.operation).toBe(lingOperation);
@@ -88,17 +82,13 @@ describe("public API usage", () => {
 		expect("DumlingConverters" in linguistics).toBe(false);
 		expect("SelectionSchema" in linguistics).toBe(false);
 		expect("LemmaSchema" in linguistics).toBe(false);
-		expect("ResolvedSurfaceSchema" in linguistics).toBe(false);
 		expect("SurfaceSchema" in linguistics).toBe(false);
-		expect("UnresolvedSurfaceSchema" in linguistics).toBe(false);
 	});
 
 	it("keeps schemas available from the package root", () => {
 		expect(
 			lingSchemaFor.Selection.English.Standard.Inflection.Lexeme.VERB,
 		).toBeDefined();
-		expect(
-			lingSchemaFor.ResolvedSurface.German.Standard.Lemma.Lexeme.NOUN,
-		).toBeDefined();
+		expect(lingSchemaFor.Surface.German.Standard.Lemma.Lexeme.NOUN).toBeDefined();
 	});
 });

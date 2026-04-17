@@ -13,7 +13,11 @@ export const germanAufJedenFallDiscourseFormulaSelection = {
 	spelledSelection: "auf jeden Fall",
 	spellingRelation: "Canonical",
 	surface: {
-		...makePhrasemeSurfaceReference("DiscourseFormula", "auf jeden Fall"),
+		...makePhrasemeSurfaceReference(
+			"German",
+			"DiscourseFormula",
+			"auf jeden Fall",
+		),
 		language: "German",
 		normalizedFullSurface: "auf jeden Fall",
 		surfaceKind: "Lemma",
@@ -34,7 +38,11 @@ export const germanAufJedenFallPartialSelection = {
 	spelledSelection: "jeden Fall",
 	spellingRelation: "Canonical",
 	surface: {
-		...makePhrasemeSurfaceReference("DiscourseFormula", "auf jeden Fall"),
+		...makePhrasemeSurfaceReference(
+			"German",
+			"DiscourseFormula",
+			"auf jeden Fall",
+		),
 		language: "German",
 		normalizedFullSurface: "auf jeden Fall",
 		surfaceKind: "Lemma",
@@ -55,7 +63,11 @@ export const germanBVGAbbreviationSelection = {
 	spelledSelection: "BVG",
 	spellingRelation: "Canonical",
 	surface: {
-		...makeLexemeSurfaceReference("PROPN", germanBVGLemma.canonicalLemma),
+		...makeLexemeSurfaceReference(
+			"German",
+			"PROPN",
+			germanBVGLemma.canonicalLemma,
+		),
 		language: "German",
 		normalizedFullSurface: "BVG",
 		surfaceKind: "Lemma",

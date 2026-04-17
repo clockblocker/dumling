@@ -1,8 +1,8 @@
 import type { KnownSelection, Selection } from "../../../../src";
 import {
-	englishGiveUpTypoUnresolvedInflectionSurface,
-	englishWalkResolvedLemmaSurface,
-	englishWalkUnresolvedInflectionSurface,
+	englishGiveUpTypoInflectionSurface,
+	englishWalkInflectionSurface,
+	englishWalkLemmaSurface,
 } from "./surfaces";
 
 // Attestation: "They [walk] home together."
@@ -12,17 +12,17 @@ export const englishWalkStandardFullSelection = {
 	selectionCoverage: "Full",
 	spelledSelection: "walk",
 	spellingRelation: "Canonical",
-	surface: englishWalkUnresolvedInflectionSurface,
+	surface: englishWalkInflectionSurface,
 } satisfies KnownSelection<"English">;
 
 // Attestation: "They [walk] home together."
-export const englishWalkResolvedLemmaSelection = {
+export const englishWalkLemmaSelection = {
 	language: "English",
 	orthographicStatus: "Standard",
 	selectionCoverage: "Full",
 	spelledSelection: "walk",
 	spellingRelation: "Canonical",
-	surface: englishWalkResolvedLemmaSurface,
+	surface: englishWalkLemmaSurface,
 } satisfies Selection<"English", "Standard", "Lemma", "Lexeme", "VERB">;
 
 // Attestation: "Mark gvae [up] on it."
@@ -32,7 +32,7 @@ export const englishGiveUpTypoPartialUpSelection = {
 	selectionCoverage: "Partial",
 	spelledSelection: "up",
 	spellingRelation: "Canonical",
-	surface: englishGiveUpTypoUnresolvedInflectionSurface,
+	surface: englishGiveUpTypoInflectionSurface,
 } satisfies Selection<"English", "Typo", "Inflection", "Lexeme", "VERB">;
 
 // Attestation: "Mark [gvae] up on it."
@@ -42,5 +42,5 @@ export const englishGiveUpTypoPartialGvaeSelection = {
 	selectionCoverage: "Partial",
 	spelledSelection: "gvae",
 	spellingRelation: "Variant",
-	surface: englishGiveUpTypoUnresolvedInflectionSurface,
+	surface: englishGiveUpTypoInflectionSurface,
 } satisfies Selection<"English", "Typo", "Inflection", "Lexeme", "VERB">;

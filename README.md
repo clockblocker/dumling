@@ -53,7 +53,7 @@ const gaveUpSurface = {
 	normalizedFullSurface: "gave up",
 	surfaceKind: "Inflection",
 	lemma: giveUpLemma,
-} satisfies ResolvedSurface<
+} satisfies Surface<
 	"English",
 	"Typo",
 	"Inflection",
@@ -90,10 +90,10 @@ const giveUpLemmaId = dumling.idCodec.English.makeDumlingIdFor(giveUpLemma);
 // "ling:v1:EN:LEM;give up;Lexeme;VERB;phrasal=Yes;🏳️"
 
 const gaveUpSurfaceId = dumling.idCodec.English.makeDumlingIdFor(gaveUpSurface);
-// "ling:v1:EN:SURF-RES;gave up;Inflection;Lexeme;VERB;tense=Past,verbForm=Fin;give up;Lexeme;VERB;phrasal=Yes;🏳️"
+// "ling:v1:EN:SURF;gave up;Inflection;Lexeme;VERB;tense=Past,verbForm=Fin;give up;Lexeme;VERB;phrasal=Yes;🏳️"
 
 const gvaeSelectionId = dumling.idCodec.English.makeDumlingIdFor(gvaeSelection);
-// "ling:v1:EN:SEL;Typo;Canonical;Partial;gvae;SURF-RES;gave up;Inflection;Lexeme;VERB;tense=Past,verbForm=Fin;give up;Lexeme;VERB;phrasal=Yes;🏳️"
+// "ling:v1:EN:SEL;Typo;Canonical;Partial;gvae;SURF;gave up;Inflection;Lexeme;VERB;tense=Past,verbForm=Fin;give up;Lexeme;VERB;phrasal=Yes;🏳️"
 ```
 
 That separation is what makes typo handling, spelling variants, phrasal verbs, idioms, and partial highlights fit into one consistent shape.
@@ -118,9 +118,7 @@ const walkLemma = {
 	pos: "VERB",
 } satisfies Lemma<"English", "Lexeme", "VERB">;
 
-const walkSurface = dumling.operation.convert.lemma.toResolvedLemmaSurface(
-	walkLemma,
-);
+const walkSurface = dumling.operation.convert.lemma.toSurface(walkLemma);
 
 const walkSelection =
 	dumling.operation.convert.surface.toStandardFullSelection(walkSurface, {
@@ -138,7 +136,7 @@ const parsedWalkSelection =
 The root export is intentionally small:
 
 - `dumling.schemaFor`: Zod schema registries by language and entity kind
-- `dumling.operation`: convert, extract, resolve, and unresolve helpers
+- `dumling.operation`: convert and extract helpers
 - `dumling.idCodec`: stable IDs for lemmas, surfaces, and selections
 
 ## Model notes

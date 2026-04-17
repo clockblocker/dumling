@@ -1,9 +1,9 @@
 import { describe, expect, it } from "bun:test";
 import { dumling } from "../../src";
 import {
-	englishWalkResolvedLemmaSelection,
+	englishWalkLemmaSelection,
 	englishWalkStandardFullSelection,
-	hebrewKatvuUnresolvedInflectionSurface,
+	hebrewKatvuInflectionSurface,
 } from "../helpers";
 
 const { schemaFor: lingSchemaFor } = dumling;
@@ -13,7 +13,7 @@ describe("selection spelling relation", () => {
 		const result =
 			lingSchemaFor.Selection.English.Standard.Lemma.Lexeme.VERB.safeParse(
 				{
-					...englishWalkResolvedLemmaSelection,
+					...englishWalkLemmaSelection,
 					spellingRelation: "Variant",
 				},
 			);
@@ -43,7 +43,7 @@ describe("selection spelling relation", () => {
 					spelledSelection: "כָּתְבוּ",
 					spellingRelation: "Variant",
 					surface: {
-						...hebrewKatvuUnresolvedInflectionSurface,
+						...hebrewKatvuInflectionSurface,
 						normalizedFullSurface: "כָּתְבוּ",
 					},
 				},
@@ -56,10 +56,10 @@ describe("selection spelling relation", () => {
 		const result =
 			lingSchemaFor.Selection.English.Standard.Lemma.Lexeme.VERB.safeParse(
 				{
-					...englishWalkResolvedLemmaSelection,
+					...englishWalkLemmaSelection,
 					spellingRelation: "Variant",
 					surface: {
-						...englishWalkResolvedLemmaSelection.surface,
+						...englishWalkLemmaSelection.surface,
 						surfaceKind: "Variant",
 					},
 				},

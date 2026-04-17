@@ -28,7 +28,7 @@ describe("German noun schemas", () => {
 			selectionCoverage: "Full",
 			spelledSelection: "Kindern",
 			surface: {
-				...makeLexemeSurfaceReference("NOUN", "Kind"),
+				...makeLexemeSurfaceReference("German", "NOUN", "Kind"),
 				inflectionalFeatures: {
 					case: "Dat",
 					number: "Plur",
@@ -49,7 +49,7 @@ describe("German noun schemas", () => {
 			selectionCoverage: "Full",
 			spelledSelection: "Kindern",
 			surface: {
-				...makeLexemeSurfaceReference("NOUN", "Kind"),
+				...makeLexemeSurfaceReference("German", "NOUN", "Kind"),
 				inflectionalFeatures: {
 					case: "Ins",
 					number: "Dual",
@@ -143,7 +143,7 @@ describe("German noun schemas", () => {
 			selectionCoverage: "Partial",
 			spelledSelection: "Bahnhof",
 			surface: {
-				...makeLexemeSurfaceReference("NOUN", "Hauptbahnhof"),
+				...makeLexemeSurfaceReference("German", "NOUN", "Hauptbahnhof"),
 				language: "German",
 				normalizedFullSurface: "Hauptbahnhof",
 				surfaceKind: "Lemma",
@@ -161,7 +161,7 @@ describe("German noun schemas", () => {
 				selectionCoverage: "Full",
 				spelledSelection: "Hun des",
 				surface: {
-					...makeLexemeSurfaceReference("NOUN", "Hund"),
+					...makeLexemeSurfaceReference("German", "NOUN", "Hund"),
 					inflectionalFeatures: {
 						case: "Gen",
 						number: "Sing",
@@ -182,7 +182,7 @@ describe("German noun schemas", () => {
 			selectionCoverage: "Full",
 			spelledSelection: "Haus",
 			surface: {
-				...makeLexemeSurfaceReference("NOUN", "Haus"),
+				...makeLexemeSurfaceReference("German", "NOUN", "Haus"),
 				language: "German",
 				normalizedFullSurface: "Haus",
 				surfaceKind: "Lemma",
@@ -290,7 +290,7 @@ describe("German noun schemas", () => {
 				selectionCoverage: "Full",
 				spelledSelection: "Haus",
 				surface: {
-					...makeLexemeSurfaceReference("NOUN", "Haus"),
+					...makeLexemeSurfaceReference("German", "NOUN", "Haus"),
 					language: "German",
 					normalizedFullSurface: "Haus",
 					surfaceKind: "Lemma",
@@ -322,7 +322,7 @@ describe("German noun schemas", () => {
 				selectionCoverage: "Full",
 				spelledSelection: "Haus",
 				surface: {
-					...makeLexemeSurfaceReference("NOUN", "Haus"),
+					...makeLexemeSurfaceReference("German", "NOUN", "Haus"),
 					inflectionalFeatures: {
 						case: "Nom",
 					},

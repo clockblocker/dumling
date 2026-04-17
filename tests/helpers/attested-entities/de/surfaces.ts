@@ -1,8 +1,8 @@
-import type { ResolvedSurface } from "../../../../src";
+import type { Surface } from "../../../../src";
 import { germanHausLemma } from "./lemmas";
 
 // Attestation: "Das [Haus] steht leer."
-export const germanHausResolvedLemmaSurface = {
+export const germanHausLemmaSurface = {
 	discriminators: {
 		lemmaKind: "Lexeme",
 		lemmaSubKind: "NOUN",
@@ -11,4 +11,4 @@ export const germanHausResolvedLemmaSurface = {
 	normalizedFullSurface: "Haus",
 	surfaceKind: "Lemma",
 	lemma: germanHausLemma,
-} satisfies ResolvedSurface<"German", "Standard", "Lemma", "Lexeme", "NOUN">;
+} satisfies Surface<"German", "Standard", "Lemma", "Lexeme", "NOUN">;

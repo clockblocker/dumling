@@ -57,7 +57,7 @@ export type SelectionSurfaceValueFor<
 		};
 		language: LanguageLiteral;
 		normalizedFullSurface: string;
-		lemma: { canonicalLemma: string } | Lemma;
+		lemma: Lemma;
 	}
 >;
 
@@ -123,14 +123,7 @@ export function buildSelectionSurfaceSchema<
 				.strict(),
 			language: z.literal(language),
 			normalizedFullSurface: z.string(),
-			lemma: z.union([
-				z
-					.object({
-						canonicalLemma: getCanonicalLemmaSchema(lemmaSchema),
-					})
-					.strict(),
-				lemmaSchema,
-			]),
+			lemma: lemmaSchema,
 		})
 		.strict()
 		.superRefine((surface, ctx) => {
@@ -140,32 +133,24 @@ export function buildSelectionSurfaceSchema<
 					lemmaSubKind: unknown;
 				};
 				language: string;
-				lemma: { canonicalLemma: string } | Record<string, unknown>;
+				lemma: Record<string, unknown>;
 			};
 
-			if (isUnresolvedSurfaceLemma(typedSurface.lemma)) {
-				return;
-			}
-
-			const hydratedLemma = typedSurface.lemma;
-			if (hydratedLemma.language !== typedSurface.language) {
+			if (typedSurface.lemma.language !== typedSurface.language) {
 				ctx.addIssue({
 					code: z.ZodIssueCode.custom,
 					message:
-						"hydrated lemma language must match surface language",
+						"surface lemma language must match surface language",
 					path: ["lemma", "language"],
 				});
 			}
 
-			const lemmaSubKind = hydratedLemma[lemmaSubKindKey];
+			const lemmaSubKind = typedSurface.lemma[lemmaSubKindKey];
 
-			if (
-				hydratedLemma.lemmaKind !==
-				typedSurface.discriminators.lemmaKind
-			) {
+			if (typedSurface.lemma.lemmaKind !== typedSurface.discriminators.lemmaKind) {
 				ctx.addIssue({
 					code: z.ZodIssueCode.custom,
-					message: "hydrated lemmaKind must match discriminators",
+					message: "surface lemmaKind must match discriminators",
 					path: ["lemma", "lemmaKind"],
 				});
 			}
@@ -173,7 +158,7 @@ export function buildSelectionSurfaceSchema<
 			if (lemmaSubKind !== typedSurface.discriminators.lemmaSubKind) {
 				ctx.addIssue({
 					code: z.ZodIssueCode.custom,
-					message: "hydrated lemmaSubKind must match discriminators",
+					message: "surface lemmaSubKind must match discriminators",
 					path: ["lemma", lemmaSubKindKey],
 				});
 			}
@@ -211,22 +196,4 @@ function getLemmaSubKindKey(
 	}
 
 	return matchingKey;
-}
-
-function isUnresolvedSurfaceLemma(
-	lemma: { canonicalLemma: string } | Record<string, unknown>,
-): lemma is { canonicalLemma: string } {
-	return "canonicalLemma" in lemma && !("lemmaKind" in lemma);
-}
-
-function getCanonicalLemmaSchema(lemmaSchema: z.ZodTypeAny): z.ZodTypeAny {
-	if (lemmaSchema instanceof z.ZodObject) {
-		const shape = lemmaSchema.shape;
-		const canonicalLemmaSchema = shape.canonicalLemma;
-		if (canonicalLemmaSchema !== undefined) {
-			return canonicalLemmaSchema;
-		}
-	}
-
-	return z.string();
 }

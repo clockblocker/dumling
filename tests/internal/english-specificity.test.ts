@@ -23,7 +23,7 @@ describe("English schema specificity", () => {
 				selectionCoverage: "Full",
 				spelledSelection: "smaller",
 				surface: {
-					...makeLexemeSurfaceReference("ADJ", "small"),
+					...makeLexemeSurfaceReference("English", "ADJ", "small"),
 					inflectionalFeatures: {
 						degree: "Cmp",
 					},
@@ -41,7 +41,7 @@ describe("English schema specificity", () => {
 				selectionCoverage: "Full",
 				spelledSelection: "small",
 				surface: {
-					...makeLexemeSurfaceReference("ADJ", "small"),
+					...makeLexemeSurfaceReference("English", "ADJ", "small"),
 					inflectionalFeatures: {
 						case: "Dat",
 					},
@@ -59,7 +59,7 @@ describe("English schema specificity", () => {
 				selectionCoverage: "Full",
 				spelledSelection: "to",
 				surface: {
-					...makeLexemeSurfaceReference("ADP", "to"),
+					...makeLexemeSurfaceReference("English", "ADP", "to"),
 					inflectionalFeatures: {
 						case: "Acc",
 					},
@@ -79,7 +79,7 @@ describe("English schema specificity", () => {
 				selectionCoverage: "Full",
 				spelledSelection: "scissors",
 				surface: {
-					...makeLexemeSurfaceReference("NOUN", "scissors"),
+					...makeLexemeSurfaceReference("English", "NOUN", "scissors"),
 					inflectionalFeatures: {
 						number: "Ptan",
 					},
@@ -97,7 +97,7 @@ describe("English schema specificity", () => {
 				selectionCoverage: "Full",
 				spelledSelection: "dog",
 				surface: {
-					...makeLexemeSurfaceReference("NOUN", "dog"),
+					...makeLexemeSurfaceReference("English", "NOUN", "dog"),
 					inflectionalFeatures: {
 						case: "Gen",
 					},
@@ -115,7 +115,7 @@ describe("English schema specificity", () => {
 				selectionCoverage: "Full",
 				spelledSelection: "Anna",
 				surface: {
-					...makeLexemeSurfaceReference("PROPN", "Anna"),
+					...makeLexemeSurfaceReference("English", "PROPN", "Anna"),
 					inflectionalFeatures: {
 						number: "Ptan",
 					},
@@ -161,7 +161,7 @@ describe("English schema specificity", () => {
 				selectionCoverage: "Full",
 				spelledSelection: "washed",
 				surface: {
-					...makeLexemeSurfaceReference("VERB", "wash"),
+					...makeLexemeSurfaceReference("English", "VERB", "wash"),
 					inflectionalFeatures: {
 						gender: "Neut",
 					},
@@ -179,7 +179,7 @@ describe("English schema specificity", () => {
 				selectionCoverage: "Full",
 				spelledSelection: "is",
 				surface: {
-					...makeLexemeSurfaceReference("AUX", "be"),
+					...makeLexemeSurfaceReference("English", "AUX", "be"),
 					inflectionalFeatures: {
 						gender: "Fem",
 					},
@@ -208,7 +208,7 @@ describe("English schema specificity", () => {
 				selectionCoverage: "Full",
 				spelledSelection: "washing",
 				surface: {
-					...makeLexemeSurfaceReference("VERB", "wash"),
+					...makeLexemeSurfaceReference("English", "VERB", "wash"),
 					inflectionalFeatures: {
 						verbForm: "Ger",
 					},
@@ -226,7 +226,7 @@ describe("English schema specificity", () => {
 				selectionCoverage: "Full",
 				spelledSelection: "washed",
 				surface: {
-					...makeLexemeSurfaceReference("VERB", "wash"),
+					...makeLexemeSurfaceReference("English", "VERB", "wash"),
 					inflectionalFeatures: {
 						voice: "Pass",
 					},
@@ -244,7 +244,7 @@ describe("English schema specificity", () => {
 				selectionCoverage: "Full",
 				spelledSelection: "being",
 				surface: {
-					...makeLexemeSurfaceReference("AUX", "be"),
+					...makeLexemeSurfaceReference("English", "AUX", "be"),
 					inflectionalFeatures: {
 						verbForm: "Ger",
 					},
@@ -317,7 +317,7 @@ describe("English schema specificity", () => {
 				selectionCoverage: "Full",
 				spelledSelection: "him",
 				surface: {
-					...makeLexemeSurfaceReference("PRON", "him"),
+					...makeLexemeSurfaceReference("English", "PRON", "him"),
 					inflectionalFeatures: {
 						case: "Acc",
 					},
@@ -335,7 +335,7 @@ describe("English schema specificity", () => {
 				selectionCoverage: "Full",
 				spelledSelection: "him",
 				surface: {
-					...makeLexemeSurfaceReference("PRON", "him"),
+					...makeLexemeSurfaceReference("English", "PRON", "him"),
 					inflectionalFeatures: {
 						case: "Dat",
 					},
@@ -411,7 +411,7 @@ describe("English schema specificity", () => {
 				selectionCoverage: "Full",
 				spelledSelection: "this",
 				surface: {
-					...makeLexemeSurfaceReference("DET", "this"),
+					...makeLexemeSurfaceReference("English", "DET", "this"),
 					inflectionalFeatures: {
 						case: "Gen",
 					},
@@ -431,7 +431,7 @@ describe("English schema specificity", () => {
 				selectionCoverage: "Full",
 				spelledSelection: "two",
 				surface: {
-					...makeLexemeSurfaceReference("NUM", "two"),
+					...makeLexemeSurfaceReference("English", "NUM", "two"),
 					inflectionalFeatures: {
 						case: "Acc",
 					},
@@ -465,7 +465,7 @@ describe("English schema specificity", () => {
 				selectionCoverage: "Full",
 				spelledSelection: "%",
 				surface: {
-					...makeLexemeSurfaceReference("SYM", "%"),
+					...makeLexemeSurfaceReference("English", "SYM", "%"),
 					inflectionalFeatures: {
 						number: "Sing",
 					},
@@ -483,7 +483,7 @@ describe("English schema specificity", () => {
 				selectionCoverage: "Full",
 				spelledSelection: "%",
 				surface: {
-					...makeLexemeSurfaceReference("SYM", "%"),
+					...makeLexemeSurfaceReference("English", "SYM", "%"),
 					inflectionalFeatures: {
 						case: "Acc",
 					},

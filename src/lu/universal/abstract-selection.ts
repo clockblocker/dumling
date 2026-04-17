@@ -11,37 +11,17 @@ import type {
 import type { AbstractFeatures } from "./enums/feature";
 import type { LemmaDiscriminatorFor } from "./lemma-discriminator";
 
-type AbstractUnresolvedSurfaceFor<
-	SK extends SurfaceKind = SurfaceKind,
-	LK extends LemmaKind = LemmaKind,
-	D extends LemmaDiscriminatorFor<LK> = LemmaDiscriminatorFor<LK>,
-> = SK extends SurfaceKind
-	? Prettify<
-			SurfaceBaseFor<SK, LK, D> & {
-				lemma: UnresolvedSurfaceLemmaFor<LK, D>;
-			}
-		>
-	: never;
-
-type AbstractResolvedSurfaceFor<
-	SK extends SurfaceKind = SurfaceKind,
-	LK extends LemmaKind = LemmaKind,
-	D extends LemmaDiscriminatorFor<LK> = LemmaDiscriminatorFor<LK>,
-> = SK extends SurfaceKind
-	? Prettify<
-			SurfaceBaseFor<SK, LK, D> & {
-				lemma: ResolvedSurfaceLemmaFor<LK, D>;
-			}
-		>
-	: never;
-
 type AbstractSurfaceFor<
 	SK extends SurfaceKind = SurfaceKind,
 	LK extends LemmaKind = LemmaKind,
 	D extends LemmaDiscriminatorFor<LK> = LemmaDiscriminatorFor<LK>,
-> =
-	| AbstractUnresolvedSurfaceFor<SK, LK, D>
-	| AbstractResolvedSurfaceFor<SK, LK, D>;
+> = SK extends SurfaceKind
+	? Prettify<
+			SurfaceBaseFor<SK, LK, D> & {
+				lemma: AbstractLemma<LK, D>;
+			}
+		>
+	: never;
 
 export type AbstractSelectionFor<
 	OS extends OrthographicStatus = OrthographicStatus,
@@ -99,16 +79,6 @@ type KnownSelectionBaseFor<
 	surface: SurfaceFor<SK, LK, D>;
 };
 
-type UnresolvedSurfaceLemmaFor<
-	LK extends LemmaKind = LemmaKind,
-	D extends LemmaDiscriminatorFor<LK> = LemmaDiscriminatorFor<LK>,
-> = Pick<AbstractLemma<LK, D>, "canonicalLemma">;
-
-type ResolvedSurfaceLemmaFor<
-	LK extends LemmaKind = LemmaKind,
-	D extends LemmaDiscriminatorFor<LK> = LemmaDiscriminatorFor<LK>,
-> = AbstractLemma<LK, D>;
-
 type SurfaceBaseFor<
 	SK extends SurfaceKind = SurfaceKind,
 	LK extends LemmaKind = LemmaKind,
@@ -130,9 +100,7 @@ type SurfaceFor<
 > = SK extends SurfaceKind
 	? Prettify<
 			{
-				lemma:
-					| UnresolvedSurfaceLemmaFor<LK, D>
-					| ResolvedSurfaceLemmaFor<LK, D>;
+				lemma: AbstractLemma<LK, D>;
 			} & SurfaceBaseFor<SK, LK, D>
 		>
 	: never;

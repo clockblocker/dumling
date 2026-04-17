@@ -2,20 +2,18 @@ import type { TargetLanguage } from "../../../lu/universal/enums/core/language";
 import type { ConcreteDumlingIdKind } from "../../types";
 import { codeToLanguage, languageToCode } from "./language-codes";
 
-type WireKindCode = "LEM" | "SEL" | "SURF-RES" | "SURF-UNRES";
+type WireKindCode = "LEM" | "SEL" | "SURF";
 
 const KIND_TO_WIRE = {
 	Lemma: "LEM",
-	ResolvedSurface: "SURF-RES",
 	Selection: "SEL",
-	UnresolvedSurface: "SURF-UNRES",
+	Surface: "SURF",
 } as const satisfies Record<ConcreteDumlingIdKind, WireKindCode>;
 
 const WIRE_TO_KIND = {
 	LEM: "Lemma",
 	SEL: "Selection",
-	"SURF-RES": "ResolvedSurface",
-	"SURF-UNRES": "UnresolvedSurface",
+	SURF: "Surface",
 } as const satisfies Record<WireKindCode, ConcreteDumlingIdKind>;
 
 export function encodeWireKind(kind: ConcreteDumlingIdKind): WireKindCode {

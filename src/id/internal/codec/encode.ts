@@ -1,16 +1,12 @@
-import type {
-	Lemma,
-	ResolvedSurface,
-	UnresolvedSurface,
-} from "../../../lu/public-entities";
+import type { Lemma, Surface } from "../../../lu/public-entities";
 import type { TargetLanguage } from "../../../lu/universal/enums/core/language";
 import type { SpellingRelation } from "../../../lu/universal/enums/core/selection";
-import type { ConcreteDumlingIdKind, KnownSelection, DumlingId } from "../../types";
-import {
-	getRuntimeSchema,
-	hasResolvedSurfaceLemma,
-	isPlainObject,
-} from "../guards";
+import type {
+	ConcreteDumlingIdKind,
+	DumlingId,
+	KnownSelection,
+} from "../../types";
+import { getRuntimeSchema, isPlainObject } from "../guards";
 import type { ParsedFeatureBag, ParsedFeatureValue } from "../wire/feature-bag";
 import { compactFeatureBag, serializeFeatureBag } from "../wire/feature-bag";
 import { buildHeader, encodeWireKind } from "../wire/header";
@@ -24,8 +20,7 @@ import { inferConcreteDumlingIdKind } from "./infer-kind";
 type EncodableValue<L extends TargetLanguage> =
 	| Lemma<L>
 	| KnownSelection<L>
-	| ResolvedSurface<L>
-	| UnresolvedSurface<L>;
+	| Surface<L>;
 
 export function encodeDumlingId<L extends TargetLanguage>(
 	language: L,
@@ -37,12 +32,8 @@ export function encodeDumlingId<L extends TargetLanguage>(
 ): DumlingId<"Selection", L>;
 export function encodeDumlingId<L extends TargetLanguage>(
 	language: L,
-	value: ResolvedSurface<L>,
-): DumlingId<"ResolvedSurface", L>;
-export function encodeDumlingId<L extends TargetLanguage>(
-	language: L,
-	value: UnresolvedSurface<L>,
-): DumlingId<"UnresolvedSurface", L>;
+	value: Surface<L>,
+): DumlingId<"Surface", L>;
 export function encodeDumlingId<L extends TargetLanguage>(
 	language: L,
 	value: EncodableValue<L>,
@@ -94,29 +85,19 @@ function serializePayload(
 			return serializeLemmaPayload(value as Lemma);
 		case "Selection":
 			return serializeSelectionPayload(value as KnownSelection);
-		case "ResolvedSurface":
-			return serializeSurfacePayload(
-				value as ResolvedSurface,
-				"ResolvedSurface",
-			);
-		case "UnresolvedSurface":
-			return serializeSurfacePayload(
-				value as UnresolvedSurface,
-				"UnresolvedSurface",
-			);
+		case "Surface":
+			return serializeSurfacePayload(value as Surface);
 	}
 }
 
 function serializeSelectionPayload(value: KnownSelection): string {
-	const surfaceKind = inferSurfaceDumlingIdKind(value.surface);
-
 	return joinTokens([
 		value.orthographicStatus,
 		getSelectionSpellingRelation(value),
 		value.selectionCoverage,
 		escapeToken(value.spelledSelection),
-		encodeWireKind(surfaceKind),
-		serializeSurfacePayload(value.surface, surfaceKind),
+		encodeWireKind("Surface"),
+		serializeSurfacePayload(value.surface),
 	]);
 }
 
@@ -124,38 +105,14 @@ function getSelectionSpellingRelation(value: KnownSelection): SpellingRelation {
 	return value.spellingRelation ?? "Canonical";
 }
 
-function serializeSurfacePayload(
-	value: ResolvedSurface | UnresolvedSurface,
-	kind: "ResolvedSurface" | "UnresolvedSurface",
-): string {
-	const surfaceParts = serializeSurfaceBase(value);
-
-	if (kind === "ResolvedSurface") {
-		return joinTokens([
-			...surfaceParts,
-			serializeLemmaPayload(value.lemma as Lemma),
-		]);
-	}
-
+function serializeSurfacePayload(value: Surface): string {
 	return joinTokens([
-		...surfaceParts,
-		escapeToken(value.lemma.canonicalLemma),
+		...serializeSurfaceBase(value),
+		serializeLemmaPayload(value.lemma),
 	]);
 }
 
-function inferSurfaceDumlingIdKind(
-	value: {
-		lemma: { canonicalLemma: string } | Lemma;
-	} & (ResolvedSurface | UnresolvedSurface),
-): "ResolvedSurface" | "UnresolvedSurface" {
-	return hasResolvedSurfaceLemma(value.lemma)
-		? "ResolvedSurface"
-		: "UnresolvedSurface";
-}
-
-function serializeSurfaceBase(
-	value: ResolvedSurface | UnresolvedSurface,
-): string[] {
+function serializeSurfaceBase(value: Surface): string[] {
 	return [
 		escapeToken(value.normalizedFullSurface),
 		value.surfaceKind,

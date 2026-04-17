@@ -28,7 +28,7 @@ export type SurfaceLike<L extends TargetLanguage = TargetLanguage> = {
 	language: L;
 	normalizedFullSurface: string;
 	surfaceKind: string;
-	lemma: { canonicalLemma: string } | LemmaLike<L>;
+	lemma: LemmaLike<L>;
 };
 
 export type UnknownSelectionLikeFor<L extends TargetLanguage = TargetLanguage> =
@@ -51,13 +51,6 @@ export type SurfaceOfSelection<S extends { surface: unknown }> = S extends {
 	? SelectionSurface
 	: never;
 
-export type ResolvedSurfaceLikeFor<L extends TargetLanguage = TargetLanguage> =
-	SurfaceLike<L> & { lemma: LemmaLike<L> };
-
-export type UnresolvedSurfaceLikeFor<
-	L extends TargetLanguage = TargetLanguage,
-> = SurfaceLike<L> & { lemma: { canonicalLemma: string } };
-
 export type CompatibleLemmaForSurface<S extends SurfaceLike> = S extends {
 	discriminators: infer D;
 	language: infer L extends TargetLanguage;
@@ -77,19 +70,10 @@ export type CompatibleLemmaForSurface<S extends SurfaceLike> = S extends {
 				: never
 	: never;
 
-export type ResolvedSurfaceWithLemma<
-	S extends UnresolvedSurfaceLikeFor,
-	T extends CompatibleLemmaForSurface<S>,
-> = Omit<S, "lemma"> & { lemma: T };
-
-export type UnresolvedSurfaceOf<S extends SurfaceLike> = Omit<S, "lemma"> & {
-	lemma: Pick<S["lemma"], "canonicalLemma">;
-};
-
 export type LemmaOfSurface<S extends { lemma: unknown }> = S extends {
 	lemma: infer SurfaceLemma;
 }
-	? Extract<SurfaceLemma, { lemmaKind: unknown }>
+	? SurfaceLemma
 	: never;
 
 type LemmaDiscriminatorOf<T extends LemmaLike> = T extends {
@@ -109,7 +93,7 @@ type LemmaDiscriminatorOf<T extends LemmaLike> = T extends {
 			? Extract<D, string>
 			: never;
 
-export type ResolvedLemmaSurfaceFor<T extends LemmaLike> = {
+export type LemmaSurfaceFor<T extends LemmaLike> = {
 	discriminators: {
 		lemmaKind: T["lemmaKind"];
 		lemmaSubKind: LemmaDiscriminatorOf<T>;
@@ -132,7 +116,7 @@ export type StandardFullSelectionForSurface<
 };
 
 export type StandardFullSelectionForLemma<T extends LemmaLike> =
-	StandardFullSelectionForSurface<ResolvedLemmaSurfaceFor<T>>;
+	StandardFullSelectionForSurface<LemmaSurfaceFor<T>>;
 
 export function assertLanguageMatch(
 	expected: TargetLanguage,
@@ -145,58 +129,24 @@ export function assertLanguageMatch(
 	}
 }
 
-export function hasResolvedSurfaceLemma<L extends TargetLanguage>(
-	surface: SurfaceLike<L>,
-): surface is ResolvedSurfaceLikeFor<L> {
-	return (
-		typeof surface.lemma === "object" &&
-		surface.lemma !== null &&
-		"lemmaKind" in surface.lemma
-	);
-}
-
 export function getLemmaDiscriminators<T extends LemmaLike>(
 	lemma: T,
-): ResolvedLemmaSurfaceFor<T>["discriminators"] {
+): LemmaSurfaceFor<T>["discriminators"] {
 	switch (lemma.lemmaKind) {
 		case "Lexeme":
 			return {
 				lemmaKind: lemma.lemmaKind,
 				lemmaSubKind: lemma.pos,
-			} as ResolvedLemmaSurfaceFor<T>["discriminators"];
+			} as LemmaSurfaceFor<T>["discriminators"];
 		case "Morpheme":
 			return {
 				lemmaKind: lemma.lemmaKind,
 				lemmaSubKind: lemma.morphemeKind,
-			} as ResolvedLemmaSurfaceFor<T>["discriminators"];
+			} as LemmaSurfaceFor<T>["discriminators"];
 		case "Phraseme":
 			return {
 				lemmaKind: lemma.lemmaKind,
 				lemmaSubKind: lemma.phrasemeKind,
-			} as ResolvedLemmaSurfaceFor<T>["discriminators"];
-	}
-}
-
-export function assertSurfaceMatchesLemma<
-	S extends UnresolvedSurfaceLikeFor,
-	T extends CompatibleLemmaForSurface<S>,
->(surface: S, lemma: T): void {
-	assertLanguageMatch(surface.language, lemma.language);
-
-	if (surface.lemma.canonicalLemma !== lemma.canonicalLemma) {
-		throw new Error(
-			`lingOperation canonical lemma mismatch: expected ${surface.lemma.canonicalLemma}, received ${lemma.canonicalLemma}`,
-		);
-	}
-
-	const lemmaDiscriminators = getLemmaDiscriminators(lemma);
-
-	if (
-		surface.discriminators.lemmaKind !== lemmaDiscriminators.lemmaKind ||
-		surface.discriminators.lemmaSubKind !== lemmaDiscriminators.lemmaSubKind
-	) {
-		throw new Error(
-			`lingOperation surface/lemma discriminator mismatch: expected ${surface.discriminators.lemmaKind}/${surface.discriminators.lemmaSubKind}, received ${lemmaDiscriminators.lemmaKind}/${lemmaDiscriminators.lemmaSubKind}`,
-		);
+			} as LemmaSurfaceFor<T>["discriminators"];
 	}
 }

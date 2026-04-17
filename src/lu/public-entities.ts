@@ -1,13 +1,12 @@
 import type z from "zod/v3";
 import type { ZodTypeAny } from "zod/v3";
-import type { Prettify, PrettifyDeep } from "../types/helpers";
+import type { PrettifyDeep } from "../types/helpers";
 import { EnglishLemmaSchema } from "./language-packs/english/english-lemma";
 import { EnglishSelectionSchema } from "./language-packs/english/english-selection";
 import { GermanLemmaSchema } from "./language-packs/german/german-lemma";
 import { GermanSelectionSchema } from "./language-packs/german/german-selection";
 import { HebrewLemmaSchema } from "./language-packs/hebrew/hebrew-lemma";
 import { HebrewSelectionSchema } from "./language-packs/hebrew/hebrew-selection";
-import { buildResolvedSurfaceSchemaForLanguage } from "./resolved-surface-schema";
 import type { TargetLanguage } from "./universal/enums/core/language";
 import type { OrthographicStatus } from "./universal/enums/core/selection";
 import { withDumlingIdSurfaceDtoCompatibility } from "./universal/ling-id-schema-compat";
@@ -27,12 +26,6 @@ export const SurfaceSchema = {
 	Hebrew: buildSurfaceSchemaForLanguage("Hebrew", HebrewSelectionSchema),
 };
 
-export const ResolvedSurfaceSchema = {
-	English: buildResolvedSurfaceSchemaForLanguage(SurfaceSchema.English),
-	German: buildResolvedSurfaceSchemaForLanguage(SurfaceSchema.German),
-	Hebrew: buildResolvedSurfaceSchemaForLanguage(SurfaceSchema.Hebrew),
-};
-
 export const LemmaSchema = {
 	English: EnglishLemmaSchema,
 	German: GermanLemmaSchema,
@@ -46,38 +39,6 @@ export type Lemma<
 > = LemmaKindFor<L> extends LK
 	? LanguageLemmaUnion<L>
 	: InferSchema<LemmaSchemaFor<L, LK, D>>;
-
-export type ResolvedSurface<
-	L extends TargetLanguage = TargetLanguage,
-	OS extends
-		SurfaceOrthographicStatusFor<L> = SurfaceOrthographicStatusFor<L>,
-	SK extends SurfaceSurfaceKindFor<L, OS> = SurfaceSurfaceKindFor<L, OS>,
-	LK extends SurfaceLemmaKindFor<L, OS, SK> = SurfaceLemmaKindFor<L, OS, SK>,
-	D extends SurfaceDiscriminatorFor<L, OS, SK, LK> = SurfaceDiscriminatorFor<
-		L,
-		OS,
-		SK,
-		LK
-	>,
-> = SurfaceOrthographicStatusFor<L> extends OS
-	? ResolvedSurfaceValueFor<SurfaceValue<L, OS, SK, LK, D>>
-	: PrettifyDeep<ResolvedSurfaceValueFor<SurfaceValue<L, OS, SK, LK, D>>>;
-
-export type UnresolvedSurface<
-	L extends TargetLanguage = TargetLanguage,
-	OS extends
-		SurfaceOrthographicStatusFor<L> = SurfaceOrthographicStatusFor<L>,
-	SK extends SurfaceSurfaceKindFor<L, OS> = SurfaceSurfaceKindFor<L, OS>,
-	LK extends SurfaceLemmaKindFor<L, OS, SK> = SurfaceLemmaKindFor<L, OS, SK>,
-	D extends SurfaceDiscriminatorFor<L, OS, SK, LK> = SurfaceDiscriminatorFor<
-		L,
-		OS,
-		SK,
-		LK
-	>,
-> = SurfaceOrthographicStatusFor<L> extends OS
-	? UnresolvedSurfaceValueFor<SurfaceValue<L, OS, SK, LK, D>>
-	: PrettifyDeep<UnresolvedSurfaceValueFor<SurfaceValue<L, OS, SK, LK, D>>>;
 
 export type Surface<
 	L extends TargetLanguage = TargetLanguage,
@@ -93,7 +54,7 @@ export type Surface<
 	>,
 > = SurfaceOrthographicStatusFor<L> extends OS
 	? SurfaceValue<L, OS, SK, LK, D>
-	: PrettifyDeep<SurfaceValue<L, OS, SK, LK, D>>; // Keep the schema-inferred surface shape as the source of truth and derive the resolved/unresolved projections from it. A literal `UnresolvedSurface | ResolvedSurface` alias is equivalent semantically, but tends to produce less stable and less readable narrowed types for callers.
+	: PrettifyDeep<SurfaceValue<L, OS, SK, LK, D>>;
 
 export type Selection<
 	L extends TargetLanguage = TargetLanguage,
@@ -118,30 +79,6 @@ export type Selection<
 type ValueOf<T> = T[keyof T];
 
 type InferSchema<T> = T extends ZodTypeAny ? z.infer<T> : never;
-
-type ResolvedLemmaFor<T> = Extract<T, { lemmaKind: unknown }>;
-
-type UnresolvedLemmaFor<T> = Exclude<T, { lemmaKind: unknown }>;
-
-type ResolvedSurfaceValueFor<T> = T extends { lemma: infer SurfaceLemma }
-	? [ResolvedLemmaFor<SurfaceLemma>] extends [never]
-		? never
-		: Prettify<
-				Omit<T, "lemma"> & {
-					lemma: ResolvedLemmaFor<SurfaceLemma>;
-				}
-			>
-	: never;
-
-type UnresolvedSurfaceValueFor<T> = T extends { lemma: infer SurfaceLemma }
-	? [UnresolvedLemmaFor<SurfaceLemma>] extends [never]
-		? never
-		: Prettify<
-				Omit<T, "lemma"> & {
-					lemma: UnresolvedLemmaFor<SurfaceLemma>;
-				}
-			>
-	: never;
 
 type SelectionSchemaWithSurface = ZodTypeAny & {
 	shape: {

@@ -1,17 +1,8 @@
 import type { Result } from "neverthrow";
-import type {
-	Lemma,
-	ResolvedSurface,
-	Selection,
-	UnresolvedSurface,
-} from "../lu/public-entities";
+import type { Lemma, Selection, Surface } from "../lu/public-entities";
 import type { TargetLanguage } from "../lu/universal/enums/core/language";
 
-export type ConcreteDumlingIdKind =
-	| "Lemma"
-	| "Selection"
-	| "ResolvedSurface"
-	| "UnresolvedSurface";
+export type ConcreteDumlingIdKind = "Lemma" | "Selection" | "Surface";
 
 export type KnownSelection<L extends TargetLanguage = TargetLanguage> = Exclude<
 	Selection<L>,
@@ -34,11 +25,9 @@ export type DumlingIdValueFor<
 	? Lemma<L>
 	: LIK extends "Selection"
 		? KnownSelection<L>
-		: LIK extends "ResolvedSurface"
-			? ResolvedSurface<L>
-			: LIK extends "UnresolvedSurface"
-				? UnresolvedSurface<L>
-				: never;
+		: LIK extends "Surface"
+			? Surface<L>
+			: never;
 
 export type DumlingIdDecodeErrorCode =
 	| "MalformedDumlingId"
@@ -60,8 +49,7 @@ export type DumlingIdApiFor<L extends TargetLanguage> = {
 	makeDumlingIdFor: {
 		(value: Lemma<L>): DumlingId<"Lemma", L>;
 		(value: KnownSelection<L>): DumlingId<"Selection", L>;
-		(value: ResolvedSurface<L>): DumlingId<"ResolvedSurface", L>;
-		(value: UnresolvedSurface<L>): DumlingId<"UnresolvedSurface", L>;
+		(value: Surface<L>): DumlingId<"Surface", L>;
 	};
 	tryToDecode: (
 		id: string,
@@ -73,12 +61,8 @@ export type DumlingIdApiFor<L extends TargetLanguage> = {
 			id: string,
 		): Result<KnownSelection<L>, DumlingIdDecodeError>;
 		(
-			kind: "ResolvedSurface",
+			kind: "Surface",
 			id: string,
-		): Result<ResolvedSurface<L>, DumlingIdDecodeError>;
-		(
-			kind: "UnresolvedSurface",
-			id: string,
-		): Result<UnresolvedSurface<L>, DumlingIdDecodeError>;
+		): Result<Surface<L>, DumlingIdDecodeError>;
 	};
 };

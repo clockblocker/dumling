@@ -1,5 +1,5 @@
 import type { ConcreteDumlingIdKind } from "../../types";
-import { hasResolvedSurfaceLemma, isPlainObject } from "../guards";
+import { isPlainObject } from "../guards";
 
 export function inferConcreteDumlingIdKind(value: unknown): ConcreteDumlingIdKind {
 	if (!isPlainObject(value)) {
@@ -28,9 +28,7 @@ export function inferConcreteDumlingIdKind(value: unknown): ConcreteDumlingIdKin
 		typeof value.surfaceKind === "string" &&
 		"lemma" in value
 	) {
-		return hasResolvedSurfaceLemma(value.lemma)
-			? "ResolvedSurface"
-			: "UnresolvedSurface";
+		return "Surface";
 	}
 
 	throw new Error("Value is not a supported Dumling ID entity");

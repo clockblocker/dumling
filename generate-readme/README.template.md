@@ -61,7 +61,7 @@ Minimal end-to-end usage from the public root API:
 The root export is intentionally small:
 
 - `dumling.schemaFor`: Zod schema registries by language and entity kind
-- `dumling.operation`: convert, extract, resolve, and unresolve helpers
+- `dumling.operation`: convert and extract helpers
 - `dumling.idCodec`: stable IDs for lemmas, surfaces, and selections
 
 ## Model notes

@@ -3,14 +3,13 @@ import { dumling } from "../../src";
 import {
 	hebrewKatavLemma,
 	hebrewKatvuPointedVariantSelection,
-	hebrewKatvuResolvedInflectionSurface,
+	hebrewKatvuInflectionSurface,
 	hebrewKatvuStandardFullSelection,
-	hebrewKatvuUnresolvedInflectionSurface,
 	hebrewShanaLemma,
-	hebrewShanaResolvedLemmaSelection,
-	hebrewShanaResolvedLemmaSurface,
+	hebrewShanaLemmaSelection,
+	hebrewShanaLemmaSurface,
 	hebrewUsAbbreviationLemma,
-	hebrewUsAbbreviationResolvedLemmaSurface,
+	hebrewUsAbbreviationLemmaSurface,
 	hebrewUsAbbreviationSelection,
 } from "../helpers";
 
@@ -36,18 +35,18 @@ describe("Hebrew attested entities", () => {
 			).success,
 		).toBe(true);
 		expect(
-			lingSchemaFor.ResolvedSurface.Hebrew.Standard.Inflection.Lexeme.VERB.safeParse(
-				hebrewKatvuResolvedInflectionSurface,
+			lingSchemaFor.Surface.Hebrew.Standard.Inflection.Lexeme.VERB.safeParse(
+				hebrewKatvuInflectionSurface,
 			).success,
 		).toBe(true);
 		expect(
-			lingSchemaFor.ResolvedSurface.Hebrew.Standard.Lemma.Lexeme.NOUN.safeParse(
-				hebrewShanaResolvedLemmaSurface,
+			lingSchemaFor.Surface.Hebrew.Standard.Lemma.Lexeme.NOUN.safeParse(
+				hebrewShanaLemmaSurface,
 			).success,
 		).toBe(true);
 		expect(
-			lingSchemaFor.ResolvedSurface.Hebrew.Standard.Lemma.Lexeme.PROPN.safeParse(
-				hebrewUsAbbreviationResolvedLemmaSurface,
+			lingSchemaFor.Surface.Hebrew.Standard.Lemma.Lexeme.PROPN.safeParse(
+				hebrewUsAbbreviationLemmaSurface,
 			).success,
 		).toBe(true);
 		expect(
@@ -57,7 +56,7 @@ describe("Hebrew attested entities", () => {
 		).toBe(true);
 		expect(
 			lingSchemaFor.Selection.Hebrew.Standard.Lemma.Lexeme.NOUN.safeParse(
-				hebrewShanaResolvedLemmaSelection,
+				hebrewShanaLemmaSelection,
 			).success,
 		).toBe(true);
 		expect(
@@ -74,35 +73,19 @@ describe("Hebrew attested entities", () => {
 
 	it("work with the public operation helpers", () => {
 		expect(
-			lingOperation.resolve.unresolvedSurface.withLemma(
-				hebrewKatvuUnresolvedInflectionSurface,
-				hebrewKatavLemma,
-			),
-		).toEqual(hebrewKatvuResolvedInflectionSurface);
-		expect(
-			lingOperation.unresolve.surface(
-				hebrewKatvuResolvedInflectionSurface,
-			),
-		).toEqual(hebrewKatvuUnresolvedInflectionSurface);
-		expect(
 			lingOperation.extract.surface.fromSelection(
-				hebrewShanaResolvedLemmaSelection,
+				hebrewShanaLemmaSelection,
 			),
-		).toBe(hebrewShanaResolvedLemmaSurface);
+		).toBe(hebrewShanaLemmaSurface);
 		expect(
-			lingOperation.extract.lemma.fromSurface(
-				hebrewShanaResolvedLemmaSurface,
-			),
+			lingOperation.extract.lemma.fromSurface(hebrewShanaLemmaSurface),
 		).toBe(hebrewShanaLemma);
 	});
 
 	it("round-trip through the Hebrew Dumling ID codec", () => {
 		const lemmaId = DumlingIdCodec.Hebrew.makeDumlingIdFor(hebrewKatavLemma);
-		const resolvedSurfaceId = DumlingIdCodec.Hebrew.makeDumlingIdFor(
-			hebrewKatvuResolvedInflectionSurface,
-		);
-		const unresolvedSurfaceId = DumlingIdCodec.Hebrew.makeDumlingIdFor(
-			hebrewKatvuUnresolvedInflectionSurface,
+		const surfaceId = DumlingIdCodec.Hebrew.makeDumlingIdFor(
+			hebrewKatvuInflectionSurface,
 		);
 		const selectionId = DumlingIdCodec.Hebrew.makeDumlingIdFor(
 			hebrewKatvuStandardFullSelection,
@@ -122,16 +105,10 @@ describe("Hebrew attested entities", () => {
 		).toEqual(hebrewKatavLemma);
 		expect(
 			DumlingIdCodec.Hebrew.tryToDecodeAs(
-				"ResolvedSurface",
-				resolvedSurfaceId,
+				"Surface",
+				surfaceId,
 			)._unsafeUnwrap(),
-		).toEqual(hebrewKatvuResolvedInflectionSurface);
-		expect(
-			DumlingIdCodec.Hebrew.tryToDecodeAs(
-				"UnresolvedSurface",
-				unresolvedSurfaceId,
-			)._unsafeUnwrap(),
-		).toEqual(hebrewKatvuUnresolvedInflectionSurface);
+		).toEqual(hebrewKatvuInflectionSurface);
 		expect(
 			DumlingIdCodec.Hebrew.tryToDecodeAs(
 				"Selection",

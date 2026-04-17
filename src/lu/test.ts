@@ -1,8 +1,8 @@
 /** biome-ignore-all lint/correctness/noUnusedVariables: Demo */
-import type { Lemma, ResolvedSurface, Selection } from "../index";
+import type { Lemma, Selection, Surface } from "../index";
 
 type Test = Selection<"English", "Standard", "Inflection", "Lexeme", "ADJ">;
-type asdas = ResolvedSurface<
+type asdas = Surface<
 	"English",
 	"Standard",
 	"Inflection",
@@ -10,11 +10,8 @@ type asdas = ResolvedSurface<
 	"ADJ"
 >;
 
+type Test1 = Lemma<"German", "Phraseme", "Idiom">; // Pass auf dich auf
 //
-type Test1 = Lemma<"German", "Lexeme", "NOUN">; // Pass auf dich auf
-//
-//
-
 type Test2 = Lemma<"German", "Lexeme", "VERB">;
 type Test3 = Lemma<"German", "Lexeme", "CCONJ">;
 
@@ -41,6 +38,11 @@ const simpleWalkSelection = {
 		surfaceKind: "Inflection",
 		lemma: {
 			canonicalLemma: "walk",
+			inherentFeatures: {},
+			language: "English",
+			lemmaKind: "Lexeme",
+			meaningInEmojis: "🚶",
+			pos: "VERB",
 		},
 	},
 } satisfies Selection<"English", "Standard", "Inflection", "Lexeme", "VERB">;

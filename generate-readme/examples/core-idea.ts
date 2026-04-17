@@ -2,8 +2,8 @@
 import {
 	dumling,
 	type Lemma,
-	type ResolvedSurface,
 	type Selection,
+	type Surface,
 } from "../../src";
 
 // README_BLOCK:story-give-up-lemma:start
@@ -33,7 +33,7 @@ const gaveUpSurface = {
 	normalizedFullSurface: "gave up",
 	surfaceKind: "Inflection",
 	lemma: giveUpLemma,
-} satisfies ResolvedSurface<
+} satisfies Surface<
 	"English",
 	"Typo",
 	"Inflection",
@@ -58,10 +58,10 @@ const giveUpLemmaId = dumling.idCodec.English.makeDumlingIdFor(giveUpLemma);
 // "ling:v1:EN:LEM;give up;Lexeme;VERB;phrasal=Yes;🏳️"
 
 const gaveUpSurfaceId = dumling.idCodec.English.makeDumlingIdFor(gaveUpSurface);
-// "ling:v1:EN:SURF-RES;gave up;Inflection;Lexeme;VERB;tense=Past,verbForm=Fin;give up;Lexeme;VERB;phrasal=Yes;🏳️"
+// "ling:v1:EN:SURF;gave up;Inflection;Lexeme;VERB;tense=Past,verbForm=Fin;give up;Lexeme;VERB;phrasal=Yes;🏳️"
 
 const gvaeSelectionId = dumling.idCodec.English.makeDumlingIdFor(gvaeSelection);
-// "ling:v1:EN:SEL;Typo;Canonical;Partial;gvae;SURF-RES;gave up;Inflection;Lexeme;VERB;tense=Past,verbForm=Fin;give up;Lexeme;VERB;phrasal=Yes;🏳️"
+// "ling:v1:EN:SEL;Typo;Canonical;Partial;gvae;SURF;gave up;Inflection;Lexeme;VERB;tense=Past,verbForm=Fin;give up;Lexeme;VERB;phrasal=Yes;🏳️"
 // README_BLOCK:story-give-up-ids:end
 
 // README_BLOCK:quickstart-walk:start
@@ -74,9 +74,7 @@ const walkLemma = {
 	pos: "VERB",
 } satisfies Lemma<"English", "Lexeme", "VERB">;
 
-const walkSurface = dumling.operation.convert.lemma.toResolvedLemmaSurface(
-	walkLemma,
-);
+const walkSurface = dumling.operation.convert.lemma.toSurface(walkLemma);
 
 const walkSelection =
 	dumling.operation.convert.surface.toStandardFullSelection(walkSurface, {

@@ -2,6 +2,7 @@ import { describe, expect, it } from "bun:test";
 import { dumling } from "../../src";
 import { HebrewNounSchemas } from "../../src/lu/language-packs/hebrew/lu/lexeme/pos/hebrew-noun";
 import { HebrewVerbSchemas } from "../../src/lu/language-packs/hebrew/lu/lexeme/pos/hebrew-verb";
+import { hebrewKatavLemma, hebrewShanaLemma } from "../helpers";
 
 const { schemaFor: lingSchemaFor } = dumling;
 const { Lemma: LemmaSchema, Selection: SelectionSchema } = lingSchemaFor;
@@ -40,9 +41,7 @@ describe("Hebrew schema specificity", () => {
 					language: "Hebrew",
 					normalizedFullSurface: "katvu",
 					surfaceKind: "Inflection",
-					lemma: {
-						canonicalLemma: "katav",
-					},
+					lemma: hebrewKatavLemma,
 				},
 			}).success,
 		).toBe(true);
@@ -64,9 +63,7 @@ describe("Hebrew schema specificity", () => {
 					language: "Hebrew",
 					normalizedFullSurface: "shnatayim",
 					surfaceKind: "Inflection",
-					lemma: {
-						canonicalLemma: "shana",
-					},
+					lemma: hebrewShanaLemma,
 				},
 			}).success,
 		).toBe(true);

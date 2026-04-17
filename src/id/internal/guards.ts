@@ -1,10 +1,5 @@
 import z from "zod/v3";
-import {
-	LemmaSchema,
-	ResolvedSurfaceSchema,
-	SelectionSchema,
-	SurfaceSchema,
-} from "../../lu/public-entities";
+import { LemmaSchema, SelectionSchema, SurfaceSchema } from "../../lu/public-entities";
 import type { TargetLanguage } from "../../lu/universal/enums/core/language";
 import type { ConcreteDumlingIdKind } from "../types";
 
@@ -50,59 +45,30 @@ function unionLeafSchemas(value: unknown): z.ZodTypeAny {
 	]);
 }
 
-function hasResolvedLemmaOnSurface(value: unknown): boolean {
-	return (
-		typeof value === "object" &&
-		value !== null &&
-		"lemma" in value &&
-		typeof (value as { lemma: unknown }).lemma === "object" &&
-		(value as { lemma: object | null }).lemma !== null &&
-		"lemmaKind" in ((value as { lemma: object }).lemma as object)
-	);
-}
-
-function buildUnresolvedSurfaceSchema(language: TargetLanguage): z.ZodTypeAny {
-	return unionLeafSchemas(SurfaceSchema[language]).superRefine(
-		(value, ctx) => {
-			if (hasResolvedLemmaOnSurface(value)) {
-				ctx.addIssue({
-					code: z.ZodIssueCode.custom,
-					message:
-						"Unresolved surfaces require a canonical-lemma reference",
-					path: ["lemma"],
-				});
-			}
-		},
-	);
-}
-
 const runtimeSchemas = {
 	English: {
 		Lemma: unionLeafSchemas(LemmaSchema.English),
-		ResolvedSurface: unionLeafSchemas(ResolvedSurfaceSchema.English),
 		Selection: unionLeafSchemas({
 			Standard: SelectionSchema.English.Standard,
 			Typo: SelectionSchema.English.Typo,
 		}),
-		UnresolvedSurface: buildUnresolvedSurfaceSchema("English"),
+		Surface: unionLeafSchemas(SurfaceSchema.English),
 	},
 	German: {
 		Lemma: unionLeafSchemas(LemmaSchema.German),
-		ResolvedSurface: unionLeafSchemas(ResolvedSurfaceSchema.German),
 		Selection: unionLeafSchemas({
 			Standard: SelectionSchema.German.Standard,
 			Typo: SelectionSchema.German.Typo,
 		}),
-		UnresolvedSurface: buildUnresolvedSurfaceSchema("German"),
+		Surface: unionLeafSchemas(SurfaceSchema.German),
 	},
 	Hebrew: {
 		Lemma: unionLeafSchemas(LemmaSchema.Hebrew),
-		ResolvedSurface: unionLeafSchemas(ResolvedSurfaceSchema.Hebrew),
 		Selection: unionLeafSchemas({
 			Standard: SelectionSchema.Hebrew.Standard,
 			Typo: SelectionSchema.Hebrew.Typo,
 		}),
-		UnresolvedSurface: buildUnresolvedSurfaceSchema("Hebrew"),
+		Surface: unionLeafSchemas(SurfaceSchema.Hebrew),
 	},
 } satisfies {
 	[L in TargetLanguage]: Record<ConcreteDumlingIdKind, z.ZodTypeAny>;
@@ -119,12 +85,4 @@ export function isPlainObject(
 	value: unknown,
 ): value is Record<string, unknown> {
 	return typeof value === "object" && value !== null && !Array.isArray(value);
-}
-
-export function hasResolvedSurfaceLemma(value: unknown): boolean {
-	return (
-		isPlainObject(value) &&
-		"lemmaKind" in value &&
-		typeof value.lemmaKind === "string"
-	);
 }

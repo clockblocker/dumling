@@ -107,7 +107,10 @@ function decodeDumlingIdInternal<L extends TargetLanguage>(
 	return ok(validation.data as DumlingIdValueFor<ConcreteDumlingIdKind, L>);
 }
 
-function classifyHeaderError(input: string, cause: unknown): DumlingIdDecodeError {
+function classifyHeaderError(
+	input: string,
+	cause: unknown,
+): DumlingIdDecodeError {
 	const message =
 		cause instanceof Error ? cause.message : "Malformed Dumling ID";
 
@@ -141,10 +144,8 @@ function parsePayload(
 			return parseLemmaPayload(language, body);
 		case "Selection":
 			return parseSelectionPayload(language, body);
-		case "ResolvedSurface":
-			return parseSurfacePayload(language, "ResolvedSurface", body);
-		case "UnresolvedSurface":
-			return parseSurfacePayload(language, "UnresolvedSurface", body);
+		case "Surface":
+			return parseSurfacePayload(language, body);
 	}
 }
 
@@ -183,7 +184,6 @@ function parseSelectionPayload(
 
 function parseSurfacePayload(
 	language: TargetLanguage,
-	kind: "ResolvedSurface" | "UnresolvedSurface",
 	body: string,
 ): unknown {
 	const parts = splitLeadingTokens(body, 6, "surface");
@@ -209,10 +209,7 @@ function parseSurfacePayload(
 			normalizedFullSurfaceToken,
 			surfaceKind,
 		}),
-		lemma:
-			kind === "ResolvedSurface"
-				? parseLemmaPayload(language, lemmaPayload)
-				: { canonicalLemma: unescapeToken(lemmaPayload) },
+		lemma: parseLemmaPayload(language, lemmaPayload),
 	};
 }
 
@@ -257,16 +254,8 @@ function parseSelectionSurfacePayload(
 ) {
 	const kind = decodeWireKind(surfaceKindToken);
 
-	if (kind === "ResolvedSurface") {
-		return parseSurfacePayload(language, "ResolvedSurface", surfacePayload);
-	}
-
-	if (kind === "UnresolvedSurface") {
-		return parseSurfacePayload(
-			language,
-			"UnresolvedSurface",
-			surfacePayload,
-		);
+	if (kind === "Surface") {
+		return parseSurfacePayload(language, surfacePayload);
 	}
 
 	throw new Error(

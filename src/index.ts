@@ -1,20 +1,13 @@
 import { lingIdApiForLanguage } from "./id/public";
 import type { DumlingIdApiFor } from "./id/types";
-import {
-	LemmaSchema,
-	ResolvedSurfaceSchema,
-	SelectionSchema,
-	SurfaceSchema,
-} from "./lu/public-entities";
+import { LemmaSchema, SelectionSchema, SurfaceSchema } from "./lu/public-entities";
 import {
 	extractLemmaFromSurface,
 	extractSurfaceFromSelection,
 	operationForLanguage,
-	resolveUnresolvedSurfaceWithLemma,
-	toResolvedLemmaSurface,
+	toSurface,
 	toStandardFullSelection,
 	toStandardFullSelectionFromLemma,
-	unresolveSurface,
 } from "./lu/public-operations";
 import type { LemmaKind } from "./lu/universal/enums/core/selection";
 import type { TargetLanguage } from "./lu/universal/enums/core/language";
@@ -22,24 +15,20 @@ import type { LemmaDiscriminatorFor } from "./lu/universal/lemma-discriminator";
 
 type SchemaForApi = {
 	readonly Lemma: typeof LemmaSchema;
-	readonly ResolvedSurface: typeof ResolvedSurfaceSchema;
 	readonly Selection: typeof SelectionSchema;
 	readonly Surface: typeof SurfaceSchema;
-	readonly UnresolvedSurface: typeof SurfaceSchema;
 };
 
 const schemaFor: SchemaForApi = {
 	Lemma: LemmaSchema,
-	ResolvedSurface: ResolvedSurfaceSchema,
 	Selection: SelectionSchema,
 	Surface: SurfaceSchema,
-	UnresolvedSurface: SurfaceSchema,
 };
 
 type OperationApi = {
 	readonly convert: {
 		readonly lemma: {
-			readonly toResolvedLemmaSurface: typeof toResolvedLemmaSurface;
+			readonly toSurface: typeof toSurface;
 			readonly toStandardFullSelection: typeof toStandardFullSelectionFromLemma;
 		};
 		readonly surface: {
@@ -55,20 +44,12 @@ type OperationApi = {
 		};
 	};
 	readonly forLanguage: typeof operationForLanguage;
-	readonly resolve: {
-		readonly unresolvedSurface: {
-			readonly withLemma: typeof resolveUnresolvedSurfaceWithLemma;
-		};
-	};
-	readonly unresolve: {
-		readonly surface: typeof unresolveSurface;
-	};
 };
 
 const operation: OperationApi = {
 	convert: {
 		lemma: {
-			toResolvedLemmaSurface,
+			toSurface,
 			toStandardFullSelection: toStandardFullSelectionFromLemma,
 		},
 		surface: {
@@ -84,14 +65,6 @@ const operation: OperationApi = {
 		},
 	},
 	forLanguage: operationForLanguage,
-	resolve: {
-		unresolvedSurface: {
-			withLemma: resolveUnresolvedSurfaceWithLemma,
-		},
-	},
-	unresolve: {
-		surface: unresolveSurface,
-	},
 };
 
 const idCodec = {
@@ -133,8 +106,6 @@ export type {
 
 export type {
 	Lemma,
-	ResolvedSurface,
 	Selection,
 	Surface,
-	UnresolvedSurface,
 } from "./lu/public-entities";
