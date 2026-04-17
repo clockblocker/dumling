@@ -12,11 +12,11 @@ type InferShape<Shape extends z.ZodRawShape> = {
 	[K in keyof Shape]: z.infer<Shape[K]>;
 };
 
-export type SurfaceLemmaIdentityShape = z.ZodRawShape & {
+type SurfaceLemmaIdentityShape = z.ZodRawShape & {
 	lemmaKind: z.ZodTypeAny;
 };
 
-export type SurfaceLemmaIdentityShapeFor<
+type SurfaceLemmaIdentityShapeFor<
 	LK extends LemmaKind,
 	D extends LemmaDiscriminatorFor<LK>,
 > = LK extends "Lexeme"
@@ -39,7 +39,7 @@ export type SurfaceLemmaIdentityShapeFor<
 type InferredLemmaIdentityFor<Shape extends SurfaceLemmaIdentityShape> =
 	InferShape<Shape>;
 
-export type SurfaceValueFor<
+type SurfaceValueFor<
 	LanguageLiteral extends string,
 	LemmaIdentity extends { lemmaKind: unknown },
 	Lemma,
@@ -52,7 +52,7 @@ export type SurfaceValueFor<
 	}
 >;
 
-export type SurfaceSchemaFor<
+type SurfaceSchemaFor<
 	LanguageLiteral extends string,
 	LemmaIdentityShape extends SurfaceLemmaIdentityShape,
 	LemmaSchema extends z.ZodTypeAny,

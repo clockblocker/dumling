@@ -56,7 +56,7 @@ type SelectionSchemaPropKeyFor<
 		: `Typo${Prefix}SelectionSchema`
 	: never;
 
-export type KnownSelectionSchemaPropsFor<
+type KnownSelectionSchemaPropsFor<
 	LanguageLiteral extends TargetLanguage,
 	SurfaceSchemaProps extends Partial<Record<SurfaceSchemaPropKey, z.ZodTypeAny>>,
 > = {

@@ -77,9 +77,8 @@ The surface currently stores:
 - `discriminators.lemmaSubKind`
 
 Those fields duplicate data already present inside the nested lemma. The
-duplication is validated in
-[src/lu/universal/factories/buildSelectionSurface.ts](/Users/annagorelova/work/dumling/src/lu/universal/factories/buildSelectionSurface.ts)
-and serialized again in
+duplication is validated in `src/lu/universal/factories/buildSelectionSurface.ts`
+(since deleted) and serialized again in
 [src/id/internal/codec/encode.ts](/Users/annagorelova/work/dumling/src/id/internal/codec/encode.ts).
 
 This is not useful redundancy. It increases type friction and lets the model
@@ -364,7 +363,7 @@ This is a design requirement, not a polish task.
 ### Factory direction
 
 Delete the selection-first surface builder in
-[src/lu/universal/factories/buildSelectionSurface.ts](/Users/annagorelova/work/dumling/src/lu/universal/factories/buildSelectionSurface.ts).
+`src/lu/universal/factories/buildSelectionSurface.ts` (since deleted).
 
 Replace the current factory stack with:
 
@@ -425,14 +424,14 @@ allowed but silently normalized later.
 - [src/lu/public-operations.ts](/Users/annagorelova/work/dumling/src/lu/public-operations.ts)
 - [src/lu/internal/operations/shared.ts](/Users/annagorelova/work/dumling/src/lu/internal/operations/shared.ts)
 - [src/lu/universal/abstract-selection.ts](/Users/annagorelova/work/dumling/src/lu/universal/abstract-selection.ts)
-- [src/lu/universal/ling-id-schema-compat.ts](/Users/annagorelova/work/dumling/src/lu/universal/ling-id-schema-compat.ts)
+- `src/lu/universal/ling-id-schema-compat.ts` (since deleted)
 
 ### Factories
 
-- [src/lu/universal/factories/buildSelectionSurface.ts](/Users/annagorelova/work/dumling/src/lu/universal/factories/buildSelectionSurface.ts)
+- `src/lu/universal/factories/buildSelectionSurface.ts` (since deleted)
 - [src/lu/universal/factories/buildKnownSelection.ts](/Users/annagorelova/work/dumling/src/lu/universal/factories/buildKnownSelection.ts)
-- [src/lu/universal/factories/buildLemmaSelection.ts](/Users/annagorelova/work/dumling/src/lu/universal/factories/buildLemmaSelection.ts)
-- [src/lu/universal/factories/buildInflectionSelection.ts](/Users/annagorelova/work/dumling/src/lu/universal/factories/buildInflectionSelection.ts)
+- `src/lu/universal/factories/buildLemmaSelection.ts` (since deleted)
+- `src/lu/universal/factories/buildInflectionSelection.ts` (since deleted)
 
 ### Codec
 

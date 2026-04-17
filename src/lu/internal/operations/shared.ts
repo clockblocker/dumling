@@ -27,13 +27,6 @@ export type SurfaceLike<L extends TargetLanguage = TargetLanguage> = {
 	lemma: LemmaLike<L>;
 };
 
-export type ObservedSelectionLikeFor<L extends TargetLanguage = TargetLanguage> =
-	{
-		language: L;
-		orthographicStatus: "Unknown";
-		spelledSelection: string;
-	};
-
 export type HydratedSelectionLikeFor<L extends TargetLanguage = TargetLanguage> = {
 	language: L;
 	orthographicStatus: "Standard" | "Typo";
@@ -45,12 +38,6 @@ export type SurfaceOfSelection<S extends { surface: unknown }> = S extends {
 	surface: infer SelectionSurface;
 }
 	? SelectionSurface
-	: never;
-
-export type CompatibleLemmaForSurface<S extends SurfaceLike> = S extends {
-	lemma: infer SurfaceLemma;
-}
-	? Extract<SurfaceLemma, LemmaLike>
 	: never;
 
 export type LemmaOfSurface<S extends { lemma: unknown }> = S extends {

@@ -22,7 +22,7 @@ export type LemmaSchemaFor<
 	D extends LemmaDiscriminatorFor<LK> = LemmaDiscriminatorFor<LK>,
 > = z.ZodType<LemmaFor<LK, D>>;
 
-export type SelectionFor<
+type SelectionFor<
 	OS extends Exclude<OrthographicStatus, "Unknown"> = Exclude<
 		OrthographicStatus,
 		"Unknown"
@@ -32,7 +32,7 @@ export type SelectionFor<
 	D extends LemmaDiscriminatorFor<LK> = LemmaDiscriminatorFor<LK>,
 > = AbstractSelectionFor<OS, SK, LK, D>;
 
-export type SelectionSchemaFor<
+type SelectionSchemaFor<
 	OS extends Exclude<OrthographicStatus, "Unknown"> = Exclude<
 		OrthographicStatus,
 		"Unknown"
