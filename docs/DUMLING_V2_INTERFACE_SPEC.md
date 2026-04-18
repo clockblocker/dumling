@@ -71,12 +71,12 @@ v2 separates the public API into distinct modules:
 
 Schemas are not part of the primary workflow API.
 
-### 2. `Universal` is first-class in ontology, types, and schema
+### 2. `Abstract` entities are first-class in ontology, types, and schema
 
-`Universal` is the authored ontology superset.
+`Abstract` is the authored ontology superset contract.
 
-Every concrete language DTO is a subset of the corresponding universal DTO.
-Universal owns:
+Every concrete language DTO is a subset of the corresponding abstract DTO.
+The abstract entity layer owns:
 
 - all supported lemma kinds
 - all supported lemma sub-kinds
@@ -89,17 +89,17 @@ Each concrete language narrows:
 - which features are allowed for a given sub-kind
 - which feature values are allowed for a given feature
 
-`Universal` is not a helper-only side namespace. It is a first-class public
+`Abstract` is not a helper-only side namespace. It is a first-class public
 concept in the ontology, public type layer, and schema layer:
 
-- `Lemma<"Universal", ...>` is valid
-- `schema.universal...` is valid
+- `AbstractLemma<...>` is valid
+- `schema.abstract...` is valid
 
-`Universal` does not need to participate everywhere the concrete runtime
-languages do. In particular, the v2 spec does not require universal hydrated
-`Selection` workflow APIs or universal string-instance workflows.
+`Abstract` does not need to participate everywhere the concrete runtime
+languages do. In particular, the v2 spec does not require abstract hydrated
+`Selection` workflow APIs or abstract string-instance workflows.
 
-Universal selection may still exist at the type and schema levels for ontology
+Abstract selection may still exist at the type and schema levels for ontology
 browsing and validation shape generation.
 
 ### 3. `Selection` is always hydrated
@@ -158,7 +158,7 @@ The canonical language-bound workflow namespaces are:
 v2 does not expose a public extension mechanism for arbitrary consumer-defined
 languages or schema packs.
 
-The package owns a curated language inventory and a curated universal ontology.
+The package owns a curated language inventory and a curated abstract ontology.
 
 ### 8. Builders accept DTO-shaped input
 
@@ -263,7 +263,7 @@ Proposed exports:
 - `Lemma`
 - feature bag types
 - descriptor helper types
-- universal-to-language narrowing utilities
+- abstract-to-language narrowing utilities
 
 Example:
 
@@ -285,7 +285,7 @@ Example:
 import { schema } from "dumling/schema";
 
 schema.en.lemma.lexeme.verb();
-schema.universal.lemma.lexeme.verb();
+schema.abstract.lemma.lexeme.verb();
 ```
 
 ## Primary Workflow API
@@ -382,13 +382,13 @@ const decoded = en.id.decodeAs("Selection", id);
 
 v2 languages:
 
-- `Universal`
 - curated concrete languages such as `en`, `de`, and `he`
 
 Proposed type:
 
 ```ts
-type Language = "Universal" | "en" | "de" | "he";
+type SupportedLanguage = "en" | "de" | "he";
+type AbstractLanguageTag = string;
 ```
 
 ### Language code policy
@@ -412,8 +412,6 @@ Current curated examples:
 Any future curated language pack should follow the same rule and use its UD
 language code as the public identifier.
 
-`"Universal"` remains the one intentional exception to the UD-code rule.
-
 ## Canonical entity model
 
 ```ts
@@ -423,26 +421,27 @@ type OrthographicStatus = "Standard" | "Typo";
 type SelectionCoverage = "Full" | "Partial";
 type SpellingRelation = "Canonical" | "Variant";
 
-type UniversalLemma<
-	LK extends UniversalLemmaKind = UniversalLemmaKind,
-	LSK extends UniversalLemmaSubKindFor<LK> = UniversalLemmaSubKindFor<LK>,
+type AbstractLemma<
+	L extends AbstractLanguageTag = AbstractLanguageTag,
+	LK extends LemmaKind = LemmaKind,
+	LSK extends AbstractLemmaSubKindFor<LK> = AbstractLemmaSubKindFor<LK>,
 > = {
-	language: "Universal";
+	language: L;
 	canonicalLemma: string;
 	lemmaKind: LK;
 	lemmaSubKind: LSK;
-	inherentFeatures: UniversalInherentFeaturesFor<LK, LSK>;
+	inherentFeatures: AbstractInherentFeaturesFor<LK, LSK>;
 	meaningInEmojis: string;
 };
 
 type Lemma<
-	L extends Language = "Universal",
+	L extends SupportedLanguage = SupportedLanguage,
 	LK extends LemmaKindFor<L> = LemmaKindFor<L>,
 	LSK extends LemmaSubKindFor<L, LK> = LemmaSubKindFor<L, LK>,
 > = LemmaForLanguage<L, LK, LSK>;
 
 type Surface<
-	L extends Exclude<Language, "Universal"> = Exclude<Language, "Universal">,
+	L extends SupportedLanguage = SupportedLanguage,
 	SK extends SurfaceKindFor<L> = SurfaceKindFor<L>,
 	LK extends LemmaKindForSurfaceKind<L, SK> = LemmaKindForSurfaceKind<L, SK>,
 	LSK extends LemmaSubKindFor<L, LK> = LemmaSubKindFor<L, LK>,
@@ -454,7 +453,7 @@ type Surface<
 } & SurfacePayloadFor<L, SK, LK, LSK>;
 
 type Selection<
-	L extends Exclude<Language, "Universal"> = Exclude<Language, "Universal">,
+	L extends SupportedLanguage = SupportedLanguage,
 	OS extends OrthographicStatus = OrthographicStatus,
 	SK extends SurfaceKindFor<L> = SurfaceKindFor<L>,
 	LK extends LemmaKindForSurfaceKind<L, SK> = LemmaKindForSurfaceKind<L, SK>,
@@ -469,7 +468,7 @@ type Selection<
 };
 
 type SurfacePayloadFor<
-	L extends Language,
+	L extends SupportedLanguage,
 	SK extends SurfaceKindFor<L>,
 	LK extends LemmaKindForSurfaceKind<L, SK>,
 	LSK extends LemmaSubKindFor<L, LK>,
@@ -482,8 +481,8 @@ type SurfacePayloadFor<
 		: never;
 ```
 
-The important structural point is that generic universal base shapes such as
-`UniversalLemma<LK, LSK>` exist first, and concrete language DTOs are
+The important structural point is that generic abstract base shapes such as
+`AbstractLemma<L, LK, LSK>` exist first, and concrete language DTOs are
 subsettable restrictions over those base shapes.
 
 The public generic wrappers like `Lemma<...>` and `Surface<...>` are then typed
@@ -493,8 +492,8 @@ base shape themselves.
 More specifically, public generic wrappers such as `Lemma<L, LK, LSK>` should
 behave as views over concrete leaf DTO families.
 
-Those concrete leaf DTO families are restrictions over generic universal bases
-such as `UniversalLemma<LK, LSK>`.
+Those concrete leaf DTO families are restrictions over generic abstract bases
+such as `AbstractLemma<L, LK, LSK>`.
 
 The public generic layer must not become an independently reconstructed
 parallel model.
@@ -558,19 +557,19 @@ const inflectionSurface = {
   the ontology.
 - language packs may forbid inflection entirely for some lemma sub-kinds.
 
-## Universal-First Ontology
+## Abstract-First Ontology
 
 ## Authoring model
 
-The rewrite should author the ontology once at the universal level.
+The rewrite should author the ontology once at the abstract level.
 
-Language packs should be restrictions over universal, not parallel hand-built
+Language packs should be restrictions over abstract, not parallel hand-built
 systems.
 
 Conceptually:
 
 ```ts
-type UniversalFeatures = {
+type AbstractFeatures = {
 	tense?: ...;
 	verbForm?: ...;
 	voice?: ...;
@@ -580,17 +579,17 @@ type UniversalFeatures = {
 };
 
 type FeatureBagFor<
-	L extends Language,
+	L extends SupportedLanguage,
 	LK extends LemmaKindFor<L>,
 	LSK extends LemmaSubKindFor<L, LK>,
 > = NarrowFeatureBag<
-	UniversalFeatures,
+	AbstractFeatures,
 	AllowedFeaturesFor<L, LK, LSK>,
 	AllowedFeatureValuesFor<L, LK, LSK>
 >;
 ```
 
-`UniversalFeatures` is not split by lemma kind or lemma sub-kind. It is the
+`AbstractFeatures` is not split by lemma kind or lemma sub-kind. It is the
 shared superset feature inventory for the entire ontology.
 
 Public feature names should follow UD naming for UD features and UD-like naming
@@ -598,7 +597,7 @@ for custom features.
 
 Lemma kind and lemma sub-kind only constrain:
 
-- which features from `UniversalFeatures` are valid in context
+- which features from `AbstractFeatures` are valid in context
 - which values are valid for those features in context
 
 At runtime, parse-style feature-bag normalization should strip feature keys that
@@ -613,8 +612,8 @@ erased.
 For each concrete language `L` and any compatible DTO family:
 
 ```ts
-EnNounLexemeLemma extends UniversalLemma<"Lexeme", "NOUN">
-EnRootMorphemeLemma extends UniversalLemma<"Morpheme", "Root">
+EnNounLexemeLemma extends AbstractLemma<"en", "Lexeme", "NOUN">
+EnRootMorphemeLemma extends AbstractLemma<"en", "Morpheme", "Root">
 ...
 ```
 
@@ -635,7 +634,7 @@ The subset rule applies at both levels:
 - schemas live in their own module
 - schema browsing is static and discoverable
 - schema access is not mixed into the `dumling.<language>` runtime namespace
-- universal and concrete language schemas share one shape
+- abstract and concrete language schemas share one shape
 - the primary public schema surface is a static tree, not a selector-first API
 
 ## Proposed shape
@@ -643,9 +642,9 @@ The subset rule applies at both levels:
 ```ts
 import { schema } from "dumling/schema";
 
-schema.universal.lemma.lexeme.verb;
-schema.universal.surface.inflection.lexeme.verb;
-schema.universal.selection.typo.inflection.lexeme.verb;
+schema.abstract.lemma.lexeme.verb;
+schema.abstract.surface.inflection.lexeme.verb;
+schema.abstract.selection.typo.inflection.lexeme.verb;
 
 schema.en.lemma.lexeme.verb;
 schema.en.surface.inflection.lexeme.verb;
@@ -658,9 +657,9 @@ schema.he.lemma.lexeme.verb;
 Preferred public shape:
 
 ```ts
-schema.universal.lemma.lexeme.verb();
-schema.universal.surface.inflection.lexeme.verb();
-schema.universal.selection.typo.inflection.lexeme.verb();
+schema.abstract.lemma.lexeme.verb();
+schema.abstract.surface.inflection.lexeme.verb();
+schema.abstract.selection.typo.inflection.lexeme.verb();
 
 schema.en.lemma.lexeme.verb();
 schema.en.surface.inflection.lexeme.verb();
@@ -676,13 +675,13 @@ Callable selector helpers are not the primary v2 schema surface.
 
 The schema registry uses compact lowercase keys:
 
-- `universal`
+- `abstract`
 - `en`
 - `de`
 - `he`
 
 This is intentionally separate from DTO `language` values like `"en"` and
-`"Universal"`.
+other concrete language tags.
 
 These schema keys are locked as the intended v2 public shape.
 
@@ -692,7 +691,7 @@ The rewrite should minimize authored schema fan-out.
 
 Authored:
 
-- universal ontology
+- abstract ontology
 - language restrictions
 - lemma schema definitions
 - valid surface variant definitions
@@ -713,14 +712,14 @@ runtime builders or schema registries.
 Important type helpers:
 
 ```ts
-type LemmaKindFor<L extends Language> = ...;
+type LemmaKindFor<L extends SupportedLanguage> = ...;
 type LemmaSubKindFor<
-	L extends Language,
+	L extends SupportedLanguage,
 	LK extends LemmaKindFor<L>,
 > = ...;
 
 type LemmaDescriptor<
-	L extends Language,
+	L extends SupportedLanguage,
 	LK extends LemmaKindFor<L>,
 	LSK extends LemmaSubKindFor<L, LK>,
 > = {
@@ -730,7 +729,7 @@ type LemmaDescriptor<
 };
 
 type SurfaceDescriptor<
-	L extends Language,
+	L extends SupportedLanguage,
 	SK extends SurfaceKindFor<L>,
 	LK extends LemmaKindForSurfaceKind<L, SK>,
 	LSK extends LemmaSubKindFor<L, LK>,
@@ -742,7 +741,7 @@ type SurfaceDescriptor<
 };
 
 type SelectionDescriptor<
-	L extends Language,
+	L extends SupportedLanguage,
 	OS extends OrthographicStatus,
 	SK extends SurfaceKindFor<L>,
 	LK extends LemmaKindForSurfaceKind<L, SK>,
@@ -755,39 +754,39 @@ type SelectionDescriptor<
 	lemmaSubKind: LSK;
 };
 
-type FeatureName = keyof UniversalFeatures;
+type FeatureName = keyof AbstractFeatures;
 
-type UniversalFeatureValue<
+type AbstractFeatureValue<
 	F extends FeatureName,
-> = UniversalFeatures[F];
+> = AbstractFeatures[F];
 
 type FeatureNameFor<
-	L extends Language,
+	L extends SupportedLanguage,
 	LK extends LemmaKindFor<L>,
 	LSK extends LemmaSubKindFor<L, LK>,
 > = ...;
 
 type FeatureValueFor<
-	L extends Language,
+	L extends SupportedLanguage,
 	LK extends LemmaKindFor<L>,
 	LSK extends LemmaSubKindFor<L, LK>,
 	F extends FeatureNameFor<L, LK, LSK>,
 > = ...;
 
 type FeatureBagFor<
-	L extends Language,
+	L extends SupportedLanguage,
 	LK extends LemmaKindFor<L>,
 	LSK extends LemmaSubKindFor<L, LK>,
 > = ...;
 
 type InherentFeaturesFor<
-	L extends Language,
+	L extends SupportedLanguage,
 	LK extends LemmaKindFor<L>,
 	LSK extends LemmaSubKindFor<L, LK>,
 > = ...;
 
 type InflectionalFeaturesFor<
-	L extends Language,
+	L extends SupportedLanguage,
 	LK extends LemmaKindFor<L>,
 	LSK extends LemmaSubKindFor<L, LK>,
 > = ...;
@@ -847,13 +846,13 @@ en.describe.as.selection(surface);
 // }
 ```
 
-For consumers, these helpers should support both universal and contextual
+For consumers, these helpers should support both abstract and contextual
 lookups.
 
 Examples:
 
 ```ts
-type Gender = UniversalFeatureValue<"gender">;
+type Gender = AbstractFeatureValue<"gender">;
 
 type DeNounGender = FeatureValueFor<
 	"de",
@@ -896,7 +895,7 @@ Preferred pattern:
 
 ```ts
 function foo<
-	L extends Language,
+	L extends SupportedLanguage,
 	LK extends LemmaKindFor<L>,
 	LSK extends LemmaSubKindFor<L, LK>,
 >(lemma: Lemma<L, LK, LSK>) {
@@ -1167,7 +1166,7 @@ Expected breaks:
 The v2 interface should be built around one canonical ontology and one
 canonical DTO family.
 
-`Universal` is the superset.
+`Abstract` is the superset contract.
 Concrete languages are restrictions of it.
 Schemas, types, and workflow helpers are separate public surfaces.
 `Selection` is always hydrated.
