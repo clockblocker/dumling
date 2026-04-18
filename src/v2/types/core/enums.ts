@@ -1,9 +1,15 @@
 import { z } from "zod/v3";
 
-const languageValues = ["Universal", "en", "de", "he"] as const;
+const supportedLanguageValues = ["en", "de", "he"] as const;
 
-export const Language = z.enum(languageValues);
-export type Language = z.infer<typeof Language>;
+export const SupportedLanguage = z.enum(supportedLanguageValues);
+export type SupportedLanguage = z.infer<typeof SupportedLanguage>;
+
+export const Language = SupportedLanguage;
+export type Language = SupportedLanguage;
+
+export const AbstractLanguageTag = z.string().min(1);
+export type AbstractLanguageTag = z.infer<typeof AbstractLanguageTag>;
 
 const lemmaKindValues = ["Phraseme", "Lexeme", "Morpheme"] as const;
 

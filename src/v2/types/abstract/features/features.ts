@@ -45,7 +45,7 @@ import type { Voice } from "./ud/voice";
 
 type FeatureValueSet<T> = T | readonly [T, ...T[]];
 
-type UniversalFeatureAtoms = {
+type AbstractFeatureAtoms = {
 	abbr: Abbr;
 	adpType: AdpType;
 	animacy: Animacy;
@@ -94,14 +94,14 @@ type UniversalFeatureAtoms = {
 	voice: Voice;
 };
 
-export type UniversalInherentFeatures = Partial<UniversalFeatureAtoms>;
+export type AbstractInherentFeatures = Partial<AbstractFeatureAtoms>;
 
-export type UniversalInflectionalFeatures = {
-	[K in keyof UniversalFeatureAtoms]?: FeatureValueSet<UniversalFeatureAtoms[K]>;
+export type AbstractInflectionalFeatures = {
+	[K in keyof AbstractFeatureAtoms]?: FeatureValueSet<AbstractFeatureAtoms[K]>;
 };
 
-export type UniversalFeatureName = keyof UniversalFeatureAtoms;
-export type UniversalFeatureValue<N extends UniversalFeatureName> =
-	UniversalFeatureAtoms[N];
+export type AbstractFeatureName = keyof AbstractFeatureAtoms;
+export type AbstractFeatureValue<N extends AbstractFeatureName> =
+	AbstractFeatureAtoms[N];
 
-export type UniversalFeatures = UniversalInherentFeatures;
+export type AbstractFeatures = AbstractInherentFeatures;

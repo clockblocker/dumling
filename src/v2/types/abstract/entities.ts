@@ -1,0 +1,89 @@
+import type {
+	AbstractLanguageTag,
+	LemmaKind,
+	LexemeSubKind,
+	MorphemeSubKind,
+	OrthographicStatus,
+	PhrasemeSubKind,
+	SelectionCoverage,
+	SpellingRelation,
+	SurfaceKind,
+} from "../core/enums";
+import type {
+	AbstractInherentFeatures,
+	AbstractInflectionalFeatures,
+} from "./features/features";
+
+type RequireAtLeastOne<T extends object> = {
+	[K in keyof T]-?: Required<Pick<T, K>> & Partial<Omit<T, K>>;
+}[keyof T];
+
+export type AbstractLemmaSubKindFor<LK extends LemmaKind> = LK extends "Lexeme"
+	? LexemeSubKind
+	: LK extends "Morpheme"
+		? MorphemeSubKind
+		: LK extends "Phraseme"
+			? PhrasemeSubKind
+			: never;
+
+export type AbstractInherentFeaturesFor<
+	LK extends LemmaKind = LemmaKind,
+	LSK extends AbstractLemmaSubKindFor<LK> = AbstractLemmaSubKindFor<LK>,
+> = AbstractInherentFeatures;
+
+export type AbstractInflectionalFeaturesFor<
+	LK extends LemmaKind = LemmaKind,
+	LSK extends AbstractLemmaSubKindFor<LK> = AbstractLemmaSubKindFor<LK>,
+> = RequireAtLeastOne<AbstractInflectionalFeatures>;
+
+export type AbstractLemma<
+	L extends AbstractLanguageTag = AbstractLanguageTag,
+	LK extends LemmaKind = LemmaKind,
+	LSK extends AbstractLemmaSubKindFor<LK> = AbstractLemmaSubKindFor<LK>,
+> = {
+	language: L;
+	canonicalLemma: string;
+	lemmaKind: LK;
+	lemmaSubKind: LSK;
+	inherentFeatures: AbstractInherentFeaturesFor<LK, LSK>;
+	meaningInEmojis: string;
+};
+
+type AbstractSurfacePayload<
+	SK extends SurfaceKind,
+	LK extends LemmaKind,
+	LSK extends AbstractLemmaSubKindFor<LK>,
+> = SK extends "Lemma"
+	? {}
+	: SK extends "Inflection"
+		? {
+				inflectionalFeatures: AbstractInflectionalFeaturesFor<LK, LSK>;
+			}
+		: never;
+
+export type AbstractSurface<
+	L extends AbstractLanguageTag = AbstractLanguageTag,
+	SK extends SurfaceKind = SurfaceKind,
+	LK extends LemmaKind = LemmaKind,
+	LSK extends AbstractLemmaSubKindFor<LK> = AbstractLemmaSubKindFor<LK>,
+> = {
+	language: L;
+	normalizedFullSurface: string;
+	surfaceKind: SK;
+	lemma: AbstractLemma<L, LK, LSK>;
+} & AbstractSurfacePayload<SK, LK, LSK>;
+
+export type AbstractSelection<
+	L extends AbstractLanguageTag = AbstractLanguageTag,
+	OS extends OrthographicStatus = OrthographicStatus,
+	SK extends SurfaceKind = SurfaceKind,
+	LK extends LemmaKind = LemmaKind,
+	LSK extends AbstractLemmaSubKindFor<LK> = AbstractLemmaSubKindFor<LK>,
+> = {
+	language: L;
+	orthographicStatus: OS;
+	selectionCoverage: SelectionCoverage;
+	spelledSelection: string;
+	spellingRelation: SpellingRelation;
+	surface: AbstractSurface<L, SK, LK, LSK>;
+};
