@@ -71,7 +71,7 @@ v2 separates the public API into distinct modules:
 
 Schemas are not part of the primary workflow API.
 
-### 2. `Universal` is first-class
+### 2. `Universal` is first-class in ontology, types, and schema
 
 `Universal` is the authored ontology superset.
 
@@ -89,17 +89,15 @@ Each concrete language narrows:
 - which features are allowed for a given sub-kind
 - which feature values are allowed for a given feature
 
-`Universal` is not a helper-only side namespace. It participates in the same
-model as real languages:
+`Universal` is not a helper-only side namespace. It is a first-class public
+concept in the ontology, public type layer, and schema layer:
 
-- `dumling.universal` is valid
 - `Lemma<"Universal", ...>` is valid
-- `Surface<"Universal", ...>` is valid
-- `Selection<"Universal", ...>` is valid
 - `schema.universal...` is valid
 
-If any API is later restricted for `Universal`, that restriction must be
-explicit and justified at the API level.
+`Universal` does not need to participate everywhere the concrete runtime
+languages do. In particular, the v2 spec does not require universal hydrated
+`Selection` workflow APIs or universal string-instance workflows.
 
 ### 3. `Selection` is always hydrated
 
@@ -121,6 +119,12 @@ Internal or derived concepts such as `pos`, `morphemeKind`, and
 
 `spellingRelation` is explicit public data. It is never implied by omission.
 
+`orthographicStatus`, `selectionCoverage`, and `spellingRelation` are
+independent properties of the observed selected string.
+
+They can validly coexist in any compatible combination. For example, a
+selection may be both `Typo` and `Variant`.
+
 ### 6. Language-bound workflow API is primary
 
 The primary usage style is:
@@ -136,6 +140,7 @@ The canonical language-bound workflow namespaces are:
 
 - `create`
 - `convert`
+- `extract`
 - `describe`
 - `id`
 
@@ -154,6 +159,9 @@ payload dialect.
 Builders exist to make canonical DTO construction easier and safer. They do not
 define a second authoring model.
 
+More precisely, builder inputs are DTO-shaped except for fields already implied
+by the builder namespace being called.
+
 ### 9. Public failure paths use a plain result envelope
 
 Public APIs that can fail should use a dependency-free result envelope:
@@ -168,6 +176,15 @@ v2 should move away from `neverthrow`.
 
 Error payloads should use explicit typed codes rather than freeform strings.
 
+Only parse-like public APIs are intended to be fallible.
+
+Non-fallible public helpers should consume and return canonical DTOs directly.
+
+`create.*` is only for trusted typed construction.
+
+`parse.*` is the only public boundary where runtime validation and
+normalization happen.
+
 ### 10. Every lemma carries `inherentFeatures`
 
 Every `Lemma` has an `inherentFeatures` object.
@@ -181,6 +198,15 @@ simply empty.
 
 Lemma-backed surfaces do not carry an always-empty `inflectionalFeatures`
 object.
+
+If an inflection surface exists, `inflectionalFeatures` is required and should
+not be empty.
+
+Some lemma sub-kinds may simply be non-inflectable and therefore admit no
+inflection surfaces at all.
+
+Concrete language packs are responsible for enforcing which lemma sub-kinds can
+participate in inflection.
 
 ## Non-Goals
 
@@ -259,7 +285,6 @@ schema.universal.lemma.lexeme.verb();
 import { dumling } from "dumling";
 
 const en = dumling.en;
-const universal = dumling.universal;
 ```
 
 v2 answers the old request for a more coherent high-level workflow API through
@@ -287,7 +312,6 @@ en.convert.lemma.toSelection(...);
 en.convert.surface.toSelection(...);
 
 en.extract.lemma(...);
-en.extract.surface(...);
 
 en.id.encode(...);
 en.id.decode(...);
@@ -371,6 +395,8 @@ Current curated examples:
 Any future curated language pack should follow the same rule and use its UD
 language code as the public identifier.
 
+`"Universal"` remains the one intentional exception to the UD-code rule.
+
 ## Canonical entity model
 
 ```ts
@@ -380,21 +406,23 @@ type OrthographicStatus = "Standard" | "Typo";
 type SelectionCoverage = "Full" | "Partial";
 type SpellingRelation = "Canonical" | "Variant";
 
+type UniversalLemma = {
+	language: "Universal";
+	canonicalLemma: string;
+	lemmaKind: UniversalLemmaKind;
+	lemmaSubKind: UniversalLemmaSubKind;
+	inherentFeatures: UniversalInherentFeatures;
+	meaningInEmojis?: string;
+};
+
 type Lemma<
 	L extends Language = "Universal",
 	LK extends LemmaKindFor<L> = LemmaKindFor<L>,
 	LSK extends LemmaSubKindFor<L, LK> = LemmaSubKindFor<L, LK>,
-> = {
-	language: L;
-	canonicalLemma: string;
-	lemmaKind: LK;
-	lemmaSubKind: LSK;
-	inherentFeatures: InherentFeaturesFor<L, LK, LSK>;
-	meaningInEmojis?: string;
-} & LemmaPayloadFor<L, LK, LSK>;
+> = LemmaForLanguage<L, LK, LSK>;
 
 type Surface<
-	L extends Language = "Universal",
+	L extends Exclude<Language, "Universal"> = Exclude<Language, "Universal">,
 	SK extends SurfaceKindFor<L> = SurfaceKindFor<L>,
 	LK extends LemmaKindForSurfaceKind<L, SK> = LemmaKindForSurfaceKind<L, SK>,
 	LSK extends LemmaSubKindFor<L, LK> = LemmaSubKindFor<L, LK>,
@@ -406,7 +434,7 @@ type Surface<
 } & SurfacePayloadFor<L, SK, LK, LSK>;
 
 type Selection<
-	L extends Language = "Universal",
+	L extends Exclude<Language, "Universal"> = Exclude<Language, "Universal">,
 	OS extends OrthographicStatus = OrthographicStatus,
 	SK extends SurfaceKindFor<L> = SurfaceKindFor<L>,
 	LK extends LemmaKindForSurfaceKind<L, SK> = LemmaKindForSurfaceKind<L, SK>,
@@ -433,6 +461,33 @@ type SurfacePayloadFor<
 			}
 		: never;
 ```
+
+The important structural point is that universal DTOs exist as concrete
+non-generic base shapes, and concrete language DTOs are subsettable
+restrictions over those base shapes.
+
+The public generic wrappers like `Lemma<...>` and `Surface<...>` are then typed
+views over those concrete DTO families rather than the canonical source of the
+base shape themselves.
+
+More specifically, public generic wrappers such as `Lemma<L, LK, LSK>` should
+behave as views over concrete leaf DTO families.
+
+Those concrete leaf DTO families are restrictions over generic universal bases
+such as `UniversalLemma<LK, LSK>`.
+
+The public generic layer must not become an independently reconstructed
+parallel model.
+
+`meaningInEmojis` is not decorative side metadata.
+
+It is a core part of the public lemma model because it provides the compact
+semantic anchor that lets downstream consumers distinguish otherwise similar or
+identically spelled lemmas in real workflows.
+
+This field exists to carry meaning in a form that is cheap for humans and
+machines to compare during lemma lookup, candidate narrowing, stub creation,
+and follow-up enrichment flows.
 
 `Surface` and `Selection` should be finalized with the same dependent-default
 generic style used for `Lemma`, rather than with wider uncoupled defaults.
@@ -464,13 +519,22 @@ const inflectionSurface = {
 - `Selection` is always hydrated.
 - `Surface` always owns a nested `Lemma`.
 - `language` is preserved as a literal through creation and conversion helpers.
+- repeated `language` fields in hydrated DTOs must be equal.
+- where a hydrated DTO repeats `language` across levels, nested `lemma.language`
+  is the authoritative value.
 - `lemmaKind` and `lemmaSubKind` preserve their relation in public types.
+- `meaningInEmojis` is core public lemma data, not decorative metadata.
 - impossible kind/sub-kind combinations are not representable.
 - impossible language/sub-kind combinations are not representable.
+- `orthographicStatus`, `selectionCoverage`, and `spellingRelation` are
+  orthogonal properties of the observed selection string.
 - `inflectionalFeatures` exists only where the surface kind actually supports
   inflection.
+- if an inflection surface exists, `inflectionalFeatures` is required and
+  non-empty.
 - `Inflection` surfaces may only wrap lemma kinds that are explicitly allowed by
   the ontology.
+- language packs may forbid inflection entirely for some lemma sub-kinds.
 
 ## Universal-First Ontology
 
@@ -507,20 +571,35 @@ type FeatureBagFor<
 `UniversalFeatures` is not split by lemma kind or lemma sub-kind. It is the
 shared superset feature inventory for the entire ontology.
 
+Public feature names should follow UD naming for UD features and UD-like naming
+for custom features.
+
 Lemma kind and lemma sub-kind only constrain:
 
 - which features from `UniversalFeatures` are valid in context
 - which values are valid for those features in context
+
+At runtime, parse-style feature-bag normalization should strip unknown feature
+keys rather than rejecting the whole payload.
+
+The same stripping rule applies both to keys that are unknown to the ontology
+entirely and to keys that exist in the universal inventory but are not allowed
+for the current language and leaf context.
 
 ## Meaning of "subset"
 
 For each concrete language `L` and any compatible DTO family:
 
 ```ts
-Lemma<L, ...> extends Lemma<"Universal", ...>
-Surface<L, ...> extends Surface<"Universal", ...>
-Selection<L, ...> extends Selection<"Universal", ...>
+EnLemma extends UniversalLemma
+DeLemma extends UniversalLemma
+...
 ```
+
+This subset rule is defined over the concrete non-generic DTO families.
+
+Public generic wrappers such as `Lemma<L, ...>` are the typed interface layered
+over those concrete families.
 
 The subset rule applies at both levels:
 
@@ -580,7 +659,7 @@ The schema registry uses compact lowercase keys:
 - `de`
 - `he`
 
-This is intentionally separate from DTO `language` values like `"English"` and
+This is intentionally separate from DTO `language` values like `"en"` and
 `"Universal"`.
 
 These schema keys are locked as the intended v2 public shape.
@@ -711,18 +790,24 @@ the model:
 
 - `lemma -> surface` uses `surfaceKind: "Lemma"`
 - `lemma -> selection` uses
-  `surfaceKind: "Lemma"` and `orthographicStatus: "Standard"`
-- `surface -> selection` uses `orthographicStatus: "Standard"`
+  `surfaceKind: "Lemma"`,
+  `orthographicStatus: "Standard"`,
+  `selectionCoverage: "Full"`,
+  and `spellingRelation: "Canonical"`
+- `surface -> selection` uses
+  `orthographicStatus: "Standard"`,
+  `selectionCoverage: "Full"`,
+  and `spellingRelation: "Canonical"`
 
 Examples:
 
 ```ts
 en.describe.as.lemma(lemma);
-// { language: "de", lemmaKind: "Lexeme", lemmaSubKind: "NOUN" }
+// { language: "en", lemmaKind: "Lexeme", lemmaSubKind: "NOUN" }
 
 en.describe.as.surface(lemma);
 // {
-//   language: "de",
+//   language: "en",
 //   surfaceKind: "Lemma",
 //   lemmaKind: "Lexeme",
 //   lemmaSubKind: "NOUN",
@@ -730,7 +815,7 @@ en.describe.as.surface(lemma);
 
 en.describe.as.selection(lemma);
 // {
-//   language: "de",
+//   language: "en",
 //   orthographicStatus: "Standard",
 //   surfaceKind: "Lemma",
 //   lemmaKind: "Lexeme",
@@ -739,7 +824,7 @@ en.describe.as.selection(lemma);
 
 en.describe.as.selection(surface);
 // {
-//   language: "de",
+//   language: "en",
 //   orthographicStatus: "Standard",
 //   surfaceKind: "Inflection",
 //   lemmaKind: "Lexeme",
@@ -753,19 +838,26 @@ lookups.
 Examples:
 
 ```ts
-type Gender = UniversalFeatureValue<"Gender">;
+type Gender = UniversalFeatureValue<"gender">;
 
 type DeNounGender = FeatureValueFor<
 	"de",
 	"Lexeme",
 	"NOUN",
-	"Gender"
+	"gender"
 >;
 ```
 
 v2 should not introduce a generic `Feature<...>` alias. That name is too
 ambiguous about whether it means a feature key, a feature value, a feature
 field, or a whole feature bag.
+
+Using Zod enums as the source of truth for enumerable atoms such as languages,
+kinds, sub-kinds, features, and feature values is acceptable.
+
+That does not change the main v2 direction: Zod object schemas are not the
+source of truth for concrete language DTO families, feature-set restrictions,
+or hydrated public entity shapes.
 
 ### Lemma sub-kind casing policy
 
@@ -807,6 +899,12 @@ Builders are part of the primary workflow API.
 They do not hide DTO structure. They make DTO construction less repetitive and
 preserve literal precision.
 
+`create.*` is for already-known, already-shaped, trusted typed input.
+
+It is not the runtime boundary for unknown external payloads.
+
+That boundary belongs to `parse.*`.
+
 Proposed surface:
 
 ```ts
@@ -823,7 +921,35 @@ Builder behavior:
 - preserves literal language and discriminator types
 - applies canonical defaults only where the defaults are part of the model
 - does not invent hidden state
-- accepts DTO-shaped input rather than a separate builder-only payload shape
+- accepts DTO-shaped input, except for namespace-implied fields, rather than a
+  separate builder-only payload shape
+- is not part of the fallible parse-style API surface
+- does not perform parse-style runtime validation or normalization
+
+## Parse API
+
+`parse.*` is the runtime boundary for unknown, external, or otherwise untrusted
+input.
+
+This is where public validation and normalization happen.
+
+Conceptually:
+
+```ts
+en.parse.lemma(input);
+en.parse.surface(input);
+en.parse.selection(input);
+```
+
+Parse-style APIs are fallible and return the shared `ApiResult<T, E>`
+envelope.
+
+They are responsible for:
+
+- validating runtime shape and discriminator compatibility
+- validating hydrated nested consistency
+- applying documented normalization behavior
+- stripping feature keys according to the runtime feature-bag policy
 
 ## Conversion and Extraction API
 
@@ -836,17 +962,51 @@ en.convert.lemma.toSurface(lemma);
 en.convert.lemma.toSelection(lemma, options);
 en.convert.surface.toSelection(surface, options);
 
-en.extract.lemma(surface);
-en.extract.surface(selection);
+en.extract.lemma(lemmaOrSurfaceOrSelection);
 ```
 
 This preserves the useful happy path from v1 without centering the whole public
 interface around conversions.
 
+`extract` exists as an ergonomic projection helper for callers working with
+arbitrary entity unions.
+
+In particular, `extract.lemma(lemma | surface | selection)` is a convenient way
+to normalize unknown entity-level input back to a lemma without forcing the
+consumer to branch on the input shape first.
+
+For callers that already know the exact DTO shape, direct property access is
+still sufficient:
+
+```ts
+lemma;
+surface.lemma;
+selection.surface.lemma;
+```
+
+Defaulting is part of the intended conversion contract:
+
+- `toSurface(lemma)` defaults to a lemma surface
+- `toSelection(lemma)` defaults to a standard full canonical lemma selection
+  whose `spelledSelection` is taken from the input lemma spelling
+- `toSelection(surface)` defaults to a standard full canonical selection over
+  that surface, whose `spelledSelection` is taken from the input surface
+  spelling
+
 ## ID API
 
 IDs remain part of the primary workflow API, but should consume the canonical
 DTO types instead of a codec-specific parallel public model.
+
+v2 does not guarantee cross-release stability of the internal ID encoding.
+
+The package reserves the right to change the internal ID representation across
+releases.
+
+What should remain stable is the semantic purpose of the ID layer: preserving
+the distinctions that matter between different lemmas and hydrated entities,
+including same-spelling collisions such as `der See` versus `die See` or
+`коса` versus `коса`.
 
 Proposed surface:
 
@@ -883,8 +1043,14 @@ const DumlingIdErrorCodeSchema = z.enum([
 	"PayloadDecodeFailed",
 ]);
 
-type DumlingIdErrorCode = z.infer<typeof DumlingIdErrorCodeSchema>;
-
+type DumlingIdErrorCode =
+	| "MalformedId"
+	| "UnsupportedVersion"
+	| "UnsupportedLanguage"
+	| "UnsupportedEntityKind"
+	| "LanguageMismatch"
+	| "EntityMismatch"
+	| "PayloadDecodeFailed";
 type DumlingIdError = {
 	code: DumlingIdErrorCode;
 	message: string;
