@@ -99,6 +99,9 @@ concept in the ontology, public type layer, and schema layer:
 languages do. In particular, the v2 spec does not require universal hydrated
 `Selection` workflow APIs or universal string-instance workflows.
 
+Universal selection may still exist at the type and schema levels for ontology
+browsing and validation shape generation.
+
 ### 3. `Selection` is always hydrated
 
 `Selection` always contains a `Surface`.
@@ -124,6 +127,11 @@ independent properties of the observed selected string.
 
 They can validly coexist in any compatible combination. For example, a
 selection may be both `Typo` and `Variant`.
+
+`selectionCoverage` is a coarse semantic label only.
+
+It does not encode offsets, token spans, or alignment metadata. Positional
+selection geometry is intentionally out of scope for the canonical DTO model.
 
 ### 6. Language-bound workflow API is primary
 
@@ -928,6 +936,8 @@ Builder behavior:
 - does not invent hidden state
 - accepts DTO-shaped input, except for namespace-implied fields, rather than a
   separate builder-only payload shape
+- if callers force namespace-implied fields in anyway, `create.*` ignores those
+  inputs and derives the canonical values from the namespace being called
 - is not part of the fallible parse-style API surface
 - does not perform parse-style runtime validation or normalization
 - if callers bypass typing in plain JS or via `as any`, invalid DTO construction
@@ -956,8 +966,19 @@ They are responsible for:
 - validating runtime shape and discriminator compatibility
 - validating hydrated nested consistency
 - rejecting known-but-context-illegal feature keys
-- applying documented normalization behavior
+- applying the documented normalization behavior
 - stripping feature keys that are unknown to the ontology
+
+The intended normalization scope is deliberately narrow:
+
+- Unicode normalization
+- lowercasing where the relevant field is modeled as normalized text
+
+Parse-style normalization does not imply trimming, whitespace collapsing, span
+inference, or arbitrary canonicalization beyond those rules.
+
+If unknown feature stripping leaves `inflectionalFeatures` empty for an
+inflection surface, parse must fail.
 
 ## Conversion and Extraction API
 
@@ -1001,6 +1022,13 @@ Defaulting is part of the intended conversion contract:
   that surface, whose `spelledSelection` is taken from the input surface
   spelling
 
+`toSelection(..., options)` may override any selection-level field:
+
+- `spelledSelection`
+- `orthographicStatus`
+- `selectionCoverage`
+- `spellingRelation`
+
 ## ID API
 
 IDs remain part of the primary workflow API, but should consume the canonical
@@ -1031,6 +1059,11 @@ These method names are the intended v2 API:
 - `encode`
 - `decode`
 - `decodeAs`
+
+`decodeAs(...)` returns the requested canonical DTO family when successful.
+
+Bare `decode(...)` returns a tagged result so callers can discriminate the
+decoded entity kind without relying on structural guessing.
 
 Decode helpers and other fallible public APIs should return the shared
 `ApiResult<T, E>` envelope rather than throwing or depending on `neverthrow`.
@@ -1070,6 +1103,15 @@ Then decode-style APIs return:
 
 ```ts
 ApiResult<DecodedValue, DumlingIdError>
+```
+
+Conceptually, bare decode uses a tagged payload:
+
+```ts
+type DecodedValue =
+	| { entityKind: "Lemma"; data: Lemma<any, any, any> }
+	| { entityKind: "Surface"; data: Surface<any, any, any, any> }
+	| { entityKind: "Selection"; data: Selection<any, any, any, any, any> };
 ```
 
 ## Selection And Invalid Input
