@@ -44,7 +44,8 @@ Phase 1 includes:
 
 - new v2 source tree and internal module boundaries
 - new canonical DTO types for `Lemma`, `Surface`, and `Selection`
-- new `dumling`, `dumling/types`, and `dumling/schema` v2 entrypoint modules
+- new internal v2 entrypoint modules corresponding to `dumling`,
+  `dumling/types`, and `dumling/schema`
 - shared universal ontology primitives
 - one concrete language slice: `en`
 - one lemma family slice: `Lexeme`
@@ -152,6 +153,10 @@ That means:
 - v2 modules can be built and tested in-repo before package cutover
 - final export replacement happens in a later phase after broader coverage lands
 
+In particular, the Phase 1 v2 `dumling`, `dumling/types`, and `dumling/schema`
+modules are internal implementation entrypoints in the new source tree, not a
+partial public package-export cutover.
+
 This is a rewrite de-risking phase, not the release cutover phase.
 
 ## Workstreams
@@ -171,7 +176,9 @@ on:
 Required Phase 1 normalization rules:
 
 - Unicode normalization
-- lowercasing only for fields modeled as normalized text
+- lowercasing `canonicalLemma` and `normalizedFullSurface`
+
+Phase 1 should not lowercase `spelledSelection`.
 
 Explicitly out of scope for normalization:
 
@@ -186,12 +193,30 @@ Implement the new DTO layer directly in TypeScript.
 
 This layer is the source of truth for object shape.
 
-Required DTO families:
+Phase 1 must author concrete leaf DTO families for the implemented slice first,
+then layer the public generic aliases over those concrete families.
+
+Required concrete leaf DTO families include at minimum:
+
+- English noun lexeme lemma DTO
+- English verb lexeme lemma DTO
+- English lemma-surface DTOs for those lemma families
+- English inflection-surface DTOs for leaf contexts that admit inflection
+- English standard and typo selection DTOs over those surface families
+
+Required DTO family layers:
 
 - `UniversalLemma<LK, LSK>`
+- concrete Phase 1 leaf DTO families built as restrictions over universal bases
 - `Lemma<L, LK, LSK>`
 - `Surface<L, SK, LK, LSK>`
 - `Selection<L, OS, SK, LK, LSK>`
+
+The sequencing matters:
+
+- concrete leaf DTO families are the authored public-model substrate
+- public generics are typed views over those concrete families
+- public generics must not become an independently reconstructed primary model
 
 Required invariants to encode in types where possible:
 
