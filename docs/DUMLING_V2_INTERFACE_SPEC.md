@@ -236,6 +236,8 @@ Proposed exports:
 - descriptor helpers
 - creation helpers
 - conversion helpers
+- extraction helpers
+- parse helpers
 - ID encode/decode helpers
 
 Example:
@@ -974,6 +976,14 @@ The intended normalization scope is deliberately narrow:
 - Unicode normalization
 - lowercasing where the relevant field is modeled as normalized text
 
+In the canonical DTO model, that lowercasing rule applies to:
+
+- `canonicalLemma`
+- `normalizedFullSurface`
+
+It does not apply to `spelledSelection`, which remains the observed selected
+string rather than a normalized text field.
+
 Parse-style normalization does not imply trimming, whitespace collapsing, span
 inference, or arbitrary canonicalization beyond those rules.
 
@@ -1064,6 +1074,9 @@ These method names are the intended v2 API:
 
 Bare `decode(...)` returns a tagged result so callers can discriminate the
 decoded entity kind without relying on structural guessing.
+
+That `entityKind` tag is part of the actual runtime success payload returned by
+`decode(...)`, not just a conceptual description.
 
 Decode helpers and other fallible public APIs should return the shared
 `ApiResult<T, E>` envelope rather than throwing or depending on `neverthrow`.
