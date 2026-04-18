@@ -1,6 +1,6 @@
 import type {
-	AbstractInherentFeatures,
 	AbstractInflectionalFeatures,
+	AbstractInherentFeatures,
 } from "../../../../abstract/features/features";
 import type { LexemeSubKind, OrthographicStatus } from "../../../../core/enums";
 import type {
@@ -40,3 +40,23 @@ export type DeLexemeInflectionSelection<
 	FF extends RequireAtLeastOne<AbstractInflectionalFeatures>,
 	OS extends OrthographicStatus = OrthographicStatus,
 > = DeInflectionSelection<"Lexeme", LSK, IF, FF, OS>;
+
+export type DeUninflectableLexemeBundle<
+	LSK extends LexemeSubKind,
+	IF extends AbstractInherentFeatures,
+	OS extends OrthographicStatus = OrthographicStatus,
+> = {
+	Lemma: DeLexemeLemma<LSK, IF>;
+	LemmaSelection: DeLexemeLemmaSelection<LSK, IF, OS>;
+	LemmaSurface: DeLexemeLemmaSurface<LSK, IF>;
+};
+
+export type DeInflectableLexemeBundle<
+	LSK extends LexemeSubKind,
+	IF extends AbstractInherentFeatures,
+	FF extends RequireAtLeastOne<AbstractInflectionalFeatures>,
+	OS extends OrthographicStatus = OrthographicStatus,
+> = DeUninflectableLexemeBundle<LSK, IF, OS> & {
+	InflectionSelection: DeLexemeInflectionSelection<LSK, IF, FF, OS>;
+	InflectionSurface: DeLexemeInflectionSurface<LSK, IF, FF>;
+};

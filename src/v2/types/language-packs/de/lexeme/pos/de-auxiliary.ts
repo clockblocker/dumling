@@ -1,11 +1,5 @@
 import type { OrthographicStatus } from "../../../../core/enums";
-import type {
-	DeLexemeInflectionSelection,
-	DeLexemeInflectionSurface,
-	DeLexemeLemma,
-	DeLexemeLemmaSelection,
-	DeLexemeLemmaSurface,
-} from "../shared/build-de-lexeme-bundle";
+import type { DeInflectableLexemeBundle } from "../shared/build-de-lexeme-bundle";
 import type { DeVerbalInflectionalFeatures } from "../shared/de-verbal-inflection-features";
 
 type DeAuxiliaryVerbType = "Mod";
@@ -14,32 +8,23 @@ export type DeAuxiliaryInherentFeatures = {
 	verbType?: DeAuxiliaryVerbType;
 };
 
-export type DeAuxiliaryLemma = DeLexemeLemma<"AUX", DeAuxiliaryInherentFeatures>;
-export type DeAuxiliaryLemmaSurface = DeLexemeLemmaSurface<
-	"AUX",
-	DeAuxiliaryInherentFeatures
->;
-export type DeAuxiliaryInflectionSurface = DeLexemeInflectionSurface<
-	"AUX",
-	DeAuxiliaryInherentFeatures,
-	DeVerbalInflectionalFeatures
->;
+type DeAuxiliaryBundle<OS extends OrthographicStatus = OrthographicStatus> =
+	DeInflectableLexemeBundle<
+		"AUX",
+		DeAuxiliaryInherentFeatures,
+		DeVerbalInflectionalFeatures,
+		OS
+	>;
+
+export type DeAuxiliaryLemma = DeAuxiliaryBundle["Lemma"];
+export type DeAuxiliaryLemmaSurface = DeAuxiliaryBundle["LemmaSurface"];
+export type DeAuxiliaryInflectionSurface =
+	DeAuxiliaryBundle["InflectionSurface"];
 export type DeAuxiliaryLemmaSelection<
 	OS extends OrthographicStatus = OrthographicStatus,
-> = DeLexemeLemmaSelection<"AUX", DeAuxiliaryInherentFeatures, OS>;
+> = DeAuxiliaryBundle<OS>["LemmaSelection"];
 export type DeAuxiliaryInflectionSelection<
 	OS extends OrthographicStatus = OrthographicStatus,
-> = DeLexemeInflectionSelection<
-	"AUX",
-	DeAuxiliaryInherentFeatures,
-	DeVerbalInflectionalFeatures,
-	OS
->;
+> = DeAuxiliaryBundle<OS>["InflectionSelection"];
 
-export type DeAuxiliaryTypes = {
-	InflectionSelection: DeAuxiliaryInflectionSelection;
-	InflectionSurface: DeAuxiliaryInflectionSurface;
-	Lemma: DeAuxiliaryLemma;
-	LemmaSelection: DeAuxiliaryLemmaSelection;
-	LemmaSurface: DeAuxiliaryLemmaSurface;
-};
+export type DeAuxiliaryTypes = DeAuxiliaryBundle;

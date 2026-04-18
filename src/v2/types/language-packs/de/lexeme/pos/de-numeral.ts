@@ -1,13 +1,7 @@
 import type { AbstractFeatureValue } from "../../../../abstract/features/features";
 import type { OrthographicStatus } from "../../../../core/enums";
 import type { RequireAtLeastOne } from "../../shared";
-import type {
-	DeLexemeInflectionSelection,
-	DeLexemeInflectionSurface,
-	DeLexemeLemma,
-	DeLexemeLemmaSelection,
-	DeLexemeLemmaSurface,
-} from "../shared/build-de-lexeme-bundle";
+import type { DeInflectableLexemeBundle } from "../shared/build-de-lexeme-bundle";
 import type { DeCase, DeGender, DeNumber } from "../shared/de-common-enums";
 
 type DeNumeralNumType = Extract<
@@ -27,32 +21,22 @@ export type DeNumeralInflectionalFeatures = RequireAtLeastOne<{
 	number?: DeNumber;
 }>;
 
-export type DeNumeralLemma = DeLexemeLemma<"NUM", DeNumeralInherentFeatures>;
-export type DeNumeralLemmaSurface = DeLexemeLemmaSurface<
-	"NUM",
-	DeNumeralInherentFeatures
->;
-export type DeNumeralInflectionSurface = DeLexemeInflectionSurface<
-	"NUM",
-	DeNumeralInherentFeatures,
-	DeNumeralInflectionalFeatures
->;
+type DeNumeralBundle<OS extends OrthographicStatus = OrthographicStatus> =
+	DeInflectableLexemeBundle<
+		"NUM",
+		DeNumeralInherentFeatures,
+		DeNumeralInflectionalFeatures,
+		OS
+	>;
+
+export type DeNumeralLemma = DeNumeralBundle["Lemma"];
+export type DeNumeralLemmaSurface = DeNumeralBundle["LemmaSurface"];
+export type DeNumeralInflectionSurface = DeNumeralBundle["InflectionSurface"];
 export type DeNumeralLemmaSelection<
 	OS extends OrthographicStatus = OrthographicStatus,
-> = DeLexemeLemmaSelection<"NUM", DeNumeralInherentFeatures, OS>;
+> = DeNumeralBundle<OS>["LemmaSelection"];
 export type DeNumeralInflectionSelection<
 	OS extends OrthographicStatus = OrthographicStatus,
-> = DeLexemeInflectionSelection<
-	"NUM",
-	DeNumeralInherentFeatures,
-	DeNumeralInflectionalFeatures,
-	OS
->;
+> = DeNumeralBundle<OS>["InflectionSelection"];
 
-export type DeNumeralTypes = {
-	InflectionSelection: DeNumeralInflectionSelection;
-	InflectionSurface: DeNumeralInflectionSurface;
-	Lemma: DeNumeralLemma;
-	LemmaSelection: DeNumeralLemmaSelection;
-	LemmaSurface: DeNumeralLemmaSurface;
-};
+export type DeNumeralTypes = DeNumeralBundle;

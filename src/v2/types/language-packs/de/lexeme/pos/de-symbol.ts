@@ -1,16 +1,13 @@
 import type { AbstractFeatureValue } from "../../../../abstract/features/features";
 import type { OrthographicStatus } from "../../../../core/enums";
 import type { RequireAtLeastOne } from "../../shared";
-import type {
-	DeLexemeInflectionSelection,
-	DeLexemeInflectionSurface,
-	DeLexemeLemma,
-	DeLexemeLemmaSelection,
-	DeLexemeLemmaSurface,
-} from "../shared/build-de-lexeme-bundle";
+import type { DeInflectableLexemeBundle } from "../shared/build-de-lexeme-bundle";
 import type { DeCase, DeGender, DeNumber } from "../shared/de-common-enums";
 
-type DeSymbolNumType = Extract<AbstractFeatureValue<"numType">, "Card" | "Range">;
+type DeSymbolNumType = Extract<
+	AbstractFeatureValue<"numType">,
+	"Card" | "Range"
+>;
 
 export type DeSymbolInherentFeatures = {
 	foreign?: AbstractFeatureValue<"foreign">;
@@ -23,32 +20,22 @@ export type DeSymbolInflectionalFeatures = RequireAtLeastOne<{
 	number?: DeNumber;
 }>;
 
-export type DeSymbolLemma = DeLexemeLemma<"SYM", DeSymbolInherentFeatures>;
-export type DeSymbolLemmaSurface = DeLexemeLemmaSurface<
-	"SYM",
-	DeSymbolInherentFeatures
->;
-export type DeSymbolInflectionSurface = DeLexemeInflectionSurface<
-	"SYM",
-	DeSymbolInherentFeatures,
-	DeSymbolInflectionalFeatures
->;
+type DeSymbolBundle<OS extends OrthographicStatus = OrthographicStatus> =
+	DeInflectableLexemeBundle<
+		"SYM",
+		DeSymbolInherentFeatures,
+		DeSymbolInflectionalFeatures,
+		OS
+	>;
+
+export type DeSymbolLemma = DeSymbolBundle["Lemma"];
+export type DeSymbolLemmaSurface = DeSymbolBundle["LemmaSurface"];
+export type DeSymbolInflectionSurface = DeSymbolBundle["InflectionSurface"];
 export type DeSymbolLemmaSelection<
 	OS extends OrthographicStatus = OrthographicStatus,
-> = DeLexemeLemmaSelection<"SYM", DeSymbolInherentFeatures, OS>;
+> = DeSymbolBundle<OS>["LemmaSelection"];
 export type DeSymbolInflectionSelection<
 	OS extends OrthographicStatus = OrthographicStatus,
-> = DeLexemeInflectionSelection<
-	"SYM",
-	DeSymbolInherentFeatures,
-	DeSymbolInflectionalFeatures,
-	OS
->;
+> = DeSymbolBundle<OS>["InflectionSelection"];
 
-export type DeSymbolTypes = {
-	InflectionSelection: DeSymbolInflectionSelection;
-	InflectionSurface: DeSymbolInflectionSurface;
-	Lemma: DeSymbolLemma;
-	LemmaSelection: DeSymbolLemmaSelection;
-	LemmaSurface: DeSymbolLemmaSurface;
-};
+export type DeSymbolTypes = DeSymbolBundle;

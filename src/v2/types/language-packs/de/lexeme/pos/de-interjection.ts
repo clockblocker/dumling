@@ -1,9 +1,5 @@
 import type { OrthographicStatus } from "../../../../core/enums";
-import type {
-	DeLexemeLemma,
-	DeLexemeLemmaSelection,
-	DeLexemeLemmaSurface,
-} from "../shared/build-de-lexeme-bundle";
+import type { DeUninflectableLexemeBundle } from "../shared/build-de-lexeme-bundle";
 
 type DeInterjectionPartType = "Res";
 
@@ -11,20 +7,13 @@ export type DeInterjectionInherentFeatures = {
 	partType?: DeInterjectionPartType;
 };
 
-export type DeInterjectionLemma = DeLexemeLemma<
-	"INTJ",
-	DeInterjectionInherentFeatures
->;
-export type DeInterjectionLemmaSurface = DeLexemeLemmaSurface<
-	"INTJ",
-	DeInterjectionInherentFeatures
->;
+type DeInterjectionBundle<OS extends OrthographicStatus = OrthographicStatus> =
+	DeUninflectableLexemeBundle<"INTJ", DeInterjectionInherentFeatures, OS>;
+
+export type DeInterjectionLemma = DeInterjectionBundle["Lemma"];
+export type DeInterjectionLemmaSurface = DeInterjectionBundle["LemmaSurface"];
 export type DeInterjectionLemmaSelection<
 	OS extends OrthographicStatus = OrthographicStatus,
-> = DeLexemeLemmaSelection<"INTJ", DeInterjectionInherentFeatures, OS>;
+> = DeInterjectionBundle<OS>["LemmaSelection"];
 
-export type DeInterjectionTypes = {
-	Lemma: DeInterjectionLemma;
-	LemmaSelection: DeInterjectionLemmaSelection;
-	LemmaSurface: DeInterjectionLemmaSurface;
-};
+export type DeInterjectionTypes = DeInterjectionBundle;

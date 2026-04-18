@@ -1,13 +1,7 @@
 import type { AbstractFeatureValue } from "../../../../abstract/features/features";
 import type { OrthographicStatus } from "../../../../core/enums";
 import type { RequireAtLeastOne } from "../../shared";
-import type {
-	DeLexemeInflectionSelection,
-	DeLexemeInflectionSurface,
-	DeLexemeLemma,
-	DeLexemeLemmaSelection,
-	DeLexemeLemmaSurface,
-} from "../shared/build-de-lexeme-bundle";
+import type { DeInflectableLexemeBundle } from "../shared/build-de-lexeme-bundle";
 import type {
 	DeCase,
 	DeGender,
@@ -38,32 +32,22 @@ export type DePronounInflectionalFeatures = RequireAtLeastOne<{
 	reflex?: AbstractFeatureValue<"reflex">;
 }>;
 
-export type DePronounLemma = DeLexemeLemma<"PRON", DePronounInherentFeatures>;
-export type DePronounLemmaSurface = DeLexemeLemmaSurface<
-	"PRON",
-	DePronounInherentFeatures
->;
-export type DePronounInflectionSurface = DeLexemeInflectionSurface<
-	"PRON",
-	DePronounInherentFeatures,
-	DePronounInflectionalFeatures
->;
+type DePronounBundle<OS extends OrthographicStatus = OrthographicStatus> =
+	DeInflectableLexemeBundle<
+		"PRON",
+		DePronounInherentFeatures,
+		DePronounInflectionalFeatures,
+		OS
+	>;
+
+export type DePronounLemma = DePronounBundle["Lemma"];
+export type DePronounLemmaSurface = DePronounBundle["LemmaSurface"];
+export type DePronounInflectionSurface = DePronounBundle["InflectionSurface"];
 export type DePronounLemmaSelection<
 	OS extends OrthographicStatus = OrthographicStatus,
-> = DeLexemeLemmaSelection<"PRON", DePronounInherentFeatures, OS>;
+> = DePronounBundle<OS>["LemmaSelection"];
 export type DePronounInflectionSelection<
 	OS extends OrthographicStatus = OrthographicStatus,
-> = DeLexemeInflectionSelection<
-	"PRON",
-	DePronounInherentFeatures,
-	DePronounInflectionalFeatures,
-	OS
->;
+> = DePronounBundle<OS>["InflectionSelection"];
 
-export type DePronounTypes = {
-	InflectionSelection: DePronounInflectionSelection;
-	InflectionSurface: DePronounInflectionSurface;
-	Lemma: DePronounLemma;
-	LemmaSelection: DePronounLemmaSelection;
-	LemmaSurface: DePronounLemmaSurface;
-};
+export type DePronounTypes = DePronounBundle;

@@ -1,9 +1,5 @@
 import type { OrthographicStatus } from "../../../../core/enums";
-import type {
-	DeLexemeLemma,
-	DeLexemeLemmaSelection,
-	DeLexemeLemmaSurface,
-} from "../shared/build-de-lexeme-bundle";
+import type { DeUninflectableLexemeBundle } from "../shared/build-de-lexeme-bundle";
 
 type DeSubordinatingConjunctionType = "Comp";
 
@@ -11,20 +7,20 @@ export type DeSubordinatingConjunctionInherentFeatures = {
 	conjType?: DeSubordinatingConjunctionType;
 };
 
-export type DeSubordinatingConjunctionLemma = DeLexemeLemma<
+type DeSubordinatingConjunctionBundle<
+	OS extends OrthographicStatus = OrthographicStatus,
+> = DeUninflectableLexemeBundle<
 	"SCONJ",
-	DeSubordinatingConjunctionInherentFeatures
+	DeSubordinatingConjunctionInherentFeatures,
+	OS
 >;
-export type DeSubordinatingConjunctionLemmaSurface = DeLexemeLemmaSurface<
-	"SCONJ",
-	DeSubordinatingConjunctionInherentFeatures
->;
+
+export type DeSubordinatingConjunctionLemma =
+	DeSubordinatingConjunctionBundle["Lemma"];
+export type DeSubordinatingConjunctionLemmaSurface =
+	DeSubordinatingConjunctionBundle["LemmaSurface"];
 export type DeSubordinatingConjunctionLemmaSelection<
 	OS extends OrthographicStatus = OrthographicStatus,
-> = DeLexemeLemmaSelection<"SCONJ", DeSubordinatingConjunctionInherentFeatures, OS>;
+> = DeSubordinatingConjunctionBundle<OS>["LemmaSelection"];
 
-export type DeSubordinatingConjunctionTypes = {
-	Lemma: DeSubordinatingConjunctionLemma;
-	LemmaSelection: DeSubordinatingConjunctionLemmaSelection;
-	LemmaSurface: DeSubordinatingConjunctionLemmaSurface;
-};
+export type DeSubordinatingConjunctionTypes = DeSubordinatingConjunctionBundle;

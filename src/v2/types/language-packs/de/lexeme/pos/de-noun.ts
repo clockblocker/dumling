@@ -1,13 +1,7 @@
 import type { AbstractFeatureValue } from "../../../../abstract/features/features";
 import type { OrthographicStatus } from "../../../../core/enums";
 import type { RequireAtLeastOne } from "../../shared";
-import type {
-	DeLexemeInflectionSelection,
-	DeLexemeInflectionSurface,
-	DeLexemeLemma,
-	DeLexemeLemmaSelection,
-	DeLexemeLemmaSurface,
-} from "../shared/build-de-lexeme-bundle";
+import type { DeInflectableLexemeBundle } from "../shared/build-de-lexeme-bundle";
 import type { DeCase, DeGender, DeNumber } from "../shared/de-common-enums";
 
 export type DeNounInherentFeatures = {
@@ -20,32 +14,22 @@ export type DeNounInflectionalFeatures = RequireAtLeastOne<{
 	number?: DeNumber;
 }>;
 
-export type DeNounLemma = DeLexemeLemma<"NOUN", DeNounInherentFeatures>;
-export type DeNounLemmaSurface = DeLexemeLemmaSurface<
-	"NOUN",
-	DeNounInherentFeatures
->;
-export type DeNounInflectionSurface = DeLexemeInflectionSurface<
-	"NOUN",
-	DeNounInherentFeatures,
-	DeNounInflectionalFeatures
->;
+type DeNounBundle<OS extends OrthographicStatus = OrthographicStatus> =
+	DeInflectableLexemeBundle<
+		"NOUN",
+		DeNounInherentFeatures,
+		DeNounInflectionalFeatures,
+		OS
+	>;
+
+export type DeNounLemma = DeNounBundle["Lemma"];
+export type DeNounLemmaSurface = DeNounBundle["LemmaSurface"];
+export type DeNounInflectionSurface = DeNounBundle["InflectionSurface"];
 export type DeNounLemmaSelection<
 	OS extends OrthographicStatus = OrthographicStatus,
-> = DeLexemeLemmaSelection<"NOUN", DeNounInherentFeatures, OS>;
+> = DeNounBundle<OS>["LemmaSelection"];
 export type DeNounInflectionSelection<
 	OS extends OrthographicStatus = OrthographicStatus,
-> = DeLexemeInflectionSelection<
-	"NOUN",
-	DeNounInherentFeatures,
-	DeNounInflectionalFeatures,
-	OS
->;
+> = DeNounBundle<OS>["InflectionSelection"];
 
-export type DeNounTypes = {
-	InflectionSelection: DeNounInflectionSelection;
-	InflectionSurface: DeNounInflectionSurface;
-	Lemma: DeNounLemma;
-	LemmaSelection: DeNounLemmaSelection;
-	LemmaSurface: DeNounLemmaSurface;
-};
+export type DeNounTypes = DeNounBundle;

@@ -1,13 +1,7 @@
 import type { AbstractFeatureValue } from "../../../../abstract/features/features";
 import type { OrthographicStatus } from "../../../../core/enums";
 import type { RequireAtLeastOne } from "../../shared";
-import type {
-	DeLexemeInflectionSelection,
-	DeLexemeInflectionSurface,
-	DeLexemeLemma,
-	DeLexemeLemmaSelection,
-	DeLexemeLemmaSurface,
-} from "../shared/build-de-lexeme-bundle";
+import type { DeInflectableLexemeBundle } from "../shared/build-de-lexeme-bundle";
 import type {
 	DeCase,
 	DeGender,
@@ -36,32 +30,22 @@ export type DeOtherInflectionalFeatures = RequireAtLeastOne<{
 	verbForm?: DeVerbForm;
 }>;
 
-export type DeOtherLemma = DeLexemeLemma<"X", DeOtherInherentFeatures>;
-export type DeOtherLemmaSurface = DeLexemeLemmaSurface<
-	"X",
-	DeOtherInherentFeatures
->;
-export type DeOtherInflectionSurface = DeLexemeInflectionSurface<
-	"X",
-	DeOtherInherentFeatures,
-	DeOtherInflectionalFeatures
->;
+type DeOtherBundle<OS extends OrthographicStatus = OrthographicStatus> =
+	DeInflectableLexemeBundle<
+		"X",
+		DeOtherInherentFeatures,
+		DeOtherInflectionalFeatures,
+		OS
+	>;
+
+export type DeOtherLemma = DeOtherBundle["Lemma"];
+export type DeOtherLemmaSurface = DeOtherBundle["LemmaSurface"];
+export type DeOtherInflectionSurface = DeOtherBundle["InflectionSurface"];
 export type DeOtherLemmaSelection<
 	OS extends OrthographicStatus = OrthographicStatus,
-> = DeLexemeLemmaSelection<"X", DeOtherInherentFeatures, OS>;
+> = DeOtherBundle<OS>["LemmaSelection"];
 export type DeOtherInflectionSelection<
 	OS extends OrthographicStatus = OrthographicStatus,
-> = DeLexemeInflectionSelection<
-	"X",
-	DeOtherInherentFeatures,
-	DeOtherInflectionalFeatures,
-	OS
->;
+> = DeOtherBundle<OS>["InflectionSelection"];
 
-export type DeOtherTypes = {
-	InflectionSelection: DeOtherInflectionSelection;
-	InflectionSurface: DeOtherInflectionSurface;
-	Lemma: DeOtherLemma;
-	LemmaSelection: DeOtherLemmaSelection;
-	LemmaSurface: DeOtherLemmaSurface;
-};
+export type DeOtherTypes = DeOtherBundle;

@@ -1,13 +1,7 @@
 import type { AbstractFeatureValue } from "../../../../abstract/features/features";
 import type { OrthographicStatus } from "../../../../core/enums";
 import type { RequireAtLeastOne } from "../../shared";
-import type {
-	DeLexemeInflectionSelection,
-	DeLexemeInflectionSurface,
-	DeLexemeLemma,
-	DeLexemeLemmaSelection,
-	DeLexemeLemmaSurface,
-} from "../shared/build-de-lexeme-bundle";
+import type { DeInflectableLexemeBundle } from "../shared/build-de-lexeme-bundle";
 import type { DeCase, DeGender, DeNumber } from "../shared/de-common-enums";
 
 export type DeProperNounInherentFeatures = {
@@ -21,35 +15,23 @@ export type DeProperNounInflectionalFeatures = RequireAtLeastOne<{
 	number?: DeNumber;
 }>;
 
-export type DeProperNounLemma = DeLexemeLemma<
-	"PROPN",
-	DeProperNounInherentFeatures
->;
-export type DeProperNounLemmaSurface = DeLexemeLemmaSurface<
-	"PROPN",
-	DeProperNounInherentFeatures
->;
-export type DeProperNounInflectionSurface = DeLexemeInflectionSurface<
-	"PROPN",
-	DeProperNounInherentFeatures,
-	DeProperNounInflectionalFeatures
->;
+type DeProperNounBundle<OS extends OrthographicStatus = OrthographicStatus> =
+	DeInflectableLexemeBundle<
+		"PROPN",
+		DeProperNounInherentFeatures,
+		DeProperNounInflectionalFeatures,
+		OS
+	>;
+
+export type DeProperNounLemma = DeProperNounBundle["Lemma"];
+export type DeProperNounLemmaSurface = DeProperNounBundle["LemmaSurface"];
+export type DeProperNounInflectionSurface =
+	DeProperNounBundle["InflectionSurface"];
 export type DeProperNounLemmaSelection<
 	OS extends OrthographicStatus = OrthographicStatus,
-> = DeLexemeLemmaSelection<"PROPN", DeProperNounInherentFeatures, OS>;
+> = DeProperNounBundle<OS>["LemmaSelection"];
 export type DeProperNounInflectionSelection<
 	OS extends OrthographicStatus = OrthographicStatus,
-> = DeLexemeInflectionSelection<
-	"PROPN",
-	DeProperNounInherentFeatures,
-	DeProperNounInflectionalFeatures,
-	OS
->;
+> = DeProperNounBundle<OS>["InflectionSelection"];
 
-export type DeProperNounTypes = {
-	InflectionSelection: DeProperNounInflectionSelection;
-	InflectionSurface: DeProperNounInflectionSurface;
-	Lemma: DeProperNounLemma;
-	LemmaSelection: DeProperNounLemmaSelection;
-	LemmaSurface: DeProperNounLemmaSurface;
-};
+export type DeProperNounTypes = DeProperNounBundle;
