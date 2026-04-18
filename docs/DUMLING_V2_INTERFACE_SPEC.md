@@ -141,6 +141,7 @@ The canonical language-bound workflow namespaces are:
 - `create`
 - `convert`
 - `extract`
+- `parse`
 - `describe`
 - `id`
 
@@ -288,11 +289,13 @@ const en = dumling.en;
 ```
 
 v2 answers the old request for a more coherent high-level workflow API through
-four coordinated language-bound namespaces instead of a separate `annotate`
+six coordinated language-bound namespaces instead of a separate `annotate`
 object:
 
 - `create`
 - `convert`
+- `extract`
+- `parse`
 - `describe`
 - `id`
 
@@ -312,6 +315,10 @@ en.convert.lemma.toSelection(...);
 en.convert.surface.toSelection(...);
 
 en.extract.lemma(...);
+
+en.parse.lemma(...);
+en.parse.surface(...);
+en.parse.selection(...);
 
 en.id.encode(...);
 en.id.decode(...);
@@ -406,13 +413,16 @@ type OrthographicStatus = "Standard" | "Typo";
 type SelectionCoverage = "Full" | "Partial";
 type SpellingRelation = "Canonical" | "Variant";
 
-type UniversalLemma = {
+type UniversalLemma<
+	LK extends UniversalLemmaKind = UniversalLemmaKind,
+	LSK extends UniversalLemmaSubKindFor<LK> = UniversalLemmaSubKindFor<LK>,
+> = {
 	language: "Universal";
 	canonicalLemma: string;
-	lemmaKind: UniversalLemmaKind;
-	lemmaSubKind: UniversalLemmaSubKind;
-	inherentFeatures: UniversalInherentFeatures;
-	meaningInEmojis?: string;
+	lemmaKind: LK;
+	lemmaSubKind: LSK;
+	inherentFeatures: UniversalInherentFeaturesFor<LK, LSK>;
+	meaningInEmojis: string;
 };
 
 type Lemma<
@@ -462,9 +472,9 @@ type SurfacePayloadFor<
 		: never;
 ```
 
-The important structural point is that universal DTOs exist as concrete
-non-generic base shapes, and concrete language DTOs are subsettable
-restrictions over those base shapes.
+The important structural point is that generic universal base shapes such as
+`UniversalLemma<LK, LSK>` exist first, and concrete language DTOs are
+subsettable restrictions over those base shapes.
 
 The public generic wrappers like `Lemma<...>` and `Surface<...>` are then typed
 views over those concrete DTO families rather than the canonical source of the
@@ -485,7 +495,7 @@ It is a core part of the public lemma model because it provides the compact
 semantic anchor that lets downstream consumers distinguish otherwise similar or
 identically spelled lemmas in real workflows.
 
-This field exists to carry meaning in a form that is cheap for humans and
+This required field exists to carry meaning in a form that is cheap for humans and
 machines to compare during lemma lookup, candidate narrowing, stub creation,
 and follow-up enrichment flows.
 
@@ -519,9 +529,11 @@ const inflectionSurface = {
 - `Selection` is always hydrated.
 - `Surface` always owns a nested `Lemma`.
 - `language` is preserved as a literal through creation and conversion helpers.
-- repeated `language` fields in hydrated DTOs must be equal.
-- where a hydrated DTO repeats `language` across levels, nested `lemma.language`
-  is the authoritative value.
+- repeated `language` fields in canonical hydrated DTOs must be equal.
+- creation and conversion helpers derive repeated outer `language` fields from
+  nested `lemma.language`.
+- parse-style APIs reject nested `language` mismatches rather than rewriting
+  outer layers.
 - `lemmaKind` and `lemmaSubKind` preserve their relation in public types.
 - `meaningInEmojis` is core public lemma data, not decorative metadata.
 - impossible kind/sub-kind combinations are not representable.
@@ -579,20 +591,20 @@ Lemma kind and lemma sub-kind only constrain:
 - which features from `UniversalFeatures` are valid in context
 - which values are valid for those features in context
 
-At runtime, parse-style feature-bag normalization should strip unknown feature
-keys rather than rejecting the whole payload.
+At runtime, parse-style feature-bag normalization should strip feature keys that
+are unknown to the ontology entirely.
 
-The same stripping rule applies both to keys that are unknown to the ontology
-entirely and to keys that exist in the universal inventory but are not allowed
-for the current language and leaf context.
+Feature keys that are known to the ontology but not allowed for the current
+language and leaf context should cause parse failure rather than being silently
+erased.
 
 ## Meaning of "subset"
 
 For each concrete language `L` and any compatible DTO family:
 
 ```ts
-EnLemma extends UniversalLemma
-DeLemma extends UniversalLemma
+EnNounLexemeLemma extends UniversalLemma<"Lexeme", "NOUN">
+EnRootMorphemeLemma extends UniversalLemma<"Morpheme", "Root">
 ...
 ```
 
@@ -785,19 +797,12 @@ en.describe.as.surface(lemmaOrSurfaceOrSelection);
 en.describe.as.selection(lemmaOrSurfaceOrSelection);
 ```
 
-Descriptor promotion follows the canonical defaults already used elsewhere in
-the model:
+Descriptor promotion follows schema-coordinate defaults only:
 
 - `lemma -> surface` uses `surfaceKind: "Lemma"`
 - `lemma -> selection` uses
-  `surfaceKind: "Lemma"`,
-  `orthographicStatus: "Standard"`,
-  `selectionCoverage: "Full"`,
-  and `spellingRelation: "Canonical"`
-- `surface -> selection` uses
-  `orthographicStatus: "Standard"`,
-  `selectionCoverage: "Full"`,
-  and `spellingRelation: "Canonical"`
+  `surfaceKind: "Lemma"` and `orthographicStatus: "Standard"`
+- `surface -> selection` uses `orthographicStatus: "Standard"`
 
 Examples:
 
@@ -925,6 +930,8 @@ Builder behavior:
   separate builder-only payload shape
 - is not part of the fallible parse-style API surface
 - does not perform parse-style runtime validation or normalization
+- if callers bypass typing in plain JS or via `as any`, invalid DTO construction
+  is possible; runtime enforcement belongs to `parse.*`
 
 ## Parse API
 
@@ -948,8 +955,9 @@ They are responsible for:
 
 - validating runtime shape and discriminator compatibility
 - validating hydrated nested consistency
+- rejecting known-but-context-illegal feature keys
 - applying documented normalization behavior
-- stripping feature keys according to the runtime feature-bag policy
+- stripping feature keys that are unknown to the ontology
 
 ## Conversion and Extraction API
 
