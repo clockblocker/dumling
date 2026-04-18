@@ -915,6 +915,14 @@ That implies:
 
 v2 is allowed to break v1 public structure.
 
+When the rewrite lands, the old v1 public surface is expected to be removed
+rather than maintained in parallel.
+
+There is no intended long-term state where `dumling` ships both a backward-
+compatible v1 surface and a new v2 surface side by side.
+
+After the rewrite, the new interface becomes the package interface.
+
 Expected breaks:
 
 - root `schema` access moves to `dumling/schema`
@@ -955,3 +963,7 @@ This rewrite is allowed to acknowledge that history directly:
 - schema-derived public typing was a failed experiment
 - some v1 shapes exist because the model was discovered gradually
 - v2 should keep the linguistic ideas and discard the architectural baggage
+
+There should therefore be one `dumling`, not a permanently split v1/v2 product
+line. Once the rewrite is implemented, the rewritten interface is the only
+interface.
