@@ -50,7 +50,7 @@ Each concrete language narrows:
 `Universal` is not a helper-only side namespace. It participates in the same
 model as real languages:
 
-- `forLanguage("Universal")` is valid
+- `dumling.universal` is valid
 - `Lemma<"Universal", ...>` is valid
 - `Surface<"Universal", ...>` is valid
 - `Selection<"Universal", ...>` is valid
@@ -84,10 +84,11 @@ Internal or derived concepts such as `pos`, `morphemeKind`, and
 The primary usage style is:
 
 ```ts
-const en = forLanguage("en");
+const en = dumling.en;
 ```
 
-Language-specific singleton namespaces are not the preferred design center.
+The root runtime entrypoint is a curated language namespace object rather than a
+language-selector function.
 
 The canonical language-bound workflow namespaces are:
 
@@ -154,7 +155,7 @@ Primary workflow and utility entrypoint.
 
 Proposed exports:
 
-- `forLanguage`
+- `dumling`
 - descriptor helpers
 - creation helpers
 - conversion helpers
@@ -163,9 +164,9 @@ Proposed exports:
 Example:
 
 ```ts
-import { forLanguage } from "dumling";
+import { dumling } from "dumling";
 
-const en = forLanguage("en");
+const en = dumling.en;
 ```
 
 ## `dumling/types`
@@ -213,10 +214,10 @@ schema.universal.lemma.lexeme.verb();
 ## Root
 
 ```ts
-import { forLanguage } from "dumling";
+import { dumling } from "dumling";
 
-const en = forLanguage("en");
-const universal = forLanguage("Universal");
+const en = dumling.en;
+const universal = dumling.universal;
 ```
 
 v2 answers the old request for a more coherent high-level workflow API through
@@ -231,7 +232,7 @@ object:
 ## Language-bound API shape
 
 ```ts
-const en = forLanguage("en");
+const en = dumling.en;
 
 en.create.lemma(...);
 en.create.surface.lemma(...);
@@ -258,9 +259,9 @@ en.describe.as.selection(...);
 ## Canonical usage example
 
 ```ts
-import { forLanguage } from "dumling";
+import { dumling } from "dumling";
 
-const en = forLanguage("en");
+const en = dumling.en;
 
 const lemma = en.create.lemma({
 	canonicalLemma: "give up",
@@ -314,7 +315,7 @@ The public API should use UD language codes rather than full language names.
 This includes:
 
 - DTO `language`
-- `forLanguage(...)`
+- `dumling.<language>`
 - public type parameters
 - schema keys where applicable
 - ID inspection metadata
@@ -490,7 +491,7 @@ The subset rule applies at both levels:
 
 - schemas live in their own module
 - schema browsing is static and discoverable
-- schema access is not mixed into `forLanguage(...)`
+- schema access is not mixed into the `dumling.<language>` runtime namespace
 - universal and concrete language schemas share one shape
 - the primary public schema surface is a static tree, not a selector-first API
 
