@@ -1,13 +1,13 @@
 import z from "zod/v3";
-import { UniversalFeature } from "../../../../../universal/enums/feature";
-import type { MorphemeKind } from "../../../../../universal/enums/kind/morpheme-kind";
-import { buildSurfaceSchema } from "../../../../../universal/factories/buildSurfaceSchema";
-import { deriveKnownSelectionSchemaProps } from "../../../../../universal/factories/deriveKnownSelectionSchemas";
-import { defineLemmaSchemaDescriptor } from "../../../../../universal/factories/lemma-schema-descriptor";
-import { MeaningInEmojisSchema } from "../../../../../universal/meaning-in-emojis";
-import { MorphemeCanonicalLemmaSchema } from "../../../../../universal/morpheme-canonical-lemma";
+import { DeprecatedUniversalFeature } from "../../../../../universal/enums/feature";
+import type { DeprecatedMorphemeKind } from "../../../../../universal/enums/kind/morpheme-kind";
+import { deprecatedBuildSurfaceSchema } from "../../../../../universal/factories/buildSurfaceSchema";
+import { deprecatedDeriveKnownSelectionSchemaProps } from "../../../../../universal/factories/deriveKnownSelectionSchemas";
+import { deprecatedDefineLemmaSchemaDescriptor } from "../../../../../universal/factories/lemma-schema-descriptor";
+import { DeprecatedMeaningInEmojisSchema } from "../../../../../universal/meaning-in-emojis";
+import { DeprecatedMorphemeCanonicalLemmaSchema } from "../../../../../universal/morpheme-canonical-lemma";
 
-export function buildGermanMorphemeBundle<MK extends MorphemeKind>({
+export function deprecatedBuildGermanMorphemeBundle<MK extends DeprecatedMorphemeKind>({
 	morphemeKind,
 }: {
 	morphemeKind: MK;
@@ -16,24 +16,24 @@ export function buildGermanMorphemeBundle<MK extends MorphemeKind>({
 		lemmaKind: z.literal("Morpheme"),
 		morphemeKind: z.literal(morphemeKind),
 	} satisfies z.ZodRawShape;
-	const lemma = defineLemmaSchemaDescriptor({
+	const lemma = deprecatedDefineLemmaSchemaDescriptor({
 		language: "German",
 		schema: z
 			.object({
-				canonicalLemma: MorphemeCanonicalLemmaSchema,
+				canonicalLemma: DeprecatedMorphemeCanonicalLemmaSchema,
 				hasSepPrefix:
 					morphemeKind === "Prefix"
-						? UniversalFeature.HasSepPrefix.optional()
+						? DeprecatedUniversalFeature.HasSepPrefix.optional()
 						: z.undefined().optional(),
 				isClosedSet: z.boolean().optional(),
 				language: z.literal("German"),
 				lemmaKind: z.literal("Morpheme"),
-				meaningInEmojis: MeaningInEmojisSchema,
+				meaningInEmojis: DeprecatedMeaningInEmojisSchema,
 				morphemeKind: z.literal(morphemeKind),
 			})
 			.strict(),
 	});
-	const lemmaSurface = buildSurfaceSchema({
+	const lemmaSurface = deprecatedBuildSurfaceSchema({
 		lemma,
 		lemmaIdentityShape,
 		surfaceShape: {
@@ -47,7 +47,7 @@ export function buildGermanMorphemeBundle<MK extends MorphemeKind>({
 	return {
 		LemmaSchema: lemma.schema,
 		...surfaceSchemas,
-		...deriveKnownSelectionSchemaProps({
+		...deprecatedDeriveKnownSelectionSchemaProps({
 			language: lemma.language,
 			surfaceSchemas,
 		}),

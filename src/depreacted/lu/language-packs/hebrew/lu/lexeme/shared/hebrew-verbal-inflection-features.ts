@@ -1,34 +1,34 @@
 import {
-	featureSchema,
-	featureSpecificValueSets,
+	deprecatedFeatureSchema,
+	deprecatedFeatureSpecificValueSets,
 } from "../../../../../universal/helpers/schema-targets";
-import { HebrewFeature } from "./hebrew-common-enums";
+import { DeprecatedHebrewFeature } from "./hebrew-common-enums";
 
-const HebrewVerbalGender = featureSpecificValueSets(HebrewFeature.Gender, [
+const HebrewVerbalGender = deprecatedFeatureSpecificValueSets(DeprecatedHebrewFeature.Gender, [
 	["Fem", "Masc"],
 ]);
-const HebrewVerbalNumber = HebrewFeature.Number.extract(["Plur", "Sing"]);
-const HebrewVerbalPerson = featureSpecificValueSets(HebrewFeature.Person, [
+const HebrewVerbalNumber = DeprecatedHebrewFeature.Number.extract(["Plur", "Sing"]);
+const HebrewVerbalPerson = deprecatedFeatureSpecificValueSets(DeprecatedHebrewFeature.Person, [
 	["1", "2", "3"],
 ]);
 
-export const HebrewVerbInflectionalFeaturesSchema = featureSchema({
-	definite: HebrewFeature.Definite,
+export const DeprecatedHebrewVerbInflectionalFeaturesSchema = deprecatedFeatureSchema({
+	definite: DeprecatedHebrewFeature.Definite,
 	gender: HebrewVerbalGender,
-	mood: HebrewFeature.Mood,
+	mood: DeprecatedHebrewFeature.Mood,
 	number: HebrewVerbalNumber,
 	person: HebrewVerbalPerson,
-	polarity: HebrewFeature.Polarity,
-	tense: HebrewFeature.Tense,
-	verbForm: HebrewFeature.VerbForm,
-	voice: HebrewFeature.Voice,
+	polarity: DeprecatedHebrewFeature.Polarity,
+	tense: DeprecatedHebrewFeature.Tense,
+	verbForm: DeprecatedHebrewFeature.VerbForm,
+	voice: DeprecatedHebrewFeature.Voice,
 });
 
-export const HebrewAuxiliaryInflectionalFeaturesSchema = featureSchema({
+export const DeprecatedHebrewAuxiliaryInflectionalFeaturesSchema = deprecatedFeatureSchema({
 	gender: HebrewVerbalGender,
 	number: HebrewVerbalNumber,
 	person: HebrewVerbalPerson,
-	polarity: HebrewFeature.Polarity,
-	tense: HebrewFeature.Tense,
-	verbForm: HebrewFeature.VerbForm,
+	polarity: DeprecatedHebrewFeature.Polarity,
+	tense: DeprecatedHebrewFeature.Tense,
+	verbForm: DeprecatedHebrewFeature.VerbForm,
 });

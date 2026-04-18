@@ -1,24 +1,24 @@
 import z from "zod/v3";
-import { UniversalFeature } from "../../../../../universal/enums/feature";
-import { buildSurfaceSchema } from "../../../../../universal/factories/buildSurfaceSchema";
-import { deriveKnownSelectionSchemaProps } from "../../../../../universal/factories/deriveKnownSelectionSchemas";
-import { defineLemmaSchemaDescriptor } from "../../../../../universal/factories/lemma-schema-descriptor";
+import { DeprecatedUniversalFeature } from "../../../../../universal/enums/feature";
+import { deprecatedBuildSurfaceSchema } from "../../../../../universal/factories/buildSurfaceSchema";
+import { deprecatedDeriveKnownSelectionSchemaProps } from "../../../../../universal/factories/deriveKnownSelectionSchemas";
+import { deprecatedDefineLemmaSchemaDescriptor } from "../../../../../universal/factories/lemma-schema-descriptor";
 import type {
-	LemmaSchemaFor,
-	SurfaceSchemaFor,
+	DeprecatedLemmaSchemaFor,
+	DeprecatedSurfaceSchemaFor,
 } from "../../../../../universal/helpers/schema-targets";
-import { featureSchema } from "../../../../../universal/helpers/schema-targets";
-import { MeaningInEmojisSchema } from "../../../../../universal/meaning-in-emojis";
-import { GermanFeature } from "../shared/german-common-enums";
+import { deprecatedFeatureSchema } from "../../../../../universal/helpers/schema-targets";
+import { DeprecatedMeaningInEmojisSchema } from "../../../../../universal/meaning-in-emojis";
+import { DeprecatedGermanFeature } from "../shared/german-common-enums";
 
-const GermanNounInflectionalFeaturesSchema = featureSchema({
-	case: GermanFeature.Case,
-	number: GermanFeature.Number,
+const GermanNounInflectionalFeaturesSchema = deprecatedFeatureSchema({
+	case: DeprecatedGermanFeature.Case,
+	number: DeprecatedGermanFeature.Number,
 });
 
-const GermanNounInherentFeaturesSchema = featureSchema({
-	gender: GermanFeature.Gender,
-	hyph: UniversalFeature.Hyph,
+const GermanNounInherentFeaturesSchema = deprecatedFeatureSchema({
+	gender: DeprecatedGermanFeature.Gender,
+	hyph: DeprecatedUniversalFeature.Hyph,
 });
 
 const GermanNounLemmaIdentityShape = {
@@ -26,7 +26,7 @@ const GermanNounLemmaIdentityShape = {
 	pos: z.literal("NOUN"),
 } satisfies z.ZodRawShape;
 
-const GermanNounLemma = defineLemmaSchemaDescriptor({
+const GermanNounLemma = deprecatedDefineLemmaSchemaDescriptor({
 	language: "German",
 	schema: z
 		.object({
@@ -34,35 +34,35 @@ const GermanNounLemma = defineLemmaSchemaDescriptor({
 			inherentFeatures: GermanNounInherentFeaturesSchema,
 			language: z.literal("German"),
 			lemmaKind: z.literal("Lexeme"),
-			meaningInEmojis: MeaningInEmojisSchema,
+			meaningInEmojis: DeprecatedMeaningInEmojisSchema,
 			pos: z.literal("NOUN"),
 		})
 		.strict(),
 });
 
-const GermanNounLemmaSchema = GermanNounLemma.schema satisfies LemmaSchemaFor<
+const GermanNounLemmaSchema = GermanNounLemma.schema satisfies DeprecatedLemmaSchemaFor<
 	"Lexeme",
 	"NOUN"
 >;
 
-const GermanNounInflectionSurfaceSchema = buildSurfaceSchema({
+const GermanNounInflectionSurfaceSchema = deprecatedBuildSurfaceSchema({
 	lemma: GermanNounLemma,
 	lemmaIdentityShape: GermanNounLemmaIdentityShape,
 	surfaceShape: {
 		inflectionalFeatures: GermanNounInflectionalFeaturesSchema,
 		surfaceKind: z.literal("Inflection"),
 	},
-}).schema satisfies SurfaceSchemaFor<"Inflection", "Lexeme", "NOUN">;
+}).schema satisfies DeprecatedSurfaceSchemaFor<"Inflection", "Lexeme", "NOUN">;
 
-const GermanNounLemmaSurfaceSchema = buildSurfaceSchema({
+const GermanNounLemmaSurfaceSchema = deprecatedBuildSurfaceSchema({
 	lemma: GermanNounLemma,
 	lemmaIdentityShape: GermanNounLemmaIdentityShape,
 	surfaceShape: {
 		surfaceKind: z.literal("Lemma"),
 	},
-}).schema satisfies SurfaceSchemaFor<"Lemma", "Lexeme", "NOUN">;
+}).schema satisfies DeprecatedSurfaceSchemaFor<"Lemma", "Lexeme", "NOUN">;
 
-const GermanNounSelectionSchemas = deriveKnownSelectionSchemaProps({
+const GermanNounSelectionSchemas = deprecatedDeriveKnownSelectionSchemaProps({
 	language: "German",
 	surfaceSchemas: {
 		InflectionSurfaceSchema: GermanNounInflectionSurfaceSchema,
@@ -78,7 +78,7 @@ const GermanNounTypoInflectionSelectionSchema =
 const GermanNounTypoLemmaSelectionSchema =
 	GermanNounSelectionSchemas.TypoLemmaSelectionSchema;
 
-export const GermanNounSchemas = {
+export const DeprecatedGermanNounSchemas = {
 	InflectionSelectionSchema: GermanNounInflectionSelectionSchema,
 	InflectionSurfaceSchema: GermanNounInflectionSurfaceSchema,
 	LemmaSchema: GermanNounLemmaSchema,

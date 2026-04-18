@@ -1,18 +1,18 @@
-import { UniversalFeature } from "../../../../../universal/enums/feature";
+import { DeprecatedUniversalFeature } from "../../../../../universal/enums/feature";
 import {
-	featureSchema,
-	featureSpecificValueSets,
-	featureValueSet,
+	deprecatedFeatureSchema,
+	deprecatedFeatureSpecificValueSets,
+	deprecatedFeatureValueSet,
 } from "../../../../../universal/helpers/schema-targets";
-import { buildGermanLexemeBundle } from "../shared/build-german-lexeme-bundle";
-import { GermanFeature } from "../shared/german-common-enums";
+import { deprecatedBuildGermanLexemeBundle } from "../shared/build-german-lexeme-bundle";
+import { DeprecatedGermanFeature } from "../shared/german-common-enums";
 
-const GermanDeterminerNumType = UniversalFeature.NumType.extract([
+const GermanDeterminerNumType = DeprecatedUniversalFeature.NumType.extract([
 	"Card",
 	"Ord",
 ]);
 
-const GermanDeterminerPronType = UniversalFeature.PronType.extract([
+const GermanDeterminerPronType = DeprecatedUniversalFeature.PronType.extract([
 	"Art",
 	"Dem",
 	"Emp",
@@ -25,29 +25,29 @@ const GermanDeterminerPronType = UniversalFeature.PronType.extract([
 	"Tot",
 ]);
 
-const GermanDeterminerInflectionalFeaturesSchema = featureSchema({
-	case: GermanFeature.Case,
-	degree: GermanFeature.Degree,
-	gender: featureSpecificValueSets(GermanFeature.Gender, [["Masc", "Neut"]]),
-	"gender[psor]": featureValueSet(GermanFeature.Gender),
-	number: GermanFeature.Number,
-	"number[psor]": GermanFeature.Number,
+const GermanDeterminerInflectionalFeaturesSchema = deprecatedFeatureSchema({
+	case: DeprecatedGermanFeature.Case,
+	degree: DeprecatedGermanFeature.Degree,
+	gender: deprecatedFeatureSpecificValueSets(DeprecatedGermanFeature.Gender, [["Masc", "Neut"]]),
+	"gender[psor]": deprecatedFeatureValueSet(DeprecatedGermanFeature.Gender),
+	number: DeprecatedGermanFeature.Number,
+	"number[psor]": DeprecatedGermanFeature.Number,
 });
 
-const GermanDeterminerInherentFeaturesSchema = featureSchema({
-	definite: GermanFeature.Definite,
-	extPos: UniversalFeature.ExtPos.extract(["ADV", "DET"]),
-	foreign: UniversalFeature.Foreign,
+const GermanDeterminerInherentFeaturesSchema = deprecatedFeatureSchema({
+	definite: DeprecatedGermanFeature.Definite,
+	extPos: DeprecatedUniversalFeature.ExtPos.extract(["ADV", "DET"]),
+	foreign: DeprecatedUniversalFeature.Foreign,
 	numType: GermanDeterminerNumType,
-	person: GermanFeature.Person,
-	polite: GermanFeature.Polite,
-	poss: UniversalFeature.Poss,
-	pronType: featureSpecificValueSets(GermanDeterminerPronType, [
+	person: DeprecatedGermanFeature.Person,
+	polite: DeprecatedGermanFeature.Polite,
+	poss: DeprecatedUniversalFeature.Poss,
+	pronType: deprecatedFeatureSpecificValueSets(GermanDeterminerPronType, [
 		["Int", "Rel"],
 	]),
 });
 
-export const GermanDeterminerSchemas = buildGermanLexemeBundle({
+export const DeprecatedGermanDeterminerSchemas = deprecatedBuildGermanLexemeBundle({
 	inflectionalFeaturesSchema: GermanDeterminerInflectionalFeaturesSchema,
 	inherentFeaturesSchema: GermanDeterminerInherentFeaturesSchema,
 	pos: "DET",

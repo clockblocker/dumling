@@ -1,8 +1,8 @@
-export type Prettify<T> = {
+export type DeprecatedPrettify<T> = {
 	[K in keyof T]: T[K];
 } & {};
 
-export type PrettifyDeep<T> = T extends
+export type DeprecatedPrettifyDeep<T> = T extends
 	| string
 	| number
 	| boolean
@@ -14,10 +14,10 @@ export type PrettifyDeep<T> = T extends
 	? T
 	: T extends readonly unknown[]
 		? {
-				[K in keyof T]: PrettifyDeep<T[K]>;
+				[K in keyof T]: DeprecatedPrettifyDeep<T[K]>;
 			}
 		: T extends object
 			? {
-					[K in keyof T]: PrettifyDeep<T[K]>;
+					[K in keyof T]: DeprecatedPrettifyDeep<T[K]>;
 				} & {}
 			: T;

@@ -9,5 +9,5 @@ const tenseValues = [
 ] as const;
 
 // Source: https://universaldependencies.org/u/feat/Tense.html
-export const Tense = z.enum(tenseValues);
-export type Tense = z.infer<typeof Tense>;
+export const DeprecatedTense = z.enum(tenseValues);
+export type DeprecatedTense = z.infer<typeof DeprecatedTense>;

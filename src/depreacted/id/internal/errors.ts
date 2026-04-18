@@ -1,11 +1,11 @@
-import type { DumlingIdDecodeError, DumlingIdDecodeErrorCode } from "../types";
+import type { DeprecatedDumlingIdDecodeError, DeprecatedDumlingIdDecodeErrorCode } from "../types";
 
-export function lingIdDecodeError(
-	code: DumlingIdDecodeErrorCode,
+export function deprecatedLingIdDecodeError(
+	code: DeprecatedDumlingIdDecodeErrorCode,
 	input: string,
 	message: string,
 	cause?: unknown,
-): DumlingIdDecodeError {
+): DeprecatedDumlingIdDecodeError {
 	return {
 		code,
 		...(cause === undefined ? {} : { cause }),

@@ -1,14 +1,14 @@
-import { featureSchema } from "../../../../../universal/helpers/schema-targets";
-import { buildHebrewLexemeBundle } from "../shared/build-hebrew-lexeme-bundle";
-import { HebrewFeature } from "../shared/hebrew-common-enums";
-import { HebrewAuxiliaryInflectionalFeaturesSchema } from "../shared/hebrew-verbal-inflection-features";
+import { deprecatedFeatureSchema } from "../../../../../universal/helpers/schema-targets";
+import { deprecatedBuildHebrewLexemeBundle } from "../shared/build-hebrew-lexeme-bundle";
+import { DeprecatedHebrewFeature } from "../shared/hebrew-common-enums";
+import { DeprecatedHebrewAuxiliaryInflectionalFeaturesSchema } from "../shared/hebrew-verbal-inflection-features";
 
-const HebrewAuxiliaryInherentFeaturesSchema = featureSchema({
-	verbType: HebrewFeature.VerbType,
+const HebrewAuxiliaryInherentFeaturesSchema = deprecatedFeatureSchema({
+	verbType: DeprecatedHebrewFeature.VerbType,
 });
 
-export const HebrewAuxiliarySchemas = buildHebrewLexemeBundle({
-	inflectionalFeaturesSchema: HebrewAuxiliaryInflectionalFeaturesSchema,
+export const DeprecatedHebrewAuxiliarySchemas = deprecatedBuildHebrewLexemeBundle({
+	inflectionalFeaturesSchema: DeprecatedHebrewAuxiliaryInflectionalFeaturesSchema,
 	inherentFeaturesSchema: HebrewAuxiliaryInherentFeaturesSchema,
 	pos: "AUX",
 });

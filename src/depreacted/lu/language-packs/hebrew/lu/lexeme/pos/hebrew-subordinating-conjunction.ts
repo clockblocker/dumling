@@ -1,16 +1,16 @@
-import { featureSchema } from "../../../../../universal/helpers/schema-targets";
-import { buildHebrewLexemeBundle } from "../shared/build-hebrew-lexeme-bundle";
-import { HebrewFeature } from "../shared/hebrew-common-enums";
+import { deprecatedFeatureSchema } from "../../../../../universal/helpers/schema-targets";
+import { deprecatedBuildHebrewLexemeBundle } from "../shared/build-hebrew-lexeme-bundle";
+import { DeprecatedHebrewFeature } from "../shared/hebrew-common-enums";
 
-const HebrewSubordinatingConjunctionInflectionalFeaturesSchema = featureSchema(
+const HebrewSubordinatingConjunctionInflectionalFeaturesSchema = deprecatedFeatureSchema(
 	{},
 );
 
-const HebrewSubordinatingConjunctionInherentFeaturesSchema = featureSchema({
-	case: HebrewFeature.Case.extract(["Tem"]),
+const HebrewSubordinatingConjunctionInherentFeaturesSchema = deprecatedFeatureSchema({
+	case: DeprecatedHebrewFeature.Case.extract(["Tem"]),
 });
 
-export const HebrewSubordinatingConjunctionSchemas = buildHebrewLexemeBundle({
+export const DeprecatedHebrewSubordinatingConjunctionSchemas = deprecatedBuildHebrewLexemeBundle({
 	inflectionalFeaturesSchema:
 		HebrewSubordinatingConjunctionInflectionalFeaturesSchema,
 	inherentFeaturesSchema:

@@ -18,5 +18,5 @@ const moodValues = [
 ] as const;
 
 // Source: https://universaldependencies.org/u/feat/Mood.html
-export const Mood = z.enum(moodValues);
-export type Mood = z.infer<typeof Mood>;
+export const DeprecatedMood = z.enum(moodValues);
+export type DeprecatedMood = z.infer<typeof DeprecatedMood>;

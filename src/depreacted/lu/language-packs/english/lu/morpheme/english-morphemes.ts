@@ -1,44 +1,44 @@
 import type {
-	LemmaSchemaLanguageShape,
-	SurfaceSchemaLanguageShape,
+	DeprecatedLemmaSchemaLanguageShape,
+	DeprecatedSurfaceSchemaLanguageShape,
 } from "../../../../registry-shapes";
-import { buildEnglishMorphemeBundle } from "./shared/build-english-morpheme-bundle";
+import { deprecatedBuildEnglishMorphemeBundle } from "./shared/build-english-morpheme-bundle";
 
-const EnglishCircumfixBundle = buildEnglishMorphemeBundle({
+const EnglishCircumfixBundle = deprecatedBuildEnglishMorphemeBundle({
 	morphemeKind: "Circumfix",
 });
-const EnglishCliticBundle = buildEnglishMorphemeBundle({
+const EnglishCliticBundle = deprecatedBuildEnglishMorphemeBundle({
 	morphemeKind: "Clitic",
 });
-const EnglishDuplifixBundle = buildEnglishMorphemeBundle({
+const EnglishDuplifixBundle = deprecatedBuildEnglishMorphemeBundle({
 	morphemeKind: "Duplifix",
 });
-const EnglishInfixBundle = buildEnglishMorphemeBundle({
+const EnglishInfixBundle = deprecatedBuildEnglishMorphemeBundle({
 	morphemeKind: "Infix",
 });
-const EnglishInterfixBundle = buildEnglishMorphemeBundle({
+const EnglishInterfixBundle = deprecatedBuildEnglishMorphemeBundle({
 	morphemeKind: "Interfix",
 });
-const EnglishPrefixBundle = buildEnglishMorphemeBundle({
+const EnglishPrefixBundle = deprecatedBuildEnglishMorphemeBundle({
 	morphemeKind: "Prefix",
 });
-const EnglishRootBundle = buildEnglishMorphemeBundle({
+const EnglishRootBundle = deprecatedBuildEnglishMorphemeBundle({
 	morphemeKind: "Root",
 });
-const EnglishSuffixBundle = buildEnglishMorphemeBundle({
+const EnglishSuffixBundle = deprecatedBuildEnglishMorphemeBundle({
 	morphemeKind: "Suffix",
 });
-const EnglishSuffixoidBundle = buildEnglishMorphemeBundle({
+const EnglishSuffixoidBundle = deprecatedBuildEnglishMorphemeBundle({
 	morphemeKind: "Suffixoid",
 });
-const EnglishToneMarkingBundle = buildEnglishMorphemeBundle({
+const EnglishToneMarkingBundle = deprecatedBuildEnglishMorphemeBundle({
 	morphemeKind: "ToneMarking",
 });
-const EnglishTransfixBundle = buildEnglishMorphemeBundle({
+const EnglishTransfixBundle = deprecatedBuildEnglishMorphemeBundle({
 	morphemeKind: "Transfix",
 });
 
-export const EnglishMorphemeLemmaSchemas = {
+export const DeprecatedEnglishMorphemeLemmaSchemas = {
 	Circumfix: EnglishCircumfixBundle.LemmaSchema,
 	Clitic: EnglishCliticBundle.LemmaSchema,
 	Duplifix: EnglishDuplifixBundle.LemmaSchema,
@@ -50,9 +50,9 @@ export const EnglishMorphemeLemmaSchemas = {
 	Suffixoid: EnglishSuffixoidBundle.LemmaSchema,
 	ToneMarking: EnglishToneMarkingBundle.LemmaSchema,
 	Transfix: EnglishTransfixBundle.LemmaSchema,
-} satisfies LemmaSchemaLanguageShape["Morpheme"];
+} satisfies DeprecatedLemmaSchemaLanguageShape["Morpheme"];
 
-export const EnglishLemmaMorphemeSurfaceSchemas = {
+export const DeprecatedEnglishLemmaMorphemeSurfaceSchemas = {
 	Circumfix: EnglishCircumfixBundle.LemmaSurfaceSchema,
 	Clitic: EnglishCliticBundle.LemmaSurfaceSchema,
 	Duplifix: EnglishDuplifixBundle.LemmaSurfaceSchema,
@@ -64,4 +64,4 @@ export const EnglishLemmaMorphemeSurfaceSchemas = {
 	Suffixoid: EnglishSuffixoidBundle.LemmaSurfaceSchema,
 	ToneMarking: EnglishToneMarkingBundle.LemmaSurfaceSchema,
 	Transfix: EnglishTransfixBundle.LemmaSurfaceSchema,
-} satisfies SurfaceSchemaLanguageShape["Lemma"]["Morpheme"];
+} satisfies DeprecatedSurfaceSchemaLanguageShape["Lemma"]["Morpheme"];

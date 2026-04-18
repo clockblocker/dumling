@@ -1,17 +1,17 @@
 import type { Result } from "neverthrow";
 
 /** @public */
-export type ConcreteDumlingIdKind = "Lemma" | "Selection" | "Surface";
+export type DeprecatedConcreteDumlingIdKind = "Lemma" | "Selection" | "Surface";
 
 /** @public */
-export type DumlingIdLanguage = "English" | "German" | "Hebrew";
+export type DeprecatedDumlingIdLanguage = "English" | "German" | "Hebrew";
 
 /**
  * @public
  * Minimal public lemma shape accepted by the Dumling ID codec.
  * The entity registries expose the exact DTO unions; the ID codec only requires the stable discriminator and payload fields used during serialization.
  */
-export type DumlingIdLemma<L extends DumlingIdLanguage = DumlingIdLanguage> =
+export type DeprecatedDumlingIdLemma<L extends DeprecatedDumlingIdLanguage = DeprecatedDumlingIdLanguage> =
 	| ({
 			canonicalLemma: string;
 			inherentFeatures: Record<string, unknown>;
@@ -39,10 +39,10 @@ export type DumlingIdLemma<L extends DumlingIdLanguage = DumlingIdLanguage> =
  * @public
  * Minimal public surface shape accepted by the Dumling ID codec.
  */
-export type DumlingIdSurface<L extends DumlingIdLanguage = DumlingIdLanguage> = {
+export type DeprecatedDumlingIdSurface<L extends DeprecatedDumlingIdLanguage = DeprecatedDumlingIdLanguage> = {
 	inflectionalFeatures?: Record<string, unknown>;
 	language: L;
-	lemma: DumlingIdLemma<L>;
+	lemma: DeprecatedDumlingIdLemma<L>;
 	normalizedFullSurface: string;
 	surfaceKind: string;
 } & Record<string, unknown>;
@@ -51,21 +51,21 @@ export type DumlingIdSurface<L extends DumlingIdLanguage = DumlingIdLanguage> = 
  * @public
  * Minimal public hydrated-selection shape accepted by the Dumling ID codec.
  */
-export type DumlingIdSelection<
-	L extends DumlingIdLanguage = DumlingIdLanguage,
+export type DeprecatedDumlingIdSelection<
+	L extends DeprecatedDumlingIdLanguage = DeprecatedDumlingIdLanguage,
 > = {
 	language: L;
 	orthographicStatus: string;
 	selectionCoverage: string;
 	spelledSelection: string;
 	spellingRelation: string;
-	surface: DumlingIdSurface<L>;
+	surface: DeprecatedDumlingIdSurface<L>;
 } & Record<string, unknown>;
 
 /** @public */
-export type DumlingId<
-	LIK extends ConcreteDumlingIdKind = ConcreteDumlingIdKind,
-	L extends DumlingIdLanguage = DumlingIdLanguage,
+export type DeprecatedDumlingId<
+	LIK extends DeprecatedConcreteDumlingIdKind = DeprecatedConcreteDumlingIdKind,
+	L extends DeprecatedDumlingIdLanguage = DeprecatedDumlingIdLanguage,
 > = string & {
 	readonly __lingIdBrand: unique symbol;
 	readonly __lingEntity?: LIK;
@@ -73,19 +73,19 @@ export type DumlingId<
 };
 
 /** @public */
-export type DumlingIdValueFor<
-	LIK extends ConcreteDumlingIdKind,
-	L extends DumlingIdLanguage,
+export type DeprecatedDumlingIdValueFor<
+	LIK extends DeprecatedConcreteDumlingIdKind,
+	L extends DeprecatedDumlingIdLanguage,
 > = LIK extends "Lemma"
-	? DumlingIdLemma<L>
+	? DeprecatedDumlingIdLemma<L>
 	: LIK extends "Selection"
-		? DumlingIdSelection<L>
+		? DeprecatedDumlingIdSelection<L>
 		: LIK extends "Surface"
-			? DumlingIdSurface<L>
+			? DeprecatedDumlingIdSurface<L>
 			: never;
 
 /** @public */
-export type DumlingIdDecodeErrorCode =
+export type DeprecatedDumlingIdDecodeErrorCode =
 	| "MalformedDumlingId"
 	| "UnsupportedVersion"
 	| "UnsupportedLanguage"
@@ -95,8 +95,8 @@ export type DumlingIdDecodeErrorCode =
 	| "PayloadDecodeFailed";
 
 /** @public */
-export type DumlingIdDecodeError = {
-	code: DumlingIdDecodeErrorCode;
+export type DeprecatedDumlingIdDecodeError = {
+	code: DeprecatedDumlingIdDecodeErrorCode;
 	message: string;
 	input: string;
 	cause?: unknown;
@@ -107,21 +107,21 @@ export type DumlingIdDecodeError = {
  * Language-bound Dumling ID helpers.
  * `makeDumlingIdFor()` accepts the stable DTO fields the codec serializes, and the decode helpers return the corresponding codec-safe DTO shapes after runtime schema validation.
  */
-export type DumlingIdApiFor<L extends DumlingIdLanguage> = {
+export type DeprecatedDumlingIdApiFor<L extends DeprecatedDumlingIdLanguage> = {
 	makeDumlingIdFor: {
-		(value: DumlingIdLemma<L>): DumlingId<"Lemma", L>;
-		(value: DumlingIdSelection<L>): DumlingId<"Selection", L>;
-		(value: DumlingIdSurface<L>): DumlingId<"Surface", L>;
+		(value: DeprecatedDumlingIdLemma<L>): DeprecatedDumlingId<"Lemma", L>;
+		(value: DeprecatedDumlingIdSelection<L>): DeprecatedDumlingId<"Selection", L>;
+		(value: DeprecatedDumlingIdSurface<L>): DeprecatedDumlingId<"Surface", L>;
 	};
 	tryToDecode: (
 		id: string,
-	) => Result<DumlingIdValueFor<ConcreteDumlingIdKind, L>, DumlingIdDecodeError>;
+	) => Result<DeprecatedDumlingIdValueFor<DeprecatedConcreteDumlingIdKind, L>, DeprecatedDumlingIdDecodeError>;
 	tryToDecodeAs: {
-		(kind: "Lemma", id: string): Result<DumlingIdLemma<L>, DumlingIdDecodeError>;
+		(kind: "Lemma", id: string): Result<DeprecatedDumlingIdLemma<L>, DeprecatedDumlingIdDecodeError>;
 		(
 			kind: "Selection",
 			id: string,
-		): Result<DumlingIdSelection<L>, DumlingIdDecodeError>;
-		(kind: "Surface", id: string): Result<DumlingIdSurface<L>, DumlingIdDecodeError>;
+		): Result<DeprecatedDumlingIdSelection<L>, DeprecatedDumlingIdDecodeError>;
+		(kind: "Surface", id: string): Result<DeprecatedDumlingIdSurface<L>, DeprecatedDumlingIdDecodeError>;
 	};
 };

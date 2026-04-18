@@ -1,16 +1,16 @@
-import { UniversalFeature } from "../../../../../universal/enums/feature";
-import { featureSchema } from "../../../../../universal/helpers/schema-targets";
-import { buildHebrewLexemeBundle } from "../shared/build-hebrew-lexeme-bundle";
-import { HebrewFeature } from "../shared/hebrew-common-enums";
+import { DeprecatedUniversalFeature } from "../../../../../universal/enums/feature";
+import { deprecatedFeatureSchema } from "../../../../../universal/helpers/schema-targets";
+import { deprecatedBuildHebrewLexemeBundle } from "../shared/build-hebrew-lexeme-bundle";
+import { DeprecatedHebrewFeature } from "../shared/hebrew-common-enums";
 
-const HebrewAdpositionInflectionalFeaturesSchema = featureSchema({});
+const HebrewAdpositionInflectionalFeaturesSchema = deprecatedFeatureSchema({});
 
-const HebrewAdpositionInherentFeaturesSchema = featureSchema({
-	abbr: UniversalFeature.Abbr,
-	case: HebrewFeature.Case.extract(["Acc", "Gen"]),
+const HebrewAdpositionInherentFeaturesSchema = deprecatedFeatureSchema({
+	abbr: DeprecatedUniversalFeature.Abbr,
+	case: DeprecatedHebrewFeature.Case.extract(["Acc", "Gen"]),
 });
 
-export const HebrewAdpositionSchemas = buildHebrewLexemeBundle({
+export const DeprecatedHebrewAdpositionSchemas = deprecatedBuildHebrewLexemeBundle({
 	inflectionalFeaturesSchema: HebrewAdpositionInflectionalFeaturesSchema,
 	inherentFeaturesSchema: HebrewAdpositionInherentFeaturesSchema,
 	pos: "ADP",

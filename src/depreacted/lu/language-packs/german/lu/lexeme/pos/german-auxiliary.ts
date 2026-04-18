@@ -1,16 +1,16 @@
-import { UniversalFeature } from "../../../../../universal/enums/feature";
-import { featureSchema } from "../../../../../universal/helpers/schema-targets";
-import { buildGermanLexemeBundle } from "../shared/build-german-lexeme-bundle";
-import { GermanVerbalInflectionalFeaturesSchema } from "../shared/german-verbal-inflection-features";
+import { DeprecatedUniversalFeature } from "../../../../../universal/enums/feature";
+import { deprecatedFeatureSchema } from "../../../../../universal/helpers/schema-targets";
+import { deprecatedBuildGermanLexemeBundle } from "../shared/build-german-lexeme-bundle";
+import { DeprecatedGermanVerbalInflectionalFeaturesSchema } from "../shared/german-verbal-inflection-features";
 
 const GermanAuxiliaryInflectionalFeaturesSchema =
-	GermanVerbalInflectionalFeaturesSchema;
+	DeprecatedGermanVerbalInflectionalFeaturesSchema;
 
-const GermanAuxiliaryInherentFeaturesSchema = featureSchema({
-	verbType: UniversalFeature.VerbType.extract(["Mod"]),
+const GermanAuxiliaryInherentFeaturesSchema = deprecatedFeatureSchema({
+	verbType: DeprecatedUniversalFeature.VerbType.extract(["Mod"]),
 });
 
-export const GermanAuxiliarySchemas = buildGermanLexemeBundle({
+export const DeprecatedGermanAuxiliarySchemas = deprecatedBuildGermanLexemeBundle({
 	inflectionalFeaturesSchema: GermanAuxiliaryInflectionalFeaturesSchema,
 	inherentFeaturesSchema: GermanAuxiliaryInherentFeaturesSchema,
 	pos: "AUX",

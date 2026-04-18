@@ -1,6 +1,6 @@
 export type {
-	AbstractFeatures,
-	UniversalFeatureValue,
+	DeprecatedAbstractFeatures,
+	DeprecatedUniversalFeatureValue,
 } from "./feature";
 
-export { UniversalFeature } from "./feature";
+export { DeprecatedUniversalFeature } from "./feature";

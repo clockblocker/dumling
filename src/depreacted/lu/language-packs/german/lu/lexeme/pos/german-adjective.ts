@@ -1,28 +1,28 @@
-import { UniversalFeature } from "../../../../../universal/enums/feature";
-import { featureSchema } from "../../../../../universal/helpers/schema-targets";
-import { buildGermanLexemeBundle } from "../shared/build-german-lexeme-bundle";
-import { GermanFeature } from "../shared/german-common-enums";
+import { DeprecatedUniversalFeature } from "../../../../../universal/enums/feature";
+import { deprecatedFeatureSchema } from "../../../../../universal/helpers/schema-targets";
+import { deprecatedBuildGermanLexemeBundle } from "../shared/build-german-lexeme-bundle";
+import { DeprecatedGermanFeature } from "../shared/german-common-enums";
 
-const GermanAdjectiveNumType = UniversalFeature.NumType.extract([
+const GermanAdjectiveNumType = DeprecatedUniversalFeature.NumType.extract([
 	"Card",
 	"Ord",
 ]);
 
-const GermanAdjectiveInflectionalFeaturesSchema = featureSchema({
-	case: GermanFeature.Case,
-	degree: GermanFeature.Degree,
-	gender: GermanFeature.Gender,
-	number: GermanFeature.Number,
+const GermanAdjectiveInflectionalFeaturesSchema = deprecatedFeatureSchema({
+	case: DeprecatedGermanFeature.Case,
+	degree: DeprecatedGermanFeature.Degree,
+	gender: DeprecatedGermanFeature.Gender,
+	number: DeprecatedGermanFeature.Number,
 });
 
-const GermanAdjectiveInherentFeaturesSchema = featureSchema({
-	abbr: UniversalFeature.Abbr,
-	foreign: UniversalFeature.Foreign,
+const GermanAdjectiveInherentFeaturesSchema = deprecatedFeatureSchema({
+	abbr: DeprecatedUniversalFeature.Abbr,
+	foreign: DeprecatedUniversalFeature.Foreign,
 	numType: GermanAdjectiveNumType,
-	variant: UniversalFeature.Variant,
+	variant: DeprecatedUniversalFeature.Variant,
 });
 
-export const GermanAdjectiveSchemas = buildGermanLexemeBundle({
+export const DeprecatedGermanAdjectiveSchemas = deprecatedBuildGermanLexemeBundle({
 	inflectionalFeaturesSchema: GermanAdjectiveInflectionalFeaturesSchema,
 	inherentFeaturesSchema: GermanAdjectiveInherentFeaturesSchema,
 	pos: "ADJ",

@@ -37,5 +37,5 @@ const caseValues = [
 ] as const;
 
 // Source: https://universaldependencies.org/u/feat/Case.html
-export const Case = z.enum(caseValues);
-export type Case = z.infer<typeof Case>;
+export const DeprecatedCase = z.enum(caseValues);
+export type DeprecatedCase = z.infer<typeof DeprecatedCase>;

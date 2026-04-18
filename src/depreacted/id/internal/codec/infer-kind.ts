@@ -1,8 +1,8 @@
-import type { ConcreteDumlingIdKind } from "../../types";
-import { isPlainObject } from "../guards";
+import type { DeprecatedConcreteDumlingIdKind } from "../../types";
+import { deprecatedIsPlainObject } from "../guards";
 
-export function inferConcreteDumlingIdKind(value: unknown): ConcreteDumlingIdKind {
-	if (!isPlainObject(value)) {
+export function deprecatedInferConcreteDumlingIdKind(value: unknown): DeprecatedConcreteDumlingIdKind {
+	if (!deprecatedIsPlainObject(value)) {
 		throw new Error("Dumling ID encoding expects an object entity value");
 	}
 

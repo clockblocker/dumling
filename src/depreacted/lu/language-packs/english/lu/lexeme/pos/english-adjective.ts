@@ -1,40 +1,40 @@
-import { UniversalFeature } from "../../../../../universal/enums/feature";
-import { featureSchema } from "../../../../../universal/helpers/schema-targets";
-import { buildEnglishLexemeBundle } from "../shared/build-english-lexeme-bundle";
-import { EnglishFeature } from "../shared/english-common-enums";
+import { DeprecatedUniversalFeature } from "../../../../../universal/enums/feature";
+import { deprecatedFeatureSchema } from "../../../../../universal/helpers/schema-targets";
+import { deprecatedBuildEnglishLexemeBundle } from "../shared/build-english-lexeme-bundle";
+import { DeprecatedEnglishFeature } from "../shared/english-common-enums";
 
 // https://universaldependencies.org/treebanks/en_ewt/en_ewt-pos-ADJ.html
-const EnglishAdjectiveExtPos = UniversalFeature.ExtPos.extract([
+const EnglishAdjectiveExtPos = DeprecatedUniversalFeature.ExtPos.extract([
 	"ADP",
 	"ADV",
 	"SCONJ",
 ]);
 
 // https://universaldependencies.org/u/feat/NumForm.html
-const EnglishAdjectiveNumForm = EnglishFeature.NumForm.extract([
+const EnglishAdjectiveNumForm = DeprecatedEnglishFeature.NumForm.extract([
 	"Combi",
 	"Word",
 ]);
 
 // https://universaldependencies.org/u/feat/NumType.html
-const EnglishAdjectiveNumType = EnglishFeature.NumType.extract(["Frac", "Ord"]);
+const EnglishAdjectiveNumType = DeprecatedEnglishFeature.NumType.extract(["Frac", "Ord"]);
 
 // https://universaldependencies.org/u/feat/Style.html
-const EnglishAdjectiveStyle = EnglishFeature.Style.extract(["Expr"]);
+const EnglishAdjectiveStyle = DeprecatedEnglishFeature.Style.extract(["Expr"]);
 
-const EnglishAdjectiveInflectionalFeaturesSchema = featureSchema({
-	degree: EnglishFeature.Degree, // https://universaldependencies.org/treebanks/en_ewt/en_ewt-feat-Degree.html
+const EnglishAdjectiveInflectionalFeaturesSchema = deprecatedFeatureSchema({
+	degree: DeprecatedEnglishFeature.Degree, // https://universaldependencies.org/treebanks/en_ewt/en_ewt-feat-Degree.html
 });
 
-const EnglishAdjectiveInherentFeaturesSchema = featureSchema({
-	abbr: UniversalFeature.Abbr,
+const EnglishAdjectiveInherentFeaturesSchema = deprecatedFeatureSchema({
+	abbr: DeprecatedUniversalFeature.Abbr,
 	extPos: EnglishAdjectiveExtPos, // https://universaldependencies.org/treebanks/en_ewt/en_ewt-pos-ADJ.html
 	numForm: EnglishAdjectiveNumForm, // https://universaldependencies.org/u/feat/NumForm.html
 	numType: EnglishAdjectiveNumType, // https://universaldependencies.org/u/feat/NumType.html
 	style: EnglishAdjectiveStyle, // https://universaldependencies.org/u/feat/Style.html
 });
 
-export const EnglishAdjectiveSchemas = buildEnglishLexemeBundle({
+export const DeprecatedEnglishAdjectiveSchemas = deprecatedBuildEnglishLexemeBundle({
 	inflectionalFeaturesSchema: EnglishAdjectiveInflectionalFeaturesSchema,
 	inherentFeaturesSchema: EnglishAdjectiveInherentFeaturesSchema,
 	pos: "ADJ",

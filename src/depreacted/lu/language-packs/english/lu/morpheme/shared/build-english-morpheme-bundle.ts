@@ -1,12 +1,12 @@
 import z from "zod/v3";
-import type { MorphemeKind } from "../../../../../universal/enums/kind/morpheme-kind";
-import { buildSurfaceSchema } from "../../../../../universal/factories/buildSurfaceSchema";
-import { deriveKnownSelectionSchemaProps } from "../../../../../universal/factories/deriveKnownSelectionSchemas";
-import { defineLemmaSchemaDescriptor } from "../../../../../universal/factories/lemma-schema-descriptor";
-import { MeaningInEmojisSchema } from "../../../../../universal/meaning-in-emojis";
-import { MorphemeCanonicalLemmaSchema } from "../../../../../universal/morpheme-canonical-lemma";
+import type { DeprecatedMorphemeKind } from "../../../../../universal/enums/kind/morpheme-kind";
+import { deprecatedBuildSurfaceSchema } from "../../../../../universal/factories/buildSurfaceSchema";
+import { deprecatedDeriveKnownSelectionSchemaProps } from "../../../../../universal/factories/deriveKnownSelectionSchemas";
+import { deprecatedDefineLemmaSchemaDescriptor } from "../../../../../universal/factories/lemma-schema-descriptor";
+import { DeprecatedMeaningInEmojisSchema } from "../../../../../universal/meaning-in-emojis";
+import { DeprecatedMorphemeCanonicalLemmaSchema } from "../../../../../universal/morpheme-canonical-lemma";
 
-export function buildEnglishMorphemeBundle<MK extends MorphemeKind>({
+export function deprecatedBuildEnglishMorphemeBundle<MK extends DeprecatedMorphemeKind>({
 	morphemeKind,
 }: {
 	morphemeKind: MK;
@@ -16,20 +16,20 @@ export function buildEnglishMorphemeBundle<MK extends MorphemeKind>({
 		morphemeKind: z.literal(morphemeKind),
 	} satisfies z.ZodRawShape;
 
-	const lemma = defineLemmaSchemaDescriptor({
+	const lemma = deprecatedDefineLemmaSchemaDescriptor({
 		language: "English",
 		schema: z
 			.object({
-				canonicalLemma: MorphemeCanonicalLemmaSchema,
+				canonicalLemma: DeprecatedMorphemeCanonicalLemmaSchema,
 				isClosedSet: z.boolean().optional(),
 				language: z.literal("English"),
 				lemmaKind: z.literal("Morpheme"),
-				meaningInEmojis: MeaningInEmojisSchema,
+				meaningInEmojis: DeprecatedMeaningInEmojisSchema,
 				morphemeKind: z.literal(morphemeKind),
 			})
 			.strict(),
 	});
-	const lemmaSurface = buildSurfaceSchema({
+	const lemmaSurface = deprecatedBuildSurfaceSchema({
 		lemma,
 		lemmaIdentityShape,
 		surfaceShape: {
@@ -43,7 +43,7 @@ export function buildEnglishMorphemeBundle<MK extends MorphemeKind>({
 	return {
 		LemmaSchema: lemma.schema,
 		...surfaceSchemas,
-		...deriveKnownSelectionSchemaProps({
+		...deprecatedDeriveKnownSelectionSchemaProps({
 			language: lemma.language,
 			surfaceSchemas,
 		}),

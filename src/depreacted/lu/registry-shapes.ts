@@ -1,13 +1,13 @@
 import type z from "zod/v3";
 import type {
-	LemmaKind,
-	OrthographicStatus,
+	DeprecatedLemmaKind,
+	DeprecatedOrthographicStatus,
 } from "./universal/enums/core/selection";
-import type { LemmaDiscriminatorFor } from "./universal/lemma-discriminator";
+import type { DeprecatedLemmaDiscriminatorFor } from "./universal/lemma-discriminator";
 
 type SupportedSelectionLemmaKindsBySurface = {
 	Inflection: "Lexeme";
-	Lemma: LemmaKind;
+	Lemma: DeprecatedLemmaKind;
 };
 
 type SupportedSelectionSurfaceKind =
@@ -16,24 +16,24 @@ type SupportedSelectionSurfaceKind =
 type SupportedSelectionLemmaKindFor<SK extends SupportedSelectionSurfaceKind> =
 	SupportedSelectionLemmaKindsBySurface[SK];
 
-type DiscriminatorSchemaShape<LK extends LemmaKind> = Partial<{
-	[D in LemmaDiscriminatorFor<LK>]: z.ZodTypeAny;
+type DiscriminatorSchemaShape<LK extends DeprecatedLemmaKind> = Partial<{
+	[D in DeprecatedLemmaDiscriminatorFor<LK>]: z.ZodTypeAny;
 }>;
 
-export type SelectionSchemaLanguageShape = {
-	[OS in Exclude<OrthographicStatus, "Unknown">]: {
+export type DeprecatedSelectionSchemaLanguageShape = {
+	[OS in Exclude<DeprecatedOrthographicStatus, "Unknown">]: {
 		[SK in SupportedSelectionSurfaceKind]: {
 			[LK in SupportedSelectionLemmaKindFor<SK>]: DiscriminatorSchemaShape<LK>;
 		};
 	};
 };
 
-export type SurfaceSchemaLanguageShape = {
+export type DeprecatedSurfaceSchemaLanguageShape = {
 	[SK in SupportedSelectionSurfaceKind]: {
 		[LK in SupportedSelectionLemmaKindFor<SK>]: DiscriminatorSchemaShape<LK>;
 	};
 };
 
-export type LemmaSchemaLanguageShape = {
-	[LK in LemmaKind]: DiscriminatorSchemaShape<LK>;
+export type DeprecatedLemmaSchemaLanguageShape = {
+	[LK in DeprecatedLemmaKind]: DiscriminatorSchemaShape<LK>;
 };

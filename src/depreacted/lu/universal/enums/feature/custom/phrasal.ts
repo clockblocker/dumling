@@ -1,4 +1,4 @@
 import { z } from "zod/v3";
 
-export const Phrasal = z.literal("Yes");
-export type Phrasal = z.infer<typeof Phrasal>;
+export const DeprecatedPhrasal = z.literal("Yes");
+export type DeprecatedPhrasal = z.infer<typeof DeprecatedPhrasal>;

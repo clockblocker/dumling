@@ -11,5 +11,5 @@ const hebBinyanValues = [
 ] as const;
 
 // Source: https://universaldependencies.org/treebanks/he_htb/index.html
-export const HebBinyan = z.enum(hebBinyanValues);
-export type HebBinyan = z.infer<typeof HebBinyan>;
+export const DeprecatedHebBinyan = z.enum(hebBinyanValues);
+export type DeprecatedHebBinyan = z.infer<typeof DeprecatedHebBinyan>;

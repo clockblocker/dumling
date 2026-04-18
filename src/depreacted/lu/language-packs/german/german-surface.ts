@@ -1,18 +1,18 @@
-import type { SurfaceSchemaLanguageShape } from "../../registry-shapes";
+import type { DeprecatedSurfaceSchemaLanguageShape } from "../../registry-shapes";
 import {
-	GermanInflectionLexemeSurfaceSchemas,
-	GermanLemmaLexemeSurfaceSchemas,
+	DeprecatedGermanInflectionLexemeSurfaceSchemas,
+	DeprecatedGermanLemmaLexemeSurfaceSchemas,
 } from "./lu/lexeme/german-lexemes";
-import { GermanLemmaMorphemeSurfaceSchemas } from "./lu/morpheme/german-morphemes";
-import { GermanLemmaPhrasemeSurfaceSchemas } from "./lu/phraseme/german-phrasemes";
+import { DeprecatedGermanLemmaMorphemeSurfaceSchemas } from "./lu/morpheme/german-morphemes";
+import { DeprecatedGermanLemmaPhrasemeSurfaceSchemas } from "./lu/phraseme/german-phrasemes";
 
-export const GermanSurfaceSchema = {
+export const DeprecatedGermanSurfaceSchema = {
 	Inflection: {
-		Lexeme: GermanInflectionLexemeSurfaceSchemas,
+		Lexeme: DeprecatedGermanInflectionLexemeSurfaceSchemas,
 	},
 	Lemma: {
-		Lexeme: GermanLemmaLexemeSurfaceSchemas,
-		Morpheme: GermanLemmaMorphemeSurfaceSchemas,
-		Phraseme: GermanLemmaPhrasemeSurfaceSchemas,
+		Lexeme: DeprecatedGermanLemmaLexemeSurfaceSchemas,
+		Morpheme: DeprecatedGermanLemmaMorphemeSurfaceSchemas,
+		Phraseme: DeprecatedGermanLemmaPhrasemeSurfaceSchemas,
 	},
-} satisfies SurfaceSchemaLanguageShape;
+} satisfies DeprecatedSurfaceSchemaLanguageShape;

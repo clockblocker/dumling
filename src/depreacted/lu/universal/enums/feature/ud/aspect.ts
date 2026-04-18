@@ -10,5 +10,5 @@ const aspectValues = [
 ] as const;
 
 // Source: https://universaldependencies.org/u/feat/Aspect.html
-export const Aspect = z.enum(aspectValues);
-export type Aspect = z.infer<typeof Aspect>;
+export const DeprecatedAspect = z.enum(aspectValues);
+export type DeprecatedAspect = z.infer<typeof DeprecatedAspect>;

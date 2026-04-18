@@ -13,5 +13,5 @@ const punctTypeValues = [
 ] as const;
 
 // Source: https://universaldependencies.org/u/feat/PunctType.html
-export const PunctType = z.enum(punctTypeValues);
-export type PunctType = z.infer<typeof PunctType>;
+export const DeprecatedPunctType = z.enum(punctTypeValues);
+export type DeprecatedPunctType = z.infer<typeof DeprecatedPunctType>;

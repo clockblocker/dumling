@@ -1,5 +1,5 @@
-export type ParsedFeatureValue = string | boolean | readonly string[];
-export type ParsedFeatureBag = Record<string, ParsedFeatureValue>;
+export type DeprecatedParsedFeatureValue = string | boolean | readonly string[];
+export type DeprecatedParsedFeatureBag = Record<string, DeprecatedParsedFeatureValue>;
 
 const BOOLEAN_FEATURE_KEYS = new Set(["isClosedSet"]);
 const YES_LITERAL_FEATURE_KEYS = new Set([
@@ -21,17 +21,17 @@ const MULTI_VALUE_FEATURE_KEYS = new Set([
 	"pronType",
 ]);
 
-import { escapeToken, unescapeToken } from "./tokens";
+import { deprecatedEscapeToken, deprecatedUnescapeToken } from "./tokens";
 
-export function compactFeatureBag(
-	bag: Record<string, ParsedFeatureValue | undefined>,
-): ParsedFeatureBag {
+export function deprecatedCompactFeatureBag(
+	bag: Record<string, DeprecatedParsedFeatureValue | undefined>,
+): DeprecatedParsedFeatureBag {
 	return Object.fromEntries(
 		Object.entries(bag).filter(([, value]) => value !== undefined),
-	) as ParsedFeatureBag;
+	) as DeprecatedParsedFeatureBag;
 }
 
-export function serializeFeatureBag(features: ParsedFeatureBag): string {
+export function deprecatedSerializeFeatureBag(features: DeprecatedParsedFeatureBag): string {
 	const entries = Object.entries(features)
 		.filter(([, value]) => value !== undefined)
 		.sort(([left], [right]) => left.localeCompare(right));
@@ -43,12 +43,12 @@ export function serializeFeatureBag(features: ParsedFeatureBag): string {
 	return entries
 		.map(
 			([key, value]) =>
-				`${escapeToken(key)}=${serializeFeatureValue(value)}`,
+				`${deprecatedEscapeToken(key)}=${serializeFeatureValue(value)}`,
 		)
 		.join(",");
 }
 
-export function parseFeatureBag(token: string): ParsedFeatureBag {
+export function deprecatedParseFeatureBag(token: string): DeprecatedParsedFeatureBag {
 	if (token === "-") {
 		return {};
 	}
@@ -61,30 +61,30 @@ export function parseFeatureBag(token: string): ParsedFeatureBag {
 				throw new Error(`Malformed feature entry in Dumling ID: ${entry}`);
 			}
 
-			const key = unescapeToken(entry.slice(0, separatorIndex));
-			const value = unescapeToken(entry.slice(separatorIndex + 1));
+			const key = deprecatedUnescapeToken(entry.slice(0, separatorIndex));
+			const value = deprecatedUnescapeToken(entry.slice(separatorIndex + 1));
 
 			return [key, parseFeatureValue(key, value)];
 		}),
-	) as ParsedFeatureBag;
+	) as DeprecatedParsedFeatureBag;
 }
 
-function serializeFeatureValue(value: ParsedFeatureValue): string {
+function serializeFeatureValue(value: DeprecatedParsedFeatureValue): string {
 	if (typeof value === "boolean") {
-		return escapeToken(value ? "Yes" : "No");
+		return deprecatedEscapeToken(value ? "Yes" : "No");
 	}
 
 	if (Array.isArray(value)) {
 		return `~${[...value]
 			.sort()
-			.map((part) => escapeToken(part))
+			.map((part) => deprecatedEscapeToken(part))
 			.join("|")}`;
 	}
 
-	return escapeToken(value as string);
+	return deprecatedEscapeToken(value as string);
 }
 
-function parseFeatureValue(key: string, value: string): ParsedFeatureValue {
+function parseFeatureValue(key: string, value: string): DeprecatedParsedFeatureValue {
 	if (BOOLEAN_FEATURE_KEYS.has(key)) {
 		if (value === "Yes" || value === "true") {
 			return true;

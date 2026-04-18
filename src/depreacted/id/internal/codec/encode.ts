@@ -1,44 +1,44 @@
-import type { Lemma, Selection, Surface } from "../../../lu/public-entities";
-import type { TargetLanguage } from "../../../lu/universal/enums/core/language";
+import type { DeprecatedLemma, DeprecatedSelection, DeprecatedSurface } from "../../../lu/public-entities";
+import type { DeprecatedTargetLanguage } from "../../../lu/universal/enums/core/language";
 import type {
-	ConcreteDumlingIdKind,
-	DumlingId,
+	DeprecatedConcreteDumlingIdKind,
+	DeprecatedDumlingId,
 } from "../../types";
-import { getRuntimeSchema, isPlainObject } from "../guards";
-import type { ParsedFeatureBag, ParsedFeatureValue } from "../wire/feature-bag";
-import { compactFeatureBag, serializeFeatureBag } from "../wire/feature-bag";
-import { buildHeader, encodeWireKind } from "../wire/header";
+import { deprecatedGetRuntimeSchema, deprecatedIsPlainObject } from "../guards";
+import type { DeprecatedParsedFeatureBag, DeprecatedParsedFeatureValue } from "../wire/feature-bag";
+import { deprecatedCompactFeatureBag, deprecatedSerializeFeatureBag } from "../wire/feature-bag";
+import { deprecatedBuildHeader, deprecatedEncodeWireKind } from "../wire/header";
 import {
-	escapeToken,
-	joinTokens,
-	serializeOptionalToken,
+	deprecatedEscapeToken,
+	deprecatedJoinTokens,
+	deprecatedSerializeOptionalToken,
 } from "../wire/tokens";
-import { inferConcreteDumlingIdKind } from "./infer-kind";
+import { deprecatedInferConcreteDumlingIdKind } from "./infer-kind";
 
-type EncodableValue<L extends TargetLanguage> =
-	| Lemma<L>
-	| Selection<L>
-	| Surface<L>;
+type EncodableValue<L extends DeprecatedTargetLanguage> =
+	| DeprecatedLemma<L>
+	| DeprecatedSelection<L>
+	| DeprecatedSurface<L>;
 
-export function encodeDumlingId<L extends TargetLanguage>(
+export function deprecatedEncodeDumlingId<L extends DeprecatedTargetLanguage>(
 	language: L,
-	value: Lemma<L>,
-): DumlingId<"Lemma", L>;
-export function encodeDumlingId<L extends TargetLanguage>(
+	value: DeprecatedLemma<L>,
+): DeprecatedDumlingId<"Lemma", L>;
+export function deprecatedEncodeDumlingId<L extends DeprecatedTargetLanguage>(
 	language: L,
-	value: Selection<L>,
-): DumlingId<"Selection", L>;
-export function encodeDumlingId<L extends TargetLanguage>(
+	value: DeprecatedSelection<L>,
+): DeprecatedDumlingId<"Selection", L>;
+export function deprecatedEncodeDumlingId<L extends DeprecatedTargetLanguage>(
 	language: L,
-	value: Surface<L>,
-): DumlingId<"Surface", L>;
-export function encodeDumlingId<L extends TargetLanguage>(
+	value: DeprecatedSurface<L>,
+): DeprecatedDumlingId<"Surface", L>;
+export function deprecatedEncodeDumlingId<L extends DeprecatedTargetLanguage>(
 	language: L,
 	value: EncodableValue<L>,
-): DumlingId<ConcreteDumlingIdKind, L> {
-	const kind = inferConcreteDumlingIdKind(value);
+): DeprecatedDumlingId<DeprecatedConcreteDumlingIdKind, L> {
+	const kind = deprecatedInferConcreteDumlingIdKind(value);
 	assertLanguageMatch(language, value);
-	const validation = getRuntimeSchema(language, kind).safeParse(value);
+	const validation = deprecatedGetRuntimeSchema(language, kind).safeParse(value);
 
 	if (!validation.success) {
 		throw new Error(
@@ -52,15 +52,15 @@ export function encodeDumlingId<L extends TargetLanguage>(
 		kind,
 		validation.data as EncodableValue<L>,
 	);
-	return `${buildHeader(language, kind)};${payload}` as DumlingId<
-		ConcreteDumlingIdKind,
+	return `${deprecatedBuildHeader(language, kind)};${payload}` as DeprecatedDumlingId<
+		DeprecatedConcreteDumlingIdKind,
 		L
 	>;
 }
 
-function assertLanguageMatch(expected: TargetLanguage, value: unknown): void {
+function assertLanguageMatch(expected: DeprecatedTargetLanguage, value: unknown): void {
 	if (
-		!isPlainObject(value) ||
+		!deprecatedIsPlainObject(value) ||
 		!("language" in value) ||
 		typeof value.language !== "string"
 	) {
@@ -75,78 +75,78 @@ function assertLanguageMatch(expected: TargetLanguage, value: unknown): void {
 }
 
 function serializePayload(
-	kind: ConcreteDumlingIdKind,
-	value: EncodableValue<TargetLanguage>,
+	kind: DeprecatedConcreteDumlingIdKind,
+	value: EncodableValue<DeprecatedTargetLanguage>,
 ): string {
 	switch (kind) {
 		case "Lemma":
-			return serializeLemmaPayload(value as Lemma);
+			return serializeLemmaPayload(value as DeprecatedLemma);
 		case "Selection":
 			return serializeSelectionPayload(
-				value as import("../../../lu/public-entities").Selection,
+				value as import("../../../lu/public-entities").DeprecatedSelection,
 			);
 		case "Surface":
-			return serializeSurfacePayload(value as Surface);
+			return serializeSurfacePayload(value as DeprecatedSurface);
 	}
 }
 
 function serializeSelectionPayload(
-	value: Selection,
+	value: DeprecatedSelection,
 ): string {
-	return joinTokens([
+	return deprecatedJoinTokens([
 		value.orthographicStatus,
 		value.spellingRelation,
 		value.selectionCoverage,
-		escapeToken(value.spelledSelection),
-		encodeWireKind("Surface"),
+		deprecatedEscapeToken(value.spelledSelection),
+		deprecatedEncodeWireKind("Surface"),
 		serializeSurfacePayload(value.surface),
 	]);
 }
 
-function serializeSurfacePayload(value: Surface): string {
-	return joinTokens([
+function serializeSurfacePayload(value: DeprecatedSurface): string {
+	return deprecatedJoinTokens([
 		...serializeSurfaceBase(value),
 		serializeLemmaPayload(value.lemma),
 	]);
 }
 
-function serializeSurfaceBase(value: Surface): string[] {
+function serializeSurfaceBase(value: DeprecatedSurface): string[] {
 	return [
-		escapeToken(value.normalizedFullSurface),
+		deprecatedEscapeToken(value.normalizedFullSurface),
 		value.surfaceKind,
 		value.lemma.lemmaKind,
 		getLemmaSubKind(value.lemma),
 		value.surfaceKind === "Inflection"
-			? serializeFeatureBag(
+			? deprecatedSerializeFeatureBag(
 					(("inflectionalFeatures" in value
 						? value.inflectionalFeatures
-						: undefined) ?? {}) as ParsedFeatureBag,
+						: undefined) ?? {}) as DeprecatedParsedFeatureBag,
 				)
 			: "-",
 	];
 }
 
-function serializeLemmaPayload(value: Lemma): string {
+function serializeLemmaPayload(value: DeprecatedLemma): string {
 	const normalizedLemma = normalizeLemma(value);
 
-	return joinTokens([
-		escapeToken(normalizedLemma.canonicalLemma),
+	return deprecatedJoinTokens([
+		deprecatedEscapeToken(normalizedLemma.canonicalLemma),
 		normalizedLemma.lemmaKind,
 		getLemmaSubKind(normalizedLemma),
-		serializeFeatureBag(getLemmaFeatures(normalizedLemma)),
-		serializeOptionalToken(normalizedLemma.meaningInEmojis),
+		deprecatedSerializeFeatureBag(getLemmaFeatures(normalizedLemma)),
+		deprecatedSerializeOptionalToken(normalizedLemma.meaningInEmojis),
 	]);
 }
 
-function normalizeLemma(value: Lemma): Lemma {
+function normalizeLemma(value: DeprecatedLemma): DeprecatedLemma {
 	switch (value.lemmaKind) {
 		case "Lexeme":
 			return {
 				canonicalLemma: value.canonicalLemma,
-				inherentFeatures: compactFeatureBag(
+				inherentFeatures: deprecatedCompactFeatureBag(
 					value.inherentFeatures as Record<
 						string,
-						ParsedFeatureValue | undefined
+						DeprecatedParsedFeatureValue | undefined
 					>,
 				),
 				language: value.language,
@@ -155,7 +155,7 @@ function normalizeLemma(value: Lemma): Lemma {
 					? {}
 					: { meaningInEmojis: value.meaningInEmojis }),
 				pos: value.pos,
-			} as Lemma;
+			} as DeprecatedLemma;
 		case "Morpheme":
 			return {
 				canonicalLemma: value.canonicalLemma,
@@ -171,7 +171,7 @@ function normalizeLemma(value: Lemma): Lemma {
 					? {}
 					: { meaningInEmojis: value.meaningInEmojis }),
 				morphemeKind: value.morphemeKind,
-			} as Lemma;
+			} as DeprecatedLemma;
 		case "Phraseme":
 			return {
 				canonicalLemma: value.canonicalLemma,
@@ -185,11 +185,11 @@ function normalizeLemma(value: Lemma): Lemma {
 					? {}
 					: { meaningInEmojis: value.meaningInEmojis }),
 				phrasemeKind: value.phrasemeKind,
-			} as Lemma;
+			} as DeprecatedLemma;
 	}
 }
 
-function getLemmaSubKind(value: Lemma): string {
+function getLemmaSubKind(value: DeprecatedLemma): string {
 	switch (value.lemmaKind) {
 		case "Lexeme":
 			return value.pos;
@@ -200,12 +200,12 @@ function getLemmaSubKind(value: Lemma): string {
 	}
 }
 
-function getLemmaFeatures(value: Lemma): ParsedFeatureBag {
+function getLemmaFeatures(value: DeprecatedLemma): DeprecatedParsedFeatureBag {
 	switch (value.lemmaKind) {
 		case "Lexeme":
-			return value.inherentFeatures as ParsedFeatureBag;
+			return value.inherentFeatures as DeprecatedParsedFeatureBag;
 		case "Morpheme":
-			return compactFeatureBag({
+			return deprecatedCompactFeatureBag({
 				...("hasSepPrefix" in value
 					? { hasSepPrefix: value.hasSepPrefix }
 					: {}),
@@ -214,7 +214,7 @@ function getLemmaFeatures(value: Lemma): ParsedFeatureBag {
 					: {}),
 			});
 		case "Phraseme":
-			return compactFeatureBag({
+			return deprecatedCompactFeatureBag({
 				...("discourseFormulaRole" in value
 					? {
 							discourseFormulaRole: value.discourseFormulaRole as

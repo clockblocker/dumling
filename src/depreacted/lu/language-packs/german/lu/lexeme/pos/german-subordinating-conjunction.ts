@@ -1,16 +1,16 @@
-import { UniversalFeature } from "../../../../../universal/enums/feature";
-import { featureSchema } from "../../../../../universal/helpers/schema-targets";
-import { buildGermanLexemeBundle } from "../shared/build-german-lexeme-bundle";
+import { DeprecatedUniversalFeature } from "../../../../../universal/enums/feature";
+import { deprecatedFeatureSchema } from "../../../../../universal/helpers/schema-targets";
+import { deprecatedBuildGermanLexemeBundle } from "../shared/build-german-lexeme-bundle";
 
-const GermanSubordinatingConjunctionInflectionalFeaturesSchema = featureSchema(
+const GermanSubordinatingConjunctionInflectionalFeaturesSchema = deprecatedFeatureSchema(
 	{},
 );
 
-const GermanSubordinatingConjunctionInherentFeaturesSchema = featureSchema({
-	conjType: UniversalFeature.ConjType.extract(["Comp"]),
+const GermanSubordinatingConjunctionInherentFeaturesSchema = deprecatedFeatureSchema({
+	conjType: DeprecatedUniversalFeature.ConjType.extract(["Comp"]),
 });
 
-export const GermanSubordinatingConjunctionSchemas = buildGermanLexemeBundle({
+export const DeprecatedGermanSubordinatingConjunctionSchemas = deprecatedBuildGermanLexemeBundle({
 	inflectionalFeaturesSchema:
 		GermanSubordinatingConjunctionInflectionalFeaturesSchema,
 	inherentFeaturesSchema:

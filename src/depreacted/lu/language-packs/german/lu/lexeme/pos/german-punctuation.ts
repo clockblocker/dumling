@@ -1,14 +1,14 @@
-import { UniversalFeature } from "../../../../../universal/enums/feature";
-import { featureSchema } from "../../../../../universal/helpers/schema-targets";
-import { buildGermanLexemeBundle } from "../shared/build-german-lexeme-bundle";
+import { DeprecatedUniversalFeature } from "../../../../../universal/enums/feature";
+import { deprecatedFeatureSchema } from "../../../../../universal/helpers/schema-targets";
+import { deprecatedBuildGermanLexemeBundle } from "../shared/build-german-lexeme-bundle";
 
-const GermanPunctuationInflectionalFeaturesSchema = featureSchema({});
+const GermanPunctuationInflectionalFeaturesSchema = deprecatedFeatureSchema({});
 
-const GermanPunctuationInherentFeaturesSchema = featureSchema({
-	punctType: UniversalFeature.PunctType,
+const GermanPunctuationInherentFeaturesSchema = deprecatedFeatureSchema({
+	punctType: DeprecatedUniversalFeature.PunctType,
 });
 
-export const GermanPunctuationSchemas = buildGermanLexemeBundle({
+export const DeprecatedGermanPunctuationSchemas = deprecatedBuildGermanLexemeBundle({
 	inflectionalFeaturesSchema: GermanPunctuationInflectionalFeaturesSchema,
 	inherentFeaturesSchema: GermanPunctuationInherentFeaturesSchema,
 	pos: "PUNCT",

@@ -1,29 +1,29 @@
-import { englishOperationPack } from "../../language-packs/english/english-operations";
-import { germanOperationPack } from "../../language-packs/german/german-operations";
-import { hebrewOperationPack } from "../../language-packs/hebrew/hebrew-operations";
-import type { TargetLanguage } from "../../universal/enums/core/language";
-import type { LemmaLike, SurfaceLike } from "./shared";
+import { deprecatedEnglishOperationPack } from "../../language-packs/english/english-operations";
+import { deprecatedGermanOperationPack } from "../../language-packs/german/german-operations";
+import { deprecatedHebrewOperationPack } from "../../language-packs/hebrew/hebrew-operations";
+import type { DeprecatedTargetLanguage } from "../../universal/enums/core/language";
+import type { DeprecatedLemmaLike, DeprecatedSurfaceLike } from "./shared";
 
-export type LanguageOperationPack<L extends TargetLanguage> = {
-	normalizeLemmaSurface: (lemma: LemmaLike<L>) => string;
-	defaultSpelledSelectionFromSurface?: (surface: SurfaceLike<L>) => string;
+export type DeprecatedLanguageOperationPack<L extends DeprecatedTargetLanguage> = {
+	normalizeLemmaSurface: (lemma: DeprecatedLemmaLike<L>) => string;
+	defaultSpelledSelectionFromSurface?: (surface: DeprecatedSurfaceLike<L>) => string;
 	getDefaultInflectionFeatures?: (
-		lemma: LemmaLike<L>,
+		lemma: DeprecatedLemmaLike<L>,
 	) => Record<string, unknown>;
 };
 
 const operationPackByLanguage = {
-	English: englishOperationPack,
-	German: germanOperationPack,
-	Hebrew: hebrewOperationPack,
+	English: deprecatedEnglishOperationPack,
+	German: deprecatedGermanOperationPack,
+	Hebrew: deprecatedHebrewOperationPack,
 } satisfies {
-	[L in TargetLanguage]: LanguageOperationPack<L>;
+	[L in DeprecatedTargetLanguage]: DeprecatedLanguageOperationPack<L>;
 };
 
-export function getOperationPack<L extends TargetLanguage>(
+export function deprecatedGetOperationPack<L extends DeprecatedTargetLanguage>(
 	language: L,
-): LanguageOperationPack<L> {
+): DeprecatedLanguageOperationPack<L> {
 	return operationPackByLanguage[
 		language
-	] as unknown as LanguageOperationPack<L>;
+	] as unknown as DeprecatedLanguageOperationPack<L>;
 }

@@ -1,6 +1,6 @@
-import type { TargetLanguage } from "../../universal/enums/core/language";
+import type { DeprecatedTargetLanguage } from "../../universal/enums/core/language";
 
-export type LemmaLike<L extends TargetLanguage = TargetLanguage> =
+export type DeprecatedLemmaLike<L extends DeprecatedTargetLanguage = DeprecatedTargetLanguage> =
 	| {
 			canonicalLemma: string;
 			language: L;
@@ -20,41 +20,41 @@ export type LemmaLike<L extends TargetLanguage = TargetLanguage> =
 			phrasemeKind: string;
 	  };
 
-export type SurfaceLike<L extends TargetLanguage = TargetLanguage> = {
+export type DeprecatedSurfaceLike<L extends DeprecatedTargetLanguage = DeprecatedTargetLanguage> = {
 	language: L;
 	normalizedFullSurface: string;
 	surfaceKind: string;
-	lemma: LemmaLike<L>;
+	lemma: DeprecatedLemmaLike<L>;
 };
 
-export type HydratedSelectionLikeFor<L extends TargetLanguage = TargetLanguage> = {
+export type DeprecatedHydratedSelectionLikeFor<L extends DeprecatedTargetLanguage = DeprecatedTargetLanguage> = {
 	language: L;
 	orthographicStatus: "Standard" | "Typo";
 	spellingRelation: "Canonical" | "Variant";
-	surface: SurfaceLike<L>;
+	surface: DeprecatedSurfaceLike<L>;
 };
 
-export type SurfaceOfSelection<S extends { surface: unknown }> = S extends {
+export type DeprecatedSurfaceOfSelection<S extends { surface: unknown }> = S extends {
 	surface: infer SelectionSurface;
 }
 	? SelectionSurface
 	: never;
 
-export type LemmaOfSurface<S extends { lemma: unknown }> = S extends {
+export type DeprecatedLemmaOfSurface<S extends { lemma: unknown }> = S extends {
 	lemma: infer SurfaceLemma;
 }
 	? SurfaceLemma
 	: never;
 
-export type LemmaSurfaceFor<T extends LemmaLike> = {
+export type DeprecatedLemmaSurfaceFor<T extends DeprecatedLemmaLike> = {
 	language: T["language"];
 	normalizedFullSurface: string;
 	surfaceKind: "Lemma";
 	lemma: T;
 };
 
-export type StandardFullSelectionForSurface<
-	T extends { language: TargetLanguage },
+export type DeprecatedStandardFullSelectionForSurface<
+	T extends { language: DeprecatedTargetLanguage },
 > = {
 	language: T["language"];
 	orthographicStatus: "Standard";
@@ -64,12 +64,12 @@ export type StandardFullSelectionForSurface<
 	surface: T;
 };
 
-export type StandardFullSelectionForLemma<T extends LemmaLike> =
-	StandardFullSelectionForSurface<LemmaSurfaceFor<T>>;
+export type DeprecatedStandardFullSelectionForLemma<T extends DeprecatedLemmaLike> =
+	DeprecatedStandardFullSelectionForSurface<DeprecatedLemmaSurfaceFor<T>>;
 
-export function assertLanguageMatch(
-	expected: TargetLanguage,
-	actual: TargetLanguage,
+export function deprecatedAssertLanguageMatch(
+	expected: DeprecatedTargetLanguage,
+	actual: DeprecatedTargetLanguage,
 ): void {
 	if (expected !== actual) {
 		throw new Error(

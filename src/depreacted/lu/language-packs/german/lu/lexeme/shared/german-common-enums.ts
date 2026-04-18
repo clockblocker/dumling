@@ -1,16 +1,16 @@
-import { UniversalFeature } from "../../../../../universal/enums/feature";
+import { DeprecatedUniversalFeature } from "../../../../../universal/enums/feature";
 
-export const GermanFeature = {
-	Aspect: UniversalFeature.Aspect.extract(["Perf"]),
-	Case: UniversalFeature.Case.extract(["Acc", "Dat", "Gen", "Nom"]),
-	Definite: UniversalFeature.Definite.extract(["Def", "Ind"]),
-	Degree: UniversalFeature.Degree.extract(["Cmp", "Pos", "Sup"]),
-	Gender: UniversalFeature.Gender.extract(["Fem", "Masc", "Neut"]),
-	Mood: UniversalFeature.Mood.extract(["Imp", "Ind", "Sub"]),
-	Number: UniversalFeature.GrammaticalNumber.extract(["Plur", "Sing"]),
-	Person: UniversalFeature.Person.extract(["1", "2", "3"]),
-	Polarity: UniversalFeature.Polarity.extract(["Neg", "Pos"]),
-	Polite: UniversalFeature.Polite.extract(["Form", "Infm"]),
-	Tense: UniversalFeature.Tense.extract(["Past", "Pres"]),
-	VerbForm: UniversalFeature.VerbForm.extract(["Fin", "Inf", "Part"]),
+export const DeprecatedGermanFeature = {
+	Aspect: DeprecatedUniversalFeature.Aspect.extract(["Perf"]),
+	Case: DeprecatedUniversalFeature.Case.extract(["Acc", "Dat", "Gen", "Nom"]),
+	Definite: DeprecatedUniversalFeature.Definite.extract(["Def", "Ind"]),
+	Degree: DeprecatedUniversalFeature.Degree.extract(["Cmp", "Pos", "Sup"]),
+	Gender: DeprecatedUniversalFeature.Gender.extract(["Fem", "Masc", "Neut"]),
+	Mood: DeprecatedUniversalFeature.Mood.extract(["Imp", "Ind", "Sub"]),
+	Number: DeprecatedUniversalFeature.GrammaticalNumber.extract(["Plur", "Sing"]),
+	Person: DeprecatedUniversalFeature.Person.extract(["1", "2", "3"]),
+	Polarity: DeprecatedUniversalFeature.Polarity.extract(["Neg", "Pos"]),
+	Polite: DeprecatedUniversalFeature.Polite.extract(["Form", "Infm"]),
+	Tense: DeprecatedUniversalFeature.Tense.extract(["Past", "Pres"]),
+	VerbForm: DeprecatedUniversalFeature.VerbForm.extract(["Fin", "Inf", "Part"]),
 };

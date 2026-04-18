@@ -1,26 +1,26 @@
 import z from "zod/v3";
-import type { TargetLanguage } from "../enums/core/language";
+import type { DeprecatedTargetLanguage } from "../enums/core/language";
 import {
-	type OrthographicStatus,
-	SelectionCoverage,
-	SpellingRelation,
+	type DeprecatedOrthographicStatus,
+	DeprecatedSelectionCoverage,
+	DeprecatedSpellingRelation,
 } from "../enums/core/selection";
 
-export type KnownSelectionValueFor<
-	LanguageLiteral extends TargetLanguage,
+export type DeprecatedKnownSelectionValueFor<
+	LanguageLiteral extends DeprecatedTargetLanguage,
 	OrthographicStatusLiteral extends KnownOrthographicStatus,
 	SurfaceSchema extends z.ZodTypeAny,
 > = OrthographicStatusLiteral extends "Standard"
 	? StandardSelectionValueFor<LanguageLiteral, SurfaceSchema>
 	: TypoSelectionValueFor<LanguageLiteral, SurfaceSchema>;
 
-export type KnownSelectionSchemaFor<
-	LanguageLiteral extends TargetLanguage,
+export type DeprecatedKnownSelectionSchemaFor<
+	LanguageLiteral extends DeprecatedTargetLanguage,
 	OrthographicStatusLiteral extends KnownOrthographicStatus,
 	SurfaceSchema extends z.ZodTypeAny,
 > = Omit<z.ZodTypeAny, "_input" | "_output"> & {
 	_input: unknown;
-	_output: KnownSelectionValueFor<
+	_output: DeprecatedKnownSelectionValueFor<
 		LanguageLiteral,
 		OrthographicStatusLiteral,
 		SurfaceSchema
@@ -32,46 +32,46 @@ export type KnownSelectionSchemaFor<
 	>;
 };
 
-export function buildKnownSelectionSchema<
-	LanguageLiteral extends TargetLanguage,
+export function deprecatedBuildKnownSelectionSchema<
+	LanguageLiteral extends DeprecatedTargetLanguage,
 	SurfaceSchema extends z.ZodTypeAny,
 >(args: {
 	orthographicStatus: KnownOrthographicStatus;
-	spellingRelation?: z.infer<typeof SpellingRelation>;
+	spellingRelation?: z.infer<typeof DeprecatedSpellingRelation>;
 	surface: {
 		language: LanguageLiteral;
 		schema: SurfaceSchema;
 	};
 }):
-	| KnownSelectionSchemaFor<LanguageLiteral, "Standard", SurfaceSchema>
-	| KnownSelectionSchemaFor<LanguageLiteral, "Typo", SurfaceSchema>;
+	| DeprecatedKnownSelectionSchemaFor<LanguageLiteral, "Standard", SurfaceSchema>
+	| DeprecatedKnownSelectionSchemaFor<LanguageLiteral, "Typo", SurfaceSchema>;
 
-export function buildKnownSelectionSchema<
-	LanguageLiteral extends TargetLanguage,
+export function deprecatedBuildKnownSelectionSchema<
+	LanguageLiteral extends DeprecatedTargetLanguage,
 	SurfaceSchema extends z.ZodTypeAny,
 >(args: {
 	orthographicStatus: "Standard";
-	spellingRelation?: z.infer<typeof SpellingRelation>;
+	spellingRelation?: z.infer<typeof DeprecatedSpellingRelation>;
 	surface: {
 		language: LanguageLiteral;
 		schema: SurfaceSchema;
 	};
-}): KnownSelectionSchemaFor<LanguageLiteral, "Standard", SurfaceSchema>;
+}): DeprecatedKnownSelectionSchemaFor<LanguageLiteral, "Standard", SurfaceSchema>;
 
-export function buildKnownSelectionSchema<
-	LanguageLiteral extends TargetLanguage,
+export function deprecatedBuildKnownSelectionSchema<
+	LanguageLiteral extends DeprecatedTargetLanguage,
 	SurfaceSchema extends z.ZodTypeAny,
 >(args: {
 	orthographicStatus: "Typo";
-	spellingRelation?: z.infer<typeof SpellingRelation>;
+	spellingRelation?: z.infer<typeof DeprecatedSpellingRelation>;
 	surface: {
 		language: LanguageLiteral;
 		schema: SurfaceSchema;
 	};
-}): KnownSelectionSchemaFor<LanguageLiteral, "Typo", SurfaceSchema>;
+}): DeprecatedKnownSelectionSchemaFor<LanguageLiteral, "Typo", SurfaceSchema>;
 
-export function buildKnownSelectionSchema<
-	LanguageLiteral extends TargetLanguage,
+export function deprecatedBuildKnownSelectionSchema<
+	LanguageLiteral extends DeprecatedTargetLanguage,
 	SurfaceSchema extends z.ZodTypeAny,
 >({
 	orthographicStatus,
@@ -79,7 +79,7 @@ export function buildKnownSelectionSchema<
 	surface,
 }: {
 	orthographicStatus: KnownOrthographicStatus;
-	spellingRelation?: z.infer<typeof SpellingRelation>;
+	spellingRelation?: z.infer<typeof DeprecatedSpellingRelation>;
 	surface: {
 		language: LanguageLiteral;
 		schema: SurfaceSchema;
@@ -102,29 +102,29 @@ export function buildKnownSelectionSchema<
 	});
 }
 
-type KnownOrthographicStatus = Exclude<OrthographicStatus, "Unknown">;
+type KnownOrthographicStatus = Exclude<DeprecatedOrthographicStatus, "Unknown">;
 
 type SelectionShapeFor<
-	LanguageLiteral extends TargetLanguage,
+	LanguageLiteral extends DeprecatedTargetLanguage,
 	OrthographicStatusLiteral extends KnownOrthographicStatus,
 	SurfaceSchema extends z.ZodTypeAny,
 > = {
 	language: z.ZodLiteral<LanguageLiteral>;
 	orthographicStatus: z.ZodLiteral<OrthographicStatusLiteral>;
-	spellingRelation: z.ZodType<z.infer<typeof SpellingRelation>>;
+	spellingRelation: z.ZodType<z.infer<typeof DeprecatedSpellingRelation>>;
 	spelledSelection: z.ZodString;
-	selectionCoverage: typeof SelectionCoverage;
+	selectionCoverage: typeof DeprecatedSelectionCoverage;
 	surface: SurfaceSchema;
 };
 
 type StandardSelectionValueFor<
-	LanguageLiteral extends TargetLanguage,
+	LanguageLiteral extends DeprecatedTargetLanguage,
 	SurfaceSchema extends z.ZodTypeAny,
 > =
 	| {
 			language: LanguageLiteral;
 			orthographicStatus: "Standard";
-			spellingRelation: z.infer<typeof SpellingRelation>;
+			spellingRelation: z.infer<typeof DeprecatedSpellingRelation>;
 			selectionCoverage: "Full";
 			spelledSelection: string;
 			surface: z.infer<SurfaceSchema>;
@@ -132,26 +132,26 @@ type StandardSelectionValueFor<
 	| {
 			language: LanguageLiteral;
 			orthographicStatus: "Standard";
-			spellingRelation: z.infer<typeof SpellingRelation>;
+			spellingRelation: z.infer<typeof DeprecatedSpellingRelation>;
 			selectionCoverage: "Partial";
 			spelledSelection: string;
 			surface: z.infer<SurfaceSchema>;
 	  };
 
 type TypoSelectionValueFor<
-	LanguageLiteral extends TargetLanguage,
+	LanguageLiteral extends DeprecatedTargetLanguage,
 	SurfaceSchema extends z.ZodTypeAny,
 > = {
 	language: LanguageLiteral;
 	orthographicStatus: "Typo";
-	spellingRelation: z.infer<typeof SpellingRelation>;
-	selectionCoverage: z.infer<typeof SelectionCoverage>;
+	spellingRelation: z.infer<typeof DeprecatedSpellingRelation>;
+	selectionCoverage: z.infer<typeof DeprecatedSelectionCoverage>;
 	spelledSelection: string;
 	surface: z.infer<SurfaceSchema>;
 };
 
 function buildStandardKnownSelectionSchema<
-	LanguageLiteral extends TargetLanguage,
+	LanguageLiteral extends DeprecatedTargetLanguage,
 	SurfaceSchema extends z.ZodTypeAny,
 >({
 	language,
@@ -159,12 +159,12 @@ function buildStandardKnownSelectionSchema<
 	surfaceSchema,
 }: {
 	language: LanguageLiteral;
-	spellingRelation?: z.infer<typeof SpellingRelation>;
+	spellingRelation?: z.infer<typeof DeprecatedSpellingRelation>;
 	surfaceSchema: SurfaceSchema;
-}): KnownSelectionSchemaFor<LanguageLiteral, "Standard", SurfaceSchema> {
+}): DeprecatedKnownSelectionSchemaFor<LanguageLiteral, "Standard", SurfaceSchema> {
 	const spellingRelationSchema =
 		spellingRelation === undefined
-			? SpellingRelation
+			? DeprecatedSpellingRelation
 			: z.literal(spellingRelation);
 	const sharedShape = {
 		language: z.literal(language),
@@ -189,8 +189,8 @@ function buildStandardKnownSelectionSchema<
 
 	return withShape(z.union([fullSchema, partialSchema]), {
 		...sharedShape,
-		selectionCoverage: SelectionCoverage,
-	}) as unknown as KnownSelectionSchemaFor<
+		selectionCoverage: DeprecatedSelectionCoverage,
+	}) as unknown as DeprecatedKnownSelectionSchemaFor<
 		LanguageLiteral,
 		"Standard",
 		SurfaceSchema
@@ -198,7 +198,7 @@ function buildStandardKnownSelectionSchema<
 }
 
 function buildTypoKnownSelectionSchema<
-	LanguageLiteral extends TargetLanguage,
+	LanguageLiteral extends DeprecatedTargetLanguage,
 	SurfaceSchema extends z.ZodTypeAny,
 >({
 	language,
@@ -206,23 +206,23 @@ function buildTypoKnownSelectionSchema<
 	surfaceSchema,
 }: {
 	language: LanguageLiteral;
-	spellingRelation?: z.infer<typeof SpellingRelation>;
+	spellingRelation?: z.infer<typeof DeprecatedSpellingRelation>;
 	surfaceSchema: SurfaceSchema;
-}): KnownSelectionSchemaFor<LanguageLiteral, "Typo", SurfaceSchema> {
+}): DeprecatedKnownSelectionSchemaFor<LanguageLiteral, "Typo", SurfaceSchema> {
 	const spellingRelationSchema =
 		spellingRelation === undefined
-			? SpellingRelation
+			? DeprecatedSpellingRelation
 			: z.literal(spellingRelation);
 	return z
 		.object({
 			language: z.literal(language),
 			orthographicStatus: z.literal("Typo"),
-			selectionCoverage: SelectionCoverage,
+			selectionCoverage: DeprecatedSelectionCoverage,
 			spelledSelection: z.string(),
 			spellingRelation: spellingRelationSchema,
 			surface: surfaceSchema,
 		})
-		.strict() as unknown as KnownSelectionSchemaFor<
+		.strict() as unknown as DeprecatedKnownSelectionSchemaFor<
 		LanguageLiteral,
 		"Typo",
 		SurfaceSchema

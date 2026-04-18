@@ -1,16 +1,16 @@
 import z from "zod/v3";
 import type {
-	SelectionSchemaLanguageShape,
-	SurfaceSchemaLanguageShape,
+	DeprecatedSelectionSchemaLanguageShape,
+	DeprecatedSurfaceSchemaLanguageShape,
 } from "../../registry-shapes";
-import type { TargetLanguage } from "../enums/core/language";
-import type { OrthographicStatus } from "../enums/core/selection";
+import type { DeprecatedTargetLanguage } from "../enums/core/language";
+import type { DeprecatedOrthographicStatus } from "../enums/core/selection";
 import {
-	type KnownSelectionSchemaFor,
-	buildKnownSelectionSchema,
+	type DeprecatedKnownSelectionSchemaFor,
+	deprecatedBuildKnownSelectionSchema,
 } from "./buildKnownSelection";
 
-type KnownOrthographicStatus = Exclude<OrthographicStatus, "Unknown">;
+type KnownOrthographicStatus = Exclude<DeprecatedOrthographicStatus, "Unknown">;
 type SurfaceSchemaPropKey = `${string}SurfaceSchema`;
 type SurfaceSchemaTree = {
 	[key: string]: z.ZodTypeAny | SurfaceSchemaTree;
@@ -20,13 +20,13 @@ type CachedKnownSelectionSchemas = Partial<
 >;
 
 type SelectionSchemaLanguageFor<
-	LanguageLiteral extends TargetLanguage,
-	Tree extends SurfaceSchemaLanguageShape,
+	LanguageLiteral extends DeprecatedTargetLanguage,
+	Tree extends DeprecatedSurfaceSchemaLanguageShape,
 > = {
 	Standard: {
 		[SK in keyof Tree]: {
 			[LK in keyof Tree[SK]]: {
-				[D in keyof Tree[SK][LK]]: KnownSelectionSchemaFor<
+				[D in keyof Tree[SK][LK]]: DeprecatedKnownSelectionSchemaFor<
 					LanguageLiteral,
 					"Standard",
 					Extract<Tree[SK][LK][D], z.ZodTypeAny>
@@ -37,7 +37,7 @@ type SelectionSchemaLanguageFor<
 	Typo: {
 		[SK in keyof Tree]: {
 			[LK in keyof Tree[SK]]: {
-				[D in keyof Tree[SK][LK]]: KnownSelectionSchemaFor<
+				[D in keyof Tree[SK][LK]]: DeprecatedKnownSelectionSchemaFor<
 					LanguageLiteral,
 					"Typo",
 					Extract<Tree[SK][LK][D], z.ZodTypeAny>
@@ -57,12 +57,12 @@ type SelectionSchemaPropKeyFor<
 	: never;
 
 type KnownSelectionSchemaPropsFor<
-	LanguageLiteral extends TargetLanguage,
+	LanguageLiteral extends DeprecatedTargetLanguage,
 	SurfaceSchemaProps extends Partial<Record<SurfaceSchemaPropKey, z.ZodTypeAny>>,
 > = {
 	[K in keyof SurfaceSchemaProps as K extends string
 		? SelectionSchemaPropKeyFor<K, "Standard">
-		: never]: KnownSelectionSchemaFor<
+		: never]: DeprecatedKnownSelectionSchemaFor<
 		LanguageLiteral,
 		"Standard",
 		Extract<SurfaceSchemaProps[K], z.ZodTypeAny>
@@ -70,15 +70,15 @@ type KnownSelectionSchemaPropsFor<
 } & {
 	[K in keyof SurfaceSchemaProps as K extends string
 		? SelectionSchemaPropKeyFor<K, "Typo">
-		: never]: KnownSelectionSchemaFor<
+		: never]: DeprecatedKnownSelectionSchemaFor<
 		LanguageLiteral,
 		"Typo",
 		Extract<SurfaceSchemaProps[K], z.ZodTypeAny>
 	>;
 };
 
-export function deriveKnownSelectionSchemaProps<
-	LanguageLiteral extends TargetLanguage,
+export function deprecatedDeriveKnownSelectionSchemaProps<
+	LanguageLiteral extends DeprecatedTargetLanguage,
 	SurfaceSchemaProps extends Partial<Record<SurfaceSchemaPropKey, z.ZodTypeAny>>,
 >({
 	language,
@@ -121,9 +121,9 @@ export function deriveKnownSelectionSchemaProps<
 	) as KnownSelectionSchemaPropsFor<LanguageLiteral, SurfaceSchemaProps>;
 }
 
-export function deriveSelectionSchemaLanguage<
-	LanguageLiteral extends TargetLanguage,
-	Tree extends SurfaceSchemaLanguageShape,
+export function deprecatedDeriveSelectionSchemaLanguage<
+	LanguageLiteral extends DeprecatedTargetLanguage,
+	Tree extends DeprecatedSurfaceSchemaLanguageShape,
 >({
 	language,
 	surfaceSchema,
@@ -144,13 +144,13 @@ export function deriveSelectionSchemaLanguage<
 	const derived = {
 		Standard: standard,
 		Typo: typo,
-	} satisfies SelectionSchemaLanguageShape;
+	} satisfies DeprecatedSelectionSchemaLanguageShape;
 
 	return derived as SelectionSchemaLanguageFor<LanguageLiteral, Tree>;
 }
 
 function deriveKnownSelectionSchemaTree<
-	LanguageLiteral extends TargetLanguage,
+	LanguageLiteral extends DeprecatedTargetLanguage,
 	OrthographicStatusLiteral extends KnownOrthographicStatus,
 	Tree extends SurfaceSchemaTree,
 >({
@@ -197,7 +197,7 @@ const knownSelectionSchemaCache = new WeakMap<
 >();
 
 function getDerivedKnownSelectionSchema<
-	LanguageLiteral extends TargetLanguage,
+	LanguageLiteral extends DeprecatedTargetLanguage,
 	OrthographicStatusLiteral extends KnownOrthographicStatus,
 	SurfaceSchema extends z.ZodTypeAny,
 >({
@@ -208,7 +208,7 @@ function getDerivedKnownSelectionSchema<
 	language: LanguageLiteral;
 	orthographicStatus: OrthographicStatusLiteral;
 	surfaceSchema: SurfaceSchema;
-}): KnownSelectionSchemaFor<
+}): DeprecatedKnownSelectionSchemaFor<
 	LanguageLiteral,
 	OrthographicStatusLiteral,
 	SurfaceSchema
@@ -218,14 +218,14 @@ function getDerivedKnownSelectionSchema<
 	const cachedSchema = cachedSchemas[orthographicStatus];
 
 	if (cachedSchema !== undefined) {
-		return cachedSchema as KnownSelectionSchemaFor<
+		return cachedSchema as DeprecatedKnownSelectionSchemaFor<
 			LanguageLiteral,
 			OrthographicStatusLiteral,
 			SurfaceSchema
 		>;
 	}
 
-	const derivedSchema = buildKnownSelectionSchema({
+	const derivedSchema = deprecatedBuildKnownSelectionSchema({
 		orthographicStatus,
 		surface: {
 			language,
@@ -236,7 +236,7 @@ function getDerivedKnownSelectionSchema<
 	cachedSchemas[orthographicStatus] = derivedSchema;
 	knownSelectionSchemaCache.set(surfaceSchema, cachedSchemas);
 
-	return derivedSchema as KnownSelectionSchemaFor<
+	return derivedSchema as DeprecatedKnownSelectionSchemaFor<
 		LanguageLiteral,
 		OrthographicStatusLiteral,
 		SurfaceSchema

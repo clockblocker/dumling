@@ -1,45 +1,45 @@
 import z from "zod/v3";
-import type { AbstractLemma } from "../abstract-lemma";
+import type { DeprecatedAbstractLemma } from "../abstract-lemma";
 import type {
-	AbstractObservedSelectionFor,
-	AbstractSelectionFor,
+	DeprecatedAbstractObservedSelectionFor,
+	DeprecatedAbstractSelectionFor,
 } from "../abstract-selection";
 import type {
-	LemmaKind,
-	SurfaceKind,
+	DeprecatedLemmaKind,
+	DeprecatedSurfaceKind,
 } from "../enums/core/selection";
-import type { AbstractFeatures } from "../enums/feature";
-import type { LemmaDiscriminatorFor } from "../lemma-discriminator";
+import type { DeprecatedAbstractFeatures } from "../enums/feature";
+import type { DeprecatedLemmaDiscriminatorFor } from "../lemma-discriminator";
 
-export type LemmaFor<
-	LK extends LemmaKind = LemmaKind,
-	D extends LemmaDiscriminatorFor<LK> = LemmaDiscriminatorFor<LK>,
-> = AbstractLemma<LK, D>;
+export type DeprecatedLemmaFor<
+	LK extends DeprecatedLemmaKind = DeprecatedLemmaKind,
+	D extends DeprecatedLemmaDiscriminatorFor<LK> = DeprecatedLemmaDiscriminatorFor<LK>,
+> = DeprecatedAbstractLemma<LK, D>;
 
-export type LemmaSchemaFor<
-	LK extends LemmaKind = LemmaKind,
-	D extends LemmaDiscriminatorFor<LK> = LemmaDiscriminatorFor<LK>,
-> = z.ZodType<LemmaFor<LK, D>>;
+export type DeprecatedLemmaSchemaFor<
+	LK extends DeprecatedLemmaKind = DeprecatedLemmaKind,
+	D extends DeprecatedLemmaDiscriminatorFor<LK> = DeprecatedLemmaDiscriminatorFor<LK>,
+> = z.ZodType<DeprecatedLemmaFor<LK, D>>;
 
-export type SurfaceFor<
-	SK extends SurfaceKind = SurfaceKind,
-	LK extends LemmaKind = LemmaKind,
-	D extends LemmaDiscriminatorFor<LK> = LemmaDiscriminatorFor<LK>,
-> = AbstractSelectionFor<"Standard", SK, LK, D>["surface"];
+export type DeprecatedSurfaceFor<
+	SK extends DeprecatedSurfaceKind = DeprecatedSurfaceKind,
+	LK extends DeprecatedLemmaKind = DeprecatedLemmaKind,
+	D extends DeprecatedLemmaDiscriminatorFor<LK> = DeprecatedLemmaDiscriminatorFor<LK>,
+> = DeprecatedAbstractSelectionFor<"Standard", SK, LK, D>["surface"];
 
-export type SurfaceSchemaFor<
-	SK extends SurfaceKind = SurfaceKind,
-	LK extends LemmaKind = LemmaKind,
-	D extends LemmaDiscriminatorFor<LK> = LemmaDiscriminatorFor<LK>,
-> = z.ZodType<SurfaceFor<SK, LK, D>>;
+export type DeprecatedSurfaceSchemaFor<
+	SK extends DeprecatedSurfaceKind = DeprecatedSurfaceKind,
+	LK extends DeprecatedLemmaKind = DeprecatedLemmaKind,
+	D extends DeprecatedLemmaDiscriminatorFor<LK> = DeprecatedLemmaDiscriminatorFor<LK>,
+> = z.ZodType<DeprecatedSurfaceFor<SK, LK, D>>;
 
-export type ObservedSelectionFor = AbstractObservedSelectionFor;
+export type DeprecatedObservedSelectionFor = DeprecatedAbstractObservedSelectionFor;
 
-export type ObservedSelectionSchemaFor = z.ZodType<ObservedSelectionFor>;
+export type DeprecatedObservedSelectionSchemaFor = z.ZodType<DeprecatedObservedSelectionFor>;
 
 type ValidFeatureSchemaShape<Shape extends z.ZodRawShape> = {
-	[K in keyof Shape]: K extends keyof AbstractFeatures
-		? z.infer<Shape[K]> extends AbstractFeatures[K]
+	[K in keyof Shape]: K extends keyof DeprecatedAbstractFeatures
+		? z.infer<Shape[K]> extends DeprecatedAbstractFeatures[K]
 			? Shape[K]
 			: never
 		: never;
@@ -51,7 +51,7 @@ type OptionalizedFeatureSchemaShape<Shape extends z.ZodRawShape> = {
 		: never;
 };
 
-export function featureValueSet<Schema extends z.ZodTypeAny>(schema: Schema) {
+export function deprecatedFeatureValueSet<Schema extends z.ZodTypeAny>(schema: Schema) {
 	return z.union([
 		schema,
 		z
@@ -68,7 +68,7 @@ export function featureValueSet<Schema extends z.ZodTypeAny>(schema: Schema) {
 	]);
 }
 
-export function featureSpecificValueSets<
+export function deprecatedFeatureSpecificValueSets<
 	Schema extends z.ZodTypeAny,
 	const Allowed extends readonly (readonly [
 		z.infer<Schema>,
@@ -120,7 +120,7 @@ function makeFeatureSchemaShapeOptional<const Shape extends z.ZodRawShape>(
 	) as OptionalizedFeatureSchemaShape<Shape>;
 }
 
-export function featureSchema<const Shape extends z.ZodRawShape>(
+export function deprecatedFeatureSchema<const Shape extends z.ZodRawShape>(
 	shape: Shape & ValidFeatureSchemaShape<Shape>,
 ): z.ZodObject<OptionalizedFeatureSchemaShape<Shape>, "strict"> {
 	return z.object(makeFeatureSchemaShapeOptional(shape)).strict();

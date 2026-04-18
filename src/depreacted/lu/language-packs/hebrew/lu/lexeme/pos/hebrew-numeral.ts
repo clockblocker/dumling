@@ -1,19 +1,19 @@
 import {
-	featureSchema,
-	featureSpecificValueSets,
+	deprecatedFeatureSchema,
+	deprecatedFeatureSpecificValueSets,
 } from "../../../../../universal/helpers/schema-targets";
-import { buildHebrewLexemeBundle } from "../shared/build-hebrew-lexeme-bundle";
-import { HebrewFeature } from "../shared/hebrew-common-enums";
+import { deprecatedBuildHebrewLexemeBundle } from "../shared/build-hebrew-lexeme-bundle";
+import { DeprecatedHebrewFeature } from "../shared/hebrew-common-enums";
 
-const HebrewNumeralInflectionalFeaturesSchema = featureSchema({
-	definite: HebrewFeature.Definite,
-	gender: featureSpecificValueSets(HebrewFeature.Gender, [["Fem", "Masc"]]),
-	number: featureSpecificValueSets(HebrewFeature.Number, [["Dual", "Plur"]]),
+const HebrewNumeralInflectionalFeaturesSchema = deprecatedFeatureSchema({
+	definite: DeprecatedHebrewFeature.Definite,
+	gender: deprecatedFeatureSpecificValueSets(DeprecatedHebrewFeature.Gender, [["Fem", "Masc"]]),
+	number: deprecatedFeatureSpecificValueSets(DeprecatedHebrewFeature.Number, [["Dual", "Plur"]]),
 });
 
-const HebrewNumeralInherentFeaturesSchema = featureSchema({});
+const HebrewNumeralInherentFeaturesSchema = deprecatedFeatureSchema({});
 
-export const HebrewNumeralSchemas = buildHebrewLexemeBundle({
+export const DeprecatedHebrewNumeralSchemas = deprecatedBuildHebrewLexemeBundle({
 	inflectionalFeaturesSchema: HebrewNumeralInflectionalFeaturesSchema,
 	inherentFeaturesSchema: HebrewNumeralInherentFeaturesSchema,
 	pos: "NUM",

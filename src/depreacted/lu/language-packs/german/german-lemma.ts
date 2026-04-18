@@ -1,10 +1,10 @@
-import type { LemmaSchemaLanguageShape } from "../../registry-shapes";
-import { GermanLexemeLemmaSchemas } from "./lu/lexeme/german-lexemes";
-import { GermanMorphemeLemmaSchemas } from "./lu/morpheme/german-morphemes";
-import { GermanPhrasemeLemmaSchemas } from "./lu/phraseme/german-phrasemes";
+import type { DeprecatedLemmaSchemaLanguageShape } from "../../registry-shapes";
+import { DeprecatedGermanLexemeLemmaSchemas } from "./lu/lexeme/german-lexemes";
+import { DeprecatedGermanMorphemeLemmaSchemas } from "./lu/morpheme/german-morphemes";
+import { DeprecatedGermanPhrasemeLemmaSchemas } from "./lu/phraseme/german-phrasemes";
 
-export const GermanLemmaSchema = {
-	Lexeme: GermanLexemeLemmaSchemas,
-	Morpheme: GermanMorphemeLemmaSchemas,
-	Phraseme: GermanPhrasemeLemmaSchemas,
-} satisfies LemmaSchemaLanguageShape;
+export const DeprecatedGermanLemmaSchema = {
+	Lexeme: DeprecatedGermanLexemeLemmaSchemas,
+	Morpheme: DeprecatedGermanMorphemeLemmaSchemas,
+	Phraseme: DeprecatedGermanPhrasemeLemmaSchemas,
+} satisfies DeprecatedLemmaSchemaLanguageShape;

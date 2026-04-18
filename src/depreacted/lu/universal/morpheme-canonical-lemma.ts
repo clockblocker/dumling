@@ -2,7 +2,7 @@ import z from "zod/v3";
 
 const morphemeDecorationDashPattern = /^[-\u2010-\u2015]|[-\u2010-\u2015]$/u;
 
-export const MorphemeCanonicalLemmaSchema = z
+export const DeprecatedMorphemeCanonicalLemmaSchema = z
 	.string()
 	.min(1)
 	.refine(

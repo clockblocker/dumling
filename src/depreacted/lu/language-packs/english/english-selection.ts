@@ -1,20 +1,20 @@
 import z from "zod/v3";
 import type {
-	SelectionSchemaLanguageShape,
+	DeprecatedSelectionSchemaLanguageShape,
 } from "../../registry-shapes";
-import type { ObservedSelectionSchemaFor } from "../../universal/helpers/schema-targets";
-import { deriveSelectionSchemaLanguage } from "../../universal/factories/deriveKnownSelectionSchemas";
-import { EnglishSurfaceSchema } from "./english-surface";
+import type { DeprecatedObservedSelectionSchemaFor } from "../../universal/helpers/schema-targets";
+import { deprecatedDeriveSelectionSchemaLanguage } from "../../universal/factories/deriveKnownSelectionSchemas";
+import { DeprecatedEnglishSurfaceSchema } from "./english-surface";
 
-export const EnglishObservedSelectionSchema = z
+export const DeprecatedEnglishObservedSelectionSchema = z
 	.object({
 		language: z.literal("English"),
 		orthographicStatus: z.literal("Unknown"),
 		spelledSelection: z.string(),
 	})
-	.strict() satisfies ObservedSelectionSchemaFor;
+	.strict() satisfies DeprecatedObservedSelectionSchemaFor;
 
-export const EnglishSelectionSchema = deriveSelectionSchemaLanguage({
+export const DeprecatedEnglishSelectionSchema = deprecatedDeriveSelectionSchemaLanguage({
 	language: "English",
-	surfaceSchema: EnglishSurfaceSchema,
-}) satisfies SelectionSchemaLanguageShape;
+	surfaceSchema: DeprecatedEnglishSurfaceSchema,
+}) satisfies DeprecatedSelectionSchemaLanguageShape;

@@ -1,11 +1,11 @@
-import { UniversalFeature } from "../../../../../universal/enums/feature";
-import { featureSchema } from "../../../../../universal/helpers/schema-targets";
-import { buildGermanLexemeBundle } from "../shared/build-german-lexeme-bundle";
-import { GermanFeature } from "../shared/german-common-enums";
+import { DeprecatedUniversalFeature } from "../../../../../universal/enums/feature";
+import { deprecatedFeatureSchema } from "../../../../../universal/helpers/schema-targets";
+import { deprecatedBuildGermanLexemeBundle } from "../shared/build-german-lexeme-bundle";
+import { DeprecatedGermanFeature } from "../shared/german-common-enums";
 
-const GermanAdverbNumType = UniversalFeature.NumType.extract(["Card", "Mult"]);
+const GermanAdverbNumType = DeprecatedUniversalFeature.NumType.extract(["Card", "Mult"]);
 
-const GermanAdverbPronType = UniversalFeature.PronType.extract([
+const GermanAdverbPronType = DeprecatedUniversalFeature.PronType.extract([
 	"Dem",
 	"Ind",
 	"Int",
@@ -13,17 +13,17 @@ const GermanAdverbPronType = UniversalFeature.PronType.extract([
 	"Rel",
 ]);
 
-const GermanAdverbInflectionalFeaturesSchema = featureSchema({
-	degree: GermanFeature.Degree,
+const GermanAdverbInflectionalFeaturesSchema = deprecatedFeatureSchema({
+	degree: DeprecatedGermanFeature.Degree,
 });
 
-const GermanAdverbInherentFeaturesSchema = featureSchema({
-	foreign: UniversalFeature.Foreign,
+const GermanAdverbInherentFeaturesSchema = deprecatedFeatureSchema({
+	foreign: DeprecatedUniversalFeature.Foreign,
 	numType: GermanAdverbNumType,
 	pronType: GermanAdverbPronType,
 });
 
-export const GermanAdverbSchemas = buildGermanLexemeBundle({
+export const DeprecatedGermanAdverbSchemas = deprecatedBuildGermanLexemeBundle({
 	inflectionalFeaturesSchema: GermanAdverbInflectionalFeaturesSchema,
 	inherentFeaturesSchema: GermanAdverbInherentFeaturesSchema,
 	pos: "ADV",

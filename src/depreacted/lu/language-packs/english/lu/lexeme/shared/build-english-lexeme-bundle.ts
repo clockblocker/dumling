@@ -1,12 +1,12 @@
 import z from "zod/v3";
-import type { Pos } from "../../../../../universal/enums/kind/pos";
-import { buildSurfaceSchema } from "../../../../../universal/factories/buildSurfaceSchema";
-import { deriveKnownSelectionSchemaProps } from "../../../../../universal/factories/deriveKnownSelectionSchemas";
-import { defineLemmaSchemaDescriptor } from "../../../../../universal/factories/lemma-schema-descriptor";
-import { MeaningInEmojisSchema } from "../../../../../universal/meaning-in-emojis";
+import type { DeprecatedPos } from "../../../../../universal/enums/kind/pos";
+import { deprecatedBuildSurfaceSchema } from "../../../../../universal/factories/buildSurfaceSchema";
+import { deprecatedDeriveKnownSelectionSchemaProps } from "../../../../../universal/factories/deriveKnownSelectionSchemas";
+import { deprecatedDefineLemmaSchemaDescriptor } from "../../../../../universal/factories/lemma-schema-descriptor";
+import { DeprecatedMeaningInEmojisSchema } from "../../../../../universal/meaning-in-emojis";
 
-export function buildEnglishLexemeBundle<
-	P extends Pos,
+export function deprecatedBuildEnglishLexemeBundle<
+	P extends DeprecatedPos,
 	InflectionalFeaturesSchema extends z.ZodTypeAny,
 	InherentFeaturesSchema extends z.ZodTypeAny,
 >({
@@ -23,7 +23,7 @@ export function buildEnglishLexemeBundle<
 		pos: z.literal(pos),
 	} satisfies z.ZodRawShape;
 
-	const lemma = defineLemmaSchemaDescriptor({
+	const lemma = deprecatedDefineLemmaSchemaDescriptor({
 		language: "English",
 		schema: z
 			.object({
@@ -31,19 +31,19 @@ export function buildEnglishLexemeBundle<
 				inherentFeatures: inherentFeaturesSchema,
 				language: z.literal("English"),
 				lemmaKind: z.literal("Lexeme"),
-				meaningInEmojis: MeaningInEmojisSchema,
+				meaningInEmojis: DeprecatedMeaningInEmojisSchema,
 				pos: z.literal(pos),
 			})
 			.strict(),
 	});
-	const lemmaSurface = buildSurfaceSchema({
+	const lemmaSurface = deprecatedBuildSurfaceSchema({
 		lemma,
 		lemmaIdentityShape,
 		surfaceShape: {
 			surfaceKind: z.literal("Lemma"),
 		},
 	});
-	const inflectionSurface = buildSurfaceSchema({
+	const inflectionSurface = deprecatedBuildSurfaceSchema({
 		lemma,
 		lemmaIdentityShape,
 		surfaceShape: {
@@ -59,7 +59,7 @@ export function buildEnglishLexemeBundle<
 	return {
 		LemmaSchema: lemma.schema,
 		...surfaceSchemas,
-		...deriveKnownSelectionSchemaProps({
+		...deprecatedDeriveKnownSelectionSchemaProps({
 			language: lemma.language,
 			surfaceSchemas,
 		}),

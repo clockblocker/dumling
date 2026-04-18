@@ -1,14 +1,14 @@
-import { UniversalFeature } from "../../../../../universal/enums/feature";
-import { featureSchema } from "../../../../../universal/helpers/schema-targets";
-import { buildGermanLexemeBundle } from "../shared/build-german-lexeme-bundle";
+import { DeprecatedUniversalFeature } from "../../../../../universal/enums/feature";
+import { deprecatedFeatureSchema } from "../../../../../universal/helpers/schema-targets";
+import { deprecatedBuildGermanLexemeBundle } from "../shared/build-german-lexeme-bundle";
 
-const GermanInterjectionInflectionalFeaturesSchema = featureSchema({});
+const GermanInterjectionInflectionalFeaturesSchema = deprecatedFeatureSchema({});
 
-const GermanInterjectionInherentFeaturesSchema = featureSchema({
-	partType: UniversalFeature.PartType.extract(["Res"]),
+const GermanInterjectionInherentFeaturesSchema = deprecatedFeatureSchema({
+	partType: DeprecatedUniversalFeature.PartType.extract(["Res"]),
 });
 
-export const GermanInterjectionSchemas = buildGermanLexemeBundle({
+export const DeprecatedGermanInterjectionSchemas = deprecatedBuildGermanLexemeBundle({
 	inflectionalFeaturesSchema: GermanInterjectionInflectionalFeaturesSchema,
 	inherentFeaturesSchema: GermanInterjectionInherentFeaturesSchema,
 	pos: "INTJ",

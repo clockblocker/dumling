@@ -1,46 +1,46 @@
 import z from "zod/v3";
-import { UniversalFeature } from "../../../../../universal/enums/feature";
-import type { PhrasemeKind } from "../../../../../universal/enums/kind/phraseme-kind";
-import { buildSurfaceSchema } from "../../../../../universal/factories/buildSurfaceSchema";
-import { deriveKnownSelectionSchemaProps } from "../../../../../universal/factories/deriveKnownSelectionSchemas";
-import { defineLemmaSchemaDescriptor } from "../../../../../universal/factories/lemma-schema-descriptor";
-import { MeaningInEmojisSchema } from "../../../../../universal/meaning-in-emojis";
+import { DeprecatedUniversalFeature } from "../../../../../universal/enums/feature";
+import type { DeprecatedPhrasemeKind } from "../../../../../universal/enums/kind/phraseme-kind";
+import { deprecatedBuildSurfaceSchema } from "../../../../../universal/factories/buildSurfaceSchema";
+import { deprecatedDeriveKnownSelectionSchemaProps } from "../../../../../universal/factories/deriveKnownSelectionSchemas";
+import { deprecatedDefineLemmaSchemaDescriptor } from "../../../../../universal/factories/lemma-schema-descriptor";
+import { DeprecatedMeaningInEmojisSchema } from "../../../../../universal/meaning-in-emojis";
 
-function buildPhrasemeLemmaDescriptor<PK extends PhrasemeKind>(
+function buildPhrasemeLemmaDescriptor<PK extends DeprecatedPhrasemeKind>(
 	phrasemeKind: PK,
 ) {
 	if (phrasemeKind === "DiscourseFormula") {
-		return defineLemmaSchemaDescriptor({
+		return deprecatedDefineLemmaSchemaDescriptor({
 			language: "German",
 			schema: z
 				.object({
 					canonicalLemma: z.string(),
 					discourseFormulaRole:
-						UniversalFeature.DiscourseFormulaRole.optional(),
+						DeprecatedUniversalFeature.DiscourseFormulaRole.optional(),
 					language: z.literal("German"),
 					lemmaKind: z.literal("Phraseme"),
-					meaningInEmojis: MeaningInEmojisSchema,
+					meaningInEmojis: DeprecatedMeaningInEmojisSchema,
 					phrasemeKind: z.literal(phrasemeKind),
 				})
 				.strict(),
 		});
 	}
 
-	return defineLemmaSchemaDescriptor({
+	return deprecatedDefineLemmaSchemaDescriptor({
 		language: "German",
 		schema: z
 			.object({
 				canonicalLemma: z.string(),
 				language: z.literal("German"),
 				lemmaKind: z.literal("Phraseme"),
-				meaningInEmojis: MeaningInEmojisSchema,
+				meaningInEmojis: DeprecatedMeaningInEmojisSchema,
 				phrasemeKind: z.literal(phrasemeKind),
 			})
 			.strict(),
 	});
 }
 
-export function buildGermanPhrasemeBundle<PK extends PhrasemeKind>({
+export function deprecatedBuildGermanPhrasemeBundle<PK extends DeprecatedPhrasemeKind>({
 	phrasemeKind,
 }: {
 	phrasemeKind: PK;
@@ -50,7 +50,7 @@ export function buildGermanPhrasemeBundle<PK extends PhrasemeKind>({
 		phrasemeKind: z.literal(phrasemeKind),
 	} satisfies z.ZodRawShape;
 	const lemma = buildPhrasemeLemmaDescriptor(phrasemeKind);
-	const lemmaSurface = buildSurfaceSchema({
+	const lemmaSurface = deprecatedBuildSurfaceSchema({
 		lemma,
 		lemmaIdentityShape,
 		surfaceShape: {
@@ -64,7 +64,7 @@ export function buildGermanPhrasemeBundle<PK extends PhrasemeKind>({
 	return {
 		LemmaSchema: lemma.schema,
 		...surfaceSchemas,
-		...deriveKnownSelectionSchemaProps({
+		...deprecatedDeriveKnownSelectionSchemaProps({
 			language: lemma.language,
 			surfaceSchemas,
 		}),

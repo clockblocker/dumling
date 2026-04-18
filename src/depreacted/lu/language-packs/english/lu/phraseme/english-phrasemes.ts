@@ -1,32 +1,32 @@
 import type {
-	LemmaSchemaLanguageShape,
-	SurfaceSchemaLanguageShape,
+	DeprecatedLemmaSchemaLanguageShape,
+	DeprecatedSurfaceSchemaLanguageShape,
 } from "../../../../registry-shapes";
-import { buildEnglishPhrasemeBundle } from "./shared/build-english-phraseme-bundle";
+import { deprecatedBuildEnglishPhrasemeBundle } from "./shared/build-english-phraseme-bundle";
 
-const EnglishAphorismBundle = buildEnglishPhrasemeBundle({
+const EnglishAphorismBundle = deprecatedBuildEnglishPhrasemeBundle({
 	phrasemeKind: "Aphorism",
 });
-const EnglishDiscourseFormulaBundle = buildEnglishPhrasemeBundle({
+const EnglishDiscourseFormulaBundle = deprecatedBuildEnglishPhrasemeBundle({
 	phrasemeKind: "DiscourseFormula",
 });
-const EnglishIdiomBundle = buildEnglishPhrasemeBundle({
+const EnglishIdiomBundle = deprecatedBuildEnglishPhrasemeBundle({
 	phrasemeKind: "Idiom",
 });
-const EnglishProverbBundle = buildEnglishPhrasemeBundle({
+const EnglishProverbBundle = deprecatedBuildEnglishPhrasemeBundle({
 	phrasemeKind: "Proverb",
 });
 
-export const EnglishPhrasemeLemmaSchemas = {
+export const DeprecatedEnglishPhrasemeLemmaSchemas = {
 	Aphorism: EnglishAphorismBundle.LemmaSchema,
 	DiscourseFormula: EnglishDiscourseFormulaBundle.LemmaSchema,
 	Idiom: EnglishIdiomBundle.LemmaSchema,
 	Proverb: EnglishProverbBundle.LemmaSchema,
-} satisfies LemmaSchemaLanguageShape["Phraseme"];
+} satisfies DeprecatedLemmaSchemaLanguageShape["Phraseme"];
 
-export const EnglishLemmaPhrasemeSurfaceSchemas = {
+export const DeprecatedEnglishLemmaPhrasemeSurfaceSchemas = {
 	Aphorism: EnglishAphorismBundle.LemmaSurfaceSchema,
 	DiscourseFormula: EnglishDiscourseFormulaBundle.LemmaSurfaceSchema,
 	Idiom: EnglishIdiomBundle.LemmaSurfaceSchema,
 	Proverb: EnglishProverbBundle.LemmaSurfaceSchema,
-} satisfies SurfaceSchemaLanguageShape["Lemma"]["Phraseme"];
+} satisfies DeprecatedSurfaceSchemaLanguageShape["Lemma"]["Phraseme"];

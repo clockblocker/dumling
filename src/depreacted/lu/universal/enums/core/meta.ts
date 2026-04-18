@@ -1,4 +1,4 @@
 import z from "zod";
 
-export const IsClosedSet = z.boolean();
-export type IsClosedSet = z.infer<typeof IsClosedSet>;
+export const DeprecatedIsClosedSet = z.boolean();
+export type DeprecatedIsClosedSet = z.infer<typeof DeprecatedIsClosedSet>;

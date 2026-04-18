@@ -1,11 +1,11 @@
-import { featureSchema } from "../../../../../universal/helpers/schema-targets";
-import { buildEnglishLexemeBundle } from "../shared/build-english-lexeme-bundle";
+import { deprecatedFeatureSchema } from "../../../../../universal/helpers/schema-targets";
+import { deprecatedBuildEnglishLexemeBundle } from "../shared/build-english-lexeme-bundle";
 
-const EnglishPunctuationInflectionalFeaturesSchema = featureSchema({});
+const EnglishPunctuationInflectionalFeaturesSchema = deprecatedFeatureSchema({});
 
-const EnglishPunctuationInherentFeaturesSchema = featureSchema({});
+const EnglishPunctuationInherentFeaturesSchema = deprecatedFeatureSchema({});
 
-export const EnglishPunctuationSchemas = buildEnglishLexemeBundle({
+export const DeprecatedEnglishPunctuationSchemas = deprecatedBuildEnglishLexemeBundle({
 	inflectionalFeaturesSchema: EnglishPunctuationInflectionalFeaturesSchema,
 	inherentFeaturesSchema: EnglishPunctuationInherentFeaturesSchema,
 	pos: "PUNCT",

@@ -1,25 +1,25 @@
-import { UniversalFeature } from "../../../../../universal/enums/feature";
+import { DeprecatedUniversalFeature } from "../../../../../universal/enums/feature";
 import {
-	featureSchema,
-	featureValueSet,
+	deprecatedFeatureSchema,
+	deprecatedFeatureValueSet,
 } from "../../../../../universal/helpers/schema-targets";
-import { buildEnglishLexemeBundle } from "../shared/build-english-lexeme-bundle";
-import { EnglishFeature } from "../shared/english-common-enums";
+import { deprecatedBuildEnglishLexemeBundle } from "../shared/build-english-lexeme-bundle";
+import { DeprecatedEnglishFeature } from "../shared/english-common-enums";
 
 // https://universaldependencies.org/treebanks/en_ewt/en_ewt-pos-DET.html
-const EnglishDeterminerExtPos = UniversalFeature.ExtPos.extract([
+const EnglishDeterminerExtPos = DeprecatedUniversalFeature.ExtPos.extract([
 	"ADV",
 	"PRON",
 ]);
 
 // https://universaldependencies.org/u/feat/NumForm.html
-const EnglishDeterminerNumForm = EnglishFeature.NumForm.extract(["Word"]);
+const EnglishDeterminerNumForm = DeprecatedEnglishFeature.NumForm.extract(["Word"]);
 
 // https://universaldependencies.org/u/feat/NumType.html
-const EnglishDeterminerNumType = EnglishFeature.NumType.extract(["Frac"]);
+const EnglishDeterminerNumType = DeprecatedEnglishFeature.NumType.extract(["Frac"]);
 
 // https://universaldependencies.org/docs/en/feat/PronType.html
-const EnglishDeterminerPronType = EnglishFeature.PronType.extract([
+const EnglishDeterminerPronType = DeprecatedEnglishFeature.PronType.extract([
 	"Art",
 	"Dem",
 	"Ind",
@@ -31,26 +31,26 @@ const EnglishDeterminerPronType = EnglishFeature.PronType.extract([
 ]);
 
 // https://universaldependencies.org/u/feat/Style.html
-const EnglishDeterminerStyle = EnglishFeature.Style.extract(["Vrnc"]);
+const EnglishDeterminerStyle = DeprecatedEnglishFeature.Style.extract(["Vrnc"]);
 
 // https://universaldependencies.org/treebanks/en_ewt/en_ewt-feat-Number.html
-const EnglishDeterminerNumber = EnglishFeature.Number.extract(["Plur", "Sing"]);
+const EnglishDeterminerNumber = DeprecatedEnglishFeature.Number.extract(["Plur", "Sing"]);
 
-const EnglishDeterminerInflectionalFeaturesSchema = featureSchema({
+const EnglishDeterminerInflectionalFeaturesSchema = deprecatedFeatureSchema({
 	number: EnglishDeterminerNumber,
 });
 
-const EnglishDeterminerInherentFeaturesSchema = featureSchema({
-	abbr: UniversalFeature.Abbr,
-	definite: EnglishFeature.Definite, // https://universaldependencies.org/treebanks/en_ewt/en_ewt-feat-Definite.html
+const EnglishDeterminerInherentFeaturesSchema = deprecatedFeatureSchema({
+	abbr: DeprecatedUniversalFeature.Abbr,
+	definite: DeprecatedEnglishFeature.Definite, // https://universaldependencies.org/treebanks/en_ewt/en_ewt-feat-Definite.html
 	extPos: EnglishDeterminerExtPos, // https://universaldependencies.org/treebanks/en_ewt/en_ewt-pos-DET.html
 	numForm: EnglishDeterminerNumForm, // https://universaldependencies.org/u/feat/NumForm.html
 	numType: EnglishDeterminerNumType, // https://universaldependencies.org/u/feat/NumType.html
-	pronType: featureValueSet(EnglishDeterminerPronType), // https://universaldependencies.org/docs/en/feat/PronType.html
+	pronType: deprecatedFeatureValueSet(EnglishDeterminerPronType), // https://universaldependencies.org/docs/en/feat/PronType.html
 	style: EnglishDeterminerStyle, // https://universaldependencies.org/u/feat/Style.html
 });
 
-export const EnglishDeterminerSchemas = buildEnglishLexemeBundle({
+export const DeprecatedEnglishDeterminerSchemas = deprecatedBuildEnglishLexemeBundle({
 	inflectionalFeaturesSchema: EnglishDeterminerInflectionalFeaturesSchema,
 	inherentFeaturesSchema: EnglishDeterminerInherentFeaturesSchema,
 	pos: "DET",

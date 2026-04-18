@@ -1,17 +1,17 @@
 import z from "zod/v3";
-import { UniversalFeature } from "../../../../../universal/enums/feature";
-import { featureSchema } from "../../../../../universal/helpers/schema-targets";
-import { GermanFeature } from "./german-common-enums";
+import { DeprecatedUniversalFeature } from "../../../../../universal/enums/feature";
+import { deprecatedFeatureSchema } from "../../../../../universal/helpers/schema-targets";
+import { DeprecatedGermanFeature } from "./german-common-enums";
 
-export const GermanVerbalInflectionalFeaturesSchema = featureSchema({
-	aspect: GermanFeature.Aspect,
-	gender: GermanFeature.Gender,
-	mood: GermanFeature.Mood,
-	number: GermanFeature.Number,
-	person: GermanFeature.Person,
-	tense: GermanFeature.Tense,
-	verbForm: GermanFeature.VerbForm,
-	voice: UniversalFeature.Voice.extract(["Pass"]),
+export const DeprecatedGermanVerbalInflectionalFeaturesSchema = deprecatedFeatureSchema({
+	aspect: DeprecatedGermanFeature.Aspect,
+	gender: DeprecatedGermanFeature.Gender,
+	mood: DeprecatedGermanFeature.Mood,
+	number: DeprecatedGermanFeature.Number,
+	person: DeprecatedGermanFeature.Person,
+	tense: DeprecatedGermanFeature.Tense,
+	verbForm: DeprecatedGermanFeature.VerbForm,
+	voice: DeprecatedUniversalFeature.Voice.extract(["Pass"]),
 }).superRefine((features, ctx) => {
 	if (features.aspect !== undefined && features.verbForm !== "Part") {
 		ctx.addIssue({

@@ -1,32 +1,32 @@
-import { decodeDumlingId, decodeDumlingIdAs } from "./internal/codec/decode";
-import { encodeDumlingId } from "./internal/codec/encode";
-import type { DumlingIdApiFor, DumlingIdLanguage } from "./types";
+import { deprecatedDecodeDumlingId, deprecatedDecodeDumlingIdAs } from "./internal/codec/decode";
+import { deprecatedEncodeDumlingId } from "./internal/codec/encode";
+import type { DeprecatedDumlingIdApiFor, DeprecatedDumlingIdLanguage } from "./types";
 
 export type {
-	ConcreteDumlingIdKind,
-	DumlingId,
-	DumlingIdDecodeError,
-	DumlingIdDecodeErrorCode,
-	DumlingIdValueFor,
+	DeprecatedConcreteDumlingIdKind,
+	DeprecatedDumlingId,
+	DeprecatedDumlingIdDecodeError,
+	DeprecatedDumlingIdDecodeErrorCode,
+	DeprecatedDumlingIdValueFor,
 } from "./types";
 
 /**
  * Creates language-scoped encoders and decoders for stable Dumling IDs.
  */
-export function lingIdApiForLanguage<
-	L extends DumlingIdLanguage,
+export function deprecatedLingIdApiForLanguage<
+	L extends DeprecatedDumlingIdLanguage,
 >(
 	language: L,
-): DumlingIdApiFor<L> {
+): DeprecatedDumlingIdApiFor<L> {
 	return {
 		makeDumlingIdFor: ((value) =>
-			encodeDumlingId(language, value as never)) as DumlingIdApiFor<L>["makeDumlingIdFor"],
-		tryToDecode: (id: string) => decodeDumlingId(language, id),
+			deprecatedEncodeDumlingId(language, value as never)) as DeprecatedDumlingIdApiFor<L>["makeDumlingIdFor"],
+		tryToDecode: (id: string) => deprecatedDecodeDumlingId(language, id),
 		tryToDecodeAs: ((kind, id: string) =>
-			decodeDumlingIdAs(
+			deprecatedDecodeDumlingIdAs(
 				language,
 				kind,
 				id,
-			)) as DumlingIdApiFor<L>["tryToDecodeAs"],
+			)) as DeprecatedDumlingIdApiFor<L>["tryToDecodeAs"],
 	};
 }

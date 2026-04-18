@@ -1,6 +1,6 @@
 import type { z } from "zod/v3";
 
-import { Case } from "../ud/case";
+import { DeprecatedCase } from "../ud/case";
 
-export const GovernedCase = Case;
-export type GovernedCase = z.infer<typeof GovernedCase>;
+export const DeprecatedGovernedCase = DeprecatedCase;
+export type DeprecatedGovernedCase = z.infer<typeof DeprecatedGovernedCase>;

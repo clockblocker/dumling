@@ -1,7 +1,7 @@
 import z from "zod/v3";
-import { LemmaSchema, SelectionSchema, SurfaceSchema } from "../../lu/public-entities";
-import type { TargetLanguage } from "../../lu/universal/enums/core/language";
-import type { ConcreteDumlingIdKind } from "../types";
+import { DeprecatedLemmaSchema, DeprecatedSelectionSchema, DeprecatedSurfaceSchema } from "../../lu/public-entities";
+import type { DeprecatedTargetLanguage } from "../../lu/universal/enums/core/language";
+import type { DeprecatedConcreteDumlingIdKind } from "../types";
 
 function isZodSchema(value: unknown): value is z.ZodTypeAny {
 	return value instanceof z.ZodType;
@@ -47,32 +47,32 @@ function unionLeafSchemas(value: unknown): z.ZodTypeAny {
 
 const runtimeSchemas = {
 	English: {
-		Lemma: unionLeafSchemas(LemmaSchema.English),
-		Selection: unionLeafSchemas(SelectionSchema.English),
-		Surface: unionLeafSchemas(SurfaceSchema.English),
+		Lemma: unionLeafSchemas(DeprecatedLemmaSchema.English),
+		Selection: unionLeafSchemas(DeprecatedSelectionSchema.English),
+		Surface: unionLeafSchemas(DeprecatedSurfaceSchema.English),
 	},
 	German: {
-		Lemma: unionLeafSchemas(LemmaSchema.German),
-		Selection: unionLeafSchemas(SelectionSchema.German),
-		Surface: unionLeafSchemas(SurfaceSchema.German),
+		Lemma: unionLeafSchemas(DeprecatedLemmaSchema.German),
+		Selection: unionLeafSchemas(DeprecatedSelectionSchema.German),
+		Surface: unionLeafSchemas(DeprecatedSurfaceSchema.German),
 	},
 	Hebrew: {
-		Lemma: unionLeafSchemas(LemmaSchema.Hebrew),
-		Selection: unionLeafSchemas(SelectionSchema.Hebrew),
-		Surface: unionLeafSchemas(SurfaceSchema.Hebrew),
+		Lemma: unionLeafSchemas(DeprecatedLemmaSchema.Hebrew),
+		Selection: unionLeafSchemas(DeprecatedSelectionSchema.Hebrew),
+		Surface: unionLeafSchemas(DeprecatedSurfaceSchema.Hebrew),
 	},
 } satisfies {
-	[L in TargetLanguage]: Record<ConcreteDumlingIdKind, z.ZodTypeAny>;
+	[L in DeprecatedTargetLanguage]: Record<DeprecatedConcreteDumlingIdKind, z.ZodTypeAny>;
 };
 
-export function getRuntimeSchema(
-	language: TargetLanguage,
-	kind: ConcreteDumlingIdKind,
+export function deprecatedGetRuntimeSchema(
+	language: DeprecatedTargetLanguage,
+	kind: DeprecatedConcreteDumlingIdKind,
 ): z.ZodTypeAny {
 	return runtimeSchemas[language][kind];
 }
 
-export function isPlainObject(
+export function deprecatedIsPlainObject(
 	value: unknown,
 ): value is Record<string, unknown> {
 	return typeof value === "object" && value !== null && !Array.isArray(value);

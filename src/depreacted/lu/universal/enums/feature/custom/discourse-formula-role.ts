@@ -13,4 +13,4 @@ const discourseFormulaRoles = [
 	"Transition",
 ] as const;
 
-export const DiscourseFormulaRoleSchema = z.enum(discourseFormulaRoles);
+export const DeprecatedDiscourseFormulaRoleSchema = z.enum(discourseFormulaRoles);

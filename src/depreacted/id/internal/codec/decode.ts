@@ -1,47 +1,47 @@
 import { type Result, err, ok } from "neverthrow";
-import type { Lemma } from "../../../lu/public-entities";
-import type { TargetLanguage } from "../../../lu/universal/enums/core/language";
+import type { DeprecatedLemma } from "../../../lu/public-entities";
+import type { DeprecatedTargetLanguage } from "../../../lu/universal/enums/core/language";
 import type {
-	ConcreteDumlingIdKind,
-	DumlingIdDecodeError,
-	DumlingIdValueFor,
+	DeprecatedConcreteDumlingIdKind,
+	DeprecatedDumlingIdDecodeError,
+	DeprecatedDumlingIdValueFor,
 } from "../../types";
-import { lingIdDecodeError } from "../errors";
-import { getRuntimeSchema } from "../guards";
-import { parseFeatureBag } from "../wire/feature-bag";
-import { decodeWireKind, parseHeader } from "../wire/header";
+import { deprecatedLingIdDecodeError } from "../errors";
+import { deprecatedGetRuntimeSchema } from "../guards";
+import { deprecatedParseFeatureBag } from "../wire/feature-bag";
+import { deprecatedDecodeWireKind, deprecatedParseHeader } from "../wire/header";
 import {
-	parseOptionalToken,
-	splitLeadingTokens,
-	unescapeToken,
+	deprecatedParseOptionalToken,
+	deprecatedSplitLeadingTokens,
+	deprecatedUnescapeToken,
 } from "../wire/tokens";
 
-export function decodeDumlingId<L extends TargetLanguage>(
+export function deprecatedDecodeDumlingId<L extends DeprecatedTargetLanguage>(
 	language: L,
 	input: string,
-): Result<DumlingIdValueFor<ConcreteDumlingIdKind, L>, DumlingIdDecodeError> {
+): Result<DeprecatedDumlingIdValueFor<DeprecatedConcreteDumlingIdKind, L>, DeprecatedDumlingIdDecodeError> {
 	return decodeDumlingIdInternal(language, input);
 }
 
-export function decodeDumlingIdAs<
-	L extends TargetLanguage,
-	K extends ConcreteDumlingIdKind,
+export function deprecatedDecodeDumlingIdAs<
+	L extends DeprecatedTargetLanguage,
+	K extends DeprecatedConcreteDumlingIdKind,
 >(
 	language: L,
 	expectedKind: K,
 	input: string,
-): Result<DumlingIdValueFor<K, L>, DumlingIdDecodeError> {
+): Result<DeprecatedDumlingIdValueFor<K, L>, DeprecatedDumlingIdDecodeError> {
 	const decoded = decodeDumlingIdInternal(language, input);
 
 	if (decoded.isErr()) {
 		return err(decoded.error);
 	}
 
-	const header = parseHeader(input);
+	const header = deprecatedParseHeader(input);
 
 	if (header.kind !== expectedKind) {
 		return err(
-			lingIdDecodeError(
+			deprecatedLingIdDecodeError(
 				"EntityMismatch",
 				input,
 				`Dumling ID entity mismatch: expected ${expectedKind}, received ${header.kind}`,
@@ -49,24 +49,24 @@ export function decodeDumlingIdAs<
 		);
 	}
 
-	return ok(decoded.value as DumlingIdValueFor<K, L>);
+	return ok(decoded.value as DeprecatedDumlingIdValueFor<K, L>);
 }
 
-function decodeDumlingIdInternal<L extends TargetLanguage>(
+function decodeDumlingIdInternal<L extends DeprecatedTargetLanguage>(
 	language: L,
 	input: string,
-): Result<DumlingIdValueFor<ConcreteDumlingIdKind, L>, DumlingIdDecodeError> {
-	let header: ReturnType<typeof parseHeader>;
+): Result<DeprecatedDumlingIdValueFor<DeprecatedConcreteDumlingIdKind, L>, DeprecatedDumlingIdDecodeError> {
+	let header: ReturnType<typeof deprecatedParseHeader>;
 
 	try {
-		header = parseHeader(input);
+		header = deprecatedParseHeader(input);
 	} catch (cause) {
 		return err(classifyHeaderError(input, cause));
 	}
 
 	if (header.language !== language) {
 		return err(
-			lingIdDecodeError(
+			deprecatedLingIdDecodeError(
 				"LanguageMismatch",
 				input,
 				`Dumling ID language mismatch: expected ${language}, received ${header.language}`,
@@ -80,7 +80,7 @@ function decodeDumlingIdInternal<L extends TargetLanguage>(
 		parsedValue = parsePayload(language, header.kind, header.body);
 	} catch (cause) {
 		return err(
-			lingIdDecodeError(
+			deprecatedLingIdDecodeError(
 				"PayloadDecodeFailed",
 				input,
 				"Failed to parse Dumling ID payload",
@@ -89,13 +89,13 @@ function decodeDumlingIdInternal<L extends TargetLanguage>(
 		);
 	}
 
-	const validation = getRuntimeSchema(language, header.kind).safeParse(
+	const validation = deprecatedGetRuntimeSchema(language, header.kind).safeParse(
 		parsedValue,
 	);
 
 	if (!validation.success) {
 		return err(
-			lingIdDecodeError(
+			deprecatedLingIdDecodeError(
 				"PayloadDecodeFailed",
 				input,
 				"Decoded Dumling ID payload does not match the entity schema",
@@ -104,26 +104,26 @@ function decodeDumlingIdInternal<L extends TargetLanguage>(
 		);
 	}
 
-	return ok(validation.data as DumlingIdValueFor<ConcreteDumlingIdKind, L>);
+	return ok(validation.data as DeprecatedDumlingIdValueFor<DeprecatedConcreteDumlingIdKind, L>);
 }
 
 function classifyHeaderError(
 	input: string,
 	cause: unknown,
-): DumlingIdDecodeError {
+): DeprecatedDumlingIdDecodeError {
 	const message =
 		cause instanceof Error ? cause.message : "Malformed Dumling ID";
 
 	if (message.startsWith("Unsupported Dumling ID version:")) {
-		return lingIdDecodeError("UnsupportedVersion", input, message, cause);
+		return deprecatedLingIdDecodeError("UnsupportedVersion", input, message, cause);
 	}
 
 	if (message.startsWith("Unsupported language code")) {
-		return lingIdDecodeError("UnsupportedLanguage", input, message, cause);
+		return deprecatedLingIdDecodeError("UnsupportedLanguage", input, message, cause);
 	}
 
 	if (message.startsWith("Unsupported Dumling ID kind:")) {
-		return lingIdDecodeError(
+		return deprecatedLingIdDecodeError(
 			"UnsupportedEntityKind",
 			input,
 			message,
@@ -131,12 +131,12 @@ function classifyHeaderError(
 		);
 	}
 
-	return lingIdDecodeError("MalformedDumlingId", input, message, cause);
+	return deprecatedLingIdDecodeError("MalformedDumlingId", input, message, cause);
 }
 
 function parsePayload(
-	language: TargetLanguage,
-	kind: ConcreteDumlingIdKind,
+	language: DeprecatedTargetLanguage,
+	kind: DeprecatedConcreteDumlingIdKind,
 	body: string,
 ): unknown {
 	switch (kind) {
@@ -150,10 +150,10 @@ function parsePayload(
 }
 
 function parseSelectionPayload(
-	language: TargetLanguage,
+	language: DeprecatedTargetLanguage,
 	body: string,
 ): unknown {
-	const parts = splitLeadingTokens(body, 6, "selection");
+	const parts = deprecatedSplitLeadingTokens(body, 6, "selection");
 
 	if (parts.length !== 6) {
 		throw new Error(`Malformed selection payload in Dumling ID: ${body}`);
@@ -172,7 +172,7 @@ function parseSelectionPayload(
 		language,
 		orthographicStatus,
 		selectionCoverage,
-		spelledSelection: unescapeToken(spelledSelectionToken),
+		spelledSelection: deprecatedUnescapeToken(spelledSelectionToken),
 		spellingRelation,
 		surface: parseSelectionSurfacePayload(
 			language,
@@ -183,10 +183,10 @@ function parseSelectionPayload(
 }
 
 function parseSurfacePayload(
-	language: TargetLanguage,
+	language: DeprecatedTargetLanguage,
 	body: string,
 ): unknown {
-	const parts = splitLeadingTokens(body, 6, "surface");
+	const parts = deprecatedSplitLeadingTokens(body, 6, "surface");
 
 	if (parts.length !== 6) {
 		throw new Error(`Malformed surface payload in Dumling ID: ${body}`);
@@ -223,7 +223,7 @@ function parseSurfacePayload(
 }
 
 function parseSurfaceCore(
-	language: TargetLanguage,
+	language: DeprecatedTargetLanguage,
 	{
 		inflectionalFeaturesToken,
 		normalizedFullSurfaceToken,
@@ -237,23 +237,23 @@ function parseSurfaceCore(
 	return {
 		...(surfaceKind === "Inflection"
 			? {
-					inflectionalFeatures: parseFeatureBag(
+					inflectionalFeatures: deprecatedParseFeatureBag(
 						inflectionalFeaturesToken,
 					),
 				}
 			: {}),
 		language,
-		normalizedFullSurface: unescapeToken(normalizedFullSurfaceToken),
+		normalizedFullSurface: deprecatedUnescapeToken(normalizedFullSurfaceToken),
 		surfaceKind,
 	};
 }
 
 function parseSelectionSurfacePayload(
-	language: TargetLanguage,
+	language: DeprecatedTargetLanguage,
 	surfaceKindToken: string,
 	surfacePayload: string,
 ) {
-	const kind = decodeWireKind(surfaceKindToken);
+	const kind = deprecatedDecodeWireKind(surfaceKindToken);
 
 	if (kind === "Surface") {
 		return parseSurfacePayload(language, surfacePayload);
@@ -264,8 +264,8 @@ function parseSelectionSurfacePayload(
 	);
 }
 
-function parseLemmaPayload(language: TargetLanguage, body: string): Lemma {
-	const parts = splitLeadingTokens(body, 5, "lemma");
+function parseLemmaPayload(language: DeprecatedTargetLanguage, body: string): DeprecatedLemma {
+	const parts = deprecatedSplitLeadingTokens(body, 5, "lemma");
 
 	if (parts.length !== 5) {
 		throw new Error(`Malformed lemma payload in Dumling ID: ${body}`);
@@ -278,10 +278,10 @@ function parseLemmaPayload(language: TargetLanguage, body: string): Lemma {
 		featuresToken,
 		meaningToken,
 	] = parts as [string, string, string, string, string];
-	const meaningInEmojis = parseOptionalToken(meaningToken);
+	const meaningInEmojis = deprecatedParseOptionalToken(meaningToken);
 
 	const base = {
-		canonicalLemma: unescapeToken(canonicalLemmaToken),
+		canonicalLemma: deprecatedUnescapeToken(canonicalLemmaToken),
 		language,
 		...(meaningInEmojis === undefined ? {} : { meaningInEmojis }),
 	};
@@ -290,12 +290,12 @@ function parseLemmaPayload(language: TargetLanguage, body: string): Lemma {
 		case "Lexeme":
 			return {
 				...base,
-				inherentFeatures: parseFeatureBag(featuresToken),
+				inherentFeatures: deprecatedParseFeatureBag(featuresToken),
 				lemmaKind,
 				pos: lemmaSubKind,
-			} as Lemma;
+			} as DeprecatedLemma;
 		case "Morpheme": {
-			const features = parseFeatureBag(featuresToken);
+			const features = deprecatedParseFeatureBag(featuresToken);
 			return {
 				...base,
 				...("hasSepPrefix" in features
@@ -306,10 +306,10 @@ function parseLemmaPayload(language: TargetLanguage, body: string): Lemma {
 					: {}),
 				lemmaKind,
 				morphemeKind: lemmaSubKind,
-			} as Lemma;
+			} as DeprecatedLemma;
 		}
 		case "Phraseme": {
-			const features = parseFeatureBag(featuresToken);
+			const features = deprecatedParseFeatureBag(featuresToken);
 			return {
 				...base,
 				...("discourseFormulaRole" in features
@@ -320,14 +320,14 @@ function parseLemmaPayload(language: TargetLanguage, body: string): Lemma {
 					: {}),
 				lemmaKind,
 				phrasemeKind: lemmaSubKind,
-			} as Lemma;
+			} as DeprecatedLemma;
 		}
 		default:
 			throw new Error(`Unsupported lemma kind in Dumling ID: ${lemmaKind}`);
 	}
 }
 
-function getLemmaSubKind(lemma: Lemma): string {
+function getLemmaSubKind(lemma: DeprecatedLemma): string {
 	switch (lemma.lemmaKind) {
 		case "Lexeme":
 			return lemma.pos;

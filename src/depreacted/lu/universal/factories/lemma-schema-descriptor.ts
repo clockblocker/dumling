@@ -1,21 +1,21 @@
 import type z from "zod/v3";
-import type { TargetLanguage } from "../enums/core/language";
+import type { DeprecatedTargetLanguage } from "../enums/core/language";
 
-export type LemmaSchemaDescriptor<
+export type DeprecatedLemmaSchemaDescriptor<
 	Schema extends z.ZodTypeAny,
-	LanguageLiteral extends TargetLanguage = TargetLanguage,
+	LanguageLiteral extends DeprecatedTargetLanguage = DeprecatedTargetLanguage,
 > = {
 	language: LanguageLiteral;
 	schema: Schema;
 };
 
-export function defineLemmaSchemaDescriptor<
-	LanguageLiteral extends TargetLanguage,
+export function deprecatedDefineLemmaSchemaDescriptor<
+	LanguageLiteral extends DeprecatedTargetLanguage,
 	Schema extends z.ZodTypeAny,
 >({
 	language,
 	schema,
-}: LemmaSchemaDescriptor<Schema, LanguageLiteral>): LemmaSchemaDescriptor<
+}: DeprecatedLemmaSchemaDescriptor<Schema, LanguageLiteral>): DeprecatedLemmaSchemaDescriptor<
 	Schema,
 	LanguageLiteral
 > {

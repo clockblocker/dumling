@@ -1,44 +1,44 @@
 import type {
-	LemmaSchemaLanguageShape,
-	SurfaceSchemaLanguageShape,
+	DeprecatedLemmaSchemaLanguageShape,
+	DeprecatedSurfaceSchemaLanguageShape,
 } from "../../../../registry-shapes";
-import { buildGermanMorphemeBundle } from "./shared/build-german-morpheme-bundle";
+import { deprecatedBuildGermanMorphemeBundle } from "./shared/build-german-morpheme-bundle";
 
-const GermanCircumfixBundle = buildGermanMorphemeBundle({
+const GermanCircumfixBundle = deprecatedBuildGermanMorphemeBundle({
 	morphemeKind: "Circumfix",
 });
-const GermanCliticBundle = buildGermanMorphemeBundle({
+const GermanCliticBundle = deprecatedBuildGermanMorphemeBundle({
 	morphemeKind: "Clitic",
 });
-const GermanDuplifixBundle = buildGermanMorphemeBundle({
+const GermanDuplifixBundle = deprecatedBuildGermanMorphemeBundle({
 	morphemeKind: "Duplifix",
 });
-const GermanInfixBundle = buildGermanMorphemeBundle({
+const GermanInfixBundle = deprecatedBuildGermanMorphemeBundle({
 	morphemeKind: "Infix",
 });
-const GermanInterfixBundle = buildGermanMorphemeBundle({
+const GermanInterfixBundle = deprecatedBuildGermanMorphemeBundle({
 	morphemeKind: "Interfix",
 });
-const GermanPrefixBundle = buildGermanMorphemeBundle({
+const GermanPrefixBundle = deprecatedBuildGermanMorphemeBundle({
 	morphemeKind: "Prefix",
 });
-const GermanRootBundle = buildGermanMorphemeBundle({
+const GermanRootBundle = deprecatedBuildGermanMorphemeBundle({
 	morphemeKind: "Root",
 });
-const GermanSuffixBundle = buildGermanMorphemeBundle({
+const GermanSuffixBundle = deprecatedBuildGermanMorphemeBundle({
 	morphemeKind: "Suffix",
 });
-const GermanSuffixoidBundle = buildGermanMorphemeBundle({
+const GermanSuffixoidBundle = deprecatedBuildGermanMorphemeBundle({
 	morphemeKind: "Suffixoid",
 });
-const GermanToneMarkingBundle = buildGermanMorphemeBundle({
+const GermanToneMarkingBundle = deprecatedBuildGermanMorphemeBundle({
 	morphemeKind: "ToneMarking",
 });
-const GermanTransfixBundle = buildGermanMorphemeBundle({
+const GermanTransfixBundle = deprecatedBuildGermanMorphemeBundle({
 	morphemeKind: "Transfix",
 });
 
-export const GermanMorphemeLemmaSchemas = {
+export const DeprecatedGermanMorphemeLemmaSchemas = {
 	Circumfix: GermanCircumfixBundle.LemmaSchema,
 	Clitic: GermanCliticBundle.LemmaSchema,
 	Duplifix: GermanDuplifixBundle.LemmaSchema,
@@ -50,9 +50,9 @@ export const GermanMorphemeLemmaSchemas = {
 	Suffixoid: GermanSuffixoidBundle.LemmaSchema,
 	ToneMarking: GermanToneMarkingBundle.LemmaSchema,
 	Transfix: GermanTransfixBundle.LemmaSchema,
-} satisfies LemmaSchemaLanguageShape["Morpheme"];
+} satisfies DeprecatedLemmaSchemaLanguageShape["Morpheme"];
 
-export const GermanLemmaMorphemeSurfaceSchemas = {
+export const DeprecatedGermanLemmaMorphemeSurfaceSchemas = {
 	Circumfix: GermanCircumfixBundle.LemmaSurfaceSchema,
 	Clitic: GermanCliticBundle.LemmaSurfaceSchema,
 	Duplifix: GermanDuplifixBundle.LemmaSurfaceSchema,
@@ -64,4 +64,4 @@ export const GermanLemmaMorphemeSurfaceSchemas = {
 	Suffixoid: GermanSuffixoidBundle.LemmaSurfaceSchema,
 	ToneMarking: GermanToneMarkingBundle.LemmaSurfaceSchema,
 	Transfix: GermanTransfixBundle.LemmaSurfaceSchema,
-} satisfies SurfaceSchemaLanguageShape["Lemma"]["Morpheme"];
+} satisfies DeprecatedSurfaceSchemaLanguageShape["Lemma"]["Morpheme"];

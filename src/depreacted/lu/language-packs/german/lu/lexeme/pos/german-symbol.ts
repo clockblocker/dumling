@@ -1,22 +1,22 @@
-import { UniversalFeature } from "../../../../../universal/enums/feature";
-import { featureSchema } from "../../../../../universal/helpers/schema-targets";
-import { buildGermanLexemeBundle } from "../shared/build-german-lexeme-bundle";
-import { GermanFeature } from "../shared/german-common-enums";
+import { DeprecatedUniversalFeature } from "../../../../../universal/enums/feature";
+import { deprecatedFeatureSchema } from "../../../../../universal/helpers/schema-targets";
+import { deprecatedBuildGermanLexemeBundle } from "../shared/build-german-lexeme-bundle";
+import { DeprecatedGermanFeature } from "../shared/german-common-enums";
 
-const GermanSymbolNumType = UniversalFeature.NumType.extract(["Card", "Range"]);
+const GermanSymbolNumType = DeprecatedUniversalFeature.NumType.extract(["Card", "Range"]);
 
-const GermanSymbolInflectionalFeaturesSchema = featureSchema({
-	case: GermanFeature.Case,
-	gender: GermanFeature.Gender,
-	number: GermanFeature.Number,
+const GermanSymbolInflectionalFeaturesSchema = deprecatedFeatureSchema({
+	case: DeprecatedGermanFeature.Case,
+	gender: DeprecatedGermanFeature.Gender,
+	number: DeprecatedGermanFeature.Number,
 });
 
-const GermanSymbolInherentFeaturesSchema = featureSchema({
-	foreign: UniversalFeature.Foreign,
+const GermanSymbolInherentFeaturesSchema = deprecatedFeatureSchema({
+	foreign: DeprecatedUniversalFeature.Foreign,
 	numType: GermanSymbolNumType,
 });
 
-export const GermanSymbolSchemas = buildGermanLexemeBundle({
+export const DeprecatedGermanSymbolSchemas = deprecatedBuildGermanLexemeBundle({
 	inflectionalFeaturesSchema: GermanSymbolInflectionalFeaturesSchema,
 	inherentFeaturesSchema: GermanSymbolInherentFeaturesSchema,
 	pos: "SYM",

@@ -1,15 +1,15 @@
-import { featureSchema } from "../../../../../universal/helpers/schema-targets";
-import { buildHebrewLexemeBundle } from "../shared/build-hebrew-lexeme-bundle";
-import { HebrewFeature } from "../shared/hebrew-common-enums";
-import { HebrewVerbInflectionalFeaturesSchema } from "../shared/hebrew-verbal-inflection-features";
+import { deprecatedFeatureSchema } from "../../../../../universal/helpers/schema-targets";
+import { deprecatedBuildHebrewLexemeBundle } from "../shared/build-hebrew-lexeme-bundle";
+import { DeprecatedHebrewFeature } from "../shared/hebrew-common-enums";
+import { DeprecatedHebrewVerbInflectionalFeaturesSchema } from "../shared/hebrew-verbal-inflection-features";
 
-const HebrewVerbInherentFeaturesSchema = featureSchema({
-	hebBinyan: HebrewFeature.HebBinyan,
-	hebExistential: HebrewFeature.HebExistential,
+const HebrewVerbInherentFeaturesSchema = deprecatedFeatureSchema({
+	hebBinyan: DeprecatedHebrewFeature.HebBinyan,
+	hebExistential: DeprecatedHebrewFeature.HebExistential,
 });
 
-export const HebrewVerbSchemas = buildHebrewLexemeBundle({
-	inflectionalFeaturesSchema: HebrewVerbInflectionalFeaturesSchema,
+export const DeprecatedHebrewVerbSchemas = deprecatedBuildHebrewLexemeBundle({
+	inflectionalFeaturesSchema: DeprecatedHebrewVerbInflectionalFeaturesSchema,
 	inherentFeaturesSchema: HebrewVerbInherentFeaturesSchema,
 	pos: "VERB",
 });

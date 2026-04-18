@@ -15,5 +15,5 @@ const numberValues = [
 ] as const;
 
 // Source: https://universaldependencies.org/u/feat/Number.html
-export const GrammaticalNumber = z.enum(numberValues);
-export type GrammaticalNumber = z.infer<typeof GrammaticalNumber>;
+export const DeprecatedGrammaticalNumber = z.enum(numberValues);
+export type DeprecatedGrammaticalNumber = z.infer<typeof DeprecatedGrammaticalNumber>;

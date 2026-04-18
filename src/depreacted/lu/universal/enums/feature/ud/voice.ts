@@ -14,5 +14,5 @@ const voiceValues = [
 ] as const;
 
 // Source: https://universaldependencies.org/u/feat/Voice.html
-export const Voice = z.enum(voiceValues);
-export type Voice = z.infer<typeof Voice>;
+export const DeprecatedVoice = z.enum(voiceValues);
+export type DeprecatedVoice = z.infer<typeof DeprecatedVoice>;

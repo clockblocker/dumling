@@ -1,81 +1,81 @@
 import type {
-	LemmaSchemaLanguageShape,
-	SurfaceSchemaLanguageShape,
+	DeprecatedLemmaSchemaLanguageShape,
+	DeprecatedSurfaceSchemaLanguageShape,
 } from "../../../../registry-shapes";
-import { GermanAdjectiveSchemas } from "./pos/german-adjective";
-import { GermanAdpositionSchemas } from "./pos/german-adposition";
-import { GermanAdverbSchemas } from "./pos/german-adverb";
-import { GermanAuxiliarySchemas } from "./pos/german-auxiliary";
-import { GermanCoordinatingConjunctionSchemas } from "./pos/german-coordinating-conjunction";
-import { GermanDeterminerSchemas } from "./pos/german-determiner";
-import { GermanInterjectionSchemas } from "./pos/german-interjection";
-import { GermanNounSchemas } from "./pos/german-noun";
-import { GermanNumeralSchemas } from "./pos/german-numeral";
-import { GermanOtherSchemas } from "./pos/german-other";
-import { GermanParticleSchemas } from "./pos/german-particle";
-import { GermanPronounSchemas } from "./pos/german-pronoun";
-import { GermanProperNounSchemas } from "./pos/german-proper-noun";
-import { GermanPunctuationSchemas } from "./pos/german-punctuation";
-import { GermanSubordinatingConjunctionSchemas } from "./pos/german-subordinating-conjunction";
-import { GermanSymbolSchemas } from "./pos/german-symbol";
-import { GermanVerbSchemas } from "./pos/german-verb";
+import { DeprecatedGermanAdjectiveSchemas } from "./pos/german-adjective";
+import { DeprecatedGermanAdpositionSchemas } from "./pos/german-adposition";
+import { DeprecatedGermanAdverbSchemas } from "./pos/german-adverb";
+import { DeprecatedGermanAuxiliarySchemas } from "./pos/german-auxiliary";
+import { DeprecatedGermanCoordinatingConjunctionSchemas } from "./pos/german-coordinating-conjunction";
+import { DeprecatedGermanDeterminerSchemas } from "./pos/german-determiner";
+import { DeprecatedGermanInterjectionSchemas } from "./pos/german-interjection";
+import { DeprecatedGermanNounSchemas } from "./pos/german-noun";
+import { DeprecatedGermanNumeralSchemas } from "./pos/german-numeral";
+import { DeprecatedGermanOtherSchemas } from "./pos/german-other";
+import { DeprecatedGermanParticleSchemas } from "./pos/german-particle";
+import { DeprecatedGermanPronounSchemas } from "./pos/german-pronoun";
+import { DeprecatedGermanProperNounSchemas } from "./pos/german-proper-noun";
+import { DeprecatedGermanPunctuationSchemas } from "./pos/german-punctuation";
+import { DeprecatedGermanSubordinatingConjunctionSchemas } from "./pos/german-subordinating-conjunction";
+import { DeprecatedGermanSymbolSchemas } from "./pos/german-symbol";
+import { DeprecatedGermanVerbSchemas } from "./pos/german-verb";
 
-export const GermanLexemeLemmaSchemas = {
-	ADJ: GermanAdjectiveSchemas.LemmaSchema,
-	ADP: GermanAdpositionSchemas.LemmaSchema,
-	ADV: GermanAdverbSchemas.LemmaSchema,
-	AUX: GermanAuxiliarySchemas.LemmaSchema,
-	CCONJ: GermanCoordinatingConjunctionSchemas.LemmaSchema,
-	DET: GermanDeterminerSchemas.LemmaSchema,
-	INTJ: GermanInterjectionSchemas.LemmaSchema,
-	NOUN: GermanNounSchemas.LemmaSchema,
-	NUM: GermanNumeralSchemas.LemmaSchema,
-	PART: GermanParticleSchemas.LemmaSchema,
-	PRON: GermanPronounSchemas.LemmaSchema,
-	PROPN: GermanProperNounSchemas.LemmaSchema,
-	PUNCT: GermanPunctuationSchemas.LemmaSchema,
-	SCONJ: GermanSubordinatingConjunctionSchemas.LemmaSchema,
-	SYM: GermanSymbolSchemas.LemmaSchema,
-	VERB: GermanVerbSchemas.LemmaSchema,
-	X: GermanOtherSchemas.LemmaSchema,
-} satisfies LemmaSchemaLanguageShape["Lexeme"];
+export const DeprecatedGermanLexemeLemmaSchemas = {
+	ADJ: DeprecatedGermanAdjectiveSchemas.LemmaSchema,
+	ADP: DeprecatedGermanAdpositionSchemas.LemmaSchema,
+	ADV: DeprecatedGermanAdverbSchemas.LemmaSchema,
+	AUX: DeprecatedGermanAuxiliarySchemas.LemmaSchema,
+	CCONJ: DeprecatedGermanCoordinatingConjunctionSchemas.LemmaSchema,
+	DET: DeprecatedGermanDeterminerSchemas.LemmaSchema,
+	INTJ: DeprecatedGermanInterjectionSchemas.LemmaSchema,
+	NOUN: DeprecatedGermanNounSchemas.LemmaSchema,
+	NUM: DeprecatedGermanNumeralSchemas.LemmaSchema,
+	PART: DeprecatedGermanParticleSchemas.LemmaSchema,
+	PRON: DeprecatedGermanPronounSchemas.LemmaSchema,
+	PROPN: DeprecatedGermanProperNounSchemas.LemmaSchema,
+	PUNCT: DeprecatedGermanPunctuationSchemas.LemmaSchema,
+	SCONJ: DeprecatedGermanSubordinatingConjunctionSchemas.LemmaSchema,
+	SYM: DeprecatedGermanSymbolSchemas.LemmaSchema,
+	VERB: DeprecatedGermanVerbSchemas.LemmaSchema,
+	X: DeprecatedGermanOtherSchemas.LemmaSchema,
+} satisfies DeprecatedLemmaSchemaLanguageShape["Lexeme"];
 
-export const GermanInflectionLexemeSurfaceSchemas = {
-	ADJ: GermanAdjectiveSchemas.InflectionSurfaceSchema,
-	ADP: GermanAdpositionSchemas.InflectionSurfaceSchema,
-	ADV: GermanAdverbSchemas.InflectionSurfaceSchema,
-	AUX: GermanAuxiliarySchemas.InflectionSurfaceSchema,
-	CCONJ: GermanCoordinatingConjunctionSchemas.InflectionSurfaceSchema,
-	DET: GermanDeterminerSchemas.InflectionSurfaceSchema,
-	INTJ: GermanInterjectionSchemas.InflectionSurfaceSchema,
-	NOUN: GermanNounSchemas.InflectionSurfaceSchema,
-	NUM: GermanNumeralSchemas.InflectionSurfaceSchema,
-	PART: GermanParticleSchemas.InflectionSurfaceSchema,
-	PRON: GermanPronounSchemas.InflectionSurfaceSchema,
-	PROPN: GermanProperNounSchemas.InflectionSurfaceSchema,
-	PUNCT: GermanPunctuationSchemas.InflectionSurfaceSchema,
-	SCONJ: GermanSubordinatingConjunctionSchemas.InflectionSurfaceSchema,
-	SYM: GermanSymbolSchemas.InflectionSurfaceSchema,
-	VERB: GermanVerbSchemas.InflectionSurfaceSchema,
-	X: GermanOtherSchemas.InflectionSurfaceSchema,
-} satisfies SurfaceSchemaLanguageShape["Inflection"]["Lexeme"];
+export const DeprecatedGermanInflectionLexemeSurfaceSchemas = {
+	ADJ: DeprecatedGermanAdjectiveSchemas.InflectionSurfaceSchema,
+	ADP: DeprecatedGermanAdpositionSchemas.InflectionSurfaceSchema,
+	ADV: DeprecatedGermanAdverbSchemas.InflectionSurfaceSchema,
+	AUX: DeprecatedGermanAuxiliarySchemas.InflectionSurfaceSchema,
+	CCONJ: DeprecatedGermanCoordinatingConjunctionSchemas.InflectionSurfaceSchema,
+	DET: DeprecatedGermanDeterminerSchemas.InflectionSurfaceSchema,
+	INTJ: DeprecatedGermanInterjectionSchemas.InflectionSurfaceSchema,
+	NOUN: DeprecatedGermanNounSchemas.InflectionSurfaceSchema,
+	NUM: DeprecatedGermanNumeralSchemas.InflectionSurfaceSchema,
+	PART: DeprecatedGermanParticleSchemas.InflectionSurfaceSchema,
+	PRON: DeprecatedGermanPronounSchemas.InflectionSurfaceSchema,
+	PROPN: DeprecatedGermanProperNounSchemas.InflectionSurfaceSchema,
+	PUNCT: DeprecatedGermanPunctuationSchemas.InflectionSurfaceSchema,
+	SCONJ: DeprecatedGermanSubordinatingConjunctionSchemas.InflectionSurfaceSchema,
+	SYM: DeprecatedGermanSymbolSchemas.InflectionSurfaceSchema,
+	VERB: DeprecatedGermanVerbSchemas.InflectionSurfaceSchema,
+	X: DeprecatedGermanOtherSchemas.InflectionSurfaceSchema,
+} satisfies DeprecatedSurfaceSchemaLanguageShape["Inflection"]["Lexeme"];
 
-export const GermanLemmaLexemeSurfaceSchemas = {
-	ADJ: GermanAdjectiveSchemas.LemmaSurfaceSchema,
-	ADP: GermanAdpositionSchemas.LemmaSurfaceSchema,
-	ADV: GermanAdverbSchemas.LemmaSurfaceSchema,
-	AUX: GermanAuxiliarySchemas.LemmaSurfaceSchema,
-	CCONJ: GermanCoordinatingConjunctionSchemas.LemmaSurfaceSchema,
-	DET: GermanDeterminerSchemas.LemmaSurfaceSchema,
-	INTJ: GermanInterjectionSchemas.LemmaSurfaceSchema,
-	NOUN: GermanNounSchemas.LemmaSurfaceSchema,
-	NUM: GermanNumeralSchemas.LemmaSurfaceSchema,
-	PART: GermanParticleSchemas.LemmaSurfaceSchema,
-	PRON: GermanPronounSchemas.LemmaSurfaceSchema,
-	PROPN: GermanProperNounSchemas.LemmaSurfaceSchema,
-	PUNCT: GermanPunctuationSchemas.LemmaSurfaceSchema,
-	SCONJ: GermanSubordinatingConjunctionSchemas.LemmaSurfaceSchema,
-	SYM: GermanSymbolSchemas.LemmaSurfaceSchema,
-	VERB: GermanVerbSchemas.LemmaSurfaceSchema,
-	X: GermanOtherSchemas.LemmaSurfaceSchema,
-} satisfies SurfaceSchemaLanguageShape["Lemma"]["Lexeme"];
+export const DeprecatedGermanLemmaLexemeSurfaceSchemas = {
+	ADJ: DeprecatedGermanAdjectiveSchemas.LemmaSurfaceSchema,
+	ADP: DeprecatedGermanAdpositionSchemas.LemmaSurfaceSchema,
+	ADV: DeprecatedGermanAdverbSchemas.LemmaSurfaceSchema,
+	AUX: DeprecatedGermanAuxiliarySchemas.LemmaSurfaceSchema,
+	CCONJ: DeprecatedGermanCoordinatingConjunctionSchemas.LemmaSurfaceSchema,
+	DET: DeprecatedGermanDeterminerSchemas.LemmaSurfaceSchema,
+	INTJ: DeprecatedGermanInterjectionSchemas.LemmaSurfaceSchema,
+	NOUN: DeprecatedGermanNounSchemas.LemmaSurfaceSchema,
+	NUM: DeprecatedGermanNumeralSchemas.LemmaSurfaceSchema,
+	PART: DeprecatedGermanParticleSchemas.LemmaSurfaceSchema,
+	PRON: DeprecatedGermanPronounSchemas.LemmaSurfaceSchema,
+	PROPN: DeprecatedGermanProperNounSchemas.LemmaSurfaceSchema,
+	PUNCT: DeprecatedGermanPunctuationSchemas.LemmaSurfaceSchema,
+	SCONJ: DeprecatedGermanSubordinatingConjunctionSchemas.LemmaSurfaceSchema,
+	SYM: DeprecatedGermanSymbolSchemas.LemmaSurfaceSchema,
+	VERB: DeprecatedGermanVerbSchemas.LemmaSurfaceSchema,
+	X: DeprecatedGermanOtherSchemas.LemmaSurfaceSchema,
+} satisfies DeprecatedSurfaceSchemaLanguageShape["Lemma"]["Lexeme"];

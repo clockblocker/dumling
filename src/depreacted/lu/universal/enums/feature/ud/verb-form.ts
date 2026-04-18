@@ -12,5 +12,5 @@ const verbFormValues = [
 ] as const;
 
 // Source: https://universaldependencies.org/u/feat/VerbForm.html
-export const VerbForm = z.enum(verbFormValues);
-export type VerbForm = z.infer<typeof VerbForm>;
+export const DeprecatedVerbForm = z.enum(verbFormValues);
+export type DeprecatedVerbForm = z.infer<typeof DeprecatedVerbForm>;

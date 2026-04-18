@@ -1,18 +1,18 @@
-import { UniversalFeature } from "../../../../../universal/enums/feature";
-import { featureSchema } from "../../../../../universal/helpers/schema-targets";
-import { buildGermanLexemeBundle } from "../shared/build-german-lexeme-bundle";
-import { GermanFeature } from "../shared/german-common-enums";
+import { DeprecatedUniversalFeature } from "../../../../../universal/enums/feature";
+import { deprecatedFeatureSchema } from "../../../../../universal/helpers/schema-targets";
+import { deprecatedBuildGermanLexemeBundle } from "../shared/build-german-lexeme-bundle";
+import { DeprecatedGermanFeature } from "../shared/german-common-enums";
 
-const GermanParticleInflectionalFeaturesSchema = featureSchema({});
+const GermanParticleInflectionalFeaturesSchema = deprecatedFeatureSchema({});
 
-const GermanParticleInherentFeaturesSchema = featureSchema({
-	abbr: UniversalFeature.Abbr,
-	foreign: UniversalFeature.Foreign,
-	partType: UniversalFeature.PartType.extract(["Inf"]),
-	polarity: GermanFeature.Polarity,
+const GermanParticleInherentFeaturesSchema = deprecatedFeatureSchema({
+	abbr: DeprecatedUniversalFeature.Abbr,
+	foreign: DeprecatedUniversalFeature.Foreign,
+	partType: DeprecatedUniversalFeature.PartType.extract(["Inf"]),
+	polarity: DeprecatedGermanFeature.Polarity,
 });
 
-export const GermanParticleSchemas = buildGermanLexemeBundle({
+export const DeprecatedGermanParticleSchemas = deprecatedBuildGermanLexemeBundle({
 	inflectionalFeaturesSchema: GermanParticleInflectionalFeaturesSchema,
 	inherentFeaturesSchema: GermanParticleInherentFeaturesSchema,
 	pos: "PART",

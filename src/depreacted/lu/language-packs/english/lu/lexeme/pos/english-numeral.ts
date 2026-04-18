@@ -1,31 +1,31 @@
-import { UniversalFeature } from "../../../../../universal/enums/feature";
-import { featureSchema } from "../../../../../universal/helpers/schema-targets";
-import { buildEnglishLexemeBundle } from "../shared/build-english-lexeme-bundle";
-import { EnglishFeature } from "../shared/english-common-enums";
+import { DeprecatedUniversalFeature } from "../../../../../universal/enums/feature";
+import { deprecatedFeatureSchema } from "../../../../../universal/helpers/schema-targets";
+import { deprecatedBuildEnglishLexemeBundle } from "../shared/build-english-lexeme-bundle";
+import { DeprecatedEnglishFeature } from "../shared/english-common-enums";
 
 // https://universaldependencies.org/treebanks/en_ewt/en_ewt-pos-NUM.html
-const EnglishNumeralExtPos = UniversalFeature.ExtPos.extract(["PROPN"]);
+const EnglishNumeralExtPos = DeprecatedUniversalFeature.ExtPos.extract(["PROPN"]);
 
 // https://universaldependencies.org/u/feat/NumForm.html
-const EnglishNumeralNumForm = EnglishFeature.NumForm.extract([
+const EnglishNumeralNumForm = DeprecatedEnglishFeature.NumForm.extract([
 	"Digit",
 	"Roman",
 	"Word",
 ]);
 
 // https://universaldependencies.org/u/feat/NumType.html
-const EnglishNumeralNumType = EnglishFeature.NumType.extract(["Card", "Frac"]);
+const EnglishNumeralNumType = DeprecatedEnglishFeature.NumType.extract(["Card", "Frac"]);
 
-const EnglishNumeralInflectionalFeaturesSchema = featureSchema({});
+const EnglishNumeralInflectionalFeaturesSchema = deprecatedFeatureSchema({});
 
-const EnglishNumeralInherentFeaturesSchema = featureSchema({
-	abbr: UniversalFeature.Abbr,
+const EnglishNumeralInherentFeaturesSchema = deprecatedFeatureSchema({
+	abbr: DeprecatedUniversalFeature.Abbr,
 	extPos: EnglishNumeralExtPos, // https://universaldependencies.org/treebanks/en_ewt/en_ewt-pos-NUM.html
 	numForm: EnglishNumeralNumForm, // https://universaldependencies.org/u/feat/NumForm.html
 	numType: EnglishNumeralNumType, // https://universaldependencies.org/u/feat/NumType.html
 });
 
-export const EnglishNumeralSchemas = buildEnglishLexemeBundle({
+export const DeprecatedEnglishNumeralSchemas = deprecatedBuildEnglishLexemeBundle({
 	inflectionalFeaturesSchema: EnglishNumeralInflectionalFeaturesSchema,
 	inherentFeaturesSchema: EnglishNumeralInherentFeaturesSchema,
 	pos: "NUM",

@@ -12,5 +12,5 @@ const styleValues = [
 ] as const;
 
 // Source: https://universaldependencies.org/u/feat/Style.html
-export const Style = z.enum(styleValues);
-export type Style = z.infer<typeof Style>;
+export const DeprecatedStyle = z.enum(styleValues);
+export type DeprecatedStyle = z.infer<typeof DeprecatedStyle>;

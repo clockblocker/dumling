@@ -1,44 +1,44 @@
 import type {
-	LemmaSchemaLanguageShape,
-	SurfaceSchemaLanguageShape,
+	DeprecatedLemmaSchemaLanguageShape,
+	DeprecatedSurfaceSchemaLanguageShape,
 } from "../../../../registry-shapes";
-import { buildHebrewMorphemeBundle } from "./shared/build-hebrew-morpheme-bundle";
+import { deprecatedBuildHebrewMorphemeBundle } from "./shared/build-hebrew-morpheme-bundle";
 
-const HebrewCircumfixBundle = buildHebrewMorphemeBundle({
+const HebrewCircumfixBundle = deprecatedBuildHebrewMorphemeBundle({
 	morphemeKind: "Circumfix",
 });
-const HebrewCliticBundle = buildHebrewMorphemeBundle({
+const HebrewCliticBundle = deprecatedBuildHebrewMorphemeBundle({
 	morphemeKind: "Clitic",
 });
-const HebrewDuplifixBundle = buildHebrewMorphemeBundle({
+const HebrewDuplifixBundle = deprecatedBuildHebrewMorphemeBundle({
 	morphemeKind: "Duplifix",
 });
-const HebrewInfixBundle = buildHebrewMorphemeBundle({
+const HebrewInfixBundle = deprecatedBuildHebrewMorphemeBundle({
 	morphemeKind: "Infix",
 });
-const HebrewInterfixBundle = buildHebrewMorphemeBundle({
+const HebrewInterfixBundle = deprecatedBuildHebrewMorphemeBundle({
 	morphemeKind: "Interfix",
 });
-const HebrewPrefixBundle = buildHebrewMorphemeBundle({
+const HebrewPrefixBundle = deprecatedBuildHebrewMorphemeBundle({
 	morphemeKind: "Prefix",
 });
-const HebrewRootBundle = buildHebrewMorphemeBundle({
+const HebrewRootBundle = deprecatedBuildHebrewMorphemeBundle({
 	morphemeKind: "Root",
 });
-const HebrewSuffixBundle = buildHebrewMorphemeBundle({
+const HebrewSuffixBundle = deprecatedBuildHebrewMorphemeBundle({
 	morphemeKind: "Suffix",
 });
-const HebrewSuffixoidBundle = buildHebrewMorphemeBundle({
+const HebrewSuffixoidBundle = deprecatedBuildHebrewMorphemeBundle({
 	morphemeKind: "Suffixoid",
 });
-const HebrewToneMarkingBundle = buildHebrewMorphemeBundle({
+const HebrewToneMarkingBundle = deprecatedBuildHebrewMorphemeBundle({
 	morphemeKind: "ToneMarking",
 });
-const HebrewTransfixBundle = buildHebrewMorphemeBundle({
+const HebrewTransfixBundle = deprecatedBuildHebrewMorphemeBundle({
 	morphemeKind: "Transfix",
 });
 
-export const HebrewMorphemeLemmaSchemas = {
+export const DeprecatedHebrewMorphemeLemmaSchemas = {
 	Circumfix: HebrewCircumfixBundle.LemmaSchema,
 	Clitic: HebrewCliticBundle.LemmaSchema,
 	Duplifix: HebrewDuplifixBundle.LemmaSchema,
@@ -50,9 +50,9 @@ export const HebrewMorphemeLemmaSchemas = {
 	Suffixoid: HebrewSuffixoidBundle.LemmaSchema,
 	ToneMarking: HebrewToneMarkingBundle.LemmaSchema,
 	Transfix: HebrewTransfixBundle.LemmaSchema,
-} satisfies LemmaSchemaLanguageShape["Morpheme"];
+} satisfies DeprecatedLemmaSchemaLanguageShape["Morpheme"];
 
-export const HebrewLemmaMorphemeSurfaceSchemas = {
+export const DeprecatedHebrewLemmaMorphemeSurfaceSchemas = {
 	Circumfix: HebrewCircumfixBundle.LemmaSurfaceSchema,
 	Clitic: HebrewCliticBundle.LemmaSurfaceSchema,
 	Duplifix: HebrewDuplifixBundle.LemmaSurfaceSchema,
@@ -64,4 +64,4 @@ export const HebrewLemmaMorphemeSurfaceSchemas = {
 	Suffixoid: HebrewSuffixoidBundle.LemmaSurfaceSchema,
 	ToneMarking: HebrewToneMarkingBundle.LemmaSurfaceSchema,
 	Transfix: HebrewTransfixBundle.LemmaSurfaceSchema,
-} satisfies SurfaceSchemaLanguageShape["Lemma"]["Morpheme"];
+} satisfies DeprecatedSurfaceSchemaLanguageShape["Lemma"]["Morpheme"];

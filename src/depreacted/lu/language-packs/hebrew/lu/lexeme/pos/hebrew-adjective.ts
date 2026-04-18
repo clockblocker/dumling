@@ -1,22 +1,22 @@
-import { UniversalFeature } from "../../../../../universal/enums/feature";
+import { DeprecatedUniversalFeature } from "../../../../../universal/enums/feature";
 import {
-	featureSchema,
-	featureSpecificValueSets,
+	deprecatedFeatureSchema,
+	deprecatedFeatureSpecificValueSets,
 } from "../../../../../universal/helpers/schema-targets";
-import { buildHebrewLexemeBundle } from "../shared/build-hebrew-lexeme-bundle";
-import { HebrewFeature } from "../shared/hebrew-common-enums";
+import { deprecatedBuildHebrewLexemeBundle } from "../shared/build-hebrew-lexeme-bundle";
+import { DeprecatedHebrewFeature } from "../shared/hebrew-common-enums";
 
-const HebrewAdjectiveInflectionalFeaturesSchema = featureSchema({
-	definite: HebrewFeature.Definite,
-	gender: featureSpecificValueSets(HebrewFeature.Gender, [["Fem", "Masc"]]),
-	number: HebrewFeature.Number.extract(["Plur", "Sing"]),
+const HebrewAdjectiveInflectionalFeaturesSchema = deprecatedFeatureSchema({
+	definite: DeprecatedHebrewFeature.Definite,
+	gender: deprecatedFeatureSpecificValueSets(DeprecatedHebrewFeature.Gender, [["Fem", "Masc"]]),
+	number: DeprecatedHebrewFeature.Number.extract(["Plur", "Sing"]),
 });
 
-const HebrewAdjectiveInherentFeaturesSchema = featureSchema({
-	abbr: UniversalFeature.Abbr,
+const HebrewAdjectiveInherentFeaturesSchema = deprecatedFeatureSchema({
+	abbr: DeprecatedUniversalFeature.Abbr,
 });
 
-export const HebrewAdjectiveSchemas = buildHebrewLexemeBundle({
+export const DeprecatedHebrewAdjectiveSchemas = deprecatedBuildHebrewLexemeBundle({
 	inflectionalFeaturesSchema: HebrewAdjectiveInflectionalFeaturesSchema,
 	inherentFeaturesSchema: HebrewAdjectiveInherentFeaturesSchema,
 	pos: "ADJ",

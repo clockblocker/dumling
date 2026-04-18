@@ -1,5 +1,5 @@
-import type { LanguageOperationPack } from "../../internal/operations/operation-pack-registry";
+import type { DeprecatedLanguageOperationPack } from "../../internal/operations/operation-pack-registry";
 
-export const hebrewOperationPack: LanguageOperationPack<"Hebrew"> = {
+export const deprecatedHebrewOperationPack: DeprecatedLanguageOperationPack<"Hebrew"> = {
 	normalizeLemmaSurface: (lemma) => lemma.canonicalLemma,
 };

@@ -1,10 +1,10 @@
-import { featureSchema } from "../../../../../universal/helpers/schema-targets";
-import { buildHebrewLexemeBundle } from "../shared/build-hebrew-lexeme-bundle";
+import { deprecatedFeatureSchema } from "../../../../../universal/helpers/schema-targets";
+import { deprecatedBuildHebrewLexemeBundle } from "../shared/build-hebrew-lexeme-bundle";
 
-const HebrewPunctuationInflectionalFeaturesSchema = featureSchema({});
-const HebrewPunctuationInherentFeaturesSchema = featureSchema({});
+const HebrewPunctuationInflectionalFeaturesSchema = deprecatedFeatureSchema({});
+const HebrewPunctuationInherentFeaturesSchema = deprecatedFeatureSchema({});
 
-export const HebrewPunctuationSchemas = buildHebrewLexemeBundle({
+export const DeprecatedHebrewPunctuationSchemas = deprecatedBuildHebrewLexemeBundle({
 	inflectionalFeaturesSchema: HebrewPunctuationInflectionalFeaturesSchema,
 	inherentFeaturesSchema: HebrewPunctuationInherentFeaturesSchema,
 	pos: "PUNCT",

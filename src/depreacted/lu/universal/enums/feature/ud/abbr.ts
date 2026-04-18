@@ -2,5 +2,5 @@ import { z } from "zod/v3";
 
 // Source: https://universaldependencies.org/u/feat/Abbr.html
 
-export const Abbr = z.literal("Yes");
-export type Abbr = z.infer<typeof Abbr>;
+export const DeprecatedAbbr = z.literal("Yes");
+export type DeprecatedAbbr = z.infer<typeof DeprecatedAbbr>;

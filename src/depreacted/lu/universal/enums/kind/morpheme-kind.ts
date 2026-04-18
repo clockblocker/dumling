@@ -14,8 +14,8 @@ const morphemeKinds = [
 	"Duplifix", // 	money~shmoney
 ] as const;
 
-export const MorphemeKindSchema = z.enum(morphemeKinds);
+export const DeprecatedMorphemeKindSchema = z.enum(morphemeKinds);
 
-export type MorphemeKind = z.infer<typeof MorphemeKindSchema>;
+export type DeprecatedMorphemeKind = z.infer<typeof DeprecatedMorphemeKindSchema>;
 
-export const MorphemeKind = MorphemeKindSchema.enum;
+export const DeprecatedMorphemeKind = DeprecatedMorphemeKindSchema.enum;

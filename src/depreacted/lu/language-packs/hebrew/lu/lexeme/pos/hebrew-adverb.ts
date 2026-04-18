@@ -1,14 +1,14 @@
-import { featureSchema } from "../../../../../universal/helpers/schema-targets";
-import { buildHebrewLexemeBundle } from "../shared/build-hebrew-lexeme-bundle";
-import { HebrewFeature } from "../shared/hebrew-common-enums";
+import { deprecatedFeatureSchema } from "../../../../../universal/helpers/schema-targets";
+import { deprecatedBuildHebrewLexemeBundle } from "../shared/build-hebrew-lexeme-bundle";
+import { DeprecatedHebrewFeature } from "../shared/hebrew-common-enums";
 
-const HebrewAdverbInflectionalFeaturesSchema = featureSchema({});
+const HebrewAdverbInflectionalFeaturesSchema = deprecatedFeatureSchema({});
 
-const HebrewAdverbInherentFeaturesSchema = featureSchema({
-	prefix: HebrewFeature.Prefix,
+const HebrewAdverbInherentFeaturesSchema = deprecatedFeatureSchema({
+	prefix: DeprecatedHebrewFeature.Prefix,
 });
 
-export const HebrewAdverbSchemas = buildHebrewLexemeBundle({
+export const DeprecatedHebrewAdverbSchemas = deprecatedBuildHebrewLexemeBundle({
 	inflectionalFeaturesSchema: HebrewAdverbInflectionalFeaturesSchema,
 	inherentFeaturesSchema: HebrewAdverbInherentFeaturesSchema,
 	pos: "ADV",

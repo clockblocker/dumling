@@ -11,5 +11,5 @@ const degreeValues = [
 ] as const;
 
 // Source: https://universaldependencies.org/u/feat/Degree.html
-export const Degree = z.enum(degreeValues);
-export type Degree = z.infer<typeof Degree>;
+export const DeprecatedDegree = z.enum(degreeValues);
+export type DeprecatedDegree = z.infer<typeof DeprecatedDegree>;

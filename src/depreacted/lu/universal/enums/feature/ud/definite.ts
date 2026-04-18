@@ -9,5 +9,5 @@ const definiteValues = [
 ] as const;
 
 // Source: https://universaldependencies.org/u/feat/Definite.html
-export const Definite = z.enum(definiteValues);
-export type Definite = z.infer<typeof Definite>;
+export const DeprecatedDefinite = z.enum(definiteValues);
+export type DeprecatedDefinite = z.infer<typeof DeprecatedDefinite>;

@@ -1,31 +1,31 @@
-import { getOperationPack } from "./internal/operations/operation-pack-registry";
+import { deprecatedGetOperationPack } from "./internal/operations/operation-pack-registry";
 import {
-	type HydratedSelectionLikeFor,
-	type LemmaLike,
-	type LemmaOfSurface,
-	type LemmaSurfaceFor,
-	type StandardFullSelectionForLemma,
-	type StandardFullSelectionForSurface,
-	type SurfaceLike,
-	type SurfaceOfSelection,
-	assertLanguageMatch,
+	type DeprecatedHydratedSelectionLikeFor,
+	type DeprecatedLemmaLike,
+	type DeprecatedLemmaOfSurface,
+	type DeprecatedLemmaSurfaceFor,
+	type DeprecatedStandardFullSelectionForLemma,
+	type DeprecatedStandardFullSelectionForSurface,
+	type DeprecatedSurfaceLike,
+	type DeprecatedSurfaceOfSelection,
+	deprecatedAssertLanguageMatch,
 } from "./internal/operations/shared";
-import type { TargetLanguage } from "./universal/enums/core/language";
+import type { DeprecatedTargetLanguage } from "./universal/enums/core/language";
 
 /** @public Returns the already-hydrated surface payload from a selection DTO without recomputing anything. */
-export const extractSurfaceFromSelection = (<
-	S extends HydratedSelectionLikeFor,
+export const deprecatedExtractSurfaceFromSelection = (<
+	S extends DeprecatedHydratedSelectionLikeFor,
 >(
 	selection: S,
-) => selection.surface as SurfaceOfSelection<S>) as ExtractSurfaceFromSelectionFn;
+) => selection.surface as DeprecatedSurfaceOfSelection<S>) as ExtractSurfaceFromSelectionFn;
 
 /** @public Returns the lemma payload already attached to a surface DTO. */
-export const extractLemmaFromSurface = ((surface: SurfaceLike) =>
+export const deprecatedExtractLemmaFromSurface = ((surface: DeprecatedSurfaceLike) =>
 	surface.lemma) as ExtractLemmaFromSurfaceFn;
 
 /** @public Builds the canonical lemma-backed surface DTO used when no separate inflected surface is involved. */
-export const toSurface = ((lemma: LemmaLike) => {
-	const operationPack = getOperationPack(lemma.language);
+export const deprecatedToSurface = ((lemma: DeprecatedLemmaLike) => {
+	const operationPack = deprecatedGetOperationPack(lemma.language);
 
 	return {
 		language: lemma.language,
@@ -36,11 +36,11 @@ export const toSurface = ((lemma: LemmaLike) => {
 }) as ToSurfaceFn;
 
 /** @public Builds the canonical `Standard` + `Full` selection DTO for an existing surface, optionally overriding the displayed spelling. */
-export const toStandardFullSelection = ((
-	surface: SurfaceLike,
+export const deprecatedToStandardFullSelection = ((
+	surface: DeprecatedSurfaceLike,
 	options = {},
 ) => {
-	const operationPack = getOperationPack(surface.language);
+	const operationPack = deprecatedGetOperationPack(surface.language);
 
 	return {
 		language: surface.language,
@@ -56,55 +56,55 @@ export const toStandardFullSelection = ((
 }) as ToStandardFullSelectionFromSurfaceFn;
 
 /** @public Builds the canonical `Standard` + `Full` selection DTO from a lemma by first deriving its lemma-backed surface DTO. */
-export const toStandardFullSelectionFromLemma = ((
-	lemma: LemmaLike,
+export const deprecatedToStandardFullSelectionFromLemma = ((
+	lemma: DeprecatedLemmaLike,
 	options = {},
 ) =>
-	toStandardFullSelection(
-		toSurface(lemma),
+	deprecatedToStandardFullSelection(
+		deprecatedToSurface(lemma),
 		options,
 	)) as ToStandardFullSelectionFromLemmaFn;
 
 /** @public Creates a language-bound operation helper set that rejects mixed-language DTOs before any conversion or extraction runs. */
-export function operationForLanguage<L extends TargetLanguage>(language: L) {
-	function boundToSurface<T extends LemmaLike<L>>(lemma: T): LemmaSurfaceFor<T> {
-		assertLanguageMatch(language, lemma.language);
+export function deprecatedOperationForLanguage<L extends DeprecatedTargetLanguage>(language: L) {
+	function boundToSurface<T extends DeprecatedLemmaLike<L>>(lemma: T): DeprecatedLemmaSurfaceFor<T> {
+		deprecatedAssertLanguageMatch(language, lemma.language);
 
-		return toSurface(lemma);
+		return deprecatedToSurface(lemma);
 	}
 
-	function boundToStandardFullSelectionFromLemma<T extends LemmaLike<L>>(
+	function boundToStandardFullSelectionFromLemma<T extends DeprecatedLemmaLike<L>>(
 		lemma: T,
 		options?: StandardFullSelectionOptions,
-	): StandardFullSelectionForLemma<T> {
-		assertLanguageMatch(language, lemma.language);
+	): DeprecatedStandardFullSelectionForLemma<T> {
+		deprecatedAssertLanguageMatch(language, lemma.language);
 
-		return toStandardFullSelectionFromLemma(lemma, options);
+		return deprecatedToStandardFullSelectionFromLemma(lemma, options);
 	}
 
-	function boundToStandardFullSelectionFromSurface<S extends SurfaceLike<L>>(
+	function boundToStandardFullSelectionFromSurface<S extends DeprecatedSurfaceLike<L>>(
 		surface: S,
 		options?: StandardFullSelectionOptions,
-	): StandardFullSelectionForSurface<S> {
-		assertLanguageMatch(language, surface.language);
+	): DeprecatedStandardFullSelectionForSurface<S> {
+		deprecatedAssertLanguageMatch(language, surface.language);
 
-		return toStandardFullSelection(surface, options);
+		return deprecatedToStandardFullSelection(surface, options);
 	}
 
-	function boundExtractLemmaFromSurface<S extends SurfaceLike<L>>(
+	function boundExtractLemmaFromSurface<S extends DeprecatedSurfaceLike<L>>(
 		surface: S,
-	): LemmaOfSurface<S> {
-		assertLanguageMatch(language, surface.language);
+	): DeprecatedLemmaOfSurface<S> {
+		deprecatedAssertLanguageMatch(language, surface.language);
 
-		return extractLemmaFromSurface(surface);
+		return deprecatedExtractLemmaFromSurface(surface);
 	}
 
 	function boundExtractSurfaceFromSelection<
-		S extends HydratedSelectionLikeFor<L>,
-	>(selection: S): SurfaceOfSelection<S> {
-		assertLanguageMatch(language, selection.language);
+		S extends DeprecatedHydratedSelectionLikeFor<L>,
+	>(selection: S): DeprecatedSurfaceOfSelection<S> {
+		deprecatedAssertLanguageMatch(language, selection.language);
 
-		return selection.surface as SurfaceOfSelection<S>;
+		return selection.surface as DeprecatedSurfaceOfSelection<S>;
 	}
 
 	const api = {
@@ -135,34 +135,34 @@ type StandardFullSelectionOptions = {
 	spelledSelection?: string;
 };
 
-type ExtractSurfaceFromSelectionFn<L extends TargetLanguage = TargetLanguage> =
-	<S extends HydratedSelectionLikeFor<L>>(selection: S) => SurfaceOfSelection<S>;
+type ExtractSurfaceFromSelectionFn<L extends DeprecatedTargetLanguage = DeprecatedTargetLanguage> =
+	<S extends DeprecatedHydratedSelectionLikeFor<L>>(selection: S) => DeprecatedSurfaceOfSelection<S>;
 
-type ExtractLemmaFromSurfaceFn<L extends TargetLanguage = TargetLanguage> = {
-	<S extends SurfaceLike<L>>(surface: S): LemmaOfSurface<S>;
+type ExtractLemmaFromSurfaceFn<L extends DeprecatedTargetLanguage = DeprecatedTargetLanguage> = {
+	<S extends DeprecatedSurfaceLike<L>>(surface: S): DeprecatedLemmaOfSurface<S>;
 };
 
-type ToSurfaceFn<L extends TargetLanguage = TargetLanguage> = <
-	T extends LemmaLike<L>,
+type ToSurfaceFn<L extends DeprecatedTargetLanguage = DeprecatedTargetLanguage> = <
+	T extends DeprecatedLemmaLike<L>,
 >(
 	lemma: T,
-) => LemmaSurfaceFor<T>;
+) => DeprecatedLemmaSurfaceFor<T>;
 
 type ToStandardFullSelectionFromSurfaceFn<
-	L extends TargetLanguage = TargetLanguage,
-> = <S extends SurfaceLike<L>>(
+	L extends DeprecatedTargetLanguage = DeprecatedTargetLanguage,
+> = <S extends DeprecatedSurfaceLike<L>>(
 	surface: S,
 	options?: StandardFullSelectionOptions,
-) => StandardFullSelectionForSurface<S>;
+) => DeprecatedStandardFullSelectionForSurface<S>;
 
 type ToStandardFullSelectionFromLemmaFn<
-	L extends TargetLanguage = TargetLanguage,
-> = <T extends LemmaLike<L>>(
+	L extends DeprecatedTargetLanguage = DeprecatedTargetLanguage,
+> = <T extends DeprecatedLemmaLike<L>>(
 	lemma: T,
 	options?: StandardFullSelectionOptions,
-) => StandardFullSelectionForLemma<T>;
+) => DeprecatedStandardFullSelectionForLemma<T>;
 
-type LingOperationApi<L extends TargetLanguage = TargetLanguage> = {
+type LingOperationApi<L extends DeprecatedTargetLanguage = DeprecatedTargetLanguage> = {
 	convert: {
 		surface: {
 			toStandardFullSelection: ToStandardFullSelectionFromSurfaceFn<L>;

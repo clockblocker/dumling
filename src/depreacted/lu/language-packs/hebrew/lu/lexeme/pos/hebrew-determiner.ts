@@ -1,21 +1,21 @@
 import {
-	featureSchema,
-	featureSpecificValueSets,
+	deprecatedFeatureSchema,
+	deprecatedFeatureSpecificValueSets,
 } from "../../../../../universal/helpers/schema-targets";
-import { buildHebrewLexemeBundle } from "../shared/build-hebrew-lexeme-bundle";
-import { HebrewFeature } from "../shared/hebrew-common-enums";
+import { deprecatedBuildHebrewLexemeBundle } from "../shared/build-hebrew-lexeme-bundle";
+import { DeprecatedHebrewFeature } from "../shared/hebrew-common-enums";
 
-const HebrewDeterminerInflectionalFeaturesSchema = featureSchema({
-	definite: HebrewFeature.Definite,
-	gender: featureSpecificValueSets(HebrewFeature.Gender, [["Fem", "Masc"]]),
-	number: HebrewFeature.Number.extract(["Plur", "Sing"]),
+const HebrewDeterminerInflectionalFeaturesSchema = deprecatedFeatureSchema({
+	definite: DeprecatedHebrewFeature.Definite,
+	gender: deprecatedFeatureSpecificValueSets(DeprecatedHebrewFeature.Gender, [["Fem", "Masc"]]),
+	number: DeprecatedHebrewFeature.Number.extract(["Plur", "Sing"]),
 });
 
-const HebrewDeterminerInherentFeaturesSchema = featureSchema({
-	pronType: HebrewFeature.PronType.extract(["Art", "Int"]),
+const HebrewDeterminerInherentFeaturesSchema = deprecatedFeatureSchema({
+	pronType: DeprecatedHebrewFeature.PronType.extract(["Art", "Int"]),
 });
 
-export const HebrewDeterminerSchemas = buildHebrewLexemeBundle({
+export const DeprecatedHebrewDeterminerSchemas = deprecatedBuildHebrewLexemeBundle({
 	inflectionalFeaturesSchema: HebrewDeterminerInflectionalFeaturesSchema,
 	inherentFeaturesSchema: HebrewDeterminerInherentFeaturesSchema,
 	pos: "DET",

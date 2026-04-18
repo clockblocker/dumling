@@ -28,5 +28,5 @@ const POS_VALUES = [
 ] as const;
 
 // Source: https://universaldependencies.org/u/pos/index.html
-export const Pos = z.enum(POS_VALUES);
-export type Pos = z.infer<typeof Pos>;
+export const DeprecatedPos = z.enum(POS_VALUES);
+export type DeprecatedPos = z.infer<typeof DeprecatedPos>;

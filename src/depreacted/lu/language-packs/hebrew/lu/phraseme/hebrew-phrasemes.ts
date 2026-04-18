@@ -1,32 +1,32 @@
 import type {
-	LemmaSchemaLanguageShape,
-	SurfaceSchemaLanguageShape,
+	DeprecatedLemmaSchemaLanguageShape,
+	DeprecatedSurfaceSchemaLanguageShape,
 } from "../../../../registry-shapes";
-import { buildHebrewPhrasemeBundle } from "./shared/build-hebrew-phraseme-bundle";
+import { deprecatedBuildHebrewPhrasemeBundle } from "./shared/build-hebrew-phraseme-bundle";
 
-const HebrewAphorismBundle = buildHebrewPhrasemeBundle({
+const HebrewAphorismBundle = deprecatedBuildHebrewPhrasemeBundle({
 	phrasemeKind: "Aphorism",
 });
-const HebrewDiscourseFormulaBundle = buildHebrewPhrasemeBundle({
+const HebrewDiscourseFormulaBundle = deprecatedBuildHebrewPhrasemeBundle({
 	phrasemeKind: "DiscourseFormula",
 });
-const HebrewIdiomBundle = buildHebrewPhrasemeBundle({
+const HebrewIdiomBundle = deprecatedBuildHebrewPhrasemeBundle({
 	phrasemeKind: "Idiom",
 });
-const HebrewProverbBundle = buildHebrewPhrasemeBundle({
+const HebrewProverbBundle = deprecatedBuildHebrewPhrasemeBundle({
 	phrasemeKind: "Proverb",
 });
 
-export const HebrewPhrasemeLemmaSchemas = {
+export const DeprecatedHebrewPhrasemeLemmaSchemas = {
 	Aphorism: HebrewAphorismBundle.LemmaSchema,
 	DiscourseFormula: HebrewDiscourseFormulaBundle.LemmaSchema,
 	Idiom: HebrewIdiomBundle.LemmaSchema,
 	Proverb: HebrewProverbBundle.LemmaSchema,
-} satisfies LemmaSchemaLanguageShape["Phraseme"];
+} satisfies DeprecatedLemmaSchemaLanguageShape["Phraseme"];
 
-export const HebrewLemmaPhrasemeSurfaceSchemas = {
+export const DeprecatedHebrewLemmaPhrasemeSurfaceSchemas = {
 	Aphorism: HebrewAphorismBundle.LemmaSurfaceSchema,
 	DiscourseFormula: HebrewDiscourseFormulaBundle.LemmaSurfaceSchema,
 	Idiom: HebrewIdiomBundle.LemmaSurfaceSchema,
 	Proverb: HebrewProverbBundle.LemmaSurfaceSchema,
-} satisfies SurfaceSchemaLanguageShape["Lemma"]["Phraseme"];
+} satisfies DeprecatedSurfaceSchemaLanguageShape["Lemma"]["Phraseme"];

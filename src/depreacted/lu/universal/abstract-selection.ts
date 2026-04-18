@@ -1,26 +1,26 @@
-import type { Prettify } from "../../types/helpers";
-import type { AbstractLemma } from "./abstract-lemma";
-import type { TargetLanguage } from "./enums/core/language";
+import type { DeprecatedPrettify } from "../../types/helpers";
+import type { DeprecatedAbstractLemma } from "./abstract-lemma";
+import type { DeprecatedTargetLanguage } from "./enums/core/language";
 import type {
-	LemmaKind,
-	OrthographicStatus,
-	SelectionCoverage,
-	SpellingRelation,
-	SurfaceKind,
+	DeprecatedLemmaKind,
+	DeprecatedOrthographicStatus,
+	DeprecatedSelectionCoverage,
+	DeprecatedSpellingRelation,
+	DeprecatedSurfaceKind,
 } from "./enums/core/selection";
-import type { AbstractFeatures } from "./enums/feature";
-import type { LemmaDiscriminatorFor } from "./lemma-discriminator";
+import type { DeprecatedAbstractFeatures } from "./enums/feature";
+import type { DeprecatedLemmaDiscriminatorFor } from "./lemma-discriminator";
 
-export type AbstractSelectionFor<
-	OS extends Exclude<OrthographicStatus, "Unknown"> = Exclude<
-		OrthographicStatus,
+export type DeprecatedAbstractSelectionFor<
+	OS extends Exclude<DeprecatedOrthographicStatus, "Unknown"> = Exclude<
+		DeprecatedOrthographicStatus,
 		"Unknown"
 	>,
-	SK extends SurfaceKind = SurfaceKind,
-	LK extends LemmaKind = LemmaKind,
-	D extends LemmaDiscriminatorFor<LK> = LemmaDiscriminatorFor<LK>,
+	SK extends DeprecatedSurfaceKind = DeprecatedSurfaceKind,
+	LK extends DeprecatedLemmaKind = DeprecatedLemmaKind,
+	D extends DeprecatedLemmaDiscriminatorFor<LK> = DeprecatedLemmaDiscriminatorFor<LK>,
 > = OS extends "Standard"
-	? Prettify<
+	? DeprecatedPrettify<
 			HydratedSelectionBaseFor<OS, SK, LK, D> &
 				(
 					| {
@@ -32,54 +32,54 @@ export type AbstractSelectionFor<
 				)
 		>
 	: OS extends "Typo"
-		? Prettify<
+		? DeprecatedPrettify<
 				HydratedSelectionBaseFor<OS, SK, LK, D> & {
-					selectionCoverage: SelectionCoverage;
+					selectionCoverage: DeprecatedSelectionCoverage;
 				}
 			>
 		: never;
 
-export type AbstractObservedSelectionFor = {
-	language: TargetLanguage;
+export type DeprecatedAbstractObservedSelectionFor = {
+	language: DeprecatedTargetLanguage;
 	orthographicStatus: "Unknown";
 	spelledSelection: string;
 };
 
-type SurfaceFieldsFor<SK extends SurfaceKind> = SK extends "Inflection"
-	? { inflectionalFeatures: Partial<AbstractFeatures> }
+type SurfaceFieldsFor<SK extends DeprecatedSurfaceKind> = SK extends "Inflection"
+	? { inflectionalFeatures: Partial<DeprecatedAbstractFeatures> }
 	: Record<never, never>;
 
 type HydratedSelectionBaseFor<
-	OS extends Exclude<OrthographicStatus, "Unknown">,
-	SK extends SurfaceKind = SurfaceKind,
-	LK extends LemmaKind = LemmaKind,
-	D extends LemmaDiscriminatorFor<LK> = LemmaDiscriminatorFor<LK>,
+	OS extends Exclude<DeprecatedOrthographicStatus, "Unknown">,
+	SK extends DeprecatedSurfaceKind = DeprecatedSurfaceKind,
+	LK extends DeprecatedLemmaKind = DeprecatedLemmaKind,
+	D extends DeprecatedLemmaDiscriminatorFor<LK> = DeprecatedLemmaDiscriminatorFor<LK>,
 > = {
-	language: TargetLanguage;
+	language: DeprecatedTargetLanguage;
 	orthographicStatus: OS;
-	spellingRelation: SpellingRelation;
+	spellingRelation: DeprecatedSpellingRelation;
 	spelledSelection: string;
 	surface: SurfaceFor<SK, LK, D>;
 };
 
 type SurfaceBaseFor<
-	SK extends SurfaceKind = SurfaceKind,
-> = Prettify<
+	SK extends DeprecatedSurfaceKind = DeprecatedSurfaceKind,
+> = DeprecatedPrettify<
 	{
-		language: TargetLanguage;
+		language: DeprecatedTargetLanguage;
 		surfaceKind: SK;
 		normalizedFullSurface: string;
 	} & SurfaceFieldsFor<SK>
 >;
 
 type SurfaceFor<
-	SK extends SurfaceKind = SurfaceKind,
-	LK extends LemmaKind = LemmaKind,
-	D extends LemmaDiscriminatorFor<LK> = LemmaDiscriminatorFor<LK>,
-> = SK extends SurfaceKind
-	? Prettify<
+	SK extends DeprecatedSurfaceKind = DeprecatedSurfaceKind,
+	LK extends DeprecatedLemmaKind = DeprecatedLemmaKind,
+	D extends DeprecatedLemmaDiscriminatorFor<LK> = DeprecatedLemmaDiscriminatorFor<LK>,
+> = SK extends DeprecatedSurfaceKind
+	? DeprecatedPrettify<
 			{
-				lemma: AbstractLemma<LK, D>;
+				lemma: DeprecatedAbstractLemma<LK, D>;
 			} & SurfaceBaseFor<SK>
 		>
 	: never;

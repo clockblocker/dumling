@@ -1,12 +1,12 @@
-import { UniversalFeature } from "../../../../../universal/enums/feature";
+import { DeprecatedUniversalFeature } from "../../../../../universal/enums/feature";
 import {
-	featureSchema,
-	featureSpecificValueSets,
+	deprecatedFeatureSchema,
+	deprecatedFeatureSpecificValueSets,
 } from "../../../../../universal/helpers/schema-targets";
-import { buildGermanLexemeBundle } from "../shared/build-german-lexeme-bundle";
-import { GermanFeature } from "../shared/german-common-enums";
+import { deprecatedBuildGermanLexemeBundle } from "../shared/build-german-lexeme-bundle";
+import { DeprecatedGermanFeature } from "../shared/german-common-enums";
 
-const GermanPronounPronType = UniversalFeature.PronType.extract([
+const GermanPronounPronType = DeprecatedUniversalFeature.PronType.extract([
 	"Dem",
 	"Ind",
 	"Int",
@@ -17,26 +17,26 @@ const GermanPronounPronType = UniversalFeature.PronType.extract([
 	"Tot",
 ]);
 
-const GermanPronounInflectionalFeaturesSchema = featureSchema({
-	case: GermanFeature.Case,
-	gender: GermanFeature.Gender,
-	number: GermanFeature.Number,
-	reflex: UniversalFeature.Reflex,
+const GermanPronounInflectionalFeaturesSchema = deprecatedFeatureSchema({
+	case: DeprecatedGermanFeature.Case,
+	gender: DeprecatedGermanFeature.Gender,
+	number: DeprecatedGermanFeature.Number,
+	reflex: DeprecatedUniversalFeature.Reflex,
 });
 
-const GermanPronounInherentFeaturesSchema = featureSchema({
-	extPos: UniversalFeature.ExtPos.extract(["DET"]),
-	foreign: UniversalFeature.Foreign,
-	person: GermanFeature.Person,
-	polite: GermanFeature.Polite,
-	poss: UniversalFeature.Poss,
-	pronType: featureSpecificValueSets(GermanPronounPronType, [
+const GermanPronounInherentFeaturesSchema = deprecatedFeatureSchema({
+	extPos: DeprecatedUniversalFeature.ExtPos.extract(["DET"]),
+	foreign: DeprecatedUniversalFeature.Foreign,
+	person: DeprecatedGermanFeature.Person,
+	polite: DeprecatedGermanFeature.Polite,
+	poss: DeprecatedUniversalFeature.Poss,
+	pronType: deprecatedFeatureSpecificValueSets(GermanPronounPronType, [
 		["Dem", "Rel"],
 		["Int", "Rel"],
 	]),
 });
 
-export const GermanPronounSchemas = buildGermanLexemeBundle({
+export const DeprecatedGermanPronounSchemas = deprecatedBuildGermanLexemeBundle({
 	inflectionalFeaturesSchema: GermanPronounInflectionalFeaturesSchema,
 	inherentFeaturesSchema: GermanPronounInherentFeaturesSchema,
 	pos: "PRON",

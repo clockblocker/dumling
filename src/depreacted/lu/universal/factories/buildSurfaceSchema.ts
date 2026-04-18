@@ -1,6 +1,6 @@
 import z from "zod/v3";
-import type { Prettify } from "../../../types/helpers";
-import type { LemmaSchemaDescriptor } from "./lemma-schema-descriptor";
+import type { DeprecatedPrettify } from "../../../types/helpers";
+import type { DeprecatedLemmaSchemaDescriptor } from "./lemma-schema-descriptor";
 
 const lemmaSubKindKeys = ["morphemeKind", "phrasemeKind", "pos"] as const;
 
@@ -18,7 +18,7 @@ type SurfaceValueFor<
 	LanguageLiteral extends string,
 	Lemma,
 	Surface,
-> = Prettify<
+> = DeprecatedPrettify<
 	Surface & {
 		language: LanguageLiteral;
 		normalizedFullSurface: string;
@@ -39,7 +39,7 @@ type SurfaceSchemaFor<
 >;
 
 type SurfaceSchemaDescriptorFor<
-	LemmaDescriptor extends LemmaSchemaDescriptor<z.ZodTypeAny>,
+	LemmaDescriptor extends DeprecatedLemmaSchemaDescriptor<z.ZodTypeAny>,
 	SurfaceShape extends z.ZodRawShape,
 > = {
 	language: LemmaDescriptor["language"];
@@ -50,8 +50,8 @@ type SurfaceSchemaDescriptorFor<
 	>;
 };
 
-export function buildSurfaceSchema<
-	LemmaDescriptor extends LemmaSchemaDescriptor<z.ZodTypeAny>,
+export function deprecatedBuildSurfaceSchema<
+	LemmaDescriptor extends DeprecatedLemmaSchemaDescriptor<z.ZodTypeAny>,
 	LemmaIdentityShape extends SurfaceLemmaIdentityShape,
 	SurfaceShape extends z.ZodRawShape,
 >({

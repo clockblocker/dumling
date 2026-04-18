@@ -39,5 +39,5 @@ const nounClassValues = [
 ] as const;
 
 // Source: https://universaldependencies.org/u/feat/NounClass.html
-export const NounClass = z.enum(nounClassValues);
-export type NounClass = z.infer<typeof NounClass>;
+export const DeprecatedNounClass = z.enum(nounClassValues);
+export type DeprecatedNounClass = z.infer<typeof DeprecatedNounClass>;

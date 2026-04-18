@@ -1,21 +1,21 @@
 import {
-	extractLemmaFromSurface as extractLemmaFromSurfaceInternal,
-	extractSurfaceFromSelection as extractSurfaceFromSelectionInternal,
-	operationForLanguage as operationForLanguageInternal,
-	toStandardFullSelection as toStandardFullSelectionInternal,
-	toStandardFullSelectionFromLemma as toStandardFullSelectionFromLemmaInternal,
-	toSurface as toSurfaceInternal,
+	deprecatedExtractLemmaFromSurface as extractLemmaFromSurfaceInternal,
+	deprecatedExtractSurfaceFromSelection as extractSurfaceFromSelectionInternal,
+	deprecatedOperationForLanguage as operationForLanguageInternal,
+	deprecatedToStandardFullSelection as toStandardFullSelectionInternal,
+	deprecatedToStandardFullSelectionFromLemma as toStandardFullSelectionFromLemmaInternal,
+	deprecatedToSurface as toSurfaceInternal,
 } from "./lu/public-operations";
 
 /** @public */
-export type DumlingOperationLanguage = "English" | "German" | "Hebrew";
+export type DeprecatedDumlingOperationLanguage = "English" | "German" | "Hebrew";
 
 /**
  * @public
  * Stable public lemma shape consumed by the operation helpers.
  */
-export type OperationLemma<
-	L extends DumlingOperationLanguage = DumlingOperationLanguage,
+export type DeprecatedOperationLemma<
+	L extends DeprecatedDumlingOperationLanguage = DeprecatedDumlingOperationLanguage,
 > =
 	| ({
 			canonicalLemma: string;
@@ -44,12 +44,12 @@ export type OperationLemma<
  * @public
  * Stable public surface shape consumed by the operation helpers.
  */
-export type OperationSurface<
-	L extends DumlingOperationLanguage = DumlingOperationLanguage,
+export type DeprecatedOperationSurface<
+	L extends DeprecatedDumlingOperationLanguage = DeprecatedDumlingOperationLanguage,
 > = {
 	inflectionalFeatures?: Record<string, unknown>;
 	language: L;
-	lemma: OperationLemma<L>;
+	lemma: DeprecatedOperationLemma<L>;
 	normalizedFullSurface: string;
 	surfaceKind: string;
 } & Record<string, unknown>;
@@ -58,22 +58,22 @@ export type OperationSurface<
  * @public
  * Stable public hydrated-selection shape consumed by the operation helpers.
  */
-export type OperationSelection<
-	L extends DumlingOperationLanguage = DumlingOperationLanguage,
+export type DeprecatedOperationSelection<
+	L extends DeprecatedDumlingOperationLanguage = DeprecatedDumlingOperationLanguage,
 > = {
 	language: L;
 	orthographicStatus: "Standard" | "Typo";
 	selectionCoverage: string;
 	spelledSelection: string;
 	spellingRelation: "Canonical" | "Variant";
-	surface: OperationSurface<L>;
+	surface: DeprecatedOperationSurface<L>;
 } & Record<string, unknown>;
 
 /**
  * @public
  * Overrides for the canonical full-selection helpers.
  */
-export type StandardFullSelectionOptions = {
+export type DeprecatedStandardFullSelectionOptions = {
 	spelledSelection?: string;
 };
 
@@ -81,8 +81,8 @@ export type StandardFullSelectionOptions = {
  * @public
  * The lemma-backed surface Dumling synthesizes when a lemma has no separate surface payload yet.
  */
-export type LemmaSurface<
-	LemmaValue extends OperationLemma = OperationLemma,
+export type DeprecatedLemmaSurface<
+	LemmaValue extends DeprecatedOperationLemma = DeprecatedOperationLemma,
 > = {
 	language: LemmaValue["language"];
 	normalizedFullSurface: string;
@@ -94,8 +94,8 @@ export type LemmaSurface<
  * @public
  * The canonical fully hydrated selection shape produced by the operation helpers.
  */
-export type StandardFullSelection<
-	SurfaceValue extends { language: unknown } = OperationSurface,
+export type DeprecatedStandardFullSelection<
+	SurfaceValue extends { language: unknown } = DeprecatedOperationSurface,
 > = {
 	language: SurfaceValue["language"];
 	orthographicStatus: "Standard";
@@ -109,34 +109,34 @@ export type StandardFullSelection<
  * @public
  * The language-bound convert and extract helpers returned by `operationForLanguage()`.
  */
-export type DumlingOperationApiFor<
-	L extends DumlingOperationLanguage = DumlingOperationLanguage,
+export type DeprecatedDumlingOperationApiFor<
+	L extends DeprecatedDumlingOperationLanguage = DeprecatedDumlingOperationLanguage,
 > = {
 	convert: {
 		lemma: {
-			toSurface: <LemmaValue extends OperationLemma<L>>(
+			toSurface: <LemmaValue extends DeprecatedOperationLemma<L>>(
 				lemma: LemmaValue,
-			) => LemmaSurface<LemmaValue>;
-			toStandardFullSelection: <LemmaValue extends OperationLemma<L>>(
+			) => DeprecatedLemmaSurface<LemmaValue>;
+			toStandardFullSelection: <LemmaValue extends DeprecatedOperationLemma<L>>(
 				lemma: LemmaValue,
-				options?: StandardFullSelectionOptions,
-			) => StandardFullSelection<LemmaSurface<LemmaValue>>;
+				options?: DeprecatedStandardFullSelectionOptions,
+			) => DeprecatedStandardFullSelection<DeprecatedLemmaSurface<LemmaValue>>;
 		};
 		surface: {
-			toStandardFullSelection: <SurfaceValue extends OperationSurface<L>>(
+			toStandardFullSelection: <SurfaceValue extends DeprecatedOperationSurface<L>>(
 				surface: SurfaceValue,
-				options?: StandardFullSelectionOptions,
-			) => StandardFullSelection<SurfaceValue>;
+				options?: DeprecatedStandardFullSelectionOptions,
+			) => DeprecatedStandardFullSelection<SurfaceValue>;
 		};
 	};
 	extract: {
 		lemma: {
-			fromSurface: <SurfaceValue extends OperationSurface<L>>(
+			fromSurface: <SurfaceValue extends DeprecatedOperationSurface<L>>(
 				surface: SurfaceValue,
 			) => SurfaceValue["lemma"];
 		};
 		surface: {
-			fromSelection: <SelectionValue extends OperationSelection<L>>(
+			fromSelection: <SelectionValue extends DeprecatedOperationSelection<L>>(
 				selection: SelectionValue,
 			) => SelectionValue["surface"];
 		};
@@ -147,8 +147,8 @@ export type DumlingOperationApiFor<
  * @public
  * Returns the surface already embedded inside a hydrated selection.
  */
-export function extractSurfaceFromSelection<
-	SelectionValue extends OperationSelection = OperationSelection,
+export function deprecatedExtractSurfaceFromSelection<
+	SelectionValue extends DeprecatedOperationSelection = DeprecatedOperationSelection,
 >(selection: SelectionValue): SelectionValue["surface"] {
 	return extractSurfaceFromSelectionInternal(selection) as SelectionValue["surface"];
 }
@@ -157,8 +157,8 @@ export function extractSurfaceFromSelection<
  * @public
  * Returns the lemma already embedded inside a normalized surface DTO.
  */
-export function extractLemmaFromSurface<
-	SurfaceValue extends OperationSurface = OperationSurface,
+export function deprecatedExtractLemmaFromSurface<
+	SurfaceValue extends DeprecatedOperationSurface = DeprecatedOperationSurface,
 >(surface: SurfaceValue): SurfaceValue["lemma"] {
 	return extractLemmaFromSurfaceInternal(surface) as SurfaceValue["lemma"];
 }
@@ -167,50 +167,50 @@ export function extractLemmaFromSurface<
  * @public
  * Builds the canonical lemma-backed surface DTO used by Dumling operations.
  */
-export function toSurface<LemmaValue extends OperationLemma = OperationLemma>(
+export function deprecatedToSurface<LemmaValue extends DeprecatedOperationLemma = DeprecatedOperationLemma>(
 	lemma: LemmaValue,
-): LemmaSurface<LemmaValue> {
-	return toSurfaceInternal(lemma) as LemmaSurface<LemmaValue>;
+): DeprecatedLemmaSurface<LemmaValue> {
+	return toSurfaceInternal(lemma) as DeprecatedLemmaSurface<LemmaValue>;
 }
 
 /**
  * @public
  * Builds the canonical `Standard` + `Full` selection DTO from an existing surface DTO.
  */
-export function toStandardFullSelection<
-	SurfaceValue extends OperationSurface = OperationSurface,
+export function deprecatedToStandardFullSelection<
+	SurfaceValue extends DeprecatedOperationSurface = DeprecatedOperationSurface,
 >(
 	surface: SurfaceValue,
-	options?: StandardFullSelectionOptions,
-): StandardFullSelection<SurfaceValue> {
+	options?: DeprecatedStandardFullSelectionOptions,
+): DeprecatedStandardFullSelection<SurfaceValue> {
 	return toStandardFullSelectionInternal(
 		surface,
 		options,
-	) as StandardFullSelection<SurfaceValue>;
+	) as DeprecatedStandardFullSelection<SurfaceValue>;
 }
 
 /**
  * @public
  * Builds the canonical `Standard` + `Full` selection DTO directly from a lemma by first synthesizing its lemma-backed surface.
  */
-export function toStandardFullSelectionFromLemma<
-	LemmaValue extends OperationLemma = OperationLemma,
+export function deprecatedToStandardFullSelectionFromLemma<
+	LemmaValue extends DeprecatedOperationLemma = DeprecatedOperationLemma,
 >(
 	lemma: LemmaValue,
-	options?: StandardFullSelectionOptions,
-): StandardFullSelection<LemmaSurface<LemmaValue>> {
+	options?: DeprecatedStandardFullSelectionOptions,
+): DeprecatedStandardFullSelection<DeprecatedLemmaSurface<LemmaValue>> {
 	return toStandardFullSelectionFromLemmaInternal(
 		lemma,
 		options,
-	) as StandardFullSelection<LemmaSurface<LemmaValue>>;
+	) as DeprecatedStandardFullSelection<DeprecatedLemmaSurface<LemmaValue>>;
 }
 
 /**
  * @public
  * Creates convert and extract helpers locked to one language so mixed-language DTOs fail fast.
  */
-export function operationForLanguage<L extends DumlingOperationLanguage>(
+export function deprecatedOperationForLanguage<L extends DeprecatedDumlingOperationLanguage>(
 	language: L,
-): DumlingOperationApiFor<L> {
-	return operationForLanguageInternal(language) as DumlingOperationApiFor<L>;
+): DeprecatedDumlingOperationApiFor<L> {
+	return operationForLanguageInternal(language) as DeprecatedDumlingOperationApiFor<L>;
 }

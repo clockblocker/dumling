@@ -1,20 +1,20 @@
-import { UniversalFeature } from "../../../../../universal/enums/feature";
-import { featureSchema } from "../../../../../universal/helpers/schema-targets";
-import { buildEnglishLexemeBundle } from "../shared/build-english-lexeme-bundle";
-import { EnglishFeature } from "../shared/english-common-enums";
+import { DeprecatedUniversalFeature } from "../../../../../universal/enums/feature";
+import { deprecatedFeatureSchema } from "../../../../../universal/helpers/schema-targets";
+import { deprecatedBuildEnglishLexemeBundle } from "../shared/build-english-lexeme-bundle";
+import { DeprecatedEnglishFeature } from "../shared/english-common-enums";
 
 // https://universaldependencies.org/treebanks/en_ewt/en_ewt-pos-PART.html
-const EnglishParticleExtPos = UniversalFeature.ExtPos.extract(["CCONJ"]);
+const EnglishParticleExtPos = DeprecatedUniversalFeature.ExtPos.extract(["CCONJ"]);
 
-const EnglishParticleInflectionalFeaturesSchema = featureSchema({});
+const EnglishParticleInflectionalFeaturesSchema = deprecatedFeatureSchema({});
 
-const EnglishParticleInherentFeaturesSchema = featureSchema({
-	abbr: UniversalFeature.Abbr,
+const EnglishParticleInherentFeaturesSchema = deprecatedFeatureSchema({
+	abbr: DeprecatedUniversalFeature.Abbr,
 	extPos: EnglishParticleExtPos,
-	polarity: EnglishFeature.Polarity.extract(["Neg"]), // https://universaldependencies.org/treebanks/en_ewt/en_ewt-feat-Polarity.html
+	polarity: DeprecatedEnglishFeature.Polarity.extract(["Neg"]), // https://universaldependencies.org/treebanks/en_ewt/en_ewt-feat-Polarity.html
 });
 
-export const EnglishParticleSchemas = buildEnglishLexemeBundle({
+export const DeprecatedEnglishParticleSchemas = deprecatedBuildEnglishLexemeBundle({
 	inflectionalFeaturesSchema: EnglishParticleInflectionalFeaturesSchema,
 	inherentFeaturesSchema: EnglishParticleInherentFeaturesSchema,
 	pos: "PART",

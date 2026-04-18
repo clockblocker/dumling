@@ -11,5 +11,5 @@ const deixisValues = [
 ] as const;
 
 // Source: https://universaldependencies.org/u/feat/Deixis.html
-export const Deixis = z.enum(deixisValues);
-export type Deixis = z.infer<typeof Deixis>;
+export const DeprecatedDeixis = z.enum(deixisValues);
+export type DeprecatedDeixis = z.infer<typeof DeprecatedDeixis>;

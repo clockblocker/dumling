@@ -1,10 +1,10 @@
-import { featureSchema } from "../../../../../universal/helpers/schema-targets";
-import { buildHebrewLexemeBundle } from "../shared/build-hebrew-lexeme-bundle";
+import { deprecatedFeatureSchema } from "../../../../../universal/helpers/schema-targets";
+import { deprecatedBuildHebrewLexemeBundle } from "../shared/build-hebrew-lexeme-bundle";
 
-const HebrewInterjectionInflectionalFeaturesSchema = featureSchema({});
-const HebrewInterjectionInherentFeaturesSchema = featureSchema({});
+const HebrewInterjectionInflectionalFeaturesSchema = deprecatedFeatureSchema({});
+const HebrewInterjectionInherentFeaturesSchema = deprecatedFeatureSchema({});
 
-export const HebrewInterjectionSchemas = buildHebrewLexemeBundle({
+export const DeprecatedHebrewInterjectionSchemas = deprecatedBuildHebrewLexemeBundle({
 	inflectionalFeaturesSchema: HebrewInterjectionInflectionalFeaturesSchema,
 	inherentFeaturesSchema: HebrewInterjectionInherentFeaturesSchema,
 	pos: "INTJ",

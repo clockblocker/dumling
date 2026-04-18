@@ -15,5 +15,5 @@ const pronTypeValues = [
 ] as const;
 
 // Source: https://universaldependencies.org/u/feat/PronType.html
-export const PronType = z.enum(pronTypeValues);
-export type PronType = z.infer<typeof PronType>;
+export const DeprecatedPronType = z.enum(pronTypeValues);
+export type DeprecatedPronType = z.infer<typeof DeprecatedPronType>;

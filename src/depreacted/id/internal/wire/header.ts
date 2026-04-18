@@ -1,6 +1,6 @@
-import type { TargetLanguage } from "../../../lu/universal/enums/core/language";
-import type { ConcreteDumlingIdKind } from "../../types";
-import { codeToLanguage, languageToCode } from "./language-codes";
+import type { DeprecatedTargetLanguage } from "../../../lu/universal/enums/core/language";
+import type { DeprecatedConcreteDumlingIdKind } from "../../types";
+import { deprecatedCodeToLanguage, deprecatedLanguageToCode } from "./language-codes";
 
 type WireKindCode = "LEM" | "SEL" | "SURF";
 
@@ -8,37 +8,37 @@ const KIND_TO_WIRE = {
 	Lemma: "LEM",
 	Selection: "SEL",
 	Surface: "SURF",
-} as const satisfies Record<ConcreteDumlingIdKind, WireKindCode>;
+} as const satisfies Record<DeprecatedConcreteDumlingIdKind, WireKindCode>;
 
 const WIRE_TO_KIND = {
 	LEM: "Lemma",
 	SEL: "Selection",
 	SURF: "Surface",
-} as const satisfies Record<WireKindCode, ConcreteDumlingIdKind>;
+} as const satisfies Record<WireKindCode, DeprecatedConcreteDumlingIdKind>;
 
-export function encodeWireKind(kind: ConcreteDumlingIdKind): WireKindCode {
+export function deprecatedEncodeWireKind(kind: DeprecatedConcreteDumlingIdKind): WireKindCode {
 	return KIND_TO_WIRE[kind];
 }
 
-export function decodeWireKind(
+export function deprecatedDecodeWireKind(
 	wireKind: string,
-): ConcreteDumlingIdKind | undefined {
-	return (WIRE_TO_KIND as Record<string, ConcreteDumlingIdKind | undefined>)[
+): DeprecatedConcreteDumlingIdKind | undefined {
+	return (WIRE_TO_KIND as Record<string, DeprecatedConcreteDumlingIdKind | undefined>)[
 		wireKind
 	];
 }
 
-export function buildHeader(
-	language: TargetLanguage,
-	kind: ConcreteDumlingIdKind,
+export function deprecatedBuildHeader(
+	language: DeprecatedTargetLanguage,
+	kind: DeprecatedConcreteDumlingIdKind,
 ): string {
-	return `ling:v1:${languageToCode(language)}:${encodeWireKind(kind)}`;
+	return `ling:v1:${deprecatedLanguageToCode(language)}:${deprecatedEncodeWireKind(kind)}`;
 }
 
-export function parseHeader(id: string): {
+export function deprecatedParseHeader(id: string): {
 	body: string;
-	kind: ConcreteDumlingIdKind;
-	language: TargetLanguage;
+	kind: DeprecatedConcreteDumlingIdKind;
+	language: DeprecatedTargetLanguage;
 } {
 	const separatorIndex = id.indexOf(";");
 
@@ -69,7 +69,7 @@ export function parseHeader(id: string): {
 		throw new Error(`Unsupported Dumling ID version: ${version}`);
 	}
 
-	const language = codeToLanguage(languageCode);
+	const language = deprecatedCodeToLanguage(languageCode);
 
 	if (language === undefined) {
 		throw new Error(
@@ -77,7 +77,7 @@ export function parseHeader(id: string): {
 		);
 	}
 
-	const kind = decodeWireKind(wireKind);
+	const kind = deprecatedDecodeWireKind(wireKind);
 
 	if (kind === undefined) {
 		throw new Error(`Unsupported Dumling ID kind: ${wireKind}`);
