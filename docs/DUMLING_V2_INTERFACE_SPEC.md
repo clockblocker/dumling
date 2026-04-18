@@ -17,6 +17,48 @@ This is a target-interface document, not an implementation plan. It defines
 the intended v2 public surface and the design constraints the new internals
 must satisfy.
 
+## Why Rewrite Now
+
+This spec assumes a full internal rewrite is acceptable.
+
+That is a reasonable choice because `dumling` is still effectively greenfield:
+
+- there is no large downstream dependency surface to preserve
+- the package is not yet locked into a mature compatibility burden
+- the current moment is still early enough to change the model cleanly
+
+The point of v2 is not incremental cleanup for its own sake. The point is to
+replace the current internal architecture before it hardens into long-term
+public debt.
+
+## Rewrite Motivation
+
+The rewrite is motivated by practical use of the library, not by abstract
+architectural preference.
+
+Working with the current package surface in real consumer code exposed repeated
+friction:
+
+- public concepts are split across too many adjacent APIs
+- internal registry structure leaks into the caller experience
+- the model is harder to use than the underlying linguistic ideas deserve
+- downstream usage keeps running into avoidable rough edges
+
+One specific lesson from v1 is that inferring the public type model from the
+schema graph was a bait-and-headache design.
+
+That approach made the type surface harder to reason about, harder to control,
+and too dependent on the exact structure of authored schema registries.
+
+v2 explicitly moves away from that failed direction:
+
+- types are the canonical model
+- concrete lemma schemas must satisfy the type model
+- schema authoring does not get to define the public DTO shape retroactively
+
+This spec should therefore be read as a response to practical integration pain,
+not just as a theoretical redesign exercise.
+
 ## Core Decisions
 
 ### 1. Public surface is split hard by concern
@@ -895,3 +937,21 @@ Schemas, types, and workflow helpers are separate public surfaces.
 `lemmaSubKind` is the public discriminator field.
 
 That is the target the new internals should be built to satisfy.
+
+The project is still early enough that a full rewrite is cheaper than dragging
+the current internals forward behind a compatibility story they have not earned
+yet.
+
+The rewrite is justified by actual usage: trying to use `dumling` as a real
+library exposed enough friction and awkwardness that a ground-up reset is the
+cleaner path.
+
+v1 also reflects the reality that the project did not arrive at the right
+shapes immediately. Some of the current structure is the residue of getting
+there the hard way.
+
+This rewrite is allowed to acknowledge that history directly:
+
+- schema-derived public typing was a failed experiment
+- some v1 shapes exist because the model was discovered gradually
+- v2 should keep the linguistic ideas and discard the architectural baggage
