@@ -1,10 +1,8 @@
 import { z } from "zod/v3";
 import type {
-	InflectionalFeaturesFor,
-	InherentFeaturesFor,
-	Lemma,
-} from "../../../../public-types";
-import type { HeLexemeLemmaBySubKind } from "../../../../types/language-packs/he/lexeme/he-lexemes";
+	HeInflectionLexemeSurfaceBySubKind,
+	HeLexemeLemmaBySubKind,
+} from "../../../../types/language-packs/he/lexeme/he-lexemes";
 import { abstractFeatureAtomSchemas } from "../../../abstract/feature-schemas";
 import {
 	buildOptionalFeatureObjectSchema,
@@ -111,12 +109,12 @@ const heVoiceSchema = abstractFeatureAtomSchemas.voice.extract([
 ]);
 
 const heAdjectiveInherentFeaturesSchema = buildFeatureSchema<
-	InherentFeaturesFor<"he", "Lexeme", "ADJ">
+	HeLexemeLemmaBySubKind["ADJ"]["inherentFeatures"]
 >({
 	abbr: abstractFeatureAtomSchemas.abbr,
 });
 const heAdjectiveInflectionalFeaturesSchema = buildRequiredFeatureSchema<
-	InflectionalFeaturesFor<"he", "Lexeme", "ADJ">
+	HeInflectionLexemeSurfaceBySubKind["ADJ"]["inflectionalFeatures"]
 >({
 	definite: heDefiniteSchema,
 	gender: exactFeatureValueSet(heGenderSchema, [["Fem", "Masc"]]),
@@ -127,7 +125,7 @@ const heAdjectiveLemmaSchema = buildLemmaSchema({
 	lemmaKind: "Lexeme",
 	lemmaSubKind: "ADJ",
 	inherentFeaturesSchema: heAdjectiveInherentFeaturesSchema,
-}) satisfies z.ZodType<Lemma<"he", "Lexeme", "ADJ">>;
+}) satisfies z.ZodType<HeLexemeLemmaBySubKind["ADJ"]>;
 const heAdjectiveSchemas = buildHeInflectableLexemeSchemaBundle<"ADJ">({
 	languageSchema: heLanguageSchema,
 	lemmaSchema: heAdjectiveLemmaSchema,
@@ -135,7 +133,7 @@ const heAdjectiveSchemas = buildHeInflectableLexemeSchemaBundle<"ADJ">({
 }) satisfies HeInflectableLexemeSchemaBundleFor<"ADJ">;
 
 const heAdpositionInherentFeaturesSchema = buildFeatureSchema<
-	InherentFeaturesFor<"he", "Lexeme", "ADP">
+	HeLexemeLemmaBySubKind["ADP"]["inherentFeatures"]
 >({
 	abbr: abstractFeatureAtomSchemas.abbr,
 	case: heCaseSchema.extract(["Acc", "Gen"]),
@@ -145,14 +143,14 @@ const heAdpositionLemmaSchema = buildLemmaSchema({
 	lemmaKind: "Lexeme",
 	lemmaSubKind: "ADP",
 	inherentFeaturesSchema: heAdpositionInherentFeaturesSchema,
-}) satisfies z.ZodType<Lemma<"he", "Lexeme", "ADP">>;
+}) satisfies z.ZodType<HeLexemeLemmaBySubKind["ADP"]>;
 const heAdpositionSchemas = buildHeUninflectableLexemeSchemaBundle<"ADP">({
 	languageSchema: heLanguageSchema,
 	lemmaSchema: heAdpositionLemmaSchema,
 }) satisfies HeUninflectableLexemeSchemaBundleFor<"ADP">;
 
 const heAdverbInherentFeaturesSchema = buildFeatureSchema<
-	InherentFeaturesFor<"he", "Lexeme", "ADV">
+	HeLexemeLemmaBySubKind["ADV"]["inherentFeatures"]
 >({
 	prefix: abstractFeatureAtomSchemas.prefix,
 });
@@ -161,19 +159,19 @@ const heAdverbLemmaSchema = buildLemmaSchema({
 	lemmaKind: "Lexeme",
 	lemmaSubKind: "ADV",
 	inherentFeaturesSchema: heAdverbInherentFeaturesSchema,
-}) satisfies z.ZodType<Lemma<"he", "Lexeme", "ADV">>;
+}) satisfies z.ZodType<HeLexemeLemmaBySubKind["ADV"]>;
 const heAdverbSchemas = buildHeUninflectableLexemeSchemaBundle<"ADV">({
 	languageSchema: heLanguageSchema,
 	lemmaSchema: heAdverbLemmaSchema,
 }) satisfies HeUninflectableLexemeSchemaBundleFor<"ADV">;
 
 const heAuxiliaryInherentFeaturesSchema = buildFeatureSchema<
-	InherentFeaturesFor<"he", "Lexeme", "AUX">
+	HeLexemeLemmaBySubKind["AUX"]["inherentFeatures"]
 >({
 	verbType: heVerbTypeSchema,
 });
 const heAuxiliaryInflectionalFeaturesSchema = buildRequiredFeatureSchema<
-	InflectionalFeaturesFor<"he", "Lexeme", "AUX">
+	HeInflectionLexemeSurfaceBySubKind["AUX"]["inflectionalFeatures"]
 >({
 	gender: exactFeatureValueSet(heGenderSchema, [["Fem", "Masc"]]),
 	number: heNumberSchema.extract(["Plur", "Sing"]),
@@ -187,7 +185,7 @@ const heAuxiliaryLemmaSchema = buildLemmaSchema({
 	lemmaKind: "Lexeme",
 	lemmaSubKind: "AUX",
 	inherentFeaturesSchema: heAuxiliaryInherentFeaturesSchema,
-}) satisfies z.ZodType<Lemma<"he", "Lexeme", "AUX">>;
+}) satisfies z.ZodType<HeLexemeLemmaBySubKind["AUX"]>;
 const heAuxiliarySchemas = buildHeInflectableLexemeSchemaBundle<"AUX">({
 	languageSchema: heLanguageSchema,
 	lemmaSchema: heAuxiliaryLemmaSchema,
@@ -195,14 +193,14 @@ const heAuxiliarySchemas = buildHeInflectableLexemeSchemaBundle<"AUX">({
 }) satisfies HeInflectableLexemeSchemaBundleFor<"AUX">;
 
 const heCoordinatingConjunctionInherentFeaturesSchema = buildFeatureSchema<
-	InherentFeaturesFor<"he", "Lexeme", "CCONJ">
+	HeLexemeLemmaBySubKind["CCONJ"]["inherentFeatures"]
 >({});
 const heCoordinatingConjunctionLemmaSchema = buildLemmaSchema({
 	languageSchema: heLanguageSchema,
 	lemmaKind: "Lexeme",
 	lemmaSubKind: "CCONJ",
 	inherentFeaturesSchema: heCoordinatingConjunctionInherentFeaturesSchema,
-}) satisfies z.ZodType<Lemma<"he", "Lexeme", "CCONJ">>;
+}) satisfies z.ZodType<HeLexemeLemmaBySubKind["CCONJ"]>;
 const heCoordinatingConjunctionSchemas =
 	buildHeUninflectableLexemeSchemaBundle<"CCONJ">({
 		languageSchema: heLanguageSchema,
@@ -210,12 +208,12 @@ const heCoordinatingConjunctionSchemas =
 	}) satisfies HeUninflectableLexemeSchemaBundleFor<"CCONJ">;
 
 const heDeterminerInherentFeaturesSchema = buildFeatureSchema<
-	InherentFeaturesFor<"he", "Lexeme", "DET">
+	HeLexemeLemmaBySubKind["DET"]["inherentFeatures"]
 >({
 	pronType: hePronTypeSchema.extract(["Art", "Int"]),
 });
 const heDeterminerInflectionalFeaturesSchema = buildRequiredFeatureSchema<
-	InflectionalFeaturesFor<"he", "Lexeme", "DET">
+	HeInflectionLexemeSurfaceBySubKind["DET"]["inflectionalFeatures"]
 >({
 	definite: heDefiniteSchema,
 	gender: exactFeatureValueSet(heGenderSchema, [["Fem", "Masc"]]),
@@ -226,7 +224,7 @@ const heDeterminerLemmaSchema = buildLemmaSchema({
 	lemmaKind: "Lexeme",
 	lemmaSubKind: "DET",
 	inherentFeaturesSchema: heDeterminerInherentFeaturesSchema,
-}) satisfies z.ZodType<Lemma<"he", "Lexeme", "DET">>;
+}) satisfies z.ZodType<HeLexemeLemmaBySubKind["DET"]>;
 const heDeterminerSchemas = buildHeInflectableLexemeSchemaBundle<"DET">({
 	languageSchema: heLanguageSchema,
 	lemmaSchema: heDeterminerLemmaSchema,
@@ -234,27 +232,27 @@ const heDeterminerSchemas = buildHeInflectableLexemeSchemaBundle<"DET">({
 }) satisfies HeInflectableLexemeSchemaBundleFor<"DET">;
 
 const heInterjectionInherentFeaturesSchema = buildFeatureSchema<
-	InherentFeaturesFor<"he", "Lexeme", "INTJ">
+	HeLexemeLemmaBySubKind["INTJ"]["inherentFeatures"]
 >({});
 const heInterjectionLemmaSchema = buildLemmaSchema({
 	languageSchema: heLanguageSchema,
 	lemmaKind: "Lexeme",
 	lemmaSubKind: "INTJ",
 	inherentFeaturesSchema: heInterjectionInherentFeaturesSchema,
-}) satisfies z.ZodType<Lemma<"he", "Lexeme", "INTJ">>;
+}) satisfies z.ZodType<HeLexemeLemmaBySubKind["INTJ"]>;
 const heInterjectionSchemas = buildHeUninflectableLexemeSchemaBundle<"INTJ">({
 	languageSchema: heLanguageSchema,
 	lemmaSchema: heInterjectionLemmaSchema,
 }) satisfies HeUninflectableLexemeSchemaBundleFor<"INTJ">;
 
 const heNounInherentFeaturesSchema = buildFeatureSchema<
-	InherentFeaturesFor<"he", "Lexeme", "NOUN">
+	HeLexemeLemmaBySubKind["NOUN"]["inherentFeatures"]
 >({
 	abbr: abstractFeatureAtomSchemas.abbr,
 	gender: exactFeatureValueSet(heGenderSchema, [["Fem", "Masc"]]),
 });
 const heNounInflectionalFeaturesSchema = buildRequiredFeatureSchema<
-	InflectionalFeaturesFor<"he", "Lexeme", "NOUN">
+	HeInflectionLexemeSurfaceBySubKind["NOUN"]["inflectionalFeatures"]
 >({
 	definite: heDefiniteSchema,
 	number: exactFeatureValueSet(heNumberSchema.extract(["Dual", "Plur"]), [
@@ -266,7 +264,7 @@ const heNounLemmaSchema = buildLemmaSchema({
 	lemmaKind: "Lexeme",
 	lemmaSubKind: "NOUN",
 	inherentFeaturesSchema: heNounInherentFeaturesSchema,
-}) satisfies z.ZodType<Lemma<"he", "Lexeme", "NOUN">>;
+}) satisfies z.ZodType<HeLexemeLemmaBySubKind["NOUN"]>;
 const heNounSchemas = buildHeInflectableLexemeSchemaBundle<"NOUN">({
 	languageSchema: heLanguageSchema,
 	lemmaSchema: heNounLemmaSchema,
@@ -274,10 +272,10 @@ const heNounSchemas = buildHeInflectableLexemeSchemaBundle<"NOUN">({
 }) satisfies HeInflectableLexemeSchemaBundleFor<"NOUN">;
 
 const heNumeralInherentFeaturesSchema = buildFeatureSchema<
-	InherentFeaturesFor<"he", "Lexeme", "NUM">
+	HeLexemeLemmaBySubKind["NUM"]["inherentFeatures"]
 >({});
 const heNumeralInflectionalFeaturesSchema = buildRequiredFeatureSchema<
-	InflectionalFeaturesFor<"he", "Lexeme", "NUM">
+	HeInflectionLexemeSurfaceBySubKind["NUM"]["inflectionalFeatures"]
 >({
 	definite: heDefiniteSchema,
 	gender: exactFeatureValueSet(heGenderSchema, [["Fem", "Masc"]]),
@@ -290,7 +288,7 @@ const heNumeralLemmaSchema = buildLemmaSchema({
 	lemmaKind: "Lexeme",
 	lemmaSubKind: "NUM",
 	inherentFeaturesSchema: heNumeralInherentFeaturesSchema,
-}) satisfies z.ZodType<Lemma<"he", "Lexeme", "NUM">>;
+}) satisfies z.ZodType<HeLexemeLemmaBySubKind["NUM"]>;
 const heNumeralSchemas = buildHeInflectableLexemeSchemaBundle<"NUM">({
 	languageSchema: heLanguageSchema,
 	lemmaSchema: heNumeralLemmaSchema,
@@ -298,14 +296,14 @@ const heNumeralSchemas = buildHeInflectableLexemeSchemaBundle<"NUM">({
 }) satisfies HeInflectableLexemeSchemaBundleFor<"NUM">;
 
 const hePronounInherentFeaturesSchema = buildFeatureSchema<
-	InherentFeaturesFor<"he", "Lexeme", "PRON">
+	HeLexemeLemmaBySubKind["PRON"]["inherentFeatures"]
 >({
 	definite: heDefiniteSchema.extract(["Def"]),
 	pronType: hePronTypeSchema.extract(["Dem", "Ind", "Int", "Prs"]),
 	reflex: abstractFeatureAtomSchemas.reflex,
 });
 const hePronounInflectionalFeaturesSchema = buildRequiredFeatureSchema<
-	InflectionalFeaturesFor<"he", "Lexeme", "PRON">
+	HeInflectionLexemeSurfaceBySubKind["PRON"]["inflectionalFeatures"]
 >({
 	gender: exactFeatureValueSet(heGenderSchema, [["Fem", "Masc"]]),
 	number: heNumberSchema.extract(["Plur", "Sing"]),
@@ -316,7 +314,7 @@ const hePronounLemmaSchema = buildLemmaSchema({
 	lemmaKind: "Lexeme",
 	lemmaSubKind: "PRON",
 	inherentFeaturesSchema: hePronounInherentFeaturesSchema,
-}) satisfies z.ZodType<Lemma<"he", "Lexeme", "PRON">>;
+}) satisfies z.ZodType<HeLexemeLemmaBySubKind["PRON"]>;
 const hePronounSchemas = buildHeInflectableLexemeSchemaBundle<"PRON">({
 	languageSchema: heLanguageSchema,
 	lemmaSchema: hePronounLemmaSchema,
@@ -324,13 +322,13 @@ const hePronounSchemas = buildHeInflectableLexemeSchemaBundle<"PRON">({
 }) satisfies HeInflectableLexemeSchemaBundleFor<"PRON">;
 
 const heProperNounInherentFeaturesSchema = buildFeatureSchema<
-	InherentFeaturesFor<"he", "Lexeme", "PROPN">
+	HeLexemeLemmaBySubKind["PROPN"]["inherentFeatures"]
 >({
 	abbr: abstractFeatureAtomSchemas.abbr,
 	gender: exactFeatureValueSet(heGenderSchema, [["Fem", "Masc"]]),
 });
 const heProperNounInflectionalFeaturesSchema = buildRequiredFeatureSchema<
-	InflectionalFeaturesFor<"he", "Lexeme", "PROPN">
+	HeInflectionLexemeSurfaceBySubKind["PROPN"]["inflectionalFeatures"]
 >({
 	number: heNumberSchema.extract(["Plur", "Sing"]),
 });
@@ -339,7 +337,7 @@ const heProperNounLemmaSchema = buildLemmaSchema({
 	lemmaKind: "Lexeme",
 	lemmaSubKind: "PROPN",
 	inherentFeaturesSchema: heProperNounInherentFeaturesSchema,
-}) satisfies z.ZodType<Lemma<"he", "Lexeme", "PROPN">>;
+}) satisfies z.ZodType<HeLexemeLemmaBySubKind["PROPN"]>;
 const heProperNounSchemas = buildHeInflectableLexemeSchemaBundle<"PROPN">({
 	languageSchema: heLanguageSchema,
 	lemmaSchema: heProperNounLemmaSchema,
@@ -347,21 +345,21 @@ const heProperNounSchemas = buildHeInflectableLexemeSchemaBundle<"PROPN">({
 }) satisfies HeInflectableLexemeSchemaBundleFor<"PROPN">;
 
 const hePunctuationInherentFeaturesSchema = buildFeatureSchema<
-	InherentFeaturesFor<"he", "Lexeme", "PUNCT">
+	HeLexemeLemmaBySubKind["PUNCT"]["inherentFeatures"]
 >({});
 const hePunctuationLemmaSchema = buildLemmaSchema({
 	languageSchema: heLanguageSchema,
 	lemmaKind: "Lexeme",
 	lemmaSubKind: "PUNCT",
 	inherentFeaturesSchema: hePunctuationInherentFeaturesSchema,
-}) satisfies z.ZodType<Lemma<"he", "Lexeme", "PUNCT">>;
+}) satisfies z.ZodType<HeLexemeLemmaBySubKind["PUNCT"]>;
 const hePunctuationSchemas = buildHeUninflectableLexemeSchemaBundle<"PUNCT">({
 	languageSchema: heLanguageSchema,
 	lemmaSchema: hePunctuationLemmaSchema,
 }) satisfies HeUninflectableLexemeSchemaBundleFor<"PUNCT">;
 
 const heSubordinatingConjunctionInherentFeaturesSchema = buildFeatureSchema<
-	InherentFeaturesFor<"he", "Lexeme", "SCONJ">
+	HeLexemeLemmaBySubKind["SCONJ"]["inherentFeatures"]
 >({
 	case: heCaseSchema.extract(["Tem"]),
 });
@@ -370,7 +368,7 @@ const heSubordinatingConjunctionLemmaSchema = buildLemmaSchema({
 	lemmaKind: "Lexeme",
 	lemmaSubKind: "SCONJ",
 	inherentFeaturesSchema: heSubordinatingConjunctionInherentFeaturesSchema,
-}) satisfies z.ZodType<Lemma<"he", "Lexeme", "SCONJ">>;
+}) satisfies z.ZodType<HeLexemeLemmaBySubKind["SCONJ"]>;
 const heSubordinatingConjunctionSchemas =
 	buildHeUninflectableLexemeSchemaBundle<"SCONJ">({
 		languageSchema: heLanguageSchema,
@@ -378,27 +376,27 @@ const heSubordinatingConjunctionSchemas =
 	}) satisfies HeUninflectableLexemeSchemaBundleFor<"SCONJ">;
 
 const heSymbolInherentFeaturesSchema = buildFeatureSchema<
-	InherentFeaturesFor<"he", "Lexeme", "SYM">
+	HeLexemeLemmaBySubKind["SYM"]["inherentFeatures"]
 >({});
 const heSymbolLemmaSchema = buildLemmaSchema({
 	languageSchema: heLanguageSchema,
 	lemmaKind: "Lexeme",
 	lemmaSubKind: "SYM",
 	inherentFeaturesSchema: heSymbolInherentFeaturesSchema,
-}) satisfies z.ZodType<Lemma<"he", "Lexeme", "SYM">>;
+}) satisfies z.ZodType<HeLexemeLemmaBySubKind["SYM"]>;
 const heSymbolSchemas = buildHeUninflectableLexemeSchemaBundle<"SYM">({
 	languageSchema: heLanguageSchema,
 	lemmaSchema: heSymbolLemmaSchema,
 }) satisfies HeUninflectableLexemeSchemaBundleFor<"SYM">;
 
 const heVerbInherentFeaturesSchema = buildFeatureSchema<
-	InherentFeaturesFor<"he", "Lexeme", "VERB">
+	HeLexemeLemmaBySubKind["VERB"]["inherentFeatures"]
 >({
 	hebBinyan: abstractFeatureAtomSchemas.hebBinyan,
 	hebExistential: abstractFeatureAtomSchemas.hebExistential,
 });
 const heVerbInflectionalFeaturesSchema = buildRequiredFeatureSchema<
-	InflectionalFeaturesFor<"he", "Lexeme", "VERB">
+	HeInflectionLexemeSurfaceBySubKind["VERB"]["inflectionalFeatures"]
 >({
 	definite: heDefiniteSchema,
 	gender: exactFeatureValueSet(heGenderSchema, [["Fem", "Masc"]]),
@@ -415,7 +413,7 @@ const heVerbLemmaSchema = buildLemmaSchema({
 	lemmaKind: "Lexeme",
 	lemmaSubKind: "VERB",
 	inherentFeaturesSchema: heVerbInherentFeaturesSchema,
-}) satisfies z.ZodType<Lemma<"he", "Lexeme", "VERB">>;
+}) satisfies z.ZodType<HeLexemeLemmaBySubKind["VERB"]>;
 const heVerbSchemas = buildHeInflectableLexemeSchemaBundle<"VERB">({
 	languageSchema: heLanguageSchema,
 	lemmaSchema: heVerbLemmaSchema,
@@ -423,14 +421,14 @@ const heVerbSchemas = buildHeInflectableLexemeSchemaBundle<"VERB">({
 }) satisfies HeInflectableLexemeSchemaBundleFor<"VERB">;
 
 const heOtherInherentFeaturesSchema = buildFeatureSchema<
-	InherentFeaturesFor<"he", "Lexeme", "X">
+	HeLexemeLemmaBySubKind["X"]["inherentFeatures"]
 >({});
 const heOtherLemmaSchema = buildLemmaSchema({
 	languageSchema: heLanguageSchema,
 	lemmaKind: "Lexeme",
 	lemmaSubKind: "X",
 	inherentFeaturesSchema: heOtherInherentFeaturesSchema,
-}) satisfies z.ZodType<Lemma<"he", "Lexeme", "X">>;
+}) satisfies z.ZodType<HeLexemeLemmaBySubKind["X"]>;
 const heOtherSchemas = buildHeUninflectableLexemeSchemaBundle<"X">({
 	languageSchema: heLanguageSchema,
 	lemmaSchema: heOtherLemmaSchema,

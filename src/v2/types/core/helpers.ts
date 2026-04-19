@@ -1,10 +1,30 @@
 export type Prettify<T> = { [K in keyof T]: T[K] } & {};
 
-export type Replace<T, K extends keyof T, V> = Prettify<
+export type PrettifyDeep<T> = T extends
+	| string
+	| number
+	| boolean
+	| bigint
+	| symbol
+	| null
+	| undefined
+	| ((...args: never[]) => unknown)
+	? T
+	: T extends readonly unknown[]
+		? {
+				[K in keyof T]: PrettifyDeep<T[K]>;
+			}
+		: T extends object
+			? {
+					[K in keyof T]: PrettifyDeep<T[K]>;
+				} & {}
+			: T;
+
+export type Replace<T, K extends keyof T, V> = PrettifyDeep<
 	Omit<T, K> & { [P in K]: V }
 >;
 
 export type ReplaceMany<
 	T,
 	R extends Partial<Record<keyof T, unknown>>,
-> = Prettify<Omit<T, keyof R> & R>;
+> = PrettifyDeep<Omit<T, keyof R> & R>;
