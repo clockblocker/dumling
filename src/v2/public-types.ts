@@ -21,32 +21,32 @@ import type {
 	AbstractFeatureValue as AbstractFeatureValueForName,
 } from "./types/abstract/features/features";
 import type { Prettify } from "./types/core/helpers";
-import type { EnLemmaByKind } from "./types/language-packs/en/en-lemma";
+import type { EnLemma } from "./types/language-packs/en/en-lemma";
+import type { EnSurface } from "./types/language-packs/en/en-surface";
+import type { DeLemma } from "./types/language-packs/de/de-lemma";
+import type { DeSurface } from "./types/language-packs/de/de-surface";
+import type { HeLemma } from "./types/language-packs/he/he-lemma";
+import type { HeSurface } from "./types/language-packs/he/he-surface";
 import type { EnSelectionByOrthographicStatus } from "./types/language-packs/en/en-selection";
-import type { EnSurfaceByKind } from "./types/language-packs/en/en-surface";
-import type { DeLemmaByKind } from "./types/language-packs/de/de-lemma";
 import type { DeSelectionByOrthographicStatus } from "./types/language-packs/de/de-selection";
-import type { DeSurfaceByKind } from "./types/language-packs/de/de-surface";
-import type { HeLemmaByKind } from "./types/language-packs/he/he-lemma";
 import type { HeSelectionByOrthographicStatus } from "./types/language-packs/he/he-selection";
-import type { HeSurfaceByKind } from "./types/language-packs/he/he-surface";
 
-type ConcreteLemmaByKindMap = {
-	de: DeLemmaByKind;
-	en: EnLemmaByKind;
-	he: HeLemmaByKind;
+type ConcreteLemmaUnionMap = {
+	de: DeLemma;
+	en: EnLemma;
+	he: HeLemma;
 };
-type ConcreteSurfaceByKindMap = {
-	de: DeSurfaceByKind;
-	en: EnSurfaceByKind;
-	he: HeSurfaceByKind;
+type ConcreteSurfaceUnionMap = {
+	de: DeSurface;
+	en: EnSurface;
+	he: HeSurface;
 };
 type ConcreteSelectionByStatusMap = {
 	de: DeSelectionByOrthographicStatus;
 	en: EnSelectionByOrthographicStatus;
 	he: HeSelectionByOrthographicStatus;
 };
-type ConcreteLanguage = keyof ConcreteLemmaByKindMap;
+type ConcreteLanguage = keyof ConcreteLemmaUnionMap;
 
 type EntityForKind<
 	L extends SupportedLanguage,
@@ -156,22 +156,20 @@ export type IdDecodeSuccess<L extends SupportedLanguage = SupportedLanguage> = {
 	data: Lemma<L> | Surface<L> | Selection<L>;
 };
 export type LemmaKindFor<L extends SupportedLanguage> = L extends ConcreteLanguage
-	? keyof ConcreteLemmaByKindMap[L]
+	? ConcreteLemmaUnionMap[L]["lemmaKind"]
 	: LemmaKind;
 
 export type LemmaSubKindFor<
 	L extends SupportedLanguage,
 	LK extends string,
 > = L extends ConcreteLanguage
-	? LK extends keyof ConcreteLemmaByKindMap[L]
-		? keyof ConcreteLemmaByKindMap[L][LK]
-		: never
+	? Extract<ConcreteLemmaUnionMap[L], { lemmaKind: LK }>["lemmaSubKind"]
 	: LK extends LemmaKind
 		? AbstractLemmaSubKindFor<LK>
 		: never;
 
 export type SurfaceKindFor<L extends SupportedLanguage> = L extends ConcreteLanguage
-	? keyof ConcreteSurfaceByKindMap[L]
+	? ConcreteSurfaceUnionMap[L]["surfaceKind"]
 	: SurfaceKind;
 
 export type LemmaKindForSurfaceKind<
@@ -189,11 +187,10 @@ type ConcreteLemmaFor<
 	L extends ConcreteLanguage,
 	LK extends LemmaKindFor<L>,
 	LSK extends LemmaSubKindFor<L, LK>,
-> = LK extends keyof ConcreteLemmaByKindMap[L]
-	? LSK extends keyof ConcreteLemmaByKindMap[L][LK]
-		? ConcreteLemmaByKindMap[L][LK][LSK]
-		: never
-	: never;
+> = Extract<
+	ConcreteLemmaUnionMap[L],
+	{ lemmaKind: LK; lemmaSubKind: LSK }
+>;
 
 export type Lemma<
 	L extends SupportedLanguage = SupportedLanguage,
@@ -231,11 +228,12 @@ type ConcreteSurfaceFor<
 	SK extends SurfaceKindFor<L>,
 	LK extends LemmaKindForSurfaceKind<L, SK>,
 	LSK extends LemmaSubKindFor<L, LK>,
-> = SK extends keyof ConcreteSurfaceByKindMap[L]
-	? LK extends keyof ConcreteSurfaceByKindMap[L][SK]
-		? LSK extends keyof ConcreteSurfaceByKindMap[L][SK][LK]
-			? ConcreteSurfaceByKindMap[L][SK][LK][LSK]
-			: never
+> = ConcreteSurfaceUnionMap[L] extends infer TSurface
+	? TSurface extends {
+			surfaceKind: SK;
+			lemma: { lemmaKind: LK; lemmaSubKind: LSK };
+		}
+		? TSurface
 		: never
 	: never;
 

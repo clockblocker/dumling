@@ -189,12 +189,16 @@ const heLanguagePack: ImplementedLanguagePackDescriptor<
 	status: "implemented",
 };
 
-export const languagePacks = {
+type ImplementedLanguagePacks = {
+	de: typeof deLanguagePack;
+	en: typeof enLanguagePack;
+	he: typeof heLanguagePack;
+};
+
+const languagePacksInternal: ImplementedLanguagePacks = {
 	de: deLanguagePack,
 	en: enLanguagePack,
 	he: heLanguagePack,
-} satisfies LanguagePackRegistry<
-	LanguagePackSchemaTreeMap,
-	LanguagePackCreateMap,
-	LanguagePackParseMap
->;
+};
+
+export const languagePacks: typeof languagePacksInternal = languagePacksInternal;

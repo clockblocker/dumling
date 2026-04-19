@@ -49,7 +49,7 @@ export function buildConvertOperations<L extends SupportedLanguage>(): LanguageA
 						normalizedFullSurface: lemma.canonicalLemma,
 						surfaceKind: "Lemma",
 						lemma,
-					} as unknown as ReturnType<LanguageApi<L>["convert"]["lemma"]["toSurface"]>,
+					} as unknown as Surface<L>,
 					options,
 				);
 			},

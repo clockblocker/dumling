@@ -19,7 +19,7 @@ export function buildDescribeOperations<L extends SupportedLanguage>(): Language
 					language: lemma.language,
 					lemmaKind: lemma.lemmaKind,
 					lemmaSubKind: lemma.lemmaSubKind,
-				} as ReturnType<LanguageApi<L>["describe"]["as"]["lemma"]>;
+				} as never;
 			},
 			surface(value: EntityValue<L>) {
 				if ("surfaceKind" in value) {
@@ -28,7 +28,7 @@ export function buildDescribeOperations<L extends SupportedLanguage>(): Language
 						surfaceKind: value.surfaceKind,
 						lemmaKind: value.lemma.lemmaKind,
 						lemmaSubKind: value.lemma.lemmaSubKind,
-					} as ReturnType<LanguageApi<L>["describe"]["as"]["surface"]>;
+					} as never;
 				}
 
 				if ("surface" in value) {
@@ -37,7 +37,7 @@ export function buildDescribeOperations<L extends SupportedLanguage>(): Language
 						surfaceKind: value.surface.surfaceKind,
 						lemmaKind: value.surface.lemma.lemmaKind,
 						lemmaSubKind: value.surface.lemma.lemmaSubKind,
-					} as ReturnType<LanguageApi<L>["describe"]["as"]["surface"]>;
+					} as never;
 				}
 
 				return {
@@ -45,7 +45,7 @@ export function buildDescribeOperations<L extends SupportedLanguage>(): Language
 					surfaceKind: "Lemma",
 					lemmaKind: value.lemmaKind,
 					lemmaSubKind: value.lemmaSubKind,
-				} as ReturnType<LanguageApi<L>["describe"]["as"]["surface"]>;
+				} as never;
 			},
 			selection(value: EntityValue<L>) {
 				if ("surface" in value) {
@@ -55,7 +55,7 @@ export function buildDescribeOperations<L extends SupportedLanguage>(): Language
 						surfaceKind: value.surface.surfaceKind,
 						lemmaKind: value.surface.lemma.lemmaKind,
 						lemmaSubKind: value.surface.lemma.lemmaSubKind,
-					} as ReturnType<LanguageApi<L>["describe"]["as"]["selection"]>;
+					} as never;
 				}
 
 				if ("surfaceKind" in value) {
@@ -65,7 +65,7 @@ export function buildDescribeOperations<L extends SupportedLanguage>(): Language
 						surfaceKind: value.surfaceKind,
 						lemmaKind: value.lemma.lemmaKind,
 						lemmaSubKind: value.lemma.lemmaSubKind,
-					} as ReturnType<LanguageApi<L>["describe"]["as"]["selection"]>;
+					} as never;
 				}
 
 				return {
@@ -74,7 +74,7 @@ export function buildDescribeOperations<L extends SupportedLanguage>(): Language
 					surfaceKind: "Lemma",
 					lemmaKind: value.lemmaKind,
 					lemmaSubKind: value.lemmaSubKind,
-				} as ReturnType<LanguageApi<L>["describe"]["as"]["selection"]>;
+				} as never;
 			},
 		},
 	} as unknown as LanguageApi<L>["describe"];

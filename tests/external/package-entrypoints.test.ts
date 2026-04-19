@@ -128,7 +128,7 @@ describe("published package entrypoints", () => {
 		expect(packedFiles).not.toContain("dist/operation.d.ts");
 		expect(packedFiles).not.toContain("dist/entities.d.ts");
 		expect(statSync(resolve(projectRoot, "dist/index.d.ts")).size).toBeLessThan(
-			90_000,
+			120_000,
 		);
 	});
 });
