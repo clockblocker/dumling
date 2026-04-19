@@ -1,4 +1,5 @@
 import { z } from "zod/v3";
+import { abstractFeatureCatalog } from "../../ontology/features/catalog";
 
 type NonEmptyFeatureValueSet<T> = readonly [T, ...T[]];
 
@@ -11,6 +12,10 @@ type OptionalizedShape<TShape extends FeatureSchemaShape> = {
 type InferFeatureObject<TShape extends FeatureSchemaShape> = Partial<{
 	[K in keyof TShape]: z.output<TShape[K]>;
 }>;
+
+type RequiredFeatureObject<TShape extends FeatureSchemaShape> = {
+	[K in keyof TShape]: z.output<TShape[K]>;
+};
 
 type RequireAtLeastOne<T extends object> = {
 	[K in keyof T]-?: Required<Pick<T, K>> & Partial<Omit<T, K>>;
@@ -36,6 +41,29 @@ export function featureValueSet<TSchema extends z.ZodTypeAny>(
 	>;
 }
 
+function stripUnknownOntologyFeatureKeys(value: unknown) {
+	if (
+		typeof value !== "object" ||
+		value === null ||
+		Array.isArray(value)
+	) {
+		return value;
+	}
+
+	return Object.fromEntries(
+		Object.entries(value).filter(([name]) => name in abstractFeatureCatalog),
+	);
+}
+
+export function buildFeatureObjectSchema<TShape extends FeatureSchemaShape>(
+	shape: TShape,
+): z.ZodType<RequiredFeatureObject<TShape>> {
+	return z.preprocess(
+		stripUnknownOntologyFeatureKeys,
+		z.object(shape).strict(),
+	) as unknown as z.ZodType<RequiredFeatureObject<TShape>>;
+}
+
 export function buildOptionalFeatureObjectSchema<TShape extends FeatureSchemaShape>(
 	shape: TShape,
 ): z.ZodType<InferFeatureObject<TShape>> {
@@ -43,7 +71,9 @@ export function buildOptionalFeatureObjectSchema<TShape extends FeatureSchemaSha
 		Object.entries(shape).map(([name, schema]) => [name, schema.optional()]),
 	) as OptionalizedShape<TShape>;
 
-	return z.object(optionalShape).strip();
+	return buildFeatureObjectSchema(optionalShape) as unknown as z.ZodType<
+		InferFeatureObject<TShape>
+	>;
 }
 
 export function requireNonEmptyFeatureObject<T extends object>(

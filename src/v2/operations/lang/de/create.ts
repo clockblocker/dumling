@@ -47,7 +47,7 @@ export function buildDeCreateOperations() {
 
 	const createLemmaSurface: DeCreateLemmaSurface = (input: any) =>
 		({
-			language: "de",
+			language: input.lemma.language,
 			normalizedFullSurface: input.normalizedFullSurface,
 			surfaceKind: "Lemma",
 			lemma: input.lemma,
@@ -55,7 +55,7 @@ export function buildDeCreateOperations() {
 
 	const createInflectionSurface: DeCreateInflectionSurface = (input: any) =>
 		({
-			language: "de",
+			language: input.lemma.language,
 			normalizedFullSurface: input.normalizedFullSurface,
 			surfaceKind: "Inflection",
 			lemma: input.lemma,
@@ -64,7 +64,7 @@ export function buildDeCreateOperations() {
 
 	const createStandardSelection: DeCreateStandardSelection = (input: any) =>
 		({
-			language: "de",
+			language: input.surface.language,
 			orthographicStatus: "Standard",
 			selectionCoverage: input.selectionCoverage,
 			spelledSelection: input.spelledSelection,
@@ -74,7 +74,7 @@ export function buildDeCreateOperations() {
 
 	const createTypoSelection: DeCreateTypoSelection = (input: any) =>
 		({
-			language: "de",
+			language: input.surface.language,
 			orthographicStatus: "Typo",
 			selectionCoverage: input.selectionCoverage,
 			spelledSelection: input.spelledSelection,

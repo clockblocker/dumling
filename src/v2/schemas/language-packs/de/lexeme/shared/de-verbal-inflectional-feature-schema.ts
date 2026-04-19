@@ -1,6 +1,7 @@
 import { z } from "zod/v3";
 import type { DeVerbalInflectionalFeatures } from "../../../../../types/language-packs/de/lexeme/shared/de-verbal-inflection-features";
 import { abstractFeatureAtomSchemas } from "../../../../abstract/feature-schemas";
+import { buildFeatureObjectSchema } from "../../../../shared/feature-helpers";
 import {
 	deAspectSchema,
 	deGenderSchema,
@@ -14,15 +15,12 @@ const dePassVoiceSchema = abstractFeatureAtomSchemas.voice.extract([
 	"Pass",
 ]);
 
-const deUnderspecifiedVerbalInflectionalFeaturesSchema = z
-	.object({
+const deUnderspecifiedVerbalInflectionalFeaturesSchema = buildFeatureObjectSchema({
 		number: deNumberSchema.optional(),
 		tense: deTenseSchema.optional(),
 		verbForm: z.never().optional(),
 		voice: dePassVoiceSchema.optional(),
-	})
-	.strip()
-	.superRefine((value, ctx) => {
+	}).superRefine((value, ctx) => {
 		if (
 			value.number === undefined &&
 			value.tense === undefined &&
@@ -35,41 +33,34 @@ const deUnderspecifiedVerbalInflectionalFeaturesSchema = z
 		}
 	});
 
-const deFiniteImperativeVerbalInflectionalFeaturesSchema = z
-	.object({
+const deFiniteImperativeVerbalInflectionalFeaturesSchema = buildFeatureObjectSchema({
 		mood: z.literal("Imp"),
 		number: deNumberSchema.optional(),
 		person: dePersonSchema.optional(),
 		tense: z.never().optional(),
 		verbForm: z.literal("Fin"),
 		voice: dePassVoiceSchema.optional(),
-	})
-	.strip();
+	});
 
-const deFiniteNonImperativeVerbalInflectionalFeaturesSchema = z
-	.object({
+const deFiniteNonImperativeVerbalInflectionalFeaturesSchema = buildFeatureObjectSchema({
 		mood: deMoodSchema.exclude(["Imp"]).optional(),
 		number: deNumberSchema.optional(),
 		person: dePersonSchema.optional(),
 		tense: deTenseSchema.optional(),
 		verbForm: z.literal("Fin"),
 		voice: dePassVoiceSchema.optional(),
-	})
-	.strip();
+	});
 
-const deInfinitiveVerbalInflectionalFeaturesSchema = z
-	.object({
+const deInfinitiveVerbalInflectionalFeaturesSchema = buildFeatureObjectSchema({
 		mood: z.never().optional(),
 		number: deNumberSchema.optional(),
 		person: z.never().optional(),
 		tense: z.never().optional(),
 		verbForm: z.literal("Inf"),
 		voice: dePassVoiceSchema.optional(),
-	})
-	.strip();
+	});
 
-const deParticipleVerbalInflectionalFeaturesSchema = z
-	.object({
+const deParticipleVerbalInflectionalFeaturesSchema = buildFeatureObjectSchema({
 		aspect: deAspectSchema.optional(),
 		gender: deGenderSchema.optional(),
 		mood: z.never().optional(),
@@ -78,8 +69,7 @@ const deParticipleVerbalInflectionalFeaturesSchema = z
 		tense: deTenseSchema.optional(),
 		verbForm: z.literal("Part"),
 		voice: dePassVoiceSchema.optional(),
-	})
-	.strip();
+	});
 
 export const deVerbalInflectionalFeaturesSchema = z.union([
 	deUnderspecifiedVerbalInflectionalFeaturesSchema,

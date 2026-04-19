@@ -74,7 +74,10 @@ describe("v2 API", () => {
 			language: "he",
 			surfaceKind: "Inflection",
 			normalizedFullSurface: "See",
-			lemma,
+			lemma: {
+				...lemma,
+				language: "he",
+			},
 		} as any);
 
 		const typoSelection = dumling.de.create.selection.typo({
@@ -83,13 +86,16 @@ describe("v2 API", () => {
 			selectionCoverage: "Full",
 			spelledSelection: "Sse",
 			spellingRelation: "Canonical",
-			surface: lemmaSurface,
+			surface: {
+				...lemmaSurface,
+				language: "en",
+			},
 		} as any);
 
 		expect(lemma.language).toBe("de");
-		expect(lemmaSurface.language).toBe("de");
+		expect(lemmaSurface.language).toBe(lemmaSurface.lemma.language);
 		expect(lemmaSurface.surfaceKind).toBe("Lemma");
-		expect(typoSelection.language).toBe("de");
+		expect(typoSelection.language).toBe(typoSelection.surface.language);
 		expect(typoSelection.orthographicStatus).toBe("Typo");
 	});
 
@@ -168,6 +174,25 @@ describe("v2 API", () => {
 		).toBe(true);
 	});
 
+	it("rejects known-but-context-illegal inherent feature keys", () => {
+		const result = dumling.de.parse.lemma({
+			language: "de",
+			canonicalLemma: "See",
+			lemmaKind: "Lexeme",
+			lemmaSubKind: "NOUN",
+			inherentFeatures: {
+				tense: "Past",
+			},
+			meaningInEmojis: "🌊",
+		} as any);
+
+		expect(result.success).toBe(false);
+		if (result.success) {
+			throw new Error("expected invalid parse result");
+		}
+		expect(result.error.code).toBe("InvalidInput");
+	});
+
 	it("rejects empty inflectional features after stripping unknown keys", () => {
 		const result = dumling.de.parse.surface({
 			language: "de",
@@ -194,6 +219,32 @@ describe("v2 API", () => {
 		expect(result.error.issues?.some((issue) => issue.includes("inflectionalFeatures"))).toBe(
 			true,
 		);
+	});
+
+	it("rejects known-but-illegal german verbal inflection keys", () => {
+		const result = dumling.de.parse.surface({
+			language: "de",
+			normalizedFullSurface: "gehen",
+			surfaceKind: "Inflection",
+			lemma: {
+				language: "de",
+				canonicalLemma: "gehen",
+				lemmaKind: "Lexeme",
+				lemmaSubKind: "VERB",
+				inherentFeatures: {},
+				meaningInEmojis: "🚶",
+			},
+			inflectionalFeatures: {
+				verbForm: "Inf",
+				gender: "Masc",
+			},
+		} as any);
+
+		expect(result.success).toBe(false);
+		if (result.success) {
+			throw new Error("expected invalid parse result");
+		}
+		expect(result.error.code).toBe("InvalidInput");
 	});
 
 	it("round-trips german ids and exposes english and hebrew language behavior", () => {

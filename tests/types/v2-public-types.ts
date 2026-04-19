@@ -49,6 +49,40 @@ const typoSelection = dumling.de.create.selection.typo({
 	spellingRelation: "Canonical",
 	surface: lemmaSurface,
 }) satisfies Selection<"de", "Typo", "Lemma", "Lexeme", "NOUN">;
+const standardSelection = dumling.de.convert.lemma.toSelection(lemma) satisfies Selection<
+	"de",
+	"Standard",
+	"Lemma",
+	"Lexeme",
+	"NOUN"
+>;
+const typoFromLemma = dumling.de.convert.lemma.toSelection(lemma, {
+	orthographicStatus: "Typo",
+}) satisfies Selection<"de", "Typo", "Lemma", "Lexeme", "NOUN">;
+const typoFromInflectionSurface = dumling.de.convert.surface.toSelection(
+	inflectionSurface,
+	{
+		orthographicStatus: "Typo",
+	},
+) satisfies Selection<"de", "Typo", "Inflection", "Lexeme", "VERB">;
+const lemmaDescriptor = dumling.de.describe.as.lemma(typoSelection) satisfies {
+	language: "de";
+	lemmaKind: "Lexeme";
+	lemmaSubKind: "NOUN";
+};
+const surfaceDescriptor = dumling.de.describe.as.surface(lemma) satisfies {
+	language: "de";
+	surfaceKind: "Lemma";
+	lemmaKind: "Lexeme";
+	lemmaSubKind: "NOUN";
+};
+const selectionDescriptor = dumling.de.describe.as.selection(inflectionSurface) satisfies {
+	language: "de";
+	orthographicStatus: "Standard";
+	surfaceKind: "Inflection";
+	lemmaKind: "Lexeme";
+	lemmaSubKind: "VERB";
+};
 
 const gender: FeatureValueFor<"de", "Lexeme", "NOUN", "gender"> = "Masc";
 const featureName: FeatureNameFor<"de", "Lexeme", "NOUN"> = "gender";
@@ -60,6 +94,12 @@ void deLemmaKind;
 void deLexemeSubKind;
 void deSurfaceKind;
 void gender;
+void standardSelection;
+void typoFromLemma;
+void typoFromInflectionSurface;
+void lemmaDescriptor;
+void surfaceDescriptor;
+void selectionDescriptor;
 
 // @ts-expect-error invalid NOUN gender feature value
 const invalidGender: FeatureValueFor<"de", "Lexeme", "NOUN", "gender"> = "Past";
@@ -109,11 +149,17 @@ const heLemma = dumling.he.create.lemma({
 
 const heVerbLeaf = schema.he.lemma.lexeme.verb();
 heVerbLeaf satisfies ZodType<Lemma<"he", "Lexeme", "VERB">>;
+const heStandardSelection = dumling.he.convert.lemma.toSelection(
+	heLemma,
+) satisfies Selection<"he", "Standard", "Lemma", "Lexeme", "VERB">;
 
 const heBinyan: FeatureValueFor<"he", "Lexeme", "VERB", "hebBinyan"> = "PAAL";
+const heVoice: FeatureValueFor<"he", "Lexeme", "VERB", "voice"> = "Act";
 void heLemma;
 void heVerbLeaf;
 void heBinyan;
+void heStandardSelection;
+void heVoice;
 
 // @ts-expect-error lexeme does not expose morpheme subkinds
 schema.de.selection.standard.lemma.lexeme.circumfix();

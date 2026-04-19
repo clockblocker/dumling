@@ -47,7 +47,7 @@ export function buildHeCreateOperations() {
 
 	const createLemmaSurface: HeCreateLemmaSurface = (input: any) =>
 		({
-			language: "he",
+			language: input.lemma.language,
 			normalizedFullSurface: input.normalizedFullSurface,
 			surfaceKind: "Lemma",
 			lemma: input.lemma,
@@ -55,7 +55,7 @@ export function buildHeCreateOperations() {
 
 	const createInflectionSurface: HeCreateInflectionSurface = (input: any) =>
 		({
-			language: "he",
+			language: input.lemma.language,
 			normalizedFullSurface: input.normalizedFullSurface,
 			surfaceKind: "Inflection",
 			lemma: input.lemma,
@@ -64,7 +64,7 @@ export function buildHeCreateOperations() {
 
 	const createStandardSelection: HeCreateStandardSelection = (input: any) =>
 		({
-			language: "he",
+			language: input.surface.language,
 			orthographicStatus: "Standard",
 			selectionCoverage: input.selectionCoverage,
 			spelledSelection: input.spelledSelection,
@@ -74,7 +74,7 @@ export function buildHeCreateOperations() {
 
 	const createTypoSelection: HeCreateTypoSelection = (input: any) =>
 		({
-			language: "he",
+			language: input.surface.language,
 			orthographicStatus: "Typo",
 			selectionCoverage: input.selectionCoverage,
 			spelledSelection: input.spelledSelection,

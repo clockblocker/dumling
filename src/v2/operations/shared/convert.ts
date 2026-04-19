@@ -1,25 +1,26 @@
 import type {
 	LanguageApi,
 	Lemma,
+	OrthographicStatus,
 	Selection,
 	SupportedLanguage,
 	Surface,
 } from "../../public-types";
 
-type SelectionOptions<L extends SupportedLanguage> = Partial<
-	Pick<
-		Selection<L>,
-		| "orthographicStatus"
-		| "selectionCoverage"
-		| "spelledSelection"
-		| "spellingRelation"
-	>
->;
+type SelectionOptions<TStatus extends OrthographicStatus = OrthographicStatus> = {
+	orthographicStatus?: TStatus;
+	selectionCoverage?: Selection<SupportedLanguage>["selectionCoverage"];
+	spelledSelection?: string;
+	spellingRelation?: Selection<SupportedLanguage>["spellingRelation"];
+};
 
-export function buildSelectionFromSurface<L extends SupportedLanguage>(
+export function buildSelectionFromSurface<
+	L extends SupportedLanguage,
+	TStatus extends OrthographicStatus = "Standard",
+>(
 	surface: Surface<L>,
-	options: SelectionOptions<L> = {},
-): Selection<L> {
+	options: SelectionOptions<TStatus> = {},
+): Selection<L, TStatus> {
 	return {
 		language: surface.language,
 		orthographicStatus: options.orthographicStatus ?? "Standard",
@@ -27,7 +28,7 @@ export function buildSelectionFromSurface<L extends SupportedLanguage>(
 		spelledSelection: options.spelledSelection ?? surface.normalizedFullSurface,
 		spellingRelation: options.spellingRelation ?? "Canonical",
 		surface,
-	} as unknown as Selection<L>;
+	} as unknown as Selection<L, TStatus>;
 }
 
 export function buildConvertOperations<L extends SupportedLanguage>(): LanguageApi<L>["convert"] {
@@ -41,20 +42,20 @@ export function buildConvertOperations<L extends SupportedLanguage>(): LanguageA
 					lemma,
 				} as unknown as ReturnType<LanguageApi<L>["convert"]["lemma"]["toSurface"]>;
 			},
-			toSelection(lemma: Lemma<L>, options: SelectionOptions<L> = {}) {
+			toSelection(lemma: Lemma<L>, options = {}) {
 				return buildSelectionFromSurface(
 					{
 						language: lemma.language,
 						normalizedFullSurface: lemma.canonicalLemma,
 						surfaceKind: "Lemma",
 						lemma,
-					} as unknown as Surface<L>,
+					} as unknown as ReturnType<LanguageApi<L>["convert"]["lemma"]["toSurface"]>,
 					options,
 				);
 			},
 		},
 		surface: {
-			toSelection(surface: Surface<L>, options: SelectionOptions<L> = {}) {
+			toSelection(surface: Surface<L>, options = {}) {
 				return buildSelectionFromSurface(surface, options);
 			},
 		},
