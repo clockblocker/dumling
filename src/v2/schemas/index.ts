@@ -25,7 +25,7 @@ function mapLeavesToThrowers<T>(shape: T, language: "en" | "he"): T {
 
 export const runtimeSchemas = {
 	abstract: abstractRuntimeSchemas,
-	de: languagePacks.de.runtimeSchemas as RuntimeSchemas["de"],
+	de: languagePacks.de.runtimeSchemas,
 } satisfies RuntimeSchemas;
 
 export const schema = {

@@ -1,8 +1,8 @@
 import { z } from "zod/v3";
-import type { Lemma, Selection, Surface } from "../../../../../public-types";
 import type {
 	DeNounInherentFeatures,
 	DeNounInflectionalFeatures,
+	DeNounLemma,
 } from "../../../../../types/language-packs/de/lexeme/pos/de-noun";
 import { abstractFeatureAtomSchemas } from "../../../../abstract/feature-schemas";
 import {
@@ -10,6 +10,7 @@ import {
 	requireNonEmptyFeatureObject,
 } from "../../../../shared/feature-helpers";
 import {
+	type DeInflectableLexemeSchemaBundleFor,
 	buildDeInflectableLexemeSchemaBundle,
 	buildLemmaSchema,
 } from "../shared/build-de-lexeme-schema-bundle";
@@ -38,32 +39,10 @@ export const deNounLemmaSchema = buildLemmaSchema({
 	lemmaKind: "Lexeme",
 	lemmaSubKind: "NOUN",
 	inherentFeaturesSchema: deNounInherentFeaturesSchema,
-}) satisfies z.ZodType<Lemma<"de", "Lexeme", "NOUN">>;
+}) satisfies z.ZodType<DeNounLemma>;
 
-export const deNounSchemas = buildDeInflectableLexemeSchemaBundle({
+export const deNounSchemas = buildDeInflectableLexemeSchemaBundle<"NOUN">({
 	languageSchema: deLanguageSchema,
 	lemmaSchema: deNounLemmaSchema,
 	inflectionalFeaturesSchema: deNounInflectionalFeaturesSchema,
-	inflectionSurfaceSchema: undefined as unknown as z.ZodType<
-		Surface<"de", "Inflection", "Lexeme", "NOUN">
-	>,
-}) as {
-	inflectionSurfaceSchema: z.ZodType<Surface<"de", "Inflection", "Lexeme", "NOUN">>;
-	lemma: () => z.ZodType<Lemma<"de", "Lexeme", "NOUN">>;
-	lemmaSchema: z.ZodType<Lemma<"de", "Lexeme", "NOUN">>;
-	lemmaSurfaceSchema: z.ZodType<Surface<"de", "Lemma", "Lexeme", "NOUN">>;
-	selection: {
-		standard: {
-			inflection: () => z.ZodType<Selection<"de", "Standard", "Inflection", "Lexeme", "NOUN">>;
-			lemma: () => z.ZodType<Selection<"de", "Standard", "Lemma", "Lexeme", "NOUN">>;
-		};
-		typo: {
-			inflection: () => z.ZodType<Selection<"de", "Typo", "Inflection", "Lexeme", "NOUN">>;
-			lemma: () => z.ZodType<Selection<"de", "Typo", "Lemma", "Lexeme", "NOUN">>;
-		};
-	};
-	surface: {
-		inflection: () => z.ZodType<Surface<"de", "Inflection", "Lexeme", "NOUN">>;
-		lemma: () => z.ZodType<Surface<"de", "Lemma", "Lexeme", "NOUN">>;
-	};
-};
+}) satisfies DeInflectableLexemeSchemaBundleFor<"NOUN">;

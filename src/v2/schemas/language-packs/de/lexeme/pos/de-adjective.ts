@@ -1,15 +1,12 @@
 import { z } from "zod/v3";
 import type {
-	Lemma,
-	Selection,
-	Surface,
-} from "../../../../../public-types";
-import type {
 	DeAdjectiveInherentFeatures,
 	DeAdjectiveInflectionalFeatures,
+	DeAdjectiveLemma,
 } from "../../../../../types/language-packs/de/lexeme/pos/de-adjective";
 import { abstractFeatureAtomSchemas } from "../../../../abstract/feature-schemas";
 import {
+	type DeInflectableLexemeSchemaBundleFor,
 	buildDeInflectableLexemeSchemaBundle,
 	buildLemmaSchema,
 } from "../shared/build-de-lexeme-schema-bundle";
@@ -55,32 +52,10 @@ export const deAdjectiveLemmaSchema = buildLemmaSchema({
 	lemmaKind: "Lexeme",
 	lemmaSubKind: "ADJ",
 	inherentFeaturesSchema: deAdjectiveInherentFeaturesSchema,
-}) satisfies z.ZodType<Lemma<"de", "Lexeme", "ADJ">>;
+}) satisfies z.ZodType<DeAdjectiveLemma>;
 
-export const deAdjectiveSchemas = buildDeInflectableLexemeSchemaBundle({
+export const deAdjectiveSchemas = buildDeInflectableLexemeSchemaBundle<"ADJ">({
 	languageSchema: deLanguageSchema,
 	lemmaSchema: deAdjectiveLemmaSchema,
 	inflectionalFeaturesSchema: deAdjectiveInflectionalFeaturesSchema,
-	inflectionSurfaceSchema: undefined as unknown as z.ZodType<
-		Surface<"de", "Inflection", "Lexeme", "ADJ">
-	>,
-}) as {
-	inflectionSurfaceSchema: z.ZodType<Surface<"de", "Inflection", "Lexeme", "ADJ">>;
-	lemma: () => z.ZodType<Lemma<"de", "Lexeme", "ADJ">>;
-	lemmaSchema: z.ZodType<Lemma<"de", "Lexeme", "ADJ">>;
-	lemmaSurfaceSchema: z.ZodType<Surface<"de", "Lemma", "Lexeme", "ADJ">>;
-	selection: {
-		standard: {
-			inflection: () => z.ZodType<Selection<"de", "Standard", "Inflection", "Lexeme", "ADJ">>;
-			lemma: () => z.ZodType<Selection<"de", "Standard", "Lemma", "Lexeme", "ADJ">>;
-		};
-		typo: {
-			inflection: () => z.ZodType<Selection<"de", "Typo", "Inflection", "Lexeme", "ADJ">>;
-			lemma: () => z.ZodType<Selection<"de", "Typo", "Lemma", "Lexeme", "ADJ">>;
-		};
-	};
-	surface: {
-		inflection: () => z.ZodType<Surface<"de", "Inflection", "Lexeme", "ADJ">>;
-		lemma: () => z.ZodType<Surface<"de", "Lemma", "Lexeme", "ADJ">>;
-	};
-};
+}) satisfies DeInflectableLexemeSchemaBundleFor<"ADJ">;

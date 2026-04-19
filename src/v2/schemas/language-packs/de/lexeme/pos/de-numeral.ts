@@ -1,8 +1,8 @@
 import { z } from "zod/v3";
-import type { Lemma, Selection, Surface } from "../../../../../public-types";
 import type {
 	DeNumeralInherentFeatures,
 	DeNumeralInflectionalFeatures,
+	DeNumeralLemma,
 } from "../../../../../types/language-packs/de/lexeme/pos/de-numeral";
 import { abstractFeatureAtomSchemas } from "../../../../abstract/feature-schemas";
 import {
@@ -10,6 +10,7 @@ import {
 	requireNonEmptyFeatureObject,
 } from "../../../../shared/feature-helpers";
 import {
+	type DeInflectableLexemeSchemaBundleFor,
 	buildDeInflectableLexemeSchemaBundle,
 	buildLemmaSchema,
 } from "../shared/build-de-lexeme-schema-bundle";
@@ -51,32 +52,10 @@ export const deNumeralLemmaSchema = buildLemmaSchema({
 	lemmaKind: "Lexeme",
 	lemmaSubKind: "NUM",
 	inherentFeaturesSchema: deNumeralInherentFeaturesSchema,
-}) satisfies z.ZodType<Lemma<"de", "Lexeme", "NUM">>;
+}) satisfies z.ZodType<DeNumeralLemma>;
 
-export const deNumeralSchemas = buildDeInflectableLexemeSchemaBundle({
+export const deNumeralSchemas = buildDeInflectableLexemeSchemaBundle<"NUM">({
 	languageSchema: deLanguageSchema,
 	lemmaSchema: deNumeralLemmaSchema,
 	inflectionalFeaturesSchema: deNumeralInflectionalFeaturesSchema,
-	inflectionSurfaceSchema: undefined as unknown as z.ZodType<
-		Surface<"de", "Inflection", "Lexeme", "NUM">
-	>,
-}) as {
-	inflectionSurfaceSchema: z.ZodType<Surface<"de", "Inflection", "Lexeme", "NUM">>;
-	lemma: () => z.ZodType<Lemma<"de", "Lexeme", "NUM">>;
-	lemmaSchema: z.ZodType<Lemma<"de", "Lexeme", "NUM">>;
-	lemmaSurfaceSchema: z.ZodType<Surface<"de", "Lemma", "Lexeme", "NUM">>;
-	selection: {
-		standard: {
-			inflection: () => z.ZodType<Selection<"de", "Standard", "Inflection", "Lexeme", "NUM">>;
-			lemma: () => z.ZodType<Selection<"de", "Standard", "Lemma", "Lexeme", "NUM">>;
-		};
-		typo: {
-			inflection: () => z.ZodType<Selection<"de", "Typo", "Inflection", "Lexeme", "NUM">>;
-			lemma: () => z.ZodType<Selection<"de", "Typo", "Lemma", "Lexeme", "NUM">>;
-		};
-	};
-	surface: {
-		inflection: () => z.ZodType<Surface<"de", "Inflection", "Lexeme", "NUM">>;
-		lemma: () => z.ZodType<Surface<"de", "Lemma", "Lexeme", "NUM">>;
-	};
-};
+}) satisfies DeInflectableLexemeSchemaBundleFor<"NUM">;

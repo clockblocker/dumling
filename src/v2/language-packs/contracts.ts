@@ -47,3 +47,16 @@ export type LanguagePackDescriptor<
 	| ImplementedLanguagePackDescriptor<L, TPack, TSchemaTree, TCreate, TParse>
 	| StubLanguagePackDescriptor<L, TSchemaTree>;
 
+export type LanguagePackRegistry<
+	TSchemaTreeByLanguage extends Record<SupportedLanguage, unknown>,
+	TCreateByLanguage extends Record<SupportedLanguage, unknown>,
+	TParseByLanguage extends Record<SupportedLanguage, unknown>,
+> = {
+	[L in SupportedLanguage]: LanguagePackDescriptor<
+		L,
+		LanguageTypePack<L>,
+		TSchemaTreeByLanguage[L],
+		TCreateByLanguage[L],
+		TParseByLanguage[L]
+	>;
+};

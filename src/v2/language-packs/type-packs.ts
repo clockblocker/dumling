@@ -5,6 +5,7 @@ import type {
 	AbstractSurface,
 } from "../types/abstract/entities";
 import type {
+	AbstractLanguageTag,
 	LemmaKind,
 	OrthographicStatus,
 	SupportedLanguage,
@@ -15,13 +16,13 @@ import type { DeSelection } from "../types/language-packs/de/de-selection";
 import type { DeSurface } from "../types/language-packs/de/de-surface";
 import type { LanguageTypePack } from "./contracts";
 
-type AbstractLanguageLemma<L extends Exclude<SupportedLanguage, "de">> = {
+export type AbstractLanguageLemmaUnion<L extends AbstractLanguageTag> = {
 	[LK in LemmaKind]: {
 		[LSK in AbstractLemmaSubKindFor<LK>]: AbstractLemma<L, LK, LSK>;
 	}[AbstractLemmaSubKindFor<LK>];
 }[LemmaKind];
 
-type AbstractLanguageSurface<L extends Exclude<SupportedLanguage, "de">> = {
+export type AbstractLanguageSurfaceUnion<L extends AbstractLanguageTag> = {
 	[SK in SurfaceKind]: {
 		[LK in LemmaKind]: {
 			[LSK in AbstractLemmaSubKindFor<LK>]: AbstractSurface<L, SK, LK, LSK>;
@@ -29,7 +30,7 @@ type AbstractLanguageSurface<L extends Exclude<SupportedLanguage, "de">> = {
 	}[LemmaKind];
 }[SurfaceKind];
 
-type AbstractLanguageSelection<L extends Exclude<SupportedLanguage, "de">> = {
+export type AbstractLanguageSelectionUnion<L extends AbstractLanguageTag> = {
 	[OS in OrthographicStatus]: {
 		[SK in SurfaceKind]: {
 			[LK in LemmaKind]: {
@@ -45,11 +46,11 @@ type AbstractLanguageSelection<L extends Exclude<SupportedLanguage, "de">> = {
 	}[SurfaceKind];
 }[OrthographicStatus];
 
-type StubLanguageTypePack<L extends Exclude<SupportedLanguage, "de">> =
+export type StubLanguageTypePack<L extends Exclude<SupportedLanguage, "de">> =
 	LanguageTypePack<L> & {
-		lemma: AbstractLanguageLemma<L>;
-		selection: AbstractLanguageSelection<L>;
-		surface: AbstractLanguageSurface<L>;
+		lemma: AbstractLanguageLemmaUnion<L>;
+		selection: AbstractLanguageSelectionUnion<L>;
+		surface: AbstractLanguageSurfaceUnion<L>;
 	};
 
 export type LanguageTypePackMap = {

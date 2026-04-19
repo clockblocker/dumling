@@ -1,8 +1,11 @@
 import { z } from "zod/v3";
-import type { Lemma, Selection, Surface } from "../../../../../public-types";
-import type { DeCoordinatingConjunctionInherentFeatures } from "../../../../../types/language-packs/de/lexeme/pos/de-coordinating-conjunction";
+import type {
+	DeCoordinatingConjunctionInherentFeatures,
+	DeCoordinatingConjunctionLemma,
+} from "../../../../../types/language-packs/de/lexeme/pos/de-coordinating-conjunction";
 import { buildOptionalFeatureObjectSchema } from "../../../../shared/feature-helpers";
 import {
+	type DeUninflectableLexemeSchemaBundleFor,
 	buildDeUninflectableLexemeSchemaBundle,
 	buildLemmaSchema,
 } from "../shared/build-de-lexeme-schema-bundle";
@@ -19,25 +22,10 @@ export const deCoordinatingConjunctionLemmaSchema = buildLemmaSchema({
 	lemmaKind: "Lexeme",
 	lemmaSubKind: "CCONJ",
 	inherentFeaturesSchema: deCoordinatingConjunctionInherentFeaturesSchema,
-}) satisfies z.ZodType<Lemma<"de", "Lexeme", "CCONJ">>;
+}) satisfies z.ZodType<DeCoordinatingConjunctionLemma>;
 
 export const deCoordinatingConjunctionSchemas =
-	buildDeUninflectableLexemeSchemaBundle({
+	buildDeUninflectableLexemeSchemaBundle<"CCONJ">({
 		languageSchema: deLanguageSchema,
 		lemmaSchema: deCoordinatingConjunctionLemmaSchema,
-	}) as {
-		lemma: () => z.ZodType<Lemma<"de", "Lexeme", "CCONJ">>;
-		lemmaSchema: z.ZodType<Lemma<"de", "Lexeme", "CCONJ">>;
-		lemmaSurfaceSchema: z.ZodType<Surface<"de", "Lemma", "Lexeme", "CCONJ">>;
-		selection: {
-			standard: {
-				lemma: () => z.ZodType<Selection<"de", "Standard", "Lemma", "Lexeme", "CCONJ">>;
-			};
-			typo: {
-				lemma: () => z.ZodType<Selection<"de", "Typo", "Lemma", "Lexeme", "CCONJ">>;
-			};
-		};
-		surface: {
-			lemma: () => z.ZodType<Surface<"de", "Lemma", "Lexeme", "CCONJ">>;
-		};
-	};
+	}) satisfies DeUninflectableLexemeSchemaBundleFor<"CCONJ">;

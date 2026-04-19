@@ -1,9 +1,12 @@
 import { z } from "zod/v3";
-import type { Lemma, Selection, Surface } from "../../../../../public-types";
-import type { DeParticleInherentFeatures } from "../../../../../types/language-packs/de/lexeme/pos/de-particle";
+import type {
+	DeParticleInherentFeatures,
+	DeParticleLemma,
+} from "../../../../../types/language-packs/de/lexeme/pos/de-particle";
 import { abstractFeatureAtomSchemas } from "../../../../abstract/feature-schemas";
 import { buildOptionalFeatureObjectSchema } from "../../../../shared/feature-helpers";
 import {
+	type DeUninflectableLexemeSchemaBundleFor,
 	buildDeUninflectableLexemeSchemaBundle,
 	buildLemmaSchema,
 } from "../shared/build-de-lexeme-schema-bundle";
@@ -27,24 +30,9 @@ export const deParticleLemmaSchema = buildLemmaSchema({
 	lemmaKind: "Lexeme",
 	lemmaSubKind: "PART",
 	inherentFeaturesSchema: deParticleInherentFeaturesSchema,
-}) satisfies z.ZodType<Lemma<"de", "Lexeme", "PART">>;
+}) satisfies z.ZodType<DeParticleLemma>;
 
-export const deParticleSchemas = buildDeUninflectableLexemeSchemaBundle({
+export const deParticleSchemas = buildDeUninflectableLexemeSchemaBundle<"PART">({
 	languageSchema: deLanguageSchema,
 	lemmaSchema: deParticleLemmaSchema,
-}) as {
-	lemma: () => z.ZodType<Lemma<"de", "Lexeme", "PART">>;
-	lemmaSchema: z.ZodType<Lemma<"de", "Lexeme", "PART">>;
-	lemmaSurfaceSchema: z.ZodType<Surface<"de", "Lemma", "Lexeme", "PART">>;
-	selection: {
-		standard: {
-			lemma: () => z.ZodType<Selection<"de", "Standard", "Lemma", "Lexeme", "PART">>;
-		};
-		typo: {
-			lemma: () => z.ZodType<Selection<"de", "Typo", "Lemma", "Lexeme", "PART">>;
-		};
-	};
-	surface: {
-		lemma: () => z.ZodType<Surface<"de", "Lemma", "Lexeme", "PART">>;
-	};
-};
+}) satisfies DeUninflectableLexemeSchemaBundleFor<"PART">;

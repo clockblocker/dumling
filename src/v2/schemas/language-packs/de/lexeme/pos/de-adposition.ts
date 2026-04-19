@@ -1,8 +1,11 @@
 import { z } from "zod/v3";
-import type { Lemma, Selection, Surface } from "../../../../../public-types";
-import type { DeAdpositionInherentFeatures } from "../../../../../types/language-packs/de/lexeme/pos/de-adposition";
+import type {
+	DeAdpositionInherentFeatures,
+	DeAdpositionLemma,
+} from "../../../../../types/language-packs/de/lexeme/pos/de-adposition";
 import { abstractFeatureAtomSchemas } from "../../../../abstract/feature-schemas";
 import {
+	type DeUninflectableLexemeSchemaBundleFor,
 	buildDeUninflectableLexemeSchemaBundle,
 	buildLemmaSchema,
 } from "../shared/build-de-lexeme-schema-bundle";
@@ -29,24 +32,10 @@ export const deAdpositionLemmaSchema = buildLemmaSchema({
 	lemmaKind: "Lexeme",
 	lemmaSubKind: "ADP",
 	inherentFeaturesSchema: deAdpositionInherentFeaturesSchema,
-}) satisfies z.ZodType<Lemma<"de", "Lexeme", "ADP">>;
+}) satisfies z.ZodType<DeAdpositionLemma>;
 
-export const deAdpositionSchemas = buildDeUninflectableLexemeSchemaBundle({
-	languageSchema: deLanguageSchema,
-	lemmaSchema: deAdpositionLemmaSchema,
-}) as {
-	lemma: () => z.ZodType<Lemma<"de", "Lexeme", "ADP">>;
-	lemmaSchema: z.ZodType<Lemma<"de", "Lexeme", "ADP">>;
-	lemmaSurfaceSchema: z.ZodType<Surface<"de", "Lemma", "Lexeme", "ADP">>;
-	selection: {
-		standard: {
-			lemma: () => z.ZodType<Selection<"de", "Standard", "Lemma", "Lexeme", "ADP">>;
-		};
-		typo: {
-			lemma: () => z.ZodType<Selection<"de", "Typo", "Lemma", "Lexeme", "ADP">>;
-		};
-	};
-	surface: {
-		lemma: () => z.ZodType<Surface<"de", "Lemma", "Lexeme", "ADP">>;
-	};
-};
+export const deAdpositionSchemas =
+	buildDeUninflectableLexemeSchemaBundle<"ADP">({
+		languageSchema: deLanguageSchema,
+		lemmaSchema: deAdpositionLemmaSchema,
+	}) satisfies DeUninflectableLexemeSchemaBundleFor<"ADP">;

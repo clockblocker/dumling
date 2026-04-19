@@ -22,8 +22,11 @@ import { buildUnionSchema } from "../schemas/shared/builders";
 import { buildDeCreateOperations } from "../operations/lang/de/create";
 import { buildDeParseOperations } from "../operations/lang/de/parse";
 import type {
+	ImplementedLanguagePackDescriptor,
 	LanguagePackDescriptor,
+	LanguagePackRegistry,
 	RuntimeSchemaSet,
+	StubLanguagePackDescriptor,
 } from "./contracts";
 import type { LanguageTypePackMap } from "./type-packs";
 
@@ -37,6 +40,24 @@ type StubSchemaTree = {
 	lemma: AbstractLemmaSchemaTree;
 	selection: AbstractSelectionSchemaTree;
 	surface: AbstractSurfaceSchemaTree;
+};
+
+type LanguagePackSchemaTreeMap = {
+	de: DeSchemaTree;
+	en: StubSchemaTree;
+	he: StubSchemaTree;
+};
+
+type LanguagePackCreateMap = {
+	de: LanguageApi<"de">["create"];
+	en: LanguageApi<"en">["create"];
+	he: LanguageApi<"he">["create"];
+};
+
+type LanguagePackParseMap = {
+	de: LanguageApi<"de">["parse"];
+	en: LanguageApi<"en">["parse"];
+	he: LanguageApi<"he">["parse"];
 };
 
 const deRuntimeSchemas = {
@@ -55,15 +76,15 @@ const deRuntimeSchemas = {
 		deMorphemeRuntimeSchemas.selection,
 		dePhrasemeRuntimeSchemas.selection,
 	]),
-} as RuntimeSchemaSet<LanguageTypePackMap["de"]>;
+} satisfies RuntimeSchemaSet<LanguageTypePackMap["de"]>;
 
 const stubSchemaSource = {
 	lemma: abstractLemmaSchema,
 	selection: abstractSelectionSchema,
 	surface: abstractSurfaceSchema,
-};
+} satisfies StubSchemaTree;
 
-const deLanguagePack: LanguagePackDescriptor<
+const deLanguagePack: ImplementedLanguagePackDescriptor<
 	"de",
 	LanguageTypePackMap["de"],
 	DeSchemaTree,
@@ -82,24 +103,18 @@ const deLanguagePack: LanguagePackDescriptor<
 	status: "implemented",
 };
 
-const enLanguagePack: LanguagePackDescriptor<
+const enLanguagePack: StubLanguagePackDescriptor<
 	"en",
-	LanguageTypePackMap["en"],
-	StubSchemaTree,
-	LanguageApi<"en">["create"],
-	LanguageApi<"en">["parse"]
+	StubSchemaTree
 > = {
 	language: "en",
 	schema: stubSchemaSource,
 	status: "stub",
 };
 
-const heLanguagePack: LanguagePackDescriptor<
+const heLanguagePack: StubLanguagePackDescriptor<
 	"he",
-	LanguageTypePackMap["he"],
-	StubSchemaTree,
-	LanguageApi<"he">["create"],
-	LanguageApi<"he">["parse"]
+	StubSchemaTree
 > = {
 	language: "he",
 	schema: stubSchemaSource,
@@ -110,4 +125,8 @@ export const languagePacks = {
 	de: deLanguagePack,
 	en: enLanguagePack,
 	he: heLanguagePack,
-};
+} satisfies LanguagePackRegistry<
+	LanguagePackSchemaTreeMap,
+	LanguagePackCreateMap,
+	LanguagePackParseMap
+>;

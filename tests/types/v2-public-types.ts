@@ -2,10 +2,14 @@ import type { ZodType } from "zod/v3";
 import { dumling } from "../../src";
 import { schema } from "../../src/schema";
 import type {
+	FeatureNameFor,
 	FeatureValueFor,
 	Lemma,
+	LemmaKindFor,
+	LemmaSubKindFor,
 	Selection,
 	Surface,
+	SurfaceKindFor,
 } from "../../src/types";
 
 const lemma = dumling.de.create.lemma({
@@ -47,6 +51,14 @@ const typoSelection = dumling.de.create.selection.typo({
 }) satisfies Selection<"de", "Typo", "Lemma", "Lexeme", "NOUN">;
 
 const gender: FeatureValueFor<"de", "Lexeme", "NOUN", "gender"> = "Masc";
+const featureName: FeatureNameFor<"de", "Lexeme", "NOUN"> = "gender";
+const deLemmaKind: LemmaKindFor<"de"> = "Lexeme";
+const deLexemeSubKind: LemmaSubKindFor<"de", "Lexeme"> = "NOUN";
+const deSurfaceKind: SurfaceKindFor<"de"> = "Lemma";
+void featureName;
+void deLemmaKind;
+void deLexemeSubKind;
+void deSurfaceKind;
 void gender;
 
 // @ts-expect-error invalid NOUN gender feature value

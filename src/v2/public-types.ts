@@ -20,11 +20,16 @@ import type {
 	AbstractFeatureName,
 	AbstractFeatureValue as AbstractFeatureValueForName,
 } from "./types/abstract/features/features";
+import type { LanguageTypePackMap } from "./language-packs/type-packs";
 import type { DeLemmaByKind } from "./types/language-packs/de/de-lemma";
 import type { DeSelectionByOrthographicStatus } from "./types/language-packs/de/de-selection";
 import type { DeSurfaceByKind } from "./types/language-packs/de/de-surface";
 
 type Simplify<T> = { [K in keyof T]: T[K] } & {};
+type PackLemma<L extends SupportedLanguage> = LanguageTypePackMap[L]["lemma"];
+type PackSurface<L extends SupportedLanguage> = LanguageTypePackMap[L]["surface"];
+type PackSelection<L extends SupportedLanguage> =
+	LanguageTypePackMap[L]["selection"];
 
 type EntityForKind<
 	L extends SupportedLanguage,
@@ -88,7 +93,6 @@ export type IdDecodeSuccess<L extends SupportedLanguage = SupportedLanguage> = {
 	entityKind: EntityKind;
 	data: Lemma<L> | Surface<L> | Selection<L>;
 };
-
 export type LemmaKindFor<L extends SupportedLanguage> = L extends "de"
 	? keyof DeLemmaByKind
 	: LemmaKind;
@@ -248,19 +252,14 @@ export type InflectionalFeaturesFor<
 	L extends SupportedLanguage,
 	LK extends LemmaKindFor<L>,
 	LSK extends LemmaSubKindFor<L, LK>,
-> = L extends "de"
-	? Surface<
-			L,
-			"Inflection" & SurfaceKindFor<L>,
-			LK & LemmaKindForSurfaceKind<L, "Inflection" & SurfaceKindFor<L>>,
-			LSK & LemmaSubKindFor<L, LK>
-		> extends { inflectionalFeatures: infer Features }
-		? Features
-		: never
-	: AbstractInflectionalFeaturesFor<
-			LK & LemmaKind,
-			LSK & AbstractLemmaSubKindFor<LK & LemmaKind>
-		>;
+> = Surface<
+	L,
+	"Inflection" & SurfaceKindFor<L>,
+	LK & LemmaKindForSurfaceKind<L, "Inflection" & SurfaceKindFor<L>>,
+	LSK
+> extends { inflectionalFeatures: infer Features }
+	? Features
+	: never;
 
 export type FeatureBagFor<
 	L extends SupportedLanguage,

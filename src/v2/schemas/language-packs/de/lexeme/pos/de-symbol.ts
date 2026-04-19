@@ -1,8 +1,8 @@
 import { z } from "zod/v3";
-import type { Lemma, Selection, Surface } from "../../../../../public-types";
 import type {
 	DeSymbolInherentFeatures,
 	DeSymbolInflectionalFeatures,
+	DeSymbolLemma,
 } from "../../../../../types/language-packs/de/lexeme/pos/de-symbol";
 import { abstractFeatureAtomSchemas } from "../../../../abstract/feature-schemas";
 import {
@@ -10,6 +10,7 @@ import {
 	requireNonEmptyFeatureObject,
 } from "../../../../shared/feature-helpers";
 import {
+	type DeInflectableLexemeSchemaBundleFor,
 	buildDeInflectableLexemeSchemaBundle,
 	buildLemmaSchema,
 } from "../shared/build-de-lexeme-schema-bundle";
@@ -44,32 +45,10 @@ export const deSymbolLemmaSchema = buildLemmaSchema({
 	lemmaKind: "Lexeme",
 	lemmaSubKind: "SYM",
 	inherentFeaturesSchema: deSymbolInherentFeaturesSchema,
-}) satisfies z.ZodType<Lemma<"de", "Lexeme", "SYM">>;
+}) satisfies z.ZodType<DeSymbolLemma>;
 
-export const deSymbolSchemas = buildDeInflectableLexemeSchemaBundle({
+export const deSymbolSchemas = buildDeInflectableLexemeSchemaBundle<"SYM">({
 	languageSchema: deLanguageSchema,
 	lemmaSchema: deSymbolLemmaSchema,
 	inflectionalFeaturesSchema: deSymbolInflectionalFeaturesSchema,
-	inflectionSurfaceSchema: undefined as unknown as z.ZodType<
-		Surface<"de", "Inflection", "Lexeme", "SYM">
-	>,
-}) as {
-	inflectionSurfaceSchema: z.ZodType<Surface<"de", "Inflection", "Lexeme", "SYM">>;
-	lemma: () => z.ZodType<Lemma<"de", "Lexeme", "SYM">>;
-	lemmaSchema: z.ZodType<Lemma<"de", "Lexeme", "SYM">>;
-	lemmaSurfaceSchema: z.ZodType<Surface<"de", "Lemma", "Lexeme", "SYM">>;
-	selection: {
-		standard: {
-			inflection: () => z.ZodType<Selection<"de", "Standard", "Inflection", "Lexeme", "SYM">>;
-			lemma: () => z.ZodType<Selection<"de", "Standard", "Lemma", "Lexeme", "SYM">>;
-		};
-		typo: {
-			inflection: () => z.ZodType<Selection<"de", "Typo", "Inflection", "Lexeme", "SYM">>;
-			lemma: () => z.ZodType<Selection<"de", "Typo", "Lemma", "Lexeme", "SYM">>;
-		};
-	};
-	surface: {
-		inflection: () => z.ZodType<Surface<"de", "Inflection", "Lexeme", "SYM">>;
-		lemma: () => z.ZodType<Surface<"de", "Lemma", "Lexeme", "SYM">>;
-	};
-};
+}) satisfies DeInflectableLexemeSchemaBundleFor<"SYM">;

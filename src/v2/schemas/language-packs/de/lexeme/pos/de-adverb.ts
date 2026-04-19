@@ -1,11 +1,12 @@
 import { z } from "zod/v3";
-import type { Lemma, Selection, Surface } from "../../../../../public-types";
 import type {
 	DeAdverbInherentFeatures,
 	DeAdverbInflectionalFeatures,
+	DeAdverbLemma,
 } from "../../../../../types/language-packs/de/lexeme/pos/de-adverb";
 import { abstractFeatureAtomSchemas } from "../../../../abstract/feature-schemas";
 import {
+	type DeInflectableLexemeSchemaBundleFor,
 	buildDeInflectableLexemeSchemaBundle,
 	buildLemmaSchema,
 } from "../shared/build-de-lexeme-schema-bundle";
@@ -44,32 +45,10 @@ export const deAdverbLemmaSchema = buildLemmaSchema({
 	lemmaKind: "Lexeme",
 	lemmaSubKind: "ADV",
 	inherentFeaturesSchema: deAdverbInherentFeaturesSchema,
-}) satisfies z.ZodType<Lemma<"de", "Lexeme", "ADV">>;
+}) satisfies z.ZodType<DeAdverbLemma>;
 
-export const deAdverbSchemas = buildDeInflectableLexemeSchemaBundle({
+export const deAdverbSchemas = buildDeInflectableLexemeSchemaBundle<"ADV">({
 	languageSchema: deLanguageSchema,
 	lemmaSchema: deAdverbLemmaSchema,
 	inflectionalFeaturesSchema: deAdverbInflectionalFeaturesSchema,
-	inflectionSurfaceSchema: undefined as unknown as z.ZodType<
-		Surface<"de", "Inflection", "Lexeme", "ADV">
-	>,
-}) as {
-	inflectionSurfaceSchema: z.ZodType<Surface<"de", "Inflection", "Lexeme", "ADV">>;
-	lemma: () => z.ZodType<Lemma<"de", "Lexeme", "ADV">>;
-	lemmaSchema: z.ZodType<Lemma<"de", "Lexeme", "ADV">>;
-	lemmaSurfaceSchema: z.ZodType<Surface<"de", "Lemma", "Lexeme", "ADV">>;
-	selection: {
-		standard: {
-			inflection: () => z.ZodType<Selection<"de", "Standard", "Inflection", "Lexeme", "ADV">>;
-			lemma: () => z.ZodType<Selection<"de", "Standard", "Lemma", "Lexeme", "ADV">>;
-		};
-		typo: {
-			inflection: () => z.ZodType<Selection<"de", "Typo", "Inflection", "Lexeme", "ADV">>;
-			lemma: () => z.ZodType<Selection<"de", "Typo", "Lemma", "Lexeme", "ADV">>;
-		};
-	};
-	surface: {
-		inflection: () => z.ZodType<Surface<"de", "Inflection", "Lexeme", "ADV">>;
-		lemma: () => z.ZodType<Surface<"de", "Lemma", "Lexeme", "ADV">>;
-	};
-};
+}) satisfies DeInflectableLexemeSchemaBundleFor<"ADV">;
