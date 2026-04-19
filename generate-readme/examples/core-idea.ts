@@ -1,93 +1,68 @@
 /** biome-ignore-all lint/correctness/noUnusedVariables: README example file */
-import {
-	idCodec,
-	operation,
-} from "../../src";
-import type { Lemma, Selection, Surface } from "../../src/entities";
-import { schemaFor } from "../../src/schema";
+import { dumling } from "../../src";
+import { schema } from "../../src/schema";
+import type { Lemma, Selection, Surface } from "../../src/types";
 
-// README_BLOCK:story-give-up-lemma:start
-const giveUpLemma = {
-	canonicalLemma: "give up",
+// README_BLOCK:core-lemma:start
+const seeLemma = {
+	language: "de",
+	canonicalLemma: "see",
+	lemmaKind: "Lexeme",
+	lemmaSubKind: "NOUN",
 	inherentFeatures: {
-		phrasal: "Yes",
+		gender: "Masc",
 	},
-	language: "English",
-	lemmaKind: "Lexeme",
-	meaningInEmojis: "🏳️",
-	pos: "VERB",
-} satisfies Lemma<"English", "Lexeme", "VERB">;
-// README_BLOCK:story-give-up-lemma:end
+	meaningInEmojis: "🌊",
+} satisfies Lemma<"de", "Lexeme", "NOUN">;
+// README_BLOCK:core-lemma:end
 
-// README_BLOCK:story-gave-up-surface:start
-const gaveUpSurface = {
-	inflectionalFeatures: {
-		tense: "Past",
-		verbForm: "Fin",
-	},
-	language: "English",
-	normalizedFullSurface: "gave up",
-	surfaceKind: "Inflection",
-	lemma: giveUpLemma,
-} satisfies Surface<
-	"English",
-	"Inflection",
+// README_BLOCK:core-surface:start
+const seeSurface = dumling.de.convert.lemma.toSurface(seeLemma) satisfies Surface<
+	"de",
+	"Lemma",
 	"Lexeme",
-	"VERB"
+	"NOUN"
 >;
-// README_BLOCK:story-gave-up-surface:end
+// README_BLOCK:core-surface:end
 
-// README_BLOCK:story-gvae-selection:start
-const gvaeSelection = {
-	language: "English",
-	orthographicStatus: "Typo",
-	selectionCoverage: "Partial",
-	spelledSelection: "gvae",
-	spellingRelation: "Canonical",
-	surface: gaveUpSurface,
-} satisfies Selection<"English", "Typo", "Inflection", "Lexeme", "VERB">;
-// README_BLOCK:story-gvae-selection:end
+// README_BLOCK:core-selection:start
+const seeSelection = dumling.de.convert.surface.toSelection(seeSurface, {
+	spelledSelection: "See",
+}) satisfies Selection<"de">;
+// README_BLOCK:core-selection:end
 
-// README_BLOCK:story-give-up-ids:start
-const giveUpLemmaId = idCodec.English.makeDumlingIdFor(giveUpLemma);
-// "ling:v1:EN:LEM;give up;Lexeme;VERB;phrasal=Yes;🏳️"
+// README_BLOCK:quickstart-de:start
+import { dumling as packageDumling } from "dumling";
+import { schema as packageSchema } from "dumling/schema";
+import type { Lemma as PackageLemma } from "dumling/types";
 
-const gaveUpSurfaceId = idCodec.English.makeDumlingIdFor(gaveUpSurface);
-// "ling:v1:EN:SURF;gave up;Inflection;Lexeme;VERB;tense=Past,verbForm=Fin;give up;Lexeme;VERB;phrasal=Yes;🏳️"
-
-const gvaeSelectionId = idCodec.English.makeDumlingIdFor(gvaeSelection);
-// "ling:v1:EN:SEL;Typo;Canonical;Partial;gvae;SURF;gave up;Inflection;Lexeme;VERB;tense=Past,verbForm=Fin;give up;Lexeme;VERB;phrasal=Yes;🏳️"
-// README_BLOCK:story-give-up-ids:end
-
-void [giveUpLemmaId, gaveUpSurfaceId, gvaeSelectionId];
-
-// README_BLOCK:quickstart-walk:start
-import { idCodec, operation } from "dumling";
-import type { Lemma } from "dumling/entities";
-import { schemaFor } from "dumling/schema";
-
-const walkLemma = {
-	canonicalLemma: "walk",
-	inherentFeatures: {},
-	language: "English",
+const lemma = packageDumling.de.create.lemma({
+	canonicalLemma: "see",
 	lemmaKind: "Lexeme",
-	meaningInEmojis: "🚶",
-	pos: "VERB",
-} satisfies Lemma<"English", "Lexeme", "VERB">;
-
-const walkSurface = operation.convert.lemma.toSurface(walkLemma);
-
-const walkSelection = operation.convert.surface.toStandardFullSelection(
-	walkSurface,
-	{
-		spelledSelection: "walk",
+	lemmaSubKind: "NOUN",
+	inherentFeatures: {
+		gender: "Masc",
 	},
-);
+	meaningInEmojis: "🌊",
+}) satisfies PackageLemma<"de", "Lexeme", "NOUN">;
 
-const walkSelectionId = idCodec.English.makeDumlingIdFor(walkSelection);
+const surface = packageDumling.de.convert.lemma.toSurface(lemma);
+const selection = packageDumling.de.convert.surface.toSelection(surface, {
+	spelledSelection: "See",
+});
 
-const parsedWalkSelection =
-	schemaFor.Selection.English.Standard.Lemma.Lexeme.VERB.parse(walkSelection);
-// README_BLOCK:quickstart-walk:end
+const parsed = packageDumling.de.parse.selection(selection);
+if (!parsed.success) {
+	throw new Error(parsed.error.message);
+}
 
-void [walkSelectionId, parsedWalkSelection];
+const id = packageDumling.de.id.encode(parsed.data);
+const decoded = packageDumling.de.id.decodeAs("Selection", id);
+if (!decoded.success) {
+	throw new Error(decoded.error.message);
+}
+
+packageSchema.de.selection.standard.lemma.lexeme.noun().parse(decoded.data);
+// README_BLOCK:quickstart-de:end
+
+void schema.abstract.lemma.lexeme.verb();

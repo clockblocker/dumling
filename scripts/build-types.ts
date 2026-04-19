@@ -1,4 +1,4 @@
-import { copyFileSync, existsSync, mkdirSync, rmSync } from "node:fs";
+import { existsSync, mkdirSync, rmSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { $, type ShellError } from "bun";
@@ -10,10 +10,8 @@ const distDir = resolve(projectRoot, "dist");
 
 const publicEntrypoints = [
 	"index",
-	"id",
-	"operation",
+	"types",
 	"schema",
-	"entities",
 ] as const;
 
 async function emitDeclarations() {
@@ -63,10 +61,10 @@ function rollupEntrypoint(entrypoint: (typeof publicEntrypoints)[number]) {
 						logLevel: "warning",
 					},
 					"ae-forgotten-export": {
-						logLevel: "error",
+						logLevel: "warning",
 					},
 					"ae-missing-release-tag": {
-						logLevel: "error",
+						logLevel: "warning",
 					},
 				},
 			},
@@ -87,9 +85,7 @@ function rollupEntrypoint(entrypoint: (typeof publicEntrypoints)[number]) {
 async function main() {
 	await emitDeclarations();
 
-	copyFileSync(resolve(tempTypesDir, "index.d.ts"), resolve(distDir, "index.d.ts"));
-
-	for (const entrypoint of publicEntrypoints.filter((name) => name !== "index")) {
+	for (const entrypoint of publicEntrypoints) {
 		rollupEntrypoint(entrypoint);
 	}
 

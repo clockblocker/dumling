@@ -2,7 +2,9 @@
 
 # `dumling`
 
-`dumling` is a TypeScript and Zod package for learner-facing linguistic annotation. It models linked `lemma`, `surface`, and `selection` DTOs and generates stable `IDs` for each layer.
+`dumling` is a TypeScript and Zod package for learner-facing linguistic annotation with a v2 API centered on hydrated `lemma`, `surface`, and `selection` DTOs.
+
+This first v2 cut ships a working German runtime surface and keeps `en` / `he` reserved as explicit not-yet-implemented namespaces.
 
 `dumling` keeps three linked DTOs separate:
 
@@ -10,98 +12,51 @@
 - `Surface`: the normalized full form in context
 - `Selection`: the exact text the learner highlighted
 
-It currently ships curated registries for `English`, `German`, and `Hebrew`.
-
 ## Entrypoints
 
 | Import path | Purpose |
 | --- | --- |
-| `dumling` | Root convenience exports: `dumling`, `idCodec`, `operation` |
-| `dumling/id` | Language-scoped ID encoders, decoders, and ID result types |
-| `dumling/operation` | Convert and extract helpers as named exports |
-| `dumling/schema` | Runtime Zod schema registries grouped by entity kind |
-| `dumling/entities` | Public DTO types for lemmas, surfaces, and selections |
+| `dumling` | Root runtime API: `dumling.de`, `dumling.en`, `dumling.he` |
+| `dumling/types` | Public DTO and helper types |
+| `dumling/schema` | Runtime schema tree |
 
 ## Core idea
 
-Start with the learner's exact highlighted text:
-
-```text
-Mark [gvae] up on it
-```
-
-`dumling` lets you describe that note at three levels at once.
+Start with a German noun lemma, derive its learner-facing entities, and round-trip it through parsing and IDs.
 
 The `Lemma` is the dictionary lemma:
 
 ```ts
-const giveUpLemma = {
-	canonicalLemma: "give up",
-	inherentFeatures: {
-		phrasal: "Yes",
-	},
-	language: "English",
+const seeLemma = {
+	language: "de",
+	canonicalLemma: "see",
 	lemmaKind: "Lexeme",
-	meaningInEmojis: "🏳️",
-	pos: "VERB",
-} satisfies Lemma<"English", "Lexeme", "VERB">;
+	lemmaSubKind: "NOUN",
+	inherentFeatures: {
+		gender: "Masc",
+	},
+	meaningInEmojis: "🌊",
+} satisfies Lemma<"de", "Lexeme", "NOUN">;
 ```
 
 The `Surface` is the normalized full form that the note belongs to:
 
 ```ts
-const gaveUpSurface = {
-	inflectionalFeatures: {
-		tense: "Past",
-		verbForm: "Fin",
-	},
-	language: "English",
-	normalizedFullSurface: "gave up",
-	surfaceKind: "Inflection",
-	lemma: giveUpLemma,
-} satisfies Surface<
-	"English",
-	"Inflection",
+const seeSurface = dumling.de.convert.lemma.toSurface(seeLemma) satisfies Surface<
+	"de",
+	"Lemma",
 	"Lexeme",
-	"VERB"
+	"NOUN"
 >;
 ```
 
 The `Selection` is the exact observed highlight in the learner's text:
 
 ```ts
-const gvaeSelection = {
-	language: "English",
-	orthographicStatus: "Typo",
-	selectionCoverage: "Partial",
-	spelledSelection: "gvae",
-	spellingRelation: "Canonical",
-	surface: gaveUpSurface,
-} satisfies Selection<"English", "Typo", "Inflection", "Lexeme", "VERB">;
+const seeSelection = dumling.de.convert.surface.toSelection(seeSurface, {
+	spelledSelection: "See",
+}) satisfies Selection<"de">;
 ```
-
-That is the value of the model at a glance: the learner can select a typo or only part of a multi-token expression, while the deeper linguistic lemma stays stable.
-
-In this example:
-
-- the `Lemma` stays `give up`
-- the `Surface` stays `gave up`
-- the `Selection` stays `gvae`
-
-As IDs, those same three objects become:
-
-```ts
-const giveUpLemmaId = idCodec.English.makeDumlingIdFor(giveUpLemma);
-// "ling:v1:EN:LEM;give up;Lexeme;VERB;phrasal=Yes;🏳️"
-
-const gaveUpSurfaceId = idCodec.English.makeDumlingIdFor(gaveUpSurface);
-// "ling:v1:EN:SURF;gave up;Inflection;Lexeme;VERB;tense=Past,verbForm=Fin;give up;Lexeme;VERB;phrasal=Yes;🏳️"
-
-const gvaeSelectionId = idCodec.English.makeDumlingIdFor(gvaeSelection);
-// "ling:v1:EN:SEL;Typo;Canonical;Partial;gvae;SURF;gave up;Inflection;Lexeme;VERB;tense=Past,verbForm=Fin;give up;Lexeme;VERB;phrasal=Yes;🏳️"
-```
-
-That separation is what makes typo handling, spelling variants, phrasal verbs, idioms, and partial highlights fit into one consistent shape.
 
 ## Quickstart
 
@@ -111,47 +66,43 @@ Install the package:
 npm install dumling
 ```
 
-Minimal end-to-end usage with named exports and subpath imports:
+Minimal end-to-end usage:
 
 ```ts
-import { idCodec, operation } from "dumling";
-import type { Lemma } from "dumling/entities";
-import { schemaFor } from "dumling/schema";
+import { dumling as packageDumling } from "dumling";
+import { schema as packageSchema } from "dumling/schema";
+import type { Lemma as PackageLemma } from "dumling/types";
 
-const walkLemma = {
-	canonicalLemma: "walk",
-	inherentFeatures: {},
-	language: "English",
+const lemma = packageDumling.de.create.lemma({
+	canonicalLemma: "see",
 	lemmaKind: "Lexeme",
-	meaningInEmojis: "🚶",
-	pos: "VERB",
-} satisfies Lemma<"English", "Lexeme", "VERB">;
-
-const walkSurface = operation.convert.lemma.toSurface(walkLemma);
-
-const walkSelection = operation.convert.surface.toStandardFullSelection(
-	walkSurface,
-	{
-		spelledSelection: "walk",
+	lemmaSubKind: "NOUN",
+	inherentFeatures: {
+		gender: "Masc",
 	},
-);
+	meaningInEmojis: "🌊",
+}) satisfies PackageLemma<"de", "Lexeme", "NOUN">;
 
-const walkSelectionId = idCodec.English.makeDumlingIdFor(walkSelection);
+const surface = packageDumling.de.convert.lemma.toSurface(lemma);
+const selection = packageDumling.de.convert.surface.toSelection(surface, {
+	spelledSelection: "See",
+});
 
-const parsedWalkSelection =
-	schemaFor.Selection.English.Standard.Lemma.Lexeme.VERB.parse(walkSelection);
+const parsed = packageDumling.de.parse.selection(selection);
+if (!parsed.success) {
+	throw new Error(parsed.error.message);
+}
+
+const id = packageDumling.de.id.encode(parsed.data);
+const decoded = packageDumling.de.id.decodeAs("Selection", id);
+if (!decoded.success) {
+	throw new Error(decoded.error.message);
+}
+
+packageSchema.de.selection.standard.lemma.lexeme.noun().parse(decoded.data);
 ```
 
-The root export is intentionally small:
-
-- `dumling`: convenience namespace for `idCodec` and `operation`
-- `idCodec`: stable IDs for lemmas, surfaces, and selections
-- `operation`: convert and extract helpers
-
-Use explicit subpaths for heavier public surfaces:
-
-- `dumling/schema`: Zod schema registries by language and entity kind
-- `dumling/entities`: DTO types for lemmas, surfaces, and selections
+`schema.abstract.*` is already usable for ontology-level validation, while `schema.de.*` is the concrete working runtime surface in this pass.
 
 ## Concepts / Search Terms
 
@@ -167,17 +118,21 @@ People often look for this package using adjacent terms:
 
 ## Model notes
 
-The package models three orthogonal questions on the learner-facing side:
+The v2 public DTO model treats these as independent axes:
 
-- `orthographicStatus`: whether the observed spelling is standard, a recognized typo, or unknown
+- `orthographicStatus`: whether the observed spelling is standard or a typo
 - `spellingRelation`: whether a known spelling is canonical or an accepted variant
 - `selectionCoverage`: whether the learner highlighted the full surface or only part of it
 
-That means a typo does not have to destroy the deeper classification, and a partial selection does not have to discard the full surface or its lemma.
+Selections are always hydrated:
+
+- a `Selection` always contains a `Surface`
+- a `Surface` always contains a `Lemma`
 
 ## Scope
 
-- Languages: `English`, `German`, `Hebrew`
+- Runtime today: `de`
+- Reserved runtime stubs: `en`, `he`
 - Runtime: `Node >= 20`
 - Package format: ESM
 

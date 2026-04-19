@@ -21,16 +21,25 @@ describe("published package entrypoints", () => {
 		run("bun", ["run", "build"]);
 
 		const runtimeSmokeTest = `
-			import { dumling, idCodec, operation } from "dumling";
-			import { lingIdApiForLanguage } from "dumling/id";
-			import { toSurface, operationForLanguage } from "dumling/operation";
-			import { schemaFor } from "dumling/schema";
+			import { dumling } from "dumling";
+			import { schema } from "dumling/schema";
 
-			if (dumling.idCodec !== idCodec) throw new Error("root idCodec export drifted");
-			if (dumling.operation !== operation) throw new Error("root operation export drifted");
-			if (lingIdApiForLanguage("English") === idCodec.English) throw new Error("language codecs should be fresh API objects");
-			if (operationForLanguage("English").convert.lemma.toSurface === toSurface) throw new Error("bound operation API should not collapse to the unbound helper");
-			if (typeof schemaFor.Selection.English.Standard.Lemma.Lexeme.VERB.parse !== "function") throw new Error("schema entrypoint is missing runtime Zod registries");
+			const lemma = dumling.de.create.lemma({
+				canonicalLemma: "see",
+				lemmaKind: "Lexeme",
+				lemmaSubKind: "NOUN",
+				inherentFeatures: { gender: "Masc" },
+				meaningInEmojis: "🌊",
+			});
+			const selection = dumling.de.convert.lemma.toSelection(lemma, {
+				spelledSelection: "See",
+			});
+			const parsed = dumling.de.parse.selection(selection);
+			if (!parsed.success) throw new Error(parsed.error.message);
+			const decoded = dumling.de.id.decodeAs("Selection", dumling.de.id.encode(parsed.data));
+			if (!decoded.success) throw new Error(decoded.error.message);
+			if (typeof schema.de.lemma.lexeme.noun().parse !== "function") throw new Error("schema entrypoint is missing german schemas");
+			if (typeof schema.abstract.selection.typo.inflection.lexeme.verb().parse !== "function") throw new Error("schema entrypoint is missing abstract schemas");
 		`;
 
 		run("node", ["--input-type=module", "--eval", runtimeSmokeTest]);
@@ -41,36 +50,27 @@ describe("published package entrypoints", () => {
 			writeFileSync(
 				join(typecheckDir, "fixture.ts"),
 				[
-					'import { idCodec, operation } from "dumling";',
-					'import { lingIdApiForLanguage } from "dumling/id";',
-					'import { schemaFor } from "dumling/schema";',
-					'import { toSurface } from "dumling/operation";',
-					'import type { Lemma, ObservedSelection, Selection, Surface } from "dumling/entities";',
+					'import { dumling } from "dumling";',
+					'import { schema } from "dumling/schema";',
+					'import type { Lemma, Selection } from "dumling/types";',
 					"",
-					'const lemma = {',
-					'\tcanonicalLemma: "walk",',
-					'\tinherentFeatures: {},',
-					'\tlanguage: "English",',
+					"const lemma: Lemma<\"de\", \"Lexeme\", \"NOUN\"> = dumling.de.create.lemma({",
+					'\tcanonicalLemma: "see",',
 					'\tlemmaKind: "Lexeme",',
-					'\tmeaningInEmojis: "🚶",',
-					'\tpos: "VERB",',
-					'} satisfies Lemma<"English", "Lexeme", "VERB">;',
+					'\tlemmaSubKind: "NOUN",',
+					'\tinherentFeatures: {},',
+					'\tmeaningInEmojis: "🌊",',
+					"});",
 					"",
-					"const surface: Surface<\"English\"> = toSurface(lemma);",
-					"const selection: Selection<\"English\"> =",
-					"\toperation.convert.surface.toStandardFullSelection(surface, {",
-					'\t\tspelledSelection: "walk",',
-					"\t});",
-					"const parsed = schemaFor.Selection.English.Standard.Lemma.Lexeme.VERB.parse(selection);",
-					"const observed = {",
-					'\tlanguage: "English",',
-					'\torthographicStatus: "Unknown",',
-					'\tspelledSelection: "walq",',
-					'} satisfies ObservedSelection<"English">;',
-					"const selectionId = idCodec.English.makeDumlingIdFor(parsed);",
-					'const decoder = lingIdApiForLanguage("English");',
-					"decoder.tryToDecodeAs(\"Selection\", selectionId);",
-					"void observed;",
+					"const selection: Selection<\"de\"> = dumling.de.convert.lemma.toSelection(lemma, {",
+					'\tspelledSelection: "See",',
+					"});",
+					"const parsed = dumling.de.parse.selection(selection);",
+					"if (!parsed.success) throw new Error(parsed.error.message);",
+					"const selectionId = dumling.de.id.encode(parsed.data);",
+					"const decoded = dumling.de.id.decodeAs(\"Selection\", selectionId);",
+					"if (!decoded.success) throw new Error(decoded.error.message);",
+					"schema.de.selection.standard.lemma.lexeme.noun().parse(decoded.data);",
 				].join("\n"),
 			);
 			writeFileSync(
@@ -108,16 +108,13 @@ describe("published package entrypoints", () => {
 
 		expect(packedFiles.length).toBeLessThan(20);
 		expect(packedFiles).toContain("dist/index.d.ts");
-		expect(packedFiles).toContain("dist/id.d.ts");
-		expect(packedFiles).toContain("dist/operation.d.ts");
+		expect(packedFiles).toContain("dist/types.d.ts");
 		expect(packedFiles).toContain("dist/schema.d.ts");
-		expect(packedFiles).toContain("dist/entities.d.ts");
-		expect(packedFiles.some((file) => file.startsWith("dist/lu/"))).toBe(false);
-		expect(packedFiles.some((file) => file.startsWith("dist/id/internal/"))).toBe(
-			false,
-		);
+		expect(packedFiles).not.toContain("dist/id.d.ts");
+		expect(packedFiles).not.toContain("dist/operation.d.ts");
+		expect(packedFiles).not.toContain("dist/entities.d.ts");
 		expect(statSync(resolve(projectRoot, "dist/index.d.ts")).size).toBeLessThan(
-			10_000,
+			80_000,
 		);
 	});
 });

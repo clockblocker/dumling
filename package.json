@@ -29,25 +29,15 @@
 			"types": "./dist/index.d.ts",
 			"import": "./dist/index.js"
 		},
-		"./id": {
-			"default": "./dist/id.js",
-			"types": "./dist/id.d.ts",
-			"import": "./dist/id.js"
-		},
-		"./operation": {
-			"default": "./dist/operation.js",
-			"types": "./dist/operation.d.ts",
-			"import": "./dist/operation.js"
+		"./types": {
+			"default": "./dist/types.js",
+			"types": "./dist/types.d.ts",
+			"import": "./dist/types.js"
 		},
 		"./schema": {
 			"default": "./dist/schema.js",
 			"types": "./dist/schema.d.ts",
 			"import": "./dist/schema.js"
-		},
-		"./entities": {
-			"default": "./dist/entities.js",
-			"types": "./dist/entities.d.ts",
-			"import": "./dist/entities.js"
 		},
 		"./package.json": "./package.json"
 	},
@@ -68,7 +58,7 @@
 	},
 	"scripts": {
 		"build": "bun run build:js && bun run build:types",
-		"build:js": "rm -rf dist .types-temp && bun build src/index.ts src/id.ts src/operation.ts src/schema.ts src/entities.ts --outdir dist --format esm --target node --packages external",
+		"build:js": "rm -rf dist .types-temp && bun build src/index.ts src/types.ts src/schema.ts --outdir dist --format esm --target node --packages external",
 		"build:types": "bun run scripts/build-types.ts",
 		"check": "tsgo -p tsconfig.json --noEmit",
 		"fix": "bunx @biomejs/biome check --write .",
