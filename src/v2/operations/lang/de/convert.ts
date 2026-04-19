@@ -1,4 +1,4 @@
-import type { Lemma, Selection, Surface } from "../../public-types";
+import type { Lemma, Selection, Surface } from "../../../public-types";
 import { buildDeSelectionFromSurface } from "./shared";
 
 type DeLemmaToSurface = <T extends Lemma<"de">>(

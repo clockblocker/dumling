@@ -1,4 +1,4 @@
-import type { Lemma, Selection, Surface } from "../../public-types";
+import type { Lemma, Selection, Surface } from "../../../public-types";
 
 type DeCreateLemma = <T extends Lemma<"de">>(
 	input: Omit<T, "language"> & {

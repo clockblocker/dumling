@@ -1,5 +1,5 @@
-import { runtimeSchemas } from "../../schemas";
-import { parseWithSchema } from "../shared/parse-result";
+import { runtimeSchemas } from "../../../schemas";
+import { parseWithSchema } from "../../shared/parse-result";
 
 export function buildDeParseOperations() {
 	const operations = {

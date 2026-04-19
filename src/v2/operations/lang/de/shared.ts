@@ -1,7 +1,7 @@
 import type {
 	Selection,
 	Surface,
-} from "../../public-types";
+} from "../../../public-types";
 
 export type DeSelectionOptions = Partial<
 	Pick<

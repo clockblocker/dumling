@@ -6,10 +6,10 @@ import type {
 	Lemma,
 	Selection,
 	Surface,
-} from "../../public-types";
-import { decodeBase64Url, encodeBase64Url } from "../shared/base64url";
-import { inferEntityKind } from "../shared/entity-accessors";
-import { idError } from "../shared/id-errors";
+} from "../../../public-types";
+import { decodeBase64Url, encodeBase64Url } from "../../shared/base64url";
+import { inferEntityKind } from "../../shared/entity-accessors";
+import { idError } from "../../shared/id-errors";
 
 type DeEntity = Lemma<"de"> | Surface<"de"> | Selection<"de">;
 type DeDecodeSuccess = IdDecodeSuccess<"de">;
@@ -30,7 +30,7 @@ function isEntityKind(value: unknown): value is EntityKind {
 	return value === "Lemma" || value === "Surface" || value === "Selection";
 }
 
-export function buildDeIdOperations(parse: ReturnType<typeof import("../parse/de").buildDeParseOperations>) {
+export function buildDeIdOperations(parse: ReturnType<typeof import("./parse").buildDeParseOperations>) {
 	function decode(id: string): DeDecodeResult {
 		if (!id.startsWith("dumling:v2:")) {
 			return {

@@ -1,5 +1,5 @@
-import { de } from "./languages/de";
-import { makeNotImplementedLanguageApi } from "./languages/not-implemented";
+import { de } from "./lang/de";
+import { makeNotImplementedLanguageApi } from "./lang/not-implemented";
 
 export const dumling = {
 	de,

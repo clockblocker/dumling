@@ -140,11 +140,33 @@ language:
 
 - runtime union schemas
 - schema tree leaves
-- parse/decode behavior hooks
-- ID behavior hooks where needed
+- stub handlers
+- optional parse/decode hooks where generic helpers are insufficient
+- optional ID hooks where generic helpers are insufficient
 - stub status and stub handlers
 
 The contract should be defined for concrete curated languages only.
+
+### 2a. Keep type-level and runtime registries split to avoid import cycles
+
+The refactor must keep the type graph and runtime graph intentionally layered.
+
+Concrete rule:
+
+- `public-types.ts` may depend on type-pack maps and ontology types
+- `public-types.ts` must **not** depend on runtime descriptor registries
+- runtime descriptor registries may depend on schemas and operations helpers
+- schema modules must not need to import `LanguageApi` or other public runtime
+  surfaces
+
+Recommended shape:
+
+- `src/v2/language-packs/contracts.ts`: shared contract types only
+- `src/v2/language-packs/type-packs.ts`: type-only canonical pack map
+- `src/v2/language-packs/index.ts`: runtime descriptor registry
+
+This keeps `public-types.ts` decoupled from runtime assembly and prevents a
+`public-types -> registry -> schemas/operations -> public-types` cycle.
 
 ## 3. Add one central concrete-language registry
 
@@ -240,6 +262,19 @@ The family aggregators should derive from those manifests:
 The goal is to remove repeated central subkind inventories from both types and
 schemas.
 
+These manifests should be authored static modules, not runtime-discovered
+metadata and not codegen inputs.
+
+Practical rule:
+
+- each manifest entry should point at already-authored leaf exports
+- manifests should be `as const` and type-directed
+- the refactor should not require dynamic import tricks or reflective registry
+  walking
+
+This keeps the manifest step implementable in plain TypeScript and avoids
+turning a deduplication refactor into infrastructure work.
+
 ## 8. Make the operations layer consume the new contracts directly
 
 `src/v2/operations/*` is already the canonical runtime path.
@@ -264,6 +299,7 @@ The refactor should preserve these public decisions:
 - keep `schema.de.*`, `schema.en.*`, and `schema.he.*` publicly exposed
 - keep the existing stub semantics for `en` and `he`
 - do not expose language-pack registry implementation details as public API
+- do not re-export internal pack contracts or registries from public entrypoints
 
 The refactor may tighten public TypeScript signatures where the current API is
 too weak or too broad.
@@ -293,6 +329,20 @@ Add compile-only fixtures under `tests/types/` for:
 - schema leaf access behavior
 
 These tests should lock behavior before internals move.
+
+To make those fixtures real rather than aspirational, add a dedicated type-test
+entrypoint instead of relying on the existing mixed `tsconfig.json` include.
+
+Recommended minimum:
+
+- add `tsconfig.type-tests.json` (or equivalent) that includes `src/**/*.ts`
+  plus `tests/types/**/*.ts`
+- add a script such as `bun run check:types`
+- use plain `.ts` fixtures with positive assertions and `@ts-expect-error`
+  negatives
+
+This isolates compile-only guarantees from runtime tests, README examples, and
+package-build concerns.
 
 ## 2. Stabilize the existing operations path enough to refactor safely
 
@@ -387,6 +437,18 @@ Prefer:
 
 Avoid placeholder hacks such as pretending `undefined` is a valid typed branch.
 
+Do not make “zero casts anywhere” a success criterion.
+
+If Zod generic limitations force a small number of local casts at builder
+boundaries, that is acceptable provided:
+
+- the cast is localized
+- the surrounding public contract remains exact
+- the cast is not used to hide a known mismatch in DTO shape
+
+The goal is to remove structural unsoundness, not to spend the project budget
+fighting library typing edge cases.
+
 ## 9. Make the operations layer descriptor-driven end to end
 
 Once the pack contracts are in place, update:
@@ -416,6 +478,7 @@ After `check`, `test`, and `build` are green:
 The refactor is done when all of the following are true:
 
 - `bun run check` passes with no v2 type errors
+- dedicated type fixtures pass under the chosen type-test script/config
 - `bun test` passes
 - `bun run build` passes
 - root runtime export still comes from `src/v2/operations`
