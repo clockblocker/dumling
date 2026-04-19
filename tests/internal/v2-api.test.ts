@@ -3,6 +3,14 @@ import { dumling } from "../../src";
 import { schema } from "../../src/schema";
 import type { Lemma, Selection } from "../../src/types";
 
+function encodeBase64Url(value: string) {
+	return Buffer.from(value, "utf8")
+		.toString("base64")
+		.replaceAll("+", "-")
+		.replaceAll("/", "_")
+		.replace(/=+$/u, "");
+}
+
 describe("v2 API", () => {
 	it("creates, converts, extracts, and describes german entities", () => {
 		const lemma = dumling.de.create.lemma({
@@ -49,6 +57,60 @@ describe("v2 API", () => {
 			lemmaKind: "Lexeme",
 			lemmaSubKind: "NOUN",
 		});
+	});
+
+	it("ignores caller-supplied namespace-implied fields in create operations", () => {
+		const lemma = dumling.de.create.lemma({
+			language: "he",
+			canonicalLemma: "See",
+			lemmaKind: "Lexeme",
+			lemmaSubKind: "NOUN",
+			inherentFeatures: {},
+			meaningInEmojis: "🌊",
+		} as any);
+
+		const lemmaSurface = dumling.de.create.surface.lemma({
+			language: "he",
+			surfaceKind: "Inflection",
+			normalizedFullSurface: "See",
+			lemma,
+		} as any);
+
+		const typoSelection = dumling.de.create.selection.typo({
+			language: "he",
+			orthographicStatus: "Standard",
+			selectionCoverage: "Full",
+			spelledSelection: "Sse",
+			spellingRelation: "Canonical",
+			surface: lemmaSurface,
+		} as any);
+
+		expect(lemma.language).toBe("de");
+		expect(lemmaSurface.language).toBe("de");
+		expect(lemmaSurface.surfaceKind).toBe("Lemma");
+		expect(typoSelection.language).toBe("de");
+		expect(typoSelection.orthographicStatus).toBe("Typo");
+	});
+
+	it("uses the current selection defaults in conversions", () => {
+		const lemma = dumling.de.create.lemma({
+			canonicalLemma: "See",
+			lemmaKind: "Lexeme",
+			lemmaSubKind: "NOUN",
+			inherentFeatures: {},
+			meaningInEmojis: "🌊",
+		});
+
+		const fromLemma = dumling.de.convert.lemma.toSelection(lemma);
+		const fromSurface = dumling.de.convert.surface.toSelection(
+			dumling.de.convert.lemma.toSurface(lemma),
+		);
+
+		expect(fromLemma.orthographicStatus).toBe("Standard");
+		expect(fromLemma.selectionCoverage).toBe("Full");
+		expect(fromLemma.spellingRelation).toBe("Canonical");
+		expect(fromLemma.spelledSelection).toBe("See");
+		expect(fromSurface).toEqual(fromLemma);
 	});
 
 	it("parses normalized german DTOs and exposes schema leaves", () => {
@@ -187,5 +249,68 @@ describe("v2 API", () => {
 		expect(() => schema.he.lemma.lexeme.verb()).toThrow(
 			"dumling.he is not implemented yet",
 		);
+	});
+
+	it("reports decode failures for malformed ids and mismatched entity kinds", () => {
+		expect(dumling.de.id.decode("dumling:v2:%")).toEqual({
+			success: false,
+			error: {
+				code: "MalformedId",
+				message: "ID payload is not valid base64url",
+			},
+		});
+
+		expect(
+			dumling.de.id.decode(`dumling:v2:${encodeBase64Url("not json")}`),
+		).toEqual({
+			success: false,
+			error: {
+				code: "MalformedId",
+				message: "ID payload is not valid JSON",
+			},
+		});
+
+		const unsupportedVersionId = `dumling:v2:${encodeBase64Url(
+			JSON.stringify({
+				v: 1,
+				entityKind: "Lemma",
+				language: "de",
+				data: {
+					language: "de",
+					canonicalLemma: "see",
+					lemmaKind: "Lexeme",
+					lemmaSubKind: "NOUN",
+					inherentFeatures: {},
+					meaningInEmojis: "🌊",
+				},
+			}),
+		)}`;
+
+		expect(dumling.de.id.decode(unsupportedVersionId)).toEqual({
+			success: false,
+			error: {
+				code: "UnsupportedIdVersion",
+				message: "Unsupported Dumling ID version: 1",
+			},
+		});
+
+		const selection = dumling.de.convert.lemma.toSelection(
+			dumling.de.create.lemma({
+				canonicalLemma: "See",
+				lemmaKind: "Lexeme",
+				lemmaSubKind: "NOUN",
+				inherentFeatures: {},
+				meaningInEmojis: "🌊",
+			}),
+		);
+		const selectionId = dumling.de.id.encode(selection);
+
+		expect(dumling.de.id.decodeAs("Lemma", selectionId)).toEqual({
+			success: false,
+			error: {
+				code: "EntityMismatch",
+				message: "Expected Lemma, received Selection",
+			},
+		});
 	});
 });

@@ -1,0 +1,271 @@
+import { z } from "zod/v3";
+import { buildUnionSchema } from "../../../shared/builders";
+import { deAdjectiveSchemas } from "./pos/de-adjective";
+import { deAdpositionSchemas } from "./pos/de-adposition";
+import { deAdverbSchemas } from "./pos/de-adverb";
+import { deAuxiliarySchemas } from "./pos/de-auxiliary";
+import { deCoordinatingConjunctionSchemas } from "./pos/de-coordinating-conjunction";
+import { deDeterminerSchemas } from "./pos/de-determiner";
+import { deInterjectionSchemas } from "./pos/de-interjection";
+import { deNounSchemas } from "./pos/de-noun";
+import { deNumeralSchemas } from "./pos/de-numeral";
+import { deOtherSchemas } from "./pos/de-other";
+import { deParticleSchemas } from "./pos/de-particle";
+import { dePronounSchemas } from "./pos/de-pronoun";
+import { deProperNounSchemas } from "./pos/de-proper-noun";
+import { dePunctuationSchemas } from "./pos/de-punctuation";
+import { deSubordinatingConjunctionSchemas } from "./pos/de-subordinating-conjunction";
+import { deSymbolSchemas } from "./pos/de-symbol";
+import { deVerbSchemas } from "./pos/de-verb";
+
+export const deLexemeLemmaSchemaTree = {
+	adj: deAdjectiveSchemas.lemma,
+	adp: deAdpositionSchemas.lemma,
+	adv: deAdverbSchemas.lemma,
+	aux: deAuxiliarySchemas.lemma,
+	cconj: deCoordinatingConjunctionSchemas.lemma,
+	det: deDeterminerSchemas.lemma,
+	intj: deInterjectionSchemas.lemma,
+	noun: deNounSchemas.lemma,
+	num: deNumeralSchemas.lemma,
+	part: deParticleSchemas.lemma,
+	pron: dePronounSchemas.lemma,
+	propn: deProperNounSchemas.lemma,
+	punct: dePunctuationSchemas.lemma,
+	sconj: deSubordinatingConjunctionSchemas.lemma,
+	sym: deSymbolSchemas.lemma,
+	verb: deVerbSchemas.lemma,
+	x: deOtherSchemas.lemma,
+} as const;
+
+export const deLemmaLexemeSurfaceSchemaTree = {
+	adj: deAdjectiveSchemas.surface.lemma,
+	adp: deAdpositionSchemas.surface.lemma,
+	adv: deAdverbSchemas.surface.lemma,
+	aux: deAuxiliarySchemas.surface.lemma,
+	cconj: deCoordinatingConjunctionSchemas.surface.lemma,
+	det: deDeterminerSchemas.surface.lemma,
+	intj: deInterjectionSchemas.surface.lemma,
+	noun: deNounSchemas.surface.lemma,
+	num: deNumeralSchemas.surface.lemma,
+	part: deParticleSchemas.surface.lemma,
+	pron: dePronounSchemas.surface.lemma,
+	propn: deProperNounSchemas.surface.lemma,
+	punct: dePunctuationSchemas.surface.lemma,
+	sconj: deSubordinatingConjunctionSchemas.surface.lemma,
+	sym: deSymbolSchemas.surface.lemma,
+	verb: deVerbSchemas.surface.lemma,
+	x: deOtherSchemas.surface.lemma,
+} as const;
+
+export const deInflectionLexemeSurfaceSchemaTree = {
+	adj: deAdjectiveSchemas.surface.inflection,
+	adv: deAdverbSchemas.surface.inflection,
+	aux: deAuxiliarySchemas.surface.inflection,
+	det: deDeterminerSchemas.surface.inflection,
+	noun: deNounSchemas.surface.inflection,
+	num: deNumeralSchemas.surface.inflection,
+	pron: dePronounSchemas.surface.inflection,
+	propn: deProperNounSchemas.surface.inflection,
+	sym: deSymbolSchemas.surface.inflection,
+	verb: deVerbSchemas.surface.inflection,
+	x: deOtherSchemas.surface.inflection,
+} as const;
+
+export const deLemmaLexemeSelectionSchemaTree = {
+	standard: {
+		adj: deAdjectiveSchemas.selection.standard.lemma,
+		adp: deAdpositionSchemas.selection.standard.lemma,
+		adv: deAdverbSchemas.selection.standard.lemma,
+		aux: deAuxiliarySchemas.selection.standard.lemma,
+		cconj: deCoordinatingConjunctionSchemas.selection.standard.lemma,
+		det: deDeterminerSchemas.selection.standard.lemma,
+		intj: deInterjectionSchemas.selection.standard.lemma,
+		noun: deNounSchemas.selection.standard.lemma,
+		num: deNumeralSchemas.selection.standard.lemma,
+		part: deParticleSchemas.selection.standard.lemma,
+		pron: dePronounSchemas.selection.standard.lemma,
+		propn: deProperNounSchemas.selection.standard.lemma,
+		punct: dePunctuationSchemas.selection.standard.lemma,
+		sconj: deSubordinatingConjunctionSchemas.selection.standard.lemma,
+		sym: deSymbolSchemas.selection.standard.lemma,
+		verb: deVerbSchemas.selection.standard.lemma,
+		x: deOtherSchemas.selection.standard.lemma,
+	},
+	typo: {
+		adj: deAdjectiveSchemas.selection.typo.lemma,
+		adp: deAdpositionSchemas.selection.typo.lemma,
+		adv: deAdverbSchemas.selection.typo.lemma,
+		aux: deAuxiliarySchemas.selection.typo.lemma,
+		cconj: deCoordinatingConjunctionSchemas.selection.typo.lemma,
+		det: deDeterminerSchemas.selection.typo.lemma,
+		intj: deInterjectionSchemas.selection.typo.lemma,
+		noun: deNounSchemas.selection.typo.lemma,
+		num: deNumeralSchemas.selection.typo.lemma,
+		part: deParticleSchemas.selection.typo.lemma,
+		pron: dePronounSchemas.selection.typo.lemma,
+		propn: deProperNounSchemas.selection.typo.lemma,
+		punct: dePunctuationSchemas.selection.typo.lemma,
+		sconj: deSubordinatingConjunctionSchemas.selection.typo.lemma,
+		sym: deSymbolSchemas.selection.typo.lemma,
+		verb: deVerbSchemas.selection.typo.lemma,
+		x: deOtherSchemas.selection.typo.lemma,
+	},
+} as const;
+
+export const deInflectionLexemeSelectionSchemaTree = {
+	standard: {
+		adj: deAdjectiveSchemas.selection.standard.inflection,
+		adv: deAdverbSchemas.selection.standard.inflection,
+		aux: deAuxiliarySchemas.selection.standard.inflection,
+		det: deDeterminerSchemas.selection.standard.inflection,
+		noun: deNounSchemas.selection.standard.inflection,
+		num: deNumeralSchemas.selection.standard.inflection,
+		pron: dePronounSchemas.selection.standard.inflection,
+		propn: deProperNounSchemas.selection.standard.inflection,
+		sym: deSymbolSchemas.selection.standard.inflection,
+		verb: deVerbSchemas.selection.standard.inflection,
+		x: deOtherSchemas.selection.standard.inflection,
+	},
+	typo: {
+		adj: deAdjectiveSchemas.selection.typo.inflection,
+		adv: deAdverbSchemas.selection.typo.inflection,
+		aux: deAuxiliarySchemas.selection.typo.inflection,
+		det: deDeterminerSchemas.selection.typo.inflection,
+		noun: deNounSchemas.selection.typo.inflection,
+		num: deNumeralSchemas.selection.typo.inflection,
+		pron: dePronounSchemas.selection.typo.inflection,
+		propn: deProperNounSchemas.selection.typo.inflection,
+		sym: deSymbolSchemas.selection.typo.inflection,
+		verb: deVerbSchemas.selection.typo.inflection,
+		x: deOtherSchemas.selection.typo.inflection,
+	},
+} as const;
+
+const deLexemeLemmaSchemas = [
+	deAdjectiveSchemas.lemmaSchema,
+	deAdpositionSchemas.lemmaSchema,
+	deAdverbSchemas.lemmaSchema,
+	deAuxiliarySchemas.lemmaSchema,
+	deCoordinatingConjunctionSchemas.lemmaSchema,
+	deDeterminerSchemas.lemmaSchema,
+	deInterjectionSchemas.lemmaSchema,
+	deNounSchemas.lemmaSchema,
+	deNumeralSchemas.lemmaSchema,
+	deOtherSchemas.lemmaSchema,
+	deParticleSchemas.lemmaSchema,
+	dePronounSchemas.lemmaSchema,
+	deProperNounSchemas.lemmaSchema,
+	dePunctuationSchemas.lemmaSchema,
+	deSubordinatingConjunctionSchemas.lemmaSchema,
+	deSymbolSchemas.lemmaSchema,
+	deVerbSchemas.lemmaSchema,
+] as const satisfies readonly [
+	z.ZodTypeAny,
+	z.ZodTypeAny,
+	...z.ZodTypeAny[],
+];
+
+const deLexemeSurfaceSchemas = [
+	deAdjectiveSchemas.lemmaSurfaceSchema,
+	deAdjectiveSchemas.inflectionSurfaceSchema,
+	deAdpositionSchemas.lemmaSurfaceSchema,
+	deAdverbSchemas.lemmaSurfaceSchema,
+	deAdverbSchemas.inflectionSurfaceSchema,
+	deAuxiliarySchemas.lemmaSurfaceSchema,
+	deAuxiliarySchemas.inflectionSurfaceSchema,
+	deCoordinatingConjunctionSchemas.lemmaSurfaceSchema,
+	deDeterminerSchemas.lemmaSurfaceSchema,
+	deDeterminerSchemas.inflectionSurfaceSchema,
+	deInterjectionSchemas.lemmaSurfaceSchema,
+	deNounSchemas.lemmaSurfaceSchema,
+	deNounSchemas.inflectionSurfaceSchema,
+	deNumeralSchemas.lemmaSurfaceSchema,
+	deNumeralSchemas.inflectionSurfaceSchema,
+	deOtherSchemas.lemmaSurfaceSchema,
+	deOtherSchemas.inflectionSurfaceSchema,
+	deParticleSchemas.lemmaSurfaceSchema,
+	dePronounSchemas.lemmaSurfaceSchema,
+	dePronounSchemas.inflectionSurfaceSchema,
+	deProperNounSchemas.lemmaSurfaceSchema,
+	deProperNounSchemas.inflectionSurfaceSchema,
+	dePunctuationSchemas.lemmaSurfaceSchema,
+	deSubordinatingConjunctionSchemas.lemmaSurfaceSchema,
+	deSymbolSchemas.lemmaSurfaceSchema,
+	deSymbolSchemas.inflectionSurfaceSchema,
+	deVerbSchemas.lemmaSurfaceSchema,
+	deVerbSchemas.inflectionSurfaceSchema,
+] as const satisfies readonly [
+	z.ZodTypeAny,
+	z.ZodTypeAny,
+	...z.ZodTypeAny[],
+];
+
+const deLexemeSelectionSchemas = [
+	deAdjectiveSchemas.selection.standard.lemma(),
+	deAdjectiveSchemas.selection.typo.lemma(),
+	deAdjectiveSchemas.selection.standard.inflection(),
+	deAdjectiveSchemas.selection.typo.inflection(),
+	deAdpositionSchemas.selection.standard.lemma(),
+	deAdpositionSchemas.selection.typo.lemma(),
+	deAdverbSchemas.selection.standard.lemma(),
+	deAdverbSchemas.selection.typo.lemma(),
+	deAdverbSchemas.selection.standard.inflection(),
+	deAdverbSchemas.selection.typo.inflection(),
+	deAuxiliarySchemas.selection.standard.lemma(),
+	deAuxiliarySchemas.selection.typo.lemma(),
+	deAuxiliarySchemas.selection.standard.inflection(),
+	deAuxiliarySchemas.selection.typo.inflection(),
+	deCoordinatingConjunctionSchemas.selection.standard.lemma(),
+	deCoordinatingConjunctionSchemas.selection.typo.lemma(),
+	deDeterminerSchemas.selection.standard.lemma(),
+	deDeterminerSchemas.selection.typo.lemma(),
+	deDeterminerSchemas.selection.standard.inflection(),
+	deDeterminerSchemas.selection.typo.inflection(),
+	deInterjectionSchemas.selection.standard.lemma(),
+	deInterjectionSchemas.selection.typo.lemma(),
+	deNounSchemas.selection.standard.lemma(),
+	deNounSchemas.selection.typo.lemma(),
+	deNounSchemas.selection.standard.inflection(),
+	deNounSchemas.selection.typo.inflection(),
+	deNumeralSchemas.selection.standard.lemma(),
+	deNumeralSchemas.selection.typo.lemma(),
+	deNumeralSchemas.selection.standard.inflection(),
+	deNumeralSchemas.selection.typo.inflection(),
+	deOtherSchemas.selection.standard.lemma(),
+	deOtherSchemas.selection.typo.lemma(),
+	deOtherSchemas.selection.standard.inflection(),
+	deOtherSchemas.selection.typo.inflection(),
+	deParticleSchemas.selection.standard.lemma(),
+	deParticleSchemas.selection.typo.lemma(),
+	dePronounSchemas.selection.standard.lemma(),
+	dePronounSchemas.selection.typo.lemma(),
+	dePronounSchemas.selection.standard.inflection(),
+	dePronounSchemas.selection.typo.inflection(),
+	deProperNounSchemas.selection.standard.lemma(),
+	deProperNounSchemas.selection.typo.lemma(),
+	deProperNounSchemas.selection.standard.inflection(),
+	deProperNounSchemas.selection.typo.inflection(),
+	dePunctuationSchemas.selection.standard.lemma(),
+	dePunctuationSchemas.selection.typo.lemma(),
+	deSubordinatingConjunctionSchemas.selection.standard.lemma(),
+	deSubordinatingConjunctionSchemas.selection.typo.lemma(),
+	deSymbolSchemas.selection.standard.lemma(),
+	deSymbolSchemas.selection.typo.lemma(),
+	deSymbolSchemas.selection.standard.inflection(),
+	deSymbolSchemas.selection.typo.inflection(),
+	deVerbSchemas.selection.standard.lemma(),
+	deVerbSchemas.selection.typo.lemma(),
+	deVerbSchemas.selection.standard.inflection(),
+	deVerbSchemas.selection.typo.inflection(),
+] as const satisfies readonly [
+	z.ZodTypeAny,
+	z.ZodTypeAny,
+	...z.ZodTypeAny[],
+];
+
+export const deLexemeRuntimeSchemas = {
+	lemma: buildUnionSchema(deLexemeLemmaSchemas),
+	surface: buildUnionSchema(deLexemeSurfaceSchemas),
+	selection: buildUnionSchema(deLexemeSelectionSchemas),
+} as const;

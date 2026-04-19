@@ -7,4 +7,3 @@ export class NotImplementedYetError extends Error {
 		this.name = "NotImplementedYetError";
 	}
 }
-

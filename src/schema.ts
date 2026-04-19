@@ -1,2 +1,1 @@
-export { schema } from "./v2/runtime/schema-registry";
-
+export { schema } from "./v2/schemas";
