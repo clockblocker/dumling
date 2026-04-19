@@ -179,10 +179,12 @@ Add `src/v2/language-packs/index.ts` as the single registry for:
 Core consumers should read from this registry instead of hardcoding language
 branches in:
 
-- `src/v2/public-types.ts`
 - `src/v2/schemas/internal-types.ts`
 - `src/v2/schemas/index.ts`
 - `src/v2/operations/*`
+
+`src/v2/public-types.ts` should read from the type-only
+`src/v2/language-packs/type-packs.ts` map instead of the runtime registry.
 
 The abstract ontology should remain outside this registry.
 
@@ -344,6 +346,13 @@ Recommended minimum:
 This isolates compile-only guarantees from runtime tests, README examples, and
 package-build concerns.
 
+The repo-wide baseline is not currently fully type-clean.
+
+Early gating therefore needs to be explicit:
+
+- either fix the current repo-wide `bun run check` failures first
+- or temporarily gate the refactor on a narrower v2/type-fixture type check
+
 ## 2. Stabilize the existing operations path enough to refactor safely
 
 Before larger architectural work, remove the most immediate type holes in the
@@ -369,6 +378,7 @@ radius.
 Add:
 
 - `src/v2/language-packs/contracts.ts`
+- `src/v2/language-packs/type-packs.ts`
 - `src/v2/language-packs/index.ts`
 
 Register `de`, `en`, and `he` there.
@@ -449,7 +459,7 @@ boundaries, that is acceptable provided:
 The goal is to remove structural unsoundness, not to spend the project budget
 fighting library typing edge cases.
 
-## 9. Make the operations layer descriptor-driven end to end
+## 9. Make the operations layer descriptor-driven where pack behavior is specific
 
 Once the pack contracts are in place, update:
 
@@ -462,8 +472,13 @@ Once the pack contracts are in place, update:
 
 to consume registry-backed pack behavior where appropriate.
 
+Descriptors should own pack-specific runtime data and handlers.
+
+Generic helpers such as `convert`, `describe`, and `extract` should remain
+shared unless a pack truly needs an override.
+
 This is the point where concrete language branching should largely disappear
-from operations entrypoints.
+from operations entrypoints, while shared operations stay shared by default.
 
 ## 10. Final cleanup
 
