@@ -119,7 +119,7 @@ export function buildIdOperations<L extends SupportedLanguage>(
 			data: {
 				entityKind,
 				data: parseResult.data as EntityValue<L>,
-			},
+			} as IdDecodeSuccess<L>,
 		};
 	}
 
@@ -156,8 +156,8 @@ export function buildIdOperations<L extends SupportedLanguage>(
 
 			return {
 				success: true,
-				data: decoded.data.data,
+				data: decoded.data.data as never,
 			};
 		},
-	};
+	} as unknown as LanguageApi<L>["id"];
 }

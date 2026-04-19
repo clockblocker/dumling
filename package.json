@@ -61,6 +61,7 @@
 		"build:js": "rm -rf dist .types-temp && bun build src/index.ts src/types.ts src/schema.ts --outdir dist --format esm --target node --packages external",
 		"build:types": "bun run scripts/build-types.ts",
 		"check": "tsgo -p tsconfig.json --noEmit",
+		"check:types": "bunx tsc -p tsconfig.type-tests.json --noEmit",
 		"fix": "bunx @biomejs/biome check --write .",
 		"generate:readme": "bun run generate-readme/generate-readme.ts",
 		"knip": "bunx knip",

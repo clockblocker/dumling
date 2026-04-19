@@ -27,7 +27,7 @@ export function buildSelectionFromSurface<L extends SupportedLanguage>(
 		spelledSelection: options.spelledSelection ?? surface.normalizedFullSurface,
 		spellingRelation: options.spellingRelation ?? "Canonical",
 		surface,
-	} as Selection<L>;
+	} as unknown as Selection<L>;
 }
 
 export function buildConvertOperations<L extends SupportedLanguage>(): LanguageApi<L>["convert"] {
@@ -39,7 +39,7 @@ export function buildConvertOperations<L extends SupportedLanguage>(): LanguageA
 					normalizedFullSurface: lemma.canonicalLemma,
 					surfaceKind: "Lemma",
 					lemma,
-				} as Surface<L>;
+				} as unknown as ReturnType<LanguageApi<L>["convert"]["lemma"]["toSurface"]>;
 			},
 			toSelection(lemma: Lemma<L>, options: SelectionOptions<L> = {}) {
 				return buildSelectionFromSurface(
@@ -48,7 +48,7 @@ export function buildConvertOperations<L extends SupportedLanguage>(): LanguageA
 						normalizedFullSurface: lemma.canonicalLemma,
 						surfaceKind: "Lemma",
 						lemma,
-					} as Surface<L>,
+					} as unknown as Surface<L>,
 					options,
 				);
 			},
@@ -58,5 +58,5 @@ export function buildConvertOperations<L extends SupportedLanguage>(): LanguageA
 				return buildSelectionFromSurface(surface, options);
 			},
 		},
-	};
+	} as unknown as LanguageApi<L>["convert"];
 }

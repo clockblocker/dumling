@@ -77,5 +77,5 @@ export function buildDescribeOperations<L extends SupportedLanguage>(): Language
 				} as ReturnType<LanguageApi<L>["describe"]["as"]["selection"]>;
 			},
 		},
-	};
+	} as unknown as LanguageApi<L>["describe"];
 }

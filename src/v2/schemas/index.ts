@@ -1,5 +1,5 @@
-import { z } from "zod/v3";
 import { NotImplementedYetError } from "../shared/errors";
+import { languagePacks } from "../language-packs";
 import type { RuntimeSchemas, SchemaTree } from "./internal-types";
 import {
 	abstractLemmaSchema,
@@ -7,13 +7,6 @@ import {
 	abstractSelectionSchema,
 	abstractSurfaceSchema,
 } from "./abstract/registry";
-import { buildUnionSchema } from "./shared/builders";
-import { deLemmaSchema } from "./language-packs/de/de-lemma";
-import { deSelectionSchema } from "./language-packs/de/de-selection";
-import { deSurfaceSchema } from "./language-packs/de/de-surface";
-import { deLexemeRuntimeSchemas } from "./language-packs/de/lexeme/de-lexemes";
-import { deMorphemeRuntimeSchemas } from "./language-packs/de/morpheme/de-morphemes";
-import { dePhrasemeRuntimeSchemas } from "./language-packs/de/phraseme/de-phrasemes";
 
 function mapLeavesToThrowers<T>(shape: T, language: "en" | "he"): T {
 	if (typeof shape === "function") {
@@ -30,54 +23,18 @@ function mapLeavesToThrowers<T>(shape: T, language: "en" | "he"): T {
 	) as T;
 }
 
-const deRuntimeSchemas = {
-	lemma: buildUnionSchema([
-		deLexemeRuntimeSchemas.lemma,
-		deMorphemeRuntimeSchemas.lemma,
-		dePhrasemeRuntimeSchemas.lemma,
-	]),
-	surface: buildUnionSchema([
-		deLexemeRuntimeSchemas.surface,
-		deMorphemeRuntimeSchemas.surface,
-		dePhrasemeRuntimeSchemas.surface,
-	]),
-	selection: buildUnionSchema([
-		deLexemeRuntimeSchemas.selection,
-		deMorphemeRuntimeSchemas.selection,
-		dePhrasemeRuntimeSchemas.selection,
-	]),
-} satisfies RuntimeSchemas["de"];
-
 export const runtimeSchemas = {
 	abstract: abstractRuntimeSchemas,
-	de: deRuntimeSchemas,
+	de: languagePacks.de.runtimeSchemas as RuntimeSchemas["de"],
 } satisfies RuntimeSchemas;
 
 export const schema = {
 	abstract: {
 		lemma: abstractLemmaSchema,
-		surface: abstractSurfaceSchema,
 		selection: abstractSelectionSchema,
+		surface: abstractSurfaceSchema,
 	},
-	de: {
-		lemma: deLemmaSchema,
-		surface: deSurfaceSchema,
-		selection: deSelectionSchema,
-	},
-	en: mapLeavesToThrowers(
-		{
-			lemma: abstractLemmaSchema,
-			surface: abstractSurfaceSchema,
-			selection: abstractSelectionSchema,
-		},
-		"en",
-	),
-	he: mapLeavesToThrowers(
-		{
-			lemma: abstractLemmaSchema,
-			surface: abstractSurfaceSchema,
-			selection: abstractSelectionSchema,
-		},
-		"he",
-	),
+	de: languagePacks.de.schema,
+	en: mapLeavesToThrowers(languagePacks.en.schema, "en"),
+	he: mapLeavesToThrowers(languagePacks.he.schema, "he"),
 } satisfies SchemaTree;

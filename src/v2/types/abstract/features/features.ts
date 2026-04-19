@@ -1,107 +1,11 @@
-import type { DiscourseFormulaRole } from "./custom/discourse-formula-role";
-import type { GovernedCase } from "./custom/governed-case";
-import type { HasGovPrep } from "./custom/governed-preposition";
-import type { LexicallyReflexive } from "./custom/lexically-reflexive";
-import type { Phrasal } from "./custom/phrasal";
-import type { HasSepPrefix } from "./custom/separable";
-import type { Abbr } from "./ud/abbr";
-import type { AdpType } from "./ud/adp-type";
-import type { Animacy } from "./ud/animacy";
-import type { Aspect } from "./ud/aspect";
-import type { Case } from "./ud/case";
-import type { Clusivity } from "./ud/clusivity";
-import type { ConjType } from "./ud/conj-type";
-import type { Definite } from "./ud/definite";
-import type { Degree } from "./ud/degree";
-import type { Deixis } from "./ud/deixis";
-import type { DeixisRef } from "./ud/deixis-ref";
-import type { Evident } from "./ud/evident";
-import type { ExtPos } from "./ud/ext-pos";
-import type { Foreign } from "./ud/foreign";
-import type { Gender } from "./ud/gender";
-import type { HebBinyan } from "./ud/heb-binyan";
-import type { HebExistential } from "./ud/heb-existential";
-import type { Hyph } from "./ud/hyph";
-import type { Mood } from "./ud/mood";
-import type { NounClass } from "./ud/noun-class";
-import type { NumForm } from "./ud/num-form";
-import type { NumType } from "./ud/num-type";
-import type { GrammaticalNumber } from "./ud/number";
-import type { PartType } from "./ud/part-type";
-import type { Person } from "./ud/person";
-import type { Polarity } from "./ud/polarity";
-import type { Polite } from "./ud/polite";
-import type { Poss } from "./ud/poss";
-import type { Prefix } from "./ud/prefix";
-import type { PronType } from "./ud/pron-type";
-import type { PunctType } from "./ud/punct-type";
-import type { Reflex } from "./ud/reflex";
-import type { Style } from "./ud/style";
-import type { Tense } from "./ud/tense";
-import type { Variant } from "./ud/variant";
-import type { VerbForm } from "./ud/verb-form";
-import type { VerbType } from "./ud/verb-type";
-import type { Voice } from "./ud/voice";
+import type { AbstractInherentFeatures } from "../../../ontology/features/catalog";
 
-type FeatureValueSet<T> = T | readonly [T, ...T[]];
-
-type AbstractFeatureAtoms = {
-	abbr: Abbr;
-	adpType: AdpType;
-	animacy: Animacy;
-	aspect: Aspect;
-	case: Case;
-	clusivity: Clusivity;
-	conjType: ConjType;
-	definite: Definite;
-	degree: Degree;
-	deixis: Deixis;
-	deixisRef: DeixisRef;
-	discourseFormulaRole: DiscourseFormulaRole;
-	evident: Evident;
-	extPos: ExtPos;
-	foreign: Foreign;
-	gender: Gender;
-	"gender[psor]": Gender;
-	governedCase: GovernedCase;
-	hasGovPrep: HasGovPrep;
-	hasSepPrefix: HasSepPrefix;
-	hebBinyan: HebBinyan;
-	hebExistential: HebExistential;
-	hyph: Hyph;
-	lexicallyReflexive: LexicallyReflexive;
-	mood: Mood;
-	nounClass: NounClass;
-	numForm: NumForm;
-	number: GrammaticalNumber;
-	"number[psor]": GrammaticalNumber;
-	numType: NumType;
-	partType: PartType;
-	person: Person;
-	phrasal: Phrasal;
-	polarity: Polarity;
-	polite: Polite;
-	poss: Poss;
-	prefix: Prefix;
-	pronType: PronType;
-	punctType: PunctType;
-	reflex: Reflex;
-	style: Style;
-	tense: Tense;
-	variant: Variant;
-	verbForm: VerbForm;
-	verbType: VerbType;
-	voice: Voice;
-};
-
-export type AbstractInherentFeatures = Partial<AbstractFeatureAtoms>;
-
-export type AbstractInflectionalFeatures = {
-	[K in keyof AbstractFeatureAtoms]?: FeatureValueSet<AbstractFeatureAtoms[K]>;
-};
-
-export type AbstractFeatureName = keyof AbstractFeatureAtoms;
-export type AbstractFeatureValue<N extends AbstractFeatureName> =
-	AbstractFeatureAtoms[N];
+export type {
+	AbstractFeatureAtoms,
+	AbstractFeatureName,
+	AbstractFeatureValue,
+	AbstractInherentFeatures,
+	AbstractInflectionalFeatures,
+} from "../../../ontology/features/catalog";
 
 export type AbstractFeatures = AbstractInherentFeatures;

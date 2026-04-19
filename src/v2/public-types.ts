@@ -26,6 +26,24 @@ import type { DeSurfaceByKind } from "./types/language-packs/de/de-surface";
 
 type Simplify<T> = { [K in keyof T]: T[K] } & {};
 
+type EntityForKind<
+	L extends SupportedLanguage,
+	K extends EntityKind,
+> = K extends "Lemma"
+	? Lemma<L>
+	: K extends "Surface"
+		? Surface<L>
+		: Selection<L>;
+
+type LemmaSurfaceKind<L extends SupportedLanguage> = Extract<
+	SurfaceKindFor<L>,
+	"Lemma"
+>;
+type InflectionSurfaceKind<L extends SupportedLanguage> = Extract<
+	SurfaceKindFor<L>,
+	"Inflection"
+>;
+
 export type {
 	AbstractLanguageTag,
 	LemmaKind,
@@ -118,7 +136,12 @@ export type Lemma<
 	L extends SupportedLanguage = SupportedLanguage,
 	LK extends LemmaKindFor<L> = LemmaKindFor<L>,
 	LSK extends LemmaSubKindFor<L, LK> = LemmaSubKindFor<L, LK>,
-> = L extends "de" ? DeLemmaFor<LK & LemmaKindFor<"de">, LSK & LemmaSubKindFor<"de", LK & LemmaKindFor<"de">>> : PlaceholderLemma<L, LK, LSK>;
+> = L extends "de"
+	? DeLemmaFor<
+			LK & LemmaKindFor<"de">,
+			LSK & LemmaSubKindFor<"de", LK & LemmaKindFor<"de">>
+		>
+	: PlaceholderLemma<L, LK, LSK>;
 
 type PlaceholderSurface<
 	L extends SupportedLanguage,
@@ -160,7 +183,10 @@ export type Surface<
 	? DeSurfaceFor<
 			SK & SurfaceKindFor<"de">,
 			LK & LemmaKindForSurfaceKind<"de", SK & SurfaceKindFor<"de">>,
-			LSK & LemmaSubKindFor<"de", LK & LemmaKindForSurfaceKind<"de", SK & SurfaceKindFor<"de">>>
+			LSK & LemmaSubKindFor<
+				"de",
+				LK & LemmaKindForSurfaceKind<"de", SK & SurfaceKindFor<"de">>
+			>
 		>
 	: PlaceholderSurface<L, SK, LK, LSK>;
 
@@ -205,7 +231,10 @@ export type Selection<
 			OS,
 			SK & SurfaceKindFor<"de">,
 			LK & LemmaKindForSurfaceKind<"de", SK & SurfaceKindFor<"de">>,
-			LSK & LemmaSubKindFor<"de", LK & LemmaKindForSurfaceKind<"de", SK & SurfaceKindFor<"de">>>
+			LSK & LemmaSubKindFor<
+				"de",
+				LK & LemmaKindForSurfaceKind<"de", SK & SurfaceKindFor<"de">>
+			>
 		>
 	: PlaceholderSelection<L, OS, SK, LK, LSK>;
 
@@ -320,37 +349,59 @@ export type LanguageApi<L extends SupportedLanguage> = {
 			},
 		): Lemma<L, LK, LSK>;
 		surface: {
-			lemma(
-				input: Omit<Surface<L>, "language" | "surfaceKind"> & {
+			lemma<
+				TSurface extends Surface<
+					L,
+					LemmaSurfaceKind<L>,
+					LemmaKindForSurfaceKind<L, LemmaSurfaceKind<L>>,
+					LemmaSubKindFor<L, LemmaKindFor<L>>
+				>,
+			>(
+				input: Omit<TSurface, "language" | "surfaceKind"> & {
 					language?: unknown;
 					surfaceKind?: unknown;
 				},
-			): Surface<L>;
-			inflection(
-				input: Omit<Surface<L>, "language" | "surfaceKind"> & {
+			): TSurface;
+			inflection<
+				TSurface extends Surface<
+					L,
+					InflectionSurfaceKind<L>,
+					LemmaKindForSurfaceKind<L, InflectionSurfaceKind<L>>,
+					LemmaSubKindFor<L, LemmaKindFor<L>>
+				>,
+			>(
+				input: Omit<TSurface, "language" | "surfaceKind"> & {
 					language?: unknown;
 					surfaceKind?: unknown;
 				},
-			): Surface<L>;
+			): TSurface;
 		};
 		selection: {
-			standard(
-				input: Omit<Selection<L>, "language" | "orthographicStatus"> & {
+			standard<TSelection extends Selection<L, "Standard">>(
+				input: Omit<TSelection, "language" | "orthographicStatus"> & {
 					language?: unknown;
 					orthographicStatus?: unknown;
 				},
-			): Selection<L>;
-			typo(
-				input: Omit<Selection<L>, "language" | "orthographicStatus"> & {
+			): TSelection;
+			typo<TSelection extends Selection<L, "Typo">>(
+				input: Omit<TSelection, "language" | "orthographicStatus"> & {
 					language?: unknown;
 					orthographicStatus?: unknown;
 				},
-			): Selection<L>;
+			): TSelection;
 		};
 	};
 	convert: {
 		lemma: {
-			toSurface(lemma: Lemma<L>): Surface<L>;
+			toSurface<TLemma extends Lemma<L>>(
+				lemma: TLemma,
+			): Surface<
+				L,
+				LemmaSurfaceKind<L>,
+				TLemma["lemmaKind"] & LemmaKindForSurfaceKind<L, LemmaSurfaceKind<L>>,
+				TLemma["lemmaSubKind"] &
+					LemmaSubKindFor<L, TLemma["lemmaKind"] & LemmaKindFor<L>>
+			>;
 			toSelection(
 				lemma: Lemma<L>,
 				options?: Partial<
@@ -414,10 +465,10 @@ export type LanguageApi<L extends SupportedLanguage> = {
 	id: {
 		encode(value: Lemma<L> | Surface<L> | Selection<L>): string;
 		decode(id: string): ApiResult<IdDecodeSuccess<L>, IdDecodeError>;
-		decodeAs(
-			kind: EntityKind,
+		decodeAs<K extends EntityKind>(
+			kind: K,
 			id: string,
-		): ApiResult<Lemma<L> | Surface<L> | Selection<L>, IdDecodeError>;
+		): ApiResult<EntityForKind<L, K>, IdDecodeError>;
 	};
 };
 

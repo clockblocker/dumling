@@ -14,10 +14,10 @@ export function extractLemma<L extends SupportedLanguage>(
 	}
 
 	if ("surfaceKind" in value) {
-		return value.lemma as Lemma<L>;
+		return value.lemma as unknown as Lemma<L>;
 	}
 
-	return value.surface.lemma as Lemma<L>;
+	return value.surface.lemma as unknown as Lemma<L>;
 }
 
 export function inferEntityKind<L extends SupportedLanguage>(
