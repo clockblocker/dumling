@@ -156,6 +156,8 @@ export type Lemma<
 		>
 	: PlaceholderLemma<L, LK, LSK>;
 
+type asd = Lemma<'de', 'Lexeme', 'ADP'>
+
 type PlaceholderSurface<
 	L extends SupportedLanguage,
 	SK extends SurfaceKindFor<L>,
