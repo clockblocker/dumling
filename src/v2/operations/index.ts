@@ -4,7 +4,6 @@ import { buildConvertOperations } from "./shared/convert";
 import { buildDescribeOperations } from "./shared/describe";
 import { buildExtractOperations } from "./shared/extract";
 import { buildIdOperations } from "./shared/id";
-import { makeNotImplementedLanguageApi } from "./lang/not-implemented";
 
 function buildImplementedLanguageApi<L extends SupportedLanguage>(
 	language: L,
@@ -26,5 +25,5 @@ function buildImplementedLanguageApi<L extends SupportedLanguage>(
 export const dumling = {
 	de: buildImplementedLanguageApi("de", languagePacks.de),
 	en: buildImplementedLanguageApi("en", languagePacks.en),
-	he: makeNotImplementedLanguageApi("he"),
+	he: buildImplementedLanguageApi("he", languagePacks.he),
 } satisfies DumlingApi;

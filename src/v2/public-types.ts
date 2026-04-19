@@ -20,6 +20,7 @@ import type {
 	AbstractFeatureName,
 	AbstractFeatureValue as AbstractFeatureValueForName,
 } from "./types/abstract/features/features";
+import type { Prettify } from "./types/core/helpers";
 import type { LanguageTypePackMap } from "./language-packs/type-packs";
 import type { EnLemmaByKind } from "./types/language-packs/en/en-lemma";
 import type { EnSelectionByOrthographicStatus } from "./types/language-packs/en/en-selection";
@@ -27,8 +28,9 @@ import type { EnSurfaceByKind } from "./types/language-packs/en/en-surface";
 import type { DeLemmaByKind } from "./types/language-packs/de/de-lemma";
 import type { DeSelectionByOrthographicStatus } from "./types/language-packs/de/de-selection";
 import type { DeSurfaceByKind } from "./types/language-packs/de/de-surface";
-
-type Simplify<T> = { [K in keyof T]: T[K] } & {};
+import type { HeLemmaByKind } from "./types/language-packs/he/he-lemma";
+import type { HeSelectionByOrthographicStatus } from "./types/language-packs/he/he-selection";
+import type { HeSurfaceByKind } from "./types/language-packs/he/he-surface";
 type PackLemma<L extends SupportedLanguage> = LanguageTypePackMap[L]["lemma"];
 type PackSurface<L extends SupportedLanguage> = LanguageTypePackMap[L]["surface"];
 type PackSelection<L extends SupportedLanguage> =
@@ -36,14 +38,17 @@ type PackSelection<L extends SupportedLanguage> =
 type ConcreteLemmaByKindMap = {
 	de: DeLemmaByKind;
 	en: EnLemmaByKind;
+	he: HeLemmaByKind;
 };
 type ConcreteSurfaceByKindMap = {
 	de: DeSurfaceByKind;
 	en: EnSurfaceByKind;
+	he: HeSurfaceByKind;
 };
 type ConcreteSelectionByStatusMap = {
 	de: DeSelectionByOrthographicStatus;
 	en: EnSelectionByOrthographicStatus;
+	he: HeSelectionByOrthographicStatus;
 };
 type ConcreteLanguage = keyof ConcreteLemmaByKindMap;
 
@@ -219,6 +224,8 @@ export type Surface<
 			>
 	: PlaceholderSurface<L, SK, LK, LSK>;
 
+type asdda = Lemma<'de', 'Lexeme', 'ADJ'>
+
 type PlaceholderSelection<
 	L extends SupportedLanguage,
 	OS extends OrthographicStatus,
@@ -300,7 +307,7 @@ export type FeatureBagFor<
 	L extends SupportedLanguage,
 	LK extends LemmaKindFor<L>,
 	LSK extends LemmaSubKindFor<L, LK>,
-> = Simplify<
+> = Prettify<
 	InherentFeaturesFor<L, LK, LSK> &
 		(InflectionalFeaturesFor<L, LK, LSK> extends never
 			? {}

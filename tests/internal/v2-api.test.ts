@@ -254,9 +254,26 @@ describe("v2 API", () => {
 				dumling.en.convert.lemma.toSelection(englishLemma),
 			).success,
 		).toBe(true);
-		expect(() => schema.he.lemma.lexeme.verb()).toThrow(
-			"dumling.he is not implemented yet",
-		);
+
+		const hebrewLemma = dumling.he.create.lemma({
+			canonicalLemma: "כתב",
+			lemmaKind: "Lexeme",
+			lemmaSubKind: "VERB",
+			inherentFeatures: {
+				hebBinyan: "PAAL",
+			},
+			meaningInEmojis: "✍️",
+		});
+		expect(hebrewLemma.language).toBe("he");
+		expect(dumling.he.parse.lemma(hebrewLemma)).toEqual({
+			success: true,
+			data: hebrewLemma,
+		});
+		expect(
+			schema.he.selection.standard.lemma.lexeme.verb().safeParse(
+				dumling.he.convert.lemma.toSelection(hebrewLemma),
+			).success,
+		).toBe(true);
 	});
 
 	it("reports decode failures for malformed ids and mismatched entity kinds", () => {

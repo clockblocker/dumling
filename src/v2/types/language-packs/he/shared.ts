@@ -9,68 +9,74 @@ import type {
 	AbstractInflectionalFeatures,
 } from "../../abstract/features/features";
 import type { LemmaKind, OrthographicStatus } from "../../core/enums";
-import type { Replace, ReplaceMany } from "../../core/helpers";
 
-export type EnLanguage = "en";
+export type HeLanguage = "he";
 
 export type EmptyFeatures = Record<never, never>;
 
 export type ValueOf<T> = T[keyof T];
 
-export type EnFeatureValueSet<T> = T | readonly [T, ...T[]];
+export type HeFeatureValueSet<T> = T | readonly [T, ...T[]];
 
 export type RequireAtLeastOne<T extends object> = {
 	[K in keyof T]-?: Required<Pick<T, K>> & Partial<Omit<T, K>>;
 }[keyof T];
 
-export type EnLemma<
+type Replace<T, K extends keyof T, V> = Omit<T, K> & { [P in K]: V };
+type ReplaceMany<T, R extends Partial<Record<keyof T, unknown>>> = Omit<
+	T,
+	keyof R
+> &
+	R;
+
+export type HeLemma<
 	LK extends LemmaKind,
 	LSK extends AbstractLemmaSubKindFor<LK>,
 	IF extends AbstractInherentFeatures,
-> = Replace<AbstractLemma<EnLanguage, LK, LSK>, "inherentFeatures", IF>;
+> = Replace<AbstractLemma<HeLanguage, LK, LSK>, "inherentFeatures", IF>;
 
-export type EnLemmaSurface<
+export type HeLemmaSurface<
 	LK extends LemmaKind,
 	LSK extends AbstractLemmaSubKindFor<LK>,
 	IF extends AbstractInherentFeatures,
 > = Replace<
-	AbstractSurface<EnLanguage, "Lemma", LK, LSK>,
+	AbstractSurface<HeLanguage, "Lemma", LK, LSK>,
 	"lemma",
-	EnLemma<LK, LSK, IF>
+	HeLemma<LK, LSK, IF>
 >;
 
-export type EnInflectionSurface<
+export type HeInflectionSurface<
 	LK extends LemmaKind,
 	LSK extends AbstractLemmaSubKindFor<LK>,
 	IF extends AbstractInherentFeatures,
 	FF extends RequireAtLeastOne<AbstractInflectionalFeatures>,
 > = ReplaceMany<
-	AbstractSurface<EnLanguage, "Inflection", LK, LSK>,
+	AbstractSurface<HeLanguage, "Inflection", LK, LSK>,
 	{
 		inflectionalFeatures: FF;
-		lemma: EnLemma<LK, LSK, IF>;
+		lemma: HeLemma<LK, LSK, IF>;
 	}
 >;
 
-export type EnLemmaSelection<
+export type HeLemmaSelection<
 	LK extends LemmaKind,
 	LSK extends AbstractLemmaSubKindFor<LK>,
 	IF extends AbstractInherentFeatures,
 	OS extends OrthographicStatus = OrthographicStatus,
 > = Replace<
-	AbstractSelection<EnLanguage, OS, "Lemma", LK, LSK>,
+	AbstractSelection<HeLanguage, OS, "Lemma", LK, LSK>,
 	"surface",
-	EnLemmaSurface<LK, LSK, IF>
+	HeLemmaSurface<LK, LSK, IF>
 >;
 
-export type EnInflectionSelection<
+export type HeInflectionSelection<
 	LK extends LemmaKind,
 	LSK extends AbstractLemmaSubKindFor<LK>,
 	IF extends AbstractInherentFeatures,
 	FF extends RequireAtLeastOne<AbstractInflectionalFeatures>,
 	OS extends OrthographicStatus = OrthographicStatus,
 > = Replace<
-	AbstractSelection<EnLanguage, OS, "Inflection", LK, LSK>,
+	AbstractSelection<HeLanguage, OS, "Inflection", LK, LSK>,
 	"surface",
-	EnInflectionSurface<LK, LSK, IF, FF>
+	HeInflectionSurface<LK, LSK, IF, FF>
 >;

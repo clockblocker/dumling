@@ -9,6 +9,7 @@ import type {
 	AbstractInflectionalFeatures,
 } from "../../abstract/features/features";
 import type { LemmaKind, OrthographicStatus } from "../../core/enums";
+import type { Replace, ReplaceMany } from "../../core/helpers";
 
 export type DeLanguage = "de";
 
@@ -21,13 +22,6 @@ export type DeFeatureValueSet<T> = T | readonly [T, ...T[]];
 export type RequireAtLeastOne<T extends object> = {
 	[K in keyof T]-?: Required<Pick<T, K>> & Partial<Omit<T, K>>;
 }[keyof T];
-
-type Replace<T, K extends keyof T, V> = Omit<T, K> & { [P in K]: V };
-type ReplaceMany<T, R extends Partial<Record<keyof T, unknown>>> = Omit<
-	T,
-	keyof R
-> &
-	R;
 
 export type DeLemma<
 	LK extends LemmaKind,

@@ -17,6 +17,9 @@ import type { EnSurface } from "../types/language-packs/en/en-surface";
 import type { DeLemma } from "../types/language-packs/de/de-lemma";
 import type { DeSelection } from "../types/language-packs/de/de-selection";
 import type { DeSurface } from "../types/language-packs/de/de-surface";
+import type { HeLemma } from "../types/language-packs/he/he-lemma";
+import type { HeSelection } from "../types/language-packs/he/he-selection";
+import type { HeSurface } from "../types/language-packs/he/he-surface";
 import type { LanguageTypePack } from "./contracts";
 
 export type AbstractLanguageLemmaUnion<L extends AbstractLanguageTag> = {
@@ -69,5 +72,9 @@ export type LanguageTypePackMap = {
 		selection: EnSelection;
 		surface: EnSurface;
 	};
-	he: StubLanguageTypePack<"he">;
+	he: LanguageTypePack<"he"> & {
+		lemma: HeLemma;
+		selection: HeSelection;
+		surface: HeSurface;
+	};
 };

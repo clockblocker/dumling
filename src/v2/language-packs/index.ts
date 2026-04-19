@@ -1,20 +1,15 @@
 import type { LanguageApi } from "../public-types";
 import type {
-	AbstractLemmaSchemaTree,
-	AbstractSelectionSchemaTree,
-	AbstractSurfaceSchemaTree,
 	EnLemmaSchemaTree,
 	EnSelectionSchemaTree,
 	EnSurfaceSchemaTree,
 	DeLemmaSchemaTree,
 	DeSelectionSchemaTree,
 	DeSurfaceSchemaTree,
+	HeLemmaSchemaTree,
+	HeSelectionSchemaTree,
+	HeSurfaceSchemaTree,
 } from "../schemas/internal-types";
-import {
-	abstractLemmaSchema,
-	abstractSelectionSchema,
-	abstractSurfaceSchema,
-} from "../schemas/abstract/registry";
 import { deLemmaSchema } from "../schemas/language-packs/de/de-lemma";
 import { deSelectionSchema } from "../schemas/language-packs/de/de-selection";
 import { deSurfaceSchema } from "../schemas/language-packs/de/de-surface";
@@ -27,17 +22,23 @@ import { enSurfaceSchema } from "../schemas/language-packs/en/en-surface";
 import { enLexemeRuntimeSchemas } from "../schemas/language-packs/en/lexeme/en-lexemes";
 import { enMorphemeRuntimeSchemas } from "../schemas/language-packs/en/morpheme/en-morphemes";
 import { enPhrasemeRuntimeSchemas } from "../schemas/language-packs/en/phraseme/en-phrasemes";
+import { heLemmaSchema } from "../schemas/language-packs/he/he-lemma";
+import { heSelectionSchema } from "../schemas/language-packs/he/he-selection";
+import { heSurfaceSchema } from "../schemas/language-packs/he/he-surface";
+import { heLexemeRuntimeSchemas } from "../schemas/language-packs/he/lexeme/he-lexemes";
+import { heMorphemeRuntimeSchemas } from "../schemas/language-packs/he/morpheme/he-morphemes";
+import { hePhrasemeRuntimeSchemas } from "../schemas/language-packs/he/phraseme/he-phrasemes";
 import { buildUnionSchema } from "../schemas/shared/builders";
 import { buildDeCreateOperations } from "../operations/lang/de/create";
 import { buildDeParseOperations } from "../operations/lang/de/parse";
 import { buildEnCreateOperations } from "../operations/lang/en/create";
 import { buildEnParseOperations } from "../operations/lang/en/parse";
+import { buildHeCreateOperations } from "../operations/lang/he/create";
+import { buildHeParseOperations } from "../operations/lang/he/parse";
 import type {
 	ImplementedLanguagePackDescriptor,
-	LanguagePackDescriptor,
 	LanguagePackRegistry,
 	RuntimeSchemaSet,
-	StubLanguagePackDescriptor,
 } from "./contracts";
 import type { LanguageTypePackMap } from "./type-packs";
 
@@ -53,16 +54,16 @@ type EnSchemaTree = {
 	surface: EnSurfaceSchemaTree;
 };
 
-type StubSchemaTree = {
-	lemma: AbstractLemmaSchemaTree;
-	selection: AbstractSelectionSchemaTree;
-	surface: AbstractSurfaceSchemaTree;
+type HeSchemaTree = {
+	lemma: HeLemmaSchemaTree;
+	selection: HeSelectionSchemaTree;
+	surface: HeSurfaceSchemaTree;
 };
 
 type LanguagePackSchemaTreeMap = {
 	de: DeSchemaTree;
 	en: EnSchemaTree;
-	he: StubSchemaTree;
+	he: HeSchemaTree;
 };
 
 type LanguagePackCreateMap = {
@@ -113,11 +114,23 @@ const enRuntimeSchemas = {
 	]),
 } satisfies RuntimeSchemaSet<LanguageTypePackMap["en"]>;
 
-const stubSchemaSource = {
-	lemma: abstractLemmaSchema,
-	selection: abstractSelectionSchema,
-	surface: abstractSurfaceSchema,
-} satisfies StubSchemaTree;
+const heRuntimeSchemas = {
+	lemma: buildUnionSchema([
+		heLexemeRuntimeSchemas.lemma,
+		heMorphemeRuntimeSchemas.lemma,
+		hePhrasemeRuntimeSchemas.lemma,
+	]),
+	surface: buildUnionSchema([
+		heLexemeRuntimeSchemas.surface,
+		heMorphemeRuntimeSchemas.surface,
+		hePhrasemeRuntimeSchemas.surface,
+	]),
+	selection: buildUnionSchema([
+		heLexemeRuntimeSchemas.selection,
+		heMorphemeRuntimeSchemas.selection,
+		hePhrasemeRuntimeSchemas.selection,
+	]),
+} satisfies RuntimeSchemaSet<LanguageTypePackMap["he"]>;
 
 const deLanguagePack: ImplementedLanguagePackDescriptor<
 	"de",
@@ -157,13 +170,23 @@ const enLanguagePack: ImplementedLanguagePackDescriptor<
 	status: "implemented",
 };
 
-const heLanguagePack: StubLanguagePackDescriptor<
+const heLanguagePack: ImplementedLanguagePackDescriptor<
 	"he",
-	StubSchemaTree
+	LanguageTypePackMap["he"],
+	HeSchemaTree,
+	LanguageApi<"he">["create"],
+	LanguageApi<"he">["parse"]
 > = {
+	create: buildHeCreateOperations() as LanguageApi<"he">["create"],
 	language: "he",
-	schema: stubSchemaSource,
-	status: "stub",
+	parse: buildHeParseOperations(heRuntimeSchemas) as LanguageApi<"he">["parse"],
+	runtimeSchemas: heRuntimeSchemas,
+	schema: {
+		lemma: heLemmaSchema,
+		selection: heSelectionSchema,
+		surface: heSurfaceSchema,
+	},
+	status: "implemented",
 };
 
 export const languagePacks = {

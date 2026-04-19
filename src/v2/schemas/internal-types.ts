@@ -16,6 +16,9 @@ import type { EnSurfaceByKind } from "../types/language-packs/en/en-surface";
 import type { DeLemmaByKind } from "../types/language-packs/de/de-lemma";
 import type { DeSelectionByOrthographicStatus } from "../types/language-packs/de/de-selection";
 import type { DeSurfaceByKind } from "../types/language-packs/de/de-surface";
+import type { HeLemmaByKind } from "../types/language-packs/he/he-lemma";
+import type { HeSelectionByOrthographicStatus } from "../types/language-packs/he/he-selection";
+import type { HeSurfaceByKind } from "../types/language-packs/he/he-surface";
 
 type LowercaseKey<TKey extends PropertyKey> = TKey extends string
 	? Lowercase<TKey>
@@ -243,6 +246,33 @@ export type EnSelectionSchemaTree = {
 		};
 	};
 };
+export type HeLemmaSchemaTree = {
+	[TLemmaKind in keyof HeLemmaByKind as LowercaseKey<TLemmaKind>]: {
+		[TLemmaSubKind in keyof HeLemmaByKind[TLemmaKind] as LowercaseKey<TLemmaSubKind>]: SchemaLeaf<
+			HeLemmaByKind[TLemmaKind][TLemmaSubKind]
+		>;
+	};
+};
+export type HeSurfaceSchemaTree = {
+	[TSurfaceKind in keyof HeSurfaceByKind as LowercaseKey<TSurfaceKind>]: {
+		[TLemmaKind in keyof HeSurfaceByKind[TSurfaceKind] as LowercaseKey<TLemmaKind>]: {
+			[TLemmaSubKind in keyof HeSurfaceByKind[TSurfaceKind][TLemmaKind] as LowercaseKey<TLemmaSubKind>]: SchemaLeaf<
+				HeSurfaceByKind[TSurfaceKind][TLemmaKind][TLemmaSubKind]
+			>;
+		};
+	};
+};
+export type HeSelectionSchemaTree = {
+	[TOrthographicStatus in keyof HeSelectionByOrthographicStatus as LowercaseKey<TOrthographicStatus>]: {
+		[TSurfaceKind in keyof HeSelectionByOrthographicStatus[TOrthographicStatus] as LowercaseKey<TSurfaceKind>]: {
+			[TLemmaKind in keyof HeSelectionByOrthographicStatus[TOrthographicStatus][TSurfaceKind] as LowercaseKey<TLemmaKind>]: {
+				[TLemmaSubKind in keyof HeSelectionByOrthographicStatus[TOrthographicStatus][TSurfaceKind][TLemmaKind] as LowercaseKey<TLemmaSubKind>]: SchemaLeaf<
+					HeSelectionByOrthographicStatus[TOrthographicStatus][TSurfaceKind][TLemmaKind][TLemmaSubKind]
+				>;
+			};
+		};
+	};
+};
 
 export type AbstractLemmaSchemaTree = LemmaSchemaTreeFor<AbstractLemmaUnion>;
 export type AbstractSurfaceSchemaTree = SurfaceSchemaTreeFor<AbstractSurfaceUnion>;
@@ -266,6 +296,11 @@ export type RuntimeSchemas = {
 		selection: z.ZodType<LanguageTypePackMap["en"]["selection"]>;
 		surface: z.ZodType<LanguageTypePackMap["en"]["surface"]>;
 	};
+	he: {
+		lemma: z.ZodType<LanguageTypePackMap["he"]["lemma"]>;
+		selection: z.ZodType<LanguageTypePackMap["he"]["selection"]>;
+		surface: z.ZodType<LanguageTypePackMap["he"]["surface"]>;
+	};
 };
 
 export type SchemaTree = {
@@ -285,8 +320,8 @@ export type SchemaTree = {
 		surface: EnSurfaceSchemaTree;
 	};
 	he: {
-		lemma: AbstractLemmaSchemaTree;
-		selection: AbstractSelectionSchemaTree;
-		surface: AbstractSurfaceSchemaTree;
+		lemma: HeLemmaSchemaTree;
+		selection: HeSelectionSchemaTree;
+		surface: HeSurfaceSchemaTree;
 	};
 };

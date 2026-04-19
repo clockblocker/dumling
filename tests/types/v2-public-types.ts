@@ -97,8 +97,23 @@ const enPronType: FeatureValueFor<"en", "Lexeme", "PRON", "pronType"> = [
 void enLemma;
 void enPronType;
 
-const heVerbLeaf = schema.he.lemma.lexeme.verb;
+const heLemma = dumling.he.create.lemma({
+	canonicalLemma: "כתב",
+	lemmaKind: "Lexeme",
+	lemmaSubKind: "VERB",
+	inherentFeatures: {
+		hebBinyan: "PAAL",
+	},
+	meaningInEmojis: "✍️",
+}) satisfies Lemma<"he", "Lexeme", "VERB">;
+
+const heVerbLeaf = schema.he.lemma.lexeme.verb();
+heVerbLeaf satisfies ZodType<Lemma<"he", "Lexeme", "VERB">>;
+
+const heBinyan: FeatureValueFor<"he", "Lexeme", "VERB", "hebBinyan"> = "PAAL";
+void heLemma;
 void heVerbLeaf;
+void heBinyan;
 
 // @ts-expect-error lexeme does not expose morpheme subkinds
 schema.de.selection.standard.lemma.lexeme.circumfix();
