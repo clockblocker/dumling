@@ -21,6 +21,9 @@ import type {
 	AbstractFeatureValue as AbstractFeatureValueForName,
 } from "./types/abstract/features/features";
 import type { LanguageTypePackMap } from "./language-packs/type-packs";
+import type { EnLemmaByKind } from "./types/language-packs/en/en-lemma";
+import type { EnSelectionByOrthographicStatus } from "./types/language-packs/en/en-selection";
+import type { EnSurfaceByKind } from "./types/language-packs/en/en-surface";
 import type { DeLemmaByKind } from "./types/language-packs/de/de-lemma";
 import type { DeSelectionByOrthographicStatus } from "./types/language-packs/de/de-selection";
 import type { DeSurfaceByKind } from "./types/language-packs/de/de-surface";
@@ -30,6 +33,19 @@ type PackLemma<L extends SupportedLanguage> = LanguageTypePackMap[L]["lemma"];
 type PackSurface<L extends SupportedLanguage> = LanguageTypePackMap[L]["surface"];
 type PackSelection<L extends SupportedLanguage> =
 	LanguageTypePackMap[L]["selection"];
+type ConcreteLemmaByKindMap = {
+	de: DeLemmaByKind;
+	en: EnLemmaByKind;
+};
+type ConcreteSurfaceByKindMap = {
+	de: DeSurfaceByKind;
+	en: EnSurfaceByKind;
+};
+type ConcreteSelectionByStatusMap = {
+	de: DeSelectionByOrthographicStatus;
+	en: EnSelectionByOrthographicStatus;
+};
+type ConcreteLanguage = keyof ConcreteLemmaByKindMap;
 
 type EntityForKind<
 	L extends SupportedLanguage,
@@ -93,33 +109,29 @@ export type IdDecodeSuccess<L extends SupportedLanguage = SupportedLanguage> = {
 	entityKind: EntityKind;
 	data: Lemma<L> | Surface<L> | Selection<L>;
 };
-export type LemmaKindFor<L extends SupportedLanguage> = L extends "de"
-	? keyof DeLemmaByKind
+export type LemmaKindFor<L extends SupportedLanguage> = L extends ConcreteLanguage
+	? keyof ConcreteLemmaByKindMap[L]
 	: LemmaKind;
 
 export type LemmaSubKindFor<
 	L extends SupportedLanguage,
-	LK extends LemmaKindFor<L>,
-> = L extends "de"
-	? LK extends keyof DeLemmaByKind
-		? keyof DeLemmaByKind[LK]
+	LK extends string,
+> = L extends ConcreteLanguage
+	? LK extends keyof ConcreteLemmaByKindMap[L]
+		? keyof ConcreteLemmaByKindMap[L][LK]
 		: never
 	: LK extends LemmaKind
 		? AbstractLemmaSubKindFor<LK>
 		: never;
 
-export type SurfaceKindFor<L extends SupportedLanguage> = L extends "de"
-	? keyof DeSurfaceByKind
+export type SurfaceKindFor<L extends SupportedLanguage> = L extends ConcreteLanguage
+	? keyof ConcreteSurfaceByKindMap[L]
 	: SurfaceKind;
 
 export type LemmaKindForSurfaceKind<
 	L extends SupportedLanguage,
 	SK extends SurfaceKindFor<L>,
-> = L extends "de"
-	? SK extends keyof DeSurfaceByKind
-		? keyof DeSurfaceByKind[SK]
-		: never
-	: LemmaKindFor<L>;
+> = LemmaKindFor<L>;
 
 type PlaceholderLemma<
 	L extends SupportedLanguage,
@@ -127,12 +139,13 @@ type PlaceholderLemma<
 	LSK extends LemmaSubKindFor<L, LK>,
 > = AbstractLemma<L, LK & LemmaKind, LSK & AbstractLemmaSubKindFor<LK & LemmaKind>>;
 
-type DeLemmaFor<
-	LK extends LemmaKindFor<"de">,
-	LSK extends LemmaSubKindFor<"de", LK>,
-> = LK extends keyof DeLemmaByKind
-	? LSK extends keyof DeLemmaByKind[LK]
-		? DeLemmaByKind[LK][LSK]
+type ConcreteLemmaFor<
+	L extends ConcreteLanguage,
+	LK extends LemmaKindFor<L>,
+	LSK extends LemmaSubKindFor<L, LK>,
+> = LK extends keyof ConcreteLemmaByKindMap[L]
+	? LSK extends keyof ConcreteLemmaByKindMap[L][LK]
+		? ConcreteLemmaByKindMap[L][LK][LSK]
 		: never
 	: never;
 
@@ -140,10 +153,11 @@ export type Lemma<
 	L extends SupportedLanguage = SupportedLanguage,
 	LK extends LemmaKindFor<L> = LemmaKindFor<L>,
 	LSK extends LemmaSubKindFor<L, LK> = LemmaSubKindFor<L, LK>,
-> = L extends "de"
-	? DeLemmaFor<
-			LK & LemmaKindFor<"de">,
-			LSK & LemmaSubKindFor<"de", LK & LemmaKindFor<"de">>
+> = L extends ConcreteLanguage
+	? ConcreteLemmaFor<
+			L & ConcreteLanguage,
+			LK & LemmaKindFor<L & ConcreteLanguage>,
+			LSK & LemmaSubKindFor<L & ConcreteLanguage, LK & LemmaKindFor<L & ConcreteLanguage>>
 		>
 	: PlaceholderLemma<L, LK, LSK>;
 
@@ -166,14 +180,15 @@ type PlaceholderSurface<
 		}
 	: {});
 
-type DeSurfaceFor<
-	SK extends SurfaceKindFor<"de">,
-	LK extends LemmaKindForSurfaceKind<"de", SK>,
-	LSK extends LemmaSubKindFor<"de", LK>,
-> = SK extends keyof DeSurfaceByKind
-	? LK extends keyof DeSurfaceByKind[SK]
-		? LSK extends keyof DeSurfaceByKind[SK][LK]
-			? DeSurfaceByKind[SK][LK][LSK]
+type ConcreteSurfaceFor<
+	L extends ConcreteLanguage,
+	SK extends SurfaceKindFor<L>,
+	LK extends LemmaKindForSurfaceKind<L, SK>,
+	LSK extends LemmaSubKindFor<L, LK>,
+> = SK extends keyof ConcreteSurfaceByKindMap[L]
+	? LK extends keyof ConcreteSurfaceByKindMap[L][SK]
+		? LSK extends keyof ConcreteSurfaceByKindMap[L][SK][LK]
+			? ConcreteSurfaceByKindMap[L][SK][LK][LSK]
 			: never
 		: never
 	: never;
@@ -183,15 +198,25 @@ export type Surface<
 	SK extends SurfaceKindFor<L> = SurfaceKindFor<L>,
 	LK extends LemmaKindForSurfaceKind<L, SK> = LemmaKindForSurfaceKind<L, SK>,
 	LSK extends LemmaSubKindFor<L, LK> = LemmaSubKindFor<L, LK>,
-> = L extends "de"
-	? DeSurfaceFor<
-			SK & SurfaceKindFor<"de">,
-			LK & LemmaKindForSurfaceKind<"de", SK & SurfaceKindFor<"de">>,
-			LSK & LemmaSubKindFor<
-				"de",
-				LK & LemmaKindForSurfaceKind<"de", SK & SurfaceKindFor<"de">>
+> = L extends ConcreteLanguage
+	? ConcreteSurfaceFor<
+			L & ConcreteLanguage,
+			SK & SurfaceKindFor<L & ConcreteLanguage>,
+			LK &
+				LemmaKindForSurfaceKind<
+					L & ConcreteLanguage,
+					SK & SurfaceKindFor<L & ConcreteLanguage>
+				>,
+			LSK &
+				LemmaSubKindFor<
+					L & ConcreteLanguage,
+					LK &
+						LemmaKindForSurfaceKind<
+							L & ConcreteLanguage,
+							SK & SurfaceKindFor<L & ConcreteLanguage>
+						>
+				>
 			>
-		>
 	: PlaceholderSurface<L, SK, LK, LSK>;
 
 type PlaceholderSelection<
@@ -209,16 +234,17 @@ type PlaceholderSelection<
 	surface: Surface<L, SK, LK, LSK>;
 };
 
-type DeSelectionFor<
+type ConcreteSelectionFor<
+	L extends ConcreteLanguage,
 	OS extends OrthographicStatus,
-	SK extends SurfaceKindFor<"de">,
-	LK extends LemmaKindForSurfaceKind<"de", SK>,
-	LSK extends LemmaSubKindFor<"de", LK>,
-> = OS extends keyof DeSelectionByOrthographicStatus
-	? SK extends keyof DeSelectionByOrthographicStatus[OS]
-		? LK extends keyof DeSelectionByOrthographicStatus[OS][SK]
-			? LSK extends keyof DeSelectionByOrthographicStatus[OS][SK][LK]
-				? DeSelectionByOrthographicStatus[OS][SK][LK][LSK]
+	SK extends SurfaceKindFor<L>,
+	LK extends LemmaKindForSurfaceKind<L, SK>,
+	LSK extends LemmaSubKindFor<L, LK>,
+> = OS extends keyof ConcreteSelectionByStatusMap[L]
+	? SK extends keyof ConcreteSelectionByStatusMap[L][OS]
+		? LK extends keyof ConcreteSelectionByStatusMap[L][OS][SK]
+			? LSK extends keyof ConcreteSelectionByStatusMap[L][OS][SK][LK]
+				? ConcreteSelectionByStatusMap[L][OS][SK][LK][LSK]
 				: never
 			: never
 		: never
@@ -230,14 +256,23 @@ export type Selection<
 	SK extends SurfaceKindFor<L> = SurfaceKindFor<L>,
 	LK extends LemmaKindForSurfaceKind<L, SK> = LemmaKindForSurfaceKind<L, SK>,
 	LSK extends LemmaSubKindFor<L, LK> = LemmaSubKindFor<L, LK>,
-> = L extends "de"
-	? DeSelectionFor<
+> = L extends ConcreteLanguage
+	? ConcreteSelectionFor<
+			L & ConcreteLanguage,
 			OS,
-			SK & SurfaceKindFor<"de">,
-			LK & LemmaKindForSurfaceKind<"de", SK & SurfaceKindFor<"de">>,
+			SK & SurfaceKindFor<L & ConcreteLanguage>,
+			LK &
+				LemmaKindForSurfaceKind<
+					L & ConcreteLanguage,
+					SK & SurfaceKindFor<L & ConcreteLanguage>
+				>,
 			LSK & LemmaSubKindFor<
-				"de",
-				LK & LemmaKindForSurfaceKind<"de", SK & SurfaceKindFor<"de">>
+				L & ConcreteLanguage,
+				LK &
+					LemmaKindForSurfaceKind<
+						L & ConcreteLanguage,
+						SK & SurfaceKindFor<L & ConcreteLanguage>
+					>
 			>
 		>
 	: PlaceholderSelection<L, OS, SK, LK, LSK>;

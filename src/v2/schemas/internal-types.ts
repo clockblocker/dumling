@@ -10,6 +10,9 @@ import type {
 	AbstractLanguageSurfaceUnion,
 	LanguageTypePackMap,
 } from "../language-packs/type-packs";
+import type { EnLemmaByKind } from "../types/language-packs/en/en-lemma";
+import type { EnSelectionByOrthographicStatus } from "../types/language-packs/en/en-selection";
+import type { EnSurfaceByKind } from "../types/language-packs/en/en-surface";
 import type { DeLemmaByKind } from "../types/language-packs/de/de-lemma";
 import type { DeSelectionByOrthographicStatus } from "../types/language-packs/de/de-selection";
 import type { DeSurfaceByKind } from "../types/language-packs/de/de-surface";
@@ -213,6 +216,33 @@ export type DeSelectionSchemaTree = {
 		};
 	};
 };
+export type EnLemmaSchemaTree = {
+	[TLemmaKind in keyof EnLemmaByKind as LowercaseKey<TLemmaKind>]: {
+		[TLemmaSubKind in keyof EnLemmaByKind[TLemmaKind] as LowercaseKey<TLemmaSubKind>]: SchemaLeaf<
+			EnLemmaByKind[TLemmaKind][TLemmaSubKind]
+		>;
+	};
+};
+export type EnSurfaceSchemaTree = {
+	[TSurfaceKind in keyof EnSurfaceByKind as LowercaseKey<TSurfaceKind>]: {
+		[TLemmaKind in keyof EnSurfaceByKind[TSurfaceKind] as LowercaseKey<TLemmaKind>]: {
+			[TLemmaSubKind in keyof EnSurfaceByKind[TSurfaceKind][TLemmaKind] as LowercaseKey<TLemmaSubKind>]: SchemaLeaf<
+				EnSurfaceByKind[TSurfaceKind][TLemmaKind][TLemmaSubKind]
+			>;
+		};
+	};
+};
+export type EnSelectionSchemaTree = {
+	[TOrthographicStatus in keyof EnSelectionByOrthographicStatus as LowercaseKey<TOrthographicStatus>]: {
+		[TSurfaceKind in keyof EnSelectionByOrthographicStatus[TOrthographicStatus] as LowercaseKey<TSurfaceKind>]: {
+			[TLemmaKind in keyof EnSelectionByOrthographicStatus[TOrthographicStatus][TSurfaceKind] as LowercaseKey<TLemmaKind>]: {
+				[TLemmaSubKind in keyof EnSelectionByOrthographicStatus[TOrthographicStatus][TSurfaceKind][TLemmaKind] as LowercaseKey<TLemmaSubKind>]: SchemaLeaf<
+					EnSelectionByOrthographicStatus[TOrthographicStatus][TSurfaceKind][TLemmaKind][TLemmaSubKind]
+				>;
+			};
+		};
+	};
+};
 
 export type AbstractLemmaSchemaTree = LemmaSchemaTreeFor<AbstractLemmaUnion>;
 export type AbstractSurfaceSchemaTree = SurfaceSchemaTreeFor<AbstractSurfaceUnion>;
@@ -231,6 +261,11 @@ export type RuntimeSchemas = {
 		selection: z.ZodType<LanguageTypePackMap["de"]["selection"]>;
 		surface: z.ZodType<LanguageTypePackMap["de"]["surface"]>;
 	};
+	en: {
+		lemma: z.ZodType<LanguageTypePackMap["en"]["lemma"]>;
+		selection: z.ZodType<LanguageTypePackMap["en"]["selection"]>;
+		surface: z.ZodType<LanguageTypePackMap["en"]["surface"]>;
+	};
 };
 
 export type SchemaTree = {
@@ -245,9 +280,9 @@ export type SchemaTree = {
 		surface: DeSurfaceSchemaTree;
 	};
 	en: {
-		lemma: AbstractLemmaSchemaTree;
-		selection: AbstractSelectionSchemaTree;
-		surface: AbstractSurfaceSchemaTree;
+		lemma: EnLemmaSchemaTree;
+		selection: EnSelectionSchemaTree;
+		surface: EnSurfaceSchemaTree;
 	};
 	he: {
 		lemma: AbstractLemmaSchemaTree;

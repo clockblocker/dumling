@@ -25,6 +25,6 @@ function buildImplementedLanguageApi<L extends SupportedLanguage>(
 
 export const dumling = {
 	de: buildImplementedLanguageApi("de", languagePacks.de),
-	en: makeNotImplementedLanguageApi("en"),
+	en: buildImplementedLanguageApi("en", languagePacks.en),
 	he: makeNotImplementedLanguageApi("he"),
 } satisfies DumlingApi;

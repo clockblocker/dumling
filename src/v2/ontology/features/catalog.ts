@@ -102,7 +102,9 @@ export type AbstractFeatureAtoms = {
 	>;
 };
 
-export type AbstractInherentFeatures = Partial<AbstractFeatureAtoms>;
+export type AbstractInherentFeatures = {
+	[TName in keyof AbstractFeatureAtoms]?: FeatureValueSet<AbstractFeatureAtoms[TName]>;
+};
 
 export type AbstractInflectionalFeatures = {
 	[TName in keyof AbstractFeatureAtoms]?: FeatureValueSet<AbstractFeatureAtoms[TName]>;
@@ -111,4 +113,3 @@ export type AbstractInflectionalFeatures = {
 export type AbstractFeatureName = keyof AbstractFeatureAtoms;
 export type AbstractFeatureValue<N extends AbstractFeatureName> =
 	AbstractFeatureAtoms[N];
-

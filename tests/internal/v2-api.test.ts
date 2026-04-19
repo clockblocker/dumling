@@ -196,7 +196,7 @@ describe("v2 API", () => {
 		);
 	});
 
-	it("round-trips german ids and exposes runtime stubs for other languages", () => {
+	it("round-trips german ids and exposes english and hebrew language behavior", () => {
 		const selection = dumling.de.parse.selection({
 			language: "de",
 			orthographicStatus: "Typo",
@@ -236,17 +236,24 @@ describe("v2 API", () => {
 		}
 		expect(decoded.data.entityKind).toBe("Selection");
 		expect(decodedAs.data).toEqual(selection.data);
-		expect(() => dumling.en.create.lemma({} as never)).toThrow(
-			"dumling.en is not implemented yet",
-		);
-		expect(dumling.en.parse.lemma({})).toEqual({
-			success: false,
-			error: {
-				code: "LanguageNotImplemented",
-				language: "en",
-				message: "dumling.en is not implemented yet",
-			},
+
+		const englishLemma = dumling.en.create.lemma({
+			canonicalLemma: "see",
+			lemmaKind: "Lexeme",
+			lemmaSubKind: "NOUN",
+			inherentFeatures: {},
+			meaningInEmojis: "👀",
 		});
+		expect(englishLemma.language).toBe("en");
+		expect(dumling.en.parse.lemma(englishLemma)).toEqual({
+			success: true,
+			data: englishLemma,
+		});
+		expect(
+			schema.en.selection.standard.lemma.lexeme.noun().safeParse(
+				dumling.en.convert.lemma.toSelection(englishLemma),
+			).success,
+		).toBe(true);
 		expect(() => schema.he.lemma.lexeme.verb()).toThrow(
 			"dumling.he is not implemented yet",
 		);

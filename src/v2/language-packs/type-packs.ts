@@ -11,6 +11,9 @@ import type {
 	SupportedLanguage,
 	SurfaceKind,
 } from "../types/core/enums";
+import type { EnLemma } from "../types/language-packs/en/en-lemma";
+import type { EnSelection } from "../types/language-packs/en/en-selection";
+import type { EnSurface } from "../types/language-packs/en/en-surface";
 import type { DeLemma } from "../types/language-packs/de/de-lemma";
 import type { DeSelection } from "../types/language-packs/de/de-selection";
 import type { DeSurface } from "../types/language-packs/de/de-surface";
@@ -46,7 +49,9 @@ export type AbstractLanguageSelectionUnion<L extends AbstractLanguageTag> = {
 	}[SurfaceKind];
 }[OrthographicStatus];
 
-export type StubLanguageTypePack<L extends Exclude<SupportedLanguage, "de">> =
+export type StubLanguageTypePack<
+	L extends Exclude<SupportedLanguage, "de" | "en">,
+> =
 	LanguageTypePack<L> & {
 		lemma: AbstractLanguageLemmaUnion<L>;
 		selection: AbstractLanguageSelectionUnion<L>;
@@ -59,6 +64,10 @@ export type LanguageTypePackMap = {
 		selection: DeSelection;
 		surface: DeSurface;
 	};
-	en: StubLanguageTypePack<"en">;
+	en: LanguageTypePack<"en"> & {
+		lemma: EnLemma;
+		selection: EnSelection;
+		surface: EnSurface;
+	};
 	he: StubLanguageTypePack<"he">;
 };

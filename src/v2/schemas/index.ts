@@ -26,6 +26,7 @@ function mapLeavesToThrowers<T>(shape: T, language: "en" | "he"): T {
 export const runtimeSchemas = {
 	abstract: abstractRuntimeSchemas,
 	de: languagePacks.de.runtimeSchemas,
+	en: languagePacks.en.runtimeSchemas,
 } satisfies RuntimeSchemas;
 
 export const schema = {
@@ -35,6 +36,6 @@ export const schema = {
 		surface: abstractSurfaceSchema,
 	},
 	de: languagePacks.de.schema,
-	en: mapLeavesToThrowers(languagePacks.en.schema, "en"),
+	en: languagePacks.en.schema,
 	he: mapLeavesToThrowers(languagePacks.he.schema, "he"),
 } satisfies SchemaTree;

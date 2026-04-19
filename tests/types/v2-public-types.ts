@@ -77,6 +77,26 @@ if (decodedSelection.success) {
 const deSelectionLeaf = schema.de.selection.standard.lemma.lexeme.noun();
 deSelectionLeaf satisfies ZodType<Selection<"de", "Standard", "Lemma", "Lexeme", "NOUN">>;
 
+const enLemma = dumling.en.create.lemma({
+	canonicalLemma: "see",
+	lemmaKind: "Lexeme",
+	lemmaSubKind: "NOUN",
+	inherentFeatures: {
+		numType: "Card",
+	},
+	meaningInEmojis: "👀",
+}) satisfies Lemma<"en", "Lexeme", "NOUN">;
+
+const enSelectionLeaf = schema.en.selection.standard.lemma.lexeme.noun();
+enSelectionLeaf satisfies ZodType<Selection<"en", "Standard", "Lemma", "Lexeme", "NOUN">>;
+
+const enPronType: FeatureValueFor<"en", "Lexeme", "PRON", "pronType"> = [
+	"Prs",
+	"Rel",
+];
+void enLemma;
+void enPronType;
+
 const heVerbLeaf = schema.he.lemma.lexeme.verb;
 void heVerbLeaf;
 

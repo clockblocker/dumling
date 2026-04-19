@@ -1,8 +1,12 @@
 import type { z } from "zod/v3";
-import type { ApiResult, ParseError } from "../../public-types";
+import type {
+	ApiResult,
+	ParseError,
+	SupportedLanguage,
+} from "../../public-types";
 
 export function invalidParseResult(
-	language: "de",
+	language: SupportedLanguage,
 	error: z.ZodError,
 ): ApiResult<never, ParseError> {
 	return {
@@ -20,7 +24,7 @@ export function invalidParseResult(
 }
 
 export function parseWithSchema<T>(
-	language: "de",
+	language: SupportedLanguage,
 	runtimeSchema: z.ZodType<T>,
 	input: unknown,
 ): ApiResult<T, ParseError> {

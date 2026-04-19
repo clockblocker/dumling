@@ -25,7 +25,7 @@ const abstractInflectionalFeatureValueSchemas = Object.fromEntries(
 ) as FeatureSchemaShape;
 
 export const abstractInherentFeaturesSchema = buildOptionalFeatureObjectSchema(
-	abstractFeatureAtomSchemas,
+	abstractInflectionalFeatureValueSchemas,
 ) satisfies z.ZodType<AbstractInherentFeatures>;
 
 export const abstractInflectionalFeaturesSchema = requireNonEmptyFeatureObject(
