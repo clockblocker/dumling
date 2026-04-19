@@ -3,40 +3,33 @@ import type {
 	EntityKind,
 	IdDecodeError,
 	IdDecodeSuccess,
+	LanguageApi,
 	Lemma,
 	Selection,
+	SupportedLanguage,
 	Surface,
-} from "../../../public-types";
-import { decodeBase64Url, encodeBase64Url } from "../../shared/base64url";
-import { inferEntityKind } from "../../shared/entity-accessors";
-import { idError } from "../../shared/id-errors";
+} from "../../public-types";
+import { decodeBase64Url, encodeBase64Url } from "./base64url";
+import { inferEntityKind } from "./entity-accessors";
+import { idError } from "./id-errors";
 
-type DeEntity = Lemma<"de"> | Surface<"de"> | Selection<"de">;
-type DeDecodeSuccess = IdDecodeSuccess<"de">;
-type DeDecodeResult = ApiResult<DeDecodeSuccess, IdDecodeError>;
-type DeDecodeAsResult<K extends EntityKind> = ApiResult<
-	Extract<
-		DeEntity,
-		K extends "Lemma"
-			? { canonicalLemma: string }
-			: K extends "Surface"
-				? { surfaceKind: string }
-				: { surface: unknown }
-	>,
-	IdDecodeError
->;
+type EntityValue<L extends SupportedLanguage> = Lemma<L> | Surface<L> | Selection<L>;
+type DecodeResult<L extends SupportedLanguage> = ApiResult<IdDecodeSuccess<L>, IdDecodeError>;
 
 function isEntityKind(value: unknown): value is EntityKind {
 	return value === "Lemma" || value === "Surface" || value === "Selection";
 }
 
-export function buildDeIdOperations(parse: ReturnType<typeof import("./parse").buildDeParseOperations>) {
-	function decode(id: string): DeDecodeResult {
+export function buildIdOperations<L extends SupportedLanguage>(
+	language: L,
+	parse: LanguageApi<L>["parse"],
+): LanguageApi<L>["id"] {
+	function decode(id: string): DecodeResult<L> {
 		if (!id.startsWith("dumling:v2:")) {
 			return {
 				success: false,
 				error: idError("MalformedId", "Expected a dumling:v2: ID"),
-			} as const;
+			};
 		}
 
 		let payloadText: string;
@@ -46,7 +39,7 @@ export function buildDeIdOperations(parse: ReturnType<typeof import("./parse").b
 			return {
 				success: false,
 				error: idError("MalformedId", "ID payload is not valid base64url"),
-			} as const;
+			};
 		}
 
 		let payload: unknown;
@@ -56,7 +49,7 @@ export function buildDeIdOperations(parse: ReturnType<typeof import("./parse").b
 			return {
 				success: false,
 				error: idError("MalformedId", "ID payload is not valid JSON"),
-			} as const;
+			};
 		}
 
 		if (
@@ -70,10 +63,10 @@ export function buildDeIdOperations(parse: ReturnType<typeof import("./parse").b
 			return {
 				success: false,
 				error: idError("InvalidPayload", "ID payload shape is invalid"),
-			} as const;
+			};
 		}
 
-		const { v, entityKind, language, data } = payload as {
+		const { v, entityKind, language: payloadLanguage, data } = payload as {
 			data: unknown;
 			entityKind: unknown;
 			language: unknown;
@@ -87,24 +80,24 @@ export function buildDeIdOperations(parse: ReturnType<typeof import("./parse").b
 					"UnsupportedIdVersion",
 					`Unsupported Dumling ID version: ${String(v)}`,
 				),
-			} as const;
+			};
 		}
 
-		if (language !== "de") {
+		if (payloadLanguage !== language) {
 			return {
 				success: false,
 				error: idError(
 					"LanguageMismatch",
-					`Expected ID for de, received ${String(language)}`,
+					`Expected ID for ${language}, received ${String(payloadLanguage)}`,
 				),
-			} as const;
+			};
 		}
 
 		if (!isEntityKind(entityKind)) {
 			return {
 				success: false,
 				error: idError("InvalidPayload", "ID payload entityKind is invalid"),
-			} as const;
+			};
 		}
 
 		const parseResult =
@@ -118,33 +111,33 @@ export function buildDeIdOperations(parse: ReturnType<typeof import("./parse").b
 			return {
 				success: false,
 				error: idError("InvalidPayload", parseResult.error.message),
-			} as const;
+			};
 		}
 
 		return {
 			success: true,
 			data: {
 				entityKind,
-				data: parseResult.data as DeEntity,
+				data: parseResult.data as EntityValue<L>,
 			},
-		} as const;
+		};
 	}
 
-	const operations = {
-		encode(value: DeEntity) {
+	return {
+		encode(value: EntityValue<L>) {
 			return `dumling:v2:${encodeBase64Url(
 				JSON.stringify({
 					v: 2,
 					entityKind: inferEntityKind(value),
-					language: "de",
+					language,
 					data: value,
 				}),
 			)}`;
 		},
-		decode(id: string): DeDecodeResult {
+		decode(id: string) {
 			return decode(id);
 		},
-		decodeAs<K extends EntityKind>(kind: K, id: string): DeDecodeAsResult<K> {
+		decodeAs(kind: EntityKind, id: string) {
 			const decoded = decode(id);
 
 			if (!decoded.success) {
@@ -163,17 +156,8 @@ export function buildDeIdOperations(parse: ReturnType<typeof import("./parse").b
 
 			return {
 				success: true,
-				data: decoded.data.data as Extract<
-					DeEntity,
-					K extends "Lemma"
-						? { canonicalLemma: string }
-						: K extends "Surface"
-							? { surfaceKind: string }
-							: { surface: unknown }
-				>,
+				data: decoded.data.data,
 			};
 		},
 	};
-
-	return operations;
 }
