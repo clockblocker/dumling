@@ -17,7 +17,9 @@ const seeLemma = {
 // README_BLOCK:core-lemma:end
 
 // README_BLOCK:core-surface:start
-const seeSurface = dumling.de.convert.lemma.toSurface(seeLemma) satisfies Surface<
+const seeSurface = dumling.de.convert.lemma.toSurface(
+	seeLemma as Lemma<"de", "Lexeme", "NOUN">,
+) satisfies Surface<
 	"de",
 	"Lemma",
 	"Lexeme",
@@ -59,7 +61,7 @@ if (!parsed.success) {
 const id = packageDumling.de.id.encode(parsed.data);
 const decoded = packageDumling.de.id.decodeAs("Selection", id);
 if (!decoded.success) {
-	throw new Error(decoded.error.message);
+	throw new Error(decoded.error?.message ?? "Failed to decode selection ID");
 }
 
 packageSchema.de.selection.standard.lemma.lexeme.noun().parse(decoded.data);

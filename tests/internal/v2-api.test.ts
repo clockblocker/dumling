@@ -24,8 +24,9 @@ describe("v2 API", () => {
 			meaningInEmojis: "🌊",
 		});
 
-		const typedLemma: Lemma<"de", "Lexeme", "NOUN"> = lemma;
-		const surface = dumling.de.convert.lemma.toSurface(typedLemma);
+		const surface = dumling.de.convert.lemma.toSurface(
+			lemma as Lemma<"de", "Lexeme", "NOUN">,
+		);
 		const selection: Selection<"de"> = dumling.de.convert.surface.toSelection(
 			surface,
 			{

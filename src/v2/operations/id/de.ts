@@ -1,5 +1,7 @@
 import type {
+	ApiResult,
 	EntityKind,
+	IdDecodeError,
 	IdDecodeSuccess,
 	Lemma,
 	Selection,
@@ -11,13 +13,25 @@ import { idError } from "../shared/id-errors";
 
 type DeEntity = Lemma<"de"> | Surface<"de"> | Selection<"de">;
 type DeDecodeSuccess = IdDecodeSuccess<"de">;
+type DeDecodeResult = ApiResult<DeDecodeSuccess, IdDecodeError>;
+type DeDecodeAsResult<K extends EntityKind> = ApiResult<
+	Extract<
+		DeEntity,
+		K extends "Lemma"
+			? { canonicalLemma: string }
+			: K extends "Surface"
+				? { surfaceKind: string }
+				: { surface: unknown }
+	>,
+	IdDecodeError
+>;
 
 function isEntityKind(value: unknown): value is EntityKind {
 	return value === "Lemma" || value === "Surface" || value === "Selection";
 }
 
 export function buildDeIdOperations(parse: ReturnType<typeof import("../parse/de").buildDeParseOperations>) {
-	function decode(id: string) {
+	function decode(id: string): DeDecodeResult {
 		if (!id.startsWith("dumling:v2:")) {
 			return {
 				success: false,
@@ -127,12 +141,10 @@ export function buildDeIdOperations(parse: ReturnType<typeof import("../parse/de
 				}),
 			)}`;
 		},
-		decode(id: string) {
-			return decode(id) as
-				| { success: true; data: DeDecodeSuccess; error?: undefined }
-				| ReturnType<typeof decode>;
+		decode(id: string): DeDecodeResult {
+			return decode(id);
 		},
-		decodeAs<K extends EntityKind>(kind: K, id: string) {
+		decodeAs<K extends EntityKind>(kind: K, id: string): DeDecodeAsResult<K> {
 			const decoded = decode(id);
 
 			if (!decoded.success) {
