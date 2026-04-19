@@ -1,19 +1,19 @@
 import { z } from "zod/v3";
 import type {
-	DeAdverbInherentFeatures,
-	DeAdverbInflectionalFeatures,
-	DeAdverbLemma,
-} from "../../../../../types/language-packs/de/lexeme/pos/de-adverb";
+	InflectionalFeaturesFor,
+	InherentFeaturesFor,
+	Lemma,
+} from "../../../../../public-types";
 import { abstractFeatureAtomSchemas } from "../../../../abstract/feature-schemas";
+import {
+	buildOptionalFeatureObjectSchema,
+	requireNonEmptyFeatureObject,
+} from "../../../../shared/feature-helpers";
 import {
 	type DeInflectableLexemeSchemaBundleFor,
 	buildDeInflectableLexemeSchemaBundle,
 	buildLemmaSchema,
 } from "../shared/build-de-lexeme-schema-bundle";
-import {
-	buildOptionalFeatureObjectSchema,
-	requireNonEmptyFeatureObject,
-} from "../../../../shared/feature-helpers";
 import { deDegreeSchema } from "../shared/de-common-feature-schemas";
 
 const deLanguageSchema = z.literal("de");
@@ -32,20 +32,20 @@ const deAdverbInherentFeatureShape = {
 
 export const deAdverbInherentFeaturesSchema = buildOptionalFeatureObjectSchema(
 	deAdverbInherentFeatureShape,
-) satisfies z.ZodType<DeAdverbInherentFeatures>;
+) satisfies z.ZodType<InherentFeaturesFor<"de", "Lexeme", "ADV">>;
 
 export const deAdverbInflectionalFeaturesSchema = requireNonEmptyFeatureObject(
 	buildOptionalFeatureObjectSchema({
 		degree: deDegreeSchema,
 	}),
-) satisfies z.ZodType<DeAdverbInflectionalFeatures>;
+) satisfies z.ZodType<InflectionalFeaturesFor<"de", "Lexeme", "ADV">>;
 
 export const deAdverbLemmaSchema = buildLemmaSchema({
 	languageSchema: deLanguageSchema,
 	lemmaKind: "Lexeme",
 	lemmaSubKind: "ADV",
 	inherentFeaturesSchema: deAdverbInherentFeaturesSchema,
-}) satisfies z.ZodType<DeAdverbLemma>;
+}) satisfies z.ZodType<Lemma<"de", "Lexeme", "ADV">>;
 
 export const deAdverbSchemas = buildDeInflectableLexemeSchemaBundle<"ADV">({
 	languageSchema: deLanguageSchema,

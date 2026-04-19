@@ -1,9 +1,9 @@
 import { z } from "zod/v3";
 import type {
-	DePronounInherentFeatures,
-	DePronounInflectionalFeatures,
-	DePronounLemma,
-} from "../../../../../types/language-packs/de/lexeme/pos/de-pronoun";
+	InflectionalFeaturesFor,
+	InherentFeaturesFor,
+	Lemma,
+} from "../../../../../public-types";
 import { abstractFeatureAtomSchemas } from "../../../../abstract/feature-schemas";
 import {
 	buildOptionalFeatureObjectSchema,
@@ -44,24 +44,23 @@ const dePronounInherentFeatureShape = {
 
 export const dePronounInherentFeaturesSchema = buildOptionalFeatureObjectSchema(
 	dePronounInherentFeatureShape,
-) satisfies z.ZodType<DePronounInherentFeatures>;
+) satisfies z.ZodType<InherentFeaturesFor<"de", "Lexeme", "PRON">>;
 
-export const dePronounInflectionalFeaturesSchema =
-	requireNonEmptyFeatureObject(
-		buildOptionalFeatureObjectSchema({
-			case: deCaseSchema,
-			gender: deGenderSchema,
-			number: deNumberSchema,
-			reflex: abstractFeatureAtomSchemas.reflex,
-		}),
-	) satisfies z.ZodType<DePronounInflectionalFeatures>;
+export const dePronounInflectionalFeaturesSchema = requireNonEmptyFeatureObject(
+	buildOptionalFeatureObjectSchema({
+		case: deCaseSchema,
+		gender: deGenderSchema,
+		number: deNumberSchema,
+		reflex: abstractFeatureAtomSchemas.reflex,
+	}),
+) satisfies z.ZodType<InflectionalFeaturesFor<"de", "Lexeme", "PRON">>;
 
 export const dePronounLemmaSchema = buildLemmaSchema({
 	languageSchema: deLanguageSchema,
 	lemmaKind: "Lexeme",
 	lemmaSubKind: "PRON",
 	inherentFeaturesSchema: dePronounInherentFeaturesSchema,
-}) satisfies z.ZodType<DePronounLemma>;
+}) satisfies z.ZodType<Lemma<"de", "Lexeme", "PRON">>;
 
 export const dePronounSchemas = buildDeInflectableLexemeSchemaBundle<"PRON">({
 	languageSchema: deLanguageSchema,

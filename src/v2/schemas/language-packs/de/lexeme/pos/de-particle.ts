@@ -1,8 +1,5 @@
 import { z } from "zod/v3";
-import type {
-	DeParticleInherentFeatures,
-	DeParticleLemma,
-} from "../../../../../types/language-packs/de/lexeme/pos/de-particle";
+import type { InherentFeaturesFor, Lemma } from "../../../../../public-types";
 import { abstractFeatureAtomSchemas } from "../../../../abstract/feature-schemas";
 import { buildOptionalFeatureObjectSchema } from "../../../../shared/feature-helpers";
 import {
@@ -21,18 +18,21 @@ const deParticleInherentFeatureShape = {
 	polarity: dePolaritySchema,
 } as const;
 
-export const deParticleInherentFeaturesSchema = buildOptionalFeatureObjectSchema(
-	deParticleInherentFeatureShape,
-) satisfies z.ZodType<DeParticleInherentFeatures>;
+export const deParticleInherentFeaturesSchema =
+	buildOptionalFeatureObjectSchema(
+		deParticleInherentFeatureShape,
+	) satisfies z.ZodType<InherentFeaturesFor<"de", "Lexeme", "PART">>;
 
 export const deParticleLemmaSchema = buildLemmaSchema({
 	languageSchema: deLanguageSchema,
 	lemmaKind: "Lexeme",
 	lemmaSubKind: "PART",
 	inherentFeaturesSchema: deParticleInherentFeaturesSchema,
-}) satisfies z.ZodType<DeParticleLemma>;
+}) satisfies z.ZodType<Lemma<"de", "Lexeme", "PART">>;
 
-export const deParticleSchemas = buildDeUninflectableLexemeSchemaBundle<"PART">({
-	languageSchema: deLanguageSchema,
-	lemmaSchema: deParticleLemmaSchema,
-}) satisfies DeUninflectableLexemeSchemaBundleFor<"PART">;
+export const deParticleSchemas = buildDeUninflectableLexemeSchemaBundle<"PART">(
+	{
+		languageSchema: deLanguageSchema,
+		lemmaSchema: deParticleLemmaSchema,
+	},
+) satisfies DeUninflectableLexemeSchemaBundleFor<"PART">;

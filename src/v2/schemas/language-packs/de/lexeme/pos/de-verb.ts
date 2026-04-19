@@ -1,8 +1,5 @@
 import { z } from "zod/v3";
-import type {
-	DeVerbInherentFeatures,
-	DeVerbLemma,
-} from "../../../../../types/language-packs/de/lexeme/pos/de-verb";
+import type { InherentFeaturesFor, Lemma } from "../../../../../public-types";
 import { abstractFeatureAtomSchemas } from "../../../../abstract/feature-schemas";
 import { buildOptionalFeatureObjectSchema } from "../../../../shared/feature-helpers";
 import {
@@ -19,14 +16,14 @@ export const deVerbInherentFeaturesSchema = buildOptionalFeatureObjectSchema({
 	hasSepPrefix: abstractFeatureAtomSchemas.hasSepPrefix,
 	lexicallyReflexive: abstractFeatureAtomSchemas.lexicallyReflexive,
 	verbType: z.literal("Mod"),
-}) satisfies z.ZodType<DeVerbInherentFeatures>;
+}) satisfies z.ZodType<InherentFeaturesFor<"de", "Lexeme", "VERB">>;
 
 export const deVerbLemmaSchema = buildLemmaSchema({
 	languageSchema: deLanguageSchema,
 	lemmaKind: "Lexeme",
 	lemmaSubKind: "VERB",
 	inherentFeaturesSchema: deVerbInherentFeaturesSchema,
-}) satisfies z.ZodType<DeVerbLemma>;
+}) satisfies z.ZodType<Lemma<"de", "Lexeme", "VERB">>;
 
 export const deVerbSchemas = buildDeInflectableLexemeSchemaBundle<"VERB">({
 	languageSchema: deLanguageSchema,

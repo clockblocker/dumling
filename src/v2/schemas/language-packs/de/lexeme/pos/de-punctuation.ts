@@ -1,8 +1,5 @@
 import { z } from "zod/v3";
-import type {
-	DePunctuationInherentFeatures,
-	DePunctuationLemma,
-} from "../../../../../types/language-packs/de/lexeme/pos/de-punctuation";
+import type { InherentFeaturesFor, Lemma } from "../../../../../public-types";
 import { abstractFeatureAtomSchemas } from "../../../../abstract/feature-schemas";
 import { buildOptionalFeatureObjectSchema } from "../../../../shared/feature-helpers";
 import {
@@ -13,18 +10,17 @@ import {
 
 const deLanguageSchema = z.literal("de");
 
-export const dePunctuationInherentFeaturesSchema = buildOptionalFeatureObjectSchema(
-	{
+export const dePunctuationInherentFeaturesSchema =
+	buildOptionalFeatureObjectSchema({
 		punctType: abstractFeatureAtomSchemas.punctType,
-	},
-) satisfies z.ZodType<DePunctuationInherentFeatures>;
+	}) satisfies z.ZodType<InherentFeaturesFor<"de", "Lexeme", "PUNCT">>;
 
 export const dePunctuationLemmaSchema = buildLemmaSchema({
 	languageSchema: deLanguageSchema,
 	lemmaKind: "Lexeme",
 	lemmaSubKind: "PUNCT",
 	inherentFeaturesSchema: dePunctuationInherentFeaturesSchema,
-}) satisfies z.ZodType<DePunctuationLemma>;
+}) satisfies z.ZodType<Lemma<"de", "Lexeme", "PUNCT">>;
 
 export const dePunctuationSchemas =
 	buildDeUninflectableLexemeSchemaBundle<"PUNCT">({

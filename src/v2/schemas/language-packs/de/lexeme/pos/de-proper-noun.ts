@@ -1,9 +1,9 @@
 import { z } from "zod/v3";
 import type {
-	DeProperNounInherentFeatures,
-	DeProperNounInflectionalFeatures,
-	DeProperNounLemma,
-} from "../../../../../types/language-packs/de/lexeme/pos/de-proper-noun";
+	InflectionalFeaturesFor,
+	InherentFeaturesFor,
+	Lemma,
+} from "../../../../../public-types";
 import { abstractFeatureAtomSchemas } from "../../../../abstract/feature-schemas";
 import {
 	buildOptionalFeatureObjectSchema,
@@ -31,7 +31,7 @@ const deProperNounInherentFeatureShape = {
 export const deProperNounInherentFeaturesSchema =
 	buildOptionalFeatureObjectSchema(
 		deProperNounInherentFeatureShape,
-	) satisfies z.ZodType<DeProperNounInherentFeatures>;
+	) satisfies z.ZodType<InherentFeaturesFor<"de", "Lexeme", "PROPN">>;
 
 export const deProperNounInflectionalFeaturesSchema =
 	requireNonEmptyFeatureObject(
@@ -39,14 +39,14 @@ export const deProperNounInflectionalFeaturesSchema =
 			case: deCaseSchema,
 			number: deNumberSchema,
 		}),
-	) satisfies z.ZodType<DeProperNounInflectionalFeatures>;
+	) satisfies z.ZodType<InflectionalFeaturesFor<"de", "Lexeme", "PROPN">>;
 
 export const deProperNounLemmaSchema = buildLemmaSchema({
 	languageSchema: deLanguageSchema,
 	lemmaKind: "Lexeme",
 	lemmaSubKind: "PROPN",
 	inherentFeaturesSchema: deProperNounInherentFeaturesSchema,
-}) satisfies z.ZodType<DeProperNounLemma>;
+}) satisfies z.ZodType<Lemma<"de", "Lexeme", "PROPN">>;
 
 export const deProperNounSchemas =
 	buildDeInflectableLexemeSchemaBundle<"PROPN">({

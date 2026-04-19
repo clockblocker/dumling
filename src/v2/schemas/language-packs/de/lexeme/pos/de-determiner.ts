@@ -1,9 +1,9 @@
 import { z } from "zod/v3";
 import type {
-	DeDeterminerInherentFeatures,
-	DeDeterminerInflectionalFeatures,
-	DeDeterminerLemma,
-} from "../../../../../types/language-packs/de/lexeme/pos/de-determiner";
+	InflectionalFeaturesFor,
+	InherentFeaturesFor,
+	Lemma,
+} from "../../../../../public-types";
 import { abstractFeatureAtomSchemas } from "../../../../abstract/feature-schemas";
 import {
 	buildOptionalFeatureObjectSchema,
@@ -59,7 +59,7 @@ const deDeterminerInherentFeatureShape = {
 export const deDeterminerInherentFeaturesSchema =
 	buildOptionalFeatureObjectSchema(
 		deDeterminerInherentFeatureShape,
-	) satisfies z.ZodType<DeDeterminerInherentFeatures>;
+	) satisfies z.ZodType<InherentFeaturesFor<"de", "Lexeme", "DET">>;
 
 export const deDeterminerInflectionalFeaturesSchema =
 	requireNonEmptyFeatureObject(
@@ -71,14 +71,14 @@ export const deDeterminerInflectionalFeaturesSchema =
 			number: deNumberSchema,
 			"number[psor]": deNumberSchema,
 		}),
-	) satisfies z.ZodType<DeDeterminerInflectionalFeatures>;
+	) satisfies z.ZodType<InflectionalFeaturesFor<"de", "Lexeme", "DET">>;
 
 export const deDeterminerLemmaSchema = buildLemmaSchema({
 	languageSchema: deLanguageSchema,
 	lemmaKind: "Lexeme",
 	lemmaSubKind: "DET",
 	inherentFeaturesSchema: deDeterminerInherentFeaturesSchema,
-}) satisfies z.ZodType<DeDeterminerLemma>;
+}) satisfies z.ZodType<Lemma<"de", "Lexeme", "DET">>;
 
 export const deDeterminerSchemas = buildDeInflectableLexemeSchemaBundle<"DET">({
 	languageSchema: deLanguageSchema,

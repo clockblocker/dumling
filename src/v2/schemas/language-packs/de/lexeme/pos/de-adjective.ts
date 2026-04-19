@@ -1,19 +1,19 @@
 import { z } from "zod/v3";
 import type {
-	DeAdjectiveInherentFeatures,
-	DeAdjectiveInflectionalFeatures,
-	DeAdjectiveLemma,
-} from "../../../../../types/language-packs/de/lexeme/pos/de-adjective";
+	InflectionalFeaturesFor,
+	InherentFeaturesFor,
+	Lemma,
+} from "../../../../../public-types";
 import { abstractFeatureAtomSchemas } from "../../../../abstract/feature-schemas";
+import {
+	buildOptionalFeatureObjectSchema,
+	requireNonEmptyFeatureObject,
+} from "../../../../shared/feature-helpers";
 import {
 	type DeInflectableLexemeSchemaBundleFor,
 	buildDeInflectableLexemeSchemaBundle,
 	buildLemmaSchema,
 } from "../shared/build-de-lexeme-schema-bundle";
-import {
-	buildOptionalFeatureObjectSchema,
-	requireNonEmptyFeatureObject,
-} from "../../../../shared/feature-helpers";
 import {
 	deCaseSchema,
 	deDegreeSchema,
@@ -33,7 +33,7 @@ const deAdjectiveInherentFeatureShape = {
 export const deAdjectiveInherentFeaturesSchema =
 	buildOptionalFeatureObjectSchema(
 		deAdjectiveInherentFeatureShape,
-	) satisfies z.ZodType<DeAdjectiveInherentFeatures>;
+	) satisfies z.ZodType<InherentFeaturesFor<"de", "Lexeme", "ADJ">>;
 
 const deAdjectiveInflectionalFeatureShape = {
 	case: deCaseSchema,
@@ -45,14 +45,14 @@ const deAdjectiveInflectionalFeatureShape = {
 export const deAdjectiveInflectionalFeaturesSchema =
 	requireNonEmptyFeatureObject(
 		buildOptionalFeatureObjectSchema(deAdjectiveInflectionalFeatureShape),
-	) satisfies z.ZodType<DeAdjectiveInflectionalFeatures>;
+	) satisfies z.ZodType<InflectionalFeaturesFor<"de", "Lexeme", "ADJ">>;
 
 export const deAdjectiveLemmaSchema = buildLemmaSchema({
 	languageSchema: deLanguageSchema,
 	lemmaKind: "Lexeme",
 	lemmaSubKind: "ADJ",
 	inherentFeaturesSchema: deAdjectiveInherentFeaturesSchema,
-}) satisfies z.ZodType<DeAdjectiveLemma>;
+}) satisfies z.ZodType<Lemma<"de", "Lexeme", "ADJ">>;
 
 export const deAdjectiveSchemas = buildDeInflectableLexemeSchemaBundle<"ADJ">({
 	languageSchema: deLanguageSchema,

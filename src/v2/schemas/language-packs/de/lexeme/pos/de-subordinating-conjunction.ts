@@ -1,8 +1,5 @@
 import { z } from "zod/v3";
-import type {
-	DeSubordinatingConjunctionInherentFeatures,
-	DeSubordinatingConjunctionLemma,
-} from "../../../../../types/language-packs/de/lexeme/pos/de-subordinating-conjunction";
+import type { InherentFeaturesFor, Lemma } from "../../../../../public-types";
 import { buildOptionalFeatureObjectSchema } from "../../../../shared/feature-helpers";
 import {
 	type DeUninflectableLexemeSchemaBundleFor,
@@ -15,14 +12,14 @@ const deLanguageSchema = z.literal("de");
 export const deSubordinatingConjunctionInherentFeaturesSchema =
 	buildOptionalFeatureObjectSchema({
 		conjType: z.literal("Comp"),
-	}) satisfies z.ZodType<DeSubordinatingConjunctionInherentFeatures>;
+	}) satisfies z.ZodType<InherentFeaturesFor<"de", "Lexeme", "SCONJ">>;
 
 export const deSubordinatingConjunctionLemmaSchema = buildLemmaSchema({
 	languageSchema: deLanguageSchema,
 	lemmaKind: "Lexeme",
 	lemmaSubKind: "SCONJ",
 	inherentFeaturesSchema: deSubordinatingConjunctionInherentFeaturesSchema,
-}) satisfies z.ZodType<DeSubordinatingConjunctionLemma>;
+}) satisfies z.ZodType<Lemma<"de", "Lexeme", "SCONJ">>;
 
 export const deSubordinatingConjunctionSchemas =
 	buildDeUninflectableLexemeSchemaBundle<"SCONJ">({

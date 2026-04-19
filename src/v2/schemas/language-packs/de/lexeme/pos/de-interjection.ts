@@ -1,8 +1,5 @@
 import { z } from "zod/v3";
-import type {
-	DeInterjectionInherentFeatures,
-	DeInterjectionLemma,
-} from "../../../../../types/language-packs/de/lexeme/pos/de-interjection";
+import type { InherentFeaturesFor, Lemma } from "../../../../../public-types";
 import { buildOptionalFeatureObjectSchema } from "../../../../shared/feature-helpers";
 import {
 	type DeUninflectableLexemeSchemaBundleFor,
@@ -12,18 +9,17 @@ import {
 
 const deLanguageSchema = z.literal("de");
 
-export const deInterjectionInherentFeaturesSchema = buildOptionalFeatureObjectSchema(
-	{
+export const deInterjectionInherentFeaturesSchema =
+	buildOptionalFeatureObjectSchema({
 		partType: z.literal("Res"),
-	},
-) satisfies z.ZodType<DeInterjectionInherentFeatures>;
+	}) satisfies z.ZodType<InherentFeaturesFor<"de", "Lexeme", "INTJ">>;
 
 export const deInterjectionLemmaSchema = buildLemmaSchema({
 	languageSchema: deLanguageSchema,
 	lemmaKind: "Lexeme",
 	lemmaSubKind: "INTJ",
 	inherentFeaturesSchema: deInterjectionInherentFeaturesSchema,
-}) satisfies z.ZodType<DeInterjectionLemma>;
+}) satisfies z.ZodType<Lemma<"de", "Lexeme", "INTJ">>;
 
 export const deInterjectionSchemas =
 	buildDeUninflectableLexemeSchemaBundle<"INTJ">({

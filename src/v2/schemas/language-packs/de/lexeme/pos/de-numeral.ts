@@ -1,9 +1,9 @@
 import { z } from "zod/v3";
 import type {
-	DeNumeralInherentFeatures,
-	DeNumeralInflectionalFeatures,
-	DeNumeralLemma,
-} from "../../../../../types/language-packs/de/lexeme/pos/de-numeral";
+	InflectionalFeaturesFor,
+	InherentFeaturesFor,
+	Lemma,
+} from "../../../../../public-types";
 import { abstractFeatureAtomSchemas } from "../../../../abstract/feature-schemas";
 import {
 	buildOptionalFeatureObjectSchema,
@@ -33,26 +33,24 @@ const deNumeralInherentFeatureShape = {
 	]),
 } as const;
 
-export const deNumeralInherentFeaturesSchema =
-	buildOptionalFeatureObjectSchema(
-		deNumeralInherentFeatureShape,
-	) satisfies z.ZodType<DeNumeralInherentFeatures>;
+export const deNumeralInherentFeaturesSchema = buildOptionalFeatureObjectSchema(
+	deNumeralInherentFeatureShape,
+) satisfies z.ZodType<InherentFeaturesFor<"de", "Lexeme", "NUM">>;
 
-export const deNumeralInflectionalFeaturesSchema =
-	requireNonEmptyFeatureObject(
-		buildOptionalFeatureObjectSchema({
-			case: deCaseSchema,
-			gender: deGenderSchema,
-			number: deNumberSchema,
-		}),
-	) satisfies z.ZodType<DeNumeralInflectionalFeatures>;
+export const deNumeralInflectionalFeaturesSchema = requireNonEmptyFeatureObject(
+	buildOptionalFeatureObjectSchema({
+		case: deCaseSchema,
+		gender: deGenderSchema,
+		number: deNumberSchema,
+	}),
+) satisfies z.ZodType<InflectionalFeaturesFor<"de", "Lexeme", "NUM">>;
 
 export const deNumeralLemmaSchema = buildLemmaSchema({
 	languageSchema: deLanguageSchema,
 	lemmaKind: "Lexeme",
 	lemmaSubKind: "NUM",
 	inherentFeaturesSchema: deNumeralInherentFeaturesSchema,
-}) satisfies z.ZodType<DeNumeralLemma>;
+}) satisfies z.ZodType<Lemma<"de", "Lexeme", "NUM">>;
 
 export const deNumeralSchemas = buildDeInflectableLexemeSchemaBundle<"NUM">({
 	languageSchema: deLanguageSchema,

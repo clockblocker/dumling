@@ -1,8 +1,5 @@
 import { z } from "zod/v3";
-import type {
-	DeAuxiliaryInherentFeatures,
-	DeAuxiliaryLemma,
-} from "../../../../../types/language-packs/de/lexeme/pos/de-auxiliary";
+import type { InherentFeaturesFor, Lemma } from "../../../../../public-types";
 import { buildOptionalFeatureObjectSchema } from "../../../../shared/feature-helpers";
 import {
 	type DeInflectableLexemeSchemaBundleFor,
@@ -13,18 +10,17 @@ import { deVerbalInflectionalFeaturesSchema } from "../shared/de-verbal-inflecti
 
 const deLanguageSchema = z.literal("de");
 
-export const deAuxiliaryInherentFeaturesSchema = buildOptionalFeatureObjectSchema(
-	{
+export const deAuxiliaryInherentFeaturesSchema =
+	buildOptionalFeatureObjectSchema({
 		verbType: z.literal("Mod"),
-	},
-) satisfies z.ZodType<DeAuxiliaryInherentFeatures>;
+	}) satisfies z.ZodType<InherentFeaturesFor<"de", "Lexeme", "AUX">>;
 
 export const deAuxiliaryLemmaSchema = buildLemmaSchema({
 	languageSchema: deLanguageSchema,
 	lemmaKind: "Lexeme",
 	lemmaSubKind: "AUX",
 	inherentFeaturesSchema: deAuxiliaryInherentFeaturesSchema,
-}) satisfies z.ZodType<DeAuxiliaryLemma>;
+}) satisfies z.ZodType<Lemma<"de", "Lexeme", "AUX">>;
 
 export const deAuxiliarySchemas = buildDeInflectableLexemeSchemaBundle<"AUX">({
 	languageSchema: deLanguageSchema,

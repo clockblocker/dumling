@@ -1,9 +1,9 @@
 import { z } from "zod/v3";
 import type {
-	DeNounInherentFeatures,
-	DeNounInflectionalFeatures,
-	DeNounLemma,
-} from "../../../../../types/language-packs/de/lexeme/pos/de-noun";
+	InflectionalFeaturesFor,
+	InherentFeaturesFor,
+	Lemma,
+} from "../../../../../public-types";
 import { abstractFeatureAtomSchemas } from "../../../../abstract/feature-schemas";
 import {
 	buildOptionalFeatureObjectSchema,
@@ -25,21 +25,21 @@ const deLanguageSchema = z.literal("de");
 export const deNounInherentFeaturesSchema = buildOptionalFeatureObjectSchema({
 	gender: deGenderSchema,
 	hyph: abstractFeatureAtomSchemas.hyph,
-}) satisfies z.ZodType<DeNounInherentFeatures>;
+}) satisfies z.ZodType<InherentFeaturesFor<"de", "Lexeme", "NOUN">>;
 
 export const deNounInflectionalFeaturesSchema = requireNonEmptyFeatureObject(
 	buildOptionalFeatureObjectSchema({
 		case: deCaseSchema,
 		number: deNumberSchema,
 	}),
-) satisfies z.ZodType<DeNounInflectionalFeatures>;
+) satisfies z.ZodType<InflectionalFeaturesFor<"de", "Lexeme", "NOUN">>;
 
 export const deNounLemmaSchema = buildLemmaSchema({
 	languageSchema: deLanguageSchema,
 	lemmaKind: "Lexeme",
 	lemmaSubKind: "NOUN",
 	inherentFeaturesSchema: deNounInherentFeaturesSchema,
-}) satisfies z.ZodType<DeNounLemma>;
+}) satisfies z.ZodType<Lemma<"de", "Lexeme", "NOUN">>;
 
 export const deNounSchemas = buildDeInflectableLexemeSchemaBundle<"NOUN">({
 	languageSchema: deLanguageSchema,
