@@ -1,4 +1,4 @@
-import type { SupportedLanguage, LemmaKindFor, LemmaSubKindFor, InherentFeaturesFor, Lemma, Surface, LemmaKindForSurfaceKind, Selection, OrthographicStatus, SurfaceKindFor, ApiResult, ParseError, LemmaDescriptor, SurfaceDescriptor, SelectionDescriptor, IdDecodeSuccess, IdDecodeError, EntityKind, LemmaKind, SelectionCoverage, SpellingRelation, SurfaceKind } from "../types/public-types";
+import type { SupportedLanguage, LemmaKindFor, LemmaSubKindFor, InherentFeaturesFor, Lemma, Surface, LemmaKindForSurfaceKind, Selection, OrthographicStatus, SurfaceKindFor, LemmaDescriptor, SurfaceDescriptor, SelectionDescriptor,  EntityKind, LemmaKind, SelectionCoverage, SpellingRelation, SurfaceKind } from "../types/public-types";
 
 export type DumlingApi = {
 	de: LanguageApi<"de">;
