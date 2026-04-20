@@ -1,14 +1,14 @@
 import type {
 	InherentFeaturesFor,
 	Lemma,
-	LemmaKind,
+	LemmaKindFor,
 	LemmaSubKindFor,
 	SupportedLanguage,
 } from "../../../src/types";
 
 type BuilderOptions<
 	L extends SupportedLanguage,
-	LK extends LemmaKind,
+	LK extends LemmaKindFor<L>,
 	LSK extends LemmaSubKindFor<L, LK>,
 > = {
 	inherentFeatures?: InherentFeaturesFor<L, LK, LSK>;
@@ -17,7 +17,7 @@ type BuilderOptions<
 
 function makeLemma<
 	L extends SupportedLanguage,
-	LK extends LemmaKind,
+	LK extends LemmaKindFor<L>,
 	LSK extends LemmaSubKindFor<L, LK>,
 >(
 	language: L,
@@ -42,42 +42,60 @@ function makeLemma<
 
 export function makeLexemeSurfaceReference<
 	L extends SupportedLanguage,
-	LSK extends LemmaSubKindFor<L, "Lexeme">,
+	LSK extends LemmaSubKindFor<L, "Lexeme" & LemmaKindFor<L>>,
 >(
 	language: L,
 	lemmaSubKind: LSK,
 	canonicalLemma: string,
-	options: BuilderOptions<L, "Lexeme", LSK> = {},
+	options: BuilderOptions<L, "Lexeme" & LemmaKindFor<L>, LSK> = {},
 ) {
 	return {
-		lemma: makeLemma(language, "Lexeme", lemmaSubKind, canonicalLemma, options),
+		lemma: makeLemma(
+			language,
+			"Lexeme" as "Lexeme" & LemmaKindFor<L>,
+			lemmaSubKind,
+			canonicalLemma,
+			options,
+		),
 	};
 }
 
 export function makeMorphemeSurfaceReference<
 	L extends SupportedLanguage,
-	LSK extends LemmaSubKindFor<L, "Morpheme">,
+	LSK extends LemmaSubKindFor<L, "Morpheme" & LemmaKindFor<L>>,
 >(
 	language: L,
 	lemmaSubKind: LSK,
 	canonicalLemma: string,
-	options: BuilderOptions<L, "Morpheme", LSK> = {},
+	options: BuilderOptions<L, "Morpheme" & LemmaKindFor<L>, LSK> = {},
 ) {
 	return {
-		lemma: makeLemma(language, "Morpheme", lemmaSubKind, canonicalLemma, options),
+		lemma: makeLemma(
+			language,
+			"Morpheme" as "Morpheme" & LemmaKindFor<L>,
+			lemmaSubKind,
+			canonicalLemma,
+			options,
+		),
 	};
 }
 
 export function makePhrasemeSurfaceReference<
 	L extends SupportedLanguage,
-	LSK extends LemmaSubKindFor<L, "Phraseme">,
+	LSK extends LemmaSubKindFor<L, "Phraseme" & LemmaKindFor<L>>,
 >(
 	language: L,
 	lemmaSubKind: LSK,
 	canonicalLemma: string,
-	options: BuilderOptions<L, "Phraseme", LSK> = {},
+	options: BuilderOptions<L, "Phraseme" & LemmaKindFor<L>, LSK> = {},
 ) {
 	return {
-		lemma: makeLemma(language, "Phraseme", lemmaSubKind, canonicalLemma, options),
+		lemma: makeLemma(
+			language,
+			"Phraseme" as "Phraseme" & LemmaKindFor<L>,
+			lemmaSubKind,
+			canonicalLemma,
+			options,
+		),
 	};
 }

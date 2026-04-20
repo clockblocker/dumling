@@ -103,9 +103,7 @@ describe("German remaining POS schemas", () => {
 		).toBe(false);
 
 		expect(
-			schema.de.selection.standard.inflection.lexeme.adp?.().safeParse({
-				language: "de",
-			}).success,
+			Reflect.get(schema.de.selection.standard.inflection.lexeme, "adp"),
 		).toBeUndefined();
 
 		expect(
