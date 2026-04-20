@@ -3,10 +3,12 @@ import {
 	type SchemaCatalogBundle,
 	type SchemaCatalogDefinition,
 } from "../../src/schemas/shared/schema-catalog";
-import type { DePhrasemeLemmaBySubKind } from "../../src/types/concrete-language/language-packs/de/phraseme/de-phrasemes";
+import type { FamilyLemmaBySubKind } from "../../src/types/concrete-language/family-types";
 
 declare const bundle: SchemaCatalogBundle;
-type PhrasemeCatalog = SchemaCatalogDefinition<keyof DePhrasemeLemmaBySubKind>;
+type PhrasemeCatalog = SchemaCatalogDefinition<
+	keyof FamilyLemmaBySubKind<"de", "Phraseme">
+>;
 
 const validCatalog = defineSchemaCatalog({
 	aphorism: {

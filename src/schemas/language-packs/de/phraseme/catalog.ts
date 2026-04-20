@@ -1,9 +1,8 @@
 import { z } from "zod/v3";
 import type { Lemma } from "../../../../types/public-types";
 import type {
-	DeDiscourseFormulaInherentFeatures,
-	DePhrasemeLemmaBySubKind,
-} from "../../../../types/concrete-language/language-packs/de/phraseme/de-phrasemes";
+	FamilyLemmaBySubKind,
+} from "../../../../types/concrete-language/family-types";
 import type { EmptyFeatures } from "../../../../types/concrete-language/shared";
 import { abstractFeatureAtomSchemas } from "../../../abstract/feature-schemas";
 import { buildOptionalFeatureObjectSchema } from "../../../shared/feature-helpers";
@@ -16,6 +15,10 @@ import {
 	buildDePhrasemeSchemaBundle,
 	buildLemmaSchema,
 } from "./shared/build-de-phraseme-schema-bundle";
+
+type DePhrasemeLemmaBySubKind = FamilyLemmaBySubKind<"de", "Phraseme">;
+type DeDiscourseFormulaInherentFeatures =
+	DePhrasemeLemmaBySubKind["DiscourseFormula"]["inherentFeatures"];
 
 const deLanguageSchema = z.literal("de");
 

@@ -1,8 +1,8 @@
 import { z } from "zod/v3";
 import type {
-	HeInflectionLexemeSurfaceBySubKind,
-	HeLexemeLemmaBySubKind,
-} from "../../../../types/concrete-language/language-packs/he/lexeme/he-lexemes";
+	FamilyInflectionSurfaceBySubKind,
+	FamilyLemmaBySubKind,
+} from "../../../../types/concrete-language/family-types";
 import { abstractFeatureAtomSchemas } from "../../../abstract/feature-schemas";
 import {
 	buildOptionalFeatureObjectSchema,
@@ -21,6 +21,12 @@ import {
 	buildHeUninflectableLexemeSchemaBundle,
 	buildLemmaSchema,
 } from "./shared/build-he-lexeme-schema-bundle";
+
+type HeLexemeLemmaBySubKind = FamilyLemmaBySubKind<"he", "Lexeme">;
+type HeInflectionLexemeSurfaceBySubKind = FamilyInflectionSurfaceBySubKind<
+	"he",
+	"Lexeme"
+>;
 
 function exactFeatureValueSet<TSchema extends z.ZodTypeAny>(
 	schema: TSchema,

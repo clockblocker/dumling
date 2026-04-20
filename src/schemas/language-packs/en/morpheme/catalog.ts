@@ -1,6 +1,6 @@
 import { z } from "zod/v3";
 import type { Lemma } from "../../../../types/public-types";
-import type { EnMorphemeLemmaBySubKind } from "../../../../types/concrete-language/language-packs/en/morpheme/en-morphemes";
+import type { FamilyLemmaBySubKind } from "../../../../types/concrete-language/family-types";
 import type { EmptyFeatures } from "../../../../types/concrete-language/shared";
 import { buildOptionalFeatureObjectSchema } from "../../../shared/feature-helpers";
 import {
@@ -12,6 +12,8 @@ import {
     buildEnMorphemeSchemaBundle,
     buildLemmaSchema,
 } from "./shared/build-en-morpheme-schema-bundle";
+
+type EnMorphemeLemmaBySubKind = FamilyLemmaBySubKind<"en", "Morpheme">;
 
 const enLanguageSchema = z.literal("en");
 const emptyFeaturesSchema = buildOptionalFeatureObjectSchema({}) satisfies z.ZodType<EmptyFeatures>;

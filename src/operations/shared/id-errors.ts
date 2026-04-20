@@ -1,4 +1,4 @@
-import type { IdDecodeError, IdDecodeErrorCode } from "../../types/public-types";
+import type { IdDecodeError, IdDecodeErrorCode } from "../api-shape";
 
 export function idError(code: IdDecodeErrorCode, message: string): IdDecodeError {
 	return { code, message };

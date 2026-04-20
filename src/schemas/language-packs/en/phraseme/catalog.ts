@@ -1,9 +1,8 @@
 import { z } from "zod/v3";
 import type { Lemma } from "../../../../types/public-types";
 import type {
-	EnDiscourseFormulaInherentFeatures,
-	EnPhrasemeLemmaBySubKind,
-} from "../../../../types/concrete-language/language-packs/en/phraseme/en-phrasemes";
+	FamilyLemmaBySubKind,
+} from "../../../../types/concrete-language/family-types";
 import type { EmptyFeatures } from "../../../../types/concrete-language/shared";
 import { abstractFeatureAtomSchemas } from "../../../abstract/feature-schemas";
 import { buildOptionalFeatureObjectSchema } from "../../../shared/feature-helpers";
@@ -16,6 +15,10 @@ import {
 	buildEnPhrasemeSchemaBundle,
 	buildLemmaSchema,
 } from "./shared/build-en-phraseme-schema-bundle";
+
+type EnPhrasemeLemmaBySubKind = FamilyLemmaBySubKind<"en", "Phraseme">;
+type EnDiscourseFormulaInherentFeatures =
+	EnPhrasemeLemmaBySubKind["DiscourseFormula"]["inherentFeatures"];
 
 const enLanguageSchema = z.literal("en");
 

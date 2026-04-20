@@ -1,9 +1,11 @@
 import type {
 	ApiResult,
-	EntityKind,
 	IdDecodeError,
 	IdDecodeSuccess,
 	LanguageApi,
+} from "../api-shape";
+import type {
+	EntityKind,
 	Lemma,
 	Selection,
 	SupportedLanguage,

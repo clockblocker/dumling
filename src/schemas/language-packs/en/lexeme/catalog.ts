@@ -1,4 +1,4 @@
-import type { EnLexemeLemmaBySubKind } from "../../../../types/concrete-language/language-packs/en/lexeme/en-lexemes";
+import type { FamilyLemmaBySubKind } from "../../../../types/concrete-language/family-types";
 import {
 	buildFamilySchemaCatalog,
 	defineSchemaCatalog,
@@ -21,6 +21,8 @@ import { enPunctuationSchemas } from "./pos/en-punctuation";
 import { enSubordinatingConjunctionSchemas } from "./pos/en-subordinating-conjunction";
 import { enSymbolSchemas } from "./pos/en-symbol";
 import { enVerbSchemas } from "./pos/en-verb";
+
+type EnLexemeLemmaBySubKind = FamilyLemmaBySubKind<"en", "Lexeme">;
 
 export const enLexemeSchemaCatalog = defineSchemaCatalog({
 	adj: {

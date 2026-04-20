@@ -1,6 +1,6 @@
 import { z } from "zod/v3";
 import type { Lemma } from "../../../../types/public-types";
-import type { HePhrasemeLemmaBySubKind } from "../../../../types/concrete-language/language-packs/he/phraseme/he-phrasemes";
+import type { FamilyLemmaBySubKind } from "../../../../types/concrete-language/family-types";
 import type { EmptyFeatures } from "../../../../types/concrete-language/shared";
 import { buildOptionalFeatureObjectSchema } from "../../../shared/feature-helpers";
 import {
@@ -12,6 +12,8 @@ import {
 	buildHePhrasemeSchemaBundle,
 	buildLemmaSchema,
 } from "./shared/build-he-phraseme-schema-bundle";
+
+type HePhrasemeLemmaBySubKind = FamilyLemmaBySubKind<"he", "Phraseme">;
 
 const heLanguageSchema = z.literal("he");
 const emptyFeaturesSchema = buildOptionalFeatureObjectSchema({}) satisfies z.ZodType<EmptyFeatures>;

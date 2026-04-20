@@ -1,9 +1,8 @@
 import { z } from "zod/v3";
 import type { Lemma } from "../../../../types/public-types";
 import type {
-	DePrefixMorphemeInherentFeatures,
-	DeMorphemeLemmaBySubKind,
-} from "../../../../types/concrete-language/language-packs/de/morpheme/de-morphemes";
+	FamilyLemmaBySubKind,
+} from "../../../../types/concrete-language/family-types";
 import type { EmptyFeatures } from "../../../../types/concrete-language/shared";
 import { abstractFeatureAtomSchemas } from "../../../abstract/feature-schemas";
 import { buildOptionalFeatureObjectSchema } from "../../../shared/feature-helpers";
@@ -16,6 +15,10 @@ import {
 	buildDeMorphemeSchemaBundle,
 	buildLemmaSchema,
 } from "./shared/build-de-morpheme-schema-bundle";
+
+type DeMorphemeLemmaBySubKind = FamilyLemmaBySubKind<"de", "Morpheme">;
+type DePrefixMorphemeInherentFeatures =
+	DeMorphemeLemmaBySubKind["Prefix"]["inherentFeatures"];
 
 const deLanguageSchema = z.literal("de");
 

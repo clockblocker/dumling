@@ -1,18 +1,32 @@
 import type { z } from "zod/v3";
 import type {
-	HeInflectableLexemeSubKind,
-	HeInflectionLexemeSelectionBySubKind,
-	HeInflectionLexemeSurfaceBySubKind,
-	HeLemmaLexemeSelectionBySubKind,
-	HeLemmaLexemeSurfaceBySubKind,
-	HeLexemeLemmaBySubKind,
-} from "../../../../../types/concrete-language/language-packs/he/lexeme/he-lexemes";
+	FamilyInflectableSubKind,
+	FamilyInflectionSelectionBySubKind,
+	FamilyInflectionSurfaceBySubKind,
+	FamilyLemmaBySubKind,
+	FamilyLemmaSelectionBySubKind,
+	FamilyLemmaSurfaceBySubKind,
+} from "../../../../../types/concrete-language/family-types";
 import {
 	buildInflectionSurfaceSchema,
 	buildLemmaSchema,
 	buildLemmaSurfaceSchema,
 	buildSelectionSchema,
 } from "../../../../shared/builders";
+
+type HeLexemeLemmaBySubKind = FamilyLemmaBySubKind<"he", "Lexeme">;
+type HeLemmaLexemeSurfaceBySubKind = FamilyLemmaSurfaceBySubKind<"he", "Lexeme">;
+type HeInflectionLexemeSurfaceBySubKind = FamilyInflectionSurfaceBySubKind<
+	"he",
+	"Lexeme"
+>;
+type HeInflectableLexemeSubKind = FamilyInflectableSubKind<"he", "Lexeme">;
+type HeLemmaLexemeSelectionBySubKind<
+	OS extends "Standard" | "Typo" = "Standard" | "Typo",
+> = FamilyLemmaSelectionBySubKind<"he", "Lexeme", OS>;
+type HeInflectionLexemeSelectionBySubKind<
+	OS extends "Standard" | "Typo" = "Standard" | "Typo",
+> = FamilyInflectionSelectionBySubKind<"he", "Lexeme", OS>;
 
 type SchemaLeaf<T> = () => z.ZodType<T>;
 
