@@ -29,7 +29,7 @@ async function emitDeclarations() {
 	}
 }
 
-function rollupEntrypoint(entrypoint: (typeof publicEntrypoints)[number]) {
+async function rollupEntrypoint(entrypoint: (typeof publicEntrypoints)[number]) {
 	const entryDeclarationPath = resolve(tempTypesDir, `${entrypoint}.d.ts`);
 	const outputDeclarationPath = resolve(distDir, `${entrypoint}.d.ts`);
 	const extractorConfig = ExtractorConfig.prepare({
@@ -61,10 +61,10 @@ function rollupEntrypoint(entrypoint: (typeof publicEntrypoints)[number]) {
 						logLevel: "warning",
 					},
 					"ae-forgotten-export": {
-						logLevel: "warning",
+						logLevel: "none",
 					},
 					"ae-missing-release-tag": {
-						logLevel: "warning",
+						logLevel: "none",
 					},
 				},
 			},
@@ -86,7 +86,7 @@ async function main() {
 	await emitDeclarations();
 
 	for (const entrypoint of publicEntrypoints) {
-		rollupEntrypoint(entrypoint);
+		await rollupEntrypoint(entrypoint);
 	}
 
 	rmSync(tempTypesDir, { force: true, recursive: true });
