@@ -31,16 +31,6 @@ import type {
 	LanguagePackFeatureRegistry,
 } from "./types/language-packs/feature-registry";
 
-type ConcreteLemmaUnionMap = LanguageLemmaUnionMap;
-type ConcreteSurfaceUnionMap = LanguageSurfaceUnionMap;
-type ConcreteSelectionByStatusMap = LanguageSelectionByOrthographicStatusMap;
-type KeysOfUnion<T> = T extends unknown ? keyof T : never;
-type ValueForKeyInUnion<T, K extends PropertyKey> = T extends unknown
-	? K extends keyof T
-		? T[K]
-		: never
-	: never;
-
 type EntityForKind<
 	L extends SupportedLanguage,
 	K extends EntityKind,
@@ -189,7 +179,7 @@ type ConcreteLemmaFor<
 	LK extends LemmaKindFor<L>,
 	LSK extends LemmaSubKindFor<L, LK>,
 > = Extract<
-	ConcreteLemmaUnionMap[L],
+	LanguageLemmaUnionMap[L],
 	{ lemmaKind: LK; lemmaSubKind: LSK }
 >;
 
@@ -229,7 +219,7 @@ type ConcreteSurfaceFor<
 	SK extends SurfaceKindFor<L>,
 	LK extends LemmaKindForSurfaceKind<L, SK>,
 	LSK extends LemmaSubKindFor<L, LK>,
-> = ConcreteSurfaceUnionMap[L] extends infer TSurface
+> = LanguageSurfaceUnionMap[L] extends infer TSurface
 	? TSurface extends {
 			surfaceKind: SK;
 			lemma: { lemmaKind: LK; lemmaSubKind: LSK };
@@ -285,11 +275,11 @@ type ConcreteSelectionFor<
 	SK extends SurfaceKindFor<L>,
 	LK extends LemmaKindForSurfaceKind<L, SK>,
 	LSK extends LemmaSubKindFor<L, LK>,
-> = OS extends keyof ConcreteSelectionByStatusMap[L]
-	? SK extends keyof ConcreteSelectionByStatusMap[L][OS]
-		? LK extends keyof ConcreteSelectionByStatusMap[L][OS][SK]
-			? LSK extends keyof ConcreteSelectionByStatusMap[L][OS][SK][LK]
-				? ConcreteSelectionByStatusMap[L][OS][SK][LK][LSK]
+> = OS extends keyof LanguageSelectionByOrthographicStatusMap[L]
+	? SK extends keyof LanguageSelectionByOrthographicStatusMap[L][OS]
+		? LK extends keyof LanguageSelectionByOrthographicStatusMap[L][OS][SK]
+			? LSK extends keyof LanguageSelectionByOrthographicStatusMap[L][OS][SK][LK]
+				? LanguageSelectionByOrthographicStatusMap[L][OS][SK][LK][LSK]
 				: never
 			: never
 		: never
@@ -370,7 +360,14 @@ export type FeatureName<
 	K extends FeatureSetKind,
 	LK extends LemmaKindFor<L>,
 	LSK extends LemmaSubKindFor<L, LK>,
-> = Extract<KeysOfUnion<FeatureSet<L, K, LK, LSK>>, AbstractFeatureName>;
+> = Extract<
+	FeatureSet<L, K, LK, LSK> extends infer TFeatureSet
+		? TFeatureSet extends unknown
+			? keyof TFeatureSet
+			: never
+		: never,
+	AbstractFeatureName
+>;
 
 export type FeatureValue<
 	L extends SupportedLanguage,
@@ -378,7 +375,13 @@ export type FeatureValue<
 	LK extends LemmaKindFor<L>,
 	LSK extends LemmaSubKindFor<L, LK>,
 	F extends FeatureName<L, K, LK, LSK>,
-> = ValueForKeyInUnion<FeatureSet<L, K, LK, LSK>, F>;
+> = FeatureSet<L, K, LK, LSK> extends infer TFeatureSet
+	? TFeatureSet extends unknown
+		? F extends keyof TFeatureSet
+			? TFeatureSet[F]
+			: never
+		: never
+	: never;
 
 export type LemmaDescriptor<
 	L extends SupportedLanguage,

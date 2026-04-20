@@ -581,19 +581,20 @@ type AbstractFeatures = {
 	...
 };
 
-type FeatureBagFor<
+type FeatureSetKind = "inherent" | "inflectional";
+
+type FeatureSet<
 	L extends SupportedLanguage,
+	K extends FeatureSetKind,
 	LK extends LemmaKindFor<L>,
 	LSK extends LemmaSubKindFor<L, LK>,
-> = NarrowFeatureBag<
-	AbstractFeatures,
-	AllowedFeaturesFor<L, LK, LSK>,
-	AllowedFeatureValuesFor<L, LK, LSK>
->;
+> = LanguagePackFeatureRegistry[L][LK][LSK][K];
 ```
 
 `AbstractFeatures` is not split by lemma kind or lemma sub-kind. It is the
-shared superset feature inventory for the entire ontology.
+shared superset feature inventory for the entire ontology, while concrete
+`FeatureSet` leaves are derived per `(language, lemmaKind, lemmaSubKind,
+featureSetKind)` context.
 
 Public feature names should follow UD naming for UD features and UD-like naming
 for custom features.
