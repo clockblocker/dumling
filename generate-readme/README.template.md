@@ -82,5 +82,6 @@ Selections are always hydrated:
 For repo development:
 
 - `bun test`
+- `bun run test:package`
 - `bun run build`
 - `bun run generate:readme`
