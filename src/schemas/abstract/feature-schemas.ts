@@ -2,8 +2,8 @@ import { z } from "zod/v3";
 import type {
 	AbstractInherentFeatures,
 	AbstractInflectionalFeatures,
-} from "../../types/abstract/features/features";
-import { abstractFeatureCatalog } from "../../ontology/features/catalog";
+} from "../../types/abstract/features/features-catalog";
+import { abstractFeatureCatalog } from "../../types/abstract/features/features-catalog";
 import {
 	buildOptionalFeatureObjectSchema,
 	featureValueSet,

@@ -12,7 +12,7 @@ import type {
 import type {
 	AbstractInherentFeatures,
 	AbstractInflectionalFeatures,
-} from "./features/features";
+} from "./features/features-catalog";
 
 type RequireAtLeastOne<T extends object> = {
 	[K in keyof T]-?: Required<Pick<T, K>> & Partial<Omit<T, K>>;

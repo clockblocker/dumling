@@ -19,7 +19,7 @@ import type {
 import type {
 	AbstractFeatureName,
 	AbstractFeatureValue as AbstractFeatureValueForName,
-} from "./types/abstract/features/features";
+} from "./types/abstract/features/features-catalog";
 import type {
 	LanguageLemmaUnionMap,
 	LanguageSelectionByOrthographicStatusMap,

@@ -105,7 +105,7 @@ abstract feature-related types.
 For example:
 
 ```ts
-import type { AbstractFeatureValue } from "../../../../abstract/features/features";
+import type { AbstractFeatureValue } from "../../../../abstract/features/features-catalog";
 
 export type DeNounFeatures = {
 	inherent: {

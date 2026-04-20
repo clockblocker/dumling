@@ -1,5 +1,5 @@
 import { z } from "zod/v3";
-import { abstractFeatureCatalog } from "../../ontology/features/catalog";
+import { abstractFeatureCatalog } from "../../types/abstract/features/features-catalog";
 
 type NonEmptyFeatureValueSet<T> = readonly [T, ...T[]];
 

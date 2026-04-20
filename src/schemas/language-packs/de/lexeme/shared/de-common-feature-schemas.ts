@@ -1,5 +1,5 @@
 import { z } from "zod/v3";
-import type { AbstractFeatureValue } from "../../../../../types/abstract/features/features";
+import type { AbstractFeatureValue } from "../../../../../types/abstract/features/features-catalog";
 import { abstractFeatureAtomSchemas } from "../../../../abstract/feature-schemas";
 
 export const deAspectSchema = abstractFeatureAtomSchemas.aspect.extract([
