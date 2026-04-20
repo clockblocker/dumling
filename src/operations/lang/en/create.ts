@@ -1,40 +1,13 @@
-import type { Lemma, Selection, Surface } from "../../../public-types";
+import type { LanguageApi, Lemma, Selection, Surface } from "../../../public-types";
 
-type EnCreateLemma = <T extends Lemma<"en">>(
-    input: Omit<T, "language"> & {
-        language?: unknown;
-    },
-) => T;
+type EnCreateOperations = LanguageApi<"en">["create"];
+type EnCreateLemma = EnCreateOperations["lemma"];
+type EnCreateLemmaSurface = EnCreateOperations["surface"]["lemma"];
+type EnCreateInflectionSurface = EnCreateOperations["surface"]["inflection"];
+type EnCreateStandardSelection = EnCreateOperations["selection"]["standard"];
+type EnCreateTypoSelection = EnCreateOperations["selection"]["typo"];
 
-type EnCreateLemmaSurface = <T extends Surface<"en", "Lemma">>(
-    input: Omit<T, "language" | "surfaceKind"> & {
-        language?: unknown;
-        surfaceKind?: unknown;
-    },
-) => T;
-
-type EnCreateInflectionSurface = <T extends Surface<"en", "Inflection">>(
-    input: Omit<T, "language" | "surfaceKind"> & {
-        language?: unknown;
-        surfaceKind?: unknown;
-    },
-) => T;
-
-type EnCreateStandardSelection = <T extends Selection<"en", "Standard">>(
-    input: Omit<T, "language" | "orthographicStatus"> & {
-        language?: unknown;
-        orthographicStatus?: unknown;
-    },
-) => T;
-
-type EnCreateTypoSelection = <T extends Selection<"en", "Typo">>(
-    input: Omit<T, "language" | "orthographicStatus"> & {
-        language?: unknown;
-        orthographicStatus?: unknown;
-    },
-) => T;
-
-export function buildEnCreateOperations() {
+export function buildEnCreateOperations(): LanguageApi<"en">["create"] {
 	const createLemma: EnCreateLemma = (input: any) =>
 		({
 			language: "en",

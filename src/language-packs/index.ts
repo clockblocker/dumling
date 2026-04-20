@@ -139,7 +139,7 @@ const deLanguagePack: ImplementedLanguagePackDescriptor<
 	LanguageApi<"de">["create"],
 	LanguageApi<"de">["parse"]
 > = {
-	create: buildDeCreateOperations() as unknown as LanguageApi<"de">["create"],
+	create: buildDeCreateOperations(),
 	language: "de",
 	parse: buildDeParseOperations(deRuntimeSchemas) as LanguageApi<"de">["parse"],
 	runtimeSchemas: deRuntimeSchemas,
@@ -158,7 +158,7 @@ const enLanguagePack: ImplementedLanguagePackDescriptor<
 	LanguageApi<"en">["create"],
 	LanguageApi<"en">["parse"]
 > = {
-	create: buildEnCreateOperations() as unknown as LanguageApi<"en">["create"],
+	create: buildEnCreateOperations(),
 	language: "en",
 	parse: buildEnParseOperations(enRuntimeSchemas) as LanguageApi<"en">["parse"],
 	runtimeSchemas: enRuntimeSchemas,
@@ -177,7 +177,7 @@ const heLanguagePack: ImplementedLanguagePackDescriptor<
 	LanguageApi<"he">["create"],
 	LanguageApi<"he">["parse"]
 > = {
-	create: buildHeCreateOperations() as unknown as LanguageApi<"he">["create"],
+	create: buildHeCreateOperations(),
 	language: "he",
 	parse: buildHeParseOperations(heRuntimeSchemas) as LanguageApi<"he">["parse"],
 	runtimeSchemas: heRuntimeSchemas,

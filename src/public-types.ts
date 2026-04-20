@@ -34,6 +34,12 @@ import type {
 type ConcreteLemmaUnionMap = LanguageLemmaUnionMap;
 type ConcreteSurfaceUnionMap = LanguageSurfaceUnionMap;
 type ConcreteSelectionByStatusMap = LanguageSelectionByOrthographicStatusMap;
+type KeysOfUnion<T> = T extends unknown ? keyof T : never;
+type ValueForKeyInUnion<T, K extends PropertyKey> = T extends unknown
+	? K extends keyof T
+		? T[K]
+		: never
+	: never;
 
 type EntityForKind<
 	L extends SupportedLanguage,
@@ -364,7 +370,7 @@ export type FeatureName<
 	K extends FeatureSetKind,
 	LK extends LemmaKindFor<L>,
 	LSK extends LemmaSubKindFor<L, LK>,
-	> = Extract<keyof FeatureSet<L, K, LK, LSK>, AbstractFeatureName>;
+> = Extract<KeysOfUnion<FeatureSet<L, K, LK, LSK>>, AbstractFeatureName>;
 
 export type FeatureValue<
 	L extends SupportedLanguage,
@@ -372,7 +378,7 @@ export type FeatureValue<
 	LK extends LemmaKindFor<L>,
 	LSK extends LemmaSubKindFor<L, LK>,
 	F extends FeatureName<L, K, LK, LSK>,
-> = FeatureSet<L, K, LK, LSK>[F];
+> = ValueForKeyInUnion<FeatureSet<L, K, LK, LSK>, F>;
 
 export type LemmaDescriptor<
 	L extends SupportedLanguage,

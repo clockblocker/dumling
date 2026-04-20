@@ -3,6 +3,7 @@ import { dumling } from "../../src";
 import { schema } from "../../src/schema";
 import type {
 	FeatureName,
+	FeatureSetKind,
 	FeatureValue,
 	Lemma,
 	LemmaKindFor,
@@ -87,10 +88,25 @@ const selectionDescriptor = dumling.de.describe.as.selection(inflectionSurface) 
 const gender: FeatureValue<"de", "inherent", "Lexeme", "NOUN", "gender"> =
 	"Masc";
 const featureName: FeatureName<"de", "inherent", "Lexeme", "NOUN"> = "gender";
+const unionKindFeatureName: FeatureName<
+	"de",
+	FeatureSetKind,
+	"Lexeme",
+	"NOUN"
+> = Math.random() > 0.5 ? "gender" : "number";
+const unionKindFeatureValue: FeatureValue<
+	"de",
+	FeatureSetKind,
+	"Lexeme",
+	"NOUN",
+	"gender" | "number"
+> = Math.random() > 0.5 ? "Masc" : "Sing";
 const deLemmaKind: LemmaKindFor<"de"> = "Lexeme";
 const deLexemeSubKind: LemmaSubKindFor<"de", "Lexeme"> = "NOUN";
 const deSurfaceKind: SurfaceKindFor<"de"> = "Lemma";
 void featureName;
+void unionKindFeatureName;
+void unionKindFeatureValue;
 void deLemmaKind;
 void deLexemeSubKind;
 void deSurfaceKind;

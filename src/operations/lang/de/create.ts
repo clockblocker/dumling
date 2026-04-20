@@ -1,40 +1,13 @@
-import type { Lemma, Selection, Surface } from "../../../public-types";
+import type { LanguageApi, Lemma, Selection, Surface } from "../../../public-types";
 
-type DeCreateLemma = <T extends Lemma<"de">>(
-	input: Omit<T, "language"> & {
-		language?: unknown;
-	},
-) => T;
+type DeCreateOperations = LanguageApi<"de">["create"];
+type DeCreateLemma = DeCreateOperations["lemma"];
+type DeCreateLemmaSurface = DeCreateOperations["surface"]["lemma"];
+type DeCreateInflectionSurface = DeCreateOperations["surface"]["inflection"];
+type DeCreateStandardSelection = DeCreateOperations["selection"]["standard"];
+type DeCreateTypoSelection = DeCreateOperations["selection"]["typo"];
 
-type DeCreateLemmaSurface = <T extends Surface<"de", "Lemma">>(
-	input: Omit<T, "language" | "surfaceKind"> & {
-		language?: unknown;
-		surfaceKind?: unknown;
-	},
-) => T;
-
-type DeCreateInflectionSurface = <T extends Surface<"de", "Inflection">>(
-	input: Omit<T, "language" | "surfaceKind"> & {
-		language?: unknown;
-		surfaceKind?: unknown;
-	},
-) => T;
-
-type DeCreateStandardSelection = <T extends Selection<"de", "Standard">>(
-	input: Omit<T, "language" | "orthographicStatus"> & {
-		language?: unknown;
-		orthographicStatus?: unknown;
-	},
-) => T;
-
-type DeCreateTypoSelection = <T extends Selection<"de", "Typo">>(
-	input: Omit<T, "language" | "orthographicStatus"> & {
-		language?: unknown;
-		orthographicStatus?: unknown;
-	},
-) => T;
-
-export function buildDeCreateOperations() {
+export function buildDeCreateOperations(): LanguageApi<"de">["create"] {
 	const createLemma: DeCreateLemma = (input: any) =>
 		({
 			language: "de",
