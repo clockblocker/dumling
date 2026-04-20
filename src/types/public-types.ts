@@ -45,35 +45,6 @@ export type {
 export type Language = SupportedLanguage;
 export type EntityKind = "Lemma" | "Surface" | "Selection";
 
-export type ApiResult<T, E> =
-	| { success: true; data: T; error?: undefined }
-	| { success: false; data?: undefined; error: E };
-
-export type ParseErrorCode = "InvalidInput" | "LanguageNotImplemented";
-export type ParseError = {
-	code: ParseErrorCode;
-	language?: SupportedLanguage;
-	message: string;
-	issues?: string[];
-};
-
-export type IdDecodeErrorCode =
-	| "MalformedId"
-	| "LanguageMismatch"
-	| "EntityMismatch"
-	| "InvalidPayload"
-	| "LanguageNotImplemented";
-
-export type IdDecodeError = {
-	code: IdDecodeErrorCode;
-	language?: SupportedLanguage;
-	message: string;
-};
-
-export type IdDecodeSuccess<L extends SupportedLanguage = SupportedLanguage> = {
-	entityKind: EntityKind;
-	data: Lemma<L> | Surface<L> | Selection<L>;
-};
 export type LemmaKindFor<L extends SupportedLanguage> = L extends ConcreteLanguage
 	? Extract<keyof LanguagePackFeatureRegistry[L], LemmaKind>
 	: LemmaKind;
@@ -364,3 +335,5 @@ export type {
 	AbstractInflectionalFeaturesFor,
 	AbstractLemmaSubKindFor,
 };
+
+export type { DumlingApi, LanguageApi } from "../operations/api-shape";

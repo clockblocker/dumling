@@ -1,5 +1,41 @@
 import type { SupportedLanguage, LemmaKindFor, LemmaSubKindFor, InherentFeaturesFor, Lemma, Surface, LemmaKindForSurfaceKind, Selection, OrthographicStatus, SurfaceKindFor, ApiResult, ParseError, LemmaDescriptor, SurfaceDescriptor, SelectionDescriptor, IdDecodeSuccess, IdDecodeError, EntityKind, LemmaKind, SelectionCoverage, SpellingRelation, SurfaceKind } from "../types/public-types";
 
+export type DumlingApi = {
+	de: LanguageApi<"de">;
+	en: LanguageApi<"en">;
+	he: LanguageApi<"he">;
+};
+
+export type ApiResult<T, E> =
+	| { success: true; data: T; error?: undefined }
+	| { success: false; data?: undefined; error: E };
+
+export type ParseErrorCode = "InvalidInput" | "LanguageNotImplemented";
+export type ParseError = {
+	code: ParseErrorCode;
+	language?: SupportedLanguage;
+	message: string;
+	issues?: string[];
+};
+
+export type IdDecodeErrorCode =
+	| "MalformedId"
+	| "LanguageMismatch"
+	| "EntityMismatch"
+	| "InvalidPayload"
+	| "LanguageNotImplemented";
+
+export type IdDecodeError = {
+	code: IdDecodeErrorCode;
+	language?: SupportedLanguage;
+	message: string;
+};
+
+export type IdDecodeSuccess<L extends SupportedLanguage = SupportedLanguage> = {
+	entityKind: EntityKind;
+	data: Lemma<L> | Surface<L> | Selection<L>;
+};
+
 export type LanguageApi<L extends SupportedLanguage> = {
 	create: {
 		lemma<
@@ -163,12 +199,6 @@ export type LanguageApi<L extends SupportedLanguage> = {
 			id: string,
 		): ApiResult<EntityForKind<L, K>, IdDecodeError>;
 	};
-};
-
-export type DumlingApi = {
-	de: LanguageApi<"de">;
-	en: LanguageApi<"en">;
-	he: LanguageApi<"he">;
 };
 
 type EntityForKind<
