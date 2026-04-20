@@ -2,7 +2,7 @@ import { z } from "zod/v3";
 import type {
 	HeInflectionLexemeSurfaceBySubKind,
 	HeLexemeLemmaBySubKind,
-} from "../../../../types/language-packs/he/lexeme/he-lexemes";
+} from "../../../../types/concrete-language/language-packs/he/lexeme/he-lexemes";
 import { abstractFeatureAtomSchemas } from "../../../abstract/feature-schemas";
 import {
 	buildOptionalFeatureObjectSchema,

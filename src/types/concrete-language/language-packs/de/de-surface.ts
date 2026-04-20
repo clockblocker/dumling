@@ -1,4 +1,4 @@
-import type { ValueOf } from "../shared";
+import type { ValueOf } from "../../shared";
 import type {
 	DeInflectionLexemeSurface,
 	DeInflectionLexemeSurfaceBySubKind,
@@ -33,6 +33,7 @@ export type DeLemmaSurface =
 	| DeLemmaLexemeSurface
 	| DeMorphemeLemmaSurfaceUnion
 	| DePhrasemeLemmaSurfaceUnion;
+
 export type DeInflectionSurface = DeInflectionLexemeSurface;
 export type DeSurface = DeLemmaSurface | DeInflectionSurface;
 export type DeSurfaceKind = keyof DeSurfaceByKind;

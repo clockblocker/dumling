@@ -1,4 +1,4 @@
-import type { ValueOf } from "../shared";
+import type { ValueOf } from "../../shared";
 import type {
 	EnInflectionLexemeSurface,
 	EnInflectionLexemeSurfaceBySubKind,

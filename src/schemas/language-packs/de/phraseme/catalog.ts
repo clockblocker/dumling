@@ -3,8 +3,8 @@ import type { Lemma } from "../../../../public-types";
 import type {
 	DeDiscourseFormulaInherentFeatures,
 	DePhrasemeLemmaBySubKind,
-} from "../../../../types/language-packs/de/phraseme/de-phrasemes";
-import type { EmptyFeatures } from "../../../../types/language-packs/shared";
+} from "../../../../types/concrete-language/language-packs/de/phraseme/de-phrasemes";
+import type { EmptyFeatures } from "../../../../types/concrete-language/shared";
 import { abstractFeatureAtomSchemas } from "../../../abstract/feature-schemas";
 import { buildOptionalFeatureObjectSchema } from "../../../shared/feature-helpers";
 import {

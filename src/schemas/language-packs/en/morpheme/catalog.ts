@@ -1,7 +1,7 @@
 import { z } from "zod/v3";
 import type { Lemma } from "../../../../public-types";
-import type { EnMorphemeLemmaBySubKind } from "../../../../types/language-packs/en/morpheme/en-morphemes";
-import type { EmptyFeatures } from "../../../../types/language-packs/shared";
+import type { EnMorphemeLemmaBySubKind } from "../../../../types/concrete-language/language-packs/en/morpheme/en-morphemes";
+import type { EmptyFeatures } from "../../../../types/concrete-language/shared";
 import { buildOptionalFeatureObjectSchema } from "../../../shared/feature-helpers";
 import {
     buildFamilySchemaCatalog,

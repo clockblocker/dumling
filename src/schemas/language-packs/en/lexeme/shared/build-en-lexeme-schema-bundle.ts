@@ -6,7 +6,7 @@ import type {
 	EnLemmaLexemeSelectionBySubKind,
 	EnLemmaLexemeSurfaceBySubKind,
 	EnLexemeLemmaBySubKind,
-} from "../../../../../types/language-packs/en/lexeme/en-lexemes";
+} from "../../../../../types/concrete-language/language-packs/en/lexeme/en-lexemes";
 import {
 	buildInflectionSurfaceSchema,
 	buildLemmaSchema,

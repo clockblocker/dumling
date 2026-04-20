@@ -25,11 +25,11 @@ import type {
 	LanguageSelectionByOrthographicStatusMap,
 	LanguageSurfaceUnionMap,
 	SurfaceByKindForLanguage,
-} from "./types/language-packs/concrete-language-types";
+} from "./types/concrete-language/concrete-language-types";
 import type {
 	ConcreteLanguage,
 	LanguagePackFeatureRegistry,
-} from "./types/language-packs/features/feature-registry";
+} from "./types/concrete-language/features/feature-registry";
 
 type EntityForKind<
 	L extends SupportedLanguage,

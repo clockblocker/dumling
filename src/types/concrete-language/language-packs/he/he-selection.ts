@@ -1,4 +1,4 @@
-import type { OrthographicStatus } from "../../core/enums";
+import type { OrthographicStatus } from "../../../core/enums";
 import type {
 	HeInflectionLexemeSelection,
 	HeInflectionLexemeSelectionBySubKind,

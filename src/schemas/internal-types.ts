@@ -10,15 +10,15 @@ import type {
 	AbstractLanguageSurfaceUnion,
 	LanguageTypePackMap,
 } from "../language-packs/type-packs";
-import type { EnLemmaByKind } from "../types/language-packs/en/en-lemma";
-import type { EnSelectionByOrthographicStatus } from "../types/language-packs/en/en-selection";
-import type { EnSurfaceByKind } from "../types/language-packs/en/en-surface";
-import type { DeLemmaByKind } from "../types/language-packs/de/de-lemma";
-import type { DeSelectionByOrthographicStatus } from "../types/language-packs/de/de-selection";
-import type { DeSurfaceByKind } from "../types/language-packs/de/de-surface";
-import type { HeLemmaByKind } from "../types/language-packs/he/he-lemma";
-import type { HeSelectionByOrthographicStatus } from "../types/language-packs/he/he-selection";
-import type { HeSurfaceByKind } from "../types/language-packs/he/he-surface";
+import type { EnLemmaByKind } from "../types/concrete-language/language-packs/en/en-lemma";
+import type { EnSelectionByOrthographicStatus } from "../types/concrete-language/language-packs/en/en-selection";
+import type { EnSurfaceByKind } from "../types/concrete-language/language-packs/en/en-surface";
+import type { DeLemmaByKind } from "../types/concrete-language/language-packs/de/de-lemma";
+import type { DeSelectionByOrthographicStatus } from "../types/concrete-language/language-packs/de/de-selection";
+import type { DeSurfaceByKind } from "../types/concrete-language/language-packs/de/de-surface";
+import type { HeLemmaByKind } from "../types/concrete-language/language-packs/he/he-lemma";
+import type { HeSelectionByOrthographicStatus } from "../types/concrete-language/language-packs/he/he-selection";
+import type { HeSurfaceByKind } from "../types/concrete-language/language-packs/he/he-surface";
 
 type LowercaseKey<TKey extends PropertyKey> = TKey extends string
 	? Lowercase<TKey>

@@ -1,10 +1,10 @@
-import type { OrthographicStatus } from "../../../core/enums";
+import type { OrthographicStatus } from "../../../../core/enums";
 import type {
 	LemmaByKindForLanguage,
 	SelectionByOrthographicStatusForLanguage,
 	SurfaceByKindForLanguage,
-} from "../../concrete-language-types";
-import type { ValueOf } from "../../shared";
+} from "../../../concrete-language-types";
+import type { ValueOf } from "../../../shared";
 
 export type DePhrasemeLemmaBySubKind = LemmaByKindForLanguage<"de">["Phraseme"];
 export type DeDiscourseFormulaInherentFeatures =

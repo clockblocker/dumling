@@ -1,4 +1,4 @@
-import type { EnLexemeLemmaBySubKind } from "../../../../types/language-packs/en/lexeme/en-lexemes";
+import type { EnLexemeLemmaBySubKind } from "../../../../types/concrete-language/language-packs/en/lexeme/en-lexemes";
 import {
 	buildFamilySchemaCatalog,
 	defineSchemaCatalog,
