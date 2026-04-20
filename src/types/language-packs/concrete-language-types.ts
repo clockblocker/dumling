@@ -6,7 +6,10 @@ import type {
 } from "../abstract/entities";
 import type { LemmaKind, OrthographicStatus } from "../core/enums";
 import type { Replace, ReplaceMany } from "../core/helpers";
-import type { ConcreteLanguage, LanguagePackFeatureRegistry } from "./feature-registry";
+import type {
+	ConcreteLanguage,
+	LanguagePackFeatureRegistry,
+} from "./features/feature-registry";
 import type { ValueOf } from "./shared";
 
 type RegistryFor<L extends ConcreteLanguage> = LanguagePackFeatureRegistry[L];

@@ -29,7 +29,7 @@ import type {
 import type {
 	ConcreteLanguage,
 	LanguagePackFeatureRegistry,
-} from "./types/language-packs/feature-registry";
+} from "./types/language-packs/features/feature-registry";
 
 type EntityForKind<
 	L extends SupportedLanguage,
