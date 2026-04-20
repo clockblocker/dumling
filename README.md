@@ -4,7 +4,7 @@
 
 `dumling` is a TypeScript and Zod package for learner-facing linguistic annotation with a v2 API centered on hydrated `lemma`, `surface`, and `selection` DTOs.
 
-This first v2 cut ships a working German runtime surface and keeps `en` / `he` reserved as explicit not-yet-implemented namespaces.
+This v2 cut ships working runtime surfaces for `de`, `en`, and `he`.
 
 `dumling` keeps three linked DTOs separate:
 
@@ -104,7 +104,7 @@ if (!decoded.success) {
 packageSchema.de.selection.standard.lemma.lexeme.noun().parse(decoded.data);
 ```
 
-`schema.abstract.*` is already usable for ontology-level validation, while `schema.de.*` is the concrete working runtime surface in this pass.
+`schema.abstract.*` is usable for ontology-level validation, and `schema.de.*`, `schema.en.*`, and `schema.he.*` are the concrete runtime surfaces.
 
 ## Concepts / Search Terms
 
@@ -133,8 +133,7 @@ Selections are always hydrated:
 
 ## Scope
 
-- Runtime today: `de`
-- Reserved runtime stubs: `en`, `he`
+- Runtime today: `de`, `en`, `he`
 - Runtime: `Node >= 20`
 - Package format: ESM
 

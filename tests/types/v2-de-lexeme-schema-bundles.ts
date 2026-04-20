@@ -2,20 +2,20 @@ import { z } from "zod/v3";
 import {
 	deAdjectiveLemmaSchema,
 	deAdjectiveSchemas,
-} from "../../src/v2/schemas/language-packs/de/lexeme/pos/de-adjective";
-import { deAdpositionInherentFeaturesSchema } from "../../src/v2/schemas/language-packs/de/lexeme/pos/de-adposition";
+} from "../../src/schemas/language-packs/de/lexeme/pos/de-adjective";
+import { deAdpositionInherentFeaturesSchema } from "../../src/schemas/language-packs/de/lexeme/pos/de-adposition";
 import {
 	deAdpositionLemmaSchema,
 	deAdpositionSchemas,
-} from "../../src/v2/schemas/language-packs/de/lexeme/pos/de-adposition";
+} from "../../src/schemas/language-packs/de/lexeme/pos/de-adposition";
 import {
 	buildDeInflectableLexemeSchemaBundle,
-} from "../../src/v2/schemas/language-packs/de/lexeme/shared/build-de-lexeme-schema-bundle";
+} from "../../src/schemas/language-packs/de/lexeme/shared/build-de-lexeme-schema-bundle";
 import type {
 	DeInflectableLexemeSchemaBundleFor,
 	DeUninflectableLexemeSchemaBundleFor,
-} from "../../src/v2/schemas/language-packs/de/lexeme/shared/build-de-lexeme-schema-bundle";
-import type { DeAdjectiveLemma } from "../../src/v2/types/language-packs/de/lexeme/pos/de-adjective";
+} from "../../src/schemas/language-packs/de/lexeme/shared/build-de-lexeme-schema-bundle";
+import type { DeAdjectiveLemma } from "../../src/types/language-packs/de/lexeme/pos/de-adjective";
 
 deAdjectiveLemmaSchema satisfies z.ZodType<DeAdjectiveLemma>;
 deAdjectiveSchemas satisfies DeInflectableLexemeSchemaBundleFor<"ADJ">;

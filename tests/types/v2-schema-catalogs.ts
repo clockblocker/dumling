@@ -2,8 +2,8 @@ import {
 	defineSchemaCatalog,
 	type SchemaCatalogBundle,
 	type SchemaCatalogDefinition,
-} from "../../src/v2/schemas/shared/schema-catalog";
-import type { DePhrasemeLemmaBySubKind } from "../../src/v2/types/language-packs/de/phraseme/de-phrasemes";
+} from "../../src/schemas/shared/schema-catalog";
+import type { DePhrasemeLemmaBySubKind } from "../../src/types/language-packs/de/phraseme/de-phrasemes";
 
 declare const bundle: SchemaCatalogBundle;
 type PhrasemeCatalog = SchemaCatalogDefinition<keyof DePhrasemeLemmaBySubKind>;

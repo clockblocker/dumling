@@ -1,1 +1,1 @@
-export { schema } from "./v2/schemas";
+export { schema } from "./schemas";

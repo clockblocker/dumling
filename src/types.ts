@@ -1,1 +1,1 @@
-export type * from "./v2/public-types";
+export type * from "./public-types";
