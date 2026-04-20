@@ -11,15 +11,12 @@ import type {
 	SupportedLanguage,
 	SurfaceKind,
 } from "../types/core/enums";
-import type { EnLemma } from "../types/concrete-language/language-packs/en/en-lemma";
-import type { EnSelection } from "../types/concrete-language/language-packs/en/en-selection";
-import type { EnSurface } from "../types/concrete-language/language-packs/en/en-surface";
-import type { DeLemma } from "../types/concrete-language/language-packs/de/de-lemma";
-import type { DeSelection } from "../types/concrete-language/language-packs/de/de-selection";
-import type { DeSurface } from "../types/concrete-language/language-packs/de/de-surface";
-import type { HeLemma } from "../types/concrete-language/language-packs/he/he-lemma";
-import type { HeSelection } from "../types/concrete-language/language-packs/he/he-selection";
-import type { HeSurface } from "../types/concrete-language/language-packs/he/he-surface";
+import type { ConcreteLanguage } from "../types/concrete-language/features/feature-registry";
+import type {
+	LanguageLemmaUnionMap,
+	LanguageSelectionUnionMap,
+	LanguageSurfaceUnionMap,
+} from "../types/concrete-language/concrete-language-types";
 import type { LanguageTypePack } from "./contracts";
 
 export type AbstractLanguageLemmaUnion<L extends AbstractLanguageTag> = {
@@ -61,20 +58,12 @@ export type StubLanguageTypePack<
 		surface: AbstractLanguageSurfaceUnion<L>;
 	};
 
+type ConcreteLanguageTypePack<L extends ConcreteLanguage> = LanguageTypePack<L> & {
+	lemma: LanguageLemmaUnionMap[L];
+	selection: LanguageSelectionUnionMap[L];
+	surface: LanguageSurfaceUnionMap[L];
+};
+
 export type LanguageTypePackMap = {
-	de: LanguageTypePack<"de"> & {
-		lemma: DeLemma;
-		selection: DeSelection;
-		surface: DeSurface;
-	};
-	en: LanguageTypePack<"en"> & {
-		lemma: EnLemma;
-		selection: EnSelection;
-		surface: EnSurface;
-	};
-	he: LanguageTypePack<"he"> & {
-		lemma: HeLemma;
-		selection: HeSelection;
-		surface: HeSurface;
-	};
+	[L in ConcreteLanguage]: ConcreteLanguageTypePack<L>;
 };

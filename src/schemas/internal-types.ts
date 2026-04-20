@@ -10,15 +10,12 @@ import type {
 	AbstractLanguageSurfaceUnion,
 	LanguageTypePackMap,
 } from "../language-packs/type-packs";
-import type { EnLemmaByKind } from "../types/concrete-language/language-packs/en/en-lemma";
-import type { EnSelectionByOrthographicStatus } from "../types/concrete-language/language-packs/en/en-selection";
-import type { EnSurfaceByKind } from "../types/concrete-language/language-packs/en/en-surface";
-import type { DeLemmaByKind } from "../types/concrete-language/language-packs/de/de-lemma";
-import type { DeSelectionByOrthographicStatus } from "../types/concrete-language/language-packs/de/de-selection";
-import type { DeSurfaceByKind } from "../types/concrete-language/language-packs/de/de-surface";
-import type { HeLemmaByKind } from "../types/concrete-language/language-packs/he/he-lemma";
-import type { HeSelectionByOrthographicStatus } from "../types/concrete-language/language-packs/he/he-selection";
-import type { HeSurfaceByKind } from "../types/concrete-language/language-packs/he/he-surface";
+import type { ConcreteLanguage } from "../types/concrete-language/features/feature-registry";
+import type {
+	LemmaByKindForLanguage,
+	SelectionByOrthographicStatusForLanguage,
+	SurfaceByKindForLanguage,
+} from "../types/concrete-language/concrete-language-types";
 
 type LowercaseKey<TKey extends PropertyKey> = TKey extends string
 	? Lowercase<TKey>
@@ -192,93 +189,69 @@ type AbstractLemmaUnion = AbstractLanguageLemmaUnion<string>;
 type AbstractSurfaceUnion = AbstractLanguageSurfaceUnion<string>;
 type AbstractSelectionUnion = AbstractLanguageSelectionUnion<string>;
 
-export type DeLemmaSchemaTree = {
-	[TLemmaKind in keyof DeLemmaByKind as LowercaseKey<TLemmaKind>]: {
-		[TLemmaSubKind in keyof DeLemmaByKind[TLemmaKind] as LowercaseKey<TLemmaSubKind>]: SchemaLeaf<
-			DeLemmaByKind[TLemmaKind][TLemmaSubKind]
+export type AbstractLemmaSchemaTree = LemmaSchemaTreeFor<AbstractLemmaUnion>;
+export type AbstractSurfaceSchemaTree = SurfaceSchemaTreeFor<AbstractSurfaceUnion>;
+export type AbstractSelectionSchemaTree = SelectionSchemaTreeFor<
+	AbstractSelectionUnion
+>;
+
+type ConcreteLemmaSchemaTreeFor<L extends ConcreteLanguage> = {
+	[TLemmaKind in keyof LemmaByKindForLanguage<L> as LowercaseKey<TLemmaKind>]: {
+		[TLemmaSubKind in keyof LemmaByKindForLanguage<
+			L
+		>[TLemmaKind] as LowercaseKey<TLemmaSubKind>]: SchemaLeaf<
+			LemmaByKindForLanguage<L>[TLemmaKind][TLemmaSubKind]
 		>;
 	};
 };
-export type DeSurfaceSchemaTree = {
-	[TSurfaceKind in keyof DeSurfaceByKind as LowercaseKey<TSurfaceKind>]: {
-		[TLemmaKind in keyof DeSurfaceByKind[TSurfaceKind] as LowercaseKey<TLemmaKind>]: {
-			[TLemmaSubKind in keyof DeSurfaceByKind[TSurfaceKind][TLemmaKind] as LowercaseKey<TLemmaSubKind>]: SchemaLeaf<
-				DeSurfaceByKind[TSurfaceKind][TLemmaKind][TLemmaSubKind]
+
+type ConcreteSurfaceSchemaTreeFor<L extends ConcreteLanguage> = {
+	[TSurfaceKind in keyof SurfaceByKindForLanguage<
+		L
+	> as LowercaseKey<TSurfaceKind>]: {
+		[TLemmaKind in keyof SurfaceByKindForLanguage<
+			L
+		>[TSurfaceKind] as LowercaseKey<TLemmaKind>]: {
+			[TLemmaSubKind in keyof SurfaceByKindForLanguage<
+				L
+			>[TSurfaceKind][TLemmaKind] as LowercaseKey<TLemmaSubKind>]: SchemaLeaf<
+				SurfaceByKindForLanguage<L>[TSurfaceKind][TLemmaKind][TLemmaSubKind]
 			>;
 		};
 	};
 };
-export type DeSelectionSchemaTree = {
-	[TOrthographicStatus in keyof DeSelectionByOrthographicStatus as LowercaseKey<TOrthographicStatus>]: {
-		[TSurfaceKind in keyof DeSelectionByOrthographicStatus[TOrthographicStatus] as LowercaseKey<TSurfaceKind>]: {
-			[TLemmaKind in keyof DeSelectionByOrthographicStatus[TOrthographicStatus][TSurfaceKind] as LowercaseKey<TLemmaKind>]: {
-				[TLemmaSubKind in keyof DeSelectionByOrthographicStatus[TOrthographicStatus][TSurfaceKind][TLemmaKind] as LowercaseKey<TLemmaSubKind>]: SchemaLeaf<
-					DeSelectionByOrthographicStatus[TOrthographicStatus][TSurfaceKind][TLemmaKind][TLemmaSubKind]
-				>;
-			};
-		};
-	};
-};
-export type EnLemmaSchemaTree = {
-	[TLemmaKind in keyof EnLemmaByKind as LowercaseKey<TLemmaKind>]: {
-		[TLemmaSubKind in keyof EnLemmaByKind[TLemmaKind] as LowercaseKey<TLemmaSubKind>]: SchemaLeaf<
-			EnLemmaByKind[TLemmaKind][TLemmaSubKind]
-		>;
-	};
-};
-export type EnSurfaceSchemaTree = {
-	[TSurfaceKind in keyof EnSurfaceByKind as LowercaseKey<TSurfaceKind>]: {
-		[TLemmaKind in keyof EnSurfaceByKind[TSurfaceKind] as LowercaseKey<TLemmaKind>]: {
-			[TLemmaSubKind in keyof EnSurfaceByKind[TSurfaceKind][TLemmaKind] as LowercaseKey<TLemmaSubKind>]: SchemaLeaf<
-				EnSurfaceByKind[TSurfaceKind][TLemmaKind][TLemmaSubKind]
-			>;
-		};
-	};
-};
-export type EnSelectionSchemaTree = {
-	[TOrthographicStatus in keyof EnSelectionByOrthographicStatus as LowercaseKey<TOrthographicStatus>]: {
-		[TSurfaceKind in keyof EnSelectionByOrthographicStatus[TOrthographicStatus] as LowercaseKey<TSurfaceKind>]: {
-			[TLemmaKind in keyof EnSelectionByOrthographicStatus[TOrthographicStatus][TSurfaceKind] as LowercaseKey<TLemmaKind>]: {
-				[TLemmaSubKind in keyof EnSelectionByOrthographicStatus[TOrthographicStatus][TSurfaceKind][TLemmaKind] as LowercaseKey<TLemmaSubKind>]: SchemaLeaf<
-					EnSelectionByOrthographicStatus[TOrthographicStatus][TSurfaceKind][TLemmaKind][TLemmaSubKind]
-				>;
-			};
-		};
-	};
-};
-export type HeLemmaSchemaTree = {
-	[TLemmaKind in keyof HeLemmaByKind as LowercaseKey<TLemmaKind>]: {
-		[TLemmaSubKind in keyof HeLemmaByKind[TLemmaKind] as LowercaseKey<TLemmaSubKind>]: SchemaLeaf<
-			HeLemmaByKind[TLemmaKind][TLemmaSubKind]
-		>;
-	};
-};
-export type HeSurfaceSchemaTree = {
-	[TSurfaceKind in keyof HeSurfaceByKind as LowercaseKey<TSurfaceKind>]: {
-		[TLemmaKind in keyof HeSurfaceByKind[TSurfaceKind] as LowercaseKey<TLemmaKind>]: {
-			[TLemmaSubKind in keyof HeSurfaceByKind[TSurfaceKind][TLemmaKind] as LowercaseKey<TLemmaSubKind>]: SchemaLeaf<
-				HeSurfaceByKind[TSurfaceKind][TLemmaKind][TLemmaSubKind]
-			>;
-		};
-	};
-};
-export type HeSelectionSchemaTree = {
-	[TOrthographicStatus in keyof HeSelectionByOrthographicStatus as LowercaseKey<TOrthographicStatus>]: {
-		[TSurfaceKind in keyof HeSelectionByOrthographicStatus[TOrthographicStatus] as LowercaseKey<TSurfaceKind>]: {
-			[TLemmaKind in keyof HeSelectionByOrthographicStatus[TOrthographicStatus][TSurfaceKind] as LowercaseKey<TLemmaKind>]: {
-				[TLemmaSubKind in keyof HeSelectionByOrthographicStatus[TOrthographicStatus][TSurfaceKind][TLemmaKind] as LowercaseKey<TLemmaSubKind>]: SchemaLeaf<
-					HeSelectionByOrthographicStatus[TOrthographicStatus][TSurfaceKind][TLemmaKind][TLemmaSubKind]
+
+type ConcreteSelectionSchemaTreeFor<L extends ConcreteLanguage> = {
+	[TOrthographicStatus in keyof SelectionByOrthographicStatusForLanguage<
+		L
+	> as LowercaseKey<TOrthographicStatus>]: {
+		[TSurfaceKind in keyof SelectionByOrthographicStatusForLanguage<
+			L
+		>[TOrthographicStatus] as LowercaseKey<TSurfaceKind>]: {
+			[TLemmaKind in keyof SelectionByOrthographicStatusForLanguage<
+				L
+			>[TOrthographicStatus][TSurfaceKind] as LowercaseKey<TLemmaKind>]: {
+				[TLemmaSubKind in keyof SelectionByOrthographicStatusForLanguage<
+					L
+				>[TOrthographicStatus][TSurfaceKind][TLemmaKind] as LowercaseKey<
+					TLemmaSubKind
+				>]: SchemaLeaf<
+					SelectionByOrthographicStatusForLanguage<L>[TOrthographicStatus][TSurfaceKind][TLemmaKind][TLemmaSubKind]
 				>;
 			};
 		};
 	};
 };
 
-export type AbstractLemmaSchemaTree = LemmaSchemaTreeFor<AbstractLemmaUnion>;
-export type AbstractSurfaceSchemaTree = SurfaceSchemaTreeFor<AbstractSurfaceUnion>;
-export type AbstractSelectionSchemaTree = SelectionSchemaTreeFor<
-	AbstractSelectionUnion
->;
+export type DeLemmaSchemaTree = ConcreteLemmaSchemaTreeFor<"de">;
+export type DeSurfaceSchemaTree = ConcreteSurfaceSchemaTreeFor<"de">;
+export type DeSelectionSchemaTree = ConcreteSelectionSchemaTreeFor<"de">;
+export type EnLemmaSchemaTree = ConcreteLemmaSchemaTreeFor<"en">;
+export type EnSurfaceSchemaTree = ConcreteSurfaceSchemaTreeFor<"en">;
+export type EnSelectionSchemaTree = ConcreteSelectionSchemaTreeFor<"en">;
+export type HeLemmaSchemaTree = ConcreteLemmaSchemaTreeFor<"he">;
+export type HeSurfaceSchemaTree = ConcreteSurfaceSchemaTreeFor<"he">;
+export type HeSelectionSchemaTree = ConcreteSelectionSchemaTreeFor<"he">;
 
 export type RuntimeSchemas = {
 	abstract: {
