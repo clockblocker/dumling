@@ -16,19 +16,39 @@ This package ships working runtime surfaces for `de`, `en`, and `he`.
 
 | Import path | Purpose |
 | --- | --- |
-| `dumling` | Root runtime API: `dumling.de`, `dumling.en`, `dumling.he` |
-| `dumling/types` | Public DTO and helper types |
-| `dumling/schema` | Runtime schema tree |
+| `dumling` | Root runtime API: `dumling.<language>.create`, `convert`, `extract`, `parse`, `describe`, `id` |
+| `dumling/types` | Public DTOs, feature helpers, descriptors, and API/result/error types |
+| `dumling/schema` | Runtime schema tree: `schema.abstract`, `schema.de`, `schema.en`, `schema.he` |
+
+## Runtime API
+
+Each concrete language namespace (`dumling.de`, `dumling.en`, `dumling.he`) exposes:
+
+- `create`: explicit constructors for `lemma`, `surface.lemma`, `surface.inflection`, `selection.standard`, and `selection.typo`
+- `convert`: convenience projections from `lemma -> surface`, `lemma -> selection`, and `surface -> selection`
+- `extract`: entity accessors such as `extract.lemma(...)`
+- `parse`: safe parsing returning `ApiResult<T, ParseError>`
+- `describe`: descriptor helpers via `describe.as.lemma`, `surface`, and `selection`
+- `id`: stable ID encode/decode helpers for hydrated DTOs
+
+## Public types
+
+`dumling/types` exports:
+
+- DTOs: `Lemma`, `Surface`, `Selection`
+- Language-aware helper types: `LemmaKindFor`, `LemmaSubKindFor`, `SurfaceKindFor`, `LemmaKindForSurfaceKind`
+- Feature typing helpers: `FeatureSet`, `FeatureName`, `FeatureValue`, `InherentFeaturesFor`, `InflectionalFeaturesFor`
+- Descriptors and API shapes: `LemmaDescriptor`, `SurfaceDescriptor`, `SelectionDescriptor`, `DumlingApi`, `LanguageApi`
+- Result and error types: `ApiResult`, `ParseError`, `IdDecodeError`
 
 ## Core idea
 
-Start with a German noun lemma, derive its learner-facing entities, and round-trip it through parsing and IDs.
+Start with a German noun lemma, build the linked learner-facing entities explicitly, and then use the runtime helpers for parsing and IDs.
 
 The `Lemma` is the dictionary lemma:
 
 ```ts
-const seeLemma = {
-	language: "de",
+const seeLemma = dumling.de.create.lemma({
 	canonicalLemma: "see",
 	lemmaKind: "Lexeme",
 	lemmaSubKind: "NOUN",
@@ -36,15 +56,16 @@ const seeLemma = {
 		gender: "Masc",
 	},
 	meaningInEmojis: "🌊",
-} satisfies Lemma<"de", "Lexeme", "NOUN">;
+}) satisfies Lemma<"de", "Lexeme", "NOUN">;
 ```
 
 The `Surface` is the normalized full form that the note belongs to:
 
 ```ts
-const seeSurface = dumling.de.convert.lemma.toSurface(
-	seeLemma as Lemma<"de", "Lexeme", "NOUN">,
-) satisfies Surface<
+const seeSurface = dumling.de.create.surface.lemma({
+	lemma: seeLemma,
+	normalizedFullSurface: "See",
+}) satisfies Surface<
 	"de",
 	"Lemma",
 	"Lexeme",
@@ -55,9 +76,12 @@ const seeSurface = dumling.de.convert.lemma.toSurface(
 The `Selection` is the exact observed highlight in the learner's text:
 
 ```ts
-const seeSelection = dumling.de.convert.surface.toSelection(seeSurface, {
+const seeSelection = dumling.de.create.selection.standard({
+	selectionCoverage: "Full",
 	spelledSelection: "See",
-}) satisfies Selection<"de">;
+	spellingRelation: "Canonical",
+	surface: seeSurface,
+}) satisfies Selection<"de", "Standard", "Lemma", "Lexeme", "NOUN">;
 ```
 
 ## Quickstart
@@ -73,7 +97,10 @@ Minimal end-to-end usage:
 ```ts
 import { dumling as packageDumling } from "dumling";
 import { schema as packageSchema } from "dumling/schema";
-import type { Lemma as PackageLemma } from "dumling/types";
+import type {
+	FeatureValue as PackageFeatureValue,
+	Lemma as PackageLemma,
+} from "dumling/types";
 
 const lemma = packageDumling.de.create.lemma({
 	canonicalLemma: "see",
@@ -85,10 +112,22 @@ const lemma = packageDumling.de.create.lemma({
 	meaningInEmojis: "🌊",
 }) satisfies PackageLemma<"de", "Lexeme", "NOUN">;
 
-const surface = packageDumling.de.convert.lemma.toSurface(lemma);
+const surface = packageDumling.de.create.surface.lemma({
+	lemma,
+	normalizedFullSurface: "See",
+});
 const selection = packageDumling.de.convert.surface.toSelection(surface, {
 	spelledSelection: "See",
 });
+const descriptor = packageDumling.de.describe.as.selection(surface);
+const extractedLemma = packageDumling.de.extract.lemma(selection);
+const gender: PackageFeatureValue<
+	"de",
+	"inherent",
+	"Lexeme",
+	"NOUN",
+	"gender"
+> = "Masc";
 
 const parsed = packageDumling.de.parse.selection(selection);
 if (!parsed.success) {
@@ -100,6 +139,10 @@ const decoded = packageDumling.de.id.decodeAs("Selection", id);
 if (!decoded.success) {
 	throw new Error(decoded.error?.message ?? "Failed to decode selection ID");
 }
+
+descriptor.surfaceKind satisfies "Lemma";
+extractedLemma satisfies PackageLemma<"de">;
+gender satisfies "Masc";
 
 packageSchema.de.selection.standard.lemma.lexeme.noun().parse(decoded.data);
 ```

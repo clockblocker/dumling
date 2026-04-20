@@ -4,8 +4,7 @@ import { schema } from "../../src/schema";
 import type { Lemma, Selection, Surface } from "../../src/types";
 
 // README_BLOCK:core-lemma:start
-const seeLemma = {
-	language: "de",
+const seeLemma = dumling.de.create.lemma({
 	canonicalLemma: "see",
 	lemmaKind: "Lexeme",
 	lemmaSubKind: "NOUN",
@@ -13,13 +12,14 @@ const seeLemma = {
 		gender: "Masc",
 	},
 	meaningInEmojis: "🌊",
-} satisfies Lemma<"de", "Lexeme", "NOUN">;
+}) satisfies Lemma<"de", "Lexeme", "NOUN">;
 // README_BLOCK:core-lemma:end
 
 // README_BLOCK:core-surface:start
-const seeSurface = dumling.de.convert.lemma.toSurface(
-	seeLemma as Lemma<"de", "Lexeme", "NOUN">,
-) satisfies Surface<
+const seeSurface = dumling.de.create.surface.lemma({
+	lemma: seeLemma,
+	normalizedFullSurface: "See",
+}) satisfies Surface<
 	"de",
 	"Lemma",
 	"Lexeme",
@@ -28,15 +28,21 @@ const seeSurface = dumling.de.convert.lemma.toSurface(
 // README_BLOCK:core-surface:end
 
 // README_BLOCK:core-selection:start
-const seeSelection = dumling.de.convert.surface.toSelection(seeSurface, {
+const seeSelection = dumling.de.create.selection.standard({
+	selectionCoverage: "Full",
 	spelledSelection: "See",
-}) satisfies Selection<"de">;
+	spellingRelation: "Canonical",
+	surface: seeSurface,
+}) satisfies Selection<"de", "Standard", "Lemma", "Lexeme", "NOUN">;
 // README_BLOCK:core-selection:end
 
 // README_BLOCK:quickstart-de:start
 import { dumling as packageDumling } from "dumling";
 import { schema as packageSchema } from "dumling/schema";
-import type { Lemma as PackageLemma } from "dumling/types";
+import type {
+	FeatureValue as PackageFeatureValue,
+	Lemma as PackageLemma,
+} from "dumling/types";
 
 const lemma = packageDumling.de.create.lemma({
 	canonicalLemma: "see",
@@ -48,10 +54,22 @@ const lemma = packageDumling.de.create.lemma({
 	meaningInEmojis: "🌊",
 }) satisfies PackageLemma<"de", "Lexeme", "NOUN">;
 
-const surface = packageDumling.de.convert.lemma.toSurface(lemma);
+const surface = packageDumling.de.create.surface.lemma({
+	lemma,
+	normalizedFullSurface: "See",
+});
 const selection = packageDumling.de.convert.surface.toSelection(surface, {
 	spelledSelection: "See",
 });
+const descriptor = packageDumling.de.describe.as.selection(surface);
+const extractedLemma = packageDumling.de.extract.lemma(selection);
+const gender: PackageFeatureValue<
+	"de",
+	"inherent",
+	"Lexeme",
+	"NOUN",
+	"gender"
+> = "Masc";
 
 const parsed = packageDumling.de.parse.selection(selection);
 if (!parsed.success) {
@@ -63,6 +81,10 @@ const decoded = packageDumling.de.id.decodeAs("Selection", id);
 if (!decoded.success) {
 	throw new Error(decoded.error?.message ?? "Failed to decode selection ID");
 }
+
+descriptor.surfaceKind satisfies "Lemma";
+extractedLemma satisfies PackageLemma<"de">;
+gender satisfies "Masc";
 
 packageSchema.de.selection.standard.lemma.lexeme.noun().parse(decoded.data);
 // README_BLOCK:quickstart-de:end

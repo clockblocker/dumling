@@ -14,13 +14,34 @@ This package ships working runtime surfaces for `de`, `en`, and `he`.
 
 | Import path | Purpose |
 | --- | --- |
-| `dumling` | Root runtime API: `dumling.de`, `dumling.en`, `dumling.he` |
-| `dumling/types` | Public DTO and helper types |
-| `dumling/schema` | Runtime schema tree |
+| `dumling` | Root runtime API: `dumling.<language>.create`, `convert`, `extract`, `parse`, `describe`, `id` |
+| `dumling/types` | Public DTOs, feature helpers, descriptors, and API/result/error types |
+| `dumling/schema` | Runtime schema tree: `schema.abstract`, `schema.de`, `schema.en`, `schema.he` |
+
+## Runtime API
+
+Each concrete language namespace (`dumling.de`, `dumling.en`, `dumling.he`) exposes:
+
+- `create`: explicit constructors for `lemma`, `surface.lemma`, `surface.inflection`, `selection.standard`, and `selection.typo`
+- `convert`: convenience projections from `lemma -> surface`, `lemma -> selection`, and `surface -> selection`
+- `extract`: entity accessors such as `extract.lemma(...)`
+- `parse`: safe parsing returning `ApiResult<T, ParseError>`
+- `describe`: descriptor helpers via `describe.as.lemma`, `surface`, and `selection`
+- `id`: stable ID encode/decode helpers for hydrated DTOs
+
+## Public types
+
+`dumling/types` exports:
+
+- DTOs: `Lemma`, `Surface`, `Selection`
+- Language-aware helper types: `LemmaKindFor`, `LemmaSubKindFor`, `SurfaceKindFor`, `LemmaKindForSurfaceKind`
+- Feature typing helpers: `FeatureSet`, `FeatureName`, `FeatureValue`, `InherentFeaturesFor`, `InflectionalFeaturesFor`
+- Descriptors and API shapes: `LemmaDescriptor`, `SurfaceDescriptor`, `SelectionDescriptor`, `DumlingApi`, `LanguageApi`
+- Result and error types: `ApiResult`, `ParseError`, `IdDecodeError`
 
 ## Core idea
 
-Start with a German noun lemma, derive its learner-facing entities, and round-trip it through parsing and IDs.
+Start with a German noun lemma, build the linked learner-facing entities explicitly, and then use the runtime helpers for parsing and IDs.
 
 The `Lemma` is the dictionary lemma:
 
