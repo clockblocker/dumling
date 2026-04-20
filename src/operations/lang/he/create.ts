@@ -1,4 +1,4 @@
-import type { LanguageApi, Lemma, Selection, Surface } from "../../../public-types";
+import type { LanguageApi, Lemma, Selection, Surface } from "../../../types/public-types";
 
 type HeCreateOperations = LanguageApi<"he">["create"];
 type HeCreateLemma = HeCreateOperations["lemma"];

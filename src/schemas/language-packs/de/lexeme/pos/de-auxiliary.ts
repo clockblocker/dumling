@@ -1,5 +1,5 @@
 import { z } from "zod/v3";
-import type { InherentFeaturesFor, Lemma } from "../../../../../public-types";
+import type { InherentFeaturesFor, Lemma } from "../../../../../types/public-types";
 import { buildOptionalFeatureObjectSchema } from "../../../../shared/feature-helpers";
 import {
 	type DeInflectableLexemeSchemaBundleFor,

@@ -5,7 +5,7 @@ import type {
 	Selection,
 	SupportedLanguage,
 	Surface,
-} from "../../public-types";
+} from "../../types/public-types";
 
 type SelectionOptions<TStatus extends OrthographicStatus = OrthographicStatus> = {
 	orthographicStatus?: TStatus;

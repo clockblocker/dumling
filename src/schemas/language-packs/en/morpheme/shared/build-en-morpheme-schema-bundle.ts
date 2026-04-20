@@ -1,5 +1,5 @@
 import type { z } from "zod/v3";
-import type { Lemma, Selection, Surface } from "../../../../../public-types";
+import type { Lemma, Selection, Surface } from "../../../../../types/public-types";
 import type { MorphemeSubKind } from "../../../../../types/core/enums";
 import {
 	buildLemmaSchema,

@@ -2,7 +2,7 @@ import { z } from "zod/v3";
 import type {
 	InherentFeaturesFor,
 	Lemma,
-} from "../../../../../public-types";
+} from "../../../../../types/public-types";
 import { abstractFeatureAtomSchemas } from "../../../../abstract/feature-schemas";
 import {
 	buildOptionalFeatureObjectSchema,

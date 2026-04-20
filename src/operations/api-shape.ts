@@ -1,4 +1,4 @@
-import type { SupportedLanguage, LemmaKindFor, LemmaSubKindFor, InherentFeaturesFor, Lemma, Surface, LemmaKindForSurfaceKind, Selection, OrthographicStatus, SurfaceKindFor, ApiResult, ParseError, LemmaDescriptor, SurfaceDescriptor, SelectionDescriptor, IdDecodeSuccess, IdDecodeError, EntityKind, LemmaKind, SelectionCoverage, SpellingRelation, SurfaceKind } from "../public-types";
+import type { SupportedLanguage, LemmaKindFor, LemmaSubKindFor, InherentFeaturesFor, Lemma, Surface, LemmaKindForSurfaceKind, Selection, OrthographicStatus, SurfaceKindFor, ApiResult, ParseError, LemmaDescriptor, SurfaceDescriptor, SelectionDescriptor, IdDecodeSuccess, IdDecodeError, EntityKind, LemmaKind, SelectionCoverage, SpellingRelation, SurfaceKind } from "../types/public-types";
 
 export type LanguageApi<L extends SupportedLanguage> = {
 	create: {

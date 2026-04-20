@@ -1,4 +1,4 @@
-import type { DumlingApi, LanguageApi, SupportedLanguage } from "../public-types";
+import type { DumlingApi, LanguageApi, SupportedLanguage } from "../types/public-types";
 import { languagePacks } from "../language-packs";
 import { buildConvertOperations } from "./shared/convert";
 import { buildDescribeOperations } from "./shared/describe";

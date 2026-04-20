@@ -8,7 +8,7 @@ import type {
 	Selection,
 	SupportedLanguage,
 	Surface,
-} from "../../public-types";
+} from "../../types/public-types";
 import { decodeBase64Url, encodeBase64Url } from "./base64url";
 import { inferEntityKind } from "./entity-accessors";
 import { idError } from "./id-errors";

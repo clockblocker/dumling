@@ -1,5 +1,5 @@
 import { z } from "zod/v3";
-import type { Lemma } from "../../../../public-types";
+import type { Lemma } from "../../../../types/public-types";
 import type {
 	DeDiscourseFormulaInherentFeatures,
 	DePhrasemeLemmaBySubKind,

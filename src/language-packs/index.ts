@@ -1,4 +1,4 @@
-import type { LanguageApi } from "../public-types";
+import type { LanguageApi } from "../types/public-types";
 import type {
 	EnLemmaSchemaTree,
 	EnSelectionSchemaTree,

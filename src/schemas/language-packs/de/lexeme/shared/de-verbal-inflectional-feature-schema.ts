@@ -1,5 +1,5 @@
 import { z } from "zod/v3";
-import type { InflectionalFeaturesFor } from "../../../../../public-types";
+import type { InflectionalFeaturesFor } from "../../../../../types/public-types";
 import { abstractFeatureAtomSchemas } from "../../../../abstract/feature-schemas";
 import { buildFeatureObjectSchema } from "../../../../shared/feature-helpers";
 import {

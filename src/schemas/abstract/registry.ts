@@ -3,7 +3,7 @@ import type {
 	AbstractLemma,
 	AbstractSelection,
 	AbstractSurface,
-} from "../../public-types";
+} from "../../types/public-types";
 import {
 	AbstractLanguageTag,
 	LexemeSubKind,

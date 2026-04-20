@@ -1,5 +1,5 @@
 import { z } from "zod/v3";
-import type { InflectionalFeaturesFor } from "../../../../../public-types";
+import type { InflectionalFeaturesFor } from "../../../../../types/public-types";
 import {
 	buildOptionalFeatureObjectSchema,
 	requireNonEmptyFeatureObject,

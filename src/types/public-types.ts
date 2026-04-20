@@ -7,7 +7,7 @@ import type {
 	SpellingRelation,
 	SupportedLanguage,
 	SurfaceKind,
-} from "./types/core/enums";
+} from "./core/enums";
 import type {
 	AbstractInflectionalFeaturesFor,
 	AbstractInherentFeaturesFor,
@@ -15,21 +15,21 @@ import type {
 	AbstractLemmaSubKindFor,
 	AbstractSelection,
 	AbstractSurface,
-} from "./types/abstract/entities";
+} from "./abstract/entities";
 import type {
 	AbstractFeatureName,
 	AbstractFeatureValue as AbstractFeatureValueForName,
-} from "./types/abstract/features/features-catalog";
+} from "./abstract/features/features-catalog";
 import type {
 	LanguageLemmaUnionMap,
 	LanguageSelectionByOrthographicStatusMap,
 	LanguageSurfaceUnionMap,
 	SurfaceByKindForLanguage,
-} from "./types/concrete-language/concrete-language-types";
+} from "./concrete-language/concrete-language-types";
 import type {
 	ConcreteLanguage,
 	LanguagePackFeatureRegistry,
-} from "./types/concrete-language/features/feature-registry";
+} from "./concrete-language/features/feature-registry";
 
 export type {
 	AbstractLanguageTag,

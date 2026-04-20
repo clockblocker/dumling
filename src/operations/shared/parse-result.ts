@@ -3,7 +3,7 @@ import type {
 	ApiResult,
 	ParseError,
 	SupportedLanguage,
-} from "../../public-types";
+} from "../../types/public-types";
 
 export function invalidParseResult(
 	language: SupportedLanguage,

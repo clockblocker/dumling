@@ -1,4 +1,4 @@
-import type { LanguageApi, SupportedLanguage } from "../../public-types";
+import type { LanguageApi, SupportedLanguage } from "../../types/public-types";
 import { extractLemma } from "./entity-accessors";
 
 export function buildExtractOperations<L extends SupportedLanguage>(): LanguageApi<L>["extract"] {

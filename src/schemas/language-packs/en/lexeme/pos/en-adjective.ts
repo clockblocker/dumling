@@ -3,7 +3,7 @@ import type {
 	InflectionalFeaturesFor,
 	InherentFeaturesFor,
 	Lemma,
-} from "../../../../../public-types";
+} from "../../../../../types/public-types";
 import { abstractFeatureAtomSchemas } from "../../../../abstract/feature-schemas";
 import {
 	buildOptionalFeatureObjectSchema,

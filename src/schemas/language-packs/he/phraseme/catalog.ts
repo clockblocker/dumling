@@ -1,5 +1,5 @@
 import { z } from "zod/v3";
-import type { Lemma } from "../../../../public-types";
+import type { Lemma } from "../../../../types/public-types";
 import type { HePhrasemeLemmaBySubKind } from "../../../../types/concrete-language/language-packs/he/phraseme/he-phrasemes";
 import type { EmptyFeatures } from "../../../../types/concrete-language/shared";
 import { buildOptionalFeatureObjectSchema } from "../../../shared/feature-helpers";

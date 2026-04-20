@@ -4,7 +4,7 @@ import type {
 	Selection,
 	SupportedLanguage,
 	Surface,
-} from "../../public-types";
+} from "../../types/public-types";
 import { extractLemma } from "./entity-accessors";
 
 type EntityValue<L extends SupportedLanguage> = Lemma<L> | Surface<L> | Selection<L>;

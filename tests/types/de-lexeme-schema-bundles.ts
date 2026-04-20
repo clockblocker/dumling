@@ -9,7 +9,7 @@ import {
 	deAdpositionSchemas,
 } from "../../src/schemas/language-packs/de/lexeme/pos/de-adposition";
 import { buildDeInflectableLexemeSchemaBundle } from "../../src/schemas/language-packs/de/lexeme/shared/build-de-lexeme-schema-bundle";
-import type { Lemma } from "../../src/public-types";
+import type { Lemma } from "../../src/types/public-types";
 import type {
 	DeInflectableLexemeSchemaBundleFor,
 	DeUninflectableLexemeSchemaBundleFor,
