@@ -21,13 +21,6 @@ export type DeAdpositionInherentFeatures = {
 	partType?: DeAdpositionPartType;
 };
 
-type DeAdpositionBundle<OS extends OrthographicStatus = OrthographicStatus> =
-	DeUninflectableLexemeBundle<"ADP", DeAdpositionInherentFeatures, OS>;
-
-export type DeAdpositionLemma = DeAdpositionBundle["Lemma"];
-export type DeAdpositionLemmaSurface = DeAdpositionBundle["LemmaSurface"];
-export type DeAdpositionLemmaSelection<
+export type DeAdpositionBundle<
 	OS extends OrthographicStatus = OrthographicStatus,
-> = DeAdpositionBundle<OS>["LemmaSelection"];
-
-export type DeAdpositionTypes = DeAdpositionBundle;
+> = DeUninflectableLexemeBundle<"ADP", DeAdpositionInherentFeatures, OS>;

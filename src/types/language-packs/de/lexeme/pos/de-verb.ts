@@ -12,22 +12,10 @@ export type DeVerbInherentFeatures = {
 	verbType?: DeVerbVerbType;
 };
 
-type DeVerbBundle<OS extends OrthographicStatus = OrthographicStatus> =
+export type DeVerbBundle<OS extends OrthographicStatus = OrthographicStatus> =
 	DeInflectableLexemeBundle<
 		"VERB",
 		DeVerbInherentFeatures,
 		DeVerbalInflectionalFeatures,
 		OS
 	>;
-
-export type DeVerbLemma = DeVerbBundle["Lemma"];
-export type DeVerbLemmaSurface = DeVerbBundle["LemmaSurface"];
-export type DeVerbInflectionSurface = DeVerbBundle["InflectionSurface"];
-export type DeVerbLemmaSelection<
-	OS extends OrthographicStatus = OrthographicStatus,
-> = DeVerbBundle<OS>["LemmaSelection"];
-export type DeVerbInflectionSelection<
-	OS extends OrthographicStatus = OrthographicStatus,
-> = DeVerbBundle<OS>["InflectionSelection"];
-
-export type DeVerbTypes = DeVerbBundle;

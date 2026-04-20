@@ -7,13 +7,6 @@ export type DeInterjectionInherentFeatures = {
 	partType?: DeInterjectionPartType;
 };
 
-type DeInterjectionBundle<OS extends OrthographicStatus = OrthographicStatus> =
-	DeUninflectableLexemeBundle<"INTJ", DeInterjectionInherentFeatures, OS>;
-
-export type DeInterjectionLemma = DeInterjectionBundle["Lemma"];
-export type DeInterjectionLemmaSurface = DeInterjectionBundle["LemmaSurface"];
-export type DeInterjectionLemmaSelection<
+export type DeInterjectionBundle<
 	OS extends OrthographicStatus = OrthographicStatus,
-> = DeInterjectionBundle<OS>["LemmaSelection"];
-
-export type DeInterjectionTypes = DeInterjectionBundle;
+> = DeUninflectableLexemeBundle<"INTJ", DeInterjectionInherentFeatures, OS>;

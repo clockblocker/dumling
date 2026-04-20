@@ -12,13 +12,6 @@ export type DeParticleInherentFeatures = {
 	polarity?: DePolarity;
 };
 
-type DeParticleBundle<OS extends OrthographicStatus = OrthographicStatus> =
-	DeUninflectableLexemeBundle<"PART", DeParticleInherentFeatures, OS>;
-
-export type DeParticleLemma = DeParticleBundle["Lemma"];
-export type DeParticleLemmaSurface = DeParticleBundle["LemmaSurface"];
-export type DeParticleLemmaSelection<
+export type DeParticleBundle<
 	OS extends OrthographicStatus = OrthographicStatus,
-> = DeParticleBundle<OS>["LemmaSelection"];
-
-export type DeParticleTypes = DeParticleBundle;
+> = DeUninflectableLexemeBundle<"PART", DeParticleInherentFeatures, OS>;

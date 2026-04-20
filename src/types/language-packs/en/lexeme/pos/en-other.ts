@@ -9,13 +9,5 @@ export type EnOtherInherentFeatures = {
 	foreign?: AbstractFeatureValue<"foreign">;
 };
 
-type EnOtherBundle<OS extends OrthographicStatus = OrthographicStatus> =
+export type EnOtherBundle<OS extends OrthographicStatus = OrthographicStatus> =
 	EnUninflectableLexemeBundle<"X", EnOtherInherentFeatures, OS>;
-
-export type EnOtherLemma = EnOtherBundle["Lemma"];
-export type EnOtherLemmaSurface = EnOtherBundle["LemmaSurface"];
-export type EnOtherLemmaSelection<
-	OS extends OrthographicStatus = OrthographicStatus,
-> = EnOtherBundle<OS>["LemmaSelection"];
-
-export type EnOtherTypes = EnOtherBundle;

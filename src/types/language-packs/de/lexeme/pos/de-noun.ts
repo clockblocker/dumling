@@ -14,22 +14,10 @@ export type DeNounInflectionalFeatures = RequireAtLeastOne<{
 	number?: DeNumber;
 }>;
 
-type DeNounBundle<OS extends OrthographicStatus = OrthographicStatus> =
+export type DeNounBundle<OS extends OrthographicStatus = OrthographicStatus> =
 	DeInflectableLexemeBundle<
 		"NOUN",
 		DeNounInherentFeatures,
 		DeNounInflectionalFeatures,
 		OS
 	>;
-
-export type DeNounLemma = DeNounBundle["Lemma"];
-export type DeNounLemmaSurface = DeNounBundle["LemmaSurface"];
-export type DeNounInflectionSurface = DeNounBundle["InflectionSurface"];
-export type DeNounLemmaSelection<
-	OS extends OrthographicStatus = OrthographicStatus,
-> = DeNounBundle<OS>["LemmaSelection"];
-export type DeNounInflectionSelection<
-	OS extends OrthographicStatus = OrthographicStatus,
-> = DeNounBundle<OS>["InflectionSelection"];
-
-export type DeNounTypes = DeNounBundle;

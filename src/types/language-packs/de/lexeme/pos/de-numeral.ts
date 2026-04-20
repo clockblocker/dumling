@@ -21,22 +21,11 @@ export type DeNumeralInflectionalFeatures = RequireAtLeastOne<{
 	number?: DeNumber;
 }>;
 
-type DeNumeralBundle<OS extends OrthographicStatus = OrthographicStatus> =
-	DeInflectableLexemeBundle<
-		"NUM",
-		DeNumeralInherentFeatures,
-		DeNumeralInflectionalFeatures,
-		OS
-	>;
-
-export type DeNumeralLemma = DeNumeralBundle["Lemma"];
-export type DeNumeralLemmaSurface = DeNumeralBundle["LemmaSurface"];
-export type DeNumeralInflectionSurface = DeNumeralBundle["InflectionSurface"];
-export type DeNumeralLemmaSelection<
+export type DeNumeralBundle<
 	OS extends OrthographicStatus = OrthographicStatus,
-> = DeNumeralBundle<OS>["LemmaSelection"];
-export type DeNumeralInflectionSelection<
-	OS extends OrthographicStatus = OrthographicStatus,
-> = DeNumeralBundle<OS>["InflectionSelection"];
-
-export type DeNumeralTypes = DeNumeralBundle;
+> = DeInflectableLexemeBundle<
+	"NUM",
+	DeNumeralInherentFeatures,
+	DeNumeralInflectionalFeatures,
+	OS
+>;

@@ -15,23 +15,11 @@ export type DeProperNounInflectionalFeatures = RequireAtLeastOne<{
 	number?: DeNumber;
 }>;
 
-type DeProperNounBundle<OS extends OrthographicStatus = OrthographicStatus> =
-	DeInflectableLexemeBundle<
-		"PROPN",
-		DeProperNounInherentFeatures,
-		DeProperNounInflectionalFeatures,
-		OS
-	>;
-
-export type DeProperNounLemma = DeProperNounBundle["Lemma"];
-export type DeProperNounLemmaSurface = DeProperNounBundle["LemmaSurface"];
-export type DeProperNounInflectionSurface =
-	DeProperNounBundle["InflectionSurface"];
-export type DeProperNounLemmaSelection<
+export type DeProperNounBundle<
 	OS extends OrthographicStatus = OrthographicStatus,
-> = DeProperNounBundle<OS>["LemmaSelection"];
-export type DeProperNounInflectionSelection<
-	OS extends OrthographicStatus = OrthographicStatus,
-> = DeProperNounBundle<OS>["InflectionSelection"];
-
-export type DeProperNounTypes = DeProperNounBundle;
+> = DeInflectableLexemeBundle<
+	"PROPN",
+	DeProperNounInherentFeatures,
+	DeProperNounInflectionalFeatures,
+	OS
+>;

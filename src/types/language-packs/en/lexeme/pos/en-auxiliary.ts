@@ -10,7 +10,10 @@ import type {
 	EnVerbForm,
 } from "../shared/en-common-enums";
 
-type EnAuxiliaryNumber = Extract<import("../shared/en-common-enums").EnNumber, "Plur" | "Sing">;
+type EnAuxiliaryNumber = Extract<
+	import("../shared/en-common-enums").EnNumber,
+	"Plur" | "Sing"
+>;
 type EnAuxiliaryStyle = Extract<EnStyle, "Arch" | "Vrnc">;
 type EnAuxiliaryVerbForm = Extract<EnVerbForm, "Fin" | "Inf" | "Part">;
 
@@ -27,22 +30,11 @@ export type EnAuxiliaryInflectionalFeatures = RequireAtLeastOne<{
 	verbForm?: EnAuxiliaryVerbForm;
 }>;
 
-type EnAuxiliaryBundle<OS extends OrthographicStatus = OrthographicStatus> =
-	EnInflectableLexemeBundle<
-		"AUX",
-		EnAuxiliaryInherentFeatures,
-		EnAuxiliaryInflectionalFeatures,
-		OS
-	>;
-
-export type EnAuxiliaryLemma = EnAuxiliaryBundle["Lemma"];
-export type EnAuxiliaryLemmaSurface = EnAuxiliaryBundle["LemmaSurface"];
-export type EnAuxiliaryInflectionSurface = EnAuxiliaryBundle["InflectionSurface"];
-export type EnAuxiliaryLemmaSelection<
+export type EnAuxiliaryBundle<
 	OS extends OrthographicStatus = OrthographicStatus,
-> = EnAuxiliaryBundle<OS>["LemmaSelection"];
-export type EnAuxiliaryInflectionSelection<
-	OS extends OrthographicStatus = OrthographicStatus,
-> = EnAuxiliaryBundle<OS>["InflectionSelection"];
-
-export type EnAuxiliaryTypes = EnAuxiliaryBundle;
+> = EnInflectableLexemeBundle<
+	"AUX",
+	EnAuxiliaryInherentFeatures,
+	EnAuxiliaryInflectionalFeatures,
+	OS
+>;

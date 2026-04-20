@@ -8,16 +8,14 @@ import {
 	deAdpositionLemmaSchema,
 	deAdpositionSchemas,
 } from "../../src/schemas/language-packs/de/lexeme/pos/de-adposition";
-import {
-	buildDeInflectableLexemeSchemaBundle,
-} from "../../src/schemas/language-packs/de/lexeme/shared/build-de-lexeme-schema-bundle";
+import { buildDeInflectableLexemeSchemaBundle } from "../../src/schemas/language-packs/de/lexeme/shared/build-de-lexeme-schema-bundle";
 import type {
 	DeInflectableLexemeSchemaBundleFor,
 	DeUninflectableLexemeSchemaBundleFor,
 } from "../../src/schemas/language-packs/de/lexeme/shared/build-de-lexeme-schema-bundle";
-import type { DeAdjectiveLemma } from "../../src/types/language-packs/de/lexeme/pos/de-adjective";
+import type { DeAdjectiveBundle } from "../../src/types/language-packs/de/lexeme/pos/de-adjective";
 
-deAdjectiveLemmaSchema satisfies z.ZodType<DeAdjectiveLemma>;
+deAdjectiveLemmaSchema satisfies z.ZodType<DeAdjectiveBundle["Lemma"]>;
 deAdjectiveSchemas satisfies DeInflectableLexemeSchemaBundleFor<"ADJ">;
 deAdpositionSchemas satisfies DeUninflectableLexemeSchemaBundleFor<"ADP">;
 

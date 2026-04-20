@@ -7,20 +7,10 @@ export type DeCoordinatingConjunctionInherentFeatures = {
 	conjType?: DeCoordinatingConjunctionType;
 };
 
-type DeCoordinatingConjunctionBundle<
+export type DeCoordinatingConjunctionBundle<
 	OS extends OrthographicStatus = OrthographicStatus,
 > = DeUninflectableLexemeBundle<
 	"CCONJ",
 	DeCoordinatingConjunctionInherentFeatures,
 	OS
 >;
-
-export type DeCoordinatingConjunctionLemma =
-	DeCoordinatingConjunctionBundle["Lemma"];
-export type DeCoordinatingConjunctionLemmaSurface =
-	DeCoordinatingConjunctionBundle["LemmaSurface"];
-export type DeCoordinatingConjunctionLemmaSelection<
-	OS extends OrthographicStatus = OrthographicStatus,
-> = DeCoordinatingConjunctionBundle<OS>["LemmaSelection"];
-
-export type DeCoordinatingConjunctionTypes = DeCoordinatingConjunctionBundle;

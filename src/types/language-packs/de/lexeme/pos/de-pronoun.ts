@@ -32,22 +32,11 @@ export type DePronounInflectionalFeatures = RequireAtLeastOne<{
 	reflex?: AbstractFeatureValue<"reflex">;
 }>;
 
-type DePronounBundle<OS extends OrthographicStatus = OrthographicStatus> =
-	DeInflectableLexemeBundle<
-		"PRON",
-		DePronounInherentFeatures,
-		DePronounInflectionalFeatures,
-		OS
-	>;
-
-export type DePronounLemma = DePronounBundle["Lemma"];
-export type DePronounLemmaSurface = DePronounBundle["LemmaSurface"];
-export type DePronounInflectionSurface = DePronounBundle["InflectionSurface"];
-export type DePronounLemmaSelection<
+export type DePronounBundle<
 	OS extends OrthographicStatus = OrthographicStatus,
-> = DePronounBundle<OS>["LemmaSelection"];
-export type DePronounInflectionSelection<
-	OS extends OrthographicStatus = OrthographicStatus,
-> = DePronounBundle<OS>["InflectionSelection"];
-
-export type DePronounTypes = DePronounBundle;
+> = DeInflectableLexemeBundle<
+	"PRON",
+	DePronounInherentFeatures,
+	DePronounInflectionalFeatures,
+	OS
+>;

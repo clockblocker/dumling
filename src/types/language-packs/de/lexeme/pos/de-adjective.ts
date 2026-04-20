@@ -28,23 +28,11 @@ export type DeAdjectiveInflectionalFeatures = RequireAtLeastOne<{
 	number?: DeNumber;
 }>;
 
-type DeAdjectiveBundle<OS extends OrthographicStatus = OrthographicStatus> =
-	DeInflectableLexemeBundle<
-		"ADJ",
-		DeAdjectiveInherentFeatures,
-		DeAdjectiveInflectionalFeatures,
-		OS
-	>;
-
-export type DeAdjectiveLemma = DeAdjectiveBundle["Lemma"];
-export type DeAdjectiveLemmaSurface = DeAdjectiveBundle["LemmaSurface"];
-export type DeAdjectiveInflectionSurface =
-	DeAdjectiveBundle["InflectionSurface"];
-export type DeAdjectiveLemmaSelection<
+export type DeAdjectiveBundle<
 	OS extends OrthographicStatus = OrthographicStatus,
-> = DeAdjectiveBundle<OS>["LemmaSelection"];
-export type DeAdjectiveInflectionSelection<
-	OS extends OrthographicStatus = OrthographicStatus,
-> = DeAdjectiveBundle<OS>["InflectionSelection"];
-
-export type DeAdjectiveTypes = DeAdjectiveBundle;
+> = DeInflectableLexemeBundle<
+	"ADJ",
+	DeAdjectiveInherentFeatures,
+	DeAdjectiveInflectionalFeatures,
+	OS
+>;

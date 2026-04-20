@@ -1,195 +1,107 @@
 import type { OrthographicStatus } from "../../../core/enums";
 import type { ValueOf } from "../shared";
-import type {
-	DeAdjectiveInflectionSelection,
-	DeAdjectiveInflectionSurface,
-	DeAdjectiveLemma,
-	DeAdjectiveLemmaSelection,
-	DeAdjectiveLemmaSurface,
-} from "./pos/de-adjective";
-import type {
-	DeAdpositionLemma,
-	DeAdpositionLemmaSelection,
-	DeAdpositionLemmaSurface,
-} from "./pos/de-adposition";
-import type {
-	DeAdverbInflectionSelection,
-	DeAdverbInflectionSurface,
-	DeAdverbLemma,
-	DeAdverbLemmaSelection,
-	DeAdverbLemmaSurface,
-} from "./pos/de-adverb";
-import type {
-	DeAuxiliaryInflectionSelection,
-	DeAuxiliaryInflectionSurface,
-	DeAuxiliaryLemma,
-	DeAuxiliaryLemmaSelection,
-	DeAuxiliaryLemmaSurface,
-} from "./pos/de-auxiliary";
-import type {
-	DeCoordinatingConjunctionLemma,
-	DeCoordinatingConjunctionLemmaSelection,
-	DeCoordinatingConjunctionLemmaSurface,
-} from "./pos/de-coordinating-conjunction";
-import type {
-	DeDeterminerInflectionSelection,
-	DeDeterminerInflectionSurface,
-	DeDeterminerLemma,
-	DeDeterminerLemmaSelection,
-	DeDeterminerLemmaSurface,
-} from "./pos/de-determiner";
-import type {
-	DeInterjectionLemma,
-	DeInterjectionLemmaSelection,
-	DeInterjectionLemmaSurface,
-} from "./pos/de-interjection";
-import type {
-	DeNounInflectionSelection,
-	DeNounInflectionSurface,
-	DeNounLemma,
-	DeNounLemmaSelection,
-	DeNounLemmaSurface,
-} from "./pos/de-noun";
-import type {
-	DeNumeralInflectionSelection,
-	DeNumeralInflectionSurface,
-	DeNumeralLemma,
-	DeNumeralLemmaSelection,
-	DeNumeralLemmaSurface,
-} from "./pos/de-numeral";
-import type {
-	DeOtherInflectionSelection,
-	DeOtherInflectionSurface,
-	DeOtherLemma,
-	DeOtherLemmaSelection,
-	DeOtherLemmaSurface,
-} from "./pos/de-other";
-import type {
-	DeParticleLemma,
-	DeParticleLemmaSelection,
-	DeParticleLemmaSurface,
-} from "./pos/de-particle";
-import type {
-	DePronounInflectionSelection,
-	DePronounInflectionSurface,
-	DePronounLemma,
-	DePronounLemmaSelection,
-	DePronounLemmaSurface,
-} from "./pos/de-pronoun";
-import type {
-	DeProperNounInflectionSelection,
-	DeProperNounInflectionSurface,
-	DeProperNounLemma,
-	DeProperNounLemmaSelection,
-	DeProperNounLemmaSurface,
-} from "./pos/de-proper-noun";
-import type {
-	DePunctuationLemma,
-	DePunctuationLemmaSelection,
-	DePunctuationLemmaSurface,
-} from "./pos/de-punctuation";
-import type {
-	DeSubordinatingConjunctionLemma,
-	DeSubordinatingConjunctionLemmaSelection,
-	DeSubordinatingConjunctionLemmaSurface,
-} from "./pos/de-subordinating-conjunction";
-import type {
-	DeSymbolInflectionSelection,
-	DeSymbolInflectionSurface,
-	DeSymbolLemma,
-	DeSymbolLemmaSelection,
-	DeSymbolLemmaSurface,
-} from "./pos/de-symbol";
-import type {
-	DeVerbInflectionSelection,
-	DeVerbInflectionSurface,
-	DeVerbLemma,
-	DeVerbLemmaSelection,
-	DeVerbLemmaSurface,
-} from "./pos/de-verb";
+import type { DeAdjectiveBundle } from "./pos/de-adjective";
+import type { DeAdpositionBundle } from "./pos/de-adposition";
+import type { DeAdverbBundle } from "./pos/de-adverb";
+import type { DeAuxiliaryBundle } from "./pos/de-auxiliary";
+import type { DeCoordinatingConjunctionBundle } from "./pos/de-coordinating-conjunction";
+import type { DeDeterminerBundle } from "./pos/de-determiner";
+import type { DeInterjectionBundle } from "./pos/de-interjection";
+import type { DeNounBundle } from "./pos/de-noun";
+import type { DeNumeralBundle } from "./pos/de-numeral";
+import type { DeOtherBundle } from "./pos/de-other";
+import type { DeParticleBundle } from "./pos/de-particle";
+import type { DePronounBundle } from "./pos/de-pronoun";
+import type { DeProperNounBundle } from "./pos/de-proper-noun";
+import type { DePunctuationBundle } from "./pos/de-punctuation";
+import type { DeSubordinatingConjunctionBundle } from "./pos/de-subordinating-conjunction";
+import type { DeSymbolBundle } from "./pos/de-symbol";
+import type { DeVerbBundle } from "./pos/de-verb";
 
 export type DeLexemeLemmaBySubKind = {
-	ADJ: DeAdjectiveLemma;
-	ADP: DeAdpositionLemma;
-	ADV: DeAdverbLemma;
-	AUX: DeAuxiliaryLemma;
-	CCONJ: DeCoordinatingConjunctionLemma;
-	DET: DeDeterminerLemma;
-	INTJ: DeInterjectionLemma;
-	NOUN: DeNounLemma;
-	NUM: DeNumeralLemma;
-	PART: DeParticleLemma;
-	PRON: DePronounLemma;
-	PROPN: DeProperNounLemma;
-	PUNCT: DePunctuationLemma;
-	SCONJ: DeSubordinatingConjunctionLemma;
-	SYM: DeSymbolLemma;
-	VERB: DeVerbLemma;
-	X: DeOtherLemma;
+	ADJ: DeAdjectiveBundle["Lemma"];
+	ADP: DeAdpositionBundle["Lemma"];
+	ADV: DeAdverbBundle["Lemma"];
+	AUX: DeAuxiliaryBundle["Lemma"];
+	CCONJ: DeCoordinatingConjunctionBundle["Lemma"];
+	DET: DeDeterminerBundle["Lemma"];
+	INTJ: DeInterjectionBundle["Lemma"];
+	NOUN: DeNounBundle["Lemma"];
+	NUM: DeNumeralBundle["Lemma"];
+	PART: DeParticleBundle["Lemma"];
+	PRON: DePronounBundle["Lemma"];
+	PROPN: DeProperNounBundle["Lemma"];
+	PUNCT: DePunctuationBundle["Lemma"];
+	SCONJ: DeSubordinatingConjunctionBundle["Lemma"];
+	SYM: DeSymbolBundle["Lemma"];
+	VERB: DeVerbBundle["Lemma"];
+	X: DeOtherBundle["Lemma"];
 };
 
 export type DeLexemeLemma = ValueOf<DeLexemeLemmaBySubKind>;
 
 export type DeLemmaLexemeSurfaceBySubKind = {
-	ADJ: DeAdjectiveLemmaSurface;
-	ADP: DeAdpositionLemmaSurface;
-	ADV: DeAdverbLemmaSurface;
-	AUX: DeAuxiliaryLemmaSurface;
-	CCONJ: DeCoordinatingConjunctionLemmaSurface;
-	DET: DeDeterminerLemmaSurface;
-	INTJ: DeInterjectionLemmaSurface;
-	NOUN: DeNounLemmaSurface;
-	NUM: DeNumeralLemmaSurface;
-	PART: DeParticleLemmaSurface;
-	PRON: DePronounLemmaSurface;
-	PROPN: DeProperNounLemmaSurface;
-	PUNCT: DePunctuationLemmaSurface;
-	SCONJ: DeSubordinatingConjunctionLemmaSurface;
-	SYM: DeSymbolLemmaSurface;
-	VERB: DeVerbLemmaSurface;
-	X: DeOtherLemmaSurface;
+	ADJ: DeAdjectiveBundle["LemmaSurface"];
+	ADP: DeAdpositionBundle["LemmaSurface"];
+	ADV: DeAdverbBundle["LemmaSurface"];
+	AUX: DeAuxiliaryBundle["LemmaSurface"];
+	CCONJ: DeCoordinatingConjunctionBundle["LemmaSurface"];
+	DET: DeDeterminerBundle["LemmaSurface"];
+	INTJ: DeInterjectionBundle["LemmaSurface"];
+	NOUN: DeNounBundle["LemmaSurface"];
+	NUM: DeNumeralBundle["LemmaSurface"];
+	PART: DeParticleBundle["LemmaSurface"];
+	PRON: DePronounBundle["LemmaSurface"];
+	PROPN: DeProperNounBundle["LemmaSurface"];
+	PUNCT: DePunctuationBundle["LemmaSurface"];
+	SCONJ: DeSubordinatingConjunctionBundle["LemmaSurface"];
+	SYM: DeSymbolBundle["LemmaSurface"];
+	VERB: DeVerbBundle["LemmaSurface"];
+	X: DeOtherBundle["LemmaSurface"];
 };
 
 export type DeLemmaLexemeSurface = ValueOf<DeLemmaLexemeSurfaceBySubKind>;
 
 export type DeInflectionLexemeSurfaceBySubKind = {
-	ADJ: DeAdjectiveInflectionSurface;
-	ADV: DeAdverbInflectionSurface;
-	AUX: DeAuxiliaryInflectionSurface;
-	DET: DeDeterminerInflectionSurface;
-	NOUN: DeNounInflectionSurface;
-	NUM: DeNumeralInflectionSurface;
-	PRON: DePronounInflectionSurface;
-	PROPN: DeProperNounInflectionSurface;
-	SYM: DeSymbolInflectionSurface;
-	VERB: DeVerbInflectionSurface;
-	X: DeOtherInflectionSurface;
+	ADJ: DeAdjectiveBundle["InflectionSurface"];
+	ADV: DeAdverbBundle["InflectionSurface"];
+	AUX: DeAuxiliaryBundle["InflectionSurface"];
+	DET: DeDeterminerBundle["InflectionSurface"];
+	NOUN: DeNounBundle["InflectionSurface"];
+	NUM: DeNumeralBundle["InflectionSurface"];
+	PRON: DePronounBundle["InflectionSurface"];
+	PROPN: DeProperNounBundle["InflectionSurface"];
+	SYM: DeSymbolBundle["InflectionSurface"];
+	VERB: DeVerbBundle["InflectionSurface"];
+	X: DeOtherBundle["InflectionSurface"];
 };
 
-export type DeInflectableLexemeSubKind = keyof DeInflectionLexemeSurfaceBySubKind;
-export type DeInflectionLexemeSurface = ValueOf<DeInflectionLexemeSurfaceBySubKind>;
+export type DeInflectableLexemeSubKind =
+	keyof DeInflectionLexemeSurfaceBySubKind;
+export type DeInflectionLexemeSurface =
+	ValueOf<DeInflectionLexemeSurfaceBySubKind>;
 export type DeLexemeSurface = DeLemmaLexemeSurface | DeInflectionLexemeSurface;
 
 export type DeLemmaLexemeSelectionBySubKind<
 	OS extends OrthographicStatus = OrthographicStatus,
 > = {
-	ADJ: DeAdjectiveLemmaSelection<OS>;
-	ADP: DeAdpositionLemmaSelection<OS>;
-	ADV: DeAdverbLemmaSelection<OS>;
-	AUX: DeAuxiliaryLemmaSelection<OS>;
-	CCONJ: DeCoordinatingConjunctionLemmaSelection<OS>;
-	DET: DeDeterminerLemmaSelection<OS>;
-	INTJ: DeInterjectionLemmaSelection<OS>;
-	NOUN: DeNounLemmaSelection<OS>;
-	NUM: DeNumeralLemmaSelection<OS>;
-	PART: DeParticleLemmaSelection<OS>;
-	PRON: DePronounLemmaSelection<OS>;
-	PROPN: DeProperNounLemmaSelection<OS>;
-	PUNCT: DePunctuationLemmaSelection<OS>;
-	SCONJ: DeSubordinatingConjunctionLemmaSelection<OS>;
-	SYM: DeSymbolLemmaSelection<OS>;
-	VERB: DeVerbLemmaSelection<OS>;
-	X: DeOtherLemmaSelection<OS>;
+	ADJ: DeAdjectiveBundle<OS>["LemmaSelection"];
+	ADP: DeAdpositionBundle<OS>["LemmaSelection"];
+	ADV: DeAdverbBundle<OS>["LemmaSelection"];
+	AUX: DeAuxiliaryBundle<OS>["LemmaSelection"];
+	CCONJ: DeCoordinatingConjunctionBundle<OS>["LemmaSelection"];
+	DET: DeDeterminerBundle<OS>["LemmaSelection"];
+	INTJ: DeInterjectionBundle<OS>["LemmaSelection"];
+	NOUN: DeNounBundle<OS>["LemmaSelection"];
+	NUM: DeNumeralBundle<OS>["LemmaSelection"];
+	PART: DeParticleBundle<OS>["LemmaSelection"];
+	PRON: DePronounBundle<OS>["LemmaSelection"];
+	PROPN: DeProperNounBundle<OS>["LemmaSelection"];
+	PUNCT: DePunctuationBundle<OS>["LemmaSelection"];
+	SCONJ: DeSubordinatingConjunctionBundle<OS>["LemmaSelection"];
+	SYM: DeSymbolBundle<OS>["LemmaSelection"];
+	VERB: DeVerbBundle<OS>["LemmaSelection"];
+	X: DeOtherBundle<OS>["LemmaSelection"];
 };
 
 export type DeLemmaLexemeSelection<
@@ -199,17 +111,17 @@ export type DeLemmaLexemeSelection<
 export type DeInflectionLexemeSelectionBySubKind<
 	OS extends OrthographicStatus = OrthographicStatus,
 > = {
-	ADJ: DeAdjectiveInflectionSelection<OS>;
-	ADV: DeAdverbInflectionSelection<OS>;
-	AUX: DeAuxiliaryInflectionSelection<OS>;
-	DET: DeDeterminerInflectionSelection<OS>;
-	NOUN: DeNounInflectionSelection<OS>;
-	NUM: DeNumeralInflectionSelection<OS>;
-	PRON: DePronounInflectionSelection<OS>;
-	PROPN: DeProperNounInflectionSelection<OS>;
-	SYM: DeSymbolInflectionSelection<OS>;
-	VERB: DeVerbInflectionSelection<OS>;
-	X: DeOtherInflectionSelection<OS>;
+	ADJ: DeAdjectiveBundle<OS>["InflectionSelection"];
+	ADV: DeAdverbBundle<OS>["InflectionSelection"];
+	AUX: DeAuxiliaryBundle<OS>["InflectionSelection"];
+	DET: DeDeterminerBundle<OS>["InflectionSelection"];
+	NOUN: DeNounBundle<OS>["InflectionSelection"];
+	NUM: DeNumeralBundle<OS>["InflectionSelection"];
+	PRON: DePronounBundle<OS>["InflectionSelection"];
+	PROPN: DeProperNounBundle<OS>["InflectionSelection"];
+	SYM: DeSymbolBundle<OS>["InflectionSelection"];
+	VERB: DeVerbBundle<OS>["InflectionSelection"];
+	X: DeOtherBundle<OS>["InflectionSelection"];
 };
 
 export type DeInflectionLexemeSelection<

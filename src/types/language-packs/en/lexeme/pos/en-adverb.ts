@@ -10,10 +10,16 @@ import type {
 	EnStyle,
 } from "../shared/en-common-enums";
 
-type EnAdverbExtPos = Extract<AbstractFeatureValue<"extPos">, "ADP" | "ADV" | "CCONJ" | "SCONJ">;
+type EnAdverbExtPos = Extract<
+	AbstractFeatureValue<"extPos">,
+	"ADP" | "ADV" | "CCONJ" | "SCONJ"
+>;
 type EnAdverbNumForm = Extract<EnNumForm, "Word">;
 type EnAdverbNumType = Extract<EnNumType, "Frac" | "Mult" | "Ord">;
-type EnAdverbPronType = Extract<EnPronType, "Dem" | "Ind" | "Int" | "Neg" | "Rel" | "Tot">;
+type EnAdverbPronType = Extract<
+	EnPronType,
+	"Dem" | "Ind" | "Int" | "Neg" | "Rel" | "Tot"
+>;
 type EnAdverbStyle = Extract<EnStyle, "Expr" | "Slng">;
 
 export type EnAdverbInherentFeatures = {
@@ -29,22 +35,10 @@ export type EnAdverbInflectionalFeatures = RequireAtLeastOne<{
 	degree?: EnDegree;
 }>;
 
-type EnAdverbBundle<OS extends OrthographicStatus = OrthographicStatus> =
+export type EnAdverbBundle<OS extends OrthographicStatus = OrthographicStatus> =
 	EnInflectableLexemeBundle<
 		"ADV",
 		EnAdverbInherentFeatures,
 		EnAdverbInflectionalFeatures,
 		OS
 	>;
-
-export type EnAdverbLemma = EnAdverbBundle["Lemma"];
-export type EnAdverbLemmaSurface = EnAdverbBundle["LemmaSurface"];
-export type EnAdverbInflectionSurface = EnAdverbBundle["InflectionSurface"];
-export type EnAdverbLemmaSelection<
-	OS extends OrthographicStatus = OrthographicStatus,
-> = EnAdverbBundle<OS>["LemmaSelection"];
-export type EnAdverbInflectionSelection<
-	OS extends OrthographicStatus = OrthographicStatus,
-> = EnAdverbBundle<OS>["InflectionSelection"];
-
-export type EnAdverbTypes = EnAdverbBundle;

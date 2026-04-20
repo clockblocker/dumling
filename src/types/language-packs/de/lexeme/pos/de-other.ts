@@ -30,22 +30,10 @@ export type DeOtherInflectionalFeatures = RequireAtLeastOne<{
 	verbForm?: DeVerbForm;
 }>;
 
-type DeOtherBundle<OS extends OrthographicStatus = OrthographicStatus> =
+export type DeOtherBundle<OS extends OrthographicStatus = OrthographicStatus> =
 	DeInflectableLexemeBundle<
 		"X",
 		DeOtherInherentFeatures,
 		DeOtherInflectionalFeatures,
 		OS
 	>;
-
-export type DeOtherLemma = DeOtherBundle["Lemma"];
-export type DeOtherLemmaSurface = DeOtherBundle["LemmaSurface"];
-export type DeOtherInflectionSurface = DeOtherBundle["InflectionSurface"];
-export type DeOtherLemmaSelection<
-	OS extends OrthographicStatus = OrthographicStatus,
-> = DeOtherBundle<OS>["LemmaSelection"];
-export type DeOtherInflectionSelection<
-	OS extends OrthographicStatus = OrthographicStatus,
-> = DeOtherBundle<OS>["InflectionSelection"];
-
-export type DeOtherTypes = DeOtherBundle;

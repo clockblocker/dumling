@@ -58,23 +58,11 @@ export type DeDeterminerInflectionalFeatures = RequireAtLeastOne<{
 	"number[psor]"?: DeNumber;
 }>;
 
-type DeDeterminerBundle<OS extends OrthographicStatus = OrthographicStatus> =
-	DeInflectableLexemeBundle<
-		"DET",
-		DeDeterminerInherentFeatures,
-		DeDeterminerInflectionalFeatures,
-		OS
-	>;
-
-export type DeDeterminerLemma = DeDeterminerBundle["Lemma"];
-export type DeDeterminerLemmaSurface = DeDeterminerBundle["LemmaSurface"];
-export type DeDeterminerInflectionSurface =
-	DeDeterminerBundle["InflectionSurface"];
-export type DeDeterminerLemmaSelection<
+export type DeDeterminerBundle<
 	OS extends OrthographicStatus = OrthographicStatus,
-> = DeDeterminerBundle<OS>["LemmaSelection"];
-export type DeDeterminerInflectionSelection<
-	OS extends OrthographicStatus = OrthographicStatus,
-> = DeDeterminerBundle<OS>["InflectionSelection"];
-
-export type DeDeterminerTypes = DeDeterminerBundle;
+> = DeInflectableLexemeBundle<
+	"DET",
+	DeDeterminerInherentFeatures,
+	DeDeterminerInflectionalFeatures,
+	OS
+>;

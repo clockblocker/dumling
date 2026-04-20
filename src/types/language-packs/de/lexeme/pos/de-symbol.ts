@@ -20,22 +20,10 @@ export type DeSymbolInflectionalFeatures = RequireAtLeastOne<{
 	number?: DeNumber;
 }>;
 
-type DeSymbolBundle<OS extends OrthographicStatus = OrthographicStatus> =
+export type DeSymbolBundle<OS extends OrthographicStatus = OrthographicStatus> =
 	DeInflectableLexemeBundle<
 		"SYM",
 		DeSymbolInherentFeatures,
 		DeSymbolInflectionalFeatures,
 		OS
 	>;
-
-export type DeSymbolLemma = DeSymbolBundle["Lemma"];
-export type DeSymbolLemmaSurface = DeSymbolBundle["LemmaSurface"];
-export type DeSymbolInflectionSurface = DeSymbolBundle["InflectionSurface"];
-export type DeSymbolLemmaSelection<
-	OS extends OrthographicStatus = OrthographicStatus,
-> = DeSymbolBundle<OS>["LemmaSelection"];
-export type DeSymbolInflectionSelection<
-	OS extends OrthographicStatus = OrthographicStatus,
-> = DeSymbolBundle<OS>["InflectionSelection"];
-
-export type DeSymbolTypes = DeSymbolBundle;

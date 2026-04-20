@@ -23,22 +23,10 @@ export type DeAdverbInflectionalFeatures = RequireAtLeastOne<{
 	degree?: DeDegree;
 }>;
 
-type DeAdverbBundle<OS extends OrthographicStatus = OrthographicStatus> =
+export type DeAdverbBundle<OS extends OrthographicStatus = OrthographicStatus> =
 	DeInflectableLexemeBundle<
 		"ADV",
 		DeAdverbInherentFeatures,
 		DeAdverbInflectionalFeatures,
 		OS
 	>;
-
-export type DeAdverbLemma = DeAdverbBundle["Lemma"];
-export type DeAdverbLemmaSurface = DeAdverbBundle["LemmaSurface"];
-export type DeAdverbInflectionSurface = DeAdverbBundle["InflectionSurface"];
-export type DeAdverbLemmaSelection<
-	OS extends OrthographicStatus = OrthographicStatus,
-> = DeAdverbBundle<OS>["LemmaSelection"];
-export type DeAdverbInflectionSelection<
-	OS extends OrthographicStatus = OrthographicStatus,
-> = DeAdverbBundle<OS>["InflectionSelection"];
-
-export type DeAdverbTypes = DeAdverbBundle;

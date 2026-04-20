@@ -27,22 +27,10 @@ export type EnNounInflectionalFeatures = RequireAtLeastOne<{
 	number?: EnNumber;
 }>;
 
-type EnNounBundle<OS extends OrthographicStatus = OrthographicStatus> =
+export type EnNounBundle<OS extends OrthographicStatus = OrthographicStatus> =
 	EnInflectableLexemeBundle<
 		"NOUN",
 		EnNounInherentFeatures,
 		EnNounInflectionalFeatures,
 		OS
 	>;
-
-export type EnNounLemma = EnNounBundle["Lemma"];
-export type EnNounLemmaSurface = EnNounBundle["LemmaSurface"];
-export type EnNounInflectionSurface = EnNounBundle["InflectionSurface"];
-export type EnNounLemmaSelection<
-	OS extends OrthographicStatus = OrthographicStatus,
-> = EnNounBundle<OS>["LemmaSelection"];
-export type EnNounInflectionSelection<
-	OS extends OrthographicStatus = OrthographicStatus,
-> = EnNounBundle<OS>["InflectionSelection"];
-
-export type EnNounTypes = EnNounBundle;
