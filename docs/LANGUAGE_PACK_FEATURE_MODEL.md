@@ -17,8 +17,8 @@ Everything else should derive from those files:
 
 - internal helper types
 - public helper types
-- bundle types
 - language feature registries
+- generic entity typing
 
 This is a type-first design. Schemas are optional downstream add-ons.
 
@@ -49,8 +49,8 @@ layers instead of looking in one place.
 - make one `features.ts` file the canonical feature definition for each
   concrete context
 - keep those files self-contained and free from non-abstract feature aliases
-- derive one unified bag-kind-aware helper API from those files
-- make bundle files consume feature definitions instead of restating them
+- derive one unified feature-set-aware helper API from those files
+- make generic entity types consume the feature API directly
 - normalize all languages, including Hebrew, during the same refactor
 - remove the old unified feature helper API
 
@@ -137,10 +137,8 @@ src/types/language-packs/
     lexeme/
       noun/
         features.ts
-        bundle.ts
       auxiliary/
         features.ts
-        bundle.ts
     morpheme/
       ...
     phraseme/
@@ -166,7 +164,6 @@ It owns:
 
 It should not depend on:
 
-- bundle-local aliases
 - language-local feature alias files
 - schema objects
 
@@ -218,8 +215,8 @@ The public and internal feature helper API should be derived from the registry.
 
 Supported helpers:
 
-- `FeatureBagKind`
-- `FeatureSetFor<...>`
+- `FeatureSetKind`
+- `FeatureSet<...>`
 - `FeatureName<...>`
 - `FeatureValue<...>`
 
@@ -228,73 +225,53 @@ Removed helpers:
 - `FeatureNameFor<L, LK, LSK>`
 - `FeatureValueFor<L, LK, LSK, F>`
 
-### 4. bundle files consume helper types
+### 4. generic entity types consume helper types directly
 
-Bundle files should not restate feature logic.
+The model does not need per-context bundle aliases.
 
-They should consume the canonical feature API derived from `features.ts`.
-
-Once the generic helper interface exists, bundle files should depend on that
-interface rather than indexing directly into a local `...Features` type.
-
-Example:
-
-```ts
-import type { OrthographicStatus } from "../../../../core/enums";
-import type { RequireAtLeastOne } from "../../shared";
-import type { DeInflectableLexemeBundle } from "../shared/build-de-lexeme-bundle";
-import type { FeatureSetFor } from "../../../public-types";
-
-export type DeNounBundle<
-	OS extends OrthographicStatus = OrthographicStatus,
-> = DeInflectableLexemeBundle<
-	"NOUN",
-	FeatureSetFor<"de", "inherent", "Lexeme", "NOUN">,
-	RequireAtLeastOne<FeatureSetFor<"de", "inflectional", "Lexeme", "NOUN">>,
-	OS
->;
-```
+Once the generic helper interface exists, `Lemma`, `Surface`, and `Selection`
+typing should consume the feature API directly.
 
 That is the correct dependency direction:
 
 - `features.ts` defines the context
 - the registry and generic feature API derive from it
-- `bundle.ts` consumes the generic feature API
+- generic entity typing consumes the generic feature API directly
 
 ## Public API Direction
 
 The supported internal and external feature API should use one generic helper
-family parameterized by bag kind.
+family parameterized by feature-set kind.
 
 Example shape:
 
 ```ts
-export type FeatureBagKind = "inherent" | "inflectional";
+export type FeatureSetKind = "inherent" | "inflectional";
 
-export type FeatureSetFor<
+export type FeatureSet<
 	L extends SupportedLanguage,
-	K extends FeatureBagKind,
+	K extends FeatureSetKind,
 	LK extends LemmaKindFor<L>,
 	LSK extends LemmaSubKindFor<L, LK>,
 > = LanguagePackFeatureRegistry[L][LK][LSK][K];
 
 export type FeatureName<
 	L extends SupportedLanguage,
-	K extends FeatureBagKind,
+	K extends FeatureSetKind,
 	LK extends LemmaKindFor<L>,
 	LSK extends LemmaSubKindFor<L, LK>,
-> = keyof FeatureSetFor<L, K, LK, LSK>;
+> = keyof FeatureSet<L, K, LK, LSK>;
 
 export type FeatureValue<
 	L extends SupportedLanguage,
-	K extends FeatureBagKind,
+	K extends FeatureSetKind,
 	LK extends LemmaKindFor<L>,
 	LSK extends LemmaSubKindFor<L, LK>,
 	F extends FeatureName<L, K, LK, LSK>,
-> = FeatureSetFor<L, K, LK, LSK>[F];
+> = FeatureSet<L, K, LK, LSK>[F];
 ```
 
-This bag-kind-aware API should fully replace the old lookup model.
+This feature-set-aware API should fully replace the old lookup model.
 
 ## Schema Contract
 
@@ -318,7 +295,7 @@ It only requires preserving the dependency direction:
 ### Benefits
 
 - each context has one obvious place to author feature truth
-- bundle files become thinner and more mechanical
+- the model sheds an unnecessary per-context bundle layer
 - the feature API becomes smaller and more regular for internal and external
   consumers
 - Hebrew inconsistency disappears as part of the refactor
@@ -363,8 +340,8 @@ Create the explicit registry layer that indexes all `...Features` types by:
 
 Derive:
 
-- `FeatureBagKind`
-- `FeatureSetFor`
+- `FeatureSetKind`
+- `FeatureSet`
 - `FeatureName`
 - `FeatureValue`
 
@@ -373,11 +350,12 @@ Remove:
 - `FeatureNameFor`
 - `FeatureValueFor`
 
-### Phase 5. Make bundles consume the new model
+### Phase 5. Make generic entity typing consume the new model
 
-Update bundle files so they depend on `...Features["inherent"]` and
-`...Features["inflectional"]` instead of maintaining independent feature
-definitions.
+Update generic `Lemma`, `Surface`, and `Selection` typing so they consume the
+new feature API directly.
+
+Per-context bundle aliases should be removed instead of migrated.
 
 ## Open Questions
 
@@ -397,9 +375,9 @@ Specifically:
 - author one `features.ts` per concrete context
 - keep those files self-contained and abstract-feature-based
 - derive registries from those files
-- derive `FeatureBagKind`, `FeatureSetFor`, `FeatureName`, and `FeatureValue`
+- derive `FeatureSetKind`, `FeatureSet`, `FeatureName`, and `FeatureValue`
   from those registries
 - remove `FeatureNameFor` and `FeatureValueFor`
-- make bundle files consume `FeatureSetFor<..., "inherent", ...>` and
-  `FeatureSetFor<..., "inflectional", ...>`
+- remove per-context bundle aliases and let generic entity typing consume the
+  feature API directly
 - normalize Hebrew during the same refactor
