@@ -2,7 +2,11 @@ import { existsSync, mkdirSync, rmSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { $, type ShellError } from "bun";
-import { Extractor, ExtractorConfig } from "@microsoft/api-extractor";
+import {
+	ConsoleMessageId,
+	Extractor,
+	ExtractorConfig,
+} from "@microsoft/api-extractor";
 
 const projectRoot = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const tempTypesDir = resolve(projectRoot, ".types-temp");
@@ -13,6 +17,11 @@ const publicEntrypoints = [
 	"types",
 	"schema",
 ] as const;
+
+const suppressedConsoleMessageIds = new Set<string>([
+	ConsoleMessageId.Preamble,
+	ConsoleMessageId.CompilerVersionNotice,
+]);
 
 async function emitDeclarations() {
 	if (existsSync(tempTypesDir)) {
@@ -74,6 +83,11 @@ async function rollupEntrypoint(entrypoint: (typeof publicEntrypoints)[number]) 
 	});
 	const result = Extractor.invoke(extractorConfig, {
 		localBuild: true,
+		messageCallback: (message) => {
+			if (suppressedConsoleMessageIds.has(message.messageId)) {
+				message.handled = true;
+			}
+		},
 		showVerboseMessages: false,
 	});
 
