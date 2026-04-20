@@ -2,8 +2,8 @@ import type { ZodType } from "zod/v3";
 import { dumling } from "../../src";
 import { schema } from "../../src/schema";
 import type {
-	FeatureNameFor,
-	FeatureValueFor,
+	FeatureName,
+	FeatureValue,
 	Lemma,
 	LemmaKindFor,
 	LemmaSubKindFor,
@@ -84,8 +84,9 @@ const selectionDescriptor = dumling.de.describe.as.selection(inflectionSurface) 
 	lemmaSubKind: "VERB";
 };
 
-const gender: FeatureValueFor<"de", "Lexeme", "NOUN", "gender"> = "Masc";
-const featureName: FeatureNameFor<"de", "Lexeme", "NOUN"> = "gender";
+const gender: FeatureValue<"de", "inherent", "Lexeme", "NOUN", "gender"> =
+	"Masc";
+const featureName: FeatureName<"de", "inherent", "Lexeme", "NOUN"> = "gender";
 const deLemmaKind: LemmaKindFor<"de"> = "Lexeme";
 const deLexemeSubKind: LemmaSubKindFor<"de", "Lexeme"> = "NOUN";
 const deSurfaceKind: SurfaceKindFor<"de"> = "Lemma";
@@ -102,7 +103,8 @@ void surfaceDescriptor;
 void selectionDescriptor;
 
 // @ts-expect-error invalid NOUN gender feature value
-const invalidGender: FeatureValueFor<"de", "Lexeme", "NOUN", "gender"> = "Past";
+const invalidGender: FeatureValue<"de", "inherent", "Lexeme", "NOUN", "gender"> =
+	"Past";
 void invalidGender;
 
 const selectionId = dumling.de.id.encode(typoSelection);
@@ -130,7 +132,7 @@ const enLemma = dumling.en.create.lemma({
 const enSelectionLeaf = schema.en.selection.standard.lemma.lexeme.noun();
 enSelectionLeaf satisfies ZodType<Selection<"en", "Standard", "Lemma", "Lexeme", "NOUN">>;
 
-const enPronType: FeatureValueFor<"en", "Lexeme", "PRON", "pronType"> = [
+const enPronType: FeatureValue<"en", "inherent", "Lexeme", "PRON", "pronType"> = [
 	"Prs",
 	"Rel",
 ];
@@ -153,8 +155,15 @@ const heStandardSelection = dumling.he.convert.lemma.toSelection(
 	heLemma,
 ) satisfies Selection<"he", "Standard", "Lemma", "Lexeme", "VERB">;
 
-const heBinyan: FeatureValueFor<"he", "Lexeme", "VERB", "hebBinyan"> = "PAAL";
-const heVoice: FeatureValueFor<"he", "Lexeme", "VERB", "voice"> = "Act";
+const heBinyan: FeatureValue<
+	"he",
+	"inherent",
+	"Lexeme",
+	"VERB",
+	"hebBinyan"
+> = "PAAL";
+const heVoice: FeatureValue<"he", "inflectional", "Lexeme", "VERB", "voice"> =
+	"Act";
 void heLemma;
 void heVerbLeaf;
 void heBinyan;

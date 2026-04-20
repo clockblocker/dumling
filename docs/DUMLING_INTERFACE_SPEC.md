@@ -757,42 +757,35 @@ type SelectionDescriptor<
 	lemmaSubKind: LSK;
 };
 
-type FeatureName = keyof AbstractFeatures;
+type AbstractFeatureName = keyof AbstractFeatures;
 
 type AbstractFeatureValue<
-	F extends FeatureName,
+	F extends AbstractFeatureName,
 > = AbstractFeatures[F];
 
-type FeatureNameFor<
+type FeatureSetKind = "inherent" | "inflectional";
+
+type FeatureSet<
 	L extends SupportedLanguage,
+	K extends FeatureSetKind,
 	LK extends LemmaKindFor<L>,
 	LSK extends LemmaSubKindFor<L, LK>,
 > = ...;
 
-type FeatureValueFor<
+type FeatureName<
 	L extends SupportedLanguage,
+	K extends FeatureSetKind,
 	LK extends LemmaKindFor<L>,
 	LSK extends LemmaSubKindFor<L, LK>,
-	F extends FeatureNameFor<L, LK, LSK>,
-> = ...;
+> = keyof FeatureSet<L, K, LK, LSK>;
 
-type FeatureBagFor<
+type FeatureValue<
 	L extends SupportedLanguage,
+	K extends FeatureSetKind,
 	LK extends LemmaKindFor<L>,
 	LSK extends LemmaSubKindFor<L, LK>,
-> = ...;
-
-type InherentFeaturesFor<
-	L extends SupportedLanguage,
-	LK extends LemmaKindFor<L>,
-	LSK extends LemmaSubKindFor<L, LK>,
-> = ...;
-
-type InflectionalFeaturesFor<
-	L extends SupportedLanguage,
-	LK extends LemmaKindFor<L>,
-	LSK extends LemmaSubKindFor<L, LK>,
-> = ...;
+	F extends FeatureName<L, K, LK, LSK>,
+> = FeatureSet<L, K, LK, LSK>[F];
 ```
 
 The important requirement is that public helper types preserve the relation
@@ -857,8 +850,9 @@ Examples:
 ```ts
 type Gender = AbstractFeatureValue<"gender">;
 
-type DeNounGender = FeatureValueFor<
+type DeNounGender = FeatureValue<
 	"de",
+	"inherent",
 	"Lexeme",
 	"NOUN",
 	"gender"

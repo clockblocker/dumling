@@ -1,0 +1,8 @@
+import type { AbstractFeatureValue } from "../../../../abstract/features/features";
+
+export type DeDiscourseFormulaPhrasemeFeatures = {
+	inherent: {
+		discourseFormulaRole?: AbstractFeatureValue<"discourseFormulaRole">;
+	};
+	inflectional: {};
+};

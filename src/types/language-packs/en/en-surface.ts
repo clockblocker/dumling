@@ -1,4 +1,4 @@
-import type { ValueOf } from "./shared";
+import type { ValueOf } from "../shared";
 import type {
 	EnInflectionLexemeSurface,
 	EnInflectionLexemeSurfaceBySubKind,
@@ -33,9 +33,13 @@ export type EnLemmaSurface =
 	| EnLemmaLexemeSurface
 	| EnMorphemeLemmaSurfaceUnion
 	| EnPhrasemeLemmaSurfaceUnion;
+
 export type EnInflectionSurface = EnInflectionLexemeSurface;
+
 export type EnSurface = EnLemmaSurface | EnInflectionSurface;
+
 export type EnSurfaceKind = keyof EnSurfaceByKind;
+
 export type EnLemmaSurfaceKind = ValueOf<{
 	Lexeme: keyof EnLemmaLexemeSurfaceBySubKind;
 	Morpheme: keyof EnMorphemeLemmaSurfaceBySubKind;

@@ -1,7 +1,7 @@
 import { z } from "zod/v3";
 import type { Lemma } from "../../../../public-types";
 import type { HePhrasemeLemmaBySubKind } from "../../../../types/language-packs/he/phraseme/he-phrasemes";
-import type { EmptyFeatures } from "../../../../types/language-packs/he/shared";
+import type { EmptyFeatures } from "../../../../types/language-packs/shared";
 import { buildOptionalFeatureObjectSchema } from "../../../shared/feature-helpers";
 import {
 	buildFamilySchemaCatalog,

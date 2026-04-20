@@ -9,13 +9,13 @@ import {
 	deAdpositionSchemas,
 } from "../../src/schemas/language-packs/de/lexeme/pos/de-adposition";
 import { buildDeInflectableLexemeSchemaBundle } from "../../src/schemas/language-packs/de/lexeme/shared/build-de-lexeme-schema-bundle";
+import type { Lemma } from "../../src/public-types";
 import type {
 	DeInflectableLexemeSchemaBundleFor,
 	DeUninflectableLexemeSchemaBundleFor,
 } from "../../src/schemas/language-packs/de/lexeme/shared/build-de-lexeme-schema-bundle";
-import type { DeAdjectiveBundle } from "../../src/types/language-packs/de/lexeme/pos/de-adjective";
 
-deAdjectiveLemmaSchema satisfies z.ZodType<DeAdjectiveBundle["Lemma"]>;
+deAdjectiveLemmaSchema satisfies z.ZodType<Lemma<"de", "Lexeme", "ADJ">>;
 deAdjectiveSchemas satisfies DeInflectableLexemeSchemaBundleFor<"ADJ">;
 deAdpositionSchemas satisfies DeUninflectableLexemeSchemaBundleFor<"ADP">;
 

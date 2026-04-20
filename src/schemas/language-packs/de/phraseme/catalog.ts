@@ -4,7 +4,7 @@ import type {
 	DeDiscourseFormulaInherentFeatures,
 	DePhrasemeLemmaBySubKind,
 } from "../../../../types/language-packs/de/phraseme/de-phrasemes";
-import type { EmptyFeatures } from "../../../../types/language-packs/de/shared";
+import type { EmptyFeatures } from "../../../../types/language-packs/shared";
 import { abstractFeatureAtomSchemas } from "../../../abstract/feature-schemas";
 import { buildOptionalFeatureObjectSchema } from "../../../shared/feature-helpers";
 import {

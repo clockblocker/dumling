@@ -1,57 +1,25 @@
-import type { AbstractFeatureValue } from "../../../abstract/features/features";
 import type { OrthographicStatus } from "../../../core/enums";
-import type { EmptyFeatures, ValueOf } from "../shared";
 import type {
-	DePhrasemeLemma,
-	DePhrasemeLemmaSelection,
-	DePhrasemeLemmaSurface,
-} from "./shared/build-de-phraseme-bundle";
+	LemmaByKindForLanguage,
+	SelectionByOrthographicStatusForLanguage,
+	SurfaceByKindForLanguage,
+} from "../../concrete-language-types";
+import type { ValueOf } from "../../shared";
 
-export type DeDiscourseFormulaInherentFeatures = {
-	discourseFormulaRole?: AbstractFeatureValue<"discourseFormulaRole">;
-};
-
-export type DeAphorismLemma = DePhrasemeLemma<"Aphorism", EmptyFeatures>;
-export type DeDiscourseFormulaLemma = DePhrasemeLemma<
-	"DiscourseFormula",
-	DeDiscourseFormulaInherentFeatures
->;
-export type DeIdiomLemma = DePhrasemeLemma<"Idiom", EmptyFeatures>;
-export type DeProverbLemma = DePhrasemeLemma<"Proverb", EmptyFeatures>;
-
-export type DePhrasemeLemmaBySubKind = {
-	Aphorism: DeAphorismLemma;
-	DiscourseFormula: DeDiscourseFormulaLemma;
-	Idiom: DeIdiomLemma;
-	Proverb: DeProverbLemma;
-};
+export type DePhrasemeLemmaBySubKind = LemmaByKindForLanguage<"de">["Phraseme"];
+export type DeDiscourseFormulaInherentFeatures =
+	DePhrasemeLemmaBySubKind["DiscourseFormula"]["inherentFeatures"];
 
 export type DePhrasemeLemmaUnion = ValueOf<DePhrasemeLemmaBySubKind>;
 
-export type DePhrasemeLemmaSurfaceBySubKind = {
-	Aphorism: DePhrasemeLemmaSurface<"Aphorism", EmptyFeatures>;
-	DiscourseFormula: DePhrasemeLemmaSurface<
-		"DiscourseFormula",
-		DeDiscourseFormulaInherentFeatures
-	>;
-	Idiom: DePhrasemeLemmaSurface<"Idiom", EmptyFeatures>;
-	Proverb: DePhrasemeLemmaSurface<"Proverb", EmptyFeatures>;
-};
+export type DePhrasemeLemmaSurfaceBySubKind =
+	SurfaceByKindForLanguage<"de">["Lemma"]["Phraseme"];
 
 export type DePhrasemeLemmaSurfaceUnion = ValueOf<DePhrasemeLemmaSurfaceBySubKind>;
 
 export type DePhrasemeLemmaSelectionBySubKind<
 	OS extends OrthographicStatus = OrthographicStatus,
-> = {
-	Aphorism: DePhrasemeLemmaSelection<"Aphorism", EmptyFeatures, OS>;
-	DiscourseFormula: DePhrasemeLemmaSelection<
-		"DiscourseFormula",
-		DeDiscourseFormulaInherentFeatures,
-		OS
-	>;
-	Idiom: DePhrasemeLemmaSelection<"Idiom", EmptyFeatures, OS>;
-	Proverb: DePhrasemeLemmaSelection<"Proverb", EmptyFeatures, OS>;
-};
+> = SelectionByOrthographicStatusForLanguage<"de">[OS]["Lemma"]["Phraseme"];
 
 export type DePhrasemeLemmaSelectionUnion<
 	OS extends OrthographicStatus = OrthographicStatus,

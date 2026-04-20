@@ -295,6 +295,20 @@ const heNumeralSchemas = buildHeInflectableLexemeSchemaBundle<"NUM">({
 	inflectionalFeaturesSchema: heNumeralInflectionalFeaturesSchema,
 }) satisfies HeInflectableLexemeSchemaBundleFor<"NUM">;
 
+const heParticleInherentFeaturesSchema = buildFeatureSchema<
+	HeLexemeLemmaBySubKind["PART"]["inherentFeatures"]
+>({});
+const heParticleLemmaSchema = buildLemmaSchema({
+	languageSchema: heLanguageSchema,
+	lemmaKind: "Lexeme",
+	lemmaSubKind: "PART",
+	inherentFeaturesSchema: heParticleInherentFeaturesSchema,
+}) satisfies z.ZodType<HeLexemeLemmaBySubKind["PART"]>;
+const heParticleSchemas = buildHeUninflectableLexemeSchemaBundle<"PART">({
+	languageSchema: heLanguageSchema,
+	lemmaSchema: heParticleLemmaSchema,
+}) satisfies HeUninflectableLexemeSchemaBundleFor<"PART">;
+
 const hePronounInherentFeaturesSchema = buildFeatureSchema<
 	HeLexemeLemmaBySubKind["PRON"]["inherentFeatures"]
 >({
@@ -488,6 +502,12 @@ export const heLexemeSchemaCatalog = defineSchemaCatalog({
 		lemmaSubKind: "NUM",
 		hasInflection: true,
 		bundle: heNumeralSchemas,
+	},
+	part: {
+		key: "part",
+		lemmaSubKind: "PART",
+		hasInflection: false,
+		bundle: heParticleSchemas,
 	},
 	pron: {
 		key: "pron",

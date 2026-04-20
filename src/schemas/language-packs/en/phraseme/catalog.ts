@@ -4,7 +4,7 @@ import type {
 	EnDiscourseFormulaInherentFeatures,
 	EnPhrasemeLemmaBySubKind,
 } from "../../../../types/language-packs/en/phraseme/en-phrasemes";
-import type { EmptyFeatures } from "../../../../types/language-packs/en/shared";
+import type { EmptyFeatures } from "../../../../types/language-packs/shared";
 import { abstractFeatureAtomSchemas } from "../../../abstract/feature-schemas";
 import { buildOptionalFeatureObjectSchema } from "../../../shared/feature-helpers";
 import {

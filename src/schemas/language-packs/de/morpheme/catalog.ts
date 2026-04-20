@@ -4,7 +4,7 @@ import type {
 	DePrefixMorphemeInherentFeatures,
 	DeMorphemeLemmaBySubKind,
 } from "../../../../types/language-packs/de/morpheme/de-morphemes";
-import type { EmptyFeatures } from "../../../../types/language-packs/de/shared";
+import type { EmptyFeatures } from "../../../../types/language-packs/shared";
 import { abstractFeatureAtomSchemas } from "../../../abstract/feature-schemas";
 import { buildOptionalFeatureObjectSchema } from "../../../shared/feature-helpers";
 import {

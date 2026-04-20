@@ -20,33 +20,20 @@ import type {
 	AbstractFeatureName,
 	AbstractFeatureValue as AbstractFeatureValueForName,
 } from "./types/abstract/features/features";
-import type { Prettify } from "./types/core/helpers";
-import type { EnLemma } from "./types/language-packs/en/en-lemma";
-import type { EnSurface } from "./types/language-packs/en/en-surface";
-import type { DeLemma } from "./types/language-packs/de/de-lemma";
-import type { DeSurface } from "./types/language-packs/de/de-surface";
-import type { HeLemma } from "./types/language-packs/he/he-lemma";
-import type { HeSurface } from "./types/language-packs/he/he-surface";
-import type { EnSelectionByOrthographicStatus } from "./types/language-packs/en/en-selection";
-import type { DeSelectionByOrthographicStatus } from "./types/language-packs/de/de-selection";
-import type { HeSelectionByOrthographicStatus } from "./types/language-packs/he/he-selection";
+import type {
+	LanguageLemmaUnionMap,
+	LanguageSelectionByOrthographicStatusMap,
+	LanguageSurfaceUnionMap,
+	SurfaceByKindForLanguage,
+} from "./types/language-packs/concrete-language-types";
+import type {
+	ConcreteLanguage,
+	LanguagePackFeatureRegistry,
+} from "./types/language-packs/feature-registry";
 
-type ConcreteLemmaUnionMap = {
-	de: DeLemma;
-	en: EnLemma;
-	he: HeLemma;
-};
-type ConcreteSurfaceUnionMap = {
-	de: DeSurface;
-	en: EnSurface;
-	he: HeSurface;
-};
-type ConcreteSelectionByStatusMap = {
-	de: DeSelectionByOrthographicStatus;
-	en: EnSelectionByOrthographicStatus;
-	he: HeSelectionByOrthographicStatus;
-};
-type ConcreteLanguage = keyof ConcreteLemmaUnionMap;
+type ConcreteLemmaUnionMap = LanguageLemmaUnionMap;
+type ConcreteSurfaceUnionMap = LanguageSurfaceUnionMap;
+type ConcreteSelectionByStatusMap = LanguageSelectionByOrthographicStatusMap;
 
 type EntityForKind<
 	L extends SupportedLanguage,
@@ -155,26 +142,35 @@ export type IdDecodeSuccess<L extends SupportedLanguage = SupportedLanguage> = {
 	data: Lemma<L> | Surface<L> | Selection<L>;
 };
 export type LemmaKindFor<L extends SupportedLanguage> = L extends ConcreteLanguage
-	? ConcreteLemmaUnionMap[L]["lemmaKind"]
+	? Extract<keyof LanguagePackFeatureRegistry[L], LemmaKind>
 	: LemmaKind;
 
 export type LemmaSubKindFor<
 	L extends SupportedLanguage,
 	LK extends string,
 > = L extends ConcreteLanguage
-	? Extract<ConcreteLemmaUnionMap[L], { lemmaKind: LK }>["lemmaSubKind"]
+	? LK extends LemmaKindFor<L>
+		? Extract<
+				keyof LanguagePackFeatureRegistry[L][LK],
+				AbstractLemmaSubKindFor<LK & LemmaKind>
+			>
+		: never
 	: LK extends LemmaKind
 		? AbstractLemmaSubKindFor<LK>
 		: never;
 
 export type SurfaceKindFor<L extends SupportedLanguage> = L extends ConcreteLanguage
-	? ConcreteSurfaceUnionMap[L]["surfaceKind"]
+	? Extract<keyof SurfaceByKindForLanguage<L>, SurfaceKind>
 	: SurfaceKind;
 
 export type LemmaKindForSurfaceKind<
 	L extends SupportedLanguage,
 	SK extends SurfaceKindFor<L>,
-> = LemmaKindFor<L>;
+> = L extends ConcreteLanguage
+	? SK extends keyof SurfaceByKindForLanguage<L>
+		? Extract<keyof SurfaceByKindForLanguage<L>[SK], LemmaKindFor<L>>
+		: never
+	: LemmaKindFor<L>;
 
 type PlaceholderLemma<
 	L extends SupportedLanguage,
@@ -320,50 +316,63 @@ export type Selection<
 		>
 	: PlaceholderSelection<L, OS, SK, LK, LSK>;
 
+export type FeatureSetKind = "inherent" | "inflectional";
+
+export type FeatureSet<
+	L extends SupportedLanguage,
+	K extends FeatureSetKind,
+	LK extends LemmaKindFor<L>,
+	LSK extends LemmaSubKindFor<L, LK>,
+> = L extends ConcreteLanguage
+	? LK extends keyof LanguagePackFeatureRegistry[L]
+		? LSK extends keyof LanguagePackFeatureRegistry[L][LK]
+			? LanguagePackFeatureRegistry[L][LK][LSK] extends infer TFeatureDefinition extends {
+					inflectional: Record<string, unknown>;
+					inherent: Record<string, unknown>;
+			  }
+				? TFeatureDefinition[K]
+				: never
+			: never
+		: never
+	: K extends "inherent"
+		? AbstractInherentFeaturesFor<
+				LK & LemmaKind,
+				LSK & AbstractLemmaSubKindFor<LK & LemmaKind>
+			>
+		: AbstractInflectionalFeaturesFor<
+				LK & LemmaKind,
+				LSK & AbstractLemmaSubKindFor<LK & LemmaKind>
+			>;
+
 export type InherentFeaturesFor<
 	L extends SupportedLanguage,
 	LK extends LemmaKindFor<L>,
 	LSK extends LemmaSubKindFor<L, LK>,
-> = Lemma<L, LK, LSK>["inherentFeatures"];
+> = FeatureSet<L, "inherent", LK, LSK>;
 
 export type InflectionalFeaturesFor<
 	L extends SupportedLanguage,
 	LK extends LemmaKindFor<L>,
 	LSK extends LemmaSubKindFor<L, LK>,
-> = Surface<
-	L,
-	"Inflection" & SurfaceKindFor<L>,
-	LK & LemmaKindForSurfaceKind<L, "Inflection" & SurfaceKindFor<L>>,
-	LSK
-> extends { inflectionalFeatures: infer Features }
-	? Features
-	: never;
+> = FeatureSet<L, "inflectional", LK, LSK>;
 
-export type FeatureBagFor<
-	L extends SupportedLanguage,
-	LK extends LemmaKindFor<L>,
-	LSK extends LemmaSubKindFor<L, LK>,
-> = Prettify<
-	InherentFeaturesFor<L, LK, LSK> &
-		(InflectionalFeaturesFor<L, LK, LSK> extends never
-			? {}
-			: InflectionalFeaturesFor<L, LK, LSK>)
->;
-
-export type FeatureName = AbstractFeatureName;
-export type AbstractFeatureValue<F extends FeatureName> =
+export type AbstractFeatureValue<F extends AbstractFeatureName> =
 	AbstractFeatureValueForName<F>;
-export type FeatureNameFor<
+
+export type FeatureName<
 	L extends SupportedLanguage,
+	K extends FeatureSetKind,
 	LK extends LemmaKindFor<L>,
 	LSK extends LemmaSubKindFor<L, LK>,
-> = Extract<keyof FeatureBagFor<L, LK, LSK>, FeatureName>;
-export type FeatureValueFor<
+	> = Extract<keyof FeatureSet<L, K, LK, LSK>, AbstractFeatureName>;
+
+export type FeatureValue<
 	L extends SupportedLanguage,
+	K extends FeatureSetKind,
 	LK extends LemmaKindFor<L>,
 	LSK extends LemmaSubKindFor<L, LK>,
-	F extends FeatureNameFor<L, LK, LSK>,
-> = FeatureBagFor<L, LK, LSK>[F];
+	F extends FeatureName<L, K, LK, LSK>,
+> = FeatureSet<L, K, LK, LSK>[F];
 
 export type LemmaDescriptor<
 	L extends SupportedLanguage,

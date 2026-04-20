@@ -1,5 +1,5 @@
 import { z } from "zod/v3";
-import type { DeVerbalInflectionalFeatures } from "../../../../../types/language-packs/de/lexeme/shared/de-verbal-inflection-features";
+import type { InflectionalFeaturesFor } from "../../../../../public-types";
 import { abstractFeatureAtomSchemas } from "../../../../abstract/feature-schemas";
 import { buildFeatureObjectSchema } from "../../../../shared/feature-helpers";
 import {
@@ -77,4 +77,4 @@ export const deVerbalInflectionalFeaturesSchema = z.union([
 	deFiniteNonImperativeVerbalInflectionalFeaturesSchema,
 	deInfinitiveVerbalInflectionalFeaturesSchema,
 	deParticipleVerbalInflectionalFeaturesSchema,
-]) as unknown as z.ZodType<DeVerbalInflectionalFeatures>;
+]) as unknown as z.ZodType<InflectionalFeaturesFor<"de", "Lexeme", "VERB">>;
