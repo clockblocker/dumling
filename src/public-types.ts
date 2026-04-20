@@ -139,7 +139,6 @@ export type ParseError = {
 
 export type IdDecodeErrorCode =
 	| "MalformedId"
-	| "UnsupportedIdVersion"
 	| "LanguageMismatch"
 	| "EntityMismatch"
 	| "InvalidPayload"

@@ -11,7 +11,7 @@ function encodeBase64Url(value: string) {
 		.replace(/=+$/u, "");
 }
 
-describe("v2 API", () => {
+describe("API", () => {
 	it("creates, converts, extracts, and describes german entities", () => {
 		const lemma = dumling.de.create.lemma({
 			language: "he",
@@ -328,7 +328,7 @@ describe("v2 API", () => {
 	});
 
 	it("reports decode failures for malformed ids and mismatched entity kinds", () => {
-		expect(dumling.de.id.decode("dumling:v2:%")).toEqual({
+		expect(dumling.de.id.decode("dumling:%")).toEqual({
 			success: false,
 			error: {
 				code: "MalformedId",
@@ -336,9 +336,7 @@ describe("v2 API", () => {
 			},
 		});
 
-		expect(
-			dumling.de.id.decode(`dumling:v2:${encodeBase64Url("not json")}`),
-		).toEqual({
+		expect(dumling.de.id.decode(`dumling:${encodeBase64Url("not json")}`)).toEqual({
 			success: false,
 			error: {
 				code: "MalformedId",
@@ -346,10 +344,8 @@ describe("v2 API", () => {
 			},
 		});
 
-		const unsupportedVersionId = `dumling:v2:${encodeBase64Url(
+		const invalidPayloadId = `dumling:${encodeBase64Url(
 			JSON.stringify({
-				v: 1,
-				entityKind: "Lemma",
 				language: "de",
 				data: {
 					language: "de",
@@ -362,11 +358,11 @@ describe("v2 API", () => {
 			}),
 		)}`;
 
-		expect(dumling.de.id.decode(unsupportedVersionId)).toEqual({
+		expect(dumling.de.id.decode(invalidPayloadId)).toEqual({
 			success: false,
 			error: {
-				code: "UnsupportedIdVersion",
-				message: "Unsupported Dumling ID version: 1",
+				code: "InvalidPayload",
+				message: "ID payload shape is invalid",
 			},
 		});
 

@@ -1,8 +1,8 @@
 # `dumling`
 
-`dumling` is a TypeScript and Zod package for learner-facing linguistic annotation with a v2 API centered on hydrated `lemma`, `surface`, and `selection` DTOs.
+`dumling` is a TypeScript and Zod package for learner-facing linguistic annotation centered on hydrated `lemma`, `surface`, and `selection` DTOs.
 
-This v2 cut ships working runtime surfaces for `de`, `en`, and `he`.
+This package ships working runtime surfaces for `de`, `en`, and `he`.
 
 `dumling` keeps three linked DTOs separate:
 
@@ -62,7 +62,7 @@ People often look for this package using adjacent terms:
 
 ## Model notes
 
-The v2 public DTO model treats these as independent axes:
+The public DTO model treats these as independent axes:
 
 - `orthographicStatus`: whether the observed spelling is standard or a typo
 - `spellingRelation`: whether a known spelling is canonical or an accepted variant

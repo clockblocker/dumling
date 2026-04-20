@@ -15,6 +15,7 @@ import { idError } from "./id-errors";
 
 type EntityValue<L extends SupportedLanguage> = Lemma<L> | Surface<L> | Selection<L>;
 type DecodeResult<L extends SupportedLanguage> = ApiResult<IdDecodeSuccess<L>, IdDecodeError>;
+const ID_PREFIX = "dumling:";
 
 function isEntityKind(value: unknown): value is EntityKind {
 	return value === "Lemma" || value === "Surface" || value === "Selection";
@@ -25,16 +26,16 @@ export function buildIdOperations<L extends SupportedLanguage>(
 	parse: LanguageApi<L>["parse"],
 ): LanguageApi<L>["id"] {
 	function decode(id: string): DecodeResult<L> {
-		if (!id.startsWith("dumling:v2:")) {
+		if (!id.startsWith(ID_PREFIX)) {
 			return {
 				success: false,
-				error: idError("MalformedId", "Expected a dumling:v2: ID"),
+				error: idError("MalformedId", `Expected a ${ID_PREFIX} ID`),
 			};
 		}
 
 		let payloadText: string;
 		try {
-			payloadText = decodeBase64Url(id.slice("dumling:v2:".length));
+			payloadText = decodeBase64Url(id.slice(ID_PREFIX.length));
 		} catch {
 			return {
 				success: false,
@@ -55,7 +56,6 @@ export function buildIdOperations<L extends SupportedLanguage>(
 		if (
 			typeof payload !== "object" ||
 			payload === null ||
-			!("v" in payload) ||
 			!("entityKind" in payload) ||
 			!("language" in payload) ||
 			!("data" in payload)
@@ -66,22 +66,11 @@ export function buildIdOperations<L extends SupportedLanguage>(
 			};
 		}
 
-		const { v, entityKind, language: payloadLanguage, data } = payload as {
+		const { entityKind, language: payloadLanguage, data } = payload as {
 			data: unknown;
 			entityKind: unknown;
 			language: unknown;
-			v: unknown;
 		};
-
-		if (v !== 2) {
-			return {
-				success: false,
-				error: idError(
-					"UnsupportedIdVersion",
-					`Unsupported Dumling ID version: ${String(v)}`,
-				),
-			};
-		}
 
 		if (payloadLanguage !== language) {
 			return {
@@ -125,9 +114,8 @@ export function buildIdOperations<L extends SupportedLanguage>(
 
 	return {
 		encode(value: EntityValue<L>) {
-			return `dumling:v2:${encodeBase64Url(
+			return `${ID_PREFIX}${encodeBase64Url(
 				JSON.stringify({
-					v: 2,
 					entityKind: inferEntityKind(value),
 					language,
 					data: value,

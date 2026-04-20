@@ -1,9 +1,9 @@
-# `dumling` v2 Interface Spec
+# `dumling` Interface Spec
 
 ## Purpose
 
 This document defines the target public interface for a ground-up `dumling`
-v2 rewrite in TypeScript.
+rewrite in TypeScript.
 
 The goal is not to preserve the current internal structure. The goal is to
 preserve the linguistic concepts while replacing the current public surface
@@ -14,8 +14,8 @@ with a cleaner, stricter, more coherent API.
 Draft.
 
 This is a target-interface document, not an implementation plan. It defines
-the intended v2 public surface and the design constraints the new internals
-must satisfy.
+the intended public surface and the design constraints the new internals must
+satisfy.
 
 ## Why Rewrite Now
 
@@ -27,7 +27,7 @@ That is a reasonable choice because `dumling` is still effectively greenfield:
 - the package is not yet locked into a mature compatibility burden
 - the current moment is still early enough to change the model cleanly
 
-The point of v2 is not incremental cleanup for its own sake. The point is to
+The point is not incremental cleanup for its own sake. The point is to
 replace the current internal architecture before it hardens into long-term
 public debt.
 
@@ -44,13 +44,14 @@ friction:
 - the model is harder to use than the underlying linguistic ideas deserve
 - downstream usage keeps running into avoidable rough edges
 
-One specific lesson from v1 is that inferring the public type model from the
+One specific lesson from the previous interface is that inferring the public
+type model from the
 schema graph was a bait-and-headache design.
 
 That approach made the type surface harder to reason about, harder to control,
 and too dependent on the exact structure of authored schema registries.
 
-v2 explicitly moves away from that failed direction:
+This rewrite explicitly moves away from that failed direction:
 
 - types are the canonical model
 - concrete lemma schemas must satisfy the type model
@@ -63,7 +64,7 @@ not just as a theoretical redesign exercise.
 
 ### 1. Public surface is split hard by concern
 
-v2 separates the public API into distinct modules:
+This interface separates the public API into distinct modules:
 
 - `dumling`: workflow API, builders, converters, IDs, descriptor helpers
 - `dumling/types`: DTO types and type utilities only
@@ -96,7 +97,7 @@ concept in the ontology, public type layer, and schema layer:
 - `schema.abstract...` is valid
 
 `Abstract` does not need to participate everywhere the concrete runtime
-languages do. In particular, the v2 spec does not require abstract hydrated
+languages do. In particular, this spec does not require abstract hydrated
 `Selection` workflow APIs or abstract string-instance workflows.
 
 Abstract selection may still exist at the type and schema levels for ontology
@@ -109,11 +110,11 @@ browsing and validation shape generation.
 `Surface` always contains a `Lemma`.
 
 The current mixed model where a selection can be either hydrated or unresolved
-does not survive into v2.
+does not survive into this interface.
 
 ### 4. `lemmaSubKind` is the public field name
 
-v2 uses `lemmaSubKind` as the public DTO field across lemma families.
+`lemmaSubKind` is the public DTO field across lemma families.
 
 Internal or derived concepts such as `pos`, `morphemeKind`, and
 `phrasemeKind` should not be the primary public discriminator shape.
@@ -155,7 +156,8 @@ The canonical language-bound workflow namespaces are:
 
 ### 7. Language inventory is strictly curated
 
-v2 does not expose a public extension mechanism for arbitrary consumer-defined
+This interface does not expose a public extension mechanism for arbitrary
+consumer-defined
 languages or schema packs.
 
 The package owns a curated language inventory and a curated abstract ontology.
@@ -181,7 +183,7 @@ type ApiResult<T, E> =
 	| { success: false; data?: undefined; error: E };
 ```
 
-v2 should move away from `neverthrow`.
+The public API should move away from `neverthrow`.
 
 Error payloads should use explicit typed codes rather than freeform strings.
 
@@ -219,7 +221,7 @@ participate in inflection.
 
 ## Non-Goals
 
-- compatibility-first preservation of v1 internal structure
+- compatibility-first preservation of the previous internal structure
 - deep schema registry indexing as the main ergonomic path
 - parallel public type families for `entities`, `operation`, and `id`
 - exposing unresolved user input as a first-class hydrated Dumling entity
@@ -298,7 +300,8 @@ import { dumling } from "dumling";
 const en = dumling.en;
 ```
 
-v2 answers the old request for a more coherent high-level workflow API through
+This interface answers the old request for a more coherent high-level workflow
+API through
 six coordinated language-bound namespaces instead of a separate `annotate`
 object:
 
@@ -380,7 +383,7 @@ const decoded = en.id.decodeAs("Selection", id);
 
 ## Languages
 
-v2 languages:
+Current curated languages:
 
 - curated concrete languages such as `en`, `de`, and `he`
 
@@ -669,7 +672,7 @@ schema.en.selection.standard.inflection.lexeme.verb();
 The public schema API should stay tree-shaped and statically browsable, with
 zero-argument leaf functions returning the canonical schema for that leaf.
 
-Callable selector helpers are not the primary v2 schema surface.
+Callable selector helpers are not the primary schema surface.
 
 ## Naming rule
 
@@ -683,7 +686,7 @@ The schema registry uses compact lowercase keys:
 This is intentionally separate from DTO `language` values like `"en"` and
 other concrete language tags.
 
-These schema keys are locked as the intended v2 public shape.
+These schema keys are locked as the intended public shape.
 
 ## Authored vs derived schemas
 
@@ -862,14 +865,14 @@ type DeNounGender = FeatureValueFor<
 >;
 ```
 
-v2 should not introduce a generic `Feature<...>` alias. That name is too
+The public API should not introduce a generic `Feature<...>` alias. That name is too
 ambiguous about whether it means a feature key, a feature value, a feature
 field, or a whole feature bag.
 
 Using Zod enums as the source of truth for enumerable atoms such as languages,
 kinds, sub-kinds, features, and feature values is acceptable.
 
-That does not change the main v2 direction: Zod object schemas are not the
+That does not change the main direction: Zod object schemas are not the
 source of truth for concrete language DTO families, feature-set restrictions,
 or hydrated public entity shapes.
 
@@ -991,7 +994,7 @@ inflection surface, parse must fail.
 
 ## Conversion and Extraction API
 
-Conversions remain useful, but should be simpler than v1.
+Conversions remain useful, but should be simpler than the previous interface.
 
 Proposed surface:
 
@@ -1003,8 +1006,8 @@ en.convert.surface.toSelection(surface, options);
 en.extract.lemma(lemmaOrSurfaceOrSelection);
 ```
 
-This preserves the useful happy path from v1 without centering the whole public
-interface around conversions.
+This preserves the useful happy path from the previous interface without
+centering the whole public interface around conversions.
 
 `extract` exists as an ergonomic projection helper for callers working with
 arbitrary entity unions.
@@ -1043,7 +1046,8 @@ Defaulting is part of the intended conversion contract:
 IDs remain part of the primary workflow API, but should consume the canonical
 DTO types instead of a codec-specific parallel public model.
 
-v2 does not guarantee cross-release stability of the internal ID encoding.
+The package does not guarantee cross-release stability of the internal ID
+encoding.
 
 The package reserves the right to change the internal ID representation across
 releases.
@@ -1063,7 +1067,7 @@ en.id.decodeAs("Surface", id);
 en.id.decodeAs("Selection", id);
 ```
 
-These method names are the intended v2 API:
+These method names are the intended API:
 
 - `encode`
 - `decode`
@@ -1085,23 +1089,21 @@ whose `code` is constrained by a Zod enum of allowed ID error codes.
 
 Conceptually:
 
-```ts
-const DumlingIdErrorCodeSchema = z.enum([
-	"MalformedId",
-	"UnsupportedVersion",
-	"UnsupportedLanguage",
-	"UnsupportedEntityKind",
-	"LanguageMismatch",
+	```ts
+	const DumlingIdErrorCodeSchema = z.enum([
+		"MalformedId",
+		"UnsupportedLanguage",
+		"UnsupportedEntityKind",
+		"LanguageMismatch",
 	"EntityMismatch",
 	"PayloadDecodeFailed",
 ]);
 
-type DumlingIdErrorCode =
-	| "MalformedId"
-	| "UnsupportedVersion"
-	| "UnsupportedLanguage"
-	| "UnsupportedEntityKind"
-	| "LanguageMismatch"
+	type DumlingIdErrorCode =
+		| "MalformedId"
+		| "UnsupportedLanguage"
+		| "UnsupportedEntityKind"
+		| "LanguageMismatch"
 	| "EntityMismatch"
 	| "PayloadDecodeFailed";
 type DumlingIdError = {
@@ -1128,7 +1130,7 @@ type DecodedValue =
 
 ## Selection And Invalid Input
 
-`ObservedSelection` is removed from the v2 public model.
+`ObservedSelection` is removed from the public model.
 
 That implies:
 
@@ -1141,13 +1143,13 @@ That implies:
 
 ## Migration Consequences
 
-v2 is allowed to break v1 public structure.
+The rewrite is allowed to break the previous public structure.
 
-When the rewrite lands, the old v1 public surface is expected to be removed
+When the rewrite lands, the previous public surface is expected to be removed
 rather than maintained in parallel.
 
 There is no intended long-term state where `dumling` ships both a backward-
-compatible v1 surface and a new v2 surface side by side.
+compatible legacy surface and the rewritten surface side by side.
 
 After the rewrite, the new interface becomes the package interface.
 
@@ -1163,8 +1165,8 @@ Expected breaks:
 
 ## Bottom Line
 
-The v2 interface should be built around one canonical ontology and one
-canonical DTO family.
+The interface should be built around one canonical ontology and one canonical
+DTO family.
 
 `Abstract` is the superset contract.
 Concrete languages are restrictions of it.
@@ -1182,16 +1184,18 @@ The rewrite is justified by actual usage: trying to use `dumling` as a real
 library exposed enough friction and awkwardness that a ground-up reset is the
 cleaner path.
 
-v1 also reflects the reality that the project did not arrive at the right
+The previous interface also reflects the reality that the project did not
+arrive at the right
 shapes immediately. Some of the current structure is the residue of getting
 there the hard way.
 
 This rewrite is allowed to acknowledge that history directly:
 
 - schema-derived public typing was a failed experiment
-- some v1 shapes exist because the model was discovered gradually
-- v2 should keep the linguistic ideas and discard the architectural baggage
+- some legacy shapes exist because the model was discovered gradually
+- the rewrite should keep the linguistic ideas and discard the architectural
+  baggage
 
-There should therefore be one `dumling`, not a permanently split v1/v2 product
-line. Once the rewrite is implemented, the rewritten interface is the only
+There should therefore be one `dumling`, not a permanently split product line.
+Once the rewrite is implemented, the rewritten interface is the only
 interface.
