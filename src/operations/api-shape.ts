@@ -1,6 +1,7 @@
 import type { Descriptor } from "../types/descriptor";
 import type {
-	DumlingId,
+	DumlingBase64Url,
+	DumlingCsv,
 	EntityForKind,
 	EntityKind,
 	EntityValue,
@@ -51,9 +52,18 @@ export type IdDecodeError = {
 };
 
 export type IdDecodeSuccess<L extends SupportedLanguage = SupportedLanguage> = {
-	entityKind: EntityKind;
-	data: Lemma<L> | Surface<L> | Selection<L>;
-};
+	format: "csv" | "base64url";
+	language: L;
+} & (
+	| {
+			kind: "Lemma";
+			lemma: Lemma<L>;
+	  }
+	| {
+			kind: "Surface";
+			surface: Surface<L>;
+	  }
+);
 
 export type LanguageApi<L extends SupportedLanguage> = {
 	create: {
@@ -140,22 +150,6 @@ export type LanguageApi<L extends SupportedLanguage> = {
 				options?: SelectionOptionsFor<TStatus>,
 			): SelectionFromSurface<L, TStatus, TSurface>;
 		};
-		format: {
-			toCsv(value: Lemma<L> | Surface<L>): string;
-			fromCsv(
-				input: string,
-			): ApiResult<Lemma<L> | Surface<L>, ParseError>;
-			toJson(value: Lemma<L> | Surface<L>): string;
-			fromJson(
-				input: string,
-			): ApiResult<Lemma<L> | Surface<L>, ParseError>;
-			toBase64(value: Lemma<L> | Surface<L>): string;
-			fromBase64(
-				input: string,
-			): ApiResult<Lemma<L> | Surface<L>, ParseError>;
-			csvToBase64(input: string): string;
-			base64ToCsv(input: string): string;
-		};
 	};
 	extract: {
 		lemma(value: Lemma<L> | Surface<L> | Selection<L>): Lemma<L>;
@@ -217,12 +211,27 @@ export type LanguageApi<L extends SupportedLanguage> = {
 		};
 	};
 	id: {
-		encode(value: EntityValue<L>): DumlingId<EntityKind, L>;
-		decode(id: string): ApiResult<IdDecodeSuccess<L>, IdDecodeError>;
-		decodeAs<K extends EntityKind>(
-			kind: K,
-			id: string,
-		): ApiResult<EntityForKind<L, K>, IdDecodeError>;
+		encode: {
+			asCsv(value: Lemma<L> | Surface<L> | Selection<L>): DumlingCsv<L>;
+			asBase64Url(
+				value: Lemma<L> | Surface<L> | Selection<L> | DumlingCsv<L>,
+			): DumlingBase64Url<L>;
+		};
+		decode: {
+			any(id: string): ApiResult<IdDecodeSuccess<L>, IdDecodeError>;
+			asLemma(
+				id: string,
+			): ApiResult<
+				Extract<IdDecodeSuccess<L>, { kind: "Lemma" }>,
+				IdDecodeError
+			>;
+			asSurface(
+				id: string,
+			): ApiResult<
+				Extract<IdDecodeSuccess<L>, { kind: "Surface" }>,
+				IdDecodeError
+			>;
+		};
 	};
 };
 

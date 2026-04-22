@@ -120,7 +120,7 @@ describe("API", () => {
 		expect(fromSurface).toEqual(fromLemma);
 	});
 
-	it("converts citation surfaces to the compact CSV row shape", () => {
+	it("encodes citation surfaces to the readable ID CSV row shape", () => {
 		const lemma = dumling.de.create.lemma({
 			canonicalLemma: "See",
 			lemmaKind: "Lexeme",
@@ -132,21 +132,21 @@ describe("API", () => {
 		});
 		const surface = dumling.de.convert.lemma.toSurface(lemma);
 
-		expect(dumling.de.convert.format.toCsv(surface)).toBe(
-			'Surface,Citation,See,Lemma,See,Lexeme,NOUN,"{""gender"":""Masc""}",🌊',
+		expect(String(dumling.de.id.encode.asCsv(surface))).toBe(
+			"Surface,Citation,see,Lemma,de,Lexeme,NOUN,see,🌊,gender=Masc",
 		);
 	});
 
-	it("parses compact citation surface CSV rows through the language schema", () => {
-		const parsed = dumling.de.convert.format.fromCsv(
-			'Surface,Citation,See,Lemma,See,Lexeme,NOUN,"{""gender"":""Masc""}",🌊',
+	it("parses readable citation surface CSV rows through the language schema", () => {
+		const parsed = dumling.de.id.decode.asSurface(
+			"Surface,Citation,See,Lemma,de,Lexeme,NOUN,See,🌊,gender=Masc",
 		);
 
 		expect(parsed.success).toBe(true);
 		if (!parsed.success) {
 			throw new Error(parsed.error.message);
 		}
-		expect(parsed.data).toEqual({
+		expect(parsed.data.surface).toEqual({
 			language: "de",
 			normalizedFullSurface: "see",
 			surfaceKind: "Citation",
@@ -163,7 +163,7 @@ describe("API", () => {
 		});
 	});
 
-	it("round-trips inflection surfaces with inflectional feature JSON in CSV", () => {
+	it("round-trips inflection surfaces with readable CSV feature sets", () => {
 		const lemma = dumling.en.create.lemma({
 			canonicalLemma: "run",
 			lemmaKind: "Lexeme",
@@ -180,25 +180,26 @@ describe("API", () => {
 			},
 		});
 
-		const csv = dumling.en.convert.format.toCsv(surface);
-		const parsed = dumling.en.convert.format.fromCsv(csv);
+		const csv = dumling.en.id.encode.asCsv(surface);
+		const parsed = dumling.en.id.decode.asSurface(csv);
 
-		expect(csv).toBe(
-			'Surface,Inflection,ran,"{""tense"":""Past"",""verbForm"":""Fin""}",Lemma,run,Lexeme,VERB,{},🏃',
+		expect(String(csv)).toBe(
+			"Surface,Inflection,ran,tense=Past|verbForm=Fin,Lemma,en,Lexeme,VERB,run,🏃,",
 		);
 		expect(parsed).toEqual({
 			success: true,
-			data: surface,
+			data: {
+				format: "csv",
+				language: "en",
+				kind: "Surface",
+				surface,
+			},
 		});
 	});
 
-	it("converts surface JSON strings through the same validated format API", () => {
-		const json = JSON.stringify({
-			language: "de",
-			normalizedFullSurface: "See",
-			surfaceKind: "Citation",
-			lemma: {
-				language: "de",
+	it("encodes readable CSV IDs as base64url tiny CSV IDs", () => {
+		const surface = dumling.de.convert.lemma.toSurface(
+			dumling.de.create.lemma({
 				canonicalLemma: "See",
 				lemmaKind: "Lexeme",
 				lemmaSubKind: "NOUN",
@@ -206,38 +207,18 @@ describe("API", () => {
 					gender: "Masc",
 				},
 				meaningInEmojis: "🌊",
-			},
-		});
-
-		const parsed = dumling.de.convert.format.fromJson(json);
-
-		expect(parsed.success).toBe(true);
-		if (!parsed.success) {
-			throw new Error(parsed.error.message);
-		}
-		expect(dumling.de.convert.format.toJson(parsed.data)).toBe(
-			'{"language":"de","lemma":{"canonicalLemma":"see","inherentFeatures":{"gender":"Masc"},"language":"de","lemmaKind":"Lexeme","lemmaSubKind":"NOUN","meaningInEmojis":"🌊"},"normalizedFullSurface":"see","surfaceKind":"Citation"}',
+			}),
 		);
-	});
+		const encoded = dumling.de.id.encode.asBase64Url(surface);
+		const parsed = dumling.de.id.decode.asSurface(encoded);
 
-	it("converts compact CSV rows to base64 and back", () => {
-		const csv =
-			'Surface,Citation,See,Lemma,See,Lexeme,NOUN,"{""gender"":""Masc""}",🌊';
-
-		const encoded = dumling.de.convert.format.csvToBase64(csv);
-		const decoded = dumling.de.convert.format.base64ToCsv(encoded);
-		const parsed = dumling.de.convert.format.fromBase64(encoded);
-
-		expect(encoded).toBe(Buffer.from(csv, "utf8").toString("base64"));
-		expect(decoded).toBe(csv);
+		expect(encoded).not.toContain("=");
 		expect(parsed.success).toBe(true);
 		if (!parsed.success) {
 			throw new Error(parsed.error.message);
 		}
-		if (!("surfaceKind" in parsed.data)) {
-			throw new Error("expected a surface");
-		}
-		expect(parsed.data.normalizedFullSurface).toBe("see");
+		expect(parsed.data.format).toBe("base64url");
+		expect(parsed.data.surface.normalizedFullSurface).toBe("see");
 	});
 
 	it("parses normalized german DTOs and exposes schema leaves", () => {
@@ -388,17 +369,17 @@ describe("API", () => {
 			throw new Error(selection.error.message);
 		}
 
-		const id = dumling.de.id.encode(selection.data);
-		const decoded = dumling.de.id.decode(id);
-		const decodedAs = dumling.de.id.decodeAs("Selection", id);
+		const id = dumling.de.id.encode.asBase64Url(selection.data);
+		const decoded = dumling.de.id.decode.any(id);
+		const decodedAs = dumling.de.id.decode.asSurface(id);
 
 		expect(decoded.success).toBe(true);
 		expect(decodedAs.success).toBe(true);
 		if (!decoded.success || !decodedAs.success) {
 			throw new Error("expected successful decode");
 		}
-		expect(decoded.data.entityKind).toBe("Selection");
-		expect(decodedAs.data).toEqual(selection.data);
+		expect(decoded.data.kind).toBe("Surface");
+		expect(decodedAs.data.surface).toEqual(selection.data.surface);
 
 		const englishLemma = dumling.en.create.lemma({
 			canonicalLemma: "see",
@@ -440,43 +421,29 @@ describe("API", () => {
 	});
 
 	it("reports decode failures for malformed ids and mismatched entity kinds", () => {
-		expect(dumling.de.id.decode("dumling:%")).toEqual({
+		expect(dumling.de.id.decode.any("dumling:%")).toEqual({
 			success: false,
 			error: {
 				code: "MalformedId",
-				message: "ID payload is not valid base64url",
+				message: "ID is not valid base64url",
 			},
 		});
 
-		expect(
-			dumling.de.id.decode(`dumling:${encodeBase64Url("not json")}`),
-		).toEqual({
+		expect(dumling.de.id.decode.any(encodeBase64Url("not tiny"))).toEqual({
 			success: false,
 			error: {
 				code: "MalformedId",
-				message: "ID payload is not valid JSON",
+				message: "Base64url payload is not tiny CSV",
 			},
 		});
 
-		const invalidPayloadId = `dumling:${encodeBase64Url(
-			JSON.stringify({
-				language: "de",
-				data: {
-					language: "de",
-					canonicalLemma: "see",
-					lemmaKind: "Lexeme",
-					lemmaSubKind: "NOUN",
-					inherentFeatures: {},
-					meaningInEmojis: "🌊",
-				},
-			}),
-		)}`;
+		const invalidPayloadId = encodeBase64Url("v1,l,de,l,n,see");
 
-		expect(dumling.de.id.decode(invalidPayloadId)).toEqual({
+		expect(dumling.de.id.decode.any(invalidPayloadId)).toEqual({
 			success: false,
 			error: {
 				code: "InvalidPayload",
-				message: "ID payload shape is invalid",
+				message: "Tiny Lemma rows must contain 8 fields",
 			},
 		});
 
@@ -489,13 +456,13 @@ describe("API", () => {
 				meaningInEmojis: "🌊",
 			}),
 		);
-		const selectionId = dumling.de.id.encode(selection);
+		const selectionId = dumling.de.id.encode.asBase64Url(selection);
 
-		expect(dumling.de.id.decodeAs("Lemma", selectionId)).toEqual({
+		expect(dumling.de.id.decode.asLemma(selectionId)).toEqual({
 			success: false,
 			error: {
 				code: "EntityMismatch",
-				message: "Expected Lemma, received Selection",
+				message: "Expected Lemma, received Surface",
 			},
 		});
 	});

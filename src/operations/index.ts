@@ -7,7 +7,7 @@ import type {
 import { buildConvertOperations } from "./shared/convert";
 import { buildDescribeOperations } from "./shared/describe";
 import { buildExtractOperations } from "./shared/extract";
-import { buildIdOperations, inspectId } from "./shared/id";
+import { buildIdOperations } from "./shared/id";
 import { supportedLanguages } from "./shared/language-inventory";
 
 function buildImplementedLanguageApi<L extends SupportedLanguage>(
@@ -39,4 +39,4 @@ function getLanguageApi<L extends SupportedLanguage>(
 	return dumling[language] as unknown as LanguageApi<L>;
 }
 
-export { getLanguageApi, inspectId, supportedLanguages };
+export { getLanguageApi, supportedLanguages };

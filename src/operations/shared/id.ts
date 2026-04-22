@@ -1,9 +1,10 @@
 import type {
-	DumlingId,
-	DumlingIdInspection,
-	EntityKind,
-	EntityValue,
+	DumlingBase64Url,
+	DumlingCsv,
+	Lemma,
+	Selection,
 	SupportedLanguage,
+	Surface,
 } from "../../types/public-types";
 import type {
 	ApiResult,
@@ -11,187 +12,244 @@ import type {
 	IdDecodeSuccess,
 	LanguageApi,
 } from "../api-shape";
-import { decodeBase64Url, encodeBase64Url } from "./base64url";
-import { inferEntityKind } from "./entity-accessors";
+import { decodeBase64Url, encodeBase64Url } from "./id-codec/base64url";
+import {
+	assertEntityIdFeatureConstraints,
+	decodeReadableCsv,
+	entityToReadableCsv,
+} from "./id-codec/readable-csv";
+import {
+	readableCsvToTinyCsv,
+	tinyCsvToReadableCsv,
+} from "./id-codec/tiny-csv";
 import { idError } from "./id-errors";
-import { isSupportedLanguage } from "./language-inventory";
 
 type DecodeResult<L extends SupportedLanguage> = ApiResult<
 	IdDecodeSuccess<L>,
 	IdDecodeError
 >;
-const ID_PREFIX = "dumling:";
 
-function isEntityKind(value: unknown): value is EntityKind {
-	return value === "Lemma" || value === "Surface" || value === "Selection";
+type IdAddressableEntity<L extends SupportedLanguage> = Lemma<L> | Surface<L>;
+
+function entityForId<L extends SupportedLanguage>(
+	value: Lemma<L> | Surface<L> | Selection<L>,
+): IdAddressableEntity<L> {
+	if ("surface" in value) {
+		return value.surface as Surface<L>;
+	}
+
+	return value;
 }
 
-export function inspectId(id: string): DumlingIdInspection | undefined {
-	if (!id.startsWith(ID_PREFIX)) {
-		return undefined;
+function assertParseSuccess<T>(
+	result: ApiResult<T, { message: string }>,
+	context: string,
+): T {
+	if (!result.success) {
+		throw new Error(`${context}: ${result.error.message}`);
 	}
 
-	let payload: unknown;
-	try {
-		payload = JSON.parse(decodeBase64Url(id.slice(ID_PREFIX.length)));
-	} catch {
-		return undefined;
+	return result.data;
+}
+
+function canonicalizeEntity<L extends SupportedLanguage>(
+	parse: LanguageApi<L>["parse"],
+	value: Lemma<L> | Surface<L> | Selection<L>,
+): IdAddressableEntity<L> {
+	assertEntityIdFeatureConstraints(value);
+
+	const idEntity = entityForId(value);
+	const parsed =
+		"surfaceKind" in idEntity
+			? assertParseSuccess(
+					parse.surface(idEntity),
+					"Invalid Surface ID input",
+				)
+			: assertParseSuccess(
+					parse.lemma(idEntity),
+					"Invalid Lemma ID input",
+				);
+
+	assertEntityIdFeatureConstraints(parsed);
+	return parsed as IdAddressableEntity<L>;
+}
+
+function decodeReadableAsSuccess<L extends SupportedLanguage>(
+	language: L,
+	parse: LanguageApi<L>["parse"],
+	input: string,
+	format: IdDecodeSuccess<L>["format"],
+): DecodeResult<L> {
+	const decoded = decodeReadableCsv(language, parse, input);
+	if (!decoded.success) {
+		return decoded;
 	}
 
-	if (typeof payload !== "object" || payload === null) {
-		return undefined;
-	}
-
-	const { entityKind, language } = payload as {
-		entityKind?: unknown;
-		language?: unknown;
-	};
-
-	if (!isEntityKind(entityKind) || !isSupportedLanguage(language)) {
-		return undefined;
+	if (decoded.data.kind === "Lemma") {
+		return {
+			success: true,
+			data: {
+				format,
+				language,
+				kind: "Lemma",
+				lemma: decoded.data.lemma,
+			},
+		};
 	}
 
 	return {
-		kind: entityKind,
-		language,
+		success: true,
+		data: {
+			format,
+			language,
+			kind: "Surface",
+			surface: decoded.data.surface,
+		},
 	};
+}
+
+function shouldTreatAsReadableCsv(input: string) {
+	return input.startsWith("Lemma") || input.startsWith("Surface");
+}
+
+function hasReadableCsvLeadingWhitespace(input: string) {
+	return /^[\s\uFEFF]+(?:Lemma|Surface)/u.test(input);
+}
+
+function decodeAny<L extends SupportedLanguage>(
+	language: L,
+	parse: LanguageApi<L>["parse"],
+	input: string,
+): DecodeResult<L> {
+	if (hasReadableCsvLeadingWhitespace(input)) {
+		return {
+			success: false,
+			error: idError(
+				"MalformedId",
+				"Readable CSV IDs must not have leading whitespace or BOM",
+			),
+		};
+	}
+
+	if (shouldTreatAsReadableCsv(input)) {
+		return decodeReadableAsSuccess(language, parse, input, "csv");
+	}
+
+	let tinyCsv: string;
+	try {
+		tinyCsv = decodeBase64Url(input);
+	} catch {
+		return {
+			success: false,
+			error: idError("MalformedId", "ID is not valid base64url"),
+		};
+	}
+
+	const readableCsv = tinyCsvToReadableCsv(tinyCsv);
+	if (!readableCsv.success) {
+		return readableCsv;
+	}
+
+	return decodeReadableAsSuccess(
+		language,
+		parse,
+		readableCsv.data,
+		"base64url",
+	);
+}
+
+function entityFromDecodeSuccess<L extends SupportedLanguage>(
+	success: IdDecodeSuccess<L>,
+): IdAddressableEntity<L> {
+	return success.kind === "Lemma" ? success.lemma : success.surface;
 }
 
 export function buildIdOperations<L extends SupportedLanguage>(
 	language: L,
 	parse: LanguageApi<L>["parse"],
 ): LanguageApi<L>["id"] {
-	function decode(id: string): DecodeResult<L> {
-		if (!id.startsWith(ID_PREFIX)) {
-			return {
-				success: false,
-				error: idError("MalformedId", `Expected a ${ID_PREFIX} ID`),
-			};
-		}
-
-		let payloadText: string;
-		try {
-			payloadText = decodeBase64Url(id.slice(ID_PREFIX.length));
-		} catch {
-			return {
-				success: false,
-				error: idError(
-					"MalformedId",
-					"ID payload is not valid base64url",
-				),
-			};
-		}
-
-		let payload: unknown;
-		try {
-			payload = JSON.parse(payloadText);
-		} catch {
-			return {
-				success: false,
-				error: idError("MalformedId", "ID payload is not valid JSON"),
-			};
-		}
-
-		if (
-			typeof payload !== "object" ||
-			payload === null ||
-			!("entityKind" in payload) ||
-			!("language" in payload) ||
-			!("data" in payload)
-		) {
-			return {
-				success: false,
-				error: idError("InvalidPayload", "ID payload shape is invalid"),
-			};
-		}
-
-		const {
-			entityKind,
-			language: payloadLanguage,
-			data,
-		} = payload as {
-			data: unknown;
-			entityKind: unknown;
-			language: unknown;
-		};
-
-		if (payloadLanguage !== language) {
-			return {
-				success: false,
-				error: idError(
-					"LanguageMismatch",
-					`Expected ID for ${language}, received ${String(payloadLanguage)}`,
-				),
-			};
-		}
-
-		if (!isEntityKind(entityKind)) {
-			return {
-				success: false,
-				error: idError(
-					"InvalidPayload",
-					"ID payload entityKind is invalid",
-				),
-			};
-		}
-
-		const parseResult =
-			entityKind === "Lemma"
-				? parse.lemma(data)
-				: entityKind === "Surface"
-					? parse.surface(data)
-					: parse.selection(data);
-
-		if (!parseResult.success) {
-			return {
-				success: false,
-				error: idError("InvalidPayload", parseResult.error.message),
-			};
-		}
-
-		return {
-			success: true,
-			data: {
-				entityKind,
-				data: parseResult.data as EntityValue<L>,
-			} as IdDecodeSuccess<L>,
-		};
+	function encodeCanonicalCsv(
+		value: Lemma<L> | Surface<L> | Selection<L>,
+	): DumlingCsv<L> {
+		const canonical = canonicalizeEntity(parse, value);
+		return entityToReadableCsv(canonical) as DumlingCsv<L>;
 	}
 
 	return {
-		encode(value: EntityValue<L>): DumlingId<EntityKind, L> {
-			return `${ID_PREFIX}${encodeBase64Url(
-				JSON.stringify({
-					entityKind: inferEntityKind(value),
-					language,
-					data: value,
-				}),
-			)}` as DumlingId<EntityKind, L>;
-		},
-		decode(id: string) {
-			return decode(id);
-		},
-		decodeAs(kind: EntityKind, id: string) {
-			const decoded = decode(id);
+		encode: {
+			asCsv(value) {
+				return encodeCanonicalCsv(value);
+			},
+			asBase64Url(value) {
+				const csv =
+					typeof value === "string"
+						? (() => {
+								const decoded = decodeReadableAsSuccess(
+									language,
+									parse,
+									value,
+									"csv",
+								);
+								if (!decoded.success) {
+									throw new Error(decoded.error.message);
+								}
+								return entityToReadableCsv(
+									entityFromDecodeSuccess(decoded.data),
+								);
+							})()
+						: encodeCanonicalCsv(value);
 
-			if (!decoded.success) {
-				return decoded;
-			}
-
-			if (decoded.data.entityKind !== kind) {
-				return {
-					success: false,
-					error: idError(
-						"EntityMismatch",
-						`Expected ${kind}, received ${decoded.data.entityKind}`,
-					),
-				};
-			}
-
-			return {
-				success: true,
-				data: decoded.data.data as never,
-			};
+				return encodeBase64Url(
+					readableCsvToTinyCsv(csv),
+				) as DumlingBase64Url<L>;
+			},
 		},
-	} as unknown as LanguageApi<L>["id"];
+		decode: {
+			any(input) {
+				return decodeAny(language, parse, input);
+			},
+			asLemma(input) {
+				const decoded = decodeAny(language, parse, input);
+				if (!decoded.success) {
+					return decoded;
+				}
+
+				if (decoded.data.kind !== "Lemma") {
+					return {
+						success: false,
+						error: idError(
+							"EntityMismatch",
+							`Expected Lemma, received ${decoded.data.kind}`,
+						),
+					};
+				}
+
+				return decoded as ApiResult<
+					Extract<IdDecodeSuccess<L>, { kind: "Lemma" }>,
+					IdDecodeError
+				>;
+			},
+			asSurface(input) {
+				const decoded = decodeAny(language, parse, input);
+				if (!decoded.success) {
+					return decoded;
+				}
+
+				if (decoded.data.kind !== "Surface") {
+					return {
+						success: false,
+						error: idError(
+							"EntityMismatch",
+							`Expected Surface, received ${decoded.data.kind}`,
+						),
+					};
+				}
+
+				return decoded as ApiResult<
+					Extract<IdDecodeSuccess<L>, { kind: "Surface" }>,
+					IdDecodeError
+				>;
+			},
+		},
+	};
 }

@@ -44,7 +44,7 @@ describe("published package entrypoints", () => {
 		run("bun", ["run", "build"]);
 
 		const runtimeSmokeTest = `
-			import { dumling, getLanguageApi, inspectId, supportedLanguages } from "dumling";
+			import { dumling, getLanguageApi, supportedLanguages } from "dumling";
 			import { abstractSchemas, getSchemaTreeFor, schemasFor } from "dumling/schema";
 			import * as schemaModule from "dumling/schema";
 
@@ -67,15 +67,13 @@ describe("published package entrypoints", () => {
 			});
 			const parsed = dumling.de.parse.selection(selection);
 			if (!parsed.success) throw new Error(parsed.error.message);
-			const decoded = dumling.de.id.decodeAs("Selection", dumling.de.id.encode(parsed.data));
+			const decoded = dumling.de.id.decode.asSurface(dumling.de.id.encode.asBase64Url(parsed.data));
 			if (!decoded.success) throw new Error(decoded.error.message);
-			const inspection = inspectId(dumling.de.id.encode(parsed.data));
-			if (inspection?.kind !== "Selection" || inspection.language !== "de") throw new Error("ID inspection failed");
 			const staticSchema = schemasFor.de.entity.Selection.Standard.Citation.Lexeme.NOUN();
 			const dynamicSchema = getSchemaTreeFor("de").entity.Selection.Standard.Citation.Lexeme.NOUN();
 			if (typeof staticSchema.parse !== "function") throw new Error("schema entrypoint is missing german schemas");
-			staticSchema.parse(decoded.data);
-			dynamicSchema.parse(decoded.data);
+			staticSchema.parse(parsed.data);
+			dynamicSchema.parse(parsed.data);
 			if (schemasFor.de.entity.Selection.Standard.Citation.Lexeme.NOUN() !== staticSchema) throw new Error("leaf getter should return the stable schema object");
 			if (getSchemaTreeFor("de") !== schemasFor.de) throw new Error("dynamic schema accessor must return registry object");
 			schemasFor.de.descriptor.Lemma.Lexeme.NOUN.parse({ language: "de", lemmaKind: "Lexeme", lemmaSubKind: "NOUN" });
@@ -90,10 +88,10 @@ describe("published package entrypoints", () => {
 			writeFileSync(
 				join(typecheckDir, "fixture.ts"),
 				[
-					'import { dumling, getLanguageApi, inspectId, supportedLanguages } from "dumling";',
+					'import { dumling, getLanguageApi, supportedLanguages } from "dumling";',
 					'import { abstractSchemas, getSchemaTreeFor, schemasFor } from "dumling/schema";',
 					'import type * as z from "zod/v3";',
-					'import type { AbstractLemma, Descriptor, DumlingId, DumlingIdInspection, EntityForKind, EntityValue, LanguageApi, Lemma, Selection, SelectionOptionsFor, SupportedLanguage } from "dumling/types";',
+					'import type { AbstractLemma, Descriptor, DumlingBase64Url, EntityForKind, EntityValue, LanguageApi, Lemma, Selection, SelectionOptionsFor, SupportedLanguage, Surface } from "dumling/types";',
 					"",
 					'const languages: readonly ("de" | "en" | "he")[] = supportedLanguages;',
 					"void languages;",
@@ -117,16 +115,16 @@ describe("published package entrypoints", () => {
 					"\treturn getLanguageApi(language);",
 					"}",
 					"void genericApi;",
-					"const selectionId = dumling.de.id.encode(parsed.data);",
-					'selectionId satisfies DumlingId<"Lemma" | "Surface" | "Selection", "de">;',
-					"const inspected = inspectId(selectionId);",
-					"inspected satisfies DumlingIdInspection | undefined;",
-					'const decoded = dumling.de.id.decodeAs("Selection", selectionId);',
+					"const selectionId = dumling.de.id.encode.asBase64Url(parsed.data);",
+					'selectionId satisfies DumlingBase64Url<"de">;',
+					"const decoded = dumling.de.id.decode.asSurface(selectionId);",
 					"if (!decoded.success) throw new Error(decoded.error.message);",
-					'const entityValue: EntityValue<"de"> = decoded.data;',
-					'const entityForKind: EntityForKind<"de", "Selection"> = decoded.data;',
+					'const entityValue: EntityValue<"de"> = parsed.data;',
+					'const surfaceValue: Surface<"de"> = decoded.data.surface;',
+					'const entityForKind: EntityForKind<"de", "Selection"> = parsed.data;',
 					'const selectionOptions: SelectionOptionsFor<"Standard"> = { spelledSelection: "See" };',
 					"void entityValue;",
+					"void surfaceValue;",
 					"void entityForKind;",
 					"void selectionOptions;",
 					'const nounLemmaSchema: z.ZodType<Lemma<"de", "Lexeme", "NOUN">> = schemasFor.de.entity.Lemma.Lexeme.NOUN();',
@@ -141,10 +139,10 @@ describe("published package entrypoints", () => {
 					"languageTree.entity.Selection.Standard.Citation.Lexeme.NOUN();",
 					"getSchemaTreeFor(language).entity.Selection.Standard.Citation.Lexeme.NOUN();",
 					"nounLemmaSchema.parse(lemma);",
-					"nounSelectionSchema.parse(decoded.data);",
+					"nounSelectionSchema.parse(parsed.data);",
 					'nounLemmaDescriptorSchema.parse({ language: "de", lemmaKind: "Lexeme", lemmaSubKind: "NOUN" });',
 					'abstractLemmaSchema.parse({ language: "fr", canonicalLemma: "aller", lemmaKind: "Lexeme", lemmaSubKind: "VERB", inherentFeatures: {}, meaningInEmojis: "🚶" });',
-					"schemasFor.de.entity.Selection.Standard.Citation.Lexeme.NOUN().parse(decoded.data);",
+					"schemasFor.de.entity.Selection.Standard.Citation.Lexeme.NOUN().parse(parsed.data);",
 				].join("\n"),
 			);
 			writeFileSync(

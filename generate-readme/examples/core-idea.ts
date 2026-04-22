@@ -78,10 +78,10 @@ if (!parsed.success) {
 	throw new Error(parsed.error.message);
 }
 
-const id = packageDumling.de.id.encode(parsed.data);
-const decoded = packageDumling.de.id.decodeAs("Selection", id);
+const id = packageDumling.de.id.encode.asBase64Url(parsed.data);
+const decoded = packageDumling.de.id.decode.asSurface(id);
 if (!decoded.success) {
-	throw new Error(decoded.error?.message ?? "Failed to decode selection ID");
+	throw new Error(decoded.error?.message ?? "Failed to decode surface ID");
 }
 
 descriptor.surfaceKind satisfies "Citation";

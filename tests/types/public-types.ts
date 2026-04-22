@@ -8,8 +8,8 @@ import {
 import type {
 	AbstractLemma,
 	Descriptor,
-	DumlingId,
-	DumlingIdInspection,
+	DumlingBase64Url,
+	DumlingCsv,
 	EntityForKind,
 	EntityKind,
 	EntityValue,
@@ -156,31 +156,28 @@ const invalidGender: FeatureValue<
 > = "Past";
 void invalidGender;
 
-const selectionId = dumling.de.id.encode(typoSelection);
-selectionId satisfies DumlingId<"Lemma" | "Surface" | "Selection", "de">;
-// @ts-expect-error plain strings are not branded Dumling IDs
-const unbrandedId: DumlingId<"Selection", "de"> = "dumling:abc";
+const selectionId = dumling.de.id.encode.asBase64Url(typoSelection);
+selectionId satisfies DumlingBase64Url<"de">;
+const selectionCsv = dumling.de.id.encode.asCsv(typoSelection);
+selectionCsv satisfies DumlingCsv<"de">;
+// @ts-expect-error plain strings are not branded Dumling base64url IDs
+const unbrandedId: DumlingBase64Url<"de"> = "abc";
 const entityValue: EntityValue<"de"> = typoSelection;
 const selectionForKind: EntityForKind<"de", "Selection"> = typoSelection;
 const typoOptions: SelectionOptionsFor<"Typo"> = {
 	orthographicStatus: "Typo",
 	spelledSelection: "Sse",
 };
-const idInspection: DumlingIdInspection = {
-	kind: "Selection",
-	language: "de",
-};
-const decodedSelection = dumling.de.id.decodeAs("Selection", selectionId);
+const decodedSelectionSurface = dumling.de.id.decode.asSurface(selectionId);
 void entityValue;
 void selectionForKind;
 void typoOptions;
-void idInspection;
 void unbrandedId;
 
-if (decodedSelection.success) {
-	decodedSelection.data satisfies Selection<"de">;
-	// @ts-expect-error selection decode does not expose lemma fields at the top level
-	decodedSelection.data.lemmaKind;
+if (decodedSelectionSurface.success) {
+	decodedSelectionSurface.data.surface satisfies Surface<"de">;
+	// @ts-expect-error surface decode does not expose selection spelling metadata
+	decodedSelectionSurface.data.surface.spelledSelection;
 }
 
 const deSelectionLeaf =

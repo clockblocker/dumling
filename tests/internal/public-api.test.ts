@@ -1,11 +1,6 @@
 import { describe, expect, it } from "bun:test";
 import * as runtimeEntry from "../../src";
-import {
-	dumling,
-	getLanguageApi,
-	inspectId,
-	supportedLanguages,
-} from "../../src";
+import { dumling, getLanguageApi, supportedLanguages } from "../../src";
 import {
 	abstractSchemas,
 	getSchemaTreeFor,
@@ -18,14 +13,13 @@ describe("public API usage", () => {
 		expect(Object.keys(runtimeEntry).sort()).toEqual([
 			"dumling",
 			"getLanguageApi",
-			"inspectId",
 			"supportedLanguages",
 		]);
 		expect("schema" in runtimeEntry).toBe(false);
 		expect("Language" in runtimeEntry).toBe(false);
 	});
 
-	it("exposes dynamic language helpers and package-level ID inspection", () => {
+	it("exposes dynamic language helpers and language-scoped ID decoding", () => {
 		expect(supportedLanguages).toEqual(["de", "en", "he"]);
 		expect(getLanguageApi("de")).toBe(dumling.de);
 
@@ -38,39 +32,17 @@ describe("public API usage", () => {
 				meaningInEmojis: "🌊",
 			}),
 		);
-		const id = dumling.de.id.encode(selection);
+		const id = dumling.de.id.encode.asBase64Url(selection);
 
-		expect(inspectId(id)).toEqual({
-			kind: "Selection",
-			language: "de",
+		expect(dumling.de.id.decode.asSurface(id)).toEqual({
+			success: true,
+			data: {
+				format: "base64url",
+				language: "de",
+				kind: "Surface",
+				surface: selection.surface,
+			},
 		});
-		expect(inspectId("not-a-dumling-id")).toBeUndefined();
-	});
-
-	it("keeps the exported language inventory from changing ID inspection", () => {
-		const forgedId = `dumling:${Buffer.from(
-			JSON.stringify({ entityKind: "Lemma", language: "fr" }),
-			"utf8",
-		).toString("base64url")}`;
-		const mutableLanguages = supportedLanguages as unknown as string[];
-
-		let inspectionAfterMutation: ReturnType<typeof inspectId> | undefined;
-		try {
-			try {
-				mutableLanguages.push("fr");
-			} catch {
-				// Frozen public inventories can reject mutation attempts.
-			}
-			inspectionAfterMutation = inspectId(forgedId);
-		} finally {
-			const forgedLanguageIndex = mutableLanguages.indexOf("fr");
-			if (forgedLanguageIndex !== -1) {
-				mutableLanguages.splice(forgedLanguageIndex, 1);
-			}
-		}
-
-		expect(inspectionAfterMutation).toBeUndefined();
-		expect(supportedLanguages).toEqual(["de", "en", "he"]);
 	});
 
 	it("keeps schemas available from the dedicated schema entrypoint", () => {

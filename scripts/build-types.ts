@@ -256,7 +256,7 @@ function writeIndexEntrypointDeclaration() {
 	writeFileSync(
 		resolve(distDir, "index.d.ts"),
 		[
-			'import type { DumlingApi, DumlingIdInspection, LanguageApi, SupportedLanguage } from "dumling/types";',
+			'import type { DumlingApi, LanguageApi, SupportedLanguage } from "dumling/types";',
 			"",
 			'export type * from "dumling/types";',
 			"",
@@ -265,10 +265,6 @@ function writeIndexEntrypointDeclaration() {
 			"export declare function getLanguageApi<L extends SupportedLanguage>(",
 			"\tlanguage: L,",
 			"): LanguageApi<L>;",
-			"",
-			"export declare function inspectId(",
-			"\tid: string,",
-			"): DumlingIdInspection | undefined;",
 			"",
 			"export declare const supportedLanguages: readonly SupportedLanguage[];",
 			"",
