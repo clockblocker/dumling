@@ -38,11 +38,11 @@ This also matters for phrasemes:
 
 - _During my [walk] in a park, I saw a squirrel._
 
-    Here [dumdict classifies it](./lang/en/attestation/walk_in_the_park/#noun-lexeme-walk) as a `Full` **Selection** of the noun **Lexeme** _"walk"_.
+    Here [dumdict classifies it](./lang/en/attestation/djEscyxjLHdhbGssbCxlbixsLG4sd2Fsayzwn5q2LA/) as a `Full` **Selection** of the noun **Lexeme** _"walk"_.
 
 - _This exam was a [walk] in the park._
 
-    Here [dumdict classifies it](./lang/en/attestation/walk_in_the_park/#idiomatic-phraseme-walk-in-the-park) as a `Partial` **Selection** of the idiomatic **Phraseme** _"walk in the park"_.
+    Here [dumdict classifies it](./lang/en/attestation/djEscyxjLHdhbGsgaW4gdGhlIHBhcmssbCxlbixwLGlkLHdhbGsgaW4gdGhlIHBhcmss8J-YjCw/) as a `Partial` **Selection** of the idiomatic **Phraseme** _"walk in the park"_.
 
 The spelling on the page is not forced to be the whole lexical object. A small learner highlight can still point to the larger surface and lemma that explain the meaning.
 

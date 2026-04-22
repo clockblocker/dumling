@@ -30,6 +30,15 @@ English feature schemas are intentionally narrower than the abstract ontology.
 
 English noun `number` supports `Sing`, `Plur`, and `Ptan`. English verb `tense` supports `Past` and `Pres`, and `verbForm` supports `Fin`, `Ger`, `Inf`, and `Part`.
 
+## Attestation Files
+
+English attestation source files live in `src/content/attestations-to-generate/en`. Each file exports exactly one attested dumling object and generates exactly one Markdown attestation.
+
+Selection attestations are generated from files under `selection/`. The file basename and generated Markdown basename are the API base64url ID returned by `dumling.en.id.encode.asBase64Url(selection)`, which is the linked surface ID.
+
+- [`walk`](./attestation/djEscyxjLHdhbGssbCxlbixsLG4sd2Fsayzwn5q2LA/)
+- [`walk in the park`](./attestation/djEscyxjLHdhbGsgaW4gdGhlIHBhcmssbCxlbixwLGlkLHdhbGsgaW4gdGhlIHBhcmss8J-YjCw/)
+
 ## Example
 
 ```ts
