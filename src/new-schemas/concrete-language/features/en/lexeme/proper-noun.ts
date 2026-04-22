@@ -2,40 +2,35 @@ import { z } from "zod/v3";
 import { abstractFeatureAtomSchemas } from "../../../../../schemas/abstract/feature-schemas";
 import {
 	buildOptionalFeatureObjectSchema,
-	featureValueSet,
 	requireNonEmptyFeatureObject,
 } from "../../../../../schemas/shared/feature-helpers";
-import type { HeAdjectiveFeatures } from "../../../../../types/concrete-language/features/he/lexeme/adjective";
+import type { EnProperNounFeatures } from "../../../../../types/concrete-language/features/en/lexeme/proper-noun";
 import { buildInflectableConcreteSchemaBundle } from "../../../../shared/build-concrete-schema-bundle";
 
-const heLanguageSchema = z.literal("he");
+const enLanguageSchema = z.literal("en");
 
-const heAdjectiveFeaturesSchema = z
+const enProperNounFeaturesSchema = z
 	.object({
 		inherent: buildOptionalFeatureObjectSchema({
 			abbr: abstractFeatureAtomSchemas.abbr,
+			extPos: abstractFeatureAtomSchemas.extPos.extract(["PROPN"]),
+			style: abstractFeatureAtomSchemas.style.extract(["Expr"]),
 		}),
 		inflectional: requireNonEmptyFeatureObject(
 			buildOptionalFeatureObjectSchema({
-				definite: abstractFeatureAtomSchemas.definite.extract([
-					"Cons",
-					"Def",
-				]),
-				gender: featureValueSet(
-					abstractFeatureAtomSchemas.gender.extract(["Fem", "Masc"]),
-				),
 				number: abstractFeatureAtomSchemas.number.extract([
 					"Plur",
+					"Ptan",
 					"Sing",
 				]),
 			}),
 		),
 	})
-	.strict() satisfies z.ZodSchema<HeAdjectiveFeatures>;
+	.strict() satisfies z.ZodSchema<EnProperNounFeatures>;
 
-export const heAdjectiveSchemas = buildInflectableConcreteSchemaBundle({
-	languageSchema: heLanguageSchema,
+export const enProperNounSchemas = buildInflectableConcreteSchemaBundle({
+	languageSchema: enLanguageSchema,
 	lemmaKind: "Lexeme",
-	lemmaSubKind: "ADJ",
-	featuresSchema: heAdjectiveFeaturesSchema,
+	lemmaSubKind: "PROPN",
+	featuresSchema: enProperNounFeaturesSchema,
 });

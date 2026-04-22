@@ -5,22 +5,21 @@ import {
 	featureValueSet,
 	requireNonEmptyFeatureObject,
 } from "../../../../../schemas/shared/feature-helpers";
-import type { HeAdjectiveFeatures } from "../../../../../types/concrete-language/features/he/lexeme/adjective";
+import type { HeAuxiliaryFeatures } from "../../../../../types/concrete-language/features/he/lexeme/auxiliary";
 import { buildInflectableConcreteSchemaBundle } from "../../../../shared/build-concrete-schema-bundle";
 
 const heLanguageSchema = z.literal("he");
 
-const heAdjectiveFeaturesSchema = z
+const heAuxiliaryFeaturesSchema = z
 	.object({
 		inherent: buildOptionalFeatureObjectSchema({
-			abbr: abstractFeatureAtomSchemas.abbr,
+			verbType: abstractFeatureAtomSchemas.verbType.extract([
+				"Cop",
+				"Mod",
+			]),
 		}),
 		inflectional: requireNonEmptyFeatureObject(
 			buildOptionalFeatureObjectSchema({
-				definite: abstractFeatureAtomSchemas.definite.extract([
-					"Cons",
-					"Def",
-				]),
 				gender: featureValueSet(
 					abstractFeatureAtomSchemas.gender.extract(["Fem", "Masc"]),
 				),
@@ -28,14 +27,29 @@ const heAdjectiveFeaturesSchema = z
 					"Plur",
 					"Sing",
 				]),
+				person: featureValueSet(
+					abstractFeatureAtomSchemas.person.extract(["1", "2", "3"]),
+				),
+				polarity: abstractFeatureAtomSchemas.polarity.extract([
+					"Neg",
+					"Pos",
+				]),
+				tense: abstractFeatureAtomSchemas.tense.extract([
+					"Fut",
+					"Past",
+				]),
+				verbForm: abstractFeatureAtomSchemas.verbForm.extract([
+					"Inf",
+					"Part",
+				]),
 			}),
 		),
 	})
-	.strict() satisfies z.ZodSchema<HeAdjectiveFeatures>;
+	.strict() satisfies z.ZodSchema<HeAuxiliaryFeatures>;
 
-export const heAdjectiveSchemas = buildInflectableConcreteSchemaBundle({
+export const heAuxiliarySchemas = buildInflectableConcreteSchemaBundle({
 	languageSchema: heLanguageSchema,
 	lemmaKind: "Lexeme",
-	lemmaSubKind: "ADJ",
-	featuresSchema: heAdjectiveFeaturesSchema,
+	lemmaSubKind: "AUX",
+	featuresSchema: heAuxiliaryFeaturesSchema,
 });

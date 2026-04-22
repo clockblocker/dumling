@@ -5,15 +5,18 @@ import {
 	featureValueSet,
 	requireNonEmptyFeatureObject,
 } from "../../../../../schemas/shared/feature-helpers";
-import type { HeAdjectiveFeatures } from "../../../../../types/concrete-language/features/he/lexeme/adjective";
+import type { HeDeterminerFeatures } from "../../../../../types/concrete-language/features/he/lexeme/determiner";
 import { buildInflectableConcreteSchemaBundle } from "../../../../shared/build-concrete-schema-bundle";
 
 const heLanguageSchema = z.literal("he");
 
-const heAdjectiveFeaturesSchema = z
+const heDeterminerFeaturesSchema = z
 	.object({
 		inherent: buildOptionalFeatureObjectSchema({
-			abbr: abstractFeatureAtomSchemas.abbr,
+			pronType: abstractFeatureAtomSchemas.pronType.extract([
+				"Art",
+				"Int",
+			]),
 		}),
 		inflectional: requireNonEmptyFeatureObject(
 			buildOptionalFeatureObjectSchema({
@@ -31,11 +34,11 @@ const heAdjectiveFeaturesSchema = z
 			}),
 		),
 	})
-	.strict() satisfies z.ZodSchema<HeAdjectiveFeatures>;
+	.strict() satisfies z.ZodSchema<HeDeterminerFeatures>;
 
-export const heAdjectiveSchemas = buildInflectableConcreteSchemaBundle({
+export const heDeterminerSchemas = buildInflectableConcreteSchemaBundle({
 	languageSchema: heLanguageSchema,
 	lemmaKind: "Lexeme",
-	lemmaSubKind: "ADJ",
-	featuresSchema: heAdjectiveFeaturesSchema,
+	lemmaSubKind: "DET",
+	featuresSchema: heDeterminerFeaturesSchema,
 });

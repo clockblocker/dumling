@@ -5,22 +5,25 @@ import {
 	featureValueSet,
 	requireNonEmptyFeatureObject,
 } from "../../../../../schemas/shared/feature-helpers";
-import type { HeAdjectiveFeatures } from "../../../../../types/concrete-language/features/he/lexeme/adjective";
+import type { HePronounFeatures } from "../../../../../types/concrete-language/features/he/lexeme/pronoun";
 import { buildInflectableConcreteSchemaBundle } from "../../../../shared/build-concrete-schema-bundle";
 
 const heLanguageSchema = z.literal("he");
 
-const heAdjectiveFeaturesSchema = z
+const hePronounFeaturesSchema = z
 	.object({
 		inherent: buildOptionalFeatureObjectSchema({
-			abbr: abstractFeatureAtomSchemas.abbr,
+			definite: abstractFeatureAtomSchemas.definite.extract(["Def"]),
+			pronType: abstractFeatureAtomSchemas.pronType.extract([
+				"Dem",
+				"Ind",
+				"Int",
+				"Prs",
+			]),
+			reflex: abstractFeatureAtomSchemas.reflex,
 		}),
 		inflectional: requireNonEmptyFeatureObject(
 			buildOptionalFeatureObjectSchema({
-				definite: abstractFeatureAtomSchemas.definite.extract([
-					"Cons",
-					"Def",
-				]),
 				gender: featureValueSet(
 					abstractFeatureAtomSchemas.gender.extract(["Fem", "Masc"]),
 				),
@@ -28,14 +31,19 @@ const heAdjectiveFeaturesSchema = z
 					"Plur",
 					"Sing",
 				]),
+				person: abstractFeatureAtomSchemas.person.extract([
+					"1",
+					"2",
+					"3",
+				]),
 			}),
 		),
 	})
-	.strict() satisfies z.ZodSchema<HeAdjectiveFeatures>;
+	.strict() satisfies z.ZodSchema<HePronounFeatures>;
 
-export const heAdjectiveSchemas = buildInflectableConcreteSchemaBundle({
+export const hePronounSchemas = buildInflectableConcreteSchemaBundle({
 	languageSchema: heLanguageSchema,
 	lemmaKind: "Lexeme",
-	lemmaSubKind: "ADJ",
-	featuresSchema: heAdjectiveFeaturesSchema,
+	lemmaSubKind: "PRON",
+	featuresSchema: hePronounFeaturesSchema,
 });
