@@ -1,7 +1,7 @@
 import type { z } from "zod/v3";
 import type { LanguageApi } from "../types/public-types";
 import { schemasFor } from "../schema";
-import { buildUnionSchema } from "../new-schemas/shared/builders";
+import { buildUnionSchema } from "../schemas/shared/builders";
 import { buildDeCreateOperations } from "../operations/lang/de/create";
 import { buildDeParseOperations } from "../operations/lang/de/parse";
 import { buildEnCreateOperations } from "../operations/lang/en/create";
