@@ -133,6 +133,8 @@ void invalidGender;
 
 const selectionId = dumling.de.id.encode(typoSelection);
 selectionId satisfies DumlingId<"Lemma" | "Surface" | "Selection", "de">;
+// @ts-expect-error plain strings are not branded Dumling IDs
+const unbrandedId: DumlingId<"Selection", "de"> = "dumling:abc";
 const entityValue: EntityValue<"de"> = typoSelection;
 const selectionForKind: EntityForKind<"de", "Selection"> = typoSelection;
 const typoOptions: SelectionOptionsFor<"Typo"> = {
@@ -148,6 +150,7 @@ void entityValue;
 void selectionForKind;
 void typoOptions;
 void idInspection;
+void unbrandedId;
 
 if (decodedSelection.success) {
 	decodedSelection.data satisfies Selection<"de">;

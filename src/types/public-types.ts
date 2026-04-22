@@ -56,12 +56,21 @@ export type EntityForKind<
 	: K extends "Surface"
 		? Surface<L>
 		: Selection<L>;
+
+/**
+ * Nominal ID string produced by dumling ID helpers.
+ *
+ * The kind and language parameters are compile-time markers only; use
+ * `inspectId`, `decode`, or `decodeAs` when runtime validation is needed.
+ */
 export type DumlingId<
 	K extends EntityKind = EntityKind,
 	L extends SupportedLanguage = SupportedLanguage,
 > = string & {
-	readonly __dumlingIdKind?: K;
-	readonly __dumlingIdLanguage?: L;
+	readonly __dumlingIdBrand: {
+		readonly kind: K;
+		readonly language: L;
+	};
 };
 export type DumlingIdInspection = {
 	kind: EntityKind;
