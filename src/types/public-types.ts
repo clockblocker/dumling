@@ -60,8 +60,10 @@ export type DumlingId<
 	K extends EntityKind = EntityKind,
 	L extends SupportedLanguage = SupportedLanguage,
 > = string & {
-	readonly __dumlingIdKind?: K;
-	readonly __dumlingIdLanguage?: L;
+	readonly __dumlingIdBrand: {
+		readonly kind: K;
+		readonly language: L;
+	};
 };
 export type DumlingIdInspection = {
 	kind: EntityKind;
