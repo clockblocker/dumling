@@ -6,7 +6,7 @@ import {
 	inspectId,
 	supportedLanguages,
 } from "../../src";
-import { schema } from "../../src/schema";
+import { getSchemaTreeFor, schemas } from "../../src/schema";
 
 describe("public API usage", () => {
 	it("exposes the curated root runtime surface", () => {
@@ -70,15 +70,20 @@ describe("public API usage", () => {
 	});
 
 	it("keeps schemas available from the dedicated schema entrypoint", () => {
+		const nounSelectionSchema =
+			schemas.de.entity.Selection.Standard.Lemma.Lexeme.NOUN();
+
 		expect(
-			typeof schema.de.selection.standard.inflection.lexeme.verb().parse,
+			typeof schemas.de.entity.Selection.Standard.Inflection.Lexeme.VERB()
+				.parse,
 		).toBe("function");
-		expect(
-			typeof schema.de.selection.standard.lemma.lexeme.noun().parse,
-		).toBe("function");
-		expect(typeof schema.he.lemma.lexeme.verb().parse).toBe("function");
-		expect(typeof schema.abstract.lemma.lexeme.verb().parse).toBe(
+		expect(typeof nounSelectionSchema.parse).toBe("function");
+		expect(typeof schemas.he.entity.Lemma.Lexeme.VERB().parse).toBe(
 			"function",
+		);
+		expect(getSchemaTreeFor("de")).toBe(schemas.de);
+		expect(schemas.de.entity.Selection.Standard.Lemma.Lexeme.NOUN()).toBe(
+			nounSelectionSchema,
 		);
 	});
 });

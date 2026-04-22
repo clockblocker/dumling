@@ -1,5 +1,5 @@
 import { describe, expect, it } from "bun:test";
-import { schema } from "../../src/schema";
+import { schemas } from "../../src/schema";
 import {
 	germanBVGAbbreviationSelection,
 	germanHausLemmaSurface,
@@ -9,33 +9,36 @@ import {
 
 describe("German noun schemas", () => {
 	it("accept supported noun lemmas and inflections", () => {
-		expect(schema.de.lemma.lexeme.noun().safeParse(germanKindLemma).success).toBe(
-			true,
-		);
 		expect(
-			schema.de.selection.standard.inflection.lexeme.noun().safeParse({
-				language: "de",
-				orthographicStatus: "Standard",
-				selectionCoverage: "Full",
-				spelledSelection: "kindern",
-				spellingRelation: "Canonical",
-				surface: {
-					...makeLexemeSurfaceReference("de", "NOUN", "kind"),
+			schemas.de.entity.Lemma.Lexeme.NOUN().safeParse(germanKindLemma)
+				.success,
+		).toBe(true);
+		expect(
+			schemas.de.entity.Selection.Standard.Inflection.Lexeme.NOUN().safeParse(
+				{
 					language: "de",
-					normalizedFullSurface: "kindern",
-					surfaceKind: "Inflection",
-					inflectionalFeatures: {
-						case: "Dat",
-						number: "Plur",
+					orthographicStatus: "Standard",
+					selectionCoverage: "Full",
+					spelledSelection: "kindern",
+					spellingRelation: "Canonical",
+					surface: {
+						...makeLexemeSurfaceReference("de", "NOUN", "kind"),
+						language: "de",
+						normalizedFullSurface: "kindern",
+						surfaceKind: "Inflection",
+						inflectionalFeatures: {
+							case: "Dat",
+							number: "Plur",
+						},
 					},
 				},
-			}).success,
+			).success,
 		).toBe(true);
 	});
 
 	it("reject unsupported noun features", () => {
 		expect(
-			schema.de.lemma.lexeme.noun().safeParse({
+			schemas.de.entity.Lemma.Lexeme.NOUN().safeParse({
 				language: "de",
 				canonicalLemma: "kind",
 				lemmaKind: "Lexeme",
@@ -48,38 +51,42 @@ describe("German noun schemas", () => {
 		).toBe(false);
 
 		expect(
-			schema.de.selection.standard.inflection.lexeme.noun().safeParse({
-				language: "de",
-				orthographicStatus: "Standard",
-				selectionCoverage: "Full",
-				spelledSelection: "kindern",
-				spellingRelation: "Canonical",
-				surface: {
-					...makeLexemeSurfaceReference("de", "NOUN", "kind"),
+			schemas.de.entity.Selection.Standard.Inflection.Lexeme.NOUN().safeParse(
+				{
 					language: "de",
-					normalizedFullSurface: "kindern",
-					surfaceKind: "Inflection",
-					inflectionalFeatures: {
-						case: "Ins",
-						number: "Dual",
+					orthographicStatus: "Standard",
+					selectionCoverage: "Full",
+					spelledSelection: "kindern",
+					spellingRelation: "Canonical",
+					surface: {
+						...makeLexemeSurfaceReference("de", "NOUN", "kind"),
+						language: "de",
+						normalizedFullSurface: "kindern",
+						surfaceKind: "Inflection",
+						inflectionalFeatures: {
+							case: "Ins",
+							number: "Dual",
+						},
 					},
 				},
-			}).success,
+			).success,
 		).toBe(false);
 	});
 
 	it("keeps registry access and lemma selections intact", () => {
 		expect(
-			schema.de.surface.lemma.lexeme.noun().safeParse(germanHausLemmaSurface)
-				.success,
+			schemas.de.entity.Surface.Lemma.Lexeme.NOUN().safeParse(
+				germanHausLemmaSurface,
+			).success,
 		).toBe(true);
 		expect(
-			schema.de.selection.standard.lemma.lexeme.propn().safeParse(
+			schemas.de.entity.Selection.Standard.Lemma.Lexeme.PROPN().safeParse(
 				germanBVGAbbreviationSelection,
 			).success,
 		).toBe(true);
-		expect(typeof schema.de.selection.standard.lemma.lexeme.noun().parse).toBe(
-			"function",
-		);
+		expect(
+			typeof schemas.de.entity.Selection.Standard.Lemma.Lexeme.NOUN()
+				.parse,
+		).toBe("function");
 	});
 });

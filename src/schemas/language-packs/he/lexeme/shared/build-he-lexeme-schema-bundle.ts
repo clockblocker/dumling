@@ -15,7 +15,10 @@ import {
 } from "../../../../shared/builders";
 
 type HeLexemeLemmaBySubKind = FamilyLemmaBySubKind<"he", "Lexeme">;
-type HeLemmaLexemeSurfaceBySubKind = FamilyLemmaSurfaceBySubKind<"he", "Lexeme">;
+type HeLemmaLexemeSurfaceBySubKind = FamilyLemmaSurfaceBySubKind<
+	"he",
+	"Lexeme"
+>;
 type HeInflectionLexemeSurfaceBySubKind = FamilyInflectionSurfaceBySubKind<
 	"he",
 	"Lexeme"
@@ -58,7 +61,10 @@ export type HeUninflectableLexemeSchemaBundleFor<
 
 export type HeInflectableLexemeSchemaBundleFor<
 	LSK extends HeInflectableLexemeSubKind,
-> = Omit<HeLexemeLeafBundleBaseFor<LSK>, "selection" | "surface" | "surfaceSchemas"> & {
+> = Omit<
+	HeLexemeLeafBundleBaseFor<LSK>,
+	"selection" | "surface" | "surfaceSchemas"
+> & {
 	inflectionSelectionSchemas: [
 		z.ZodType<HeInflectionLexemeSelectionBySubKind<"Standard">[LSK]>,
 		z.ZodType<HeInflectionLexemeSelectionBySubKind<"Typo">[LSK]>,
@@ -89,7 +95,7 @@ export type HeInflectableLexemeSchemaBundleFor<
 };
 
 export function buildHeInflectableLexemeSchemaBundle<
-	const LSK extends HeInflectableLexemeSubKind,
+	LSK extends HeInflectableLexemeSubKind,
 >(options: {
 	inflectionalFeaturesSchema: z.ZodType<
 		HeInflectionLexemeSurfaceBySubKind[LSK]["inflectionalFeatures"]
@@ -166,7 +172,7 @@ export function buildHeInflectableLexemeSchemaBundle<
 }
 
 export function buildHeUninflectableLexemeSchemaBundle<
-	const LSK extends keyof HeLexemeLemmaBySubKind,
+	LSK extends keyof HeLexemeLemmaBySubKind,
 >(options: {
 	languageSchema: z.ZodType<"he">;
 	lemmaSchema: z.ZodType<HeLexemeLemmaBySubKind[LSK]>;

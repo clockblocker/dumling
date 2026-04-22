@@ -1,22 +1,18 @@
-import { existsSync, mkdirSync, rmSync } from "node:fs";
+import { existsSync, mkdirSync, rmSync, writeFileSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
-import { $, type ShellError } from "bun";
 import {
 	ConsoleMessageId,
 	Extractor,
 	ExtractorConfig,
 } from "@microsoft/api-extractor";
+import { $, type ShellError } from "bun";
 
 const projectRoot = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const tempTypesDir = resolve(projectRoot, ".types-temp");
 const distDir = resolve(projectRoot, "dist");
 
-const publicEntrypoints = [
-	"index",
-	"types",
-	"schema",
-] as const;
+const publicEntrypoints = ["index", "types"] as const;
 
 const suppressedConsoleMessageIds = new Set<string>([
 	ConsoleMessageId.Preamble,
@@ -38,7 +34,9 @@ async function emitDeclarations() {
 	}
 }
 
-async function rollupEntrypoint(entrypoint: (typeof publicEntrypoints)[number]) {
+async function rollupEntrypoint(
+	entrypoint: (typeof publicEntrypoints)[number],
+) {
 	const entryDeclarationPath = resolve(tempTypesDir, `${entrypoint}.d.ts`);
 	const outputDeclarationPath = resolve(distDir, `${entrypoint}.d.ts`);
 	const extractorConfig = ExtractorConfig.prepare({
@@ -78,7 +76,10 @@ async function rollupEntrypoint(entrypoint: (typeof publicEntrypoints)[number]) 
 				},
 			},
 		},
-		configObjectFullPath: resolve(projectRoot, `api-extractor.${entrypoint}.json`),
+		configObjectFullPath: resolve(
+			projectRoot,
+			`api-extractor.${entrypoint}.json`,
+		),
 		packageJsonFullPath: resolve(projectRoot, "package.json"),
 	});
 	const result = Extractor.invoke(extractorConfig, {
@@ -96,12 +97,99 @@ async function rollupEntrypoint(entrypoint: (typeof publicEntrypoints)[number]) 
 	}
 }
 
+function writeSchemaEntrypointDeclaration() {
+	writeFileSync(
+		resolve(distDir, "schema.d.ts"),
+		[
+			'import type { Lemma, LemmaKindFor, LemmaKindForSurfaceKind, LemmaSubKindFor, OrthographicStatus, Selection, SupportedLanguage, Surface, SurfaceKindFor } from "dumling/types";',
+			'import type { z } from "zod/v3";',
+			"",
+			"type NewSchemaGetter<T> = () => z.ZodType<T>;",
+			"",
+			"type LemmaSubKindForSurfaceKind<",
+			"\tL extends SupportedLanguage,",
+			"\tSK extends SurfaceKindFor<L>,",
+			"\tLK extends LemmaKindForSurfaceKind<L, SK>,",
+			"> = Extract<",
+			"\tSurface<L>,",
+			"\t{",
+			"\t\tlemma: {",
+			"\t\t\tlemmaKind: LK;",
+			"\t\t};",
+			"\t\tsurfaceKind: SK;",
+			"\t}",
+			"> extends infer TSurface",
+			"\t? TSurface extends {",
+			"\t\t\tlemma: {",
+			"\t\t\t\tlemmaSubKind: infer LSK;",
+			"\t\t\t};",
+			"\t\t}",
+			"\t\t? Extract<LSK, LemmaSubKindFor<L, LK>>",
+			"\t\t: never",
+			"\t: never;",
+			"",
+			"type NewLanguageSchemaTree<L extends SupportedLanguage> = {",
+			"\tentity: NewLanguageEntitySchemaTree<L>;",
+			"};",
+			"",
+			"type NewSchemaRegistry = {",
+			"\t[L in SupportedLanguage]: NewLanguageSchemaTree<L>;",
+			"};",
+			"",
+			"type NewLanguageEntitySchemaTree<L extends SupportedLanguage> = {",
+			"\tLemma: NewLemmaSchemaSubtree<L>;",
+			"\tSurface: NewSurfaceSchemaSubtree<L>;",
+			"\tSelection: NewSelectionSchemaSubtree<L>;",
+			"};",
+			"",
+			"type NewLemmaSchemaSubtree<L extends SupportedLanguage> = {",
+			"\t[LK in LemmaKindFor<L>]: {",
+			"\t\t[LSK in LemmaSubKindFor<L, LK>]: NewSchemaGetter<Lemma<L, LK, LSK>>;",
+			"\t};",
+			"};",
+			"",
+			"type NewSurfaceSchemaSubtree<L extends SupportedLanguage> = {",
+			"\t[SK in SurfaceKindFor<L>]: {",
+			"\t\t[LK in LemmaKindForSurfaceKind<L, SK>]: {",
+			"\t\t\t[LSK in LemmaSubKindForSurfaceKind<L, SK, LK>]: NewSchemaGetter<",
+			"\t\t\t\tSurface<L, SK, LK, LSK>",
+			"\t\t\t>;",
+			"\t\t};",
+			"\t};",
+			"};",
+			"",
+			"type NewSelectionSchemaSubtree<L extends SupportedLanguage> = {",
+			"\t[OS in OrthographicStatus]: {",
+			"\t\t[SK in SurfaceKindFor<L>]: {",
+			"\t\t\t[LK in LemmaKindForSurfaceKind<L, SK>]: {",
+			"\t\t\t\t[LSK in LemmaSubKindForSurfaceKind<",
+			"\t\t\t\t\tL,",
+			"\t\t\t\t\tSK,",
+			"\t\t\t\t\tLK",
+			"\t\t\t\t>]: NewSchemaGetter<Selection<L, OS, SK, LK, LSK>>;",
+			"\t\t\t};",
+			"\t\t};",
+			"\t};",
+			"};",
+			"",
+			"export declare const schemas: NewSchemaRegistry;",
+			"",
+			"export declare function getSchemaTreeFor<L extends SupportedLanguage>(",
+			"\tlanguage: L,",
+			"): NewSchemaRegistry[L];",
+			"",
+		].join("\n"),
+	);
+}
+
 async function main() {
 	await emitDeclarations();
 
 	for (const entrypoint of publicEntrypoints) {
 		await rollupEntrypoint(entrypoint);
 	}
+
+	writeSchemaEntrypointDeclaration();
 
 	rmSync(tempTypesDir, { force: true, recursive: true });
 }

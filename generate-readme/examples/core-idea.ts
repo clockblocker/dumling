@@ -1,6 +1,6 @@
 /** biome-ignore-all lint/correctness/noUnusedVariables: README example file */
 import { dumling } from "../../src";
-import { schema } from "../../src/schema";
+import { schemas } from "../../src/schema";
 import type { Lemma, Selection, Surface } from "../../src/types";
 
 // README_BLOCK:core-lemma:start
@@ -38,7 +38,7 @@ const seeSelection = dumling.de.create.selection.standard({
 
 // README_BLOCK:quickstart-de:start
 import { dumling as packageDumling } from "dumling";
-import { schema as packageSchema } from "dumling/schema";
+import { schemas as packageSchemas } from "dumling/schema";
 import type {
 	FeatureValue as PackageFeatureValue,
 	Lemma as PackageLemma,
@@ -86,7 +86,9 @@ descriptor.surfaceKind satisfies "Lemma";
 extractedLemma satisfies PackageLemma<"de">;
 gender satisfies "Masc";
 
-packageSchema.de.selection.standard.lemma.lexeme.noun().parse(decoded.data);
+packageSchemas.de.entity.Selection.Standard.Lemma.Lexeme.NOUN().parse(
+	decoded.data,
+);
 // README_BLOCK:quickstart-de:end
 
-void schema.abstract.lemma.lexeme.verb();
+void schemas.de.entity.Lemma.Lexeme.VERB();

@@ -1,6 +1,6 @@
 import { z } from "zod/v3";
 import {
-	OrthographicStatus,
+	type OrthographicStatus,
 	SelectionCoverage,
 	SpellingRelation,
 } from "../../types/core/enums";
@@ -143,7 +143,7 @@ export function buildSelectionSchema<
 	}>;
 }
 
-export function buildUnionSchema<const TSchemas extends SchemaTuple>(
+export function buildUnionSchema<TSchemas extends SchemaTuple>(
 	schemas: TSchemas,
 ): z.ZodType<SchemaOutput<TSchemas[number]>> {
 	if (schemas.length === 1) {

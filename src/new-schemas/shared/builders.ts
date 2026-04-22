@@ -13,7 +13,7 @@ import {
 	buildUnionSchema,
 } from "../../schemas/shared/builders";
 import type { ConcreteLanguage } from "../../types/concrete-language/features/feature-registry";
-import type { NewSchemaTree } from "./schema-helper-types";
+import type { NewRawLanguageEntitySchemaTree } from "./schema-helper-types";
 
 type FeatureSchemaFor<
 	L extends ConcreteLanguage,
@@ -141,10 +141,10 @@ function ensureFamily<TValue>(
 	return tree[kind];
 }
 
-export function buildLanguageSchema<const L extends ConcreteLanguage>(
+export function buildLanguageSchema<L extends ConcreteLanguage>(
 	language: L,
 	featureSchemas: NewFeatureSchemaTree<L>,
-): NewSchemaTree[L] {
+): NewRawLanguageEntitySchemaTree<L> {
 	const schemaTree = {
 		lemma: {},
 		surface: {
@@ -238,7 +238,7 @@ export function buildLanguageSchema<const L extends ConcreteLanguage>(
 		}
 	}
 
-	return schemaTree as NewSchemaTree[L];
+	return schemaTree as unknown as NewRawLanguageEntitySchemaTree<L>;
 }
 
 export {

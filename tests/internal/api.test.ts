@@ -1,6 +1,6 @@
 import { describe, expect, it } from "bun:test";
 import { dumling } from "../../src";
-import { schema } from "../../src/schema";
+import { schemas } from "../../src/schema";
 import type { Lemma, Selection } from "../../src/types";
 
 function encodeBase64Url(value: string) {
@@ -27,12 +27,10 @@ describe("API", () => {
 		const surface = dumling.de.convert.lemma.toSurface(
 			lemma as Lemma<"de", "Lexeme", "NOUN">,
 		);
-		const selection: Selection<"de"> = dumling.de.convert.surface.toSelection(
-			surface,
-			{
+		const selection: Selection<"de"> =
+			dumling.de.convert.surface.toSelection(surface, {
 				spelledSelection: "See",
-			},
-		);
+			});
 
 		expect(lemma.language).toBe("de");
 		expect(surface.normalizedFullSurface).toBe("See");
@@ -158,17 +156,7 @@ describe("API", () => {
 
 		expect(parsedSelection.success).toBe(true);
 		expect(
-			schema.abstract.lemma.lexeme.verb().safeParse({
-				language: "xx",
-				canonicalLemma: "gehen",
-				lemmaKind: "Lexeme",
-				lemmaSubKind: "VERB",
-				inherentFeatures: {},
-				meaningInEmojis: "🚶",
-			}).success,
-		).toBe(true);
-		expect(
-			schema.de.selection.standard.lemma.lexeme.noun().safeParse(
+			schemas.de.entity.Selection.Standard.Lemma.Lexeme.NOUN().safeParse(
 				parsedSelection.success ? parsedSelection.data : undefined,
 			).success,
 		).toBe(true);
@@ -216,9 +204,11 @@ describe("API", () => {
 			throw new Error("expected invalid parse result");
 		}
 		expect(result.error.code).toBe("InvalidInput");
-		expect(result.error.issues?.some((issue) => issue.includes("inflectionalFeatures"))).toBe(
-			true,
-		);
+		expect(
+			result.error.issues?.some((issue) =>
+				issue.includes("inflectionalFeatures"),
+			),
+		).toBe(true);
 	});
 
 	it("rejects known-but-illegal german verbal inflection keys", () => {
@@ -301,7 +291,7 @@ describe("API", () => {
 			data: englishLemma,
 		});
 		expect(
-			schema.en.selection.standard.lemma.lexeme.noun().safeParse(
+			schemas.en.entity.Selection.Standard.Lemma.Lexeme.NOUN().safeParse(
 				dumling.en.convert.lemma.toSelection(englishLemma),
 			).success,
 		).toBe(true);
@@ -321,7 +311,7 @@ describe("API", () => {
 			data: hebrewLemma,
 		});
 		expect(
-			schema.he.selection.standard.lemma.lexeme.verb().safeParse(
+			schemas.he.entity.Selection.Standard.Lemma.Lexeme.VERB().safeParse(
 				dumling.he.convert.lemma.toSelection(hebrewLemma),
 			).success,
 		).toBe(true);
@@ -336,7 +326,9 @@ describe("API", () => {
 			},
 		});
 
-		expect(dumling.de.id.decode(`dumling:${encodeBase64Url("not json")}`)).toEqual({
+		expect(
+			dumling.de.id.decode(`dumling:${encodeBase64Url("not json")}`),
+		).toEqual({
 			success: false,
 			error: {
 				code: "MalformedId",

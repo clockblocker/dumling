@@ -1,11 +1,11 @@
 import { describe, expect, it } from "bun:test";
-import { schema } from "../../src/schema";
+import { schemas } from "../../src/schema";
 import { makeLexemeSurfaceReference } from "../helpers";
 
 describe("Hebrew schema specificity", () => {
 	it("accepts Hebrew-specific lexical and inflectional features", () => {
 		expect(
-			schema.he.lemma.lexeme.verb().safeParse({
+			schemas.he.entity.Lemma.Lexeme.VERB().safeParse({
 				language: "he",
 				canonicalLemma: "כתב",
 				lemmaKind: "Lexeme",
@@ -18,54 +18,60 @@ describe("Hebrew schema specificity", () => {
 		).toBe(true);
 
 		expect(
-			schema.he.selection.standard.inflection.lexeme.verb().safeParse({
-				language: "he",
-				orthographicStatus: "Standard",
-				selectionCoverage: "Full",
-				spelledSelection: "כתבו",
-				spellingRelation: "Canonical",
-				surface: {
-					...makeLexemeSurfaceReference("he", "VERB", "כתב"),
+			schemas.he.entity.Selection.Standard.Inflection.Lexeme.VERB().safeParse(
+				{
 					language: "he",
-					normalizedFullSurface: "כתבו",
-					surfaceKind: "Inflection",
-					inflectionalFeatures: {
-						number: "Plur",
-						person: "3",
-						tense: "Past",
+					orthographicStatus: "Standard",
+					selectionCoverage: "Full",
+					spelledSelection: "כתבו",
+					spellingRelation: "Canonical",
+					surface: {
+						...makeLexemeSurfaceReference("he", "VERB", "כתב"),
+						language: "he",
+						normalizedFullSurface: "כתבו",
+						surfaceKind: "Inflection",
+						inflectionalFeatures: {
+							number: "Plur",
+							person: "3",
+							tense: "Past",
+						},
 					},
 				},
-			}).success,
+			).success,
 		).toBe(true);
 
 		expect(
-			schema.he.selection.standard.inflection.lexeme.noun().safeParse({
-				language: "he",
-				orthographicStatus: "Standard",
-				selectionCoverage: "Full",
-				spelledSelection: "שנתיים",
-				spellingRelation: "Canonical",
-				surface: {
-					...makeLexemeSurfaceReference("he", "NOUN", "שנה"),
+			schemas.he.entity.Selection.Standard.Inflection.Lexeme.NOUN().safeParse(
+				{
 					language: "he",
-					normalizedFullSurface: "שנתיים",
-					surfaceKind: "Inflection",
-					inflectionalFeatures: {
-						number: ["Dual", "Plur"],
+					orthographicStatus: "Standard",
+					selectionCoverage: "Full",
+					spelledSelection: "שנתיים",
+					spellingRelation: "Canonical",
+					surface: {
+						...makeLexemeSurfaceReference("he", "NOUN", "שנה"),
+						language: "he",
+						normalizedFullSurface: "שנתיים",
+						surfaceKind: "Inflection",
+						inflectionalFeatures: {
+							number: ["Dual", "Plur"],
+						},
 					},
 				},
-			}).success,
+			).success,
 		).toBe(true);
 	});
 
 	it("keeps Hebrew aligned with its implemented inventory", () => {
-		expect("part" in schema.he.lemma.lexeme).toBe(true);
-		expect("part" in schema.he.selection.standard.inflection.lexeme).toBe(false);
+		expect("PART" in schemas.he.entity.Lemma.Lexeme).toBe(true);
+		expect(
+			"PART" in schemas.he.entity.Selection.Standard.Inflection.Lexeme,
+		).toBe(false);
 	});
 
 	it("rejects unsupported Hebrew feature spillover", () => {
 		expect(
-			schema.he.lemma.lexeme.verb().safeParse({
+			schemas.he.entity.Lemma.Lexeme.VERB().safeParse({
 				language: "he",
 				canonicalLemma: "כתב",
 				lemmaKind: "Lexeme",

@@ -11,7 +11,7 @@ import type {
 } from "../types/public-types";
 import type {
 	LemmaSubKindForSurfaceKind,
-	NewSchemaTree,
+	NewRawEntitySchemaRegistry,
 } from "./shared/schema-helper-types";
 
 type DescriptorSchema<TDescriptor> = z.ZodType<TDescriptor>;
@@ -87,7 +87,7 @@ function ensureFamily<TValue>(
 }
 
 function buildLemmaDescriptorSchema<
-	const L extends ConcreteLanguage,
+	L extends ConcreteLanguage,
 	const LK extends LemmaKindFor<L>,
 	const LSK extends LemmaSubKindFor<L, LK>,
 >(
@@ -105,7 +105,7 @@ function buildLemmaDescriptorSchema<
 }
 
 function buildSurfaceDescriptorSchema<
-	const L extends ConcreteLanguage,
+	L extends ConcreteLanguage,
 	const SK extends SurfaceKindFor<L>,
 	const LK extends LemmaKindForSurfaceKind<L, SK>,
 	const LSK extends LemmaSubKindForSurfaceKind<L, SK, LK>,
@@ -126,7 +126,7 @@ function buildSurfaceDescriptorSchema<
 }
 
 function buildSelectionDescriptorSchema<
-	const L extends ConcreteLanguage,
+	L extends ConcreteLanguage,
 	const OS extends OrthographicStatus,
 	const SK extends SurfaceKindFor<L>,
 	const LK extends LemmaKindForSurfaceKind<L, SK>,
@@ -151,9 +151,9 @@ function buildSelectionDescriptorSchema<
 	>;
 }
 
-function buildLanguageDescriptorSchemas<const L extends ConcreteLanguage>(
+function buildLanguageDescriptorSchemas<L extends ConcreteLanguage>(
 	language: L,
-	schemaTree: NewSchemaTree[L],
+	schemaTree: IterableLanguageSchemaTree,
 ): NewLanguageDescriptorSchemaTree<L> {
 	const descriptorTree: MutableLanguageDescriptorSchemaTree = {
 		lemma: {},
@@ -172,8 +172,7 @@ function buildLanguageDescriptorSchemas<const L extends ConcreteLanguage>(
 			},
 		},
 	};
-	const iterableSchemaTree =
-		schemaTree as unknown as IterableLanguageSchemaTree;
+	const iterableSchemaTree = schemaTree;
 
 	for (const [lemmaKind, subKindSchemas] of Object.entries(
 		iterableSchemaTree.lemma,
@@ -261,7 +260,7 @@ function buildLanguageDescriptorSchemas<const L extends ConcreteLanguage>(
 }
 
 export function buildDescriptorSchemas(
-	schemaTree: NewSchemaTree,
+	schemaTree: NewRawEntitySchemaRegistry,
 ): NewDescriptorSchemaTree {
 	return Object.fromEntries(
 		Object.entries(schemaTree).map(([language, languageSchemaTree]) => [

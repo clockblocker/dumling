@@ -1,5 +1,5 @@
 import { describe, expect, it } from "bun:test";
-import { schema } from "../../src/schema";
+import { schemas } from "../../src/schema";
 import {
 	germanAbPrefixLemma,
 	germanAufJedenFallDiscourseFormulaSelection,
@@ -10,15 +10,17 @@ import {
 describe("German non-lexeme schemas", () => {
 	it("accept German morpheme and phraseme entities", () => {
 		expect(
-			schema.de.lemma.morpheme.prefix().safeParse(germanAbPrefixLemma).success,
+			schemas.de.entity.Lemma.Morpheme.Prefix().safeParse(
+				germanAbPrefixLemma,
+			).success,
 		).toBe(true);
 		expect(
-			schema.de.selection.standard.lemma.phraseme.discourseformula().safeParse(
+			schemas.de.entity.Selection.Standard.Lemma.Phraseme.DiscourseFormula().safeParse(
 				germanAufJedenFallDiscourseFormulaSelection,
 			).success,
 		).toBe(true);
 		expect(
-			schema.de.selection.standard.lemma.phraseme.discourseformula().safeParse(
+			schemas.de.entity.Selection.Standard.Lemma.Phraseme.DiscourseFormula().safeParse(
 				germanAufJedenFallPartialSelection,
 			).success,
 		).toBe(true);
@@ -26,7 +28,7 @@ describe("German non-lexeme schemas", () => {
 
 	it("keeps discourse-formula features scoped to discourse formulas", () => {
 		expect(
-			schema.de.lemma.phraseme.discourseformula().safeParse({
+			schemas.de.entity.Lemma.Phraseme.DiscourseFormula().safeParse({
 				language: "de",
 				canonicalLemma: "auf jeden fall",
 				lemmaKind: "Phraseme",
@@ -39,7 +41,7 @@ describe("German non-lexeme schemas", () => {
 		).toBe(true);
 
 		expect(
-			schema.de.lemma.phraseme.aphorism().safeParse({
+			schemas.de.entity.Lemma.Phraseme.Aphorism().safeParse({
 				language: "de",
 				canonicalLemma: "zeit ist geld",
 				lemmaKind: "Phraseme",
@@ -53,14 +55,15 @@ describe("German non-lexeme schemas", () => {
 	});
 
 	it("keeps non-lexeme branches lemma-only", () => {
-		expect(typeof schema.de.selection.standard.lemma.morpheme.prefix().parse).toBe(
-			"function",
-		);
 		expect(
-			"morpheme" in schema.de.selection.standard.inflection,
+			typeof schemas.de.entity.Selection.Standard.Lemma.Morpheme.Prefix()
+				.parse,
+		).toBe("function");
+		expect(
+			"Morpheme" in schemas.de.entity.Selection.Standard.Inflection,
 		).toBe(false);
 		expect(
-			schema.de.selection.typo.lemma.morpheme.suffix().safeParse({
+			schemas.de.entity.Selection.Typo.Lemma.Morpheme.Suffix().safeParse({
 				language: "de",
 				orthographicStatus: "Typo",
 				selectionCoverage: "Full",

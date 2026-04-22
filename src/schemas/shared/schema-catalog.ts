@@ -1,4 +1,4 @@
-import { z } from "zod/v3";
+import type { z } from "zod/v3";
 import { buildUnionSchema } from "./builders";
 
 type SchemaOutput<TSchema extends z.ZodTypeAny> = z.output<TSchema>;
@@ -67,46 +67,55 @@ export type SchemaCatalogDefinition<TSubKind extends string> = {
 	[TKey in Lowercase<TSubKind>]: SchemaCatalogEntry<TSubKind> & { key: TKey };
 };
 
-type InflectionEntryKeys<TEntries extends Record<string, SchemaCatalogEntry>> = {
-	[TKey in keyof TEntries]: TEntries[TKey]["hasInflection"] extends true
-		? TKey
-		: never;
-}[keyof TEntries];
+type InflectionEntryKeys<TEntries extends Record<string, SchemaCatalogEntry>> =
+	{
+		[TKey in keyof TEntries]: TEntries[TKey]["hasInflection"] extends true
+			? TKey
+			: never;
+	}[keyof TEntries];
 
-type RuntimeSchemaSetFor<
-	TEntries extends Record<string, SchemaCatalogEntry>,
-> = {
-	lemma: z.ZodType<SchemaOutput<TEntries[keyof TEntries]["bundle"]["lemmaSchema"]>>;
-	selection: z.ZodType<
-		SchemaOutput<
-			| ReturnType<TEntries[keyof TEntries]["bundle"]["selection"]["standard"]["lemma"]>
-			| ReturnType<TEntries[keyof TEntries]["bundle"]["selection"]["typo"]["lemma"]>
-			| (TEntries[InflectionEntryKeys<TEntries>]["bundle"] extends {
-					selection: {
-						standard: { inflection: SchemaLeaf };
-						typo: { inflection: SchemaLeaf };
-					};
-			  }
-					? | ReturnType<
-							TEntries[InflectionEntryKeys<TEntries>]["bundle"]["selection"]["standard"]["inflection"]
-					  >
-					  | ReturnType<
-							TEntries[InflectionEntryKeys<TEntries>]["bundle"]["selection"]["typo"]["inflection"]
-					  >
-					: never)
-		>
-	>;
-	surface: z.ZodType<
-		SchemaOutput<TEntries[keyof TEntries]["bundle"]["lemmaSurfaceSchema"]> |
+type RuntimeSchemaSetFor<TEntries extends Record<string, SchemaCatalogEntry>> =
+	{
+		lemma: z.ZodType<
+			SchemaOutput<TEntries[keyof TEntries]["bundle"]["lemmaSchema"]>
+		>;
+		selection: z.ZodType<
 			SchemaOutput<
-				TEntries[InflectionEntryKeys<TEntries>]["bundle"] extends {
-					inflectionSurfaceSchema: z.ZodTypeAny;
-				}
-					? TEntries[InflectionEntryKeys<TEntries>]["bundle"]["inflectionSurfaceSchema"]
-					: never
+				| ReturnType<
+						TEntries[keyof TEntries]["bundle"]["selection"]["standard"]["lemma"]
+				  >
+				| ReturnType<
+						TEntries[keyof TEntries]["bundle"]["selection"]["typo"]["lemma"]
+				  >
+				| (TEntries[InflectionEntryKeys<TEntries>]["bundle"] extends {
+						selection: {
+							standard: { inflection: SchemaLeaf };
+							typo: { inflection: SchemaLeaf };
+						};
+				  }
+						?
+								| ReturnType<
+										TEntries[InflectionEntryKeys<TEntries>]["bundle"]["selection"]["standard"]["inflection"]
+								  >
+								| ReturnType<
+										TEntries[InflectionEntryKeys<TEntries>]["bundle"]["selection"]["typo"]["inflection"]
+								  >
+						: never)
 			>
-	>;
-};
+		>;
+		surface: z.ZodType<
+			| SchemaOutput<
+					TEntries[keyof TEntries]["bundle"]["lemmaSurfaceSchema"]
+			  >
+			| SchemaOutput<
+					TEntries[InflectionEntryKeys<TEntries>]["bundle"] extends {
+						inflectionSurfaceSchema: z.ZodTypeAny;
+					}
+						? TEntries[InflectionEntryKeys<TEntries>]["bundle"]["inflectionSurfaceSchema"]
+						: never
+			  >
+		>;
+	};
 
 export type FamilySchemaCatalog<
 	TEntries extends Record<string, SchemaCatalogEntry>,
@@ -153,7 +162,7 @@ export type FamilySchemaCatalog<
 };
 
 export function defineSchemaCatalog<
-	const TEntries extends Record<string, SchemaCatalogEntry>,
+	TEntries extends Record<string, SchemaCatalogEntry>,
 >(entries: TEntries): TEntries {
 	return entries;
 }
@@ -165,7 +174,7 @@ function asUnionInput<TSchema extends z.ZodTypeAny>(
 }
 
 export function buildFamilySchemaCatalog<
-	const TEntries extends Record<string, SchemaCatalogEntry>,
+	TEntries extends Record<string, SchemaCatalogEntry>,
 >(entries: TEntries): FamilySchemaCatalog<TEntries> {
 	const lemmaSchemaTree: Record<string, SchemaLeaf> = {};
 	const lemmaSurfaceSchemaTree: Record<string, SchemaLeaf> = {};
@@ -186,8 +195,10 @@ export function buildFamilySchemaCatalog<
 	for (const entry of Object.values(entries) as TEntries[keyof TEntries][]) {
 		lemmaSchemaTree[entry.key] = entry.bundle.lemma;
 		lemmaSurfaceSchemaTree[entry.key] = entry.bundle.surface.lemma;
-		lemmaSelectionSchemaTree.standard[entry.key] = entry.bundle.selection.standard.lemma;
-		lemmaSelectionSchemaTree.typo[entry.key] = entry.bundle.selection.typo.lemma;
+		lemmaSelectionSchemaTree.standard[entry.key] =
+			entry.bundle.selection.standard.lemma;
+		lemmaSelectionSchemaTree.typo[entry.key] =
+			entry.bundle.selection.typo.lemma;
 
 		lemmaSchemas.push(entry.bundle.lemmaSchema);
 		surfaceSchemas.push(entry.bundle.lemmaSurfaceSchema);
@@ -198,7 +209,8 @@ export function buildFamilySchemaCatalog<
 
 		if (entry.hasInflection) {
 			surfaceSchemas.push(entry.bundle.inflectionSurfaceSchema);
-			inflectionSurfaceSchemaTree[entry.key] = entry.bundle.surface.inflection;
+			inflectionSurfaceSchemaTree[entry.key] =
+				entry.bundle.surface.inflection;
 			inflectionSelectionSchemaTree.standard[entry.key] =
 				entry.bundle.selection.standard.inflection;
 			inflectionSelectionSchemaTree.typo[entry.key] =

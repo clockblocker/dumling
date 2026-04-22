@@ -1,6 +1,6 @@
 import { describe, expect, it } from "bun:test";
 import { dumling } from "../../src";
-import { schema } from "../../src/schema";
+import { schemas } from "../../src/schema";
 import {
 	hebrewKatavLemma,
 	hebrewKatvuInflectionSurface,
@@ -16,47 +16,51 @@ import {
 
 describe("Hebrew attested entities", () => {
 	it("stay valid against the public Hebrew schemas", () => {
-		expect(schema.he.lemma.lexeme.verb().safeParse(hebrewKatavLemma).success).toBe(
-			true,
-		);
-		expect(schema.he.lemma.lexeme.noun().safeParse(hebrewShanaLemma).success).toBe(
-			true,
-		);
 		expect(
-			schema.he.lemma.lexeme.propn().safeParse(hebrewUsAbbreviationLemma)
+			schemas.he.entity.Lemma.Lexeme.VERB().safeParse(hebrewKatavLemma)
 				.success,
 		).toBe(true);
 		expect(
-			schema.he.surface.inflection.lexeme.verb().safeParse(
+			schemas.he.entity.Lemma.Lexeme.NOUN().safeParse(hebrewShanaLemma)
+				.success,
+		).toBe(true);
+		expect(
+			schemas.he.entity.Lemma.Lexeme.PROPN().safeParse(
+				hebrewUsAbbreviationLemma,
+			).success,
+		).toBe(true);
+		expect(
+			schemas.he.entity.Surface.Inflection.Lexeme.VERB().safeParse(
 				hebrewKatvuInflectionSurface,
 			).success,
 		).toBe(true);
 		expect(
-			schema.he.surface.lemma.lexeme.noun().safeParse(hebrewShanaLemmaSurface)
-				.success,
+			schemas.he.entity.Surface.Lemma.Lexeme.NOUN().safeParse(
+				hebrewShanaLemmaSurface,
+			).success,
 		).toBe(true);
 		expect(
-			schema.he.surface.lemma.lexeme.propn().safeParse(
+			schemas.he.entity.Surface.Lemma.Lexeme.PROPN().safeParse(
 				hebrewUsAbbreviationLemmaSurface,
 			).success,
 		).toBe(true);
 		expect(
-			schema.he.selection.standard.inflection.lexeme.verb().safeParse(
+			schemas.he.entity.Selection.Standard.Inflection.Lexeme.VERB().safeParse(
 				hebrewKatvuStandardFullSelection,
 			).success,
 		).toBe(true);
 		expect(
-			schema.he.selection.standard.lemma.lexeme.noun().safeParse(
+			schemas.he.entity.Selection.Standard.Lemma.Lexeme.NOUN().safeParse(
 				hebrewShanaLemmaSelection,
 			).success,
 		).toBe(true);
 		expect(
-			schema.he.selection.standard.lemma.lexeme.propn().safeParse(
+			schemas.he.entity.Selection.Standard.Lemma.Lexeme.PROPN().safeParse(
 				hebrewUsAbbreviationSelection,
 			).success,
 		).toBe(true);
 		expect(
-			schema.he.selection.standard.inflection.lexeme.verb().safeParse(
+			schemas.he.entity.Selection.Standard.Inflection.Lexeme.VERB().safeParse(
 				hebrewKatvuPointedVariantSelection,
 			).success,
 		).toBe(true);
@@ -66,11 +70,15 @@ describe("Hebrew attested entities", () => {
 		expect(dumling.he.extract.lemma(hebrewKatvuStandardFullSelection)).toBe(
 			hebrewKatavLemma,
 		);
-		expect(dumling.he.extract.lemma(hebrewShanaLemmaSurface)).toBe(hebrewShanaLemma);
+		expect(dumling.he.extract.lemma(hebrewShanaLemmaSurface)).toBe(
+			hebrewShanaLemma,
+		);
 		expect(dumling.he.convert.lemma.toSurface(hebrewShanaLemma)).toEqual(
 			hebrewShanaLemmaSurface,
 		);
-		expect(dumling.he.describe.as.selection(hebrewKatvuInflectionSurface)).toEqual({
+		expect(
+			dumling.he.describe.as.selection(hebrewKatvuInflectionSurface),
+		).toEqual({
 			language: "he",
 			orthographicStatus: "Standard",
 			surfaceKind: "Inflection",
@@ -82,11 +90,15 @@ describe("Hebrew attested entities", () => {
 	it("round-trips through the Hebrew ID helpers", () => {
 		const lemmaId = dumling.he.id.encode(hebrewKatavLemma);
 		const surfaceId = dumling.he.id.encode(hebrewKatvuInflectionSurface);
-		const selectionId = dumling.he.id.encode(hebrewKatvuStandardFullSelection);
+		const selectionId = dumling.he.id.encode(
+			hebrewKatvuStandardFullSelection,
+		);
 		const pointedVariantId = dumling.he.id.encode(
 			hebrewKatvuPointedVariantSelection,
 		);
-		const abbreviationLemmaId = dumling.he.id.encode(hebrewUsAbbreviationLemma);
+		const abbreviationLemmaId = dumling.he.id.encode(
+			hebrewUsAbbreviationLemma,
+		);
 		const abbreviationSelectionId = dumling.he.id.encode(
 			hebrewUsAbbreviationSelection,
 		);
@@ -111,7 +123,9 @@ describe("Hebrew attested entities", () => {
 			success: true,
 			data: hebrewUsAbbreviationLemma,
 		});
-		expect(dumling.he.id.decodeAs("Selection", abbreviationSelectionId)).toEqual({
+		expect(
+			dumling.he.id.decodeAs("Selection", abbreviationSelectionId),
+		).toEqual({
 			success: true,
 			data: hebrewUsAbbreviationSelection,
 		});

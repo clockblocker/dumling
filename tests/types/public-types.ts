@@ -1,6 +1,6 @@
 import type { ZodType } from "zod/v3";
 import { dumling } from "../../src";
-import { schema } from "../../src/schema";
+import { getSchemaTreeFor, schemas } from "../../src/schema";
 import type {
 	Descriptor,
 	DumlingId,
@@ -16,6 +16,7 @@ import type {
 	LemmaSubKindFor,
 	Selection,
 	SelectionOptionsFor,
+	SupportedLanguage,
 	Surface,
 	SurfaceKindFor,
 } from "../../src/types";
@@ -177,10 +178,17 @@ if (decodedSelection.success) {
 	decodedSelection.data.lemmaKind;
 }
 
-const deSelectionLeaf = schema.de.selection.standard.lemma.lexeme.noun();
+const deSelectionLeaf =
+	schemas.de.entity.Selection.Standard.Lemma.Lexeme.NOUN();
 deSelectionLeaf satisfies ZodType<
 	Selection<"de", "Standard", "Lemma", "Lexeme", "NOUN">
 >;
+const deSchemaTree = getSchemaTreeFor("de");
+deSchemaTree.entity.Selection.Standard.Lemma.Lexeme.NOUN();
+declare const language: SupportedLanguage;
+const dynamicSchemaTree = getSchemaTreeFor(language);
+dynamicSchemaTree.entity.Selection.Standard.Lemma.Lexeme.NOUN();
+getSchemaTreeFor(language).entity.Selection.Standard.Lemma.Lexeme.NOUN();
 
 const enLemma = dumling.en.create.lemma({
 	canonicalLemma: "see",
@@ -192,7 +200,8 @@ const enLemma = dumling.en.create.lemma({
 	meaningInEmojis: "👀",
 }) satisfies Lemma<"en", "Lexeme", "NOUN">;
 
-const enSelectionLeaf = schema.en.selection.standard.lemma.lexeme.noun();
+const enSelectionLeaf =
+	schemas.en.entity.Selection.Standard.Lemma.Lexeme.NOUN();
 enSelectionLeaf satisfies ZodType<
 	Selection<"en", "Standard", "Lemma", "Lexeme", "NOUN">
 >;
@@ -212,7 +221,7 @@ const heLemma = dumling.he.create.lemma({
 	meaningInEmojis: "✍️",
 }) satisfies Lemma<"he", "Lexeme", "VERB">;
 
-const heVerbLeaf = schema.he.lemma.lexeme.verb();
+const heVerbLeaf = schemas.he.entity.Lemma.Lexeme.VERB();
 heVerbLeaf satisfies ZodType<Lemma<"he", "Lexeme", "VERB">>;
 const heStandardSelection = dumling.he.convert.lemma.toSelection(
 	heLemma,
@@ -229,6 +238,6 @@ void heStandardSelection;
 void heVoice;
 
 // @ts-expect-error lexeme does not expose morpheme subkinds
-schema.de.selection.standard.lemma.lexeme.circumfix();
+schemas.de.entity.Selection.Standard.Lemma.Lexeme.Circumfix();
 
 void inflectionSurface;

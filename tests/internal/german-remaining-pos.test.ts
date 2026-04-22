@@ -1,33 +1,35 @@
 import { describe, expect, it } from "bun:test";
-import { schema } from "../../src/schema";
+import { schemas } from "../../src/schema";
 import { makeLexemeSurfaceReference } from "../helpers";
 
 describe("German remaining POS schemas", () => {
 	it("accepts representative feature bundles across implemented POS classes", () => {
 		expect(
-			schema.de.selection.standard.inflection.lexeme.adj().safeParse({
-				language: "de",
-				orthographicStatus: "Standard",
-				selectionCoverage: "Full",
-				spelledSelection: "kleiner",
-				spellingRelation: "Canonical",
-				surface: {
-					...makeLexemeSurfaceReference("de", "ADJ", "klein"),
+			schemas.de.entity.Selection.Standard.Inflection.Lexeme.ADJ().safeParse(
+				{
 					language: "de",
-					normalizedFullSurface: "kleiner",
-					surfaceKind: "Inflection",
-					inflectionalFeatures: {
-						case: "Dat",
-						degree: "Cmp",
-						gender: "Fem",
-						number: "Sing",
+					orthographicStatus: "Standard",
+					selectionCoverage: "Full",
+					spelledSelection: "kleiner",
+					spellingRelation: "Canonical",
+					surface: {
+						...makeLexemeSurfaceReference("de", "ADJ", "klein"),
+						language: "de",
+						normalizedFullSurface: "kleiner",
+						surfaceKind: "Inflection",
+						inflectionalFeatures: {
+							case: "Dat",
+							degree: "Cmp",
+							gender: "Fem",
+							number: "Sing",
+						},
 					},
 				},
-			}).success,
+			).success,
 		).toBe(true);
 
 		expect(
-			schema.de.lemma.lexeme.adp().safeParse({
+			schemas.de.entity.Lemma.Lexeme.ADP().safeParse({
 				language: "de",
 				canonicalLemma: "zu",
 				lemmaKind: "Lexeme",
@@ -40,28 +42,30 @@ describe("German remaining POS schemas", () => {
 		).toBe(true);
 
 		expect(
-			schema.de.selection.standard.inflection.lexeme.det().safeParse({
-				language: "de",
-				orthographicStatus: "Standard",
-				selectionCoverage: "Full",
-				spelledSelection: "dieser",
-				spellingRelation: "Canonical",
-				surface: {
-					...makeLexemeSurfaceReference("de", "DET", "dies"),
+			schemas.de.entity.Selection.Standard.Inflection.Lexeme.DET().safeParse(
+				{
 					language: "de",
-					normalizedFullSurface: "dieser",
-					surfaceKind: "Inflection",
-					inflectionalFeatures: {
-						case: "Nom",
-						gender: "Masc",
-						number: "Sing",
+					orthographicStatus: "Standard",
+					selectionCoverage: "Full",
+					spelledSelection: "dieser",
+					spellingRelation: "Canonical",
+					surface: {
+						...makeLexemeSurfaceReference("de", "DET", "dies"),
+						language: "de",
+						normalizedFullSurface: "dieser",
+						surfaceKind: "Inflection",
+						inflectionalFeatures: {
+							case: "Nom",
+							gender: "Masc",
+							number: "Sing",
+						},
 					},
 				},
-			}).success,
+			).success,
 		).toBe(true);
 
 		expect(
-			schema.de.lemma.lexeme.x().safeParse({
+			schemas.de.entity.Lemma.Lexeme.X().safeParse({
 				language: "de",
 				canonicalLemma: "foobar",
 				lemmaKind: "Lexeme",
@@ -75,22 +79,26 @@ describe("German remaining POS schemas", () => {
 	});
 
 	it("keeps non-inflecting classes strict", () => {
-		expect("adp" in schema.de.selection.standard.inflection.lexeme).toBe(false);
-		expect("cconj" in schema.de.selection.standard.inflection.lexeme).toBe(
-			false,
-		);
-		expect("intj" in schema.de.selection.standard.inflection.lexeme).toBe(false);
-		expect("punct" in schema.de.selection.standard.inflection.lexeme).toBe(
-			false,
-		);
-		expect("sconj" in schema.de.selection.standard.inflection.lexeme).toBe(
-			false,
-		);
+		expect(
+			"ADP" in schemas.de.entity.Selection.Standard.Inflection.Lexeme,
+		).toBe(false);
+		expect(
+			"CCONJ" in schemas.de.entity.Selection.Standard.Inflection.Lexeme,
+		).toBe(false);
+		expect(
+			"INTJ" in schemas.de.entity.Selection.Standard.Inflection.Lexeme,
+		).toBe(false);
+		expect(
+			"PUNCT" in schemas.de.entity.Selection.Standard.Inflection.Lexeme,
+		).toBe(false);
+		expect(
+			"SCONJ" in schemas.de.entity.Selection.Standard.Inflection.Lexeme,
+		).toBe(false);
 	});
 
 	it("rejects unsupported feature values where subsets matter", () => {
 		expect(
-			schema.de.lemma.lexeme.adv().safeParse({
+			schemas.de.entity.Lemma.Lexeme.ADV().safeParse({
 				language: "de",
 				canonicalLemma: "gern",
 				lemmaKind: "Lexeme",
@@ -103,26 +111,31 @@ describe("German remaining POS schemas", () => {
 		).toBe(false);
 
 		expect(
-			Reflect.get(schema.de.selection.standard.inflection.lexeme, "adp"),
+			Reflect.get(
+				schemas.de.entity.Selection.Standard.Inflection.Lexeme,
+				"ADP",
+			),
 		).toBeUndefined();
 
 		expect(
-			schema.de.selection.standard.inflection.lexeme.x().safeParse({
-				language: "de",
-				orthographicStatus: "Standard",
-				selectionCoverage: "Full",
-				spelledSelection: "foobar",
-				spellingRelation: "Canonical",
-				surface: {
-					...makeLexemeSurfaceReference("de", "X", "foobar"),
+			schemas.de.entity.Selection.Standard.Inflection.Lexeme.X().safeParse(
+				{
 					language: "de",
-					normalizedFullSurface: "foobar",
-					surfaceKind: "Inflection",
-					inflectionalFeatures: {
-						tense: "Past",
+					orthographicStatus: "Standard",
+					selectionCoverage: "Full",
+					spelledSelection: "foobar",
+					spellingRelation: "Canonical",
+					surface: {
+						...makeLexemeSurfaceReference("de", "X", "foobar"),
+						language: "de",
+						normalizedFullSurface: "foobar",
+						surfaceKind: "Inflection",
+						inflectionalFeatures: {
+							tense: "Past",
+						},
 					},
 				},
-			}).success,
+			).success,
 		).toBe(false);
 	});
 });

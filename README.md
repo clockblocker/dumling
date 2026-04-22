@@ -18,7 +18,7 @@ This package ships working runtime surfaces for `de`, `en`, and `he`.
 | --- | --- |
 | `dumling` | Root runtime API: `dumling.<language>`, `getLanguageApi`, `supportedLanguages`, and `inspectId` |
 | `dumling/types` | Public DTOs, feature helpers, descriptors, and API/result/error types |
-| `dumling/schema` | Runtime schema tree: `schema.abstract`, `schema.de`, `schema.en`, `schema.he` |
+| `dumling/schema` | Concrete runtime schema registry: `schemas` and `getSchemaTreeFor(language)` |
 
 ## Runtime API
 
@@ -103,7 +103,7 @@ Minimal end-to-end usage:
 
 ```ts
 import { dumling as packageDumling } from "dumling";
-import { schema as packageSchema } from "dumling/schema";
+import { schemas as packageSchemas } from "dumling/schema";
 import type {
 	FeatureValue as PackageFeatureValue,
 	Lemma as PackageLemma,
@@ -151,10 +151,12 @@ descriptor.surfaceKind satisfies "Lemma";
 extractedLemma satisfies PackageLemma<"de">;
 gender satisfies "Masc";
 
-packageSchema.de.selection.standard.lemma.lexeme.noun().parse(decoded.data);
+packageSchemas.de.entity.Selection.Standard.Lemma.Lexeme.NOUN().parse(
+	decoded.data,
+);
 ```
 
-`schema.abstract.*` is usable for ontology-level validation, and `schema.de.*`, `schema.en.*`, and `schema.he.*` are the concrete runtime surfaces.
+`schemas.de.entity.*`, `schemas.en.entity.*`, and `schemas.he.entity.*` expose concrete Zod schema getters. Leaf calls return Zod schemas for validators, LLM response-schema callers, and other schema-consuming APIs.
 
 ## Concepts / Search Terms
 

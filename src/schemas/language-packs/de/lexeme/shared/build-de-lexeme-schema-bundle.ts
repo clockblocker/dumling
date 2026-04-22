@@ -15,7 +15,10 @@ import {
 } from "../../../../shared/builders";
 
 type DeLexemeLemmaBySubKind = FamilyLemmaBySubKind<"de", "Lexeme">;
-type DeLemmaLexemeSurfaceBySubKind = FamilyLemmaSurfaceBySubKind<"de", "Lexeme">;
+type DeLemmaLexemeSurfaceBySubKind = FamilyLemmaSurfaceBySubKind<
+	"de",
+	"Lexeme"
+>;
 type DeInflectionLexemeSurfaceBySubKind = FamilyInflectionSurfaceBySubKind<
 	"de",
 	"Lexeme"
@@ -58,7 +61,10 @@ export type DeUninflectableLexemeSchemaBundleFor<
 
 export type DeInflectableLexemeSchemaBundleFor<
 	LSK extends DeInflectableLexemeSubKind,
-> = Omit<DeLexemeLeafBundleBaseFor<LSK>, "selection" | "surface" | "surfaceSchemas"> & {
+> = Omit<
+	DeLexemeLeafBundleBaseFor<LSK>,
+	"selection" | "surface" | "surfaceSchemas"
+> & {
 	inflectionSelectionSchemas: [
 		z.ZodType<DeInflectionLexemeSelectionBySubKind<"Standard">[LSK]>,
 		z.ZodType<DeInflectionLexemeSelectionBySubKind<"Typo">[LSK]>,
@@ -89,7 +95,7 @@ export type DeInflectableLexemeSchemaBundleFor<
 };
 
 export function buildDeInflectableLexemeSchemaBundle<
-	const LSK extends DeInflectableLexemeSubKind,
+	LSK extends DeInflectableLexemeSubKind,
 >(options: {
 	inflectionalFeaturesSchema: z.ZodType<
 		DeInflectionLexemeSurfaceBySubKind[LSK]["inflectionalFeatures"]
@@ -166,7 +172,7 @@ export function buildDeInflectableLexemeSchemaBundle<
 }
 
 export function buildDeUninflectableLexemeSchemaBundle<
-	const LSK extends keyof DeLexemeLemmaBySubKind,
+	LSK extends keyof DeLexemeLemmaBySubKind,
 >(options: {
 	languageSchema: z.ZodType<"de">;
 	lemmaSchema: z.ZodType<DeLexemeLemmaBySubKind[LSK]>;
