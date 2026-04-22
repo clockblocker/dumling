@@ -7,5 +7,10 @@
 		"generate-readme/examples/**/*.ts",
 		"tests/**/*.ts"
 	],
-	"project": ["generate-readme/**/*.ts", "src/**/*.ts", "tests/**/*.ts"]
+	"project": [
+		"generate-readme/**/*.ts",
+		"scripts/**/*.ts",
+		"src/**/*.ts",
+		"tests/**/*.ts"
+	]
 }
