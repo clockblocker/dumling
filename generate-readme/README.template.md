@@ -14,7 +14,7 @@ This package ships working runtime surfaces for `de`, `en`, and `he`.
 
 | Import path | Purpose |
 | --- | --- |
-| `dumling` | Root runtime API: `dumling.<language>.create`, `convert`, `extract`, `parse`, `describe`, `id` |
+| `dumling` | Root runtime API: `dumling.<language>`, `getLanguageApi`, `supportedLanguages`, and `inspectId` |
 | `dumling/types` | Public DTOs, feature helpers, descriptors, and API/result/error types |
 | `dumling/schema` | Runtime schema tree: `schema.abstract`, `schema.de`, `schema.en`, `schema.he` |
 
@@ -29,11 +29,18 @@ Each concrete language namespace (`dumling.de`, `dumling.en`, `dumling.he`) expo
 - `describe`: descriptor helpers via `describe.as.lemma`, `surface`, and `selection`
 - `id`: stable ID encode/decode helpers for hydrated DTOs
 
+The root runtime entrypoint also exposes:
+
+- `supportedLanguages`: the curated runtime language inventory
+- `getLanguageApi(language)`: dynamic access to a language-bound workflow API
+- `inspectId(id)`: package-level ID metadata inspection without full DTO decoding
+
 ## Public types
 
 `dumling/types` exports:
 
 - DTOs: `Lemma`, `Surface`, `Selection`
+- Entity and ID helpers: `EntityValue`, `EntityForKind`, `DumlingId`, `DumlingIdInspection`, `SelectionOptionsFor`
 - Language-aware helper types: `LemmaKindFor`, `LemmaSubKindFor`, `SurfaceKindFor`, `LemmaKindForSurfaceKind`
 - Feature typing helpers: `FeatureSet`, `FeatureName`, `FeatureValue`, `InherentFeaturesFor`, `InflectionalFeaturesFor`
 - Descriptors and API shapes: `LemmaDescriptor`, `SurfaceDescriptor`, `SelectionDescriptor`, `DumlingApi`, `LanguageApi`

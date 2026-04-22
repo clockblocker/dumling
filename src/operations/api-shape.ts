@@ -1,4 +1,25 @@
-import type { SupportedLanguage, LemmaKindFor, LemmaSubKindFor, InherentFeaturesFor, Lemma, Surface, LemmaKindForSurfaceKind, Selection, OrthographicStatus, SurfaceKindFor, LemmaDescriptor, SurfaceDescriptor, SelectionDescriptor,  EntityKind, LemmaKind, SelectionCoverage, SpellingRelation, SurfaceKind } from "../types/public-types";
+import type {
+	DumlingId,
+	EntityForKind,
+	EntityKind,
+	EntityValue,
+	InherentFeaturesFor,
+	Lemma,
+	LemmaDescriptor,
+	LemmaKind,
+	LemmaKindFor,
+	LemmaKindForSurfaceKind,
+	LemmaSubKindFor,
+	OrthographicStatus,
+	Selection,
+	SelectionDescriptor,
+	SelectionOptionsFor,
+	SupportedLanguage,
+	Surface,
+	SurfaceDescriptor,
+	SurfaceKind,
+	SurfaceKindFor,
+} from "../types/public-types";
 
 export type DumlingApi = {
 	de: LanguageApi<"de">;
@@ -41,16 +62,14 @@ export type LanguageApi<L extends SupportedLanguage> = {
 		lemma<
 			LK extends LemmaKindFor<L>,
 			LSK extends LemmaSubKindFor<L, LK>,
-		>(
-			input: {
-				canonicalLemma: string;
-				lemmaKind: LK;
-				lemmaSubKind: LSK;
-				inherentFeatures: InherentFeaturesFor<L, LK, LSK>;
-				meaningInEmojis: string;
-				language?: unknown;
-			},
-		): Lemma<L, LK, LSK>;
+		>(input: {
+			canonicalLemma: string;
+			lemmaKind: LK;
+			lemmaSubKind: LSK;
+			inherentFeatures: InherentFeaturesFor<L, LK, LSK>;
+			meaningInEmojis: string;
+			language?: unknown;
+		}): Lemma<L, LK, LSK>;
 		surface: {
 			lemma<
 				TSurface extends Surface<
@@ -101,7 +120,8 @@ export type LanguageApi<L extends SupportedLanguage> = {
 			): Surface<
 				L,
 				LemmaSurfaceKind<L>,
-				TLemma["lemmaKind"] & LemmaKindForSurfaceKind<L, LemmaSurfaceKind<L>>,
+				TLemma["lemmaKind"] &
+					LemmaKindForSurfaceKind<L, LemmaSurfaceKind<L>>,
 				TLemma["lemmaSubKind"] &
 					LemmaSubKindFor<L, TLemma["lemmaKind"] & LemmaKindFor<L>>
 			>;
@@ -115,7 +135,8 @@ export type LanguageApi<L extends SupportedLanguage> = {
 				L,
 				TStatus,
 				LemmaSurfaceKind<L>,
-				TLemma["lemmaKind"] & LemmaKindForSurfaceKind<L, LemmaSurfaceKind<L>>,
+				TLemma["lemmaKind"] &
+					LemmaKindForSurfaceKind<L, LemmaSurfaceKind<L>>,
 				TLemma["lemmaSubKind"] &
 					LemmaSubKindFor<L, TLemma["lemmaKind"] & LemmaKindFor<L>>
 			>;
@@ -160,7 +181,10 @@ export type LanguageApi<L extends SupportedLanguage> = {
 				L,
 				EntityLemmaKind<TValue> & LemmaKindFor<L>,
 				EntityLemmaSubKind<TValue> &
-					LemmaSubKindFor<L, EntityLemmaKind<TValue> & LemmaKindFor<L>>
+					LemmaSubKindFor<
+						L,
+						EntityLemmaKind<TValue> & LemmaKindFor<L>
+					>
 			>;
 			surface<TValue extends EntityValue<L>>(
 				value: TValue,
@@ -173,7 +197,10 @@ export type LanguageApi<L extends SupportedLanguage> = {
 						EntitySurfaceKind<TValue> & SurfaceKindFor<L>
 					>,
 				EntityLemmaSubKind<TValue> &
-					LemmaSubKindFor<L, EntityLemmaKind<TValue> & LemmaKindFor<L>>
+					LemmaSubKindFor<
+						L,
+						EntityLemmaKind<TValue> & LemmaKindFor<L>
+					>
 			>;
 			selection<TValue extends EntityValue<L>>(
 				value: TValue,
@@ -187,12 +214,15 @@ export type LanguageApi<L extends SupportedLanguage> = {
 						EntitySurfaceKind<TValue> & SurfaceKindFor<L>
 					>,
 				EntityLemmaSubKind<TValue> &
-					LemmaSubKindFor<L, EntityLemmaKind<TValue> & LemmaKindFor<L>>
+					LemmaSubKindFor<
+						L,
+						EntityLemmaKind<TValue> & LemmaKindFor<L>
+					>
 			>;
 		};
 	};
 	id: {
-		encode(value: Lemma<L> | Surface<L> | Selection<L>): string;
+		encode(value: EntityValue<L>): DumlingId<EntityKind, L>;
 		decode(id: string): ApiResult<IdDecodeSuccess<L>, IdDecodeError>;
 		decodeAs<K extends EntityKind>(
 			kind: K,
@@ -200,15 +230,6 @@ export type LanguageApi<L extends SupportedLanguage> = {
 		): ApiResult<EntityForKind<L, K>, IdDecodeError>;
 	};
 };
-
-type EntityForKind<
-	L extends SupportedLanguage,
-	K extends EntityKind,
-> = K extends "Lemma"
-	? Lemma<L>
-	: K extends "Surface"
-		? Surface<L>
-		: Selection<L>;
 
 type LemmaSurfaceKind<L extends SupportedLanguage> = Extract<
 	SurfaceKindFor<L>,
@@ -218,14 +239,17 @@ type InflectionSurfaceKind<L extends SupportedLanguage> = Extract<
 	SurfaceKindFor<L>,
 	"Inflection"
 >;
-type EntityValue<L extends SupportedLanguage> = Lemma<L> | Surface<L> | Selection<L>;
-type EntityLemmaKind<TValue> = TValue extends { lemmaKind: infer LK extends LemmaKind }
+type EntityLemmaKind<TValue> = TValue extends {
+	lemmaKind: infer LK extends LemmaKind;
+}
 	? LK
 	: TValue extends { lemma: { lemmaKind: infer LK extends LemmaKind } }
 		? LK
 		: TValue extends {
-					surface: { lemma: { lemmaKind: infer LK extends LemmaKind } };
-			  }
+					surface: {
+						lemma: { lemmaKind: infer LK extends LemmaKind };
+					};
+				}
 			? LK
 			: never;
 type EntityLemmaSubKind<TValue> = TValue extends {
@@ -235,8 +259,10 @@ type EntityLemmaSubKind<TValue> = TValue extends {
 	: TValue extends { lemma: { lemmaSubKind: infer LSK extends string } }
 		? LSK
 		: TValue extends {
-					surface: { lemma: { lemmaSubKind: infer LSK extends string } };
-			  }
+					surface: {
+						lemma: { lemmaSubKind: infer LSK extends string };
+					};
+				}
 			? LSK
 			: never;
 type EntitySurfaceKind<TValue> = TValue extends {
@@ -245,7 +271,7 @@ type EntitySurfaceKind<TValue> = TValue extends {
 	? SK
 	: TValue extends {
 				surface: { surfaceKind: infer SK extends SurfaceKind };
-		  }
+			}
 		? SK
 		: TValue extends { lemmaKind: LemmaKind; lemmaSubKind: string }
 			? "Lemma"
@@ -257,9 +283,3 @@ type EntityOrthographicStatus<TValue> = TValue extends {
 	: TValue extends { language: SupportedLanguage }
 		? "Standard"
 		: never;
-type SelectionOptionsFor<OS extends OrthographicStatus> = {
-	orthographicStatus?: OS;
-	selectionCoverage?: SelectionCoverage;
-	spelledSelection?: string;
-	spellingRelation?: SpellingRelation;
-};

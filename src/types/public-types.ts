@@ -1,14 +1,4 @@
 import type {
-	AbstractLanguageTag,
-	LemmaKind,
-	LemmaSubKind,
-	OrthographicStatus,
-	SelectionCoverage,
-	SpellingRelation,
-	SupportedLanguage,
-	SurfaceKind,
-} from "./core/enums";
-import type {
 	AbstractInflectionalFeaturesFor,
 	AbstractInherentFeaturesFor,
 	AbstractLemma,
@@ -30,6 +20,16 @@ import type {
 	ConcreteLanguage,
 	LanguagePackFeatureRegistry,
 } from "./concrete-language/features/feature-registry";
+import type {
+	AbstractLanguageTag,
+	LemmaKind,
+	LemmaSubKind,
+	OrthographicStatus,
+	SelectionCoverage,
+	SpellingRelation,
+	SupportedLanguage,
+	SurfaceKind,
+} from "./core/enums";
 
 export type {
 	AbstractLanguageTag,
@@ -44,10 +44,34 @@ export type {
 
 export type Language = SupportedLanguage;
 export type EntityKind = "Lemma" | "Surface" | "Selection";
+export type EntityValue<L extends SupportedLanguage = SupportedLanguage> =
+	| Lemma<L>
+	| Surface<L>
+	| Selection<L>;
+export type EntityForKind<
+	L extends SupportedLanguage,
+	K extends EntityKind,
+> = K extends "Lemma"
+	? Lemma<L>
+	: K extends "Surface"
+		? Surface<L>
+		: Selection<L>;
+export type DumlingId<
+	K extends EntityKind = EntityKind,
+	L extends SupportedLanguage = SupportedLanguage,
+> = string & {
+	readonly __dumlingIdKind?: K;
+	readonly __dumlingIdLanguage?: L;
+};
+export type DumlingIdInspection = {
+	kind: EntityKind;
+	language: SupportedLanguage;
+};
 
-export type LemmaKindFor<L extends SupportedLanguage> = L extends ConcreteLanguage
-	? Extract<keyof LanguagePackFeatureRegistry[L], LemmaKind>
-	: LemmaKind;
+export type LemmaKindFor<L extends SupportedLanguage> =
+	L extends ConcreteLanguage
+		? Extract<keyof LanguagePackFeatureRegistry[L], LemmaKind>
+		: LemmaKind;
 
 export type LemmaSubKindFor<
 	L extends SupportedLanguage,
@@ -63,9 +87,10 @@ export type LemmaSubKindFor<
 		? AbstractLemmaSubKindFor<LK>
 		: never;
 
-export type SurfaceKindFor<L extends SupportedLanguage> = L extends ConcreteLanguage
-	? Extract<keyof SurfaceByKindForLanguage<L>, SurfaceKind>
-	: SurfaceKind;
+export type SurfaceKindFor<L extends SupportedLanguage> =
+	L extends ConcreteLanguage
+		? Extract<keyof SurfaceByKindForLanguage<L>, SurfaceKind>
+		: SurfaceKind;
 
 export type LemmaKindForSurfaceKind<
 	L extends SupportedLanguage,
@@ -80,16 +105,17 @@ type PlaceholderLemma<
 	L extends SupportedLanguage,
 	LK extends LemmaKindFor<L>,
 	LSK extends LemmaSubKindFor<L, LK>,
-> = AbstractLemma<L, LK & LemmaKind, LSK & AbstractLemmaSubKindFor<LK & LemmaKind>>;
+> = AbstractLemma<
+	L,
+	LK & LemmaKind,
+	LSK & AbstractLemmaSubKindFor<LK & LemmaKind>
+>;
 
 type ConcreteLemmaFor<
 	L extends ConcreteLanguage,
 	LK extends LemmaKindFor<L>,
 	LSK extends LemmaSubKindFor<L, LK>,
-> = Extract<
-	LanguageLemmaUnionMap[L],
-	{ lemmaKind: LK; lemmaSubKind: LSK }
->;
+> = Extract<LanguageLemmaUnionMap[L], { lemmaKind: LK; lemmaSubKind: LSK }>;
 
 export type Lemma<
 	L extends SupportedLanguage = SupportedLanguage,
@@ -99,7 +125,11 @@ export type Lemma<
 	? ConcreteLemmaFor<
 			L & ConcreteLanguage,
 			LK & LemmaKindFor<L & ConcreteLanguage>,
-			LSK & LemmaSubKindFor<L & ConcreteLanguage, LK & LemmaKindFor<L & ConcreteLanguage>>
+			LSK &
+				LemmaSubKindFor<
+					L & ConcreteLanguage,
+					LK & LemmaKindFor<L & ConcreteLanguage>
+				>
 		>
 	: PlaceholderLemma<L, LK, LSK>;
 
@@ -120,7 +150,7 @@ type PlaceholderSurface<
 				LSK & AbstractLemmaSubKindFor<LK & LemmaKind>
 			>;
 		}
-	: {});
+	: Record<never, never>);
 
 type ConcreteSurfaceFor<
 	L extends ConcreteLanguage,
@@ -159,7 +189,7 @@ export type Surface<
 							SK & SurfaceKindFor<L & ConcreteLanguage>
 						>
 				>
-			>
+		>
 	: PlaceholderSurface<L, SK, LK, LSK>;
 
 type PlaceholderSelection<
@@ -209,14 +239,15 @@ export type Selection<
 					L & ConcreteLanguage,
 					SK & SurfaceKindFor<L & ConcreteLanguage>
 				>,
-			LSK & LemmaSubKindFor<
-				L & ConcreteLanguage,
-				LK &
-					LemmaKindForSurfaceKind<
-						L & ConcreteLanguage,
-						SK & SurfaceKindFor<L & ConcreteLanguage>
-					>
-			>
+			LSK &
+				LemmaSubKindFor<
+					L & ConcreteLanguage,
+					LK &
+						LemmaKindForSurfaceKind<
+							L & ConcreteLanguage,
+							SK & SurfaceKindFor<L & ConcreteLanguage>
+						>
+				>
 		>
 	: PlaceholderSelection<L, OS, SK, LK, LSK>;
 
@@ -230,10 +261,11 @@ export type FeatureSet<
 > = L extends ConcreteLanguage
 	? LK extends keyof LanguagePackFeatureRegistry[L]
 		? LSK extends keyof LanguagePackFeatureRegistry[L][LK]
-			? LanguagePackFeatureRegistry[L][LK][LSK] extends infer TFeatureDefinition extends {
-					inflectional: Record<string, unknown>;
-					inherent: Record<string, unknown>;
-			  }
+			? LanguagePackFeatureRegistry[L][LK][LSK] extends infer TFeatureDefinition extends
+					{
+						inflectional: Record<string, unknown>;
+						inherent: Record<string, unknown>;
+					}
 				? TFeatureDefinition[K]
 				: never
 			: never
@@ -290,6 +322,13 @@ export type FeatureValue<
 			: never
 		: never
 	: never;
+
+export type SelectionOptionsFor<OS extends OrthographicStatus> = {
+	orthographicStatus?: OS;
+	selectionCoverage?: SelectionCoverage;
+	spelledSelection?: string;
+	spellingRelation?: SpellingRelation;
+};
 
 export type LemmaDescriptor<
 	L extends SupportedLanguage,
