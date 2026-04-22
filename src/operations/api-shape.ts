@@ -140,6 +140,22 @@ export type LanguageApi<L extends SupportedLanguage> = {
 				options?: SelectionOptionsFor<TStatus>,
 			): SelectionFromSurface<L, TStatus, TSurface>;
 		};
+		format: {
+			toCsv(value: Lemma<L> | Surface<L>): string;
+			fromCsv(
+				input: string,
+			): ApiResult<Lemma<L> | Surface<L>, ParseError>;
+			toJson(value: Lemma<L> | Surface<L>): string;
+			fromJson(
+				input: string,
+			): ApiResult<Lemma<L> | Surface<L>, ParseError>;
+			toBase64(value: Lemma<L> | Surface<L>): string;
+			fromBase64(
+				input: string,
+			): ApiResult<Lemma<L> | Surface<L>, ParseError>;
+			csvToBase64(input: string): string;
+			base64ToCsv(input: string): string;
+		};
 	};
 	extract: {
 		lemma(value: Lemma<L> | Surface<L> | Selection<L>): Lemma<L>;

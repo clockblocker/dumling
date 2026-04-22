@@ -120,6 +120,126 @@ describe("API", () => {
 		expect(fromSurface).toEqual(fromLemma);
 	});
 
+	it("converts citation surfaces to the compact CSV row shape", () => {
+		const lemma = dumling.de.create.lemma({
+			canonicalLemma: "See",
+			lemmaKind: "Lexeme",
+			lemmaSubKind: "NOUN",
+			inherentFeatures: {
+				gender: "Masc",
+			},
+			meaningInEmojis: "🌊",
+		});
+		const surface = dumling.de.convert.lemma.toSurface(lemma);
+
+		expect(dumling.de.convert.format.toCsv(surface)).toBe(
+			'Surface,Citation,See,Lemma,See,Lexeme,NOUN,"{""gender"":""Masc""}",🌊',
+		);
+	});
+
+	it("parses compact citation surface CSV rows through the language schema", () => {
+		const parsed = dumling.de.convert.format.fromCsv(
+			'Surface,Citation,See,Lemma,See,Lexeme,NOUN,"{""gender"":""Masc""}",🌊',
+		);
+
+		expect(parsed.success).toBe(true);
+		if (!parsed.success) {
+			throw new Error(parsed.error.message);
+		}
+		expect(parsed.data).toEqual({
+			language: "de",
+			normalizedFullSurface: "see",
+			surfaceKind: "Citation",
+			lemma: {
+				language: "de",
+				canonicalLemma: "see",
+				lemmaKind: "Lexeme",
+				lemmaSubKind: "NOUN",
+				inherentFeatures: {
+					gender: "Masc",
+				},
+				meaningInEmojis: "🌊",
+			},
+		});
+	});
+
+	it("round-trips inflection surfaces with inflectional feature JSON in CSV", () => {
+		const lemma = dumling.en.create.lemma({
+			canonicalLemma: "run",
+			lemmaKind: "Lexeme",
+			lemmaSubKind: "VERB",
+			inherentFeatures: {},
+			meaningInEmojis: "🏃",
+		});
+		const surface = dumling.en.create.surface.inflection({
+			lemma,
+			normalizedFullSurface: "ran",
+			inflectionalFeatures: {
+				tense: "Past",
+				verbForm: "Fin",
+			},
+		});
+
+		const csv = dumling.en.convert.format.toCsv(surface);
+		const parsed = dumling.en.convert.format.fromCsv(csv);
+
+		expect(csv).toBe(
+			'Surface,Inflection,ran,"{""tense"":""Past"",""verbForm"":""Fin""}",Lemma,run,Lexeme,VERB,{},🏃',
+		);
+		expect(parsed).toEqual({
+			success: true,
+			data: surface,
+		});
+	});
+
+	it("converts surface JSON strings through the same validated format API", () => {
+		const json = JSON.stringify({
+			language: "de",
+			normalizedFullSurface: "See",
+			surfaceKind: "Citation",
+			lemma: {
+				language: "de",
+				canonicalLemma: "See",
+				lemmaKind: "Lexeme",
+				lemmaSubKind: "NOUN",
+				inherentFeatures: {
+					gender: "Masc",
+				},
+				meaningInEmojis: "🌊",
+			},
+		});
+
+		const parsed = dumling.de.convert.format.fromJson(json);
+
+		expect(parsed.success).toBe(true);
+		if (!parsed.success) {
+			throw new Error(parsed.error.message);
+		}
+		expect(dumling.de.convert.format.toJson(parsed.data)).toBe(
+			'{"language":"de","lemma":{"canonicalLemma":"see","inherentFeatures":{"gender":"Masc"},"language":"de","lemmaKind":"Lexeme","lemmaSubKind":"NOUN","meaningInEmojis":"🌊"},"normalizedFullSurface":"see","surfaceKind":"Citation"}',
+		);
+	});
+
+	it("converts compact CSV rows to base64 and back", () => {
+		const csv =
+			'Surface,Citation,See,Lemma,See,Lexeme,NOUN,"{""gender"":""Masc""}",🌊';
+
+		const encoded = dumling.de.convert.format.csvToBase64(csv);
+		const decoded = dumling.de.convert.format.base64ToCsv(encoded);
+		const parsed = dumling.de.convert.format.fromBase64(encoded);
+
+		expect(encoded).toBe(Buffer.from(csv, "utf8").toString("base64"));
+		expect(decoded).toBe(csv);
+		expect(parsed.success).toBe(true);
+		if (!parsed.success) {
+			throw new Error(parsed.error.message);
+		}
+		if (!("surfaceKind" in parsed.data)) {
+			throw new Error("expected a surface");
+		}
+		expect(parsed.data.normalizedFullSurface).toBe("see");
+	});
+
 	it("parses normalized german DTOs and exposes schema leaves", () => {
 		const parsedLemma = dumling.de.parse.lemma({
 			language: "de",

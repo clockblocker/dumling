@@ -19,7 +19,7 @@ function buildImplementedLanguageApi<L extends SupportedLanguage>(
 ): LanguageApi<L> {
 	return {
 		create: descriptor.create,
-		convert: buildConvertOperations<L>(),
+		convert: buildConvertOperations(language, descriptor.parse),
 		describe: buildDescribeOperations<L>(),
 		extract: buildExtractOperations<L>(),
 		id: buildIdOperations(language, descriptor.parse),
