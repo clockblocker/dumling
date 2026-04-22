@@ -31,23 +31,13 @@ import type {
 	SurfaceKind,
 } from "./core/enums";
 
-export type {
-	AbstractLanguageTag,
-	LemmaKind,
-	LemmaSubKind,
-	OrthographicStatus,
-	SelectionCoverage,
-	SpellingRelation,
-	SupportedLanguage,
-	SurfaceKind,
-};
-
 export type Language = SupportedLanguage;
 export type EntityKind = "Lemma" | "Surface" | "Selection";
 export type EntityValue<L extends SupportedLanguage = SupportedLanguage> =
 	| Lemma<L>
 	| Surface<L>
 	| Selection<L>;
+
 export type EntityForKind<
 	L extends SupportedLanguage,
 	K extends EntityKind,
@@ -110,22 +100,6 @@ export type LemmaKindForSurfaceKind<
 		: never
 	: LemmaKindFor<L>;
 
-type PlaceholderLemma<
-	L extends SupportedLanguage,
-	LK extends LemmaKindFor<L>,
-	LSK extends LemmaSubKindFor<L, LK>,
-> = AbstractLemma<
-	L,
-	LK & LemmaKind,
-	LSK & AbstractLemmaSubKindFor<LK & LemmaKind>
->;
-
-type ConcreteLemmaFor<
-	L extends ConcreteLanguage,
-	LK extends LemmaKindFor<L>,
-	LSK extends LemmaSubKindFor<L, LK>,
-> = Extract<LanguageLemmaUnionMap[L], { lemmaKind: LK; lemmaSubKind: LSK }>;
-
 export type Lemma<
 	L extends SupportedLanguage = SupportedLanguage,
 	LK extends LemmaKindFor<L> = LemmaKindFor<L>,
@@ -141,39 +115,6 @@ export type Lemma<
 				>
 		>
 	: PlaceholderLemma<L, LK, LSK>;
-
-type PlaceholderSurface<
-	L extends SupportedLanguage,
-	SK extends SurfaceKindFor<L>,
-	LK extends LemmaKindForSurfaceKind<L, SK>,
-	LSK extends LemmaSubKindFor<L, LK>,
-> = {
-	language: L;
-	normalizedFullSurface: string;
-	surfaceKind: SK;
-	lemma: Lemma<L, LK, LSK>;
-} & (SK extends "Inflection"
-	? {
-			inflectionalFeatures: AbstractInflectionalFeaturesFor<
-				LK & LemmaKind,
-				LSK & AbstractLemmaSubKindFor<LK & LemmaKind>
-			>;
-		}
-	: Record<never, never>);
-
-type ConcreteSurfaceFor<
-	L extends ConcreteLanguage,
-	SK extends SurfaceKindFor<L>,
-	LK extends LemmaKindForSurfaceKind<L, SK>,
-	LSK extends LemmaSubKindFor<L, LK>,
-> = LanguageSurfaceUnionMap[L] extends infer TSurface
-	? TSurface extends {
-			surfaceKind: SK;
-			lemma: { lemmaKind: LK; lemmaSubKind: LSK };
-		}
-		? TSurface
-		: never
-	: never;
 
 export type Surface<
 	L extends SupportedLanguage = SupportedLanguage,
@@ -201,36 +142,6 @@ export type Surface<
 		>
 	: PlaceholderSurface<L, SK, LK, LSK>;
 
-type PlaceholderSelection<
-	L extends SupportedLanguage,
-	OS extends OrthographicStatus,
-	SK extends SurfaceKindFor<L>,
-	LK extends LemmaKindForSurfaceKind<L, SK>,
-	LSK extends LemmaSubKindFor<L, LK>,
-> = {
-	language: L;
-	orthographicStatus: OS;
-	selectionCoverage: SelectionCoverage;
-	spelledSelection: string;
-	spellingRelation: SpellingRelation;
-	surface: Surface<L, SK, LK, LSK>;
-};
-
-type ConcreteSelectionFor<
-	L extends ConcreteLanguage,
-	OS extends OrthographicStatus,
-	SK extends SurfaceKindFor<L>,
-	LK extends LemmaKindForSurfaceKind<L, SK>,
-	LSK extends LemmaSubKindFor<L, LK>,
-> = OS extends keyof LanguageSelectionByOrthographicStatusMap[L]
-	? SK extends keyof LanguageSelectionByOrthographicStatusMap[L][OS]
-		? LK extends keyof LanguageSelectionByOrthographicStatusMap[L][OS][SK]
-			? LSK extends keyof LanguageSelectionByOrthographicStatusMap[L][OS][SK][LK]
-				? LanguageSelectionByOrthographicStatusMap[L][OS][SK][LK][LSK]
-				: never
-			: never
-		: never
-	: never;
 
 export type Selection<
 	L extends SupportedLanguage = SupportedLanguage,
@@ -385,3 +296,94 @@ export type {
 };
 
 export type { DumlingApi, LanguageApi } from "../operations/api-shape";
+
+export type {
+	AbstractLanguageTag,
+	LemmaKind,
+	LemmaSubKind,
+	OrthographicStatus,
+	SelectionCoverage,
+	SpellingRelation,
+	SupportedLanguage,
+	SurfaceKind,
+};
+
+type PlaceholderLemma<
+	L extends SupportedLanguage,
+	LK extends LemmaKindFor<L>,
+	LSK extends LemmaSubKindFor<L, LK>,
+> = AbstractLemma<
+	L,
+	LK & LemmaKind,
+	LSK & AbstractLemmaSubKindFor<LK & LemmaKind>
+>;
+
+type ConcreteLemmaFor<
+	L extends ConcreteLanguage,
+	LK extends LemmaKindFor<L>,
+	LSK extends LemmaSubKindFor<L, LK>,
+> = Extract<LanguageLemmaUnionMap[L], { lemmaKind: LK; lemmaSubKind: LSK }>;
+
+type PlaceholderSurface<
+	L extends SupportedLanguage,
+	SK extends SurfaceKindFor<L>,
+	LK extends LemmaKindForSurfaceKind<L, SK>,
+	LSK extends LemmaSubKindFor<L, LK>,
+> = {
+	language: L;
+	normalizedFullSurface: string;
+	surfaceKind: SK;
+	lemma: Lemma<L, LK, LSK>;
+} & (SK extends "Inflection"
+	? {
+			inflectionalFeatures: AbstractInflectionalFeaturesFor<
+				LK & LemmaKind,
+				LSK & AbstractLemmaSubKindFor<LK & LemmaKind>
+			>;
+		}
+	: Record<never, never>);
+
+type ConcreteSurfaceFor<
+	L extends ConcreteLanguage,
+	SK extends SurfaceKindFor<L>,
+	LK extends LemmaKindForSurfaceKind<L, SK>,
+	LSK extends LemmaSubKindFor<L, LK>,
+> = LanguageSurfaceUnionMap[L] extends infer TSurface
+	? TSurface extends {
+			surfaceKind: SK;
+			lemma: { lemmaKind: LK; lemmaSubKind: LSK };
+		}
+		? TSurface
+		: never
+	: never;
+
+type PlaceholderSelection<
+	L extends SupportedLanguage,
+	OS extends OrthographicStatus,
+	SK extends SurfaceKindFor<L>,
+	LK extends LemmaKindForSurfaceKind<L, SK>,
+	LSK extends LemmaSubKindFor<L, LK>,
+> = {
+	language: L;
+	orthographicStatus: OS;
+	selectionCoverage: SelectionCoverage;
+	spelledSelection: string;
+	spellingRelation: SpellingRelation;
+	surface: Surface<L, SK, LK, LSK>;
+};
+
+type ConcreteSelectionFor<
+	L extends ConcreteLanguage,
+	OS extends OrthographicStatus,
+	SK extends SurfaceKindFor<L>,
+	LK extends LemmaKindForSurfaceKind<L, SK>,
+	LSK extends LemmaSubKindFor<L, LK>,
+> = OS extends keyof LanguageSelectionByOrthographicStatusMap[L]
+	? SK extends keyof LanguageSelectionByOrthographicStatusMap[L][OS]
+		? LK extends keyof LanguageSelectionByOrthographicStatusMap[L][OS][SK]
+			? LSK extends keyof LanguageSelectionByOrthographicStatusMap[L][OS][SK][LK]
+				? LanguageSelectionByOrthographicStatusMap[L][OS][SK][LK][LSK]
+				: never
+			: never
+		: never
+	: never;
