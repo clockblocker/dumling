@@ -16,12 +16,12 @@ const seeLemma = dumling.de.create.lemma({
 // README_BLOCK:core-lemma:end
 
 // README_BLOCK:core-surface:start
-const seeSurface = dumling.de.create.surface.lemma({
+const seeSurface = dumling.de.create.surface.citation({
 	lemma: seeLemma,
 	normalizedFullSurface: "See",
 }) satisfies Surface<
 	"de",
-	"Lemma",
+	"Citation",
 	"Lexeme",
 	"NOUN"
 >;
@@ -33,7 +33,7 @@ const seeSelection = dumling.de.create.selection.standard({
 	spelledSelection: "See",
 	spellingRelation: "Canonical",
 	surface: seeSurface,
-}) satisfies Selection<"de", "Standard", "Lemma", "Lexeme", "NOUN">;
+}) satisfies Selection<"de", "Standard", "Citation", "Lexeme", "NOUN">;
 // README_BLOCK:core-selection:end
 
 void seeSelection;
@@ -56,7 +56,7 @@ const lemma = packageDumling.de.create.lemma({
 	meaningInEmojis: "🌊",
 }) satisfies PackageLemma<"de", "Lexeme", "NOUN">;
 
-const surface = packageDumling.de.create.surface.lemma({
+const surface = packageDumling.de.create.surface.citation({
 	lemma,
 	normalizedFullSurface: "See",
 });
@@ -84,11 +84,11 @@ if (!decoded.success) {
 	throw new Error(decoded.error?.message ?? "Failed to decode selection ID");
 }
 
-descriptor.surfaceKind satisfies "Lemma";
+descriptor.surfaceKind satisfies "Citation";
 extractedLemma satisfies PackageLemma<"de">;
 gender satisfies "Masc";
 
-packageSchemas.de.entity.Selection.Standard.Lemma.Lexeme.NOUN().parse(
+packageSchemas.de.entity.Selection.Standard.Citation.Lexeme.NOUN().parse(
 	decoded.data,
 );
 // README_BLOCK:quickstart-de:end

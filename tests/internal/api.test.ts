@@ -45,14 +45,14 @@ describe("API", () => {
 		});
 		expect(dumling.de.describe.as.surface(lemma)).toEqual({
 			language: "de",
-			surfaceKind: "Lemma",
+			surfaceKind: "Citation",
 			lemmaKind: "Lexeme",
 			lemmaSubKind: "NOUN",
 		});
 		expect(dumling.de.describe.as.selection(surface)).toEqual({
 			language: "de",
 			orthographicStatus: "Standard",
-			surfaceKind: "Lemma",
+			surfaceKind: "Citation",
 			lemmaKind: "Lexeme",
 			lemmaSubKind: "NOUN",
 		});
@@ -68,7 +68,7 @@ describe("API", () => {
 			meaningInEmojis: "🌊",
 		});
 
-		const lemmaSurface = dumling.de.create.surface.lemma({
+		const citationSurface = dumling.de.create.surface.citation({
 			language: "he",
 			surfaceKind: "Inflection",
 			normalizedFullSurface: "See",
@@ -76,7 +76,9 @@ describe("API", () => {
 				...lemma,
 				language: "he",
 			},
-		} as unknown as Parameters<typeof dumling.de.create.surface.lemma>[0]);
+		} as unknown as Parameters<
+			typeof dumling.de.create.surface.citation
+		>[0]);
 
 		const typoSelection = dumling.de.create.selection.typo({
 			language: "he",
@@ -85,14 +87,14 @@ describe("API", () => {
 			spelledSelection: "Sse",
 			spellingRelation: "Canonical",
 			surface: {
-				...lemmaSurface,
+				...citationSurface,
 				language: "en",
 			},
 		} as unknown as Parameters<typeof dumling.de.create.selection.typo>[0]);
 
 		expect(lemma.language).toBe("de");
-		expect(lemmaSurface.language).toBe(lemmaSurface.lemma.language);
-		expect(lemmaSurface.surfaceKind).toBe("Lemma");
+		expect(citationSurface.language).toBe(citationSurface.lemma.language);
+		expect(citationSurface.surfaceKind).toBe("Citation");
 		expect(typoSelection.language).toBe(typoSelection.surface.language);
 		expect(typoSelection.orthographicStatus).toBe("Typo");
 	});
@@ -149,14 +151,14 @@ describe("API", () => {
 			surface: {
 				language: "de",
 				normalizedFullSurface: "See",
-				surfaceKind: "Lemma",
+				surfaceKind: "Citation",
 				lemma: parsedLemma.data,
 			},
 		});
 
 		expect(parsedSelection.success).toBe(true);
 		expect(
-			schemasFor.de.entity.Selection.Standard.Lemma.Lexeme.NOUN().safeParse(
+			schemasFor.de.entity.Selection.Standard.Citation.Lexeme.NOUN().safeParse(
 				parsedSelection.success ? parsedSelection.data : undefined,
 			).success,
 		).toBe(true);
@@ -247,7 +249,7 @@ describe("API", () => {
 			surface: {
 				language: "de",
 				normalizedFullSurface: "See",
-				surfaceKind: "Lemma",
+				surfaceKind: "Citation",
 				lemma: {
 					language: "de",
 					canonicalLemma: "see",
@@ -291,7 +293,7 @@ describe("API", () => {
 			data: englishLemma,
 		});
 		expect(
-			schemasFor.en.entity.Selection.Standard.Lemma.Lexeme.NOUN().safeParse(
+			schemasFor.en.entity.Selection.Standard.Citation.Lexeme.NOUN().safeParse(
 				dumling.en.convert.lemma.toSelection(englishLemma),
 			).success,
 		).toBe(true);
@@ -311,7 +313,7 @@ describe("API", () => {
 			data: hebrewLemma,
 		});
 		expect(
-			schemasFor.he.entity.Selection.Standard.Lemma.Lexeme.VERB().safeParse(
+			schemasFor.he.entity.Selection.Standard.Citation.Lexeme.VERB().safeParse(
 				dumling.he.convert.lemma.toSelection(hebrewLemma),
 			).success,
 		).toBe(true);

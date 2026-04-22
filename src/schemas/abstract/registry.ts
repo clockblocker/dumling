@@ -11,9 +11,9 @@ import type {
 	AbstractSurface,
 } from "../../types/public-types";
 import {
+	buildCitationSurfaceSchema,
 	buildInflectionSurfaceSchema,
 	buildLemmaSchema,
-	buildLemmaSurfaceSchema,
 	buildSelectionSchema,
 	buildUnionSchema,
 } from "../shared/builders";
@@ -23,9 +23,9 @@ import {
 } from "./feature-schemas";
 
 type AbstractLeafBundle = {
+	citationSurfaceSchema: z.ZodType<AbstractSurface<string, "Citation">>;
 	inflectionSurfaceSchema: z.ZodType<AbstractSurface<string, "Inflection">>;
 	lemmaSchema: z.ZodType<AbstractLemma<string>>;
-	lemmaSurfaceSchema: z.ZodType<AbstractSurface<string, "Lemma">>;
 	selectionSchemas: readonly z.ZodTypeAny[];
 };
 
@@ -39,25 +39,25 @@ function buildAbstractLeafBundle(
 		lemmaSubKind,
 		inherentFeaturesSchema: abstractInherentFeaturesSchema,
 	}) as z.ZodType<AbstractLemma<string>>;
-	const lemmaSurfaceSchema = buildLemmaSurfaceSchema({
+	const citationSurfaceSchema = buildCitationSurfaceSchema({
 		languageSchema: AbstractLanguageTag,
 		lemmaSchema,
-	}) as z.ZodType<AbstractSurface<string, "Lemma">>;
+	}) as z.ZodType<AbstractSurface<string, "Citation">>;
 	const inflectionSurfaceSchema = buildInflectionSurfaceSchema({
 		languageSchema: AbstractLanguageTag,
 		lemmaSchema,
 		inflectionalFeaturesSchema: abstractInflectionalFeaturesSchema,
 	}) as z.ZodType<AbstractSurface<string, "Inflection">>;
-	const standardLemmaSelectionSchema = buildSelectionSchema({
+	const standardCitationSelectionSchema = buildSelectionSchema({
 		languageSchema: AbstractLanguageTag,
 		orthographicStatus: "Standard",
-		surfaceSchema: lemmaSurfaceSchema,
-	}) as z.ZodType<AbstractSelection<string, "Standard", "Lemma">>;
-	const typoLemmaSelectionSchema = buildSelectionSchema({
+		surfaceSchema: citationSurfaceSchema,
+	}) as z.ZodType<AbstractSelection<string, "Standard", "Citation">>;
+	const typoCitationSelectionSchema = buildSelectionSchema({
 		languageSchema: AbstractLanguageTag,
 		orthographicStatus: "Typo",
-		surfaceSchema: lemmaSurfaceSchema,
-	}) as z.ZodType<AbstractSelection<string, "Typo", "Lemma">>;
+		surfaceSchema: citationSurfaceSchema,
+	}) as z.ZodType<AbstractSelection<string, "Typo", "Citation">>;
 	const standardInflectionSelectionSchema = buildSelectionSchema({
 		languageSchema: AbstractLanguageTag,
 		orthographicStatus: "Standard",
@@ -71,11 +71,11 @@ function buildAbstractLeafBundle(
 
 	return {
 		lemmaSchema,
-		lemmaSurfaceSchema,
+		citationSurfaceSchema,
 		inflectionSurfaceSchema,
 		selectionSchemas: [
-			standardLemmaSelectionSchema,
-			typoLemmaSelectionSchema,
+			standardCitationSelectionSchema,
+			typoCitationSelectionSchema,
 			standardInflectionSelectionSchema,
 			typoInflectionSelectionSchema,
 		],
@@ -96,7 +96,7 @@ for (const [lemmaKind, subKinds] of [
 
 		abstractLemmaSchemas.push(bundle.lemmaSchema);
 		abstractSurfaceSchemas.push(
-			bundle.lemmaSurfaceSchema,
+			bundle.citationSurfaceSchema,
 			bundle.inflectionSurfaceSchema,
 		);
 		abstractSelectionSchemas.push(...bundle.selectionSchemas);

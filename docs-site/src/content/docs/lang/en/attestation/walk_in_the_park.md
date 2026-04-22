@@ -32,7 +32,7 @@ export const walkNounSelection = {
 	surface: {
 		language: "en",
 		normalizedFullSurface: "walk",
-		surfaceKind: "Lemma",
+		surfaceKind: "Citation",
 		lemma: {
 			canonicalLemma: "walk",
 			inherentFeatures: {},
@@ -42,7 +42,7 @@ export const walkNounSelection = {
 			meaningInEmojis: "🚶",
 		},
 	},
-} satisfies Selection<"en", "Standard", "Lemma", "Lexeme", "NOUN">;
+} satisfies Selection<"en", "Standard", "Citation", "Lexeme", "NOUN">;
 
 export const walkNounSelectionId =
 	"dumling:eyJlbnRpdHlLaW5kIjoiU2VsZWN0aW9uIiwibGFuZ3VhZ2UiOiJlbiIsImRhdGEiOnsibGFuZ3VhZ2UiOiJlbiIsIm9ydGhvZ3JhcGhpY1N0YXR1cyI6IlN0YW5kYXJkIiwic2VsZWN0aW9uQ292ZXJhZ2UiOiJGdWxsIiwic3BlbGxlZFNlbGVjdGlvbiI6IndhbGsiLCJzcGVsbGluZ1JlbGF0aW9uIjoiQ2Fub25pY2FsIiwic3VyZmFjZSI6eyJsYW5ndWFnZSI6ImVuIiwibm9ybWFsaXplZEZ1bGxTdXJmYWNlIjoid2FsayIsInN1cmZhY2VLaW5kIjoiTGVtbWEiLCJsZW1tYSI6eyJjYW5vbmljYWxMZW1tYSI6IndhbGsiLCJpbmhlcmVudEZlYXR1cmVzIjp7fSwibGFuZ3VhZ2UiOiJlbiIsImxlbW1hS2luZCI6IkxleGVtZSIsImxlbW1hU3ViS2luZCI6Ik5PVU4iLCJtZWFuaW5nSW5FbW9qaXMiOiLwn5q2In19fX0" as const;
@@ -72,7 +72,7 @@ export const walkInTheParkPartialSelection = {
 	surface: {
 		language: "en",
 		normalizedFullSurface: "walk in the park",
-		surfaceKind: "Lemma",
+		surfaceKind: "Citation",
 		lemma: {
 			canonicalLemma: "walk in the park",
 			inherentFeatures: {},
@@ -82,7 +82,7 @@ export const walkInTheParkPartialSelection = {
 			meaningInEmojis: "😌",
 		},
 	},
-} satisfies Selection<"en", "Standard", "Lemma", "Phraseme", "Idiom">;
+} satisfies Selection<"en", "Standard", "Citation", "Phraseme", "Idiom">;
 
 export const walkInTheParkPartialSelectionId =
 	"dumling:eyJlbnRpdHlLaW5kIjoiU2VsZWN0aW9uIiwibGFuZ3VhZ2UiOiJlbiIsImRhdGEiOnsibGFuZ3VhZ2UiOiJlbiIsIm9ydGhvZ3JhcGhpY1N0YXR1cyI6IlN0YW5kYXJkIiwic2VsZWN0aW9uQ292ZXJhZ2UiOiJQYXJ0aWFsIiwic3BlbGxlZFNlbGVjdGlvbiI6IndhbGsiLCJzcGVsbGluZ1JlbGF0aW9uIjoiQ2Fub25pY2FsIiwic3VyZmFjZSI6eyJsYW5ndWFnZSI6ImVuIiwibm9ybWFsaXplZEZ1bGxTdXJmYWNlIjoid2FsayBpbiB0aGUgcGFyayIsInN1cmZhY2VLaW5kIjoiTGVtbWEiLCJsZW1tYSI6eyJjYW5vbmljYWxMZW1tYSI6IndhbGsgaW4gdGhlIHBhcmsiLCJpbmhlcmVudEZlYXR1cmVzIjp7fSwibGFuZ3VhZ2UiOiJlbiIsImxlbW1hS2luZCI6IlBocmFzZW1lIiwibGVtbWFTdWJLaW5kIjoiSWRpb20iLCJtZWFuaW5nSW5FbW9qaXMiOiLwn5iMIn19fX0" as const;

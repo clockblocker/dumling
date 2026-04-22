@@ -1,8 +1,8 @@
 import type { Selection } from "../../../../src/types";
 import {
 	englishGiveUpInflectionSurface,
+	englishWalkCitationSurface,
 	englishWalkInflectionSurface,
-	englishWalkLemmaSurface,
 } from "./surfaces";
 
 // Attestation: "They [walk] home together."
@@ -16,14 +16,14 @@ export const englishWalkStandardFullSelection = {
 } satisfies Selection<"en", "Standard", "Inflection", "Lexeme", "VERB">;
 
 // Attestation: "They [walk] home together."
-export const englishWalkLemmaSelection = {
+export const englishWalkCitationSelection = {
 	language: "en",
 	orthographicStatus: "Standard",
 	selectionCoverage: "Full",
 	spelledSelection: "walk",
 	spellingRelation: "Canonical",
-	surface: englishWalkLemmaSurface,
-} satisfies Selection<"en", "Standard", "Lemma", "Lexeme", "VERB">;
+	surface: englishWalkCitationSurface,
+} satisfies Selection<"en", "Standard", "Citation", "Lexeme", "VERB">;
 
 // Attestation: "Mark gvae [up] on it."
 export const englishGiveUpTypoPartialUpSelection = {

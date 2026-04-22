@@ -11,13 +11,13 @@ export const germanAufJedenFallDiscourseFormulaSelection = {
 	surface: {
 		language: "de",
 		normalizedFullSurface: "auf jeden Fall",
-		surfaceKind: "Lemma",
+		surfaceKind: "Citation",
 		lemma: germanAufJedenFallLemma,
 	},
 } satisfies Selection<
 	"de",
 	"Standard",
-	"Lemma",
+	"Citation",
 	"Phraseme",
 	"DiscourseFormula"
 >;
@@ -32,13 +32,13 @@ export const germanAufJedenFallPartialSelection = {
 	surface: {
 		language: "de",
 		normalizedFullSurface: "auf jeden Fall",
-		surfaceKind: "Lemma",
+		surfaceKind: "Citation",
 		lemma: germanAufJedenFallLemma,
 	},
 } satisfies Selection<
 	"de",
 	"Standard",
-	"Lemma",
+	"Citation",
 	"Phraseme",
 	"DiscourseFormula"
 >;
@@ -53,7 +53,7 @@ export const germanBVGAbbreviationSelection = {
 	surface: {
 		language: "de",
 		normalizedFullSurface: "BVG",
-		surfaceKind: "Lemma",
+		surfaceKind: "Citation",
 		lemma: germanBVGLemma,
 	},
-} satisfies Selection<"de", "Standard", "Lemma", "Lexeme", "PROPN">;
+} satisfies Selection<"de", "Standard", "Citation", "Lexeme", "PROPN">;

@@ -69,11 +69,11 @@ export type LanguageApi<L extends SupportedLanguage> = {
 			language?: unknown;
 		}): Lemma<L, LK, LSK>;
 		surface: {
-			lemma<
+			citation<
 				TSurface extends Surface<
 					L,
-					LemmaSurfaceKind<L>,
-					LemmaKindForSurfaceKind<L, LemmaSurfaceKind<L>>,
+					CitationSurfaceKind<L>,
+					LemmaKindForSurfaceKind<L, CitationSurfaceKind<L>>,
 					LemmaSubKindFor<L, LemmaKindFor<L>>
 				>,
 			>(
@@ -117,9 +117,9 @@ export type LanguageApi<L extends SupportedLanguage> = {
 				lemma: TLemma,
 			): Surface<
 				L,
-				LemmaSurfaceKind<L>,
+				CitationSurfaceKind<L>,
 				TLemma["lemmaKind"] &
-					LemmaKindForSurfaceKind<L, LemmaSurfaceKind<L>>,
+					LemmaKindForSurfaceKind<L, CitationSurfaceKind<L>>,
 				TLemma["lemmaSubKind"] &
 					LemmaSubKindFor<L, TLemma["lemmaKind"] & LemmaKindFor<L>>
 			>;
@@ -210,9 +210,9 @@ export type LanguageApi<L extends SupportedLanguage> = {
 	};
 };
 
-type LemmaSurfaceKind<L extends SupportedLanguage> = Extract<
+type CitationSurfaceKind<L extends SupportedLanguage> = Extract<
 	SurfaceKindFor<L>,
-	"Lemma"
+	"Citation"
 >;
 type InflectionSurfaceKind<L extends SupportedLanguage> = Extract<
 	SurfaceKindFor<L>,
@@ -228,9 +228,9 @@ type SelectionFromLemma<
 			Selection<
 				L,
 				TStatus,
-				LemmaSurfaceKind<L>,
+				CitationSurfaceKind<L>,
 				TLemma["lemmaKind"] &
-					LemmaKindForSurfaceKind<L, LemmaSurfaceKind<L>>,
+					LemmaKindForSurfaceKind<L, CitationSurfaceKind<L>>,
 				TLemma["lemmaSubKind"] &
 					LemmaSubKindFor<L, TLemma["lemmaKind"] & LemmaKindFor<L>>
 			>;
@@ -291,7 +291,7 @@ type EntitySurfaceKind<TValue> = TValue extends {
 			}
 		? SK
 		: TValue extends { lemmaKind: LemmaKind; lemmaSubKind: string }
-			? "Lemma"
+			? "Citation"
 			: never;
 type EntityOrthographicStatus<TValue> = TValue extends {
 	orthographicStatus: infer OS extends OrthographicStatus;

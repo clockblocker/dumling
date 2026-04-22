@@ -73,12 +73,12 @@ type ConcreteLemmaForLanguage<
 	InherentFeatureSetForLanguage<L, LK, LSK>
 >;
 
-type ConcreteLemmaSurfaceForLanguage<
+type ConcreteCitationSurfaceForLanguage<
 	L extends ConcreteLanguage,
 	LK extends LemmaKindForLanguage<L>,
 	LSK extends LemmaSubKindForLanguage<L, LK>,
 > = Replace<
-	AbstractSurface<L, "Lemma", LK, LSK>,
+	AbstractSurface<L, "Citation", LK, LSK>,
 	"lemma",
 	ConcreteLemmaForLanguage<L, LK, LSK>
 >;
@@ -95,15 +95,15 @@ type ConcreteInflectionSurfaceForLanguage<
 	}
 >;
 
-type ConcreteLemmaSelectionForLanguage<
+type ConcreteCitationSelectionForLanguage<
 	L extends ConcreteLanguage,
 	OS extends OrthographicStatus,
 	LK extends LemmaKindForLanguage<L>,
 	LSK extends LemmaSubKindForLanguage<L, LK>,
 > = Replace<
-	AbstractSelection<L, OS, "Lemma", LK, LSK>,
+	AbstractSelection<L, OS, "Citation", LK, LSK>,
 	"surface",
-	ConcreteLemmaSurfaceForLanguage<L, LK, LSK>
+	ConcreteCitationSurfaceForLanguage<L, LK, LSK>
 >;
 
 type ConcreteInflectionSelectionForLanguage<
@@ -151,12 +151,12 @@ export type LemmaByKindForLanguage<L extends ConcreteLanguage> = {
 	};
 };
 
-type LemmaSurfaceByKindForLanguage<L extends ConcreteLanguage> = {
+type CitationSurfaceByKindForLanguage<L extends ConcreteLanguage> = {
 	[LK in LemmaKindForLanguage<L>]: {
 		[LSK in LemmaSubKindForLanguage<
 			L,
 			LK
-		>]: ConcreteLemmaSurfaceForLanguage<L, LK, LSK>;
+		>]: ConcreteCitationSurfaceForLanguage<L, LK, LSK>;
 	};
 };
 
@@ -170,11 +170,11 @@ type InflectionSurfaceByKindForLanguage<L extends ConcreteLanguage> = {
 };
 
 export type SurfaceByKindForLanguage<L extends ConcreteLanguage> = {
+	Citation: CitationSurfaceByKindForLanguage<L>;
 	Inflection: InflectionSurfaceByKindForLanguage<L>;
-	Lemma: LemmaSurfaceByKindForLanguage<L>;
 };
 
-type LemmaSelectionByKindForLanguage<
+type CitationSelectionByKindForLanguage<
 	L extends ConcreteLanguage,
 	OS extends OrthographicStatus,
 > = {
@@ -182,7 +182,7 @@ type LemmaSelectionByKindForLanguage<
 		[LSK in LemmaSubKindForLanguage<
 			L,
 			LK
-		>]: ConcreteLemmaSelectionForLanguage<L, OS, LK, LSK>;
+		>]: ConcreteCitationSelectionForLanguage<L, OS, LK, LSK>;
 	};
 };
 
@@ -202,12 +202,12 @@ export type SelectionByOrthographicStatusForLanguage<
 	L extends ConcreteLanguage,
 > = {
 	Standard: {
+		Citation: CitationSelectionByKindForLanguage<L, "Standard">;
 		Inflection: InflectionSelectionByKindForLanguage<L, "Standard">;
-		Lemma: LemmaSelectionByKindForLanguage<L, "Standard">;
 	};
 	Typo: {
+		Citation: CitationSelectionByKindForLanguage<L, "Typo">;
 		Inflection: InflectionSelectionByKindForLanguage<L, "Typo">;
-		Lemma: LemmaSelectionByKindForLanguage<L, "Typo">;
 	};
 };
 

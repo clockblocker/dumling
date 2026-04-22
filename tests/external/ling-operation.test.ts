@@ -1,20 +1,20 @@
 import { describe, expect, it } from "bun:test";
 import { dumling } from "../../src";
 import {
+	englishWalkCitationSelection,
+	englishWalkCitationSurface,
 	englishWalkInflectionSurface,
 	englishWalkLemma,
-	englishWalkLemmaSelection,
-	englishWalkLemmaSurface,
-	germanHausLemmaSurface,
+	germanHausCitationSurface,
 	hebrewKatvuStandardFullSelection,
 } from "../helpers";
 
 describe("operations", () => {
 	it("extracts the exact lemma from surfaces and selections", () => {
-		expect(dumling.en.extract.lemma(englishWalkLemmaSurface)).toBe(
+		expect(dumling.en.extract.lemma(englishWalkCitationSurface)).toBe(
 			englishWalkLemma,
 		);
-		expect(dumling.en.extract.lemma(englishWalkLemmaSelection)).toBe(
+		expect(dumling.en.extract.lemma(englishWalkCitationSelection)).toBe(
 			englishWalkLemma,
 		);
 		expect(dumling.he.extract.lemma(hebrewKatvuStandardFullSelection)).toBe(
@@ -24,7 +24,7 @@ describe("operations", () => {
 
 	it("builds valid surfaces and selections from lower-level helpers", () => {
 		expect(dumling.en.convert.lemma.toSurface(englishWalkLemma)).toEqual(
-			englishWalkLemmaSurface,
+			englishWalkCitationSurface,
 		);
 		expect(
 			dumling.en.convert.surface.toSelection(
@@ -46,16 +46,16 @@ describe("operations", () => {
 	});
 
 	it("derives stable descriptors from lemmas, surfaces, and selections", () => {
-		expect(dumling.en.describe.as.lemma(englishWalkLemmaSelection)).toEqual(
-			{
-				language: "en",
-				lemmaKind: "Lexeme",
-				lemmaSubKind: "VERB",
-			},
-		);
+		expect(
+			dumling.en.describe.as.lemma(englishWalkCitationSelection),
+		).toEqual({
+			language: "en",
+			lemmaKind: "Lexeme",
+			lemmaSubKind: "VERB",
+		});
 		expect(dumling.en.describe.as.surface(englishWalkLemma)).toEqual({
 			language: "en",
-			surfaceKind: "Lemma",
+			surfaceKind: "Citation",
 			lemmaKind: "Lexeme",
 			lemmaSubKind: "VERB",
 		});
@@ -69,11 +69,11 @@ describe("operations", () => {
 			lemmaSubKind: "VERB",
 		});
 		expect(
-			dumling.de.describe.as.selection(germanHausLemmaSurface),
+			dumling.de.describe.as.selection(germanHausCitationSurface),
 		).toEqual({
 			language: "de",
 			orthographicStatus: "Standard",
-			surfaceKind: "Lemma",
+			surfaceKind: "Citation",
 			lemmaKind: "Lexeme",
 			lemmaSubKind: "NOUN",
 		});

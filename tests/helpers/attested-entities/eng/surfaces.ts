@@ -2,12 +2,12 @@ import type { Surface } from "../../../../src/types";
 import { englishGiveUpLemma, englishWalkLemma } from "./lemmas";
 
 // Attestation: "They [walk] home together."
-export const englishWalkLemmaSurface = {
+export const englishWalkCitationSurface = {
 	language: "en",
 	normalizedFullSurface: "walk",
-	surfaceKind: "Lemma",
+	surfaceKind: "Citation",
 	lemma: englishWalkLemma,
-} satisfies Surface<"en", "Lemma", "Lexeme", "VERB">;
+} satisfies Surface<"en", "Citation", "Lexeme", "VERB">;
 
 // Attestation: "They [walk] home together."
 export const englishWalkInflectionSurface = {

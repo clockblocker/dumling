@@ -8,12 +8,12 @@ const adpositionLemma = schemasFor.de.entity.Lemma.Lexeme.ADP();
 adjectiveLemma satisfies z.ZodType<Lemma<"de", "Lexeme", "ADJ">>;
 adpositionLemma satisfies z.ZodType<Lemma<"de", "Lexeme", "ADP">>;
 
-schemasFor.de.entity.Surface.Lemma.Lexeme.ADP() satisfies z.ZodType<
-	Surface<"de", "Lemma", "Lexeme", "ADP">
+schemasFor.de.entity.Surface.Citation.Lexeme.ADP() satisfies z.ZodType<
+	Surface<"de", "Citation", "Lexeme", "ADP">
 >;
 
-schemasFor.de.entity.Selection.Typo.Lemma.Lexeme.ADP() satisfies z.ZodType<
-	Selection<"de", "Typo", "Lemma", "Lexeme", "ADP">
+schemasFor.de.entity.Selection.Typo.Citation.Lexeme.ADP() satisfies z.ZodType<
+	Selection<"de", "Typo", "Citation", "Lexeme", "ADP">
 >;
 
 schemasFor.de.entity.Surface.Inflection.Lexeme.ADJ() satisfies z.ZodType<

@@ -15,12 +15,12 @@ describe("German non-lexeme schemas", () => {
 			).success,
 		).toBe(true);
 		expect(
-			schemasFor.de.entity.Selection.Standard.Lemma.Phraseme.DiscourseFormula().safeParse(
+			schemasFor.de.entity.Selection.Standard.Citation.Phraseme.DiscourseFormula().safeParse(
 				germanAufJedenFallDiscourseFormulaSelection,
 			).success,
 		).toBe(true);
 		expect(
-			schemasFor.de.entity.Selection.Standard.Lemma.Phraseme.DiscourseFormula().safeParse(
+			schemasFor.de.entity.Selection.Standard.Citation.Phraseme.DiscourseFormula().safeParse(
 				germanAufJedenFallPartialSelection,
 			).success,
 		).toBe(true);
@@ -56,14 +56,14 @@ describe("German non-lexeme schemas", () => {
 
 	it("keeps non-lexeme branches lemma-only", () => {
 		expect(
-			typeof schemasFor.de.entity.Selection.Standard.Lemma.Morpheme.Prefix()
+			typeof schemasFor.de.entity.Selection.Standard.Citation.Morpheme.Prefix()
 				.parse,
 		).toBe("function");
 		expect(
 			"Morpheme" in schemasFor.de.entity.Selection.Standard.Inflection,
 		).toBe(false);
 		expect(
-			schemasFor.de.entity.Selection.Typo.Lemma.Morpheme.Suffix().safeParse(
+			schemasFor.de.entity.Selection.Typo.Citation.Morpheme.Suffix().safeParse(
 				{
 					language: "de",
 					orthographicStatus: "Typo",
@@ -74,7 +74,7 @@ describe("German non-lexeme schemas", () => {
 						...makeMorphemeSurfaceReference("de", "Suffix", "heit"),
 						language: "de",
 						normalizedFullSurface: "heit",
-						surfaceKind: "Lemma",
+						surfaceKind: "Citation",
 					},
 				},
 			).success,

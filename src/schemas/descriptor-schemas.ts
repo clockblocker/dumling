@@ -119,16 +119,16 @@ function buildLanguageDescriptorSchemas<L extends ConcreteLanguage>(
 	const descriptorTree: MutableLanguageDescriptorSchemaTree = {
 		Lemma: {},
 		Surface: {
-			Lemma: {},
+			Citation: {},
 			Inflection: {},
 		},
 		Selection: {
 			Standard: {
-				Lemma: {},
+				Citation: {},
 				Inflection: {},
 			},
 			Typo: {
-				Lemma: {},
+				Citation: {},
 				Inflection: {},
 			},
 		},

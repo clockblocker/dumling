@@ -2,7 +2,7 @@ import type { LanguageApi } from "../../../types/public-types";
 
 type EnCreateOperations = LanguageApi<"en">["create"];
 type EnCreateLemma = EnCreateOperations["lemma"];
-type EnCreateLemmaSurface = EnCreateOperations["surface"]["lemma"];
+type EnCreateCitationSurface = EnCreateOperations["surface"]["citation"];
 type EnCreateInflectionSurface = EnCreateOperations["surface"]["inflection"];
 type EnCreateStandardSelection = EnCreateOperations["selection"]["standard"];
 type EnCreateTypoSelection = EnCreateOperations["selection"]["typo"];
@@ -18,11 +18,11 @@ export function buildEnCreateOperations(): LanguageApi<"en">["create"] {
 			meaningInEmojis: input.meaningInEmojis,
 		}) as never;
 
-	const createLemmaSurface: EnCreateLemmaSurface = (input) =>
+	const createCitationSurface: EnCreateCitationSurface = (input) =>
 		({
 			language: input.lemma.language,
 			normalizedFullSurface: input.normalizedFullSurface,
-			surfaceKind: "Lemma",
+			surfaceKind: "Citation",
 			lemma: input.lemma,
 		}) as never;
 
@@ -58,7 +58,7 @@ export function buildEnCreateOperations(): LanguageApi<"en">["create"] {
 	return {
 		lemma: createLemma,
 		surface: {
-			lemma: createLemmaSurface,
+			citation: createCitationSurface,
 			inflection: createInflectionSurface,
 		},
 		selection: {

@@ -24,7 +24,7 @@ This package ships working runtime surfaces for `de`, `en`, and `he`.
 
 Each concrete language namespace (`dumling.de`, `dumling.en`, `dumling.he`) exposes:
 
-- `create`: explicit constructors for `lemma`, `surface.lemma`, `surface.inflection`, `selection.standard`, and `selection.typo`
+- `create`: explicit constructors for `lemma`, `surface.citation`, `surface.inflection`, `selection.standard`, and `selection.typo`
 - `convert`: convenience projections from `lemma -> surface`, `lemma -> selection`, and `surface -> selection`
 - `extract`: entity accessors such as `extract.lemma(...)`
 - `parse`: safe parsing returning `ApiResult<T, ParseError>`

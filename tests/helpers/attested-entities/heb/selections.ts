@@ -1,8 +1,8 @@
 import type { Selection } from "../../../../src/types";
 import {
 	hebrewKatvuInflectionSurface,
-	hebrewShanaLemmaSurface,
-	hebrewUsAbbreviationLemmaSurface,
+	hebrewShanaCitationSurface,
+	hebrewUsAbbreviationCitationSurface,
 } from "./surfaces";
 
 // Attestation: "הם [כתבו] מכתב."
@@ -16,14 +16,14 @@ export const hebrewKatvuStandardFullSelection = {
 } satisfies Selection<"he", "Standard", "Inflection", "Lexeme", "VERB">;
 
 // Attestation: "עוד [שנה] עברה."
-export const hebrewShanaLemmaSelection = {
+export const hebrewShanaCitationSelection = {
 	language: "he",
 	orthographicStatus: "Standard",
 	selectionCoverage: "Full",
 	spelledSelection: "שנה",
 	spellingRelation: "Canonical",
-	surface: hebrewShanaLemmaSurface,
-} satisfies Selection<"he", "Standard", "Lemma", "Lexeme", "NOUN">;
+	surface: hebrewShanaCitationSurface,
+} satisfies Selection<"he", "Standard", "Citation", "Lexeme", "NOUN">;
 
 // Attestation: "[ארה״ב] הודיעה על צעד חדש."
 export const hebrewUsAbbreviationSelection = {
@@ -32,8 +32,8 @@ export const hebrewUsAbbreviationSelection = {
 	selectionCoverage: "Full",
 	spelledSelection: "ארה״ב",
 	spellingRelation: "Canonical",
-	surface: hebrewUsAbbreviationLemmaSurface,
-} satisfies Selection<"he", "Standard", "Lemma", "Lexeme", "PROPN">;
+	surface: hebrewUsAbbreviationCitationSurface,
+} satisfies Selection<"he", "Standard", "Citation", "Lexeme", "PROPN">;
 
 // Attestation: "הם [כָּתְבוּ] מכתב."
 export const hebrewKatvuPointedVariantSelection = {

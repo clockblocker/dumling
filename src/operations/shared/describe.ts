@@ -47,7 +47,7 @@ export function buildDescribeOperations<
 
 				return {
 					language: value.language,
-					surfaceKind: "Lemma",
+					surfaceKind: "Citation",
 					lemmaKind: value.lemmaKind,
 					lemmaSubKind: value.lemmaSubKind,
 				} as never;
@@ -76,7 +76,7 @@ export function buildDescribeOperations<
 				return {
 					language: value.language,
 					orthographicStatus: "Standard",
-					surfaceKind: "Lemma",
+					surfaceKind: "Citation",
 					lemmaKind: value.lemmaKind,
 					lemmaSubKind: value.lemmaSubKind,
 				} as never;

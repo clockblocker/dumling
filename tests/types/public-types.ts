@@ -36,10 +36,10 @@ const lemma = dumling.de.create.lemma({
 	meaningInEmojis: "🌊",
 }) satisfies Lemma<"de", "Lexeme", "NOUN">;
 
-const lemmaSurface = dumling.de.create.surface.lemma({
+const citationSurface = dumling.de.create.surface.citation({
 	lemma,
 	normalizedFullSurface: "see",
-}) satisfies Surface<"de", "Lemma", "Lexeme", "NOUN">;
+}) satisfies Surface<"de", "Citation", "Lexeme", "NOUN">;
 
 const inflectionSurface = dumling.de.create.surface.inflection({
 	lemma: dumling.de.create.lemma({
@@ -61,14 +61,14 @@ const typoSelection = dumling.de.create.selection.typo({
 	selectionCoverage: "Full",
 	spelledSelection: "Sse",
 	spellingRelation: "Canonical",
-	surface: lemmaSurface,
-}) satisfies Selection<"de", "Typo", "Lemma", "Lexeme", "NOUN">;
+	surface: citationSurface,
+}) satisfies Selection<"de", "Typo", "Citation", "Lexeme", "NOUN">;
 const standardSelection = dumling.de.convert.lemma.toSelection(
 	lemma,
-) satisfies Selection<"de", "Standard", "Lemma", "Lexeme", "NOUN">;
+) satisfies Selection<"de", "Standard", "Citation", "Lexeme", "NOUN">;
 const typoFromLemma = dumling.de.convert.lemma.toSelection(lemma, {
 	orthographicStatus: "Typo",
-}) satisfies Selection<"de", "Typo", "Lemma", "Lexeme", "NOUN">;
+}) satisfies Selection<"de", "Typo", "Citation", "Lexeme", "NOUN">;
 const typoFromInflectionSurface = dumling.de.convert.surface.toSelection(
 	inflectionSurface,
 	{
@@ -82,7 +82,7 @@ const lemmaDescriptor = dumling.de.describe.as.lemma(typoSelection) satisfies {
 };
 const surfaceDescriptor = dumling.de.describe.as.surface(lemma) satisfies {
 	language: "de";
-	surfaceKind: "Lemma";
+	surfaceKind: "Citation";
 	lemmaKind: "Lexeme";
 	lemmaSubKind: "NOUN";
 };
@@ -101,7 +101,7 @@ surfaceDescriptor satisfies Descriptor<
 	"de",
 	"Lexeme",
 	"NOUN",
-	"Lemma"
+	"Citation"
 >;
 selectionDescriptor satisfies Descriptor<
 	"Selection",
@@ -131,7 +131,7 @@ const unionKindFeatureValue: FeatureValue<
 > = Math.random() > 0.5 ? "Masc" : "Sing";
 const deLemmaKind: LemmaKindFor<"de"> = "Lexeme";
 const deLexemeSubKind: LemmaSubKindFor<"de", "Lexeme"> = "NOUN";
-const deSurfaceKind: SurfaceKindFor<"de"> = "Lemma";
+const deSurfaceKind: SurfaceKindFor<"de"> = "Citation";
 void featureName;
 void unionKindFeatureName;
 void unionKindFeatureValue;
@@ -184,26 +184,26 @@ if (decodedSelection.success) {
 }
 
 const deSelectionLeaf =
-	schemasFor.de.entity.Selection.Standard.Lemma.Lexeme.NOUN();
+	schemasFor.de.entity.Selection.Standard.Citation.Lexeme.NOUN();
 deSelectionLeaf satisfies ZodType<
-	Selection<"de", "Standard", "Lemma", "Lexeme", "NOUN">
+	Selection<"de", "Standard", "Citation", "Lexeme", "NOUN">
 >;
 const deLemmaDescriptorLeaf = schemasFor.de.descriptor.Lemma.Lexeme.NOUN;
 deLemmaDescriptorLeaf satisfies ZodType<
 	Descriptor<"Lemma", "de", "Lexeme", "NOUN">
 >;
 const deSelectionDescriptorLeaf =
-	schemasFor.de.descriptor.Selection.Standard.Lemma.Lexeme.NOUN;
+	schemasFor.de.descriptor.Selection.Standard.Citation.Lexeme.NOUN;
 deSelectionDescriptorLeaf satisfies ZodType<
-	Descriptor<"Selection", "de", "Lexeme", "NOUN", "Lemma", "Standard">
+	Descriptor<"Selection", "de", "Lexeme", "NOUN", "Citation", "Standard">
 >;
 abstractSchemas.entity.Lemma satisfies ZodType<AbstractLemma<string>>;
 const deSchemaTree = getSchemaTreeFor("de");
-deSchemaTree.entity.Selection.Standard.Lemma.Lexeme.NOUN();
+deSchemaTree.entity.Selection.Standard.Citation.Lexeme.NOUN();
 declare const language: SupportedLanguage;
 const dynamicSchemaTree = getSchemaTreeFor(language);
-dynamicSchemaTree.entity.Selection.Standard.Lemma.Lexeme.NOUN();
-getSchemaTreeFor(language).entity.Selection.Standard.Lemma.Lexeme.NOUN();
+dynamicSchemaTree.entity.Selection.Standard.Citation.Lexeme.NOUN();
+getSchemaTreeFor(language).entity.Selection.Standard.Citation.Lexeme.NOUN();
 
 const enLemma = dumling.en.create.lemma({
 	canonicalLemma: "see",
@@ -216,9 +216,9 @@ const enLemma = dumling.en.create.lemma({
 }) satisfies Lemma<"en", "Lexeme", "NOUN">;
 
 const enSelectionLeaf =
-	schemasFor.en.entity.Selection.Standard.Lemma.Lexeme.NOUN();
+	schemasFor.en.entity.Selection.Standard.Citation.Lexeme.NOUN();
 enSelectionLeaf satisfies ZodType<
-	Selection<"en", "Standard", "Lemma", "Lexeme", "NOUN">
+	Selection<"en", "Standard", "Citation", "Lexeme", "NOUN">
 >;
 
 const enPronType: FeatureValue<"en", "inherent", "Lexeme", "PRON", "pronType"> =
@@ -240,7 +240,7 @@ const heVerbLeaf = schemasFor.he.entity.Lemma.Lexeme.VERB();
 heVerbLeaf satisfies ZodType<Lemma<"he", "Lexeme", "VERB">>;
 const heStandardSelection = dumling.he.convert.lemma.toSelection(
 	heLemma,
-) satisfies Selection<"he", "Standard", "Lemma", "Lexeme", "VERB">;
+) satisfies Selection<"he", "Standard", "Citation", "Lexeme", "VERB">;
 
 const heBinyan: FeatureValue<"he", "inherent", "Lexeme", "VERB", "hebBinyan"> =
 	"PAAL";
@@ -253,6 +253,6 @@ void heStandardSelection;
 void heVoice;
 
 // @ts-expect-error lexeme does not expose morpheme subkinds
-schemasFor.de.entity.Selection.Standard.Lemma.Lexeme.Circumfix();
+schemasFor.de.entity.Selection.Standard.Citation.Lexeme.Circumfix();
 
 void inflectionSurface;

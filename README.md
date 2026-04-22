@@ -26,7 +26,7 @@ This package ships working runtime surfaces for `de`, `en`, and `he`.
 
 Each concrete language namespace (`dumling.de`, `dumling.en`, `dumling.he`) exposes:
 
-- `create`: explicit constructors for `lemma`, `surface.lemma`, `surface.inflection`, `selection.standard`, and `selection.typo`
+- `create`: explicit constructors for `lemma`, `surface.citation`, `surface.inflection`, `selection.standard`, and `selection.typo`
 - `convert`: convenience projections from `lemma -> surface`, `lemma -> selection`, and `surface -> selection`
 - `extract`: entity accessors such as `extract.lemma(...)`
 - `parse`: safe parsing returning `ApiResult<T, ParseError>`
@@ -71,12 +71,12 @@ const seeLemma = dumling.de.create.lemma({
 The `Surface` is the normalized full form that the note belongs to:
 
 ```ts
-const seeSurface = dumling.de.create.surface.lemma({
+const seeSurface = dumling.de.create.surface.citation({
 	lemma: seeLemma,
 	normalizedFullSurface: "See",
 }) satisfies Surface<
 	"de",
-	"Lemma",
+	"Citation",
 	"Lexeme",
 	"NOUN"
 >;
@@ -90,7 +90,7 @@ const seeSelection = dumling.de.create.selection.standard({
 	spelledSelection: "See",
 	spellingRelation: "Canonical",
 	surface: seeSurface,
-}) satisfies Selection<"de", "Standard", "Lemma", "Lexeme", "NOUN">;
+}) satisfies Selection<"de", "Standard", "Citation", "Lexeme", "NOUN">;
 ```
 
 ## Quickstart
@@ -121,7 +121,7 @@ const lemma = packageDumling.de.create.lemma({
 	meaningInEmojis: "🌊",
 }) satisfies PackageLemma<"de", "Lexeme", "NOUN">;
 
-const surface = packageDumling.de.create.surface.lemma({
+const surface = packageDumling.de.create.surface.citation({
 	lemma,
 	normalizedFullSurface: "See",
 });
@@ -149,11 +149,11 @@ if (!decoded.success) {
 	throw new Error(decoded.error?.message ?? "Failed to decode selection ID");
 }
 
-descriptor.surfaceKind satisfies "Lemma";
+descriptor.surfaceKind satisfies "Citation";
 extractedLemma satisfies PackageLemma<"de">;
 gender satisfies "Masc";
 
-packageSchemas.de.entity.Selection.Standard.Lemma.Lexeme.NOUN().parse(
+packageSchemas.de.entity.Selection.Standard.Citation.Lexeme.NOUN().parse(
 	decoded.data,
 );
 ```

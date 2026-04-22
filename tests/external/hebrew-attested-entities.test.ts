@@ -6,11 +6,11 @@ import {
 	hebrewKatvuInflectionSurface,
 	hebrewKatvuPointedVariantSelection,
 	hebrewKatvuStandardFullSelection,
+	hebrewShanaCitationSelection,
+	hebrewShanaCitationSurface,
 	hebrewShanaLemma,
-	hebrewShanaLemmaSelection,
-	hebrewShanaLemmaSurface,
+	hebrewUsAbbreviationCitationSurface,
 	hebrewUsAbbreviationLemma,
-	hebrewUsAbbreviationLemmaSurface,
 	hebrewUsAbbreviationSelection,
 } from "../helpers";
 
@@ -35,13 +35,13 @@ describe("Hebrew attested entities", () => {
 			).success,
 		).toBe(true);
 		expect(
-			schemasFor.he.entity.Surface.Lemma.Lexeme.NOUN().safeParse(
-				hebrewShanaLemmaSurface,
+			schemasFor.he.entity.Surface.Citation.Lexeme.NOUN().safeParse(
+				hebrewShanaCitationSurface,
 			).success,
 		).toBe(true);
 		expect(
-			schemasFor.he.entity.Surface.Lemma.Lexeme.PROPN().safeParse(
-				hebrewUsAbbreviationLemmaSurface,
+			schemasFor.he.entity.Surface.Citation.Lexeme.PROPN().safeParse(
+				hebrewUsAbbreviationCitationSurface,
 			).success,
 		).toBe(true);
 		expect(
@@ -50,12 +50,12 @@ describe("Hebrew attested entities", () => {
 			).success,
 		).toBe(true);
 		expect(
-			schemasFor.he.entity.Selection.Standard.Lemma.Lexeme.NOUN().safeParse(
-				hebrewShanaLemmaSelection,
+			schemasFor.he.entity.Selection.Standard.Citation.Lexeme.NOUN().safeParse(
+				hebrewShanaCitationSelection,
 			).success,
 		).toBe(true);
 		expect(
-			schemasFor.he.entity.Selection.Standard.Lemma.Lexeme.PROPN().safeParse(
+			schemasFor.he.entity.Selection.Standard.Citation.Lexeme.PROPN().safeParse(
 				hebrewUsAbbreviationSelection,
 			).success,
 		).toBe(true);
@@ -70,11 +70,11 @@ describe("Hebrew attested entities", () => {
 		expect(dumling.he.extract.lemma(hebrewKatvuStandardFullSelection)).toBe(
 			hebrewKatavLemma,
 		);
-		expect(dumling.he.extract.lemma(hebrewShanaLemmaSurface)).toBe(
+		expect(dumling.he.extract.lemma(hebrewShanaCitationSurface)).toBe(
 			hebrewShanaLemma,
 		);
 		expect(dumling.he.convert.lemma.toSurface(hebrewShanaLemma)).toEqual(
-			hebrewShanaLemmaSurface,
+			hebrewShanaCitationSurface,
 		);
 		expect(
 			dumling.he.describe.as.selection(hebrewKatvuInflectionSurface),

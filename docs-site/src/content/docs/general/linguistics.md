@@ -31,7 +31,7 @@ The surface always contains a `Lemma`. This keeps a normalized word form connect
 
 There are two surface kinds:
 
-- `Lemma`: the surface is the lemma form itself
+- `Citation`: the surface is the citation form itself
 - `Inflection`: the surface is an inflected form of the lemma
 
 Inflection surfaces carry `inflectionalFeatures`, such as number, case, tense, person, gender, degree, definiteness, or verb form, depending on the language and lemma subtype.

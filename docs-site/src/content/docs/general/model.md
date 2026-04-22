@@ -27,7 +27,7 @@ A lemma is the canonical lexical object. It is where you put the language, the c
 
 <!-- DOC_BLOCK:core-surface -->
 
-A lemma surface uses `surfaceKind: "Lemma"` and normally has the canonical lemma spelling as `normalizedFullSurface`.
+A citation surface uses `surfaceKind: "Citation"` and normally has the canonical lemma spelling as `normalizedFullSurface`.
 
 An inflection surface uses `surfaceKind: "Inflection"` and adds `inflectionalFeatures`:
 
@@ -59,7 +59,7 @@ descriptor.entityKind; // "Selection"
 descriptor.language; // "de"
 descriptor.lemmaKind; // "Lexeme"
 descriptor.lemmaSubKind; // "NOUN"
-descriptor.surfaceKind; // "Lemma"
+descriptor.surfaceKind; // "Citation"
 descriptor.orthographicStatus; // "Standard"
 ```
 
@@ -89,5 +89,5 @@ if (!parsed.success) {
 The schema entrypoint exposes concrete Zod schemas when a caller needs direct validator access:
 
 ```ts
-schemasFor.de.entity.Selection.Standard.Lemma.Lexeme.NOUN().parse(value);
+schemasFor.de.entity.Selection.Standard.Citation.Lexeme.NOUN().parse(value);
 ```

@@ -52,7 +52,7 @@ type AbstractSurfacePayload<
 	SK extends SurfaceKind,
 	LK extends LemmaKind,
 	LSK extends AbstractLemmaSubKindFor<LK>,
-> = SK extends "Lemma"
+> = SK extends "Citation"
 	? Record<never, never>
 	: SK extends "Inflection"
 		? {

@@ -1,17 +1,17 @@
 import { describe, expect, it } from "bun:test";
 import { schemasFor } from "../../src/schema";
 import {
-	englishWalkLemmaSelection,
+	englishWalkCitationSelection,
 	englishWalkStandardFullSelection,
 	hebrewKatvuPointedVariantSelection,
 } from "../helpers";
 
 describe("selection spelling relation", () => {
-	it("accepts lemma selections marked as spelling variants", () => {
+	it("accepts citation selections marked as spelling variants", () => {
 		expect(
-			schemasFor.en.entity.Selection.Standard.Lemma.Lexeme.VERB().safeParse(
+			schemasFor.en.entity.Selection.Standard.Citation.Lexeme.VERB().safeParse(
 				{
-					...englishWalkLemmaSelection,
+					...englishWalkCitationSelection,
 					spellingRelation: "Variant",
 				},
 			).success,
@@ -39,12 +39,12 @@ describe("selection spelling relation", () => {
 
 	it("rejects legacy surfaceKind variant payloads", () => {
 		expect(
-			schemasFor.en.entity.Selection.Standard.Lemma.Lexeme.VERB().safeParse(
+			schemasFor.en.entity.Selection.Standard.Citation.Lexeme.VERB().safeParse(
 				{
-					...englishWalkLemmaSelection,
+					...englishWalkCitationSelection,
 					spellingRelation: "Variant",
 					surface: {
-						...englishWalkLemmaSelection.surface,
+						...englishWalkCitationSelection.surface,
 						surfaceKind: "Variant",
 					},
 				},

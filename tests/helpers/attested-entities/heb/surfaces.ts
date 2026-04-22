@@ -19,17 +19,17 @@ export const hebrewKatvuInflectionSurface = {
 } satisfies Surface<"he", "Inflection", "Lexeme", "VERB">;
 
 // Attestation: "עוד [שנה] עברה."
-export const hebrewShanaLemmaSurface = {
+export const hebrewShanaCitationSurface = {
 	language: "he",
 	normalizedFullSurface: "שנה",
-	surfaceKind: "Lemma",
+	surfaceKind: "Citation",
 	lemma: hebrewShanaLemma,
-} satisfies Surface<"he", "Lemma", "Lexeme", "NOUN">;
+} satisfies Surface<"he", "Citation", "Lexeme", "NOUN">;
 
 // Attestation: "[ארה״ב] הודיעה על צעד חדש."
-export const hebrewUsAbbreviationLemmaSurface = {
+export const hebrewUsAbbreviationCitationSurface = {
 	language: "he",
 	normalizedFullSurface: "ארה״ב",
-	surfaceKind: "Lemma",
+	surfaceKind: "Citation",
 	lemma: hebrewUsAbbreviationLemma,
-} satisfies Surface<"he", "Lemma", "Lexeme", "PROPN">;
+} satisfies Surface<"he", "Citation", "Lexeme", "PROPN">;

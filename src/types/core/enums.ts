@@ -13,7 +13,7 @@ const lemmaKindValues = ["Phraseme", "Lexeme", "Morpheme"] as const;
 export const LemmaKind = z.enum(lemmaKindValues);
 export type LemmaKind = z.infer<typeof LemmaKind>;
 
-const surfaceKindValues = ["Lemma", "Inflection"] as const;
+const surfaceKindValues = ["Citation", "Inflection"] as const;
 
 export const SurfaceKind = z.enum(surfaceKindValues);
 export type SurfaceKind = z.infer<typeof SurfaceKind>;

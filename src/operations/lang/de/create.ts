@@ -2,7 +2,7 @@ import type { LanguageApi } from "../../../types/public-types";
 
 type DeCreateOperations = LanguageApi<"de">["create"];
 type DeCreateLemma = DeCreateOperations["lemma"];
-type DeCreateLemmaSurface = DeCreateOperations["surface"]["lemma"];
+type DeCreateCitationSurface = DeCreateOperations["surface"]["citation"];
 type DeCreateInflectionSurface = DeCreateOperations["surface"]["inflection"];
 type DeCreateStandardSelection = DeCreateOperations["selection"]["standard"];
 type DeCreateTypoSelection = DeCreateOperations["selection"]["typo"];
@@ -18,11 +18,11 @@ export function buildDeCreateOperations(): LanguageApi<"de">["create"] {
 			meaningInEmojis: input.meaningInEmojis,
 		}) as never;
 
-	const createLemmaSurface: DeCreateLemmaSurface = (input) =>
+	const createCitationSurface: DeCreateCitationSurface = (input) =>
 		({
 			language: input.lemma.language,
 			normalizedFullSurface: input.normalizedFullSurface,
-			surfaceKind: "Lemma",
+			surfaceKind: "Citation",
 			lemma: input.lemma,
 		}) as never;
 
@@ -58,7 +58,7 @@ export function buildDeCreateOperations(): LanguageApi<"de">["create"] {
 	const operations = {
 		lemma: createLemma,
 		surface: {
-			lemma: createLemmaSurface,
+			citation: createCitationSurface,
 			inflection: createInflectionSurface,
 		},
 		selection: {

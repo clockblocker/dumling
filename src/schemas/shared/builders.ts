@@ -57,7 +57,7 @@ export function buildLemmaSchema<
 	}>;
 }
 
-export function buildLemmaSurfaceSchema<
+export function buildCitationSurfaceSchema<
 	TLanguage extends string,
 	TLemma extends { language: TLanguage },
 >(options: {
@@ -67,20 +67,20 @@ export function buildLemmaSurfaceSchema<
 	language: TLanguage;
 	lemma: TLemma;
 	normalizedFullSurface: string;
-	surfaceKind: "Lemma";
+	surfaceKind: "Citation";
 }> {
 	return z
 		.object({
 			language: options.languageSchema,
 			normalizedFullSurface: normalizedLowercaseStringSchema(),
-			surfaceKind: z.literal("Lemma"),
+			surfaceKind: z.literal("Citation"),
 			lemma: options.lemmaSchema,
 		})
 		.strict() as unknown as z.ZodType<{
 		language: TLanguage;
 		lemma: TLemma;
 		normalizedFullSurface: string;
-		surfaceKind: "Lemma";
+		surfaceKind: "Citation";
 	}>;
 }
 
@@ -180,11 +180,11 @@ type FeatureSchemaTree<L extends ConcreteLanguage> = {
 
 type LeafSchemas = {
 	lemma: z.ZodTypeAny;
-	lemmaSelection: {
+	citationSelection: {
 		Standard: z.ZodTypeAny;
 		Typo: z.ZodTypeAny;
 	};
-	lemmaSurface: z.ZodTypeAny;
+	citationSurface: z.ZodTypeAny;
 	inflectionSelection?: {
 		Standard: z.ZodTypeAny;
 		Typo: z.ZodTypeAny;
@@ -223,29 +223,29 @@ function buildLeafSchemas<
 		inherentFeaturesSchema: featuresSchema.shape.inherent,
 	});
 
-	const lemmaSurfaceSchema = buildLemmaSurfaceSchema({
+	const citationSurfaceSchema = buildCitationSurfaceSchema({
 		languageSchema,
 		lemmaSchema,
 	});
 
-	const standardLemmaSelectionSchema = buildSelectionSchema({
+	const standardCitationSelectionSchema = buildSelectionSchema({
 		languageSchema,
 		orthographicStatus: "Standard",
-		surfaceSchema: lemmaSurfaceSchema,
+		surfaceSchema: citationSurfaceSchema,
 	});
 
-	const typoLemmaSelectionSchema = buildSelectionSchema({
+	const typoCitationSelectionSchema = buildSelectionSchema({
 		languageSchema,
 		orthographicStatus: "Typo",
-		surfaceSchema: lemmaSurfaceSchema,
+		surfaceSchema: citationSurfaceSchema,
 	});
 
 	const leaf = {
 		lemma: lemmaSchema,
-		lemmaSurface: lemmaSurfaceSchema,
-		lemmaSelection: {
-			Standard: standardLemmaSelectionSchema,
-			Typo: typoLemmaSelectionSchema,
+		citationSurface: citationSurfaceSchema,
+		citationSelection: {
+			Standard: standardCitationSelectionSchema,
+			Typo: typoCitationSelectionSchema,
 		},
 	};
 
@@ -296,16 +296,16 @@ export function buildLanguageSchema<L extends ConcreteLanguage>(
 	const schemaTree = {
 		Lemma: {},
 		Surface: {
-			Lemma: {},
+			Citation: {},
 			Inflection: {},
 		},
 		Selection: {
 			Standard: {
-				Lemma: {},
+				Citation: {},
 				Inflection: {},
 			},
 			Typo: {
-				Lemma: {},
+				Citation: {},
 				Inflection: {},
 			},
 		},
@@ -325,16 +325,16 @@ export function buildLanguageSchema<L extends ConcreteLanguage>(
 		>,
 	][]) {
 		const lemmaFamily = ensureFamily(schemaTree.Lemma, lemmaKind);
-		const lemmaSurfaceFamily = ensureFamily(
-			schemaTree.Surface.Lemma,
+		const citationSurfaceFamily = ensureFamily(
+			schemaTree.Surface.Citation,
 			lemmaKind,
 		);
-		const standardLemmaSelectionFamily = ensureFamily(
-			schemaTree.Selection.Standard.Lemma,
+		const standardCitationSelectionFamily = ensureFamily(
+			schemaTree.Selection.Standard.Citation,
 			lemmaKind,
 		);
-		const typoLemmaSelectionFamily = ensureFamily(
-			schemaTree.Selection.Typo.Lemma,
+		const typoCitationSelectionFamily = ensureFamily(
+			schemaTree.Selection.Typo.Citation,
 			lemmaKind,
 		);
 
@@ -356,10 +356,11 @@ export function buildLanguageSchema<L extends ConcreteLanguage>(
 			);
 
 			lemmaFamily[lemmaSubKind] = leaf.lemma;
-			lemmaSurfaceFamily[lemmaSubKind] = leaf.lemmaSurface;
-			standardLemmaSelectionFamily[lemmaSubKind] =
-				leaf.lemmaSelection.Standard;
-			typoLemmaSelectionFamily[lemmaSubKind] = leaf.lemmaSelection.Typo;
+			citationSurfaceFamily[lemmaSubKind] = leaf.citationSurface;
+			standardCitationSelectionFamily[lemmaSubKind] =
+				leaf.citationSelection.Standard;
+			typoCitationSelectionFamily[lemmaSubKind] =
+				leaf.citationSelection.Typo;
 
 			if (!leaf.inflectionSurface || !leaf.inflectionSelection) {
 				continue;

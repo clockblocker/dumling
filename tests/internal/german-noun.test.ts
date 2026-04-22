@@ -2,7 +2,7 @@ import { describe, expect, it } from "bun:test";
 import { schemasFor } from "../../src/schema";
 import {
 	germanBVGAbbreviationSelection,
-	germanHausLemmaSurface,
+	germanHausCitationSurface,
 	germanKindLemma,
 	makeLexemeSurfaceReference,
 } from "../helpers";
@@ -73,19 +73,19 @@ describe("German noun schemas", () => {
 		).toBe(false);
 	});
 
-	it("keeps registry access and lemma selections intact", () => {
+	it("keeps registry access and citation selections intact", () => {
 		expect(
-			schemasFor.de.entity.Surface.Lemma.Lexeme.NOUN().safeParse(
-				germanHausLemmaSurface,
+			schemasFor.de.entity.Surface.Citation.Lexeme.NOUN().safeParse(
+				germanHausCitationSurface,
 			).success,
 		).toBe(true);
 		expect(
-			schemasFor.de.entity.Selection.Standard.Lemma.Lexeme.PROPN().safeParse(
+			schemasFor.de.entity.Selection.Standard.Citation.Lexeme.PROPN().safeParse(
 				germanBVGAbbreviationSelection,
 			).success,
 		).toBe(true);
 		expect(
-			typeof schemasFor.de.entity.Selection.Standard.Lemma.Lexeme.NOUN()
+			typeof schemasFor.de.entity.Selection.Standard.Citation.Lexeme.NOUN()
 				.parse,
 		).toBe("function");
 	});
