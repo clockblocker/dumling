@@ -1,1 +1,6 @@
-export { dumling } from "./operations";
+export {
+	dumling,
+	getLanguageApi,
+	inspectId,
+	supportedLanguages,
+} from "./operations";

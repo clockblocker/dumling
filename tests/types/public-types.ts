@@ -2,6 +2,10 @@ import type { ZodType } from "zod/v3";
 import { dumling } from "../../src";
 import { schema } from "../../src/schema";
 import type {
+	DumlingId,
+	DumlingIdInspection,
+	EntityForKind,
+	EntityValue,
 	FeatureName,
 	FeatureSetKind,
 	FeatureValue,
@@ -9,6 +13,7 @@ import type {
 	LemmaKindFor,
 	LemmaSubKindFor,
 	Selection,
+	SelectionOptionsFor,
 	Surface,
 	SurfaceKindFor,
 } from "../../src/types";
@@ -50,13 +55,9 @@ const typoSelection = dumling.de.create.selection.typo({
 	spellingRelation: "Canonical",
 	surface: lemmaSurface,
 }) satisfies Selection<"de", "Typo", "Lemma", "Lexeme", "NOUN">;
-const standardSelection = dumling.de.convert.lemma.toSelection(lemma) satisfies Selection<
-	"de",
-	"Standard",
-	"Lemma",
-	"Lexeme",
-	"NOUN"
->;
+const standardSelection = dumling.de.convert.lemma.toSelection(
+	lemma,
+) satisfies Selection<"de", "Standard", "Lemma", "Lexeme", "NOUN">;
 const typoFromLemma = dumling.de.convert.lemma.toSelection(lemma, {
 	orthographicStatus: "Typo",
 }) satisfies Selection<"de", "Typo", "Lemma", "Lexeme", "NOUN">;
@@ -77,7 +78,9 @@ const surfaceDescriptor = dumling.de.describe.as.surface(lemma) satisfies {
 	lemmaKind: "Lexeme";
 	lemmaSubKind: "NOUN";
 };
-const selectionDescriptor = dumling.de.describe.as.selection(inflectionSurface) satisfies {
+const selectionDescriptor = dumling.de.describe.as.selection(
+	inflectionSurface,
+) satisfies {
 	language: "de";
 	orthographicStatus: "Standard";
 	surfaceKind: "Inflection";
@@ -119,12 +122,35 @@ void surfaceDescriptor;
 void selectionDescriptor;
 
 // @ts-expect-error invalid NOUN gender feature value
-const invalidGender: FeatureValue<"de", "inherent", "Lexeme", "NOUN", "gender"> =
-	"Past";
+const invalidGender: FeatureValue<
+	"de",
+	"inherent",
+	"Lexeme",
+	"NOUN",
+	"gender"
+> = "Past";
 void invalidGender;
 
 const selectionId = dumling.de.id.encode(typoSelection);
+selectionId satisfies DumlingId<"Lemma" | "Surface" | "Selection", "de">;
+// @ts-expect-error plain strings are not branded Dumling IDs
+const unbrandedId: DumlingId<"Selection", "de"> = "dumling:abc";
+const entityValue: EntityValue<"de"> = typoSelection;
+const selectionForKind: EntityForKind<"de", "Selection"> = typoSelection;
+const typoOptions: SelectionOptionsFor<"Typo"> = {
+	orthographicStatus: "Typo",
+	spelledSelection: "Sse",
+};
+const idInspection: DumlingIdInspection = {
+	kind: "Selection",
+	language: "de",
+};
 const decodedSelection = dumling.de.id.decodeAs("Selection", selectionId);
+void entityValue;
+void selectionForKind;
+void typoOptions;
+void idInspection;
+void unbrandedId;
 
 if (decodedSelection.success) {
 	decodedSelection.data satisfies Selection<"de">;
@@ -133,7 +159,9 @@ if (decodedSelection.success) {
 }
 
 const deSelectionLeaf = schema.de.selection.standard.lemma.lexeme.noun();
-deSelectionLeaf satisfies ZodType<Selection<"de", "Standard", "Lemma", "Lexeme", "NOUN">>;
+deSelectionLeaf satisfies ZodType<
+	Selection<"de", "Standard", "Lemma", "Lexeme", "NOUN">
+>;
 
 const enLemma = dumling.en.create.lemma({
 	canonicalLemma: "see",
@@ -146,12 +174,12 @@ const enLemma = dumling.en.create.lemma({
 }) satisfies Lemma<"en", "Lexeme", "NOUN">;
 
 const enSelectionLeaf = schema.en.selection.standard.lemma.lexeme.noun();
-enSelectionLeaf satisfies ZodType<Selection<"en", "Standard", "Lemma", "Lexeme", "NOUN">>;
+enSelectionLeaf satisfies ZodType<
+	Selection<"en", "Standard", "Lemma", "Lexeme", "NOUN">
+>;
 
-const enPronType: FeatureValue<"en", "inherent", "Lexeme", "PRON", "pronType"> = [
-	"Prs",
-	"Rel",
-];
+const enPronType: FeatureValue<"en", "inherent", "Lexeme", "PRON", "pronType"> =
+	["Prs", "Rel"];
 void enLemma;
 void enPronType;
 
@@ -171,13 +199,8 @@ const heStandardSelection = dumling.he.convert.lemma.toSelection(
 	heLemma,
 ) satisfies Selection<"he", "Standard", "Lemma", "Lexeme", "VERB">;
 
-const heBinyan: FeatureValue<
-	"he",
-	"inherent",
-	"Lexeme",
-	"VERB",
-	"hebBinyan"
-> = "PAAL";
+const heBinyan: FeatureValue<"he", "inherent", "Lexeme", "VERB", "hebBinyan"> =
+	"PAAL";
 const heVoice: FeatureValue<"he", "inflectional", "Lexeme", "VERB", "voice"> =
 	"Act";
 void heLemma;

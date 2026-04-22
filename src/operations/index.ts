@@ -1,9 +1,14 @@
-import type { DumlingApi, LanguageApi, SupportedLanguage } from "../types/public-types";
 import { languagePacks } from "../language-packs";
+import type {
+	DumlingApi,
+	LanguageApi,
+	SupportedLanguage,
+} from "../types/public-types";
 import { buildConvertOperations } from "./shared/convert";
 import { buildDescribeOperations } from "./shared/describe";
 import { buildExtractOperations } from "./shared/extract";
-import { buildIdOperations } from "./shared/id";
+import { buildIdOperations, inspectId } from "./shared/id";
+import { supportedLanguages } from "./shared/language-inventory";
 
 function buildImplementedLanguageApi<L extends SupportedLanguage>(
 	language: L,
@@ -27,3 +32,11 @@ export const dumling = {
 	en: buildImplementedLanguageApi("en", languagePacks.en),
 	he: buildImplementedLanguageApi("he", languagePacks.he),
 } satisfies DumlingApi;
+
+function getLanguageApi<L extends SupportedLanguage>(
+	language: L,
+): LanguageApi<L> {
+	return dumling[language] as unknown as LanguageApi<L>;
+}
+
+export { getLanguageApi, inspectId, supportedLanguages };

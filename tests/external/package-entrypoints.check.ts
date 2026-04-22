@@ -21,9 +21,11 @@ describe("published package entrypoints", () => {
 		run("bun", ["run", "build"]);
 
 		const runtimeSmokeTest = `
-			import { dumling } from "dumling";
+			import { dumling, getLanguageApi, inspectId, supportedLanguages } from "dumling";
 			import { schema } from "dumling/schema";
 
+			if (supportedLanguages.join(",") !== "de,en,he") throw new Error("language inventory is missing");
+			if (getLanguageApi("de") !== dumling.de) throw new Error("language API helper returned the wrong API");
 			const lemma = dumling.de.create.lemma({
 				canonicalLemma: "see",
 				lemmaKind: "Lexeme",
@@ -38,6 +40,8 @@ describe("published package entrypoints", () => {
 			if (!parsed.success) throw new Error(parsed.error.message);
 			const decoded = dumling.de.id.decodeAs("Selection", dumling.de.id.encode(parsed.data));
 			if (!decoded.success) throw new Error(decoded.error.message);
+			const inspection = inspectId(dumling.de.id.encode(parsed.data));
+			if (inspection?.kind !== "Selection" || inspection.language !== "de") throw new Error("ID inspection failed");
 			if (typeof schema.de.lemma.lexeme.noun().parse !== "function") throw new Error("schema entrypoint is missing german schemas");
 			if (typeof schema.abstract.selection.typo.inflection.lexeme.verb().parse !== "function") throw new Error("schema entrypoint is missing abstract schemas");
 		`;
@@ -50,30 +54,44 @@ describe("published package entrypoints", () => {
 			writeFileSync(
 				join(typecheckDir, "fixture.ts"),
 				[
-					'import { dumling } from "dumling";',
+					'import { dumling, getLanguageApi, inspectId, supportedLanguages } from "dumling";',
 					'import { schema } from "dumling/schema";',
 					'import type * as z from "zod/v3";',
-					'import type { AbstractLemma, Lemma, Selection } from "dumling/types";',
+					'import type { AbstractLemma, DumlingId, DumlingIdInspection, EntityForKind, EntityValue, Lemma, Selection, SelectionOptionsFor } from "dumling/types";',
 					"",
-					"const lemma: Lemma<\"de\", \"Lexeme\", \"NOUN\"> = dumling.de.create.lemma({",
+					'const languages: readonly ("de" | "en" | "he")[] = supportedLanguages;',
+					"void languages;",
+					'const lemma: Lemma<"de", "Lexeme", "NOUN"> = dumling.de.create.lemma({',
 					'\tcanonicalLemma: "see",',
 					'\tlemmaKind: "Lexeme",',
 					'\tlemmaSubKind: "NOUN",',
-					'\tinherentFeatures: {},',
+					"\tinherentFeatures: {},",
 					'\tmeaningInEmojis: "🌊",',
 					"});",
 					"",
-					"const selection: Selection<\"de\"> = dumling.de.convert.lemma.toSelection(lemma, {",
+					'const selection: Selection<"de"> = dumling.de.convert.lemma.toSelection(lemma, {',
 					'\tspelledSelection: "See",',
 					"});",
 					"const parsed = dumling.de.parse.selection(selection);",
 					"if (!parsed.success) throw new Error(parsed.error.message);",
+					'const dynamicApi = getLanguageApi("de");',
+					"const dynamicSelection = dynamicApi.convert.lemma.toSelection(lemma);",
+					'dynamicSelection satisfies Selection<"de">;',
 					"const selectionId = dumling.de.id.encode(parsed.data);",
-					"const decoded = dumling.de.id.decodeAs(\"Selection\", selectionId);",
+					'selectionId satisfies DumlingId<"Lemma" | "Surface" | "Selection", "de">;',
+					"const inspected = inspectId(selectionId);",
+					"inspected satisfies DumlingIdInspection | undefined;",
+					'const decoded = dumling.de.id.decodeAs("Selection", selectionId);',
 					"if (!decoded.success) throw new Error(decoded.error.message);",
-					"const nounLemmaSchema: z.ZodType<Lemma<\"de\", \"Lexeme\", \"NOUN\">> = schema.de.lemma.lexeme.noun();",
-					"const nounSelectionSchema: z.ZodType<Selection<\"de\", \"Standard\", \"Lemma\", \"Lexeme\", \"NOUN\">> = schema.de.selection.standard.lemma.lexeme.noun();",
-					"const abstractVerbSchema: z.ZodType<AbstractLemma<string, \"Lexeme\", \"VERB\">> = schema.abstract.lemma.lexeme.verb();",
+					'const entityValue: EntityValue<"de"> = decoded.data;',
+					'const entityForKind: EntityForKind<"de", "Selection"> = decoded.data;',
+					'const selectionOptions: SelectionOptionsFor<"Standard"> = { spelledSelection: "See" };',
+					"void entityValue;",
+					"void entityForKind;",
+					"void selectionOptions;",
+					'const nounLemmaSchema: z.ZodType<Lemma<"de", "Lexeme", "NOUN">> = schema.de.lemma.lexeme.noun();',
+					'const nounSelectionSchema: z.ZodType<Selection<"de", "Standard", "Lemma", "Lexeme", "NOUN">> = schema.de.selection.standard.lemma.lexeme.noun();',
+					'const abstractVerbSchema: z.ZodType<AbstractLemma<string, "Lexeme", "VERB">> = schema.abstract.lemma.lexeme.verb();',
 					"nounLemmaSchema.parse(lemma);",
 					"nounSelectionSchema.parse(decoded.data);",
 					"abstractVerbSchema.parse({",
@@ -81,7 +99,7 @@ describe("published package entrypoints", () => {
 					'\tcanonicalLemma: "gehen",',
 					'\tlemmaKind: "Lexeme",',
 					'\tlemmaSubKind: "VERB",',
-					'\tinherentFeatures: {},',
+					"\tinherentFeatures: {},",
 					'\tmeaningInEmojis: "🚶",',
 					"});",
 					"schema.de.selection.standard.lemma.lexeme.noun().parse(decoded.data);",
@@ -118,7 +136,8 @@ describe("published package entrypoints", () => {
 		) as Array<{
 			files: Array<{ path: string }>;
 		}>;
-		const packedFiles = packSummary[0]?.files.map((file) => file.path) ?? [];
+		const packedFiles =
+			packSummary[0]?.files.map((file) => file.path) ?? [];
 
 		expect(packedFiles.length).toBeLessThan(20);
 		expect(packedFiles).toContain("dist/index.d.ts");
@@ -127,8 +146,8 @@ describe("published package entrypoints", () => {
 		expect(packedFiles).not.toContain("dist/id.d.ts");
 		expect(packedFiles).not.toContain("dist/operation.d.ts");
 		expect(packedFiles).not.toContain("dist/entities.d.ts");
-		expect(statSync(resolve(projectRoot, "dist/index.d.ts")).size).toBeLessThan(
-			120_000,
-		);
+		expect(
+			statSync(resolve(projectRoot, "dist/index.d.ts")).size,
+		).toBeLessThan(120_000);
 	});
 });

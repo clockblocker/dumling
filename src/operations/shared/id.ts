@@ -1,26 +1,60 @@
 import type {
+	DumlingId,
+	DumlingIdInspection,
+	EntityKind,
+	EntityValue,
+	SupportedLanguage,
+} from "../../types/public-types";
+import type {
 	ApiResult,
 	IdDecodeError,
 	IdDecodeSuccess,
 	LanguageApi,
 } from "../api-shape";
-import type {
-	EntityKind,
-	Lemma,
-	Selection,
-	SupportedLanguage,
-	Surface,
-} from "../../types/public-types";
 import { decodeBase64Url, encodeBase64Url } from "./base64url";
 import { inferEntityKind } from "./entity-accessors";
 import { idError } from "./id-errors";
+import { isSupportedLanguage } from "./language-inventory";
 
-type EntityValue<L extends SupportedLanguage> = Lemma<L> | Surface<L> | Selection<L>;
-type DecodeResult<L extends SupportedLanguage> = ApiResult<IdDecodeSuccess<L>, IdDecodeError>;
+type DecodeResult<L extends SupportedLanguage> = ApiResult<
+	IdDecodeSuccess<L>,
+	IdDecodeError
+>;
 const ID_PREFIX = "dumling:";
 
 function isEntityKind(value: unknown): value is EntityKind {
 	return value === "Lemma" || value === "Surface" || value === "Selection";
+}
+
+export function inspectId(id: string): DumlingIdInspection | undefined {
+	if (!id.startsWith(ID_PREFIX)) {
+		return undefined;
+	}
+
+	let payload: unknown;
+	try {
+		payload = JSON.parse(decodeBase64Url(id.slice(ID_PREFIX.length)));
+	} catch {
+		return undefined;
+	}
+
+	if (typeof payload !== "object" || payload === null) {
+		return undefined;
+	}
+
+	const { entityKind, language } = payload as {
+		entityKind?: unknown;
+		language?: unknown;
+	};
+
+	if (!isEntityKind(entityKind) || !isSupportedLanguage(language)) {
+		return undefined;
+	}
+
+	return {
+		kind: entityKind,
+		language,
+	};
 }
 
 export function buildIdOperations<L extends SupportedLanguage>(
@@ -41,7 +75,10 @@ export function buildIdOperations<L extends SupportedLanguage>(
 		} catch {
 			return {
 				success: false,
-				error: idError("MalformedId", "ID payload is not valid base64url"),
+				error: idError(
+					"MalformedId",
+					"ID payload is not valid base64url",
+				),
 			};
 		}
 
@@ -68,7 +105,11 @@ export function buildIdOperations<L extends SupportedLanguage>(
 			};
 		}
 
-		const { entityKind, language: payloadLanguage, data } = payload as {
+		const {
+			entityKind,
+			language: payloadLanguage,
+			data,
+		} = payload as {
 			data: unknown;
 			entityKind: unknown;
 			language: unknown;
@@ -87,7 +128,10 @@ export function buildIdOperations<L extends SupportedLanguage>(
 		if (!isEntityKind(entityKind)) {
 			return {
 				success: false,
-				error: idError("InvalidPayload", "ID payload entityKind is invalid"),
+				error: idError(
+					"InvalidPayload",
+					"ID payload entityKind is invalid",
+				),
 			};
 		}
 
@@ -115,14 +159,14 @@ export function buildIdOperations<L extends SupportedLanguage>(
 	}
 
 	return {
-		encode(value: EntityValue<L>) {
+		encode(value: EntityValue<L>): DumlingId<EntityKind, L> {
 			return `${ID_PREFIX}${encodeBase64Url(
 				JSON.stringify({
 					entityKind: inferEntityKind(value),
 					language,
 					data: value,
 				}),
-			)}`;
+			)}` as DumlingId<EntityKind, L>;
 		},
 		decode(id: string) {
 			return decode(id);
