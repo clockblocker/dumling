@@ -10,11 +10,6 @@ import {
 	MorphemeSubKind,
 	PhrasemeSubKind,
 } from "../../types/core/enums";
-import type {
-	AbstractLemmaSchemaTree,
-	AbstractSelectionSchemaTree,
-	AbstractSurfaceSchemaTree,
-} from "../internal-types";
 import {
 	buildInflectionSurfaceSchema,
 	buildLemmaSchema,
@@ -180,11 +175,11 @@ for (const [lemmaKind, subKinds] of [
 	}
 }
 
-export const abstractLemmaSchema = abstractLemmaTree as AbstractLemmaSchemaTree;
+export const abstractLemmaSchema = abstractLemmaTree;
 export const abstractSurfaceSchema = {
 	lemma: abstractLemmaSurfaceTree,
 	inflection: abstractInflectionSurfaceTree,
-} as AbstractSurfaceSchemaTree;
+};
 export const abstractSelectionSchema = {
 	standard: {
 		lemma: abstractStandardLemmaSelectionTree,
@@ -194,7 +189,7 @@ export const abstractSelectionSchema = {
 		lemma: abstractTypoLemmaSelectionTree,
 		inflection: abstractTypoInflectionSelectionTree,
 	},
-} as AbstractSelectionSchemaTree;
+};
 
 export const abstractRuntimeSchemas = {
 	lemma: buildUnionSchema(

@@ -1,6 +1,6 @@
 import type { z } from "zod/v3";
 import { z as zod } from "zod/v3";
-import { abstractRuntimeSchemas } from "../schemas/abstract/registry";
+import { abstractRuntimeSchemas } from "./abstract/registry";
 import {
 	AbstractLanguageTag,
 	LemmaKind,

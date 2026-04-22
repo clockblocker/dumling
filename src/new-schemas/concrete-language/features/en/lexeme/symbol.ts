@@ -1,9 +1,9 @@
 import { z } from "zod/v3";
-import { abstractFeatureAtomSchemas } from "../../../../../schemas/abstract/feature-schemas";
+import { abstractFeatureAtomSchemas } from "../../../../abstract/feature-schemas";
 import {
 	buildOptionalFeatureObjectSchema,
 	requireNonEmptyFeatureObject,
-} from "../../../../../schemas/shared/feature-helpers";
+} from "../../../../shared/feature-helpers";
 import type { EnSymbolFeatures } from "../../../../../types/concrete-language/features/en/lexeme/symbol";
 
 export const enSymbolFeaturesSchema = z

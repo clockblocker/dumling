@@ -1,44 +1,31 @@
 import { z } from "zod/v3";
-import {
-	deAdjectiveLemmaSchema,
-	deAdjectiveSchemas,
-} from "../../src/schemas/language-packs/de/lexeme/pos/de-adjective";
-import { deAdpositionInherentFeaturesSchema } from "../../src/schemas/language-packs/de/lexeme/pos/de-adposition";
-import {
-	deAdpositionLemmaSchema,
-	deAdpositionSchemas,
-} from "../../src/schemas/language-packs/de/lexeme/pos/de-adposition";
-import { buildDeInflectableLexemeSchemaBundle } from "../../src/schemas/language-packs/de/lexeme/shared/build-de-lexeme-schema-bundle";
-import type { Lemma } from "../../src/types/public-types";
+import { schemasFor } from "../../src/schema";
 import type {
-	DeInflectableLexemeSchemaBundleFor,
-	DeUninflectableLexemeSchemaBundleFor,
-} from "../../src/schemas/language-packs/de/lexeme/shared/build-de-lexeme-schema-bundle";
+	Lemma,
+	Selection,
+	Surface,
+} from "../../src/types/public-types";
 
-deAdjectiveLemmaSchema satisfies z.ZodType<Lemma<"de", "Lexeme", "ADJ">>;
-deAdjectiveSchemas satisfies DeInflectableLexemeSchemaBundleFor<"ADJ">;
-deAdpositionSchemas satisfies DeUninflectableLexemeSchemaBundleFor<"ADP">;
+const adjectiveLemma = schemasFor.de.entity.Lemma.Lexeme.ADJ();
+const adpositionLemma = schemasFor.de.entity.Lemma.Lexeme.ADP();
 
-// @ts-expect-error ADP is not an inflectable lexeme subkind
-buildDeInflectableLexemeSchemaBundle<"ADP">({
-	languageSchema: z.literal("de"),
-	lemmaSchema: deAdpositionLemmaSchema,
-	inflectionalFeaturesSchema: deAdpositionInherentFeaturesSchema,
-});
+adjectiveLemma satisfies z.ZodType<Lemma<"de", "Lexeme", "ADJ">>;
+adpositionLemma satisfies z.ZodType<Lemma<"de", "Lexeme", "ADP">>;
 
-// @ts-expect-error PUNCT is not an inflectable lexeme subkind
-buildDeInflectableLexemeSchemaBundle<"PUNCT">({
-	languageSchema: z.literal("de"),
-	lemmaSchema: deAdpositionLemmaSchema,
-	inflectionalFeaturesSchema: deAdpositionInherentFeaturesSchema,
-});
+schemasFor.de.entity.Surface.Lemma.Lexeme.ADP() satisfies z.ZodType<
+	Surface<"de", "Lemma", "Lexeme", "ADP">
+>;
 
-// @ts-expect-error uninflectable bundles do not expose inflection surfaces
-deAdpositionSchemas.surface.inflection;
+schemasFor.de.entity.Selection.Typo.Lemma.Lexeme.ADP() satisfies z.ZodType<
+	Selection<"de", "Typo", "Lemma", "Lexeme", "ADP">
+>;
 
-buildDeInflectableLexemeSchemaBundle<"ADJ">({
-	languageSchema: z.literal("de"),
-	lemmaSchema: deAdjectiveLemmaSchema,
-	// @ts-expect-error adjective inflection features must not use adposition inherent features
-	inflectionalFeaturesSchema: deAdpositionInherentFeaturesSchema,
-});
+schemasFor.de.entity.Surface.Inflection.Lexeme.ADJ() satisfies z.ZodType<
+	Surface<"de", "Inflection", "Lexeme", "ADJ">
+>;
+
+// @ts-expect-error uninflectable lexemes do not expose inflection surfaces.
+schemasFor.de.entity.Surface.Inflection.Lexeme.ADP();
+
+// @ts-expect-error adjective schemas cannot be treated as adposition schemas.
+adjectiveLemma satisfies z.ZodType<Lemma<"de", "Lexeme", "ADP">>;

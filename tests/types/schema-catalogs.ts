@@ -1,100 +1,31 @@
-import {
-	defineSchemaCatalog,
-	type SchemaCatalogBundle,
-	type SchemaCatalogDefinition,
-} from "../../src/schemas/shared/schema-catalog";
-import type { FamilyLemmaBySubKind } from "../../src/types/concrete-language/family-types";
+import { z } from "zod/v3";
+import { getSchemaTreeFor, schemasFor } from "../../src/schema";
+import type {
+	Lemma,
+	Selection,
+	Surface,
+} from "../../src/types/public-types";
 
-declare const bundle: SchemaCatalogBundle;
-type PhrasemeCatalog = SchemaCatalogDefinition<
-	keyof FamilyLemmaBySubKind<"de", "Phraseme">
+schemasFor.de.entity.Lemma.Lexeme.ADJ() satisfies z.ZodType<
+	Lemma<"de", "Lexeme", "ADJ">
 >;
 
-const validCatalog = defineSchemaCatalog({
-	aphorism: {
-		key: "aphorism",
-		lemmaSubKind: "Aphorism",
-		hasInflection: false,
-		bundle,
-	},
-	discourseformula: {
-		key: "discourseformula",
-		lemmaSubKind: "DiscourseFormula",
-		hasInflection: false,
-		bundle,
-	},
-	idiom: {
-		key: "idiom",
-		lemmaSubKind: "Idiom",
-		hasInflection: false,
-		bundle,
-	},
-	proverb: {
-		key: "proverb",
-		lemmaSubKind: "Proverb",
-		hasInflection: false,
-		bundle,
-	},
-} satisfies PhrasemeCatalog);
+schemasFor.de.entity.Surface.Inflection.Lexeme.ADJ() satisfies z.ZodType<
+	Surface<"de", "Inflection", "Lexeme", "ADJ">
+>;
 
-void validCatalog;
+schemasFor.de.entity.Selection.Standard.Inflection.Lexeme.ADJ() satisfies z.ZodType<
+	Selection<"de", "Standard", "Inflection", "Lexeme", "ADJ">
+>;
 
-// @ts-expect-error missing required entry
-const missingEntryCatalog: PhrasemeCatalog = {
-	aphorism: {
-		key: "aphorism",
-		lemmaSubKind: "Aphorism",
-		hasInflection: false,
-		bundle,
-	},
-	discourseformula: {
-		key: "discourseformula",
-		lemmaSubKind: "DiscourseFormula",
-		hasInflection: false,
-		bundle,
-	},
-	idiom: {
-		key: "idiom",
-		lemmaSubKind: "Idiom",
-		hasInflection: false,
-		bundle,
-	},
-};
+getSchemaTreeFor("en").descriptor.Lemma.Lexeme.NOUN satisfies z.ZodType<{
+	language: "en";
+	lemmaKind: "Lexeme";
+	lemmaSubKind: "NOUN";
+}>;
 
-void missingEntryCatalog;
+// @ts-expect-error ADP has no inflection surface schema in German.
+schemasFor.de.entity.Surface.Inflection.Lexeme.ADP;
 
-const unknownEntryCatalog: PhrasemeCatalog = {
-	aphorism: {
-		key: "aphorism",
-		lemmaSubKind: "Aphorism",
-		hasInflection: false,
-		bundle,
-	},
-	discourseformula: {
-		key: "discourseformula",
-		lemmaSubKind: "DiscourseFormula",
-		hasInflection: false,
-		bundle,
-	},
-	idiom: {
-		key: "idiom",
-		lemmaSubKind: "Idiom",
-		hasInflection: false,
-		bundle,
-	},
-	proverb: {
-		key: "proverb",
-		lemmaSubKind: "Proverb",
-		hasInflection: false,
-		bundle,
-	},
-	// @ts-expect-error unknown entry key
-	saying: {
-		key: "saying",
-		lemmaSubKind: "Proverb",
-		hasInflection: false,
-		bundle,
-	},
-};
-
-void unknownEntryCatalog;
+// @ts-expect-error schema trees only expose concrete lemma subkinds.
+schemasFor.de.entity.Lemma.Lexeme.FOO;

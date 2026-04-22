@@ -1,5 +1,5 @@
 import { z } from "zod/v3";
-import { buildOptionalFeatureObjectSchema } from "../../../../../schemas/shared/feature-helpers";
+import { buildOptionalFeatureObjectSchema } from "../../../../shared/feature-helpers";
 import type { DeInterfixMorphemeFeatures } from "../../../../../types/concrete-language/features/de/morpheme/interfix";
 
 export const deInterfixMorphemeFeaturesSchema = z

@@ -1,5 +1,5 @@
 import { z } from "zod/v3";
-import { buildOptionalFeatureObjectSchema } from "../../../../../schemas/shared/feature-helpers";
+import { buildOptionalFeatureObjectSchema } from "../../../../shared/feature-helpers";
 import type { EnDuplifixMorphemeFeatures } from "../../../../../types/concrete-language/features/en/morpheme/duplifix";
 
 export const enDuplifixMorphemeFeaturesSchema = z
