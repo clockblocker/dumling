@@ -30,6 +30,7 @@ import type {
 	SupportedLanguage,
 	SurfaceKind,
 } from "./core/enums";
+import type { PrettifyDeep } from "./core/helpers";
 
 export type Language = SupportedLanguage;
 export type EntityKind = "Lemma" | "Surface" | "Selection";
@@ -62,6 +63,7 @@ export type DumlingId<
 		readonly language: L;
 	};
 };
+
 export type DumlingIdInspection = {
 	kind: EntityKind;
 	language: SupportedLanguage;
@@ -172,32 +174,40 @@ export type Selection<
 
 export type FeatureSetKind = "inherent" | "inflectional";
 
+type PrettifyFeatureSet<T> = T extends object
+	? {
+			[K in keyof T as K extends string ? `${K}` : K]: PrettifyDeep<T[K]>;
+		} & {}
+	: never;
+
 export type FeatureSet<
 	L extends SupportedLanguage,
 	K extends FeatureSetKind,
 	LK extends LemmaKindFor<L>,
 	LSK extends LemmaSubKindFor<L, LK>,
-> = L extends ConcreteLanguage
-	? LK extends keyof LanguagePackFeatureRegistry[L]
-		? LSK extends keyof LanguagePackFeatureRegistry[L][LK]
-			? LanguagePackFeatureRegistry[L][LK][LSK] extends infer TFeatureDefinition extends
-					{
-						inflectional: Record<string, unknown>;
-						inherent: Record<string, unknown>;
-					}
-				? TFeatureDefinition[K]
+> = PrettifyFeatureSet<
+	L extends ConcreteLanguage
+		? LK extends keyof LanguagePackFeatureRegistry[L]
+			? LSK extends keyof LanguagePackFeatureRegistry[L][LK]
+				? LanguagePackFeatureRegistry[L][LK][LSK] extends infer TFeatureDefinition extends
+						{
+							inflectional: Record<string, unknown>;
+							inherent: Record<string, unknown>;
+						}
+					? TFeatureDefinition[K]
+					: never
 				: never
 			: never
-		: never
-	: K extends "inherent"
-		? AbstractInherentFeaturesFor<
-				LK & LemmaKind,
-				LSK & AbstractLemmaSubKindFor<LK & LemmaKind>
-			>
-		: AbstractInflectionalFeaturesFor<
-				LK & LemmaKind,
-				LSK & AbstractLemmaSubKindFor<LK & LemmaKind>
-			>;
+		: K extends "inherent"
+			? AbstractInherentFeaturesFor<
+					LK & LemmaKind,
+					LSK & AbstractLemmaSubKindFor<LK & LemmaKind>
+				>
+			: AbstractInflectionalFeaturesFor<
+					LK & LemmaKind,
+					LSK & AbstractLemmaSubKindFor<LK & LemmaKind>
+				>
+>;
 
 export type InherentFeaturesFor<
 	L extends SupportedLanguage,
