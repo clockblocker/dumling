@@ -1,14 +1,72 @@
 ---
 title: dumling docs
-description: Human-readable and agent-friendly documentation for dumling.
+description: A learner-facing lexical classification framework.
 order: 0
 ---
 
 # dumling
 
-`dumling` is a TypeScript and Zod package for learner-facing linguistic annotation centered on hydrated `lemma`, `surface`, and `selection` DTOs.
+**dumling** is a UD-inspired, learner-facing, meaning-focused lexical classification framework.
 
-Use it when an app needs stable, validated objects for dictionary lemmas, observed word forms, learner highlights, and IDs that can round-trip through storage or model workflows.
+It provides a language-independent structure for answering questions like this:
+
+---
+
+Teacher, what is **give** in:
+
+- *"See," he explained to Aunt Petunia through a mouthful of nails, "if they can't deliver them they'll just **give** up."?*
+
+---
+
+For a learner, the useful answer is not only that **give** is a verb token.
+
+**give** is:
+
+- a `Partial` **Selection** of the normalized full
+- **Surface** *give up*, which points to the
+- **Lemma** *give up*: a phrasal English `VERB`
+
+That is the core job of dumling: keep the learner's highlighted text connected to the full lexical item that carries the meaning.
+
+## Why It Exists
+
+Classical linguistic segmenters are usually built around tokens and grammar. That is useful, but it is too granular for many learner-facing explanations.
+
+In a UD-style analysis, *give up* is split into parts: **give** is the verbal head, and **up** is a particle attached to it. Dumling can still borrow that POS vocabulary, but it also gives applications a way to treat *give up* as one lexical unit when that is the meaning-bearing unit the learner needs.
+
+This also matters for phrasemes:
+
+- *During my **walk** in a park, I saw a squirrel.*
+
+  Here dumdict classifies it as a full selection of the noun lexeme *walk*.
+
+- *This exam was a **walk** in the park.*
+
+  Here dumdict classifies it as a partial selection of the idiomatic phraseme *walk in the park*.
+
+The spelling on the page is not forced to be the whole lexical object. A small learner highlight can still point to the larger surface and lemma that explain the meaning.
+
+## What It Focuses On
+
+Dumling focuses on lexical classification for learning tools:
+
+- **Lemma**: the lexical item behind the expression, such as *walk*, *give up*, or *walk in the park*
+- **Surface**: the normalized full form in context, such as *gave up*
+- **Selection**: the exact text the learner highlighted, such as **give**, **up**, or **walk**
+- lexical kind: `Lexeme`, `Morpheme`, or `Phraseme`
+- learner-relevant coverage: whether a selection is `Full` or `Partial`
+- learner-relevant spelling: whether a selection is standard, variant, or typo-shaped
+- language-specific lexical inventories built on a shared cross-language model
+
+The framework is implemented as a TypeScript and Zod package so apps can validate, serialize, search, and round-trip these objects through IDs.
+
+## What It Omits
+
+Dumling intentionally does not try to be a full grammar model.
+
+It does not model syntactic dependency relations, phrase structure, or sentence-level grammar. It does not replace UD treebanks, parsers, or tokenizers. It also does not try to explain every grammatical relation between words in a sentence.
+
+The scope is narrower: identify the meaning-bearing lexical unit behind a learner's selection, and describe that unit in a stable, language-aware shape.
 
 ## Start Here
 
@@ -18,20 +76,6 @@ Use it when an app needs stable, validated objects for dictionary lemmas, observ
 - [English](./lang/en/), [German](./lang/de/), and [Hebrew](./lang/he/) summarize the implemented language packs.
 
 Every docs route is built as static HTML and also emitted as a sibling Markdown file. For example, this page is available as `/index.html` and `/index.md`.
-
-## Package Entrypoints
-
-| Import path | Purpose |
-| --- | --- |
-| `dumling` | Runtime workflow API: `dumling.<language>`, `getLanguageApi`, `supportedLanguages`, and `inspectId` |
-| `dumling/types` | Public DTO types, feature helpers, descriptors, and API result types |
-| `dumling/schema` | Concrete Zod schema registries and abstract schema helpers |
-
-## Quickstart
-
-Build a German noun lemma, derive a surface and selection, validate it, and round-trip it through an ID:
-
-<!-- DOC_BLOCK:quickstart-de -->
 
 ## Runtime Scope
 

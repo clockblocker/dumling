@@ -61,6 +61,15 @@ const { currentHref, description, navItems, title } = Astro.props;
 		text-underline-offset: 0.18em;
 	}
 
+	strong {
+		font-weight: 700;
+	}
+
+	em {
+		color: #34312d;
+		font-style: italic;
+	}
+
 	.site-header {
 		align-items: center;
 		border-bottom: 1px solid #ddd8cf;
@@ -118,10 +127,12 @@ const { currentHref, description, navItems, title } = Astro.props;
 	}
 
 	code {
-		background: #ece7de;
-		border-radius: 4px;
-		font-size: 0.95em;
-		padding: 0.08rem 0.25rem;
+		background: #f0ede7;
+		border: 1px solid #ded8cf;
+		border-radius: 3px;
+		color: #2d2a25;
+		font-size: 0.9em;
+		padding: 0.03rem 0.22rem;
 	}
 
 	pre {
@@ -133,8 +144,25 @@ const { currentHref, description, navItems, title } = Astro.props;
 	}
 
 	pre code {
+		border: 0;
 		background: transparent;
+		color: inherit;
 		padding: 0;
+	}
+
+	blockquote {
+		border-left: 3px solid #c8bfae;
+		color: #34312d;
+		margin: 1.25rem 0;
+		padding: 0.15rem 0 0.15rem 1rem;
+	}
+
+	blockquote p {
+		margin: 0;
+	}
+
+	li {
+		margin: 0.35rem 0;
 	}
 
 	table {
