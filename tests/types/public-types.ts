@@ -7,6 +7,7 @@ import {
 } from "../../src/schema";
 import type {
 	AbstractLemma,
+	ApiResult,
 	Descriptor,
 	DumlingBase64Url,
 	DumlingCsv,
@@ -16,9 +17,12 @@ import type {
 	FeatureName,
 	FeatureSetKind,
 	FeatureValue,
+	IdDecodeError,
+	IdDecodeSuccess,
 	Lemma,
 	LemmaKindFor,
 	LemmaSubKindFor,
+	ParseError,
 	Selection,
 	SelectionOptionsFor,
 	SupportedLanguage,
@@ -169,12 +173,19 @@ const typoOptions: SelectionOptionsFor<"Typo"> = {
 	spelledSelection: "Sse",
 };
 const decodedSelectionSurface = dumling.de.id.decode.asSurface(selectionId);
+decodedSelectionSurface satisfies ApiResult<
+	Extract<IdDecodeSuccess<"de">, { kind: "Surface" }>,
+	IdDecodeError
+>;
+declare const parseError: ParseError;
+void parseError;
 void entityValue;
 void selectionForKind;
 void typoOptions;
 void unbrandedId;
 
 if (decodedSelectionSurface.success) {
+	decodedSelectionSurface.data satisfies IdDecodeSuccess<"de">;
 	decodedSelectionSurface.data.surface satisfies Surface<"de">;
 	// @ts-expect-error surface decode does not expose selection spelling metadata
 	decodedSelectionSurface.data.surface.spelledSelection;

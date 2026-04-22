@@ -45,7 +45,7 @@ The root runtime entrypoint also exposes:
 - Language-aware helper types: `LemmaKindFor`, `LemmaSubKindFor`, `SurfaceKindFor`, `LemmaKindForSurfaceKind`
 - Feature typing helpers: `FeatureSet`, `FeatureName`, `FeatureValue`, `InherentFeaturesFor`, `InflectionalFeaturesFor`
 - Descriptors and API shapes: `Descriptor`, `DumlingApi`, `LanguageApi`
-- Result and error types: `ApiResult`, `ParseError`, `IdDecodeError`
+- Result and error types: `ApiResult`, `ParseError`, `IdDecodeError`, `IdDecodeSuccess`
 
 ## Core idea
 

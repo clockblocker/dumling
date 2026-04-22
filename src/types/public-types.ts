@@ -267,7 +267,14 @@ export type {
 	AbstractLemmaSubKindFor,
 };
 
-export type { DumlingApi, LanguageApi } from "../operations/api-shape";
+export type {
+	ApiResult,
+	DumlingApi,
+	IdDecodeError,
+	IdDecodeSuccess,
+	LanguageApi,
+	ParseError,
+} from "../operations/api-shape";
 
 type PlaceholderLemma<
 	L extends SupportedLanguage,
