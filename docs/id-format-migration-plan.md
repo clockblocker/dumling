@@ -52,10 +52,10 @@ dumling.de.id.decode.asSurface(input);
 - Base64url should encode tiny CSV, not readable CSV. Use URL-safe characters and omit padding.
 - Public names should say `Base64Url`, not `Base64`.
 - Readable CSV remains the public human-readable ID representation.
-- Readable CSV decoding is strict canonical ID parsing, not a forgiving import format.
+- Readable CSV decoding is permissive for parser-normalized lemma and surface text. The encoder still emits canonical readable CSV.
 - Lemma and surface text are canonicalized through the existing language parser before encoding. For current language schemas, this includes NFC lowercasing for `canonicalLemma` and `normalizedFullSurface`.
 - Case preservation is not an ID concern. Observed casing belongs to `Selection.spelledSelection`; because selections encode as their linked surface, observed casing is intentionally dropped from IDs.
-- Row kind, language code, enum values, feature names, and feature values are case-sensitive.
+- Row kind, language code, enum values, feature names, and feature values are case-sensitive. Lemma and surface text fields are canonicalized by the language parser, so caller-provided text casing does not matter there.
 - `Selection` does not get its own ID shape. `id.encode.asCsv(selection)` and `id.encode.asBase64Url(selection)` are accepted for caller ergonomics, but they first convert the selection to its linked `Surface`.
 - IDs identify normalized linguistic entities, not learner-observed selections. Selection coverage, typo spelling, and spelling relation are intentionally not represented in IDs.
 - `id.decode.*` returns decode metadata plus the decoded `Lemma` or `Surface`.
@@ -164,15 +164,15 @@ Readable CSV should be compact but still inspectable. Feature sets should use `k
 
 Entity row shape is suffix-friendly: rows that contain a surface end with the exact lemma row for that surface's lemma. This makes chaining and suffix comparisons straightforward.
 
-Readable CSV is a strict canonical ID format. It is not a permissive import format.
+Readable CSV is a human-readable ID format. Encoder output is canonical, but decode accepts parser-normalizable lemma and surface text.
 
-Readable CSV decode separates parser acceptance from canonical ID acceptance:
+Readable CSV decode canonicalizes through the language parser:
 
 ```txt
-parse input CSV -> canonicalize through language parser -> re-encode -> byte-for-byte compare with input
+parse input CSV -> canonicalize through language parser -> return decoded entity
 ```
 
-If the parser accepts an input but re-encoding produces different bytes, reject the input as a non-canonical ID. For example, `Surface,Citation,See,...` is parseable language data, but it is not canonical readable CSV when the language parser normalizes the surface to `see`.
+For example, `Surface,Citation,See,...` is valid readable CSV input when the language parser normalizes the surface to `see`. If the caller re-encodes the decoded entity, `id.encode.asCsv(...)` emits the canonical lowercase form.
 
 Readable CSV uses RFC4180-style field escaping:
 
@@ -210,7 +210,6 @@ Strict canonical decode rejects:
 - duplicate feature values;
 - unsorted feature keys;
 - unsorted multi-values;
-- non-canonical casing in canonicalized text fields such as `See` when the parser normalizes to `see`;
 - non-canonical but semantically equivalent CSV quoting.
 
 The encoder must parse/canonicalize input entities before serialization, so schema-equivalent values produce one stable ID. For example, `{ case: ["Nom"] }` and `{ case: "Nom" }` encode identically after parsing.
@@ -363,7 +362,7 @@ Canonical row-kind fields are never quoted. No leading whitespace or BOM is allo
 
 Language mismatch is explicit. If a namespace-bound decoder receives a structurally valid ID for a different language, return `LanguageMismatch`, for both readable CSV and base64url inputs.
 
-`id.encode.asBase64Url(csv)` must validate that branded CSV is canonical and belongs to the namespace language before converting it to tiny CSV. Brands are compile-time hints, not runtime trust boundaries.
+`id.encode.asBase64Url(csv)` must parse, canonicalize, and validate that branded CSV belongs to the namespace language before converting it to tiny CSV. Brands are compile-time hints, not runtime trust boundaries. Base64url output always encodes canonical tiny CSV, even when the readable CSV input used non-canonical text casing.
 
 There is no direct API for converting arbitrary untrusted readable CSV strings to base64url. Callers must decode first, then re-encode the decoded ID-addressable entity:
 
@@ -414,7 +413,7 @@ ID decode error boundaries:
 | Recognized `v1` tiny CSV with bad field count or bad row structure | `InvalidPayload` |
 | Unknown tiny token in recognized `v1` payload | `InvalidPayload` |
 | Readable CSV has wrong field count or bad row structure | `InvalidPayload` |
-| Readable CSV is parseable but not byte-for-byte canonical after re-encode | `InvalidPayload` |
+| Readable CSV has valid structure but language parser rejects the entity | `InvalidPayload` |
 | Unsupported language code | `LanguageNotImplemented` |
 | Valid ID for a different namespace language | `LanguageMismatch` |
 | `asLemma` receives a surface, or `asSurface` receives a lemma | `EntityMismatch` |
@@ -449,9 +448,9 @@ TDD-focused checks:
 15. Add tests proving typo spelling, spelling relation, and selection coverage do not affect encoded IDs.
 16. Add tests proving malformed readable CSV does not fall through to base64url decoding.
 17. Add tests proving language mismatch is reported for readable CSV and base64url.
-18. Add tests proving non-canonical readable CSV is rejected.
+18. Add tests proving readable CSV accepts parser-normalizable lemma/surface text casing.
 19. Add tests proving one-item arrays and scalar feature values encode identically after canonicalization.
-20. Add tests proving canonical readable CSV uses parser-normalized lowercase lemma/surface text.
+20. Add tests proving encoded readable CSV and base64url use parser-normalized lowercase lemma/surface text.
 21. Add tests for the decode error taxonomy table.
 22. Remove `DumlingId` and `DumlingIdInspection` from public type exports and update package hygiene assertions.
 23. Update internal API tests.
