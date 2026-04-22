@@ -73,24 +73,24 @@ function buildLeafSchemas<
 		lemmaKind,
 		lemmaSubKind,
 		inherentFeaturesSchema: featuresSchema.shape.inherent,
-	}) as z.ZodTypeAny;
+	});
 
 	const lemmaSurfaceSchema = buildLemmaSurfaceSchema({
 		languageSchema,
 		lemmaSchema,
-	}) as z.ZodTypeAny;
+	});
 
 	const standardLemmaSelectionSchema = buildSelectionSchema({
 		languageSchema,
 		orthographicStatus: "Standard",
 		surfaceSchema: lemmaSurfaceSchema,
-	}) as z.ZodTypeAny;
+	});
 
 	const typoLemmaSelectionSchema = buildSelectionSchema({
 		languageSchema,
 		orthographicStatus: "Typo",
 		surfaceSchema: lemmaSurfaceSchema,
-	}) as z.ZodTypeAny;
+	});
 
 	const leaf = {
 		lemma: lemmaSchema,
@@ -109,19 +109,19 @@ function buildLeafSchemas<
 		languageSchema,
 		lemmaSchema,
 		inflectionalFeaturesSchema: featuresSchema.shape.inflectional,
-	}) as z.ZodTypeAny;
+	});
 
 	const standardInflectionSelectionSchema = buildSelectionSchema({
 		languageSchema,
 		orthographicStatus: "Standard",
 		surfaceSchema: inflectionSurfaceSchema,
-	}) as z.ZodTypeAny;
+	});
 
 	const typoInflectionSelectionSchema = buildSelectionSchema({
 		languageSchema,
 		orthographicStatus: "Typo",
 		surfaceSchema: inflectionSurfaceSchema,
-	}) as z.ZodTypeAny;
+	});
 
 	return {
 		...leaf,

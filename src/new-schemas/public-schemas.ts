@@ -1,39 +1,39 @@
-import type { z } from "zod/v3";
-import type { Descriptor } from "../types/descriptor";
+import type { ConcreteLanguage } from "../types/concrete-language/features/feature-registry";
 import { deSubtree } from "./concrete-language/features/de/de-subtree";
 import { enSubtree } from "./concrete-language/features/en/en-subtree";
 import { heSubtree } from "./concrete-language/features/he/he-subtree";
 import {
 	type NewDescriptorSchemaTree,
-	buildDescriptorSchema,
 	buildDescriptorSchemas,
 } from "./descriptor-schemas";
-import type { NewSchemaTree } from "./shared/schema-helper-types";
+import type { NewSchemaTree as NewEntitySchemaTree } from "./shared/schema-helper-types";
 
-export type NewPublicSchemaTree = NewSchemaTree & {
-	descriptor: z.ZodType<Descriptor>;
-	descriptors: NewDescriptorSchemaTree;
+export type NewSchemaTree = {
+	[L in ConcreteLanguage]: {
+		descriptor: NewDescriptorSchemaTree[L];
+		entity: NewEntitySchemaTree[L];
+	};
 };
 
-const languageSchemas = {
+const entitySchemas = {
 	de: deSubtree,
 	en: enSubtree,
 	he: heSubtree,
-} satisfies NewSchemaTree;
+} satisfies NewEntitySchemaTree;
 
-export const descriptorSchemas = buildDescriptorSchemas(languageSchemas);
-export const descriptorSchema = buildDescriptorSchema(descriptorSchemas);
+export const descriptorSchemas = buildDescriptorSchemas(entitySchemas);
 
 export const newSchema = {
-	...languageSchemas,
-	descriptor: descriptorSchema,
-	descriptors: descriptorSchemas,
-} satisfies NewPublicSchemaTree;
-
-
-newSchema = {
 	de: {
-		descriptor: descriptorSchemas
-		entity: deSubtree
-	}
-}
+		descriptor: descriptorSchemas.de,
+		entity: entitySchemas.de,
+	},
+	en: {
+		descriptor: descriptorSchemas.en,
+		entity: entitySchemas.en,
+	},
+	he: {
+		descriptor: descriptorSchemas.he,
+		entity: entitySchemas.he,
+	},
+} satisfies NewSchemaTree;

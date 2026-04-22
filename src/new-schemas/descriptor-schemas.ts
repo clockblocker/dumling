@@ -9,7 +9,6 @@ import type {
 	OrthographicStatus,
 	SurfaceKindFor,
 } from "../types/public-types";
-import { buildUnionSchema } from "./shared/builders";
 import type {
 	LemmaSubKindForSurfaceKind,
 	NewSchemaTree,
@@ -78,8 +77,6 @@ type IterableLanguageSchemaTree = {
 		Record<string, Record<string, Record<string, unknown>>>
 	>;
 };
-
-type SchemaTuple = readonly [z.ZodTypeAny, ...z.ZodTypeAny[]];
 
 function ensureFamily<TValue>(
 	tree: Record<string, Record<string, TValue>>,
@@ -263,29 +260,6 @@ function buildLanguageDescriptorSchemas<const L extends ConcreteLanguage>(
 	return descriptorTree as unknown as NewLanguageDescriptorSchemaTree<L>;
 }
 
-function collectLeafSchemas(value: unknown, schemas: z.ZodTypeAny[]): void {
-	if (value instanceof zod.ZodType) {
-		schemas.push(value);
-		return;
-	}
-
-	if (!value || typeof value !== "object") {
-		return;
-	}
-
-	for (const child of Object.values(value)) {
-		collectLeafSchemas(child, schemas);
-	}
-}
-
-function asSchemaTuple(schemas: z.ZodTypeAny[]): SchemaTuple {
-	if (schemas.length === 0) {
-		throw new Error("Expected at least one descriptor schema");
-	}
-
-	return schemas as unknown as SchemaTuple;
-}
-
 export function buildDescriptorSchemas(
 	schemaTree: NewSchemaTree,
 ): NewDescriptorSchemaTree {
@@ -298,12 +272,4 @@ export function buildDescriptorSchemas(
 			),
 		]),
 	) as NewDescriptorSchemaTree;
-}
-
-export function buildDescriptorSchema(
-	descriptorSchemas: NewDescriptorSchemaTree,
-): z.ZodType<Descriptor> {
-	const schemas: z.ZodTypeAny[] = [];
-	collectLeafSchemas(descriptorSchemas, schemas);
-	return buildUnionSchema(asSchemaTuple(schemas)) as z.ZodType<Descriptor>;
 }
