@@ -23,10 +23,10 @@ The public `dumling/schema` entrypoint should expose:
 
 ```ts
 export const schemas: {
-	[L in ConcreteLanguage]: NewLanguageSchemaTree<L>;
+	[L in SupportedLanguage]: NewLanguageSchemaTree<L>;
 };
 
-export function getSchemaTreeFor<const L extends ConcreteLanguage>(
+export function getSchemaTreeFor<const L extends SupportedLanguage>(
 	language: L,
 ): NewLanguageSchemaTree<L>;
 ```
@@ -34,8 +34,23 @@ export function getSchemaTreeFor<const L extends ConcreteLanguage>(
 `schemas` is the canonical registry. `getSchemaTreeFor` is a typed dynamic
 accessor over that registry.
 
+The public type language should be `SupportedLanguage` from `dumling/types`.
+Do not expose internal `ConcreteLanguage` unless a future API needs a semantic
+distinction between "supported by the package" and "implemented by concrete
+feature registries".
+
 Do not expose per-language top-level exports such as `deSchema`, `enSchema`,
 or `heSchema` in the first version of this API.
+
+This is a breaking replacement for the old `dumling/schema` surface. The old
+shape exposed `schema.de.selection.standard...`; the new shape exposes named
+exports and descriptor-cased paths:
+
+```ts
+schemas.de.entity.Selection.Standard.Lemma.Lexeme.NOUN();
+```
+
+No cross-compatibility layer is required for this greenfield plan.
 
 ## Public Tree Shape
 
@@ -82,8 +97,8 @@ designed and accepted.
 - Literal language arguments should preserve narrow return types.
 - Union language arguments may return a union language tree.
 - The public API should not expose the old `runtimeSchemas` concept.
-- Broad parse unions should live near parse or language-pack internals, not in
-  `dumling/schema`.
+- Broad parse unions, if still needed, are private derived implementation
+  details. They must not be exported from `dumling/schema`.
 
 ## Implementation Steps
 
@@ -97,54 +112,92 @@ Expected type concepts:
 ```ts
 export type NewSchemaGetter<T> = () => z.ZodType<T>;
 
-export type NewLanguageEntitySchemaTree<L extends ConcreteLanguage> = {
+export type NewLanguageEntitySchemaTree<L extends SupportedLanguage> = {
 	Lemma: ...;
 	Surface: ...;
 	Selection: ...;
 };
 
-export type NewLanguageSchemaTree<L extends ConcreteLanguage> = {
+export type NewLanguageSchemaTree<L extends SupportedLanguage> = {
 	entity: NewLanguageEntitySchemaTree<L>;
 };
 
 export type NewSchemaRegistry = {
-	[L in ConcreteLanguage]: NewLanguageSchemaTree<L>;
+	[L in SupportedLanguage]: NewLanguageSchemaTree<L>;
 };
 ```
 
 Prefer names that describe the public contract. Avoid carrying forward names
 that only make sense in the old `src/schemas` implementation.
 
-### 2. Wrap Existing Language Subtrees Under `entity`
+### 2. Adapt Existing Language Subtrees
 
 The current `new-schemas` language subtrees already represent entity schemas.
-Wrap each one under `entity` when constructing the public registry:
+They do not yet match the target public API directly.
+
+Current internal subtrees use lowercase entity-kind keys and raw Zod leaves:
 
 ```ts
+deSubtree.selection.Standard.Lemma.Lexeme.NOUN
+```
+
+The public API requires descriptor-cased entity-kind keys and callable leaf
+getters:
+
+```ts
+schemas.de.entity.Selection.Standard.Lemma.Lexeme.NOUN()
+```
+
+Implementation therefore needs an adapter or a builder change. Do not simply
+write `entity: deSubtree` unless `deSubtree` has already been changed to the
+public shape.
+
+An adapter approach should look conceptually like this:
+
+```ts
+const deEntitySchemas = adaptEntitySchemaTree(deSubtree);
+
 const deSchema = {
-	entity: deSubtree,
+	entity: deEntitySchemas,
 } satisfies NewLanguageSchemaTree<"de">;
 ```
 
-Repeat for `en` and `he`.
+The adapter must:
+
+- map `lemma` to `Lemma`, `surface` to `Surface`, and `selection` to
+  `Selection`
+- preserve descriptor-axis keys such as `Standard`, `Lemma`, `Lexeme`, and
+  `NOUN`
+- wrap raw Zod leaves as `NewSchemaGetter<T>`
+- keep language tree object identity stable
+- return the same schema object from repeated calls when wrapping an existing
+  raw Zod leaf
+- avoid rebuilding schema objects in the adapter unless rebuilding is
+  deliberately chosen and tested
 
 ### 3. Export The Registry
 
 Update `src/new-schemas/public-schemas.ts` to export the canonical registry:
 
 ```ts
-export const schemas = {
+export const schemas: NewSchemaRegistry = {
 	de: {
-		entity: deSubtree,
+		entity: adaptEntitySchemaTree(deSubtree),
 	},
 	en: {
-		entity: enSubtree,
+		entity: adaptEntitySchemaTree(enSubtree),
 	},
 	he: {
-		entity: heSubtree,
+		entity: adaptEntitySchemaTree(heSubtree),
 	},
-} satisfies NewSchemaRegistry;
+};
 ```
+
+Prefer an explicit `NewSchemaRegistry` export annotation unless the intentionally
+narrow inferred object type is needed for better autocomplete. If the
+implementation uses `satisfies NewSchemaRegistry` instead, inspect
+`dist/schema.d.ts` and confirm the emitted declaration is not excessively noisy
+or coupled to internal tree details.
 
 If descriptor schema construction still needs the raw entity subtree map, keep
 that as an internal constant:
@@ -157,12 +210,28 @@ const entitySchemasByLanguage = {
 } satisfies NewEntitySchemaRegistry;
 ```
 
-### 4. Add Dynamic Access
+### 4. Keep Descriptor Schemas Private For Now
+
+Current `new-schemas/public-schemas.ts` exports descriptor schema artifacts.
+The first public version of this API should not expose descriptor schemas.
+
+Descriptor schema construction may remain internal if other implementation code
+needs it, but `dumling/schema` should not export:
+
+```ts
+descriptorSchema
+descriptorSchemas
+newSchema
+```
+
+until descriptor use cases have their own accepted public design.
+
+### 5. Add Dynamic Access
 
 Add `getSchemaTreeFor` as a thin accessor:
 
 ```ts
-export function getSchemaTreeFor<const L extends ConcreteLanguage>(
+export function getSchemaTreeFor<const L extends SupportedLanguage>(
 	language: L,
 ): (typeof schemas)[L] {
 	return schemas[language];
@@ -170,10 +239,10 @@ export function getSchemaTreeFor<const L extends ConcreteLanguage>(
 ```
 
 This function should not perform validation by itself. It is typed for known
-`ConcreteLanguage` values. Consumers with untrusted strings should narrow them
+`SupportedLanguage` values. Consumers with untrusted strings should narrow them
 before calling it.
 
-### 5. Decide The Published Entrypoint
+### 6. Decide The Published Entrypoint
 
 Make `dumling/schema` export the new API:
 
@@ -189,7 +258,26 @@ and new shapes in one exported object. Keep any temporary compatibility layer
 explicitly separate and remove it before treating this as the greenfield public
 surface.
 
-### 6. Remove The Public Runtime-Schema Concept
+This is a hard public API break from:
+
+```ts
+import { schema } from "dumling/schema";
+
+schema.de.selection.standard.lemma.lexeme.noun();
+```
+
+to:
+
+```ts
+import { getSchemaTreeFor, schemas } from "dumling/schema";
+
+schemas.de.entity.Selection.Standard.Lemma.Lexeme.NOUN();
+getSchemaTreeFor(language).entity.Selection.Standard.Lemma.Lexeme.NOUN();
+```
+
+Tests and generated docs should be updated accordingly.
+
+### 7. Remove The Public Runtime-Schema Concept
 
 Do not reintroduce this public shape:
 
@@ -232,7 +320,13 @@ const deSelectionUnionSchema = buildUnionFromSchemaSubtree(
 That derived union is an optimization/detail, not a public concept and not a
 second source of truth.
 
-### 7. Update Documentation And Examples
+Scope this carefully during implementation. If parse operations still depend on
+old broad runtime unions, keep those internal unions temporarily for the PR that
+introduces the public schema API. Removing or replacing internal parse unions is
+a follow-up parse refactor unless the implementation task explicitly includes
+it.
+
+### 8. Update Documentation And Examples
 
 Update README generation examples and package docs to use:
 
@@ -255,7 +349,7 @@ leaf getter itself where a schema is expected:
 schemas.de.entity.Selection.Standard.Lemma.Lexeme.NOUN;
 ```
 
-### 8. Add Package Entrypoint Tests
+### 9. Add Package Entrypoint Tests
 
 Add or update package entrypoint tests to prove:
 
@@ -279,12 +373,22 @@ Type tests should verify:
 const deTree = getSchemaTreeFor("de");
 deTree satisfies NewLanguageSchemaTree<"de">;
 
-declare const language: ConcreteLanguage;
+declare const language: SupportedLanguage;
 const languageTree = getSchemaTreeFor(language);
-languageTree satisfies NewSchemaRegistry[ConcreteLanguage];
+languageTree satisfies NewSchemaRegistry[SupportedLanguage];
+
+getSchemaTreeFor(language).entity.Selection.Standard.Lemma.Lexeme.NOUN();
 ```
 
-### 9. Check Build Output
+The final line is important. It proves the documented dynamic access path
+actually compiles when callers have a `SupportedLanguage` union rather than a
+single literal language.
+
+If future supported languages diverge so much that `NOUN` is not common to all
+language trees, revisit the dynamic API or require narrowing before accessing
+language-specific leaves.
+
+### 10. Check Build Output
 
 Run the normal verification path after implementation:
 
@@ -304,20 +408,26 @@ does not leak internal old-schema types.
   at runtime.
 - `getSchemaTreeFor("de") === schemas.de`.
 - Literal language calls preserve language-specific types.
+- `getSchemaTreeFor(language).entity.Selection.Standard.Lemma.Lexeme.NOUN()`
+  compiles when `language` is typed as `SupportedLanguage`.
 - `dumling/schema` does not export `runtimeSchemas`.
 - `dumling/schema` does not export `deSchema`, `enSchema`, or `heSchema`.
+- `dumling/schema` does not export descriptor schema artifacts such as
+  `descriptorSchema`, `descriptorSchemas`, or `newSchema`.
+- The public tree uses descriptor-cased entity keys: `Lemma`, `Surface`, and
+  `Selection`, not lowercase `lemma`, `surface`, and `selection`.
 - Package entrypoint tests cover both static registry and dynamic accessor
   usage.
 - Documentation only presents the two accepted access patterns.
 - Documentation states that leaf calls return Zod schemas for use in validators,
   LLM response-schema callers, and other schema-consuming APIs.
 
-## Open Questions
+## Deferred Questions
 
-- Should `ConcreteLanguage` be exported from `dumling/schema`, or should
-  consumers import it from `dumling/types`?
-- Should descriptor schemas be public in the first version, or kept internal
-  until their consumer use cases are clearer?
+- Should descriptor schemas be public later? Keep them internal until their
+  consumer use cases are clearer.
+- Should internal parse operations eventually replace broad runtime unions with
+  derived unions or descriptor-selected leaf schemas from the public tree?
 
 The current recommendation is to keep language trees stable and to memoize leaf
 schemas where construction cost or identity matters. The public API should not
