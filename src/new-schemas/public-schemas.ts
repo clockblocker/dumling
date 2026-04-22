@@ -2,11 +2,12 @@ import type { SupportedLanguage } from "dumling/types";
 import { deSubtree } from "./concrete-language/features/de/de-subtree";
 import { enSubtree } from "./concrete-language/features/en/en-subtree";
 import { heSubtree } from "./concrete-language/features/he/he-subtree";
-import { adaptEntitySchemaTree } from "./shared/adapt-entity-schema-tree";
+import { buildDescriptorSchemas } from "./descriptor-schemas";
 import type {
 	NewRawEntitySchemaRegistry,
 	NewSchemaRegistry,
 } from "./shared/schema-helper-types";
+import { wrapEntitySchemaTree } from "./shared/wrap-entity-schema-tree";
 
 const entitySchemasByLanguage = {
 	de: deSubtree,
@@ -14,20 +15,27 @@ const entitySchemasByLanguage = {
 	he: heSubtree,
 } satisfies NewRawEntitySchemaRegistry;
 
-export const schemas: NewSchemaRegistry = {
+const descriptorSchemasByLanguage = buildDescriptorSchemas(
+	entitySchemasByLanguage,
+);
+
+export const schemasFor = {
 	de: {
-		entity: adaptEntitySchemaTree(entitySchemasByLanguage.de),
+		descriptor: descriptorSchemasByLanguage.de,
+		entity: wrapEntitySchemaTree(entitySchemasByLanguage.de),
 	},
 	en: {
-		entity: adaptEntitySchemaTree(entitySchemasByLanguage.en),
+		descriptor: descriptorSchemasByLanguage.en,
+		entity: wrapEntitySchemaTree(entitySchemasByLanguage.en),
 	},
 	he: {
-		entity: adaptEntitySchemaTree(entitySchemasByLanguage.he),
+		descriptor: descriptorSchemasByLanguage.he,
+		entity: wrapEntitySchemaTree(entitySchemasByLanguage.he),
 	},
-};
+} satisfies NewSchemaRegistry;
 
 export function getSchemaTreeFor<L extends SupportedLanguage>(
 	language: L,
 ): NewSchemaRegistry[L] {
-	return schemas[language];
+	return schemasFor[language];
 }

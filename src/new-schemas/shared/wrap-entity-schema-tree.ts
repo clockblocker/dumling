@@ -26,12 +26,8 @@ function wrapSchemaLeaves(value: unknown): unknown {
 	);
 }
 
-export function adaptEntitySchemaTree<L extends SupportedLanguage>(
+export function wrapEntitySchemaTree<L extends SupportedLanguage>(
 	tree: NewRawLanguageEntitySchemaTree<L>,
 ): NewLanguageEntitySchemaTree<L> {
-	return {
-		Lemma: wrapSchemaLeaves(tree.lemma),
-		Surface: wrapSchemaLeaves(tree.surface),
-		Selection: wrapSchemaLeaves(tree.selection),
-	} as NewLanguageEntitySchemaTree<L>;
+	return wrapSchemaLeaves(tree) as NewLanguageEntitySchemaTree<L>;
 }

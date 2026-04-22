@@ -11,68 +11,29 @@ import type {
 } from "../types/public-types";
 import type {
 	LemmaSubKindForSurfaceKind,
+	NewLanguageDescriptorSchemaTree,
 	NewRawEntitySchemaRegistry,
 } from "./shared/schema-helper-types";
 
 type DescriptorSchema<TDescriptor> = z.ZodType<TDescriptor>;
-
-export type NewLemmaDescriptorSchemaSubtree<L extends ConcreteLanguage> = {
-	[LK in LemmaKindFor<L>]: {
-		[LSK in LemmaSubKindFor<L, LK>]: DescriptorSchema<
-			Descriptor<"Lemma", L, LK, LSK>
-		>;
-	};
-};
-
-export type NewSurfaceDescriptorSchemaSubtree<L extends ConcreteLanguage> = {
-	[SK in SurfaceKindFor<L>]: {
-		[LK in LemmaKindForSurfaceKind<L, SK>]: {
-			[LSK in LemmaSubKindForSurfaceKind<L, SK, LK>]: DescriptorSchema<
-				Descriptor<"Surface", L, LK, LSK, SK>
-			>;
-		};
-	};
-};
-
-export type NewSelectionDescriptorSchemaSubtree<L extends ConcreteLanguage> = {
-	[OS in OrthographicStatus]: {
-		[SK in SurfaceKindFor<L>]: {
-			[LK in LemmaKindForSurfaceKind<L, SK>]: {
-				[LSK in LemmaSubKindForSurfaceKind<
-					L,
-					SK,
-					LK
-				>]: DescriptorSchema<
-					Descriptor<"Selection", L, LK, LSK, SK, OS>
-				>;
-			};
-		};
-	};
-};
-
-export type NewLanguageDescriptorSchemaTree<L extends ConcreteLanguage> = {
-	lemma: NewLemmaDescriptorSchemaSubtree<L>;
-	surface: NewSurfaceDescriptorSchemaSubtree<L>;
-	selection: NewSelectionDescriptorSchemaSubtree<L>;
-};
 
 export type NewDescriptorSchemaTree = {
 	[L in ConcreteLanguage]: NewLanguageDescriptorSchemaTree<L>;
 };
 
 type MutableLanguageDescriptorSchemaTree = {
-	lemma: Record<string, Record<string, z.ZodTypeAny>>;
-	surface: Record<string, Record<string, Record<string, z.ZodTypeAny>>>;
-	selection: Record<
+	Lemma: Record<string, Record<string, z.ZodTypeAny>>;
+	Surface: Record<string, Record<string, Record<string, z.ZodTypeAny>>>;
+	Selection: Record<
 		OrthographicStatus,
 		Record<string, Record<string, Record<string, z.ZodTypeAny>>>
 	>;
 };
 
 type IterableLanguageSchemaTree = {
-	lemma: Record<string, Record<string, unknown>>;
-	surface: Record<string, Record<string, Record<string, unknown>>>;
-	selection: Record<
+	Lemma: Record<string, Record<string, unknown>>;
+	Surface: Record<string, Record<string, Record<string, unknown>>>;
+	Selection: Record<
 		OrthographicStatus,
 		Record<string, Record<string, Record<string, unknown>>>
 	>;
@@ -156,12 +117,12 @@ function buildLanguageDescriptorSchemas<L extends ConcreteLanguage>(
 	schemaTree: IterableLanguageSchemaTree,
 ): NewLanguageDescriptorSchemaTree<L> {
 	const descriptorTree: MutableLanguageDescriptorSchemaTree = {
-		lemma: {},
-		surface: {
+		Lemma: {},
+		Surface: {
 			Lemma: {},
 			Inflection: {},
 		},
-		selection: {
+		Selection: {
 			Standard: {
 				Lemma: {},
 				Inflection: {},
@@ -175,9 +136,9 @@ function buildLanguageDescriptorSchemas<L extends ConcreteLanguage>(
 	const iterableSchemaTree = schemaTree;
 
 	for (const [lemmaKind, subKindSchemas] of Object.entries(
-		iterableSchemaTree.lemma,
+		iterableSchemaTree.Lemma,
 	)) {
-		const lemmaFamily = ensureFamily(descriptorTree.lemma, lemmaKind);
+		const lemmaFamily = ensureFamily(descriptorTree.Lemma, lemmaKind);
 
 		for (const lemmaSubKind of Object.keys(subKindSchemas)) {
 			lemmaFamily[lemmaSubKind] = buildLemmaDescriptorSchema(
@@ -189,10 +150,10 @@ function buildLanguageDescriptorSchemas<L extends ConcreteLanguage>(
 	}
 
 	for (const [surfaceKind, lemmaKindSchemas] of Object.entries(
-		iterableSchemaTree.surface,
+		iterableSchemaTree.Surface,
 	)) {
-		descriptorTree.surface[surfaceKind] ??= {};
-		const surfaceKindTree = descriptorTree.surface[surfaceKind];
+		descriptorTree.Surface[surfaceKind] ??= {};
+		const surfaceKindTree = descriptorTree.Surface[surfaceKind];
 
 		for (const [lemmaKind, subKindSchemas] of Object.entries(
 			lemmaKindSchemas,
@@ -215,17 +176,17 @@ function buildLanguageDescriptorSchemas<L extends ConcreteLanguage>(
 	}
 
 	for (const [orthographicStatus, surfaceKindSchemas] of Object.entries(
-		iterableSchemaTree.selection,
+		iterableSchemaTree.Selection,
 	) as [
 		OrthographicStatus,
-		IterableLanguageSchemaTree["selection"][OrthographicStatus],
+		IterableLanguageSchemaTree["Selection"][OrthographicStatus],
 	][]) {
 		for (const [surfaceKind, lemmaKindSchemas] of Object.entries(
 			surfaceKindSchemas,
 		)) {
-			descriptorTree.selection[orthographicStatus][surfaceKind] ??= {};
+			descriptorTree.Selection[orthographicStatus][surfaceKind] ??= {};
 			const surfaceKindTree =
-				descriptorTree.selection[orthographicStatus][surfaceKind];
+				descriptorTree.Selection[orthographicStatus][surfaceKind];
 
 			for (const [lemmaKind, subKindSchemas] of Object.entries(
 				lemmaKindSchemas,

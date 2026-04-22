@@ -1,4 +1,5 @@
+export { abstractSchemas } from "./new-schemas/abstract-schemas";
 export {
 	getSchemaTreeFor,
-	schemas,
+	schemasFor,
 } from "./new-schemas/public-schemas";

@@ -10,6 +10,7 @@ import type {
 	SurfaceKindFor,
 } from "dumling/types";
 import type { z } from "zod/v3";
+import type { Descriptor } from "../../types/descriptor";
 
 export type NewSchemaGetter<T> = () => z.ZodType<T>;
 
@@ -36,9 +37,9 @@ export type LemmaSubKindForSurfaceKind<
 	: never;
 
 export type NewRawLanguageEntitySchemaTree<L extends SupportedLanguage> = {
-	lemma: NewRawLemmaSchemaSubtree<L>;
-	surface: NewRawSurfaceSchemaSubtree<L>;
-	selection: NewRawSelectionSchemaSubtree<L>;
+	Lemma: NewRawLemmaSchemaSubtree<L>;
+	Surface: NewRawSurfaceSchemaSubtree<L>;
+	Selection: NewRawSelectionSchemaSubtree<L>;
 };
 
 export type NewRawEntitySchemaRegistry = {
@@ -46,6 +47,7 @@ export type NewRawEntitySchemaRegistry = {
 };
 
 export type NewLanguageSchemaTree<L extends SupportedLanguage> = {
+	descriptor: NewLanguageDescriptorSchemaTree<L>;
 	entity: NewLanguageEntitySchemaTree<L>;
 };
 
@@ -112,6 +114,48 @@ export type NewSelectionSchemaSubtree<L extends SupportedLanguage> = {
 			[LK in LemmaKindForSurfaceKind<L, SK>]: {
 				[LSK in LemmaSubKindForSurfaceKind<L, SK, LK>]: NewSchemaGetter<
 					Selection<L, OS, SK, LK, LSK>
+				>;
+			};
+		};
+	};
+};
+
+type DescriptorSchema<TDescriptor> = z.ZodType<TDescriptor>;
+
+export type NewLanguageDescriptorSchemaTree<L extends SupportedLanguage> = {
+	Lemma: NewLemmaDescriptorSchemaSubtree<L>;
+	Surface: NewSurfaceDescriptorSchemaSubtree<L>;
+	Selection: NewSelectionDescriptorSchemaSubtree<L>;
+};
+
+export type NewLemmaDescriptorSchemaSubtree<L extends SupportedLanguage> = {
+	[LK in LemmaKindFor<L>]: {
+		[LSK in LemmaSubKindFor<L, LK>]: DescriptorSchema<
+			Descriptor<"Lemma", L, LK, LSK>
+		>;
+	};
+};
+
+export type NewSurfaceDescriptorSchemaSubtree<L extends SupportedLanguage> = {
+	[SK in SurfaceKindFor<L>]: {
+		[LK in LemmaKindForSurfaceKind<L, SK>]: {
+			[LSK in LemmaSubKindForSurfaceKind<L, SK, LK>]: DescriptorSchema<
+				Descriptor<"Surface", L, LK, LSK, SK>
+			>;
+		};
+	};
+};
+
+export type NewSelectionDescriptorSchemaSubtree<L extends SupportedLanguage> = {
+	[OS in OrthographicStatus]: {
+		[SK in SurfaceKindFor<L>]: {
+			[LK in LemmaKindForSurfaceKind<L, SK>]: {
+				[LSK in LemmaSubKindForSurfaceKind<
+					L,
+					SK,
+					LK
+				>]: DescriptorSchema<
+					Descriptor<"Selection", L, LK, LSK, SK, OS>
 				>;
 			};
 		};

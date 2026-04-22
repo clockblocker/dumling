@@ -45,12 +45,12 @@ type LeafSchemas = {
 };
 
 type MutableSchemaTree = {
-	lemma: Record<string, Record<string, z.ZodTypeAny>>;
-	selection: Record<
+	Lemma: Record<string, Record<string, z.ZodTypeAny>>;
+	Selection: Record<
 		"Standard" | "Typo",
 		Record<string, Record<string, Record<string, z.ZodTypeAny>>>
 	>;
-	surface: Record<string, Record<string, Record<string, z.ZodTypeAny>>>;
+	Surface: Record<string, Record<string, Record<string, z.ZodTypeAny>>>;
 };
 
 function hasInflectionSurface(inflectionalFeaturesSchema: z.ZodTypeAny) {
@@ -146,12 +146,12 @@ export function buildLanguageSchema<L extends ConcreteLanguage>(
 	featureSchemas: NewFeatureSchemaTree<L>,
 ): NewRawLanguageEntitySchemaTree<L> {
 	const schemaTree = {
-		lemma: {},
-		surface: {
+		Lemma: {},
+		Surface: {
 			Lemma: {},
 			Inflection: {},
 		},
-		selection: {
+		Selection: {
 			Standard: {
 				Lemma: {},
 				Inflection: {},
@@ -176,17 +176,17 @@ export function buildLanguageSchema<L extends ConcreteLanguage>(
 			>
 		>,
 	][]) {
-		const lemmaFamily = ensureFamily(schemaTree.lemma, lemmaKind);
+		const lemmaFamily = ensureFamily(schemaTree.Lemma, lemmaKind);
 		const lemmaSurfaceFamily = ensureFamily(
-			schemaTree.surface.Lemma,
+			schemaTree.Surface.Lemma,
 			lemmaKind,
 		);
 		const standardLemmaSelectionFamily = ensureFamily(
-			schemaTree.selection.Standard.Lemma,
+			schemaTree.Selection.Standard.Lemma,
 			lemmaKind,
 		);
 		const typoLemmaSelectionFamily = ensureFamily(
-			schemaTree.selection.Typo.Lemma,
+			schemaTree.Selection.Typo.Lemma,
 			lemmaKind,
 		);
 
@@ -218,15 +218,15 @@ export function buildLanguageSchema<L extends ConcreteLanguage>(
 			}
 
 			const inflectionSurfaceFamily = ensureFamily(
-				schemaTree.surface.Inflection,
+				schemaTree.Surface.Inflection,
 				lemmaKind,
 			);
 			const standardInflectionSelectionFamily = ensureFamily(
-				schemaTree.selection.Standard.Inflection,
+				schemaTree.Selection.Standard.Inflection,
 				lemmaKind,
 			);
 			const typoInflectionSelectionFamily = ensureFamily(
-				schemaTree.selection.Typo.Inflection,
+				schemaTree.Selection.Typo.Inflection,
 				lemmaKind,
 			);
 

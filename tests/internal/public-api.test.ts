@@ -6,7 +6,11 @@ import {
 	inspectId,
 	supportedLanguages,
 } from "../../src";
-import { getSchemaTreeFor, schemas } from "../../src/schema";
+import {
+	abstractSchemas,
+	getSchemaTreeFor,
+	schemasFor,
+} from "../../src/schema";
 
 describe("public API usage", () => {
 	it("exposes the curated root runtime surface", () => {
@@ -71,19 +75,60 @@ describe("public API usage", () => {
 
 	it("keeps schemas available from the dedicated schema entrypoint", () => {
 		const nounSelectionSchema =
-			schemas.de.entity.Selection.Standard.Lemma.Lexeme.NOUN();
+			schemasFor.de.entity.Selection.Standard.Lemma.Lexeme.NOUN();
+		const nounDescriptorSchema = schemasFor.de.descriptor.Lemma.Lexeme.NOUN;
 
 		expect(
-			typeof schemas.de.entity.Selection.Standard.Inflection.Lexeme.VERB()
+			typeof schemasFor.de.entity.Selection.Standard.Inflection.Lexeme.VERB()
 				.parse,
 		).toBe("function");
+		expect(typeof nounDescriptorSchema.parse).toBe("function");
 		expect(typeof nounSelectionSchema.parse).toBe("function");
-		expect(typeof schemas.he.entity.Lemma.Lexeme.VERB().parse).toBe(
+		expect(typeof schemasFor.he.entity.Lemma.Lexeme.VERB().parse).toBe(
 			"function",
 		);
-		expect(getSchemaTreeFor("de")).toBe(schemas.de);
-		expect(schemas.de.entity.Selection.Standard.Lemma.Lexeme.NOUN()).toBe(
-			nounSelectionSchema,
-		);
+		expect(getSchemaTreeFor("de")).toBe(schemasFor.de);
+		expect(
+			schemasFor.de.entity.Selection.Standard.Lemma.Lexeme.NOUN(),
+		).toBe(nounSelectionSchema);
+		expect(
+			nounDescriptorSchema.safeParse({
+				language: "de",
+				lemmaKind: "Lexeme",
+				lemmaSubKind: "NOUN",
+			}).success,
+		).toBe(true);
+		expect(
+			schemasFor.de.descriptor.Surface.Lemma.Lexeme.NOUN.safeParse({
+				language: "de",
+				surfaceKind: "Lemma",
+				lemmaKind: "Lexeme",
+				lemmaSubKind: "NOUN",
+			}).success,
+		).toBe(true);
+	});
+
+	it("exposes abstract entity and descriptor schemas by entity kind", () => {
+		const abstractLemma = {
+			language: "fr",
+			canonicalLemma: "aller",
+			lemmaKind: "Lexeme",
+			lemmaSubKind: "VERB",
+			inherentFeatures: {},
+			meaningInEmojis: "🚶",
+		};
+
+		expect(
+			abstractSchemas.entity.Lemma.safeParse(abstractLemma).success,
+		).toBe(true);
+		expect(
+			abstractSchemas.descriptor.Selection.safeParse({
+				language: "fr",
+				orthographicStatus: "Standard",
+				surfaceKind: "Lemma",
+				lemmaKind: "Lexeme",
+				lemmaSubKind: "VERB",
+			}).success,
+		).toBe(true);
 	});
 });

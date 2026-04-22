@@ -1,11 +1,11 @@
 import { describe, expect, it } from "bun:test";
-import { schemas } from "../../src/schema";
+import { schemasFor } from "../../src/schema";
 import { makeLexemeSurfaceReference } from "../helpers";
 
 describe("English schema specificity", () => {
 	it("keeps English adjective and noun morphology narrow", () => {
 		expect(
-			schemas.en.entity.Selection.Standard.Inflection.Lexeme.ADJ().safeParse(
+			schemasFor.en.entity.Selection.Standard.Inflection.Lexeme.ADJ().safeParse(
 				{
 					language: "en",
 					orthographicStatus: "Standard",
@@ -26,7 +26,7 @@ describe("English schema specificity", () => {
 		).toBe(true);
 
 		expect(
-			schemas.en.entity.Selection.Standard.Inflection.Lexeme.ADJ().safeParse(
+			schemasFor.en.entity.Selection.Standard.Inflection.Lexeme.ADJ().safeParse(
 				{
 					language: "en",
 					orthographicStatus: "Standard",
@@ -47,7 +47,7 @@ describe("English schema specificity", () => {
 		).toBe(false);
 
 		expect(
-			schemas.en.entity.Selection.Standard.Inflection.Lexeme.NOUN().safeParse(
+			schemasFor.en.entity.Selection.Standard.Inflection.Lexeme.NOUN().safeParse(
 				{
 					language: "en",
 					orthographicStatus: "Standard",
@@ -68,7 +68,7 @@ describe("English schema specificity", () => {
 		).toBe(true);
 
 		expect(
-			schemas.en.entity.Lemma.Lexeme.NOUN().safeParse({
+			schemasFor.en.entity.Lemma.Lexeme.NOUN().safeParse({
 				language: "en",
 				canonicalLemma: "dog",
 				lemmaKind: "Lexeme",
@@ -83,7 +83,7 @@ describe("English schema specificity", () => {
 
 	it("removes German-only verb morphology from English", () => {
 		expect(
-			schemas.en.entity.Lemma.Lexeme.VERB().safeParse({
+			schemasFor.en.entity.Lemma.Lexeme.VERB().safeParse({
 				language: "en",
 				canonicalLemma: "look",
 				lemmaKind: "Lexeme",
@@ -97,7 +97,7 @@ describe("English schema specificity", () => {
 		).toBe(true);
 
 		expect(
-			schemas.en.entity.Lemma.Lexeme.VERB().safeParse({
+			schemasFor.en.entity.Lemma.Lexeme.VERB().safeParse({
 				language: "en",
 				canonicalLemma: "wash",
 				lemmaKind: "Lexeme",
@@ -110,7 +110,7 @@ describe("English schema specificity", () => {
 		).toBe(false);
 
 		expect(
-			schemas.en.entity.Selection.Standard.Inflection.Lexeme.VERB().safeParse(
+			schemasFor.en.entity.Selection.Standard.Inflection.Lexeme.VERB().safeParse(
 				{
 					language: "en",
 					orthographicStatus: "Standard",
@@ -131,7 +131,7 @@ describe("English schema specificity", () => {
 		).toBe(true);
 
 		expect(
-			schemas.en.entity.Selection.Standard.Inflection.Lexeme.VERB().safeParse(
+			schemasFor.en.entity.Selection.Standard.Inflection.Lexeme.VERB().safeParse(
 				{
 					language: "en",
 					orthographicStatus: "Standard",
@@ -154,7 +154,7 @@ describe("English schema specificity", () => {
 
 	it("keeps pronoun, determiner, and symbol features aligned with the English catalog", () => {
 		expect(
-			schemas.en.entity.Selection.Standard.Inflection.Lexeme.PRON().safeParse(
+			schemasFor.en.entity.Selection.Standard.Inflection.Lexeme.PRON().safeParse(
 				{
 					language: "en",
 					orthographicStatus: "Standard",
@@ -175,7 +175,7 @@ describe("English schema specificity", () => {
 		).toBe(true);
 
 		expect(
-			schemas.en.entity.Lemma.Lexeme.DET().safeParse({
+			schemasFor.en.entity.Lemma.Lexeme.DET().safeParse({
 				language: "en",
 				canonicalLemma: "half",
 				lemmaKind: "Lexeme",
@@ -193,7 +193,7 @@ describe("English schema specificity", () => {
 		).toBe(true);
 
 		expect(
-			schemas.en.entity.Selection.Standard.Inflection.Lexeme.SYM().safeParse(
+			schemasFor.en.entity.Selection.Standard.Inflection.Lexeme.SYM().safeParse(
 				{
 					language: "en",
 					orthographicStatus: "Standard",
@@ -214,7 +214,7 @@ describe("English schema specificity", () => {
 		).toBe(true);
 
 		expect(
-			typeof schemas.en.entity.Selection.Standard.Inflection.Lexeme.VERB()
+			typeof schemasFor.en.entity.Selection.Standard.Inflection.Lexeme.VERB()
 				.parse,
 		).toBe("function");
 	});

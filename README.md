@@ -18,7 +18,7 @@ This package ships working runtime surfaces for `de`, `en`, and `he`.
 | --- | --- |
 | `dumling` | Root runtime API: `dumling.<language>`, `getLanguageApi`, `supportedLanguages`, and `inspectId` |
 | `dumling/types` | Public DTOs, feature helpers, descriptors, and API/result/error types |
-| `dumling/schema` | Concrete runtime schema registry: `schemas` and `getSchemaTreeFor(language)` |
+| `dumling/schema` | Concrete runtime schema registry: `schemasFor` and `getSchemaTreeFor(language)` |
 
 ## Runtime API
 
@@ -103,7 +103,7 @@ Minimal end-to-end usage:
 
 ```ts
 import { dumling as packageDumling } from "dumling";
-import { schemas as packageSchemas } from "dumling/schema";
+import { schemasFor as packageSchemas } from "dumling/schema";
 import type {
 	FeatureValue as PackageFeatureValue,
 	Lemma as PackageLemma,
@@ -156,7 +156,7 @@ packageSchemas.de.entity.Selection.Standard.Lemma.Lexeme.NOUN().parse(
 );
 ```
 
-`schemas.de.entity.*`, `schemas.en.entity.*`, and `schemas.he.entity.*` expose concrete Zod schema getters. Leaf calls return Zod schemas for validators, LLM response-schema callers, and other schema-consuming APIs.
+`schemasFor.de.entity.*`, `schemasFor.en.entity.*`, and `schemasFor.he.entity.*` expose concrete Zod schema getters. Leaf calls return Zod schemas for validators, LLM response-schema callers, and other schema-consuming APIs.
 
 ## Concepts / Search Terms
 

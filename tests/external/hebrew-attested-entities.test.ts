@@ -1,6 +1,6 @@
 import { describe, expect, it } from "bun:test";
 import { dumling } from "../../src";
-import { schemas } from "../../src/schema";
+import { schemasFor } from "../../src/schema";
 import {
 	hebrewKatavLemma,
 	hebrewKatvuInflectionSurface,
@@ -17,50 +17,50 @@ import {
 describe("Hebrew attested entities", () => {
 	it("stay valid against the public Hebrew schemas", () => {
 		expect(
-			schemas.he.entity.Lemma.Lexeme.VERB().safeParse(hebrewKatavLemma)
+			schemasFor.he.entity.Lemma.Lexeme.VERB().safeParse(hebrewKatavLemma)
 				.success,
 		).toBe(true);
 		expect(
-			schemas.he.entity.Lemma.Lexeme.NOUN().safeParse(hebrewShanaLemma)
+			schemasFor.he.entity.Lemma.Lexeme.NOUN().safeParse(hebrewShanaLemma)
 				.success,
 		).toBe(true);
 		expect(
-			schemas.he.entity.Lemma.Lexeme.PROPN().safeParse(
+			schemasFor.he.entity.Lemma.Lexeme.PROPN().safeParse(
 				hebrewUsAbbreviationLemma,
 			).success,
 		).toBe(true);
 		expect(
-			schemas.he.entity.Surface.Inflection.Lexeme.VERB().safeParse(
+			schemasFor.he.entity.Surface.Inflection.Lexeme.VERB().safeParse(
 				hebrewKatvuInflectionSurface,
 			).success,
 		).toBe(true);
 		expect(
-			schemas.he.entity.Surface.Lemma.Lexeme.NOUN().safeParse(
+			schemasFor.he.entity.Surface.Lemma.Lexeme.NOUN().safeParse(
 				hebrewShanaLemmaSurface,
 			).success,
 		).toBe(true);
 		expect(
-			schemas.he.entity.Surface.Lemma.Lexeme.PROPN().safeParse(
+			schemasFor.he.entity.Surface.Lemma.Lexeme.PROPN().safeParse(
 				hebrewUsAbbreviationLemmaSurface,
 			).success,
 		).toBe(true);
 		expect(
-			schemas.he.entity.Selection.Standard.Inflection.Lexeme.VERB().safeParse(
+			schemasFor.he.entity.Selection.Standard.Inflection.Lexeme.VERB().safeParse(
 				hebrewKatvuStandardFullSelection,
 			).success,
 		).toBe(true);
 		expect(
-			schemas.he.entity.Selection.Standard.Lemma.Lexeme.NOUN().safeParse(
+			schemasFor.he.entity.Selection.Standard.Lemma.Lexeme.NOUN().safeParse(
 				hebrewShanaLemmaSelection,
 			).success,
 		).toBe(true);
 		expect(
-			schemas.he.entity.Selection.Standard.Lemma.Lexeme.PROPN().safeParse(
+			schemasFor.he.entity.Selection.Standard.Lemma.Lexeme.PROPN().safeParse(
 				hebrewUsAbbreviationSelection,
 			).success,
 		).toBe(true);
 		expect(
-			schemas.he.entity.Selection.Standard.Inflection.Lexeme.VERB().safeParse(
+			schemasFor.he.entity.Selection.Standard.Inflection.Lexeme.VERB().safeParse(
 				hebrewKatvuPointedVariantSelection,
 			).success,
 		).toBe(true);

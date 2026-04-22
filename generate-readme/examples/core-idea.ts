@@ -1,6 +1,6 @@
 /** biome-ignore-all lint/correctness/noUnusedVariables: README example file */
 import { dumling } from "../../src";
-import { schemas } from "../../src/schema";
+import { schemasFor } from "../../src/schema";
 import type { Lemma, Selection, Surface } from "../../src/types";
 
 // README_BLOCK:core-lemma:start
@@ -38,7 +38,7 @@ const seeSelection = dumling.de.create.selection.standard({
 
 // README_BLOCK:quickstart-de:start
 import { dumling as packageDumling } from "dumling";
-import { schemas as packageSchemas } from "dumling/schema";
+import { schemasFor as packageSchemas } from "dumling/schema";
 import type {
 	FeatureValue as PackageFeatureValue,
 	Lemma as PackageLemma,
@@ -91,4 +91,4 @@ packageSchemas.de.entity.Selection.Standard.Lemma.Lexeme.NOUN().parse(
 );
 // README_BLOCK:quickstart-de:end
 
-void schemas.de.entity.Lemma.Lexeme.VERB();
+void schemasFor.de.entity.Lemma.Lexeme.VERB();

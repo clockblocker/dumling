@@ -1,11 +1,11 @@
 import { describe, expect, it } from "bun:test";
-import { schemas } from "../../src/schema";
+import { schemasFor } from "../../src/schema";
 import { makeLexemeSurfaceReference } from "../helpers";
 
 describe("German remaining POS schemas", () => {
 	it("accepts representative feature bundles across implemented POS classes", () => {
 		expect(
-			schemas.de.entity.Selection.Standard.Inflection.Lexeme.ADJ().safeParse(
+			schemasFor.de.entity.Selection.Standard.Inflection.Lexeme.ADJ().safeParse(
 				{
 					language: "de",
 					orthographicStatus: "Standard",
@@ -29,7 +29,7 @@ describe("German remaining POS schemas", () => {
 		).toBe(true);
 
 		expect(
-			schemas.de.entity.Lemma.Lexeme.ADP().safeParse({
+			schemasFor.de.entity.Lemma.Lexeme.ADP().safeParse({
 				language: "de",
 				canonicalLemma: "zu",
 				lemmaKind: "Lexeme",
@@ -42,7 +42,7 @@ describe("German remaining POS schemas", () => {
 		).toBe(true);
 
 		expect(
-			schemas.de.entity.Selection.Standard.Inflection.Lexeme.DET().safeParse(
+			schemasFor.de.entity.Selection.Standard.Inflection.Lexeme.DET().safeParse(
 				{
 					language: "de",
 					orthographicStatus: "Standard",
@@ -65,7 +65,7 @@ describe("German remaining POS schemas", () => {
 		).toBe(true);
 
 		expect(
-			schemas.de.entity.Lemma.Lexeme.X().safeParse({
+			schemasFor.de.entity.Lemma.Lexeme.X().safeParse({
 				language: "de",
 				canonicalLemma: "foobar",
 				lemmaKind: "Lexeme",
@@ -80,25 +80,28 @@ describe("German remaining POS schemas", () => {
 
 	it("keeps non-inflecting classes strict", () => {
 		expect(
-			"ADP" in schemas.de.entity.Selection.Standard.Inflection.Lexeme,
+			"ADP" in schemasFor.de.entity.Selection.Standard.Inflection.Lexeme,
 		).toBe(false);
 		expect(
-			"CCONJ" in schemas.de.entity.Selection.Standard.Inflection.Lexeme,
+			"CCONJ" in
+				schemasFor.de.entity.Selection.Standard.Inflection.Lexeme,
 		).toBe(false);
 		expect(
-			"INTJ" in schemas.de.entity.Selection.Standard.Inflection.Lexeme,
+			"INTJ" in schemasFor.de.entity.Selection.Standard.Inflection.Lexeme,
 		).toBe(false);
 		expect(
-			"PUNCT" in schemas.de.entity.Selection.Standard.Inflection.Lexeme,
+			"PUNCT" in
+				schemasFor.de.entity.Selection.Standard.Inflection.Lexeme,
 		).toBe(false);
 		expect(
-			"SCONJ" in schemas.de.entity.Selection.Standard.Inflection.Lexeme,
+			"SCONJ" in
+				schemasFor.de.entity.Selection.Standard.Inflection.Lexeme,
 		).toBe(false);
 	});
 
 	it("rejects unsupported feature values where subsets matter", () => {
 		expect(
-			schemas.de.entity.Lemma.Lexeme.ADV().safeParse({
+			schemasFor.de.entity.Lemma.Lexeme.ADV().safeParse({
 				language: "de",
 				canonicalLemma: "gern",
 				lemmaKind: "Lexeme",
@@ -112,13 +115,13 @@ describe("German remaining POS schemas", () => {
 
 		expect(
 			Reflect.get(
-				schemas.de.entity.Selection.Standard.Inflection.Lexeme,
+				schemasFor.de.entity.Selection.Standard.Inflection.Lexeme,
 				"ADP",
 			),
 		).toBeUndefined();
 
 		expect(
-			schemas.de.entity.Selection.Standard.Inflection.Lexeme.X().safeParse(
+			schemasFor.de.entity.Selection.Standard.Inflection.Lexeme.X().safeParse(
 				{
 					language: "de",
 					orthographicStatus: "Standard",

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "bun:test";
-import { schemas } from "../../src/schema";
+import { schemasFor } from "../../src/schema";
 import {
 	germanBVGAbbreviationSelection,
 	germanHausLemmaSurface,
@@ -10,11 +10,11 @@ import {
 describe("German noun schemas", () => {
 	it("accept supported noun lemmas and inflections", () => {
 		expect(
-			schemas.de.entity.Lemma.Lexeme.NOUN().safeParse(germanKindLemma)
+			schemasFor.de.entity.Lemma.Lexeme.NOUN().safeParse(germanKindLemma)
 				.success,
 		).toBe(true);
 		expect(
-			schemas.de.entity.Selection.Standard.Inflection.Lexeme.NOUN().safeParse(
+			schemasFor.de.entity.Selection.Standard.Inflection.Lexeme.NOUN().safeParse(
 				{
 					language: "de",
 					orthographicStatus: "Standard",
@@ -38,7 +38,7 @@ describe("German noun schemas", () => {
 
 	it("reject unsupported noun features", () => {
 		expect(
-			schemas.de.entity.Lemma.Lexeme.NOUN().safeParse({
+			schemasFor.de.entity.Lemma.Lexeme.NOUN().safeParse({
 				language: "de",
 				canonicalLemma: "kind",
 				lemmaKind: "Lexeme",
@@ -51,7 +51,7 @@ describe("German noun schemas", () => {
 		).toBe(false);
 
 		expect(
-			schemas.de.entity.Selection.Standard.Inflection.Lexeme.NOUN().safeParse(
+			schemasFor.de.entity.Selection.Standard.Inflection.Lexeme.NOUN().safeParse(
 				{
 					language: "de",
 					orthographicStatus: "Standard",
@@ -75,17 +75,17 @@ describe("German noun schemas", () => {
 
 	it("keeps registry access and lemma selections intact", () => {
 		expect(
-			schemas.de.entity.Surface.Lemma.Lexeme.NOUN().safeParse(
+			schemasFor.de.entity.Surface.Lemma.Lexeme.NOUN().safeParse(
 				germanHausLemmaSurface,
 			).success,
 		).toBe(true);
 		expect(
-			schemas.de.entity.Selection.Standard.Lemma.Lexeme.PROPN().safeParse(
+			schemasFor.de.entity.Selection.Standard.Lemma.Lexeme.PROPN().safeParse(
 				germanBVGAbbreviationSelection,
 			).success,
 		).toBe(true);
 		expect(
-			typeof schemas.de.entity.Selection.Standard.Lemma.Lexeme.NOUN()
+			typeof schemasFor.de.entity.Selection.Standard.Lemma.Lexeme.NOUN()
 				.parse,
 		).toBe("function");
 	});

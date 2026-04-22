@@ -1,11 +1,11 @@
 import { describe, expect, it } from "bun:test";
-import { schemas } from "../../src/schema";
+import { schemasFor } from "../../src/schema";
 import { makeLexemeSurfaceReference } from "../helpers";
 
 describe("German verb schemas", () => {
 	it("accept supported verb inflectional and inherent features", () => {
 		expect(
-			schemas.de.entity.Selection.Standard.Inflection.Lexeme.VERB().safeParse(
+			schemasFor.de.entity.Selection.Standard.Inflection.Lexeme.VERB().safeParse(
 				{
 					language: "de",
 					orthographicStatus: "Standard",
@@ -30,7 +30,7 @@ describe("German verb schemas", () => {
 		).toBe(true);
 
 		expect(
-			schemas.de.entity.Lemma.Lexeme.VERB().safeParse({
+			schemasFor.de.entity.Lemma.Lexeme.VERB().safeParse({
 				language: "de",
 				canonicalLemma: "mitkommen",
 				lemmaKind: "Lexeme",
@@ -45,7 +45,7 @@ describe("German verb schemas", () => {
 
 	it("rejects unsupported inherited features and impossible inflection combinations", () => {
 		expect(
-			schemas.de.entity.Lemma.Lexeme.VERB().safeParse({
+			schemasFor.de.entity.Lemma.Lexeme.VERB().safeParse({
 				language: "de",
 				canonicalLemma: "mitkommen",
 				lemmaKind: "Lexeme",
@@ -58,7 +58,7 @@ describe("German verb schemas", () => {
 		).toBe(false);
 
 		expect(
-			schemas.de.entity.Lemma.Lexeme.VERB().safeParse({
+			schemasFor.de.entity.Lemma.Lexeme.VERB().safeParse({
 				language: "de",
 				canonicalLemma: "sich beeilen",
 				lemmaKind: "Lexeme",
@@ -71,7 +71,7 @@ describe("German verb schemas", () => {
 		).toBe(false);
 
 		expect(
-			schemas.de.entity.Selection.Standard.Inflection.Lexeme.VERB().safeParse(
+			schemasFor.de.entity.Selection.Standard.Inflection.Lexeme.VERB().safeParse(
 				{
 					language: "de",
 					orthographicStatus: "Standard",
@@ -97,7 +97,7 @@ describe("German verb schemas", () => {
 		).toBe(false);
 
 		expect(
-			schemas.de.entity.Selection.Standard.Inflection.Lexeme.VERB().safeParse(
+			schemasFor.de.entity.Selection.Standard.Inflection.Lexeme.VERB().safeParse(
 				{
 					language: "de",
 					orthographicStatus: "Standard",
@@ -121,11 +121,11 @@ describe("German verb schemas", () => {
 	});
 
 	it("keeps the verb registry branch exposed", () => {
-		expect(typeof schemas.de.entity.Lemma.Lexeme.VERB().parse).toBe(
+		expect(typeof schemasFor.de.entity.Lemma.Lexeme.VERB().parse).toBe(
 			"function",
 		);
 		expect(
-			typeof schemas.de.entity.Selection.Standard.Inflection.Lexeme.VERB()
+			typeof schemasFor.de.entity.Selection.Standard.Inflection.Lexeme.VERB()
 				.parse,
 		).toBe("function");
 	});

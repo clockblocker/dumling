@@ -1,5 +1,5 @@
 import { describe, expect, it } from "bun:test";
-import { schemas } from "../../src/schema";
+import { schemasFor } from "../../src/schema";
 import {
 	englishWalkLemmaSelection,
 	englishWalkStandardFullSelection,
@@ -9,16 +9,18 @@ import {
 describe("selection spelling relation", () => {
 	it("accepts lemma selections marked as spelling variants", () => {
 		expect(
-			schemas.en.entity.Selection.Standard.Lemma.Lexeme.VERB().safeParse({
-				...englishWalkLemmaSelection,
-				spellingRelation: "Variant",
-			}).success,
+			schemasFor.en.entity.Selection.Standard.Lemma.Lexeme.VERB().safeParse(
+				{
+					...englishWalkLemmaSelection,
+					spellingRelation: "Variant",
+				},
+			).success,
 		).toBe(true);
 	});
 
 	it("accepts inflection selections marked as spelling variants", () => {
 		expect(
-			schemas.en.entity.Selection.Standard.Inflection.Lexeme.VERB().safeParse(
+			schemasFor.en.entity.Selection.Standard.Inflection.Lexeme.VERB().safeParse(
 				{
 					...englishWalkStandardFullSelection,
 					spellingRelation: "Variant",
@@ -29,7 +31,7 @@ describe("selection spelling relation", () => {
 
 	it("accepts Hebrew pointed inflection variants without variant surface kinds", () => {
 		expect(
-			schemas.he.entity.Selection.Standard.Inflection.Lexeme.VERB().safeParse(
+			schemasFor.he.entity.Selection.Standard.Inflection.Lexeme.VERB().safeParse(
 				hebrewKatvuPointedVariantSelection,
 			).success,
 		).toBe(true);
@@ -37,14 +39,16 @@ describe("selection spelling relation", () => {
 
 	it("rejects legacy surfaceKind variant payloads", () => {
 		expect(
-			schemas.en.entity.Selection.Standard.Lemma.Lexeme.VERB().safeParse({
-				...englishWalkLemmaSelection,
-				spellingRelation: "Variant",
-				surface: {
-					...englishWalkLemmaSelection.surface,
-					surfaceKind: "Variant",
+			schemasFor.en.entity.Selection.Standard.Lemma.Lexeme.VERB().safeParse(
+				{
+					...englishWalkLemmaSelection,
+					spellingRelation: "Variant",
+					surface: {
+						...englishWalkLemmaSelection.surface,
+						surfaceKind: "Variant",
+					},
 				},
-			}).success,
+			).success,
 		).toBe(false);
 	});
 });

@@ -1,11 +1,11 @@
 import { describe, expect, it } from "bun:test";
-import { schemas } from "../../src/schema";
+import { schemasFor } from "../../src/schema";
 import { makeLexemeSurfaceReference } from "../helpers";
 
 describe("Hebrew schema specificity", () => {
 	it("accepts Hebrew-specific lexical and inflectional features", () => {
 		expect(
-			schemas.he.entity.Lemma.Lexeme.VERB().safeParse({
+			schemasFor.he.entity.Lemma.Lexeme.VERB().safeParse({
 				language: "he",
 				canonicalLemma: "כתב",
 				lemmaKind: "Lexeme",
@@ -18,7 +18,7 @@ describe("Hebrew schema specificity", () => {
 		).toBe(true);
 
 		expect(
-			schemas.he.entity.Selection.Standard.Inflection.Lexeme.VERB().safeParse(
+			schemasFor.he.entity.Selection.Standard.Inflection.Lexeme.VERB().safeParse(
 				{
 					language: "he",
 					orthographicStatus: "Standard",
@@ -41,7 +41,7 @@ describe("Hebrew schema specificity", () => {
 		).toBe(true);
 
 		expect(
-			schemas.he.entity.Selection.Standard.Inflection.Lexeme.NOUN().safeParse(
+			schemasFor.he.entity.Selection.Standard.Inflection.Lexeme.NOUN().safeParse(
 				{
 					language: "he",
 					orthographicStatus: "Standard",
@@ -63,15 +63,15 @@ describe("Hebrew schema specificity", () => {
 	});
 
 	it("keeps Hebrew aligned with its implemented inventory", () => {
-		expect("PART" in schemas.he.entity.Lemma.Lexeme).toBe(true);
+		expect("PART" in schemasFor.he.entity.Lemma.Lexeme).toBe(true);
 		expect(
-			"PART" in schemas.he.entity.Selection.Standard.Inflection.Lexeme,
+			"PART" in schemasFor.he.entity.Selection.Standard.Inflection.Lexeme,
 		).toBe(false);
 	});
 
 	it("rejects unsupported Hebrew feature spillover", () => {
 		expect(
-			schemas.he.entity.Lemma.Lexeme.VERB().safeParse({
+			schemasFor.he.entity.Lemma.Lexeme.VERB().safeParse({
 				language: "he",
 				canonicalLemma: "כתב",
 				lemmaKind: "Lexeme",

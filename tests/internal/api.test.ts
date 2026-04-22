@@ -1,6 +1,6 @@
 import { describe, expect, it } from "bun:test";
 import { dumling } from "../../src";
-import { schemas } from "../../src/schema";
+import { schemasFor } from "../../src/schema";
 import type { Lemma, Selection } from "../../src/types";
 
 function encodeBase64Url(value: string) {
@@ -156,7 +156,7 @@ describe("API", () => {
 
 		expect(parsedSelection.success).toBe(true);
 		expect(
-			schemas.de.entity.Selection.Standard.Lemma.Lexeme.NOUN().safeParse(
+			schemasFor.de.entity.Selection.Standard.Lemma.Lexeme.NOUN().safeParse(
 				parsedSelection.success ? parsedSelection.data : undefined,
 			).success,
 		).toBe(true);
@@ -291,7 +291,7 @@ describe("API", () => {
 			data: englishLemma,
 		});
 		expect(
-			schemas.en.entity.Selection.Standard.Lemma.Lexeme.NOUN().safeParse(
+			schemasFor.en.entity.Selection.Standard.Lemma.Lexeme.NOUN().safeParse(
 				dumling.en.convert.lemma.toSelection(englishLemma),
 			).success,
 		).toBe(true);
@@ -311,7 +311,7 @@ describe("API", () => {
 			data: hebrewLemma,
 		});
 		expect(
-			schemas.he.entity.Selection.Standard.Lemma.Lexeme.VERB().safeParse(
+			schemasFor.he.entity.Selection.Standard.Lemma.Lexeme.VERB().safeParse(
 				dumling.he.convert.lemma.toSelection(hebrewLemma),
 			).success,
 		).toBe(true);
