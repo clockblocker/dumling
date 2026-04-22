@@ -4,8 +4,8 @@ import { enSubtree } from "./concrete-language/features/en/en-subtree";
 import { heSubtree } from "./concrete-language/features/he/he-subtree";
 import { buildDescriptorSchemas } from "./descriptor-schemas";
 import type {
-	NewRawEntitySchemaRegistry,
-	NewSchemaRegistry,
+	RawEntitySchemaRegistry,
+	SchemaRegistry,
 } from "./shared/schema-helper-types";
 import { wrapEntitySchemaTree } from "./shared/wrap-entity-schema-tree";
 
@@ -13,7 +13,7 @@ const entitySchemasByLanguage = {
 	de: deSubtree,
 	en: enSubtree,
 	he: heSubtree,
-} satisfies NewRawEntitySchemaRegistry;
+} satisfies RawEntitySchemaRegistry;
 
 const descriptorSchemasByLanguage = buildDescriptorSchemas(
 	entitySchemasByLanguage,
@@ -32,10 +32,10 @@ export const schemasFor = {
 		descriptor: descriptorSchemasByLanguage.he,
 		entity: wrapEntitySchemaTree(entitySchemasByLanguage.he),
 	},
-} satisfies NewSchemaRegistry;
+} satisfies SchemaRegistry;
 
 export function getSchemaTreeFor<L extends SupportedLanguage>(
 	language: L,
-): NewSchemaRegistry[L] {
+): SchemaRegistry[L] {
 	return schemasFor[language];
 }

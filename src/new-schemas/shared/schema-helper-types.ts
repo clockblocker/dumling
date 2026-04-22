@@ -12,7 +12,7 @@ import type {
 import type { z } from "zod/v3";
 import type { Descriptor } from "../../types/descriptor";
 
-export type NewSchemaGetter<T> = () => z.ZodType<T>;
+export type SchemaGetter<T> = () => z.ZodType<T>;
 
 export type LemmaSubKindForSurfaceKind<
 	L extends SupportedLanguage,
@@ -36,35 +36,35 @@ export type LemmaSubKindForSurfaceKind<
 		: never
 	: never;
 
-export type NewRawLanguageEntitySchemaTree<L extends SupportedLanguage> = {
-	Lemma: NewRawLemmaSchemaSubtree<L>;
-	Surface: NewRawSurfaceSchemaSubtree<L>;
-	Selection: NewRawSelectionSchemaSubtree<L>;
+export type RawLanguageEntitySchemaTree<L extends SupportedLanguage> = {
+	Lemma: RawLemmaSchemaSubtree<L>;
+	Surface: RawSurfaceSchemaSubtree<L>;
+	Selection: RawSelectionSchemaSubtree<L>;
 };
 
-export type NewRawEntitySchemaRegistry = {
-	[L in SupportedLanguage]: NewRawLanguageEntitySchemaTree<L>;
+export type RawEntitySchemaRegistry = {
+	[L in SupportedLanguage]: RawLanguageEntitySchemaTree<L>;
 };
 
-export type NewLanguageSchemaTree<L extends SupportedLanguage> = {
-	descriptor: NewLanguageDescriptorSchemaTree<L>;
-	entity: NewLanguageEntitySchemaTree<L>;
+export type LanguageSchemaTree<L extends SupportedLanguage> = {
+	descriptor: LanguageDescriptorSchemaTree<L>;
+	entity: LanguageEntitySchemaTree<L>;
 };
 
-export type NewSchemaRegistry = {
-	[L in SupportedLanguage]: NewLanguageSchemaTree<L>;
+export type SchemaRegistry = {
+	[L in SupportedLanguage]: LanguageSchemaTree<L>;
 };
 
 export type EverySupportedLanguageHasConcreteSchema =
-	SupportedLanguage extends keyof NewSchemaRegistry ? true : never;
+	SupportedLanguage extends keyof SchemaRegistry ? true : never;
 
-export type NewRawLemmaSchemaSubtree<L extends SupportedLanguage> = {
+export type RawLemmaSchemaSubtree<L extends SupportedLanguage> = {
 	[LK in LemmaKindFor<L>]: {
 		[LSK in LemmaSubKindFor<L, LK>]: z.ZodType<Lemma<L, LK, LSK>>;
 	};
 };
 
-export type NewRawSurfaceSchemaSubtree<L extends SupportedLanguage> = {
+export type RawSurfaceSchemaSubtree<L extends SupportedLanguage> = {
 	[SK in SurfaceKindFor<L>]: {
 		[LK in LemmaKindForSurfaceKind<L, SK>]: {
 			[LSK in LemmaSubKindForSurfaceKind<L, SK, LK>]: z.ZodType<
@@ -74,7 +74,7 @@ export type NewRawSurfaceSchemaSubtree<L extends SupportedLanguage> = {
 	};
 };
 
-export type NewRawSelectionSchemaSubtree<L extends SupportedLanguage> = {
+export type RawSelectionSchemaSubtree<L extends SupportedLanguage> = {
 	[OS in OrthographicStatus]: {
 		[SK in SurfaceKindFor<L>]: {
 			[LK in LemmaKindForSurfaceKind<L, SK>]: {
@@ -86,33 +86,33 @@ export type NewRawSelectionSchemaSubtree<L extends SupportedLanguage> = {
 	};
 };
 
-export type NewLanguageEntitySchemaTree<L extends SupportedLanguage> = {
-	Lemma: NewLemmaSchemaSubtree<L>;
-	Surface: NewSurfaceSchemaSubtree<L>;
-	Selection: NewSelectionSchemaSubtree<L>;
+export type LanguageEntitySchemaTree<L extends SupportedLanguage> = {
+	Lemma: LemmaSchemaSubtree<L>;
+	Surface: SurfaceSchemaSubtree<L>;
+	Selection: SelectionSchemaSubtree<L>;
 };
 
-export type NewLemmaSchemaSubtree<L extends SupportedLanguage> = {
+export type LemmaSchemaSubtree<L extends SupportedLanguage> = {
 	[LK in LemmaKindFor<L>]: {
-		[LSK in LemmaSubKindFor<L, LK>]: NewSchemaGetter<Lemma<L, LK, LSK>>;
+		[LSK in LemmaSubKindFor<L, LK>]: SchemaGetter<Lemma<L, LK, LSK>>;
 	};
 };
 
-export type NewSurfaceSchemaSubtree<L extends SupportedLanguage> = {
+export type SurfaceSchemaSubtree<L extends SupportedLanguage> = {
 	[SK in SurfaceKindFor<L>]: {
 		[LK in LemmaKindForSurfaceKind<L, SK>]: {
-			[LSK in LemmaSubKindForSurfaceKind<L, SK, LK>]: NewSchemaGetter<
+			[LSK in LemmaSubKindForSurfaceKind<L, SK, LK>]: SchemaGetter<
 				Surface<L, SK, LK, LSK>
 			>;
 		};
 	};
 };
 
-export type NewSelectionSchemaSubtree<L extends SupportedLanguage> = {
+export type SelectionSchemaSubtree<L extends SupportedLanguage> = {
 	[OS in OrthographicStatus]: {
 		[SK in SurfaceKindFor<L>]: {
 			[LK in LemmaKindForSurfaceKind<L, SK>]: {
-				[LSK in LemmaSubKindForSurfaceKind<L, SK, LK>]: NewSchemaGetter<
+				[LSK in LemmaSubKindForSurfaceKind<L, SK, LK>]: SchemaGetter<
 					Selection<L, OS, SK, LK, LSK>
 				>;
 			};
@@ -122,13 +122,13 @@ export type NewSelectionSchemaSubtree<L extends SupportedLanguage> = {
 
 type DescriptorSchema<TDescriptor> = z.ZodType<TDescriptor>;
 
-export type NewLanguageDescriptorSchemaTree<L extends SupportedLanguage> = {
-	Lemma: NewLemmaDescriptorSchemaSubtree<L>;
-	Surface: NewSurfaceDescriptorSchemaSubtree<L>;
-	Selection: NewSelectionDescriptorSchemaSubtree<L>;
+export type LanguageDescriptorSchemaTree<L extends SupportedLanguage> = {
+	Lemma: LemmaDescriptorSchemaSubtree<L>;
+	Surface: SurfaceDescriptorSchemaSubtree<L>;
+	Selection: SelectionDescriptorSchemaSubtree<L>;
 };
 
-export type NewLemmaDescriptorSchemaSubtree<L extends SupportedLanguage> = {
+export type LemmaDescriptorSchemaSubtree<L extends SupportedLanguage> = {
 	[LK in LemmaKindFor<L>]: {
 		[LSK in LemmaSubKindFor<L, LK>]: DescriptorSchema<
 			Descriptor<"Lemma", L, LK, LSK>
@@ -136,7 +136,7 @@ export type NewLemmaDescriptorSchemaSubtree<L extends SupportedLanguage> = {
 	};
 };
 
-export type NewSurfaceDescriptorSchemaSubtree<L extends SupportedLanguage> = {
+export type SurfaceDescriptorSchemaSubtree<L extends SupportedLanguage> = {
 	[SK in SurfaceKindFor<L>]: {
 		[LK in LemmaKindForSurfaceKind<L, SK>]: {
 			[LSK in LemmaSubKindForSurfaceKind<L, SK, LK>]: DescriptorSchema<
@@ -146,7 +146,7 @@ export type NewSurfaceDescriptorSchemaSubtree<L extends SupportedLanguage> = {
 	};
 };
 
-export type NewSelectionDescriptorSchemaSubtree<L extends SupportedLanguage> = {
+export type SelectionDescriptorSchemaSubtree<L extends SupportedLanguage> = {
 	[OS in OrthographicStatus]: {
 		[SK in SurfaceKindFor<L>]: {
 			[LK in LemmaKindForSurfaceKind<L, SK>]: {

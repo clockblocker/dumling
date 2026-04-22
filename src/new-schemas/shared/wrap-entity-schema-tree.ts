@@ -1,7 +1,7 @@
 import type { SupportedLanguage } from "dumling/types";
 import type {
-	NewLanguageEntitySchemaTree,
-	NewRawLanguageEntitySchemaTree,
+	LanguageEntitySchemaTree,
+	RawLanguageEntitySchemaTree,
 } from "./schema-helper-types";
 
 function isZodSchema(value: unknown): value is { safeParse: unknown } {
@@ -27,7 +27,7 @@ function wrapSchemaLeaves(value: unknown): unknown {
 }
 
 export function wrapEntitySchemaTree<L extends SupportedLanguage>(
-	tree: NewRawLanguageEntitySchemaTree<L>,
-): NewLanguageEntitySchemaTree<L> {
-	return wrapSchemaLeaves(tree) as NewLanguageEntitySchemaTree<L>;
+	tree: RawLanguageEntitySchemaTree<L>,
+): LanguageEntitySchemaTree<L> {
+	return wrapSchemaLeaves(tree) as LanguageEntitySchemaTree<L>;
 }

@@ -11,14 +11,14 @@ import type {
 } from "../types/public-types";
 import type {
 	LemmaSubKindForSurfaceKind,
-	NewLanguageDescriptorSchemaTree,
-	NewRawEntitySchemaRegistry,
+	LanguageDescriptorSchemaTree,
+	RawEntitySchemaRegistry,
 } from "./shared/schema-helper-types";
 
 type DescriptorSchema<TDescriptor> = z.ZodType<TDescriptor>;
 
-export type NewDescriptorSchemaTree = {
-	[L in ConcreteLanguage]: NewLanguageDescriptorSchemaTree<L>;
+export type DescriptorSchemaTree = {
+	[L in ConcreteLanguage]: LanguageDescriptorSchemaTree<L>;
 };
 
 type MutableLanguageDescriptorSchemaTree = {
@@ -115,7 +115,7 @@ function buildSelectionDescriptorSchema<
 function buildLanguageDescriptorSchemas<L extends ConcreteLanguage>(
 	language: L,
 	schemaTree: IterableLanguageSchemaTree,
-): NewLanguageDescriptorSchemaTree<L> {
+): LanguageDescriptorSchemaTree<L> {
 	const descriptorTree: MutableLanguageDescriptorSchemaTree = {
 		Lemma: {},
 		Surface: {
@@ -217,12 +217,12 @@ function buildLanguageDescriptorSchemas<L extends ConcreteLanguage>(
 		}
 	}
 
-	return descriptorTree as unknown as NewLanguageDescriptorSchemaTree<L>;
+	return descriptorTree as unknown as LanguageDescriptorSchemaTree<L>;
 }
 
 export function buildDescriptorSchemas(
-	schemaTree: NewRawEntitySchemaRegistry,
-): NewDescriptorSchemaTree {
+	schemaTree: RawEntitySchemaRegistry,
+): DescriptorSchemaTree {
 	return Object.fromEntries(
 		Object.entries(schemaTree).map(([language, languageSchemaTree]) => [
 			language,
@@ -231,5 +231,5 @@ export function buildDescriptorSchemas(
 				languageSchemaTree,
 			),
 		]),
-	) as NewDescriptorSchemaTree;
+	) as DescriptorSchemaTree;
 }

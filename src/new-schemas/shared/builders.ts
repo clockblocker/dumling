@@ -15,7 +15,7 @@ import {
 	normalizedLowercaseStringSchema,
 	normalizedStringSchema,
 } from "./normalization";
-import type { NewRawLanguageEntitySchemaTree } from "./schema-helper-types";
+import type { RawLanguageEntitySchemaTree } from "./schema-helper-types";
 
 type SchemaOutput<TSchema extends z.ZodTypeAny> = z.output<TSchema>;
 type SchemaTuple = readonly [z.ZodTypeAny, ...z.ZodTypeAny[]];
@@ -172,7 +172,7 @@ type FeatureSchemaFor<
 	inflectional: z.ZodType<InflectionalFeaturesFor<L, LK, LSK>>;
 }>;
 
-export type NewFeatureSchemaTree<L extends ConcreteLanguage> = {
+export type FeatureSchemaTree<L extends ConcreteLanguage> = {
 	[LK in LemmaKindFor<L>]: {
 		[LSK in LemmaSubKindFor<L, LK>]: FeatureSchemaFor<L, LK, LSK>;
 	};
@@ -291,8 +291,8 @@ function ensureFamily<TValue>(
 
 export function buildLanguageSchema<L extends ConcreteLanguage>(
 	language: L,
-	featureSchemas: NewFeatureSchemaTree<L>,
-): NewRawLanguageEntitySchemaTree<L> {
+	featureSchemas: FeatureSchemaTree<L>,
+): RawLanguageEntitySchemaTree<L> {
 	const schemaTree = {
 		Lemma: {},
 		Surface: {
@@ -386,5 +386,5 @@ export function buildLanguageSchema<L extends ConcreteLanguage>(
 		}
 	}
 
-	return schemaTree as unknown as NewRawLanguageEntitySchemaTree<L>;
+	return schemaTree as unknown as RawLanguageEntitySchemaTree<L>;
 }
