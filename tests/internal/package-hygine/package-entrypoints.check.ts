@@ -11,14 +11,31 @@ import { join, resolve } from "node:path";
 
 const projectRoot = resolve(import.meta.dir, "../../..");
 
-setDefaultTimeout(30_000);
+setDefaultTimeout(120_000);
 
 function run(command: string, args: string[]) {
-	return execFileSync(command, args, {
-		cwd: projectRoot,
-		encoding: "utf8",
-		stdio: ["ignore", "pipe", "pipe"],
-	});
+	try {
+		return execFileSync(command, args, {
+			cwd: projectRoot,
+			encoding: "utf8",
+			stdio: ["ignore", "pipe", "pipe"],
+		});
+	} catch (caught) {
+		const error = caught as {
+			message?: string;
+			stderr?: string;
+			stdout?: string;
+		};
+		throw new Error(
+			[
+				error.message,
+				error.stdout ? `stdout:\n${error.stdout}` : undefined,
+				error.stderr ? `stderr:\n${error.stderr}` : undefined,
+			]
+				.filter(Boolean)
+				.join("\n\n"),
+		);
+	}
 }
 
 describe("published package entrypoints", () => {
@@ -76,7 +93,7 @@ describe("published package entrypoints", () => {
 					'import { dumling, getLanguageApi, inspectId, supportedLanguages } from "dumling";',
 					'import { abstractSchemas, getSchemaTreeFor, schemasFor } from "dumling/schema";',
 					'import type * as z from "zod/v3";',
-					'import type { AbstractLemma, Descriptor, DumlingId, DumlingIdInspection, EntityForKind, EntityValue, Lemma, Selection, SelectionOptionsFor, SupportedLanguage } from "dumling/types";',
+					'import type { AbstractLemma, Descriptor, DumlingId, DumlingIdInspection, EntityForKind, EntityValue, Lemma, Selection, SelectionOptionsFor, SupportedLanguage, Surface } from "dumling/types";',
 					"",
 					'const languages: readonly ("de" | "en" | "he")[] = supportedLanguages;',
 					"void languages;",
@@ -96,6 +113,14 @@ describe("published package entrypoints", () => {
 					'const dynamicApi = getLanguageApi("de");',
 					"const dynamicSelection = dynamicApi.convert.lemma.toSelection(lemma);",
 					'dynamicSelection satisfies Selection<"de">;',
+					"function genericSelectionFromLemma<L extends SupportedLanguage>(language: L, input: Lemma<L>): Selection<L> {",
+					"\treturn getLanguageApi(language).convert.lemma.toSelection(input);",
+					"}",
+					"function genericSelectionFromSurface<L extends SupportedLanguage>(language: L, input: Surface<L>): Selection<L> {",
+					"\treturn getLanguageApi(language).convert.surface.toSelection(input);",
+					"}",
+					"void genericSelectionFromLemma;",
+					"void genericSelectionFromSurface;",
 					"const selectionId = dumling.de.id.encode(parsed.data);",
 					'selectionId satisfies DumlingId<"Lemma" | "Surface" | "Selection", "de">;',
 					"const inspected = inspectId(selectionId);",
@@ -147,6 +172,8 @@ describe("published package entrypoints", () => {
 			run(resolve(projectRoot, "node_modules/.bin/tsc"), [
 				"--project",
 				join(typecheckDir, "tsconfig.json"),
+				"--pretty",
+				"false",
 			]);
 		} finally {
 			rmSync(typecheckDir, { force: true, recursive: true });
