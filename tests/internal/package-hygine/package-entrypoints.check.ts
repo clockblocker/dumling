@@ -93,7 +93,7 @@ describe("published package entrypoints", () => {
 					'import { dumling, getLanguageApi, inspectId, supportedLanguages } from "dumling";',
 					'import { abstractSchemas, getSchemaTreeFor, schemasFor } from "dumling/schema";',
 					'import type * as z from "zod/v3";',
-					'import type { AbstractLemma, Descriptor, DumlingId, DumlingIdInspection, EntityForKind, EntityValue, Lemma, Selection, SelectionOptionsFor, SupportedLanguage, Surface } from "dumling/types";',
+					'import type { AbstractLemma, Descriptor, DumlingId, DumlingIdInspection, EntityForKind, EntityValue, LanguageApi, Lemma, Selection, SelectionOptionsFor, SupportedLanguage } from "dumling/types";',
 					"",
 					'const languages: readonly ("de" | "en" | "he")[] = supportedLanguages;',
 					"void languages;",
@@ -113,14 +113,10 @@ describe("published package entrypoints", () => {
 					'const dynamicApi = getLanguageApi("de");',
 					"const dynamicSelection = dynamicApi.convert.lemma.toSelection(lemma);",
 					'dynamicSelection satisfies Selection<"de">;',
-					"function genericSelectionFromLemma<L extends SupportedLanguage>(language: L, input: Lemma<L>): Selection<L> {",
-					"\treturn getLanguageApi(language).convert.lemma.toSelection(input);",
+					"function genericApi<L extends SupportedLanguage>(language: L): LanguageApi<L> {",
+					"\treturn getLanguageApi(language);",
 					"}",
-					"function genericSelectionFromSurface<L extends SupportedLanguage>(language: L, input: Surface<L>): Selection<L> {",
-					"\treturn getLanguageApi(language).convert.surface.toSelection(input);",
-					"}",
-					"void genericSelectionFromLemma;",
-					"void genericSelectionFromSurface;",
+					"void genericApi;",
 					"const selectionId = dumling.de.id.encode(parsed.data);",
 					'selectionId satisfies DumlingId<"Lemma" | "Surface" | "Selection", "de">;',
 					"const inspected = inspectId(selectionId);",
@@ -222,6 +218,15 @@ describe("published package entrypoints", () => {
 		expect(
 			statSync(resolve(projectRoot, "dist/index.d.ts")).size,
 		).toBeLessThan(120_000);
+		const indexDts = readFileSync(
+			resolve(projectRoot, "dist/index.d.ts"),
+			"utf8",
+		);
+		expect(indexDts).not.toContain("GenericLanguageApi");
+		expect(indexDts).toContain(
+			"getLanguageApi<L extends SupportedLanguage>",
+		);
+		expect(indexDts).toContain("): LanguageApi<L>;");
 
 		const schemaDts = readFileSync(
 			resolve(projectRoot, "dist/schema.d.ts"),
