@@ -37,7 +37,7 @@ dumling.de.convert.surface.toSelection(surface, options);
 
 ```ts
 dumling.de.id.encode.asCsv(entity);
-dumling.de.id.encode.asBase64(entityOrCsv);
+dumling.de.id.encode.asBase64Url(entityOrCsv);
 dumling.de.id.decode.any(input);
 dumling.de.id.decode.asLemma(input);
 dumling.de.id.decode.asSurface(input);
@@ -45,22 +45,26 @@ dumling.de.id.decode.asSurface(input);
 
 - `decode.*` accepts plain `string`, not only branded strings. Runtime input usually comes from URLs, databases, files, or clipboards and cannot be trusted by TypeScript brands.
 - Encoder outputs should be branded strings.
-- Tiny CSV is fully internal. It exists only to shorten base64 payloads.
+- Tiny CSV is fully internal. It exists only to shorten base64url payloads.
 - Use explicit short tokens for tiny CSV, not ordinal numbers.
 - Version tiny CSV with a leading version marker, starting with `v1`.
 - The tiny token map is compatibility data. Once shipped, existing `v1` tokens must not be mutated in incompatible ways.
 - Base64url should encode tiny CSV, not readable CSV. Use URL-safe characters and omit padding.
+- Public names should say `Base64Url`, not `Base64`.
 - Readable CSV remains the public human-readable ID representation.
-- Surface parsing remains case-insensitive through the existing language parser.
-- `Selection` does not get its own ID shape. `id.encode.asCsv(selection)` and `id.encode.asBase64(selection)` are accepted for caller ergonomics, but they first convert the selection to its linked `Surface`.
+- Readable CSV decoding is strict canonical ID parsing, not a forgiving import format.
+- Surface text parsing remains case-insensitive through the existing language parser. Row kind, language code, enum values, feature names, and feature values are case-sensitive.
+- `Selection` does not get its own ID shape. `id.encode.asCsv(selection)` and `id.encode.asBase64Url(selection)` are accepted for caller ergonomics, but they first convert the selection to its linked `Surface`.
 - IDs identify normalized linguistic entities, not learner-observed selections. Selection coverage, typo spelling, and spelling relation are intentionally not represented in IDs.
 - `id.decode.*` returns decode metadata plus the decoded `Lemma` or `Surface`.
+- Decoding through a language namespace enforces language match. For example, `dumling.de.id.decode.any("Lemma,en,...")` returns `LanguageMismatch`.
 - Existing `dumling:<base64url-json>` IDs are not supported. This is a clean breaking migration.
 - Remove the root `inspectId` helper. Decode success includes the inspection metadata callers need: `format`, `language`, and `kind`.
 - Feature keys are sorted alphabetically for stable IDs.
 - Feature values are sorted alphabetically for stable IDs.
+- One-item feature arrays encode the same as scalar feature values after schema parsing and canonicalization.
 - Tiny token coverage must be complete. New enum members, feature names, or feature values must fail tests until explicit `v1` tokens are added.
-- `DumlingId` and `DumlingIdInspection` are removed from the public type surface. They are replaced by `DumlingCsv`, `DumlingBase64`, and `IdDecodeSuccess`.
+- `DumlingId` and `DumlingIdInspection` are removed from the public type surface. They are replaced by `DumlingCsv`, `DumlingBase64Url`, and `IdDecodeSuccess`.
 
 ## Target Public API
 
@@ -72,9 +76,9 @@ type DumlingCsv<L extends SupportedLanguage = SupportedLanguage> =
 		};
 	};
 
-type DumlingBase64<L extends SupportedLanguage = SupportedLanguage> =
+type DumlingBase64Url<L extends SupportedLanguage = SupportedLanguage> =
 	string & {
-		readonly __dumlingBase64Brand: {
+		readonly __dumlingBase64UrlBrand: {
 			readonly language: L;
 		};
 	};
@@ -105,9 +109,9 @@ type LanguageApi<L extends SupportedLanguage> = {
 			 * Accepts trusted entities or branded CSV produced by this API.
 			 * Arbitrary strings should go through decode.any(input) first.
 			 */
-			asBase64(
+			asBase64Url(
 				input: Lemma<L> | Surface<L> | Selection<L> | DumlingCsv<L>,
-			): DumlingBase64<L>;
+			): DumlingBase64Url<L>;
 		};
 		decode: {
 			any(
@@ -141,8 +145,8 @@ entity -> readable CSV
 Base64url:
 
 ```txt
-entity -> readable CSV -> tiny CSV v1 -> base64url
-readable CSV -> tiny CSV v1 -> base64url
+entity -> parsed/canonicalized entity -> readable CSV -> tiny CSV v1 -> base64url
+branded readable CSV -> validate canonical CSV and language -> tiny CSV v1 -> base64url
 ```
 
 Decode:
@@ -158,6 +162,8 @@ Readable CSV should be compact but still inspectable. Feature sets should use `k
 
 Entity row shape is suffix-friendly: rows that contain a surface end with the exact lemma row for that surface's lemma. This makes chaining and suffix comparisons straightforward.
 
+Readable CSV is a strict canonical ID format. It is not a permissive import format.
+
 Readable CSV uses RFC4180-style field escaping:
 
 - Fields are separated by commas.
@@ -165,7 +171,7 @@ Readable CSV uses RFC4180-style field escaping:
 - Quotes inside quoted fields are doubled.
 - Unicode is allowed.
 - `|` and `=` are allowed in ordinary CSV fields.
-- Feature keys and feature values must not contain `|` or `=`. They currently come from controlled enum/catalog values, so this is enforced by token coverage and parser tests.
+- Feature keys and feature values must not contain `|`, `=`, or `+`. They currently come from controlled enum/catalog values, so this is enforced by token coverage and parser tests.
 
 Canonical field order is fixed:
 
@@ -184,6 +190,19 @@ multi-value feature value: key=value+value
 ```
 
 Feature keys sort alphabetically. Values inside a multi-value feature sort alphabetically. Feature pairs sort by feature key.
+
+Strict canonical decode rejects:
+
+- row kinds other than exact `Lemma` or `Surface`;
+- lowercased row kinds such as `lemma`;
+- unknown or lowercased enum values such as `lexeme`;
+- duplicate feature keys;
+- duplicate feature values;
+- unsorted feature keys;
+- unsorted multi-values;
+- non-canonical but semantically equivalent CSV quoting.
+
+The encoder must parse/canonicalize input entities before serialization, so schema-equivalent values produce one stable ID. For example, `{ case: ["Nom"] }` and `{ case: "Nom" }` encode identically after parsing.
 
 Canonical lemma row example:
 
@@ -231,7 +250,7 @@ src/operations/shared/id-codec/
   readable-csv.ts
   tiny-csv.ts
   tiny-tokens.ts
-  base64.ts
+  base64url.ts
 ```
 
 Responsibilities:
@@ -240,7 +259,7 @@ Responsibilities:
 - `id-codec/readable-csv.ts`: serializes `Lemma | Surface` to readable CSV and parses readable CSV back through the language parser.
 - `id-codec/tiny-csv.ts`: converts readable CSV to tiny CSV v1 and tiny CSV v1 back to readable CSV.
 - `id-codec/tiny-tokens.ts`: owns explicit v1 token maps and inverse maps, including collision checks.
-- `id-codec/base64.ts`: base64url-encodes and decodes tiny CSV payloads.
+- `id-codec/base64url.ts`: base64url-encodes and decodes tiny CSV payloads.
 
 None of the `id-codec/*` helpers should be exported from package entrypoints.
 
@@ -251,12 +270,12 @@ None of the `id-codec/*` helpers should be exported from package entrypoints.
 - Do not derive tokens from enum order.
 - Do not generate tokens automatically from registries.
 - Decode token collisions should fail at module initialization in tests/development.
-- Unknown tiny CSV versions should decode to a structured `MalformedId` or `InvalidPayload` error.
 - Token coverage tests must compare all currently accepted public schema feature names and values against the explicit token maps.
 - Existing `v1` token meanings never change.
 - New `v1` tokens may be added for new schema values.
 - Unknown tiny tokens fail as `InvalidPayload`.
 - Unknown tiny versions fail as `MalformedId`.
+- Feature value tokens are contextual by feature name. For example, `case.Nom` and `number.Plur` may both use short tokens that would collide globally, because decode knows which feature name owns the value.
 
 Initial token examples:
 
@@ -294,17 +313,29 @@ const featureNameTokens = {
 } as const;
 
 const featureValueTokens = {
-	Nom: "n",
-	Plur: "p",
-	Masc: "m",
-	Past: "pa",
-	Fin: "f",
+	case: {
+		Nom: "n",
+	},
+	gender: {
+		Masc: "m",
+	},
+	number: {
+		Plur: "p",
+	},
+	tense: {
+		Past: "pa",
+	},
+	verbForm: {
+		Fin: "f",
+	},
 } as const;
 ```
 
 This list is illustrative. The implementation must cover all enum values, lemma kinds, lemma subkinds, surface kinds, feature names, and feature values currently accepted by the public schemas before release.
 
 Coverage must be asserted from the actual schema/type registry, including language-specific features and values such as Hebrew features, phraseme and morpheme subkinds, POS values, `gender[psor]`, and `number[psor]`.
+
+If the current runtime schemas are too difficult to introspect safely, add an explicit runtime feature-token coverage registry rather than relying on brittle Zod internals. The coverage test should compare that registry against the concrete language schema inventory.
 
 ## Decode Rules
 
@@ -314,6 +345,10 @@ Coverage must be asserted from the actual schema/type registry, including langua
 2. Otherwise parse it as base64url-encoded tiny CSV.
 
 Malformed readable CSV must not fall through to base64url decoding. This keeps errors tied to the format the caller visibly provided.
+
+Language mismatch is explicit. If a namespace-bound decoder receives a structurally valid ID for a different language, return `LanguageMismatch`, for both readable CSV and base64url inputs.
+
+`id.encode.asBase64Url(csv)` must validate that branded CSV is canonical and belongs to the namespace language before converting it to tiny CSV. Brands are compile-time hints, not runtime trust boundaries.
 
 Decode success includes both metadata and the decoded entity:
 
@@ -346,17 +381,17 @@ Decode success includes both metadata and the decoded entity:
 - Existing `dumling:<base64url-json>` IDs are replaced by the new base64url ID representation.
 - No backward compatibility is required for the old `dumling:` format.
 - The root `inspectId` helper is removed because `id.decode.any(input)` returns `format`, `language`, and `kind` on success.
-- Type exports should remove `DumlingId` and `DumlingIdInspection`, then add `DumlingCsv`, `DumlingBase64`, and `IdDecodeSuccess`.
+- Type exports should remove `DumlingId` and `DumlingIdInspection`, then add `DumlingCsv`, `DumlingBase64Url`, and `IdDecodeSuccess`.
 
 ## Migration Checklist
 
-1. Add `DumlingCsv` and `DumlingBase64` public types.
+1. Add `DumlingCsv` and `DumlingBase64Url` public types.
 2. Update `LanguageApi.id` to the nested `encode` and `decode` shape.
 3. Remove `LanguageApi.convert.format`.
 4. Move CSV/JSON/base64 logic out of `convert.ts`.
 5. Implement readable CSV ID codec with `key=value|key=value` feature formatting.
 6. Implement tiny CSV v1 with explicit short-token maps.
-7. Route `id.encode.asBase64` through readable CSV then tiny CSV.
+7. Route `id.encode.asBase64Url` through readable CSV then tiny CSV.
 8. Route `id.decode.any` through readable CSV or base64url detection.
 9. Add `id.decode.asLemma` and `id.decode.asSurface` entity-kind guards.
 10. Make `id.encode.*` accept `Selection` and encode it as `selection.surface`.
@@ -366,9 +401,12 @@ Decode success includes both metadata and the decoded entity:
 14. Add tests proving selections encode to the same ID as their linked surface.
 15. Add tests proving typo spelling, spelling relation, and selection coverage do not affect encoded IDs.
 16. Add tests proving malformed readable CSV does not fall through to base64url decoding.
-17. Remove `DumlingId` and `DumlingIdInspection` from public type exports and update package hygiene assertions.
-18. Update internal API tests.
-19. Update external public ID tests.
-20. Update type tests.
-21. Update README template and regenerate README.
-22. Run `bun test`, `bun run check`, and `bun run check:types`.
+17. Add tests proving language mismatch is reported for readable CSV and base64url.
+18. Add tests proving non-canonical readable CSV is rejected.
+19. Add tests proving one-item arrays and scalar feature values encode identically after canonicalization.
+20. Remove `DumlingId` and `DumlingIdInspection` from public type exports and update package hygiene assertions.
+21. Update internal API tests.
+22. Update external public ID tests.
+23. Update type tests.
+24. Update README template and regenerate README.
+25. Run `bun test`, `bun run check`, and `bun run check:types`.
