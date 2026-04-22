@@ -1,0 +1,61 @@
+import { z } from "zod/v3";
+import { abstractFeatureAtomSchemas } from "../../../../../schemas/abstract/feature-schemas";
+import {
+	buildOptionalFeatureObjectSchema,
+	requireNonEmptyFeatureObject,
+} from "../../../../../schemas/shared/feature-helpers";
+import type { DeOtherFeatures } from "../../../../../types/concrete-language/features/de/lexeme/other";
+import { buildInflectableConcreteSchemaBundle } from "../../../../shared/build-concrete-schema-bundle";
+
+const deLanguageSchema = z.literal("de");
+
+const deOtherFeaturesSchema = z
+	.object({
+		inherent: buildOptionalFeatureObjectSchema({
+			abbr: abstractFeatureAtomSchemas.abbr,
+			foreign: abstractFeatureAtomSchemas.foreign,
+			hyph: abstractFeatureAtomSchemas.hyph,
+			numType: abstractFeatureAtomSchemas.numType.extract([
+				"Card",
+				"Mult",
+				"Range",
+			]),
+		}),
+		inflectional: requireNonEmptyFeatureObject(
+			buildOptionalFeatureObjectSchema({
+				case: abstractFeatureAtomSchemas.case.extract([
+					"Acc",
+					"Dat",
+					"Gen",
+					"Nom",
+				]),
+				gender: abstractFeatureAtomSchemas.gender.extract([
+					"Fem",
+					"Masc",
+					"Neut",
+				]),
+				mood: abstractFeatureAtomSchemas.mood.extract([
+					"Imp",
+					"Ind",
+					"Sub",
+				]),
+				number: abstractFeatureAtomSchemas.number.extract([
+					"Plur",
+					"Sing",
+				]),
+				verbForm: abstractFeatureAtomSchemas.verbForm.extract([
+					"Fin",
+					"Inf",
+					"Part",
+				]),
+			}),
+		),
+	})
+	.strict() satisfies z.ZodSchema<DeOtherFeatures>;
+
+export const deOtherSchemas = buildInflectableConcreteSchemaBundle({
+	languageSchema: deLanguageSchema,
+	lemmaKind: "Lexeme",
+	lemmaSubKind: "X",
+	featuresSchema: deOtherFeaturesSchema,
+});
