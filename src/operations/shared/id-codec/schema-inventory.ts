@@ -1,3 +1,5 @@
+import type { FeatureNameTokenKey } from "./tiny-tokens";
+
 export const concreteFeatureSchemaInventory = {
 	featureNames: [
 		"abbr",
@@ -156,4 +158,7 @@ export const concreteFeatureSchemaInventory = {
 		verbType: ["Cop", "Mod"],
 		voice: ["Act", "Mid", "Pass"],
 	},
-} as const;
+} as const satisfies {
+	featureNames: readonly FeatureNameTokenKey[];
+	finiteFeatureValues: Partial<Record<FeatureNameTokenKey, readonly string[]>>;
+};

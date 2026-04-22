@@ -1,7 +1,7 @@
 import { describe, expect, it } from "bun:test";
 import { dumling } from "../../../src";
+import { concreteFeatureSchemaInventory } from "../../../src/operations/shared/id-codec/schema-inventory";
 import {
-	concreteFeatureSchemaInventory,
 	featureNameTokens,
 	featureValueTokens,
 	rawStringFeatureNames,
@@ -17,6 +17,8 @@ function difference(left: readonly string[], right: readonly string[]) {
 }
 
 describe("ID format migration plan contracts", () => {
+	const expectedRawStringFeatureNames = ["hasGovPrep", "hasSepPrefix"];
+
 	it("rejects readable CSV feature values containing ID feature delimiters", () => {
 		const decoded = dumling.en.id.decode.asLemma(
 			"Lemma,en,Lexeme,VERB,give,👉,hasGovPrep=up=down",
@@ -98,18 +100,67 @@ describe("ID format migration plan contracts", () => {
 		expect(valueCoverageMismatches).toEqual([]);
 	});
 
-	it("does not allow raw tiny CSV feature value escape hatches", () => {
-		expect(sorted(rawStringFeatureNames)).toEqual([]);
+	it("limits raw tiny CSV feature values to governed preposition and separable prefix text", () => {
+		expect(sorted(rawStringFeatureNames)).toEqual(
+			expectedRawStringFeatureNames,
+		);
 	});
 
-	it("requires every tiny CSV feature value namespace to have explicit tokens", () => {
+	it("requires every finite tiny CSV feature value namespace to have explicit tokens", () => {
+		const rawStringFeatureNameSet: ReadonlySet<string> =
+			rawStringFeatureNames;
 		const emptyTokenNamespaces = sorted(
 			Object.entries(featureValueTokens)
+				.filter(([name]) => !rawStringFeatureNameSet.has(name))
 				.filter(([, values]) => Object.keys(values).length === 0)
 				.map(([name]) => name),
 		);
 
 		expect(emptyTokenNamespaces).toEqual([]);
+	});
+
+	it("round-trips raw governed preposition and separable prefix text through base64url IDs", () => {
+		const englishVerb = dumling.en.create.lemma({
+			canonicalLemma: "give up",
+			lemmaKind: "Lexeme",
+			lemmaSubKind: "VERB",
+			inherentFeatures: { hasGovPrep: "up" },
+			meaningInEmojis: "👉",
+		});
+		const germanVerb = dumling.de.create.lemma({
+			canonicalLemma: "mitgehen",
+			lemmaKind: "Lexeme",
+			lemmaSubKind: "VERB",
+			inherentFeatures: { hasSepPrefix: "mit" },
+			meaningInEmojis: "🚶",
+		});
+
+		expect(
+			dumling.en.id.decode.asLemma(
+				dumling.en.id.encode.asBase64Url(englishVerb),
+			),
+		).toEqual({
+			success: true,
+			data: {
+				format: "base64url",
+				language: "en",
+				kind: "Lemma",
+				lemma: englishVerb,
+			},
+		});
+		expect(
+			dumling.de.id.decode.asLemma(
+				dumling.de.id.encode.asBase64Url(germanVerb),
+			),
+		).toEqual({
+			success: true,
+			data: {
+				format: "base64url",
+				language: "de",
+				kind: "Lemma",
+				lemma: germanVerb,
+			},
+		});
 	});
 
 	it("requires explicit short tokens instead of using readable feature values as tiny tokens", () => {

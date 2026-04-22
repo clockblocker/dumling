@@ -348,7 +348,7 @@ const featureValueTokens = {
 
 This list is illustrative. The implementation must cover all enum values, lemma kinds, lemma subkinds, surface kinds, feature names, and feature values currently accepted by the public schemas before release.
 
-The feature-set grammar is valid only for catalog-backed atomic feature tokens. If free-text feature values are introduced later, they need a new tiny CSV version or a different feature grammar.
+The feature-set grammar is valid for catalog-backed atomic feature tokens, plus the explicit `v1` raw-string exceptions `hasGovPrep` and `hasSepPrefix`. Those two features carry the actual governed preposition or separable prefix text, so tiny CSV encodes their values with a raw-value marker and URI-component escaping after the short feature-name token. Readable CSV still rejects `|`, `=`, and `+` in those values so the feature-set grammar remains deterministic. Any other free-text feature values introduced later need a new tiny CSV version or an explicitly documented grammar extension.
 
 Coverage must be asserted from the actual schema/type registry, including language-specific features and values such as Hebrew features, phraseme and morpheme subkinds, POS values, `gender[psor]`, and `number[psor]`.
 
