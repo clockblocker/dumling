@@ -17,6 +17,10 @@ const dynamicSchema =
 The API should make fixed-language access ergonomic while still supporting
 dynamic language selection. Leaf calls return actual Zod schema objects.
 
+`abstract` schemas are out of scope for this implementation plan. They remain a
+separate public design task. This plan intentionally covers only concrete
+supported languages such as `de`, `en`, and `he`.
+
 ## Target Interface
 
 The public `dumling/schema` entrypoint should expose:
@@ -28,7 +32,7 @@ export const schemas: {
 
 export function getSchemaTreeFor<const L extends SupportedLanguage>(
 	language: L,
-): NewLanguageSchemaTree<L>;
+): NewSchemaRegistry[L];
 ```
 
 `schemas` is the canonical registry. `getSchemaTreeFor` is a typed dynamic
@@ -43,12 +47,15 @@ Do not expose per-language top-level exports such as `deSchema`, `enSchema`,
 or `heSchema` in the first version of this API.
 
 This is a breaking replacement for the old `dumling/schema` surface. The old
-shape exposed `schema.de.selection.standard...`; the new shape exposes named
-exports and descriptor-cased paths:
+shape exposed `schema.abstract...` and `schema.de.selection.standard...`; the
+new concrete-language shape exposes named exports and descriptor-cased paths:
 
 ```ts
 schemas.de.entity.Selection.Standard.Lemma.Lexeme.NOUN();
 ```
+
+Abstract schema support is not removed by implication; it is deferred to a
+separate design and implementation plan.
 
 No cross-compatibility layer is required for this greenfield plan.
 
@@ -125,10 +132,17 @@ export type NewLanguageSchemaTree<L extends SupportedLanguage> = {
 export type NewSchemaRegistry = {
 	[L in SupportedLanguage]: NewLanguageSchemaTree<L>;
 };
+
+type EverySupportedLanguageHasConcreteSchema =
+	SupportedLanguage extends keyof NewSchemaRegistry ? true : never;
 ```
 
 Prefer names that describe the public contract. Avoid carrying forward names
 that only make sense in the old `src/schemas` implementation.
+
+Add a type-level guard that fails if `SupportedLanguage` and the implemented
+schema registry drift apart. They are equivalent today, but the public API
+should not silently accept a supported language without a concrete schema tree.
 
 ### 2. Adapt Existing Language Subtrees
 
@@ -148,9 +162,10 @@ getters:
 schemas.de.entity.Selection.Standard.Lemma.Lexeme.NOUN()
 ```
 
-Implementation therefore needs an adapter or a builder change. Do not simply
-write `entity: deSubtree` unless `deSubtree` has already been changed to the
-public shape.
+Implementation therefore needs an adapter. Do not reshape
+`buildLanguageSchema` in the first public API PR unless there is a specific
+blocker. Existing descriptor construction consumes the lowercase raw tree, so
+an adapter is the lower-risk boundary.
 
 An adapter approach should look conceptually like this:
 
@@ -233,10 +248,14 @@ Add `getSchemaTreeFor` as a thin accessor:
 ```ts
 export function getSchemaTreeFor<const L extends SupportedLanguage>(
 	language: L,
-): (typeof schemas)[L] {
+): NewSchemaRegistry[L] {
 	return schemas[language];
 }
 ```
+
+`NewSchemaRegistry[L]` or `(typeof schemas)[L]` is preferred over
+`NewLanguageSchemaTree<L>` because it reflects an indexed lookup into real
+registry entries. This matters more for union language values.
 
 This function should not perform validation by itself. It is typed for known
 `SupportedLanguage` values. Consumers with untrusted strings should narrow them
@@ -381,6 +400,23 @@ if ("schema" in schemaModule) throw new Error("old schema export leaked");
 if ("runtimeSchemas" in schemaModule) throw new Error("runtime schemas leaked");
 ```
 
+Add a package hygiene assertion for declaration output. The test should inspect
+`dist/schema.d.ts` after build and fail if the schema entrypoint leaks old
+schema internals or emits an unexpectedly large declaration:
+
+```ts
+const schemaDts = readFileSync(resolve(projectRoot, "dist/schema.d.ts"), "utf8");
+
+expect(schemaDts).not.toContain("runtimeSchemas");
+expect(schemaDts).not.toContain("descriptorSchemas");
+expect(schemaDts).not.toContain("src/schemas");
+expect(schemaDts.length).toBeLessThan(SCHEMA_DTS_SIZE_LIMIT);
+```
+
+Choose `SCHEMA_DTS_SIZE_LIMIT` after seeing the intended emitted shape. The
+point is to make declaration-size and internal-leakage review repeatable rather
+than manual.
+
 Type tests should verify:
 
 ```ts
@@ -412,10 +448,10 @@ bun test
 bun run test:package
 ```
 
-Also inspect the generated `dist/schema.d.ts` to ensure the public entrypoint
-does not leak internal old-schema types. Check whether the exported `schemas`
-declaration is intentionally annotated as `NewSchemaRegistry` or intentionally
-emits a narrower inferred object type.
+Also inspect the generated `dist/schema.d.ts` while setting the initial package
+hygiene threshold. Check whether the exported `schemas` declaration is
+intentionally annotated as `NewSchemaRegistry` or intentionally emits a narrower
+inferred object type.
 
 ## Acceptance Criteria
 
@@ -428,6 +464,8 @@ emits a narrower inferred object type.
 - Literal language calls preserve language-specific types.
 - `getSchemaTreeFor(language).entity.Selection.Standard.Lemma.Lexeme.NOUN()`
   compiles when `language` is typed as `SupportedLanguage`.
+- A type-level guard fails if a `SupportedLanguage` lacks a concrete schema
+  registry entry.
 - `dumling/schema` does not export the old `schema` name.
 - `dumling/schema` does not export `runtimeSchemas`.
 - `dumling/schema` does not export `deSchema`, `enSchema`, or `heSchema`.
@@ -437,6 +475,8 @@ emits a narrower inferred object type.
   `Selection`, not lowercase `lemma`, `surface`, and `selection`.
 - Package entrypoint tests cover both static registry and dynamic accessor
   usage.
+- Package hygiene tests check `dist/schema.d.ts` for old-schema leakage and
+  declaration-size regressions.
 - Documentation only presents the two accepted access patterns.
 - Documentation states that leaf calls return Zod schemas for use in validators,
   LLM response-schema callers, and other schema-consuming APIs.
