@@ -397,6 +397,9 @@ Decode success includes both metadata and the decoded entity:
 10. Make `id.encode.*` accept `Selection` and encode it as `selection.surface`.
 11. Remove legacy `dumling:` decode support.
 12. Remove the root `inspectId` export.
+
+TDD-focused checks:
+
 13. Add token coverage tests for every public enum member, feature name, and feature value.
 14. Add tests proving selections encode to the same ID as their linked surface.
 15. Add tests proving typo spelling, spelling relation, and selection coverage do not affect encoded IDs.
