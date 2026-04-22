@@ -362,9 +362,23 @@ const dynamicSchema = getSchemaTreeFor("de").entity.Selection.Standard.Lemma.Lex
 staticSchema.parse(value);
 dynamicSchema.parse(value);
 
+if (schemas.de.entity.Selection.Standard.Lemma.Lexeme.NOUN() !== staticSchema) {
+	throw new Error("leaf getter should return the stable schema object");
+}
+
 if (getSchemaTreeFor("de") !== schemas.de) {
 	throw new Error("dynamic schema accessor must return registry object");
 }
+```
+
+Also assert that the old and intentionally omitted exports are absent from the
+package entrypoint:
+
+```ts
+const schemaModule = await import("dumling/schema");
+
+if ("schema" in schemaModule) throw new Error("old schema export leaked");
+if ("runtimeSchemas" in schemaModule) throw new Error("runtime schemas leaked");
 ```
 
 Type tests should verify:
@@ -399,7 +413,9 @@ bun run test:package
 ```
 
 Also inspect the generated `dist/schema.d.ts` to ensure the public entrypoint
-does not leak internal old-schema types.
+does not leak internal old-schema types. Check whether the exported `schemas`
+declaration is intentionally annotated as `NewSchemaRegistry` or intentionally
+emits a narrower inferred object type.
 
 ## Acceptance Criteria
 
@@ -407,9 +423,12 @@ does not leak internal old-schema types.
 - `getSchemaTreeFor("de").entity.Selection.Standard.Lemma.Lexeme.NOUN()` works
   at runtime.
 - `getSchemaTreeFor("de") === schemas.de`.
+- Repeated calls to the same leaf getter return the same schema object when the
+  getter wraps an existing raw Zod leaf.
 - Literal language calls preserve language-specific types.
 - `getSchemaTreeFor(language).entity.Selection.Standard.Lemma.Lexeme.NOUN()`
   compiles when `language` is typed as `SupportedLanguage`.
+- `dumling/schema` does not export the old `schema` name.
 - `dumling/schema` does not export `runtimeSchemas`.
 - `dumling/schema` does not export `deSchema`, `enSchema`, or `heSchema`.
 - `dumling/schema` does not export descriptor schema artifacts such as
