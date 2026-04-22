@@ -5,9 +5,6 @@ import {
 	buildOptionalFeatureObjectSchema,
 } from "../../../../../schemas/shared/feature-helpers";
 import type { DeAuxiliaryFeatures } from "../../../../../types/concrete-language/features/de/lexeme/auxiliary";
-import { buildInflectableConcreteSchemaBundle } from "../../../../shared/build-concrete-schema-bundle";
-
-const deLanguageSchema = z.literal("de");
 
 const deAuxiliaryInflectionalFeaturesSchema = z.union([
 	buildFeatureObjectSchema({
@@ -87,7 +84,7 @@ const deAuxiliaryInflectionalFeaturesSchema = z.union([
 	}),
 ]) as unknown as z.ZodType<DeAuxiliaryFeatures["inflectional"]>;
 
-const deAuxiliaryFeaturesSchema = z
+export const deAuxiliaryFeaturesSchema = z
 	.object({
 		inherent: buildOptionalFeatureObjectSchema({
 			verbType: z.literal("Mod"),
@@ -95,10 +92,3 @@ const deAuxiliaryFeaturesSchema = z
 		inflectional: deAuxiliaryInflectionalFeaturesSchema,
 	})
 	.strict() satisfies z.ZodSchema<DeAuxiliaryFeatures>;
-
-export const deAuxiliarySchemas = buildInflectableConcreteSchemaBundle({
-	languageSchema: deLanguageSchema,
-	lemmaKind: "Lexeme",
-	lemmaSubKind: "AUX",
-	featuresSchema: deAuxiliaryFeaturesSchema,
-});

@@ -5,9 +5,6 @@ import {
 	buildOptionalFeatureObjectSchema,
 } from "../../../../../schemas/shared/feature-helpers";
 import type { DeVerbFeatures } from "../../../../../types/concrete-language/features/de/lexeme/verb";
-import { buildInflectableConcreteSchemaBundle } from "../../../../shared/build-concrete-schema-bundle";
-
-const deLanguageSchema = z.literal("de");
 
 const deVerbInflectionalFeaturesSchema = z.union([
 	buildFeatureObjectSchema({
@@ -87,7 +84,7 @@ const deVerbInflectionalFeaturesSchema = z.union([
 	}),
 ]) as unknown as z.ZodType<DeVerbFeatures["inflectional"]>;
 
-const deVerbFeaturesSchema = z
+export const deVerbFeaturesSchema = z
 	.object({
 		inherent: buildOptionalFeatureObjectSchema({
 			hasGovPrep: abstractFeatureAtomSchemas.hasGovPrep,
@@ -98,10 +95,3 @@ const deVerbFeaturesSchema = z
 		inflectional: deVerbInflectionalFeaturesSchema,
 	})
 	.strict() satisfies z.ZodSchema<DeVerbFeatures>;
-
-export const deVerbSchemas = buildInflectableConcreteSchemaBundle({
-	languageSchema: deLanguageSchema,
-	lemmaKind: "Lexeme",
-	lemmaSubKind: "VERB",
-	featuresSchema: deVerbFeaturesSchema,
-});

@@ -5,11 +5,8 @@ import {
 	requireNonEmptyFeatureObject,
 } from "../../../../../schemas/shared/feature-helpers";
 import type { DeAdverbFeatures } from "../../../../../types/concrete-language/features/de/lexeme/adverb";
-import { buildInflectableConcreteSchemaBundle } from "../../../../shared/build-concrete-schema-bundle";
 
-const deLanguageSchema = z.literal("de");
-
-const deAdverbFeaturesSchema = z
+export const deAdverbFeaturesSchema = z
 	.object({
 		inherent: buildOptionalFeatureObjectSchema({
 			foreign: abstractFeatureAtomSchemas.foreign,
@@ -36,10 +33,3 @@ const deAdverbFeaturesSchema = z
 		),
 	})
 	.strict() satisfies z.ZodSchema<DeAdverbFeatures>;
-
-export const deAdverbSchemas = buildInflectableConcreteSchemaBundle({
-	languageSchema: deLanguageSchema,
-	lemmaKind: "Lexeme",
-	lemmaSubKind: "ADV",
-	featuresSchema: deAdverbFeaturesSchema,
-});

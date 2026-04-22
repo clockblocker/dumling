@@ -5,11 +5,8 @@ import {
 	requireNonEmptyFeatureObject,
 } from "../../../../../schemas/shared/feature-helpers";
 import type { DeNounFeatures } from "../../../../../types/concrete-language/features/de/lexeme/noun";
-import { buildInflectableConcreteSchemaBundle } from "../../../../shared/build-concrete-schema-bundle";
 
-const deLanguageSchema = z.literal("de");
-
-const deNounFeaturesSchema = z
+export const deNounFeaturesSchema = z
 	.object({
 		inherent: buildOptionalFeatureObjectSchema({
 			gender: abstractFeatureAtomSchemas.gender.extract([
@@ -35,10 +32,3 @@ const deNounFeaturesSchema = z
 		),
 	})
 	.strict() satisfies z.ZodSchema<DeNounFeatures>;
-
-export const deNounSchemas = buildInflectableConcreteSchemaBundle({
-	languageSchema: deLanguageSchema,
-	lemmaKind: "Lexeme",
-	lemmaSubKind: "NOUN",
-	featuresSchema: deNounFeaturesSchema,
-});

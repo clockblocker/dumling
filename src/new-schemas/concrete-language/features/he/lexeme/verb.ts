@@ -6,11 +6,8 @@ import {
 	requireNonEmptyFeatureObject,
 } from "../../../../../schemas/shared/feature-helpers";
 import type { HeVerbFeatures } from "../../../../../types/concrete-language/features/he/lexeme/verb";
-import { buildInflectableConcreteSchemaBundle } from "../../../../shared/build-concrete-schema-bundle";
 
-const heLanguageSchema = z.literal("he");
-
-const heVerbFeaturesSchema = z
+export const heVerbFeaturesSchema = z
 	.object({
 		inherent: buildOptionalFeatureObjectSchema({
 			hebBinyan: abstractFeatureAtomSchemas.hebBinyan,
@@ -54,10 +51,3 @@ const heVerbFeaturesSchema = z
 		),
 	})
 	.strict() satisfies z.ZodSchema<HeVerbFeatures>;
-
-export const heVerbSchemas = buildInflectableConcreteSchemaBundle({
-	languageSchema: heLanguageSchema,
-	lemmaKind: "Lexeme",
-	lemmaSubKind: "VERB",
-	featuresSchema: heVerbFeaturesSchema,
-});

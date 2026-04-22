@@ -6,11 +6,8 @@ import {
 	requireNonEmptyFeatureObject,
 } from "../../../../../schemas/shared/feature-helpers";
 import type { HeNounFeatures } from "../../../../../types/concrete-language/features/he/lexeme/noun";
-import { buildInflectableConcreteSchemaBundle } from "../../../../shared/build-concrete-schema-bundle";
 
-const heLanguageSchema = z.literal("he");
-
-const heNounFeaturesSchema = z
+export const heNounFeaturesSchema = z
 	.object({
 		inherent: buildOptionalFeatureObjectSchema({
 			abbr: abstractFeatureAtomSchemas.abbr,
@@ -31,10 +28,3 @@ const heNounFeaturesSchema = z
 		),
 	})
 	.strict() satisfies z.ZodSchema<HeNounFeatures>;
-
-export const heNounSchemas = buildInflectableConcreteSchemaBundle({
-	languageSchema: heLanguageSchema,
-	lemmaKind: "Lexeme",
-	lemmaSubKind: "NOUN",
-	featuresSchema: heNounFeaturesSchema,
-});

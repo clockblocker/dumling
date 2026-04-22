@@ -5,11 +5,8 @@ import {
 	requireNonEmptyFeatureObject,
 } from "../../../../../schemas/shared/feature-helpers";
 import type { DeNumeralFeatures } from "../../../../../types/concrete-language/features/de/lexeme/numeral";
-import { buildInflectableConcreteSchemaBundle } from "../../../../shared/build-concrete-schema-bundle";
 
-const deLanguageSchema = z.literal("de");
-
-const deNumeralFeaturesSchema = z
+export const deNumeralFeaturesSchema = z
 	.object({
 		inherent: buildOptionalFeatureObjectSchema({
 			abbr: abstractFeatureAtomSchemas.abbr,
@@ -42,10 +39,3 @@ const deNumeralFeaturesSchema = z
 		),
 	})
 	.strict() satisfies z.ZodSchema<DeNumeralFeatures>;
-
-export const deNumeralSchemas = buildInflectableConcreteSchemaBundle({
-	languageSchema: deLanguageSchema,
-	lemmaKind: "Lexeme",
-	lemmaSubKind: "NUM",
-	featuresSchema: deNumeralFeaturesSchema,
-});

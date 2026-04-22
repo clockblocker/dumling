@@ -6,11 +6,8 @@ import {
 	requireNonEmptyFeatureObject,
 } from "../../../../../schemas/shared/feature-helpers";
 import type { HeNumeralFeatures } from "../../../../../types/concrete-language/features/he/lexeme/numeral";
-import { buildInflectableConcreteSchemaBundle } from "../../../../shared/build-concrete-schema-bundle";
 
-const heLanguageSchema = z.literal("he");
-
-const heNumeralFeaturesSchema = z
+export const heNumeralFeaturesSchema = z
 	.object({
 		inherent: buildOptionalFeatureObjectSchema({}),
 		inflectional: requireNonEmptyFeatureObject(
@@ -29,10 +26,3 @@ const heNumeralFeaturesSchema = z
 		),
 	})
 	.strict() satisfies z.ZodSchema<HeNumeralFeatures>;
-
-export const heNumeralSchemas = buildInflectableConcreteSchemaBundle({
-	languageSchema: heLanguageSchema,
-	lemmaKind: "Lexeme",
-	lemmaSubKind: "NUM",
-	featuresSchema: heNumeralFeaturesSchema,
-});

@@ -6,11 +6,8 @@ import {
 	requireNonEmptyFeatureObject,
 } from "../../../../../schemas/shared/feature-helpers";
 import type { EnPronounFeatures } from "../../../../../types/concrete-language/features/en/lexeme/pronoun";
-import { buildInflectableConcreteSchemaBundle } from "../../../../shared/build-concrete-schema-bundle";
 
-const enLanguageSchema = z.literal("en");
-
-const enPronounFeaturesSchema = z
+export const enPronounFeaturesSchema = z
 	.object({
 		inherent: buildOptionalFeatureObjectSchema({
 			abbr: abstractFeatureAtomSchemas.abbr,
@@ -59,10 +56,3 @@ const enPronounFeaturesSchema = z
 		),
 	})
 	.strict() satisfies z.ZodSchema<EnPronounFeatures>;
-
-export const enPronounSchemas = buildInflectableConcreteSchemaBundle({
-	languageSchema: enLanguageSchema,
-	lemmaKind: "Lexeme",
-	lemmaSubKind: "PRON",
-	featuresSchema: enPronounFeaturesSchema,
-});

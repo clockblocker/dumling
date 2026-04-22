@@ -5,11 +5,8 @@ import {
 	requireNonEmptyFeatureObject,
 } from "../../../../../schemas/shared/feature-helpers";
 import type { DePronounFeatures } from "../../../../../types/concrete-language/features/de/lexeme/pronoun";
-import { buildInflectableConcreteSchemaBundle } from "../../../../shared/build-concrete-schema-bundle";
 
-const deLanguageSchema = z.literal("de");
-
-const dePronounFeaturesSchema = z
+export const dePronounFeaturesSchema = z
 	.object({
 		inherent: buildOptionalFeatureObjectSchema({
 			extPos: abstractFeatureAtomSchemas.extPos.extract(["DET"]),
@@ -50,10 +47,3 @@ const dePronounFeaturesSchema = z
 		),
 	})
 	.strict() satisfies z.ZodSchema<DePronounFeatures>;
-
-export const dePronounSchemas = buildInflectableConcreteSchemaBundle({
-	languageSchema: deLanguageSchema,
-	lemmaKind: "Lexeme",
-	lemmaSubKind: "PRON",
-	featuresSchema: dePronounFeaturesSchema,
-});

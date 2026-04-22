@@ -5,11 +5,8 @@ import {
 	requireNonEmptyFeatureObject,
 } from "../../../../../schemas/shared/feature-helpers";
 import type { DeOtherFeatures } from "../../../../../types/concrete-language/features/de/lexeme/other";
-import { buildInflectableConcreteSchemaBundle } from "../../../../shared/build-concrete-schema-bundle";
 
-const deLanguageSchema = z.literal("de");
-
-const deOtherFeaturesSchema = z
+export const deOtherFeaturesSchema = z
 	.object({
 		inherent: buildOptionalFeatureObjectSchema({
 			abbr: abstractFeatureAtomSchemas.abbr,
@@ -52,10 +49,3 @@ const deOtherFeaturesSchema = z
 		),
 	})
 	.strict() satisfies z.ZodSchema<DeOtherFeatures>;
-
-export const deOtherSchemas = buildInflectableConcreteSchemaBundle({
-	languageSchema: deLanguageSchema,
-	lemmaKind: "Lexeme",
-	lemmaSubKind: "X",
-	featuresSchema: deOtherFeaturesSchema,
-});

@@ -6,11 +6,8 @@ import {
 	requireNonEmptyFeatureObject,
 } from "../../../../../schemas/shared/feature-helpers";
 import type { HeDeterminerFeatures } from "../../../../../types/concrete-language/features/he/lexeme/determiner";
-import { buildInflectableConcreteSchemaBundle } from "../../../../shared/build-concrete-schema-bundle";
 
-const heLanguageSchema = z.literal("he");
-
-const heDeterminerFeaturesSchema = z
+export const heDeterminerFeaturesSchema = z
 	.object({
 		inherent: buildOptionalFeatureObjectSchema({
 			pronType: abstractFeatureAtomSchemas.pronType.extract([
@@ -35,10 +32,3 @@ const heDeterminerFeaturesSchema = z
 		),
 	})
 	.strict() satisfies z.ZodSchema<HeDeterminerFeatures>;
-
-export const heDeterminerSchemas = buildInflectableConcreteSchemaBundle({
-	languageSchema: heLanguageSchema,
-	lemmaKind: "Lexeme",
-	lemmaSubKind: "DET",
-	featuresSchema: heDeterminerFeaturesSchema,
-});
