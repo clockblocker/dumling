@@ -1,5 +1,4 @@
 import type { AbstractFeatureValue } from "../../../../abstract/features/features-catalog";
-import type { Prettify } from "../../../../core/helpers";
 
 type FeatureValueSet<T> = T | readonly [T, ...T[]];
 
