@@ -2,9 +2,11 @@ import type { ZodType } from "zod/v3";
 import { dumling } from "../../src";
 import { schema } from "../../src/schema";
 import type {
+	Descriptor,
 	DumlingId,
 	DumlingIdInspection,
 	EntityForKind,
+	EntityKind,
 	EntityValue,
 	FeatureName,
 	FeatureSetKind,
@@ -87,6 +89,23 @@ const selectionDescriptor = dumling.de.describe.as.selection(
 	lemmaKind: "Lexeme";
 	lemmaSubKind: "VERB";
 };
+lemmaDescriptor satisfies Descriptor<"Lemma", "de", "Lexeme", "NOUN">;
+surfaceDescriptor satisfies Descriptor<
+	"Surface",
+	"de",
+	"Lexeme",
+	"NOUN",
+	"Lemma"
+>;
+selectionDescriptor satisfies Descriptor<
+	"Selection",
+	"de",
+	"Lexeme",
+	"VERB",
+	"Inflection",
+	"Standard"
+>;
+selectionDescriptor satisfies Descriptor<EntityKind, "de">;
 
 const gender: FeatureValue<"de", "inherent", "Lexeme", "NOUN", "gender"> =
 	"Masc";

@@ -1,3 +1,4 @@
+import type { Descriptor } from "../types/descriptor";
 import type {
 	DumlingId,
 	EntityForKind,
@@ -5,18 +6,15 @@ import type {
 	EntityValue,
 	InherentFeaturesFor,
 	Lemma,
-	LemmaDescriptor,
 	LemmaKind,
 	LemmaKindFor,
 	LemmaKindForSurfaceKind,
 	LemmaSubKindFor,
 	OrthographicStatus,
 	Selection,
-	SelectionDescriptor,
 	SelectionOptionsFor,
 	SupportedLanguage,
 	Surface,
-	SurfaceDescriptor,
 	SurfaceKind,
 	SurfaceKindFor,
 } from "../types/public-types";
@@ -177,7 +175,8 @@ export type LanguageApi<L extends SupportedLanguage> = {
 		as: {
 			lemma<TValue extends EntityValue<L>>(
 				value: TValue,
-			): LemmaDescriptor<
+			): Descriptor<
+				"Lemma",
 				L,
 				EntityLemmaKind<TValue> & LemmaKindFor<L>,
 				EntityLemmaSubKind<TValue> &
@@ -188,9 +187,9 @@ export type LanguageApi<L extends SupportedLanguage> = {
 			>;
 			surface<TValue extends EntityValue<L>>(
 				value: TValue,
-			): SurfaceDescriptor<
+			): Descriptor<
+				"Surface",
 				L,
-				EntitySurfaceKind<TValue> & SurfaceKindFor<L>,
 				EntityLemmaKind<TValue> &
 					LemmaKindForSurfaceKind<
 						L,
@@ -200,14 +199,14 @@ export type LanguageApi<L extends SupportedLanguage> = {
 					LemmaSubKindFor<
 						L,
 						EntityLemmaKind<TValue> & LemmaKindFor<L>
-					>
+					>,
+				EntitySurfaceKind<TValue> & SurfaceKindFor<L>
 			>;
 			selection<TValue extends EntityValue<L>>(
 				value: TValue,
-			): SelectionDescriptor<
+			): Descriptor<
+				"Selection",
 				L,
-				EntityOrthographicStatus<TValue> & OrthographicStatus,
-				EntitySurfaceKind<TValue> & SurfaceKindFor<L>,
 				EntityLemmaKind<TValue> &
 					LemmaKindForSurfaceKind<
 						L,
@@ -217,7 +216,9 @@ export type LanguageApi<L extends SupportedLanguage> = {
 					LemmaSubKindFor<
 						L,
 						EntityLemmaKind<TValue> & LemmaKindFor<L>
-					>
+					>,
+				EntitySurfaceKind<TValue> & SurfaceKindFor<L>,
+				EntityOrthographicStatus<TValue> & OrthographicStatus
 			>;
 		};
 	};

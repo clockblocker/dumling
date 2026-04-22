@@ -722,41 +722,35 @@ type LemmaSubKindFor<
 	LK extends LemmaKindFor<L>,
 > = ...;
 
-type LemmaDescriptor<
-	L extends SupportedLanguage,
-	LK extends LemmaKindFor<L>,
-	LSK extends LemmaSubKindFor<L, LK>,
-> = {
-	language: L;
-	lemmaKind: LK;
-	lemmaSubKind: LSK;
-};
-
-type SurfaceDescriptor<
-	L extends SupportedLanguage,
-	SK extends SurfaceKindFor<L>,
-	LK extends LemmaKindForSurfaceKind<L, SK>,
-	LSK extends LemmaSubKindFor<L, LK>,
-> = {
-	language: L;
-	surfaceKind: SK;
-	lemmaKind: LK;
-	lemmaSubKind: LSK;
-};
-
-type SelectionDescriptor<
-	L extends SupportedLanguage,
-	OS extends OrthographicStatus,
-	SK extends SurfaceKindFor<L>,
-	LK extends LemmaKindForSurfaceKind<L, SK>,
-	LSK extends LemmaSubKindFor<L, LK>,
-> = {
-	language: L;
-	orthographicStatus: OS;
-	surfaceKind: SK;
-	lemmaKind: LK;
-	lemmaSubKind: LSK;
-};
+type Descriptor<
+	K extends EntityKind = EntityKind,
+	L extends SupportedLanguage = SupportedLanguage,
+	LK extends LemmaKindFor<L> = LemmaKindFor<L>,
+	LSK extends LemmaSubKindFor<L, LK> = LemmaSubKindFor<L, LK>,
+	SK extends SurfaceKindFor<L> = SurfaceKindFor<L>,
+	OS extends OrthographicStatus = OrthographicStatus,
+> = K extends "Lemma"
+	? {
+			language: L;
+			lemmaKind: LK;
+			lemmaSubKind: LSK;
+		}
+	: K extends "Surface"
+		? {
+				language: L;
+				surfaceKind: SK;
+				lemmaKind: LK & LemmaKindForSurfaceKind<L, SK>;
+				lemmaSubKind: LSK &
+					LemmaSubKindFor<L, LK & LemmaKindForSurfaceKind<L, SK>>;
+			}
+		: {
+				language: L;
+				orthographicStatus: OS;
+				surfaceKind: SK;
+				lemmaKind: LK & LemmaKindForSurfaceKind<L, SK>;
+				lemmaSubKind: LSK &
+					LemmaSubKindFor<L, LK & LemmaKindForSurfaceKind<L, SK>>;
+			};
 
 type AbstractFeatureName = keyof AbstractFeatures;
 

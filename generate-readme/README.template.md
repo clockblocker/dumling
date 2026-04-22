@@ -43,7 +43,7 @@ The root runtime entrypoint also exposes:
 - Entity and ID helpers: `EntityValue`, `EntityForKind`, `DumlingId`, `DumlingIdInspection`, `SelectionOptionsFor`
 - Language-aware helper types: `LemmaKindFor`, `LemmaSubKindFor`, `SurfaceKindFor`, `LemmaKindForSurfaceKind`
 - Feature typing helpers: `FeatureSet`, `FeatureName`, `FeatureValue`, `InherentFeaturesFor`, `InflectionalFeaturesFor`
-- Descriptors and API shapes: `LemmaDescriptor`, `SurfaceDescriptor`, `SelectionDescriptor`, `DumlingApi`, `LanguageApi`
+- Descriptors and API shapes: `Descriptor`, `DumlingApi`, `LanguageApi`
 - Result and error types: `ApiResult`, `ParseError`, `IdDecodeError`
 
 ## Core idea

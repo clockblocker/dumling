@@ -142,7 +142,6 @@ export type Surface<
 		>
 	: PlaceholderSurface<L, SK, LK, LSK>;
 
-
 export type Selection<
 	L extends SupportedLanguage = SupportedLanguage,
 	OS extends OrthographicStatus = OrthographicStatus,
@@ -248,42 +247,6 @@ export type SelectionOptionsFor<OS extends OrthographicStatus> = {
 	selectionCoverage?: SelectionCoverage;
 	spelledSelection?: string;
 	spellingRelation?: SpellingRelation;
-};
-
-export type LemmaDescriptor<
-	L extends SupportedLanguage,
-	LK extends LemmaKindFor<L>,
-	LSK extends LemmaSubKindFor<L, LK>,
-> = {
-	language: L;
-	lemmaKind: LK;
-	lemmaSubKind: LSK;
-};
-
-export type SurfaceDescriptor<
-	L extends SupportedLanguage,
-	SK extends SurfaceKindFor<L>,
-	LK extends LemmaKindForSurfaceKind<L, SK>,
-	LSK extends LemmaSubKindFor<L, LK>,
-> = {
-	language: L;
-	surfaceKind: SK;
-	lemmaKind: LK;
-	lemmaSubKind: LSK;
-};
-
-export type SelectionDescriptor<
-	L extends SupportedLanguage,
-	OS extends OrthographicStatus,
-	SK extends SurfaceKindFor<L>,
-	LK extends LemmaKindForSurfaceKind<L, SK>,
-	LSK extends LemmaSubKindFor<L, LK>,
-> = {
-	language: L;
-	orthographicStatus: OS;
-	surfaceKind: SK;
-	lemmaKind: LK;
-	lemmaSubKind: LSK;
 };
 
 export type {
