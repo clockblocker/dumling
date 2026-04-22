@@ -207,6 +207,12 @@ function parseFeatureSet(
 		const key = pair.slice(0, separator);
 		const valueText = pair.slice(separator + 1);
 
+		if (/[|=+]/u.test(key)) {
+			return invalidPayload(
+				`Feature key ${key} must not contain |, =, or +`,
+			);
+		}
+
 		if (!(key in featureNameTokens)) {
 			return invalidPayload(`Unknown feature key ${key}`);
 		}
@@ -218,6 +224,13 @@ function parseFeatureSet(
 		const values = valueText.split("+");
 		if (values.some((value) => value.length === 0)) {
 			return invalidPayload(`Feature ${key} has an empty value`);
+		}
+		for (const value of values) {
+			if (/[|=+]/u.test(value)) {
+				return invalidPayload(
+					`Feature value ${key} must not contain |, =, or +`,
+				);
+			}
 		}
 		if (new Set(values).size !== values.length) {
 			return invalidPayload(`Feature ${key} contains duplicate values`);
