@@ -40,7 +40,7 @@ const katavLemma = dumling.he.create.lemma({
 	inherentFeatures: {
 		hebBinyan: "PAAL",
 	},
-	meaningInEmojis: "write",
+	meaningInEmojis: "✍️",
 });
 
 const katavSurface = dumling.he.create.surface.inflection({

@@ -40,7 +40,7 @@ const seeLemma = dumling.de.create.lemma({
 	inherentFeatures: {
 		gender: "Masc",
 	},
-	meaningInEmojis: "lake",
+	meaningInEmojis: "🌊",
 });
 
 const seenSurface = dumling.de.create.surface.inflection({

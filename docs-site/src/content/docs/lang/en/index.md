@@ -40,7 +40,7 @@ const runLemma = dumling.en.create.lemma({
 	lemmaKind: "Lexeme",
 	lemmaSubKind: "VERB",
 	inherentFeatures: {},
-	meaningInEmojis: "run",
+	meaningInEmojis: "🏃",
 });
 
 const ranSurface = dumling.en.create.surface.inflection({
