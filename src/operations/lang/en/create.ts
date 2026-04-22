@@ -1,9 +1,4 @@
-import type {
-	LanguageApi,
-	Lemma,
-	Selection,
-	Surface,
-} from "../../../types/public-types";
+import type { LanguageApi } from "../../../types/public-types";
 
 type EnCreateOperations = LanguageApi<"en">["create"];
 type EnCreateLemma = EnCreateOperations["lemma"];

@@ -20,18 +20,6 @@ type LanguagePackSchemaTreeMap = {
 	he: (typeof schemasFor)["he"];
 };
 
-type LanguagePackCreateMap = {
-	de: LanguageApi<"de">["create"];
-	en: LanguageApi<"en">["create"];
-	he: LanguageApi<"he">["create"];
-};
-
-type LanguagePackParseMap = {
-	de: LanguageApi<"de">["parse"];
-	en: LanguageApi<"en">["parse"];
-	he: LanguageApi<"he">["parse"];
-};
-
 type SchemaGetter = () => z.ZodTypeAny;
 
 function collectSchemaGetters(value: unknown): SchemaGetter[] {

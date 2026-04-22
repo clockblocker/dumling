@@ -28,36 +28,3 @@ export type ImplementedLanguagePackDescriptor<
 	schema: TSchemaTree;
 	status: "implemented";
 };
-
-type StubLanguagePackDescriptor<
-	L extends SupportedLanguage,
-	TSchemaTree = unknown,
-> = {
-	language: L;
-	schema: TSchemaTree;
-	status: "stub";
-};
-
-type LanguagePackDescriptor<
-	L extends SupportedLanguage,
-	TPack extends LanguageTypePack<L>,
-	TSchemaTree = unknown,
-	TCreate = unknown,
-	TParse = unknown,
-> =
-	| ImplementedLanguagePackDescriptor<L, TPack, TSchemaTree, TCreate, TParse>
-	| StubLanguagePackDescriptor<L, TSchemaTree>;
-
-type LanguagePackRegistry<
-	TSchemaTreeByLanguage extends Record<SupportedLanguage, unknown>,
-	TCreateByLanguage extends Record<SupportedLanguage, unknown>,
-	TParseByLanguage extends Record<SupportedLanguage, unknown>,
-> = {
-	[L in SupportedLanguage]: LanguagePackDescriptor<
-		L,
-		LanguageTypePack<L>,
-		TSchemaTreeByLanguage[L],
-		TCreateByLanguage[L],
-		TParseByLanguage[L]
-	>;
-};

@@ -24,29 +24,9 @@ import {
 
 type AbstractLeafBundle = {
 	inflectionSurfaceSchema: z.ZodType<AbstractSurface<string, "Inflection">>;
-	lemma: () => z.ZodType<AbstractLemma<string>>;
 	lemmaSchema: z.ZodType<AbstractLemma<string>>;
 	lemmaSurfaceSchema: z.ZodType<AbstractSurface<string, "Lemma">>;
-	selection: {
-		standard: {
-			inflection: () => z.ZodType<
-				AbstractSelection<string, "Standard", "Inflection">
-			>;
-			lemma: () => z.ZodType<
-				AbstractSelection<string, "Standard", "Lemma">
-			>;
-		};
-		typo: {
-			inflection: () => z.ZodType<
-				AbstractSelection<string, "Typo", "Inflection">
-			>;
-			lemma: () => z.ZodType<AbstractSelection<string, "Typo", "Lemma">>;
-		};
-	};
-	surface: {
-		inflection: () => z.ZodType<AbstractSurface<string, "Inflection">>;
-		lemma: () => z.ZodType<AbstractSurface<string, "Lemma">>;
-	};
+	selectionSchemas: readonly z.ZodTypeAny[];
 };
 
 function buildAbstractLeafBundle(
@@ -93,52 +73,14 @@ function buildAbstractLeafBundle(
 		lemmaSchema,
 		lemmaSurfaceSchema,
 		inflectionSurfaceSchema,
-		lemma: () => lemmaSchema,
-		surface: {
-			lemma: () => lemmaSurfaceSchema,
-			inflection: () => inflectionSurfaceSchema,
-		},
-		selection: {
-			standard: {
-				lemma: () => standardLemmaSelectionSchema,
-				inflection: () => standardInflectionSelectionSchema,
-			},
-			typo: {
-				lemma: () => typoLemmaSelectionSchema,
-				inflection: () => typoInflectionSelectionSchema,
-			},
-		},
+		selectionSchemas: [
+			standardLemmaSelectionSchema,
+			typoLemmaSelectionSchema,
+			standardInflectionSelectionSchema,
+			typoInflectionSelectionSchema,
+		],
 	};
 }
-
-const abstractLemmaTree: Record<
-	string,
-	Record<string, () => z.ZodTypeAny>
-> = {};
-const abstractLemmaSurfaceTree: Record<
-	string,
-	Record<string, () => z.ZodTypeAny>
-> = {};
-const abstractInflectionSurfaceTree: Record<
-	string,
-	Record<string, () => z.ZodTypeAny>
-> = {};
-const abstractStandardLemmaSelectionTree: Record<
-	string,
-	Record<string, () => z.ZodTypeAny>
-> = {};
-const abstractTypoLemmaSelectionTree: Record<
-	string,
-	Record<string, () => z.ZodTypeAny>
-> = {};
-const abstractStandardInflectionSelectionTree: Record<
-	string,
-	Record<string, () => z.ZodTypeAny>
-> = {};
-const abstractTypoInflectionSelectionTree: Record<
-	string,
-	Record<string, () => z.ZodTypeAny>
-> = {};
 
 const abstractLemmaSchemas: z.ZodTypeAny[] = [];
 const abstractSurfaceSchemas: z.ZodTypeAny[] = [];
@@ -149,62 +91,17 @@ for (const [lemmaKind, subKinds] of [
 	["Morpheme", MorphemeKind.options],
 	["Phraseme", PhrasemeKind.options],
 ] as const) {
-	const lemmaKindKey = lemmaKind.toLowerCase();
-	abstractLemmaTree[lemmaKindKey] = {};
-	abstractLemmaSurfaceTree[lemmaKindKey] = {};
-	abstractInflectionSurfaceTree[lemmaKindKey] = {};
-	abstractStandardLemmaSelectionTree[lemmaKindKey] = {};
-	abstractTypoLemmaSelectionTree[lemmaKindKey] = {};
-	abstractStandardInflectionSelectionTree[lemmaKindKey] = {};
-	abstractTypoInflectionSelectionTree[lemmaKindKey] = {};
-
 	for (const lemmaSubKind of subKinds) {
 		const bundle = buildAbstractLeafBundle(lemmaKind, lemmaSubKind);
-		const lemmaSubKindKey = lemmaSubKind.toLowerCase();
-
-		abstractLemmaTree[lemmaKindKey][lemmaSubKindKey] = bundle.lemma;
-		abstractLemmaSurfaceTree[lemmaKindKey][lemmaSubKindKey] =
-			bundle.surface.lemma;
-		abstractInflectionSurfaceTree[lemmaKindKey][lemmaSubKindKey] =
-			bundle.surface.inflection;
-		abstractStandardLemmaSelectionTree[lemmaKindKey][lemmaSubKindKey] =
-			bundle.selection.standard.lemma;
-		abstractTypoLemmaSelectionTree[lemmaKindKey][lemmaSubKindKey] =
-			bundle.selection.typo.lemma;
-		abstractStandardInflectionSelectionTree[lemmaKindKey][lemmaSubKindKey] =
-			bundle.selection.standard.inflection;
-		abstractTypoInflectionSelectionTree[lemmaKindKey][lemmaSubKindKey] =
-			bundle.selection.typo.inflection;
 
 		abstractLemmaSchemas.push(bundle.lemmaSchema);
 		abstractSurfaceSchemas.push(
 			bundle.lemmaSurfaceSchema,
 			bundle.inflectionSurfaceSchema,
 		);
-		abstractSelectionSchemas.push(
-			bundle.selection.standard.lemma(),
-			bundle.selection.typo.lemma(),
-			bundle.selection.standard.inflection(),
-			bundle.selection.typo.inflection(),
-		);
+		abstractSelectionSchemas.push(...bundle.selectionSchemas);
 	}
 }
-
-const abstractLemmaSchema = abstractLemmaTree;
-const abstractSurfaceSchema = {
-	lemma: abstractLemmaSurfaceTree,
-	inflection: abstractInflectionSurfaceTree,
-};
-const abstractSelectionSchema = {
-	standard: {
-		lemma: abstractStandardLemmaSelectionTree,
-		inflection: abstractStandardInflectionSelectionTree,
-	},
-	typo: {
-		lemma: abstractTypoLemmaSelectionTree,
-		inflection: abstractTypoInflectionSelectionTree,
-	},
-};
 
 export const abstractRuntimeSchemas = {
 	lemma: buildUnionSchema(

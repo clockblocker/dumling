@@ -1,9 +1,4 @@
-import type {
-	LanguageApi,
-	Lemma,
-	Selection,
-	Surface,
-} from "../../../types/public-types";
+import type { LanguageApi } from "../../../types/public-types";
 
 type DeCreateOperations = LanguageApi<"de">["create"];
 type DeCreateLemma = DeCreateOperations["lemma"];

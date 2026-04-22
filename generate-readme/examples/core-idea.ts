@@ -36,6 +36,8 @@ const seeSelection = dumling.de.create.selection.standard({
 }) satisfies Selection<"de", "Standard", "Lemma", "Lexeme", "NOUN">;
 // README_BLOCK:core-selection:end
 
+void seeSelection;
+
 // README_BLOCK:quickstart-de:start
 import { dumling as packageDumling } from "dumling";
 import { schemasFor as packageSchemas } from "dumling/schema";

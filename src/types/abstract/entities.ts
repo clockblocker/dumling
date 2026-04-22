@@ -27,12 +27,12 @@ export type AbstractLemmaSubKindFor<LK extends LemmaKind> = LK extends "Lexeme"
 
 export type AbstractInherentFeaturesFor<
 	LK extends LemmaKind = LemmaKind,
-	LSK extends AbstractLemmaSubKindFor<LK> = AbstractLemmaSubKindFor<LK>,
+	_LSK extends AbstractLemmaSubKindFor<LK> = AbstractLemmaSubKindFor<LK>,
 > = AbstractInherentFeatures;
 
 export type AbstractInflectionalFeaturesFor<
 	LK extends LemmaKind = LemmaKind,
-	LSK extends AbstractLemmaSubKindFor<LK> = AbstractLemmaSubKindFor<LK>,
+	_LSK extends AbstractLemmaSubKindFor<LK> = AbstractLemmaSubKindFor<LK>,
 > = RequireAtLeastOne<AbstractInflectionalFeatures>;
 
 export type AbstractLemma<
