@@ -1,6 +1,12 @@
 import { describe, expect, it, setDefaultTimeout } from "bun:test";
 import { execFileSync } from "node:child_process";
-import { mkdtempSync, rmSync, statSync, writeFileSync } from "node:fs";
+import {
+	mkdtempSync,
+	readFileSync,
+	rmSync,
+	statSync,
+	writeFileSync,
+} from "node:fs";
 import { join, resolve } from "node:path";
 
 const projectRoot = resolve(import.meta.dir, "../../..");
@@ -146,6 +152,19 @@ describe("published package entrypoints", () => {
 		expect(packedFiles).not.toContain("dist/id.d.ts");
 		expect(packedFiles).not.toContain("dist/operation.d.ts");
 		expect(packedFiles).not.toContain("dist/entities.d.ts");
+		const rolledTypes = readFileSync(
+			resolve(projectRoot, "dist/types.d.ts"),
+			"utf8",
+		);
+		expect(rolledTypes).not.toContain("export declare type AbstractLanguageTag");
+		expect(rolledTypes).not.toContain("export declare const AbstractLanguageTag");
+		expect(rolledTypes).not.toContain("export declare const LemmaKind");
+		expect(rolledTypes).not.toContain("export declare const LemmaSubKind");
+		expect(rolledTypes).not.toContain("export declare const OrthographicStatus");
+		expect(rolledTypes).not.toContain("export declare const SelectionCoverage");
+		expect(rolledTypes).not.toContain("export declare const SpellingRelation");
+		expect(rolledTypes).not.toContain("export declare const SupportedLanguage");
+		expect(rolledTypes).not.toContain("export declare const SurfaceKind");
 		expect(
 			statSync(resolve(projectRoot, "dist/index.d.ts")).size,
 		).toBeLessThan(120_000);

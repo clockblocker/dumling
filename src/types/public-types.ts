@@ -21,18 +21,24 @@ import type {
 	LanguagePackFeatureRegistry,
 } from "./concrete-language/features/feature-registry";
 import type {
-	AbstractLanguageTag,
-	LemmaKind,
-	LemmaSubKind,
-	OrthographicStatus,
-	SelectionCoverage,
-	SpellingRelation,
-	SupportedLanguage,
-	SurfaceKind,
+	LemmaKind as CoreLemmaKind,
+	LemmaSubKind as CoreLemmaSubKind,
+	OrthographicStatus as CoreOrthographicStatus,
+	SelectionCoverage as CoreSelectionCoverage,
+	SpellingRelation as CoreSpellingRelation,
+	SupportedLanguage as CoreSupportedLanguage,
+	SurfaceKind as CoreSurfaceKind,
 } from "./core/enums";
 import type { PrettifyDeep } from "./core/helpers";
 
+export type SupportedLanguage = CoreSupportedLanguage;
 export type Language = SupportedLanguage;
+export type LemmaKind = CoreLemmaKind;
+export type LemmaSubKind = CoreLemmaSubKind;
+export type OrthographicStatus = CoreOrthographicStatus;
+export type SelectionCoverage = CoreSelectionCoverage;
+export type SpellingRelation = CoreSpellingRelation;
+export type SurfaceKind = CoreSurfaceKind;
 export type EntityKind = "Lemma" | "Surface" | "Selection";
 export type EntityValue<L extends SupportedLanguage = SupportedLanguage> =
 	| Lemma<L>
@@ -269,17 +275,6 @@ export type {
 };
 
 export type { DumlingApi, LanguageApi } from "../operations/api-shape";
-
-export type {
-	AbstractLanguageTag,
-	LemmaKind,
-	LemmaSubKind,
-	OrthographicStatus,
-	SelectionCoverage,
-	SpellingRelation,
-	SupportedLanguage,
-	SurfaceKind,
-};
 
 type PlaceholderLemma<
 	L extends SupportedLanguage,

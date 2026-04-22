@@ -1,5 +1,4 @@
 import type {
-	AbstractLanguageTag,
 	LemmaKind,
 	LexemeSubKind,
 	MorphemeSubKind,
@@ -37,7 +36,7 @@ export type AbstractInflectionalFeaturesFor<
 > = RequireAtLeastOne<AbstractInflectionalFeatures>;
 
 export type AbstractLemma<
-	L extends AbstractLanguageTag = AbstractLanguageTag,
+	L extends string = string,
 	LK extends LemmaKind = LemmaKind,
 	LSK extends AbstractLemmaSubKindFor<LK> = AbstractLemmaSubKindFor<LK>,
 > = {
@@ -62,7 +61,7 @@ type AbstractSurfacePayload<
 		: never;
 
 export type AbstractSurface<
-	L extends AbstractLanguageTag = AbstractLanguageTag,
+	L extends string = string,
 	SK extends SurfaceKind = SurfaceKind,
 	LK extends LemmaKind = LemmaKind,
 	LSK extends AbstractLemmaSubKindFor<LK> = AbstractLemmaSubKindFor<LK>,
@@ -74,7 +73,7 @@ export type AbstractSurface<
 } & AbstractSurfacePayload<SK, LK, LSK>;
 
 export type AbstractSelection<
-	L extends AbstractLanguageTag = AbstractLanguageTag,
+	L extends string = string,
 	OS extends OrthographicStatus = OrthographicStatus,
 	SK extends SurfaceKind = SurfaceKind,
 	LK extends LemmaKind = LemmaKind,

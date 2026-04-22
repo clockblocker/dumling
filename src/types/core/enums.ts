@@ -9,7 +9,7 @@ export const Language = SupportedLanguage;
 export type Language = SupportedLanguage;
 
 export const AbstractLanguageTag = z.string().min(1);
-export type AbstractLanguageTag = z.infer<typeof AbstractLanguageTag>;
+export type AbstractLanguageTag = string;
 
 const lemmaKindValues = ["Phraseme", "Lexeme", "Morpheme"] as const;
 
