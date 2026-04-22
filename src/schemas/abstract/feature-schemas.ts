@@ -1,21 +1,18 @@
-import { z } from "zod/v3";
+import type { z } from "zod/v3";
 import type {
-	AbstractInherentFeatures,
 	AbstractInflectionalFeatures,
+	AbstractInherentFeatures,
 } from "../../types/abstract/features/features-catalog";
 import { abstractFeatureCatalog } from "../../types/abstract/features/features-catalog";
 import {
+	type FeatureSchemaShape,
 	buildOptionalFeatureObjectSchema,
 	featureValueSet,
 	requireNonEmptyFeatureObject,
-	type FeatureSchemaShape,
 } from "../shared/feature-helpers";
 
 export const abstractFeatureAtomSchemas =
 	abstractFeatureCatalog satisfies FeatureSchemaShape;
-
-export const abstractFeatureCatalogSchemas = abstractFeatureAtomSchemas;
-
 
 const abstractInflectionalFeatureValueSchemas = Object.fromEntries(
 	Object.entries(abstractFeatureAtomSchemas).map(([name, schema]) => [

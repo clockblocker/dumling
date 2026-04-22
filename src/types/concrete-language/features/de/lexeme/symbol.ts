@@ -6,8 +6,14 @@ export type DeSymbolFeatures = {
 		numType?: Extract<AbstractFeatureValue<"numType">, "Card" | "Range">;
 	};
 	inflectional: {
-		case?: Extract<AbstractFeatureValue<"case">, "Acc" | "Dat" | "Gen" | "Nom">;
-		gender?: Extract<AbstractFeatureValue<"gender">, "Fem" | "Masc" | "Neut">;
+		case?: Extract<
+			AbstractFeatureValue<"case">,
+			"Acc" | "Dat" | "Gen" | "Nom"
+		>;
+		gender?: Extract<
+			AbstractFeatureValue<"gender">,
+			"Fem" | "Masc" | "Neut"
+		>;
 		number?: Extract<AbstractFeatureValue<"number">, "Plur" | "Sing">;
 	};
 };

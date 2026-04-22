@@ -1,4 +1,9 @@
-import type { LanguageApi, Lemma, Selection, Surface } from "../../../types/public-types";
+import type {
+	LanguageApi,
+	Lemma,
+	Selection,
+	Surface,
+} from "../../../types/public-types";
 
 type EnCreateOperations = LanguageApi<"en">["create"];
 type EnCreateLemma = EnCreateOperations["lemma"];
@@ -8,7 +13,7 @@ type EnCreateStandardSelection = EnCreateOperations["selection"]["standard"];
 type EnCreateTypoSelection = EnCreateOperations["selection"]["typo"];
 
 export function buildEnCreateOperations(): LanguageApi<"en">["create"] {
-	const createLemma: EnCreateLemma = (input: any) =>
+	const createLemma: EnCreateLemma = (input) =>
 		({
 			language: "en",
 			canonicalLemma: input.canonicalLemma,
@@ -18,7 +23,7 @@ export function buildEnCreateOperations(): LanguageApi<"en">["create"] {
 			meaningInEmojis: input.meaningInEmojis,
 		}) as never;
 
-	const createLemmaSurface: EnCreateLemmaSurface = (input: any) =>
+	const createLemmaSurface: EnCreateLemmaSurface = (input) =>
 		({
 			language: input.lemma.language,
 			normalizedFullSurface: input.normalizedFullSurface,
@@ -26,7 +31,7 @@ export function buildEnCreateOperations(): LanguageApi<"en">["create"] {
 			lemma: input.lemma,
 		}) as never;
 
-	const createInflectionSurface: EnCreateInflectionSurface = (input: any) =>
+	const createInflectionSurface: EnCreateInflectionSurface = (input) =>
 		({
 			language: input.lemma.language,
 			normalizedFullSurface: input.normalizedFullSurface,
@@ -35,7 +40,7 @@ export function buildEnCreateOperations(): LanguageApi<"en">["create"] {
 			inflectionalFeatures: input.inflectionalFeatures,
 		}) as never;
 
-	const createStandardSelection: EnCreateStandardSelection = (input: any) =>
+	const createStandardSelection: EnCreateStandardSelection = (input) =>
 		({
 			language: input.surface.language,
 			orthographicStatus: "Standard",
@@ -45,7 +50,7 @@ export function buildEnCreateOperations(): LanguageApi<"en">["create"] {
 			surface: input.surface,
 		}) as never;
 
-	const createTypoSelection: EnCreateTypoSelection = (input: any) =>
+	const createTypoSelection: EnCreateTypoSelection = (input) =>
 		({
 			language: input.surface.language,
 			orthographicStatus: "Typo",

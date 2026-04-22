@@ -1,8 +1,5 @@
 import type { Selection } from "../../../../src/types";
-import {
-	germanAufJedenFallLemma,
-	germanBVGLemma,
-} from "./lemmas";
+import { germanAufJedenFallLemma, germanBVGLemma } from "./lemmas";
 
 // Attestation: "Ich komme [auf jeden Fall] morgen."
 export const germanAufJedenFallDiscourseFormulaSelection = {
@@ -17,7 +14,13 @@ export const germanAufJedenFallDiscourseFormulaSelection = {
 		surfaceKind: "Lemma",
 		lemma: germanAufJedenFallLemma,
 	},
-} satisfies Selection<"de", "Standard", "Lemma", "Phraseme", "DiscourseFormula">;
+} satisfies Selection<
+	"de",
+	"Standard",
+	"Lemma",
+	"Phraseme",
+	"DiscourseFormula"
+>;
 
 // Attestation: "Ich komme auf [jeden Fall] morgen."
 export const germanAufJedenFallPartialSelection = {
@@ -32,7 +35,13 @@ export const germanAufJedenFallPartialSelection = {
 		surfaceKind: "Lemma",
 		lemma: germanAufJedenFallLemma,
 	},
-} satisfies Selection<"de", "Standard", "Lemma", "Phraseme", "DiscourseFormula">;
+} satisfies Selection<
+	"de",
+	"Standard",
+	"Lemma",
+	"Phraseme",
+	"DiscourseFormula"
+>;
 
 // Attestation: "In Berlin ... betreibt die [BVG] die U-Bahn Berlin ..."
 export const germanBVGAbbreviationSelection = {

@@ -4,5 +4,5 @@ export type DeSubordinatingConjunctionFeatures = {
 	inherent: {
 		conjType?: Extract<AbstractFeatureValue<"conjType">, "Comp">;
 	};
-	inflectional: {};
+	inflectional: Record<never, never>;
 };

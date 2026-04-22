@@ -1,7 +1,7 @@
 import { z } from "zod/v3";
+import type { DeAdpositionFeatures } from "../../../../../types/concrete-language/features/de/lexeme/adposition";
 import { abstractFeatureAtomSchemas } from "../../../../abstract/feature-schemas";
 import { buildOptionalFeatureObjectSchema } from "../../../../shared/feature-helpers";
-import type { DeAdpositionFeatures } from "../../../../../types/concrete-language/features/de/lexeme/adposition";
 
 export const deAdpositionFeaturesSchema = z
 	.object({

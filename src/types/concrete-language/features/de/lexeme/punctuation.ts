@@ -4,5 +4,5 @@ export type DePunctuationFeatures = {
 	inherent: {
 		punctType?: AbstractFeatureValue<"punctType">;
 	};
-	inflectional: {};
+	inflectional: Record<never, never>;
 };

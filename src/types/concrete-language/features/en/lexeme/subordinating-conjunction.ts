@@ -6,5 +6,5 @@ export type EnSubordinatingConjunctionFeatures = {
 		extPos?: Extract<AbstractFeatureValue<"extPos">, "ADP" | "SCONJ">;
 		style?: Extract<AbstractFeatureValue<"style">, "Vrnc">;
 	};
-	inflectional: {};
+	inflectional: Record<never, never>;
 };

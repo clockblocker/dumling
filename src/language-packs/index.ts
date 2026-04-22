@@ -1,13 +1,13 @@
 import type { z } from "zod/v3";
-import type { LanguageApi } from "../types/public-types";
-import { schemasFor } from "../schema";
-import { buildUnionSchema } from "../schemas/shared/builders";
 import { buildDeCreateOperations } from "../operations/lang/de/create";
 import { buildDeParseOperations } from "../operations/lang/de/parse";
 import { buildEnCreateOperations } from "../operations/lang/en/create";
 import { buildEnParseOperations } from "../operations/lang/en/parse";
 import { buildHeCreateOperations } from "../operations/lang/he/create";
 import { buildHeParseOperations } from "../operations/lang/he/parse";
+import { schemasFor } from "../schema";
+import { buildUnionSchema } from "../schemas/shared/builders";
+import type { LanguageApi } from "../types/public-types";
 import type {
 	ImplementedLanguagePackDescriptor,
 	RuntimeSchemaSet,
@@ -55,15 +55,15 @@ function buildRuntimeUnion(value: unknown): z.ZodTypeAny {
 	return buildUnionSchema(schemas as [z.ZodTypeAny, ...z.ZodTypeAny[]]);
 }
 
-function buildRuntimeSchemas<TPack extends LanguageTypePackMap[keyof LanguageTypePackMap]>(
-	schemaTree: {
-		entity: {
-			Lemma: unknown;
-			Selection: unknown;
-			Surface: unknown;
-		};
-	},
-): RuntimeSchemaSet<TPack> {
+function buildRuntimeSchemas<
+	TPack extends LanguageTypePackMap[keyof LanguageTypePackMap],
+>(schemaTree: {
+	entity: {
+		Lemma: unknown;
+		Selection: unknown;
+		Surface: unknown;
+	};
+}): RuntimeSchemaSet<TPack> {
 	return {
 		lemma: buildRuntimeUnion(schemaTree.entity.Lemma),
 		surface: buildRuntimeUnion(schemaTree.entity.Surface),
@@ -92,7 +92,9 @@ const deLanguagePack: ImplementedLanguagePackDescriptor<
 > = {
 	create: buildDeCreateOperations(),
 	language: "de",
-	parse: buildDeParseOperations(deRuntimeSchemas) as LanguageApi<"de">["parse"],
+	parse: buildDeParseOperations(
+		deRuntimeSchemas,
+	) as LanguageApi<"de">["parse"],
 	runtimeSchemas: deRuntimeSchemas,
 	schema: schemasFor.de,
 	status: "implemented",
@@ -107,7 +109,9 @@ const enLanguagePack: ImplementedLanguagePackDescriptor<
 > = {
 	create: buildEnCreateOperations(),
 	language: "en",
-	parse: buildEnParseOperations(enRuntimeSchemas) as LanguageApi<"en">["parse"],
+	parse: buildEnParseOperations(
+		enRuntimeSchemas,
+	) as LanguageApi<"en">["parse"],
 	runtimeSchemas: enRuntimeSchemas,
 	schema: schemasFor.en,
 	status: "implemented",
@@ -122,7 +126,9 @@ const heLanguagePack: ImplementedLanguagePackDescriptor<
 > = {
 	create: buildHeCreateOperations(),
 	language: "he",
-	parse: buildHeParseOperations(heRuntimeSchemas) as LanguageApi<"he">["parse"],
+	parse: buildHeParseOperations(
+		heRuntimeSchemas,
+	) as LanguageApi<"he">["parse"],
 	runtimeSchemas: heRuntimeSchemas,
 	schema: schemasFor.he,
 	status: "implemented",
@@ -140,4 +146,5 @@ const languagePacksInternal: ImplementedLanguagePacks = {
 	he: heLanguagePack,
 };
 
-export const languagePacks: typeof languagePacksInternal = languagePacksInternal;
+export const languagePacks: typeof languagePacksInternal =
+	languagePacksInternal;

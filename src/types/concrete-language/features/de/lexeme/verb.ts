@@ -33,7 +33,10 @@ type DeVerbalInflectionalFeatures =
 	  }
 	| {
 			aspect?: Extract<AbstractFeatureValue<"aspect">, "Perf">;
-			gender?: Extract<AbstractFeatureValue<"gender">, "Fem" | "Masc" | "Neut">;
+			gender?: Extract<
+				AbstractFeatureValue<"gender">,
+				"Fem" | "Masc" | "Neut"
+			>;
 			mood?: never;
 			number?: Extract<AbstractFeatureValue<"number">, "Plur" | "Sing">;
 			person?: never;

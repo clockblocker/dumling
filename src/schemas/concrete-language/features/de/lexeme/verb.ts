@@ -1,10 +1,10 @@
 import { z } from "zod/v3";
+import type { DeVerbFeatures } from "../../../../../types/concrete-language/features/de/lexeme/verb";
 import { abstractFeatureAtomSchemas } from "../../../../abstract/feature-schemas";
 import {
 	buildFeatureObjectSchema,
 	buildOptionalFeatureObjectSchema,
 } from "../../../../shared/feature-helpers";
-import type { DeVerbFeatures } from "../../../../../types/concrete-language/features/de/lexeme/verb";
 
 const deVerbInflectionalFeaturesSchema = z.union([
 	buildFeatureObjectSchema({

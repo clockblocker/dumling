@@ -4,5 +4,5 @@ export type DeCoordinatingConjunctionFeatures = {
 	inherent: {
 		conjType?: Extract<AbstractFeatureValue<"conjType">, "Comp">;
 	};
-	inflectional: {};
+	inflectional: Record<never, never>;
 };

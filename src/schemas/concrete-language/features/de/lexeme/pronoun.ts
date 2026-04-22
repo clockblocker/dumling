@@ -1,10 +1,10 @@
 import { z } from "zod/v3";
+import type { DePronounFeatures } from "../../../../../types/concrete-language/features/de/lexeme/pronoun";
 import { abstractFeatureAtomSchemas } from "../../../../abstract/feature-schemas";
 import {
 	buildOptionalFeatureObjectSchema,
 	requireNonEmptyFeatureObject,
 } from "../../../../shared/feature-helpers";
-import type { DePronounFeatures } from "../../../../../types/concrete-language/features/de/lexeme/pronoun";
 
 export const dePronounFeaturesSchema = z
 	.object({

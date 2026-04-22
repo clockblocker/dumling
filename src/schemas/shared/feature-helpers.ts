@@ -31,10 +31,7 @@ export function featureValueSet<TSchema extends z.ZodTypeAny>(
 			.min(1)
 			.transform(
 				(values) =>
-					values as [
-						z.output<TSchema>,
-						...z.output<TSchema>[],
-					],
+					values as [z.output<TSchema>, ...z.output<TSchema>[]],
 			),
 	]) as unknown as z.ZodType<
 		z.output<TSchema> | NonEmptyFeatureValueSet<z.output<TSchema>>
@@ -42,16 +39,14 @@ export function featureValueSet<TSchema extends z.ZodTypeAny>(
 }
 
 function stripUnknownOntologyFeatureKeys(value: unknown) {
-	if (
-		typeof value !== "object" ||
-		value === null ||
-		Array.isArray(value)
-	) {
+	if (typeof value !== "object" || value === null || Array.isArray(value)) {
 		return value;
 	}
 
 	return Object.fromEntries(
-		Object.entries(value).filter(([name]) => name in abstractFeatureCatalog),
+		Object.entries(value).filter(
+			([name]) => name in abstractFeatureCatalog,
+		),
 	);
 }
 
@@ -64,11 +59,14 @@ export function buildFeatureObjectSchema<TShape extends FeatureSchemaShape>(
 	) as unknown as z.ZodType<RequiredFeatureObject<TShape>>;
 }
 
-export function buildOptionalFeatureObjectSchema<TShape extends FeatureSchemaShape>(
-	shape: TShape,
-): z.ZodType<InferFeatureObject<TShape>> {
+export function buildOptionalFeatureObjectSchema<
+	TShape extends FeatureSchemaShape,
+>(shape: TShape): z.ZodType<InferFeatureObject<TShape>> {
 	const optionalShape = Object.fromEntries(
-		Object.entries(shape).map(([name, schema]) => [name, schema.optional()]),
+		Object.entries(shape).map(([name, schema]) => [
+			name,
+			schema.optional(),
+		]),
 	) as OptionalizedShape<TShape>;
 
 	return buildFeatureObjectSchema(optionalShape) as unknown as z.ZodType<

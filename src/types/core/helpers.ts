@@ -1,5 +1,3 @@
-export type Prettify<T> = { [K in keyof T]: T[K] } & {};
-
 export type PrettifyDeep<T> = T extends string
 	? `${T}`
 	: T extends

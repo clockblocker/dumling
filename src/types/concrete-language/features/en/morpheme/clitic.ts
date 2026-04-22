@@ -1,4 +1,4 @@
 export type EnCliticMorphemeFeatures = {
-	inherent: {};
-	inflectional: {};
+	inherent: Record<never, never>;
+	inflectional: Record<never, never>;
 };

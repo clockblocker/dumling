@@ -4,5 +4,5 @@ export type DePrefixMorphemeFeatures = {
 	inherent: {
 		hasSepPrefix?: AbstractFeatureValue<"hasSepPrefix">;
 	};
-	inflectional: {};
+	inflectional: Record<never, never>;
 };

@@ -1,4 +1,4 @@
 export type EnProverbPhrasemeFeatures = {
-	inherent: {};
-	inflectional: {};
+	inherent: Record<never, never>;
+	inflectional: Record<never, never>;
 };

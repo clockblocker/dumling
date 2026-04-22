@@ -1,11 +1,11 @@
 import { z } from "zod/v3";
+import type { DeDeterminerFeatures } from "../../../../../types/concrete-language/features/de/lexeme/determiner";
 import { abstractFeatureAtomSchemas } from "../../../../abstract/feature-schemas";
 import {
 	buildOptionalFeatureObjectSchema,
 	featureValueSet,
 	requireNonEmptyFeatureObject,
 } from "../../../../shared/feature-helpers";
-import type { DeDeterminerFeatures } from "../../../../../types/concrete-language/features/de/lexeme/determiner";
 
 export const deDeterminerFeaturesSchema = z
 	.object({

@@ -1,6 +1,6 @@
 import type { AbstractFeatureValue } from "../../../../abstract/features/features-catalog";
 
 export type DeRootMorphemeFeatures = {
-	inherent: {};
-	inflectional: {};
+	inherent: Record<never, never>;
+	inflectional: Record<never, never>;
 };

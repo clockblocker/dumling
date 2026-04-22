@@ -7,9 +7,14 @@ import type {
 } from "../../types/public-types";
 import { extractLemma } from "./entity-accessors";
 
-type EntityValue<L extends SupportedLanguage> = Lemma<L> | Surface<L> | Selection<L>;
+type EntityValue<L extends SupportedLanguage> =
+	| Lemma<L>
+	| Surface<L>
+	| Selection<L>;
 
-export function buildDescribeOperations<L extends SupportedLanguage>(): LanguageApi<L>["describe"] {
+export function buildDescribeOperations<
+	L extends SupportedLanguage,
+>(): LanguageApi<L>["describe"] {
 	return {
 		as: {
 			lemma(value: EntityValue<L>) {

@@ -7,14 +7,15 @@ import type {
 	Surface,
 } from "../../types/public-types";
 
-type SelectionOptions<TStatus extends OrthographicStatus = OrthographicStatus> = {
-	orthographicStatus?: TStatus;
-	selectionCoverage?: Selection<SupportedLanguage>["selectionCoverage"];
-	spelledSelection?: string;
-	spellingRelation?: Selection<SupportedLanguage>["spellingRelation"];
-};
+type SelectionOptions<TStatus extends OrthographicStatus = OrthographicStatus> =
+	{
+		orthographicStatus?: TStatus;
+		selectionCoverage?: Selection<SupportedLanguage>["selectionCoverage"];
+		spelledSelection?: string;
+		spellingRelation?: Selection<SupportedLanguage>["spellingRelation"];
+	};
 
-export function buildSelectionFromSurface<
+function buildSelectionFromSurface<
 	L extends SupportedLanguage,
 	TStatus extends OrthographicStatus = "Standard",
 >(
@@ -25,13 +26,16 @@ export function buildSelectionFromSurface<
 		language: surface.language,
 		orthographicStatus: options.orthographicStatus ?? "Standard",
 		selectionCoverage: options.selectionCoverage ?? "Full",
-		spelledSelection: options.spelledSelection ?? surface.normalizedFullSurface,
+		spelledSelection:
+			options.spelledSelection ?? surface.normalizedFullSurface,
 		spellingRelation: options.spellingRelation ?? "Canonical",
 		surface,
 	} as unknown as Selection<L, TStatus>;
 }
 
-export function buildConvertOperations<L extends SupportedLanguage>(): LanguageApi<L>["convert"] {
+export function buildConvertOperations<
+	L extends SupportedLanguage,
+>(): LanguageApi<L>["convert"] {
 	return {
 		lemma: {
 			toSurface(lemma: Lemma<L>) {
@@ -40,7 +44,9 @@ export function buildConvertOperations<L extends SupportedLanguage>(): LanguageA
 					normalizedFullSurface: lemma.canonicalLemma,
 					surfaceKind: "Lemma",
 					lemma,
-				} as unknown as ReturnType<LanguageApi<L>["convert"]["lemma"]["toSurface"]>;
+				} as unknown as ReturnType<
+					LanguageApi<L>["convert"]["lemma"]["toSurface"]
+				>;
 			},
 			toSelection(lemma: Lemma<L>, options = {}) {
 				return buildSelectionFromSurface(

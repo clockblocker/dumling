@@ -4,5 +4,5 @@ export type HeSubordinatingConjunctionFeatures = {
 	inherent: {
 		case?: Extract<AbstractFeatureValue<"case">, "Tem">;
 	};
-	inflectional: {};
+	inflectional: Record<never, never>;
 };

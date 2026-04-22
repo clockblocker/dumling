@@ -1,7 +1,7 @@
 import { z } from "zod/v3";
+import type { DePunctuationFeatures } from "../../../../../types/concrete-language/features/de/lexeme/punctuation";
 import { abstractFeatureAtomSchemas } from "../../../../abstract/feature-schemas";
 import { buildOptionalFeatureObjectSchema } from "../../../../shared/feature-helpers";
-import type { DePunctuationFeatures } from "../../../../../types/concrete-language/features/de/lexeme/punctuation";
 
 export const dePunctuationFeaturesSchema = z
 	.object({

@@ -1,10 +1,10 @@
 import { z } from "zod/v3";
+import type { EnVerbFeatures } from "../../../../../types/concrete-language/features/en/lexeme/verb";
 import { abstractFeatureAtomSchemas } from "../../../../abstract/feature-schemas";
 import {
 	buildOptionalFeatureObjectSchema,
 	requireNonEmptyFeatureObject,
 } from "../../../../shared/feature-helpers";
-import type { EnVerbFeatures } from "../../../../../types/concrete-language/features/en/lexeme/verb";
 
 export const enVerbFeaturesSchema = z
 	.object({

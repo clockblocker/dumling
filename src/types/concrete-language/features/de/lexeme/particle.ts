@@ -7,5 +7,5 @@ export type DeParticleFeatures = {
 		partType?: Extract<AbstractFeatureValue<"partType">, "Inf">;
 		polarity?: Extract<AbstractFeatureValue<"polarity">, "Neg" | "Pos">;
 	};
-	inflectional: {};
+	inflectional: Record<never, never>;
 };

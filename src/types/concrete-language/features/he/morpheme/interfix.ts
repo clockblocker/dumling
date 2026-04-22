@@ -1,4 +1,4 @@
 export type HeInterfixMorphemeFeatures = {
-	inherent: {};
-	inflectional: {};
+	inherent: Record<never, never>;
+	inflectional: Record<never, never>;
 };

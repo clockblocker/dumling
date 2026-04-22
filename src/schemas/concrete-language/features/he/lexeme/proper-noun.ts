@@ -1,11 +1,11 @@
 import { z } from "zod/v3";
+import type { HeProperNounFeatures } from "../../../../../types/concrete-language/features/he/lexeme/proper-noun";
 import { abstractFeatureAtomSchemas } from "../../../../abstract/feature-schemas";
 import {
 	buildOptionalFeatureObjectSchema,
 	featureValueSet,
 	requireNonEmptyFeatureObject,
 } from "../../../../shared/feature-helpers";
-import type { HeProperNounFeatures } from "../../../../../types/concrete-language/features/he/lexeme/proper-noun";
 
 export const heProperNounFeaturesSchema = z
 	.object({

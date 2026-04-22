@@ -1,7 +1,7 @@
 import { z } from "zod/v3";
+import type { EnInterjectionFeatures } from "../../../../../types/concrete-language/features/en/lexeme/interjection";
 import { abstractFeatureAtomSchemas } from "../../../../abstract/feature-schemas";
 import { buildOptionalFeatureObjectSchema } from "../../../../shared/feature-helpers";
-import type { EnInterjectionFeatures } from "../../../../../types/concrete-language/features/en/lexeme/interjection";
 
 export const enInterjectionFeaturesSchema = z
 	.object({

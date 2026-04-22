@@ -66,7 +66,7 @@ describe("API", () => {
 			lemmaSubKind: "NOUN",
 			inherentFeatures: {},
 			meaningInEmojis: "🌊",
-		} as any);
+		});
 
 		const lemmaSurface = dumling.de.create.surface.lemma({
 			language: "he",
@@ -76,7 +76,7 @@ describe("API", () => {
 				...lemma,
 				language: "he",
 			},
-		} as any);
+		} as unknown as Parameters<typeof dumling.de.create.surface.lemma>[0]);
 
 		const typoSelection = dumling.de.create.selection.typo({
 			language: "he",
@@ -88,7 +88,7 @@ describe("API", () => {
 				...lemmaSurface,
 				language: "en",
 			},
-		} as any);
+		} as unknown as Parameters<typeof dumling.de.create.selection.typo>[0]);
 
 		expect(lemma.language).toBe("de");
 		expect(lemmaSurface.language).toBe(lemmaSurface.lemma.language);
@@ -129,7 +129,7 @@ describe("API", () => {
 				unexpected: "x",
 			},
 			meaningInEmojis: "🌊",
-		} as any);
+		});
 
 		expect(parsedLemma.success).toBe(true);
 		if (!parsedLemma.success) {
@@ -172,7 +172,7 @@ describe("API", () => {
 				tense: "Past",
 			},
 			meaningInEmojis: "🌊",
-		} as any);
+		});
 
 		expect(result.success).toBe(false);
 		if (result.success) {
@@ -197,7 +197,7 @@ describe("API", () => {
 			inflectionalFeatures: {
 				unknown: "x",
 			},
-		} as any);
+		});
 
 		expect(result.success).toBe(false);
 		if (result.success) {
@@ -228,7 +228,7 @@ describe("API", () => {
 				verbForm: "Inf",
 				gender: "Masc",
 			},
-		} as any);
+		});
 
 		expect(result.success).toBe(false);
 		if (result.success) {

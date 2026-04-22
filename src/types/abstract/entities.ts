@@ -1,16 +1,16 @@
 import type {
 	LemmaKind,
-	LexemeSubKind,
-	MorphemeSubKind,
+	MorphemeKind,
 	OrthographicStatus,
-	PhrasemeSubKind,
+	PhrasemeKind,
+	Pos,
 	SelectionCoverage,
 	SpellingRelation,
 	SurfaceKind,
 } from "../core/enums";
 import type {
-	AbstractInherentFeatures,
 	AbstractInflectionalFeatures,
+	AbstractInherentFeatures,
 } from "./features/features-catalog";
 
 type RequireAtLeastOne<T extends object> = {
@@ -18,11 +18,11 @@ type RequireAtLeastOne<T extends object> = {
 }[keyof T];
 
 export type AbstractLemmaSubKindFor<LK extends LemmaKind> = LK extends "Lexeme"
-	? LexemeSubKind
+	? Pos
 	: LK extends "Morpheme"
-		? MorphemeSubKind
+		? MorphemeKind
 		: LK extends "Phraseme"
-			? PhrasemeSubKind
+			? PhrasemeKind
 			: never;
 
 export type AbstractInherentFeaturesFor<
@@ -53,7 +53,7 @@ type AbstractSurfacePayload<
 	LK extends LemmaKind,
 	LSK extends AbstractLemmaSubKindFor<LK>,
 > = SK extends "Lemma"
-	? {}
+	? Record<never, never>
 	: SK extends "Inflection"
 		? {
 				inflectionalFeatures: AbstractInflectionalFeaturesFor<LK, LSK>;

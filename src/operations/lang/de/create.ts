@@ -1,4 +1,9 @@
-import type { LanguageApi, Lemma, Selection, Surface } from "../../../types/public-types";
+import type {
+	LanguageApi,
+	Lemma,
+	Selection,
+	Surface,
+} from "../../../types/public-types";
 
 type DeCreateOperations = LanguageApi<"de">["create"];
 type DeCreateLemma = DeCreateOperations["lemma"];
@@ -8,7 +13,7 @@ type DeCreateStandardSelection = DeCreateOperations["selection"]["standard"];
 type DeCreateTypoSelection = DeCreateOperations["selection"]["typo"];
 
 export function buildDeCreateOperations(): LanguageApi<"de">["create"] {
-	const createLemma: DeCreateLemma = (input: any) =>
+	const createLemma: DeCreateLemma = (input) =>
 		({
 			language: "de",
 			canonicalLemma: input.canonicalLemma,
@@ -18,7 +23,7 @@ export function buildDeCreateOperations(): LanguageApi<"de">["create"] {
 			meaningInEmojis: input.meaningInEmojis,
 		}) as never;
 
-	const createLemmaSurface: DeCreateLemmaSurface = (input: any) =>
+	const createLemmaSurface: DeCreateLemmaSurface = (input) =>
 		({
 			language: input.lemma.language,
 			normalizedFullSurface: input.normalizedFullSurface,
@@ -26,7 +31,7 @@ export function buildDeCreateOperations(): LanguageApi<"de">["create"] {
 			lemma: input.lemma,
 		}) as never;
 
-	const createInflectionSurface: DeCreateInflectionSurface = (input: any) =>
+	const createInflectionSurface: DeCreateInflectionSurface = (input) =>
 		({
 			language: input.lemma.language,
 			normalizedFullSurface: input.normalizedFullSurface,
@@ -35,7 +40,7 @@ export function buildDeCreateOperations(): LanguageApi<"de">["create"] {
 			inflectionalFeatures: input.inflectionalFeatures,
 		}) as never;
 
-	const createStandardSelection: DeCreateStandardSelection = (input: any) =>
+	const createStandardSelection: DeCreateStandardSelection = (input) =>
 		({
 			language: input.surface.language,
 			orthographicStatus: "Standard",
@@ -45,7 +50,7 @@ export function buildDeCreateOperations(): LanguageApi<"de">["create"] {
 			surface: input.surface,
 		}) as never;
 
-	const createTypoSelection: DeCreateTypoSelection = (input: any) =>
+	const createTypoSelection: DeCreateTypoSelection = (input) =>
 		({
 			language: input.surface.language,
 			orthographicStatus: "Typo",

@@ -5,5 +5,5 @@ export type EnOtherFeatures = {
 		extPos?: Extract<AbstractFeatureValue<"extPos">, "PROPN">;
 		foreign?: AbstractFeatureValue<"foreign">;
 	};
-	inflectional: {};
+	inflectional: Record<never, never>;
 };

@@ -13,11 +13,23 @@ export type DeDeterminerFeatures = {
 		poss?: AbstractFeatureValue<"poss">;
 		pronType?: Extract<
 			AbstractFeatureValue<"pronType">,
-			"Art" | "Dem" | "Emp" | "Exc" | "Ind" | "Int" | "Neg" | "Prs" | "Rel" | "Tot"
+			| "Art"
+			| "Dem"
+			| "Emp"
+			| "Exc"
+			| "Ind"
+			| "Int"
+			| "Neg"
+			| "Prs"
+			| "Rel"
+			| "Tot"
 		>;
 	};
 	inflectional: {
-		case?: Extract<AbstractFeatureValue<"case">, "Acc" | "Dat" | "Gen" | "Nom">;
+		case?: Extract<
+			AbstractFeatureValue<"case">,
+			"Acc" | "Dat" | "Gen" | "Nom"
+		>;
 		degree?: Extract<AbstractFeatureValue<"degree">, "Cmp" | "Pos" | "Sup">;
 		gender?:
 			| Extract<AbstractFeatureValue<"gender">, "Masc" | "Neut">
@@ -27,6 +39,9 @@ export type DeDeterminerFeatures = {
 			Extract<AbstractFeatureValue<"gender">, "Fem" | "Masc" | "Neut">
 		>;
 		number?: Extract<AbstractFeatureValue<"number">, "Plur" | "Sing">;
-		"number[psor]"?: Extract<AbstractFeatureValue<"number">, "Plur" | "Sing">;
+		"number[psor]"?: Extract<
+			AbstractFeatureValue<"number">,
+			"Plur" | "Sing"
+		>;
 	};
 };

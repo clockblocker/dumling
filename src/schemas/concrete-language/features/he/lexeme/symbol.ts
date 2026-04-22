@@ -1,6 +1,6 @@
 import { z } from "zod/v3";
-import { buildOptionalFeatureObjectSchema } from "../../../../shared/feature-helpers";
 import type { HeSymbolFeatures } from "../../../../../types/concrete-language/features/he/lexeme/symbol";
+import { buildOptionalFeatureObjectSchema } from "../../../../shared/feature-helpers";
 
 export const heSymbolFeaturesSchema = z
 	.object({

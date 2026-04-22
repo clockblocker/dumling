@@ -4,5 +4,5 @@ export type DeInterjectionFeatures = {
 	inherent: {
 		partType?: Extract<AbstractFeatureValue<"partType">, "Res">;
 	};
-	inflectional: {};
+	inflectional: Record<never, never>;
 };

@@ -1,7 +1,7 @@
 import { z } from "zod/v3";
+import type { DeCoordinatingConjunctionFeatures } from "../../../../../types/concrete-language/features/de/lexeme/coordinating-conjunction";
 import { abstractFeatureAtomSchemas } from "../../../../abstract/feature-schemas";
 import { buildOptionalFeatureObjectSchema } from "../../../../shared/feature-helpers";
-import type { DeCoordinatingConjunctionFeatures } from "../../../../../types/concrete-language/features/de/lexeme/coordinating-conjunction";
 
 export const deCoordinatingConjunctionFeaturesSchema = z
 	.object({

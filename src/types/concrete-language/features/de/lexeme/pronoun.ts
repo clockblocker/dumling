@@ -13,8 +13,14 @@ export type DePronounFeatures = {
 		>;
 	};
 	inflectional: {
-		case?: Extract<AbstractFeatureValue<"case">, "Acc" | "Dat" | "Gen" | "Nom">;
-		gender?: Extract<AbstractFeatureValue<"gender">, "Fem" | "Masc" | "Neut">;
+		case?: Extract<
+			AbstractFeatureValue<"case">,
+			"Acc" | "Dat" | "Gen" | "Nom"
+		>;
+		gender?: Extract<
+			AbstractFeatureValue<"gender">,
+			"Fem" | "Masc" | "Neut"
+		>;
 		number?: Extract<AbstractFeatureValue<"number">, "Plur" | "Sing">;
 		reflex?: AbstractFeatureValue<"reflex">;
 	};

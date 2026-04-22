@@ -1,6 +1,6 @@
 import { z } from "zod/v3";
-import { buildOptionalFeatureObjectSchema } from "../../../../shared/feature-helpers";
 import type { HeSuffixoidMorphemeFeatures } from "../../../../../types/concrete-language/features/he/morpheme/suffixoid";
+import { buildOptionalFeatureObjectSchema } from "../../../../shared/feature-helpers";
 
 export const heSuffixoidMorphemeFeaturesSchema = z
 	.object({

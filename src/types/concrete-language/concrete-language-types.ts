@@ -46,11 +46,10 @@ type InflectableLemmaSubKindsForLanguage<
 	L extends ConcreteLanguage,
 	LK extends LemmaKindForLanguage<L>,
 > = {
-	[LSK in LemmaSubKindForLanguage<L, LK>]: keyof InflectionalFeatureSetForLanguage<
+	[LSK in LemmaSubKindForLanguage<
 		L,
-		LK,
-		LSK
-	> extends never
+		LK
+	>]: keyof InflectionalFeatureSetForLanguage<L, LK, LSK> extends never
 		? never
 		: LSK;
 }[LemmaSubKindForLanguage<L, LK>];
@@ -125,7 +124,10 @@ type UnionFromTwoLevelMap<
 }>;
 
 type UnionFromThreeLevelMap<
-	T extends Record<PropertyKey, Record<PropertyKey, Record<PropertyKey, unknown>>>,
+	T extends Record<
+		PropertyKey,
+		Record<PropertyKey, Record<PropertyKey, unknown>>
+	>,
 > = ValueOf<{
 	[K in keyof T]: UnionFromTwoLevelMap<T[K]>;
 }>;
@@ -141,23 +143,29 @@ type UnionFromFourLevelMap<
 
 export type LemmaByKindForLanguage<L extends ConcreteLanguage> = {
 	[LK in LemmaKindForLanguage<L>]: {
-		[LSK in LemmaSubKindForLanguage<L, LK>]: ConcreteLemmaForLanguage<L, LK, LSK>;
+		[LSK in LemmaSubKindForLanguage<L, LK>]: ConcreteLemmaForLanguage<
+			L,
+			LK,
+			LSK
+		>;
 	};
 };
 
 type LemmaSurfaceByKindForLanguage<L extends ConcreteLanguage> = {
 	[LK in LemmaKindForLanguage<L>]: {
-		[LSK in LemmaSubKindForLanguage<L, LK>]: ConcreteLemmaSurfaceForLanguage<L, LK, LSK>;
+		[LSK in LemmaSubKindForLanguage<
+			L,
+			LK
+		>]: ConcreteLemmaSurfaceForLanguage<L, LK, LSK>;
 	};
 };
 
 type InflectionSurfaceByKindForLanguage<L extends ConcreteLanguage> = {
 	[LK in InflectableLemmaKindsForLanguage<L>]: {
-		[LSK in InflectableLemmaSubKindsForLanguage<L, LK>]: ConcreteInflectionSurfaceForLanguage<
+		[LSK in InflectableLemmaSubKindsForLanguage<
 			L,
-			LK,
-			LSK
-		>;
+			LK
+		>]: ConcreteInflectionSurfaceForLanguage<L, LK, LSK>;
 	};
 };
 
@@ -171,12 +179,10 @@ type LemmaSelectionByKindForLanguage<
 	OS extends OrthographicStatus,
 > = {
 	[LK in LemmaKindForLanguage<L>]: {
-		[LSK in LemmaSubKindForLanguage<L, LK>]: ConcreteLemmaSelectionForLanguage<
+		[LSK in LemmaSubKindForLanguage<
 			L,
-			OS,
-			LK,
-			LSK
-		>;
+			LK
+		>]: ConcreteLemmaSelectionForLanguage<L, OS, LK, LSK>;
 	};
 };
 
@@ -185,12 +191,10 @@ type InflectionSelectionByKindForLanguage<
 	OS extends OrthographicStatus,
 > = {
 	[LK in InflectableLemmaKindsForLanguage<L>]: {
-		[LSK in InflectableLemmaSubKindsForLanguage<L, LK>]: ConcreteInflectionSelectionForLanguage<
+		[LSK in InflectableLemmaSubKindsForLanguage<
 			L,
-			OS,
-			LK,
-			LSK
-		>;
+			LK
+		>]: ConcreteInflectionSelectionForLanguage<L, OS, LK, LSK>;
 	};
 };
 
@@ -212,7 +216,9 @@ export type LanguageLemmaUnionMap = {
 };
 
 export type LanguageSurfaceUnionMap = {
-	[L in ConcreteLanguage]: UnionFromThreeLevelMap<SurfaceByKindForLanguage<L>>;
+	[L in ConcreteLanguage]: UnionFromThreeLevelMap<
+		SurfaceByKindForLanguage<L>
+	>;
 };
 
 export type LanguageSelectionByOrthographicStatusMap = {

@@ -13,7 +13,9 @@ describe("ID helpers", () => {
 	it("encodes and decodes each concrete entity kind", () => {
 		const lemmaId = dumling.en.id.encode(englishWalkLemma);
 		const surfaceId = dumling.en.id.encode(englishWalkInflectionSurface);
-		const selectionId = dumling.en.id.encode(englishWalkStandardFullSelection);
+		const selectionId = dumling.en.id.encode(
+			englishWalkStandardFullSelection,
+		);
 
 		expect(lemmaId.startsWith("dumling:")).toBe(true);
 		expect(surfaceId.startsWith("dumling:")).toBe(true);
@@ -55,7 +57,9 @@ describe("ID helpers", () => {
 	});
 
 	it("returns entity mismatch for kind-specific decode requests", () => {
-		const selectionId = dumling.en.id.encode(englishWalkStandardFullSelection);
+		const selectionId = dumling.en.id.encode(
+			englishWalkStandardFullSelection,
+		);
 
 		expect(dumling.en.id.decodeAs("Lemma", selectionId)).toEqual({
 			success: false,
@@ -67,7 +71,9 @@ describe("ID helpers", () => {
 	});
 
 	it("keeps partial typo selections distinct while preserving shared surface identity", () => {
-		const upSelectionId = dumling.en.id.encode(englishGiveUpTypoPartialUpSelection);
+		const upSelectionId = dumling.en.id.encode(
+			englishGiveUpTypoPartialUpSelection,
+		);
 		const gvaeSelectionId = dumling.en.id.encode(
 			englishGiveUpTypoPartialGvaeSelection,
 		);
@@ -75,11 +81,15 @@ describe("ID helpers", () => {
 		expect(upSelectionId).not.toBe(gvaeSelectionId);
 		expect(
 			dumling.en.id.encode(englishGiveUpTypoPartialUpSelection.surface),
-		).toBe(dumling.en.id.encode(englishGiveUpTypoPartialGvaeSelection.surface));
+		).toBe(
+			dumling.en.id.encode(englishGiveUpTypoPartialGvaeSelection.surface),
+		);
 	});
 
 	it("keeps canonical and variant selections distinct", () => {
-		const canonicalId = dumling.en.id.encode(englishWalkStandardFullSelection);
+		const canonicalId = dumling.en.id.encode(
+			englishWalkStandardFullSelection,
+		);
 		const variantId = dumling.en.id.encode({
 			...englishWalkStandardFullSelection,
 			spellingRelation: "Variant",

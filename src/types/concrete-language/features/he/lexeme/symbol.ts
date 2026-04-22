@@ -1,4 +1,4 @@
 export type HeSymbolFeatures = {
-	inherent: {};
-	inflectional: {};
+	inherent: Record<never, never>;
+	inflectional: Record<never, never>;
 };

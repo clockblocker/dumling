@@ -4,5 +4,5 @@ export type DeDiscourseFormulaPhrasemeFeatures = {
 	inherent: {
 		discourseFormulaRole?: AbstractFeatureValue<"discourseFormulaRole">;
 	};
-	inflectional: {};
+	inflectional: Record<never, never>;
 };

@@ -1,11 +1,11 @@
 import { z } from "zod/v3";
+import type { EnPronounFeatures } from "../../../../../types/concrete-language/features/en/lexeme/pronoun";
 import { abstractFeatureAtomSchemas } from "../../../../abstract/feature-schemas";
 import {
 	buildOptionalFeatureObjectSchema,
 	featureValueSet,
 	requireNonEmptyFeatureObject,
 } from "../../../../shared/feature-helpers";
-import type { EnPronounFeatures } from "../../../../../types/concrete-language/features/en/lexeme/pronoun";
 
 export const enPronounFeaturesSchema = z
 	.object({

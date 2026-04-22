@@ -1,10 +1,10 @@
 import { z } from "zod/v3";
+import type { DeNounFeatures } from "../../../../../types/concrete-language/features/de/lexeme/noun";
 import { abstractFeatureAtomSchemas } from "../../../../abstract/feature-schemas";
 import {
 	buildOptionalFeatureObjectSchema,
 	requireNonEmptyFeatureObject,
 } from "../../../../shared/feature-helpers";
-import type { DeNounFeatures } from "../../../../../types/concrete-language/features/de/lexeme/noun";
 
 export const deNounFeaturesSchema = z
 	.object({

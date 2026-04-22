@@ -1,10 +1,6 @@
-import { z } from "zod/v3";
+import type { z } from "zod/v3";
 import { getSchemaTreeFor, schemasFor } from "../../src/schema";
-import type {
-	Lemma,
-	Selection,
-	Surface,
-} from "../../src/types/public-types";
+import type { Lemma, Selection, Surface } from "../../src/types/public-types";
 
 schemasFor.de.entity.Lemma.Lexeme.ADJ() satisfies z.ZodType<
 	Lemma<"de", "Lexeme", "ADJ">

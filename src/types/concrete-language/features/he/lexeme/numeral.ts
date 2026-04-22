@@ -3,10 +3,14 @@ import type { AbstractFeatureValue } from "../../../../abstract/features/feature
 type FeatureValueSet<T> = T | readonly [T, ...T[]];
 
 export type HeNumeralFeatures = {
-	inherent: {};
+	inherent: Record<never, never>;
 	inflectional: {
 		definite?: Extract<AbstractFeatureValue<"definite">, "Cons" | "Def">;
-		gender?: FeatureValueSet<Extract<AbstractFeatureValue<"gender">, "Fem" | "Masc">>;
-		number?: FeatureValueSet<Extract<AbstractFeatureValue<"number">, "Dual" | "Plur">>;
+		gender?: FeatureValueSet<
+			Extract<AbstractFeatureValue<"gender">, "Fem" | "Masc">
+		>;
+		number?: FeatureValueSet<
+			Extract<AbstractFeatureValue<"number">, "Dual" | "Plur">
+		>;
 	};
 };

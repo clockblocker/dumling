@@ -1,7 +1,7 @@
 import { z } from "zod/v3";
+import type { EnNumeralFeatures } from "../../../../../types/concrete-language/features/en/lexeme/numeral";
 import { abstractFeatureAtomSchemas } from "../../../../abstract/feature-schemas";
 import { buildOptionalFeatureObjectSchema } from "../../../../shared/feature-helpers";
-import type { EnNumeralFeatures } from "../../../../../types/concrete-language/features/en/lexeme/numeral";
 
 export const enNumeralFeaturesSchema = z
 	.object({

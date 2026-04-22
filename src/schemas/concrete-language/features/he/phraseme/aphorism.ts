@@ -1,6 +1,6 @@
 import { z } from "zod/v3";
-import { buildOptionalFeatureObjectSchema } from "../../../../shared/feature-helpers";
 import type { HeAphorismPhrasemeFeatures } from "../../../../../types/concrete-language/features/he/phraseme/aphorism";
+import { buildOptionalFeatureObjectSchema } from "../../../../shared/feature-helpers";
 
 export const heAphorismPhrasemeFeaturesSchema = z
 	.object({

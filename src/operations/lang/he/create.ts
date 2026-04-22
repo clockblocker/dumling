@@ -1,4 +1,9 @@
-import type { LanguageApi, Lemma, Selection, Surface } from "../../../types/public-types";
+import type {
+	LanguageApi,
+	Lemma,
+	Selection,
+	Surface,
+} from "../../../types/public-types";
 
 type HeCreateOperations = LanguageApi<"he">["create"];
 type HeCreateLemma = HeCreateOperations["lemma"];
@@ -8,7 +13,7 @@ type HeCreateStandardSelection = HeCreateOperations["selection"]["standard"];
 type HeCreateTypoSelection = HeCreateOperations["selection"]["typo"];
 
 export function buildHeCreateOperations(): LanguageApi<"he">["create"] {
-	const createLemma: HeCreateLemma = (input: any) =>
+	const createLemma: HeCreateLemma = (input) =>
 		({
 			language: "he",
 			canonicalLemma: input.canonicalLemma,
@@ -18,7 +23,7 @@ export function buildHeCreateOperations(): LanguageApi<"he">["create"] {
 			meaningInEmojis: input.meaningInEmojis,
 		}) as never;
 
-	const createLemmaSurface: HeCreateLemmaSurface = (input: any) =>
+	const createLemmaSurface: HeCreateLemmaSurface = (input) =>
 		({
 			language: input.lemma.language,
 			normalizedFullSurface: input.normalizedFullSurface,
@@ -26,7 +31,7 @@ export function buildHeCreateOperations(): LanguageApi<"he">["create"] {
 			lemma: input.lemma,
 		}) as never;
 
-	const createInflectionSurface: HeCreateInflectionSurface = (input: any) =>
+	const createInflectionSurface: HeCreateInflectionSurface = (input) =>
 		({
 			language: input.lemma.language,
 			normalizedFullSurface: input.normalizedFullSurface,
@@ -35,7 +40,7 @@ export function buildHeCreateOperations(): LanguageApi<"he">["create"] {
 			inflectionalFeatures: input.inflectionalFeatures,
 		}) as never;
 
-	const createStandardSelection: HeCreateStandardSelection = (input: any) =>
+	const createStandardSelection: HeCreateStandardSelection = (input) =>
 		({
 			language: input.surface.language,
 			orthographicStatus: "Standard",
@@ -45,7 +50,7 @@ export function buildHeCreateOperations(): LanguageApi<"he">["create"] {
 			surface: input.surface,
 		}) as never;
 
-	const createTypoSelection: HeCreateTypoSelection = (input: any) =>
+	const createTypoSelection: HeCreateTypoSelection = (input) =>
 		({
 			language: input.surface.language,
 			orthographicStatus: "Typo",

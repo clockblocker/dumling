@@ -5,5 +5,5 @@ export type EnCoordinatingConjunctionFeatures = {
 		abbr?: AbstractFeatureValue<"abbr">;
 		polarity?: Extract<AbstractFeatureValue<"polarity">, "Neg">;
 	};
-	inflectional: {};
+	inflectional: Record<never, never>;
 };

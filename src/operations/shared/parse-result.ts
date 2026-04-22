@@ -1,13 +1,8 @@
 import type { z } from "zod/v3";
-import type {
-	ApiResult,
-	ParseError,
-} from "../api-shape";
-import type {
-	SupportedLanguage,
-} from "../../types/public-types";
+import type { SupportedLanguage } from "../../types/public-types";
+import type { ApiResult, ParseError } from "../api-shape";
 
-export function invalidParseResult(
+function invalidParseResult(
 	language: SupportedLanguage,
 	error: z.ZodError,
 ): ApiResult<never, ParseError> {
@@ -18,7 +13,8 @@ export function invalidParseResult(
 			language,
 			message: "Input did not match the requested Dumling schema",
 			issues: error.issues.map((issue) => {
-				const path = issue.path.length > 0 ? issue.path.join(".") : "input";
+				const path =
+					issue.path.length > 0 ? issue.path.join(".") : "input";
 				return `${path}: ${issue.message}`;
 			}),
 		},

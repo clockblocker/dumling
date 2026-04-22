@@ -2,8 +2,8 @@ import type {
 	EntityKind,
 	Lemma,
 	Selection,
-	Surface,
 	SupportedLanguage,
+	Surface,
 } from "../../types/public-types";
 
 export function extractLemma<L extends SupportedLanguage>(

@@ -12,7 +12,7 @@ import type {
 import type { z } from "zod/v3";
 import type { Descriptor } from "../../types/descriptor";
 
-export type SchemaGetter<T> = () => z.ZodType<T>;
+type SchemaGetter<T> = () => z.ZodType<T>;
 
 export type LemmaSubKindForSurfaceKind<
 	L extends SupportedLanguage,
@@ -54,9 +54,6 @@ export type LanguageSchemaTree<L extends SupportedLanguage> = {
 export type SchemaRegistry = {
 	[L in SupportedLanguage]: LanguageSchemaTree<L>;
 };
-
-export type EverySupportedLanguageHasConcreteSchema =
-	SupportedLanguage extends keyof SchemaRegistry ? true : never;
 
 export type RawLemmaSchemaSubtree<L extends SupportedLanguage> = {
 	[LK in LemmaKindFor<L>]: {

@@ -7,5 +7,5 @@ export type EnInterjectionFeatures = {
 		polarity?: Extract<AbstractFeatureValue<"polarity">, "Neg" | "Pos">;
 		style?: Extract<AbstractFeatureValue<"style">, "Expr">;
 	};
-	inflectional: {};
+	inflectional: Record<never, never>;
 };

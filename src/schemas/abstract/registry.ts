@@ -1,15 +1,15 @@
-import { z } from "zod/v3";
+import type { z } from "zod/v3";
+import {
+	AbstractLanguageTag,
+	MorphemeKind,
+	PhrasemeKind,
+	Pos,
+} from "../../types/core/enums";
 import type {
 	AbstractLemma,
 	AbstractSelection,
 	AbstractSurface,
 } from "../../types/public-types";
-import {
-	AbstractLanguageTag,
-	LexemeSubKind,
-	MorphemeSubKind,
-	PhrasemeSubKind,
-} from "../../types/core/enums";
 import {
 	buildInflectionSurfaceSchema,
 	buildLemmaSchema,
@@ -18,8 +18,8 @@ import {
 	buildUnionSchema,
 } from "../shared/builders";
 import {
-	abstractInherentFeaturesSchema,
 	abstractInflectionalFeaturesSchema,
+	abstractInherentFeaturesSchema,
 } from "./feature-schemas";
 
 type AbstractLeafBundle = {
@@ -29,11 +29,17 @@ type AbstractLeafBundle = {
 	lemmaSurfaceSchema: z.ZodType<AbstractSurface<string, "Lemma">>;
 	selection: {
 		standard: {
-			inflection: () => z.ZodType<AbstractSelection<string, "Standard", "Inflection">>;
-			lemma: () => z.ZodType<AbstractSelection<string, "Standard", "Lemma">>;
+			inflection: () => z.ZodType<
+				AbstractSelection<string, "Standard", "Inflection">
+			>;
+			lemma: () => z.ZodType<
+				AbstractSelection<string, "Standard", "Lemma">
+			>;
 		};
 		typo: {
-			inflection: () => z.ZodType<AbstractSelection<string, "Typo", "Inflection">>;
+			inflection: () => z.ZodType<
+				AbstractSelection<string, "Typo", "Inflection">
+			>;
 			lemma: () => z.ZodType<AbstractSelection<string, "Typo", "Lemma">>;
 		};
 	};
@@ -105,10 +111,18 @@ function buildAbstractLeafBundle(
 	};
 }
 
-const abstractLemmaTree: Record<string, Record<string, () => z.ZodTypeAny>> = {};
-const abstractLemmaSurfaceTree: Record<string, Record<string, () => z.ZodTypeAny>> = {};
-const abstractInflectionSurfaceTree: Record<string, Record<string, () => z.ZodTypeAny>> =
-	{};
+const abstractLemmaTree: Record<
+	string,
+	Record<string, () => z.ZodTypeAny>
+> = {};
+const abstractLemmaSurfaceTree: Record<
+	string,
+	Record<string, () => z.ZodTypeAny>
+> = {};
+const abstractInflectionSurfaceTree: Record<
+	string,
+	Record<string, () => z.ZodTypeAny>
+> = {};
 const abstractStandardLemmaSelectionTree: Record<
 	string,
 	Record<string, () => z.ZodTypeAny>
@@ -131,9 +145,9 @@ const abstractSurfaceSchemas: z.ZodTypeAny[] = [];
 const abstractSelectionSchemas: z.ZodTypeAny[] = [];
 
 for (const [lemmaKind, subKinds] of [
-	["Lexeme", LexemeSubKind.options],
-	["Morpheme", MorphemeSubKind.options],
-	["Phraseme", PhrasemeSubKind.options],
+	["Lexeme", Pos.options],
+	["Morpheme", MorphemeKind.options],
+	["Phraseme", PhrasemeKind.options],
 ] as const) {
 	const lemmaKindKey = lemmaKind.toLowerCase();
 	abstractLemmaTree[lemmaKindKey] = {};
@@ -149,7 +163,8 @@ for (const [lemmaKind, subKinds] of [
 		const lemmaSubKindKey = lemmaSubKind.toLowerCase();
 
 		abstractLemmaTree[lemmaKindKey][lemmaSubKindKey] = bundle.lemma;
-		abstractLemmaSurfaceTree[lemmaKindKey][lemmaSubKindKey] = bundle.surface.lemma;
+		abstractLemmaSurfaceTree[lemmaKindKey][lemmaSubKindKey] =
+			bundle.surface.lemma;
 		abstractInflectionSurfaceTree[lemmaKindKey][lemmaSubKindKey] =
 			bundle.surface.inflection;
 		abstractStandardLemmaSelectionTree[lemmaKindKey][lemmaSubKindKey] =
@@ -175,12 +190,12 @@ for (const [lemmaKind, subKinds] of [
 	}
 }
 
-export const abstractLemmaSchema = abstractLemmaTree;
-export const abstractSurfaceSchema = {
+const abstractLemmaSchema = abstractLemmaTree;
+const abstractSurfaceSchema = {
 	lemma: abstractLemmaSurfaceTree,
 	inflection: abstractInflectionSurfaceTree,
 };
-export const abstractSelectionSchema = {
+const abstractSelectionSchema = {
 	standard: {
 		lemma: abstractStandardLemmaSelectionTree,
 		inflection: abstractStandardInflectionSelectionTree,
@@ -196,9 +211,17 @@ export const abstractRuntimeSchemas = {
 		abstractLemmaSchemas as [z.ZodTypeAny, z.ZodTypeAny, ...z.ZodTypeAny[]],
 	) as z.ZodType<AbstractLemma<string>>,
 	surface: buildUnionSchema(
-		abstractSurfaceSchemas as [z.ZodTypeAny, z.ZodTypeAny, ...z.ZodTypeAny[]],
+		abstractSurfaceSchemas as [
+			z.ZodTypeAny,
+			z.ZodTypeAny,
+			...z.ZodTypeAny[],
+		],
 	) as z.ZodType<AbstractSurface<string>>,
 	selection: buildUnionSchema(
-		abstractSelectionSchemas as [z.ZodTypeAny, z.ZodTypeAny, ...z.ZodTypeAny[]],
+		abstractSelectionSchemas as [
+			z.ZodTypeAny,
+			z.ZodTypeAny,
+			...z.ZodTypeAny[],
+		],
 	) as z.ZodType<AbstractSelection<string>>,
 } as const;

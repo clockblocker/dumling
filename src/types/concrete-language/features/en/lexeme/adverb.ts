@@ -10,7 +10,10 @@ export type EnAdverbFeatures = {
 			"ADP" | "ADV" | "CCONJ" | "SCONJ"
 		>;
 		numForm?: Extract<AbstractFeatureValue<"numForm">, "Word">;
-		numType?: Extract<AbstractFeatureValue<"numType">, "Frac" | "Mult" | "Ord">;
+		numType?: Extract<
+			AbstractFeatureValue<"numType">,
+			"Frac" | "Mult" | "Ord"
+		>;
 		pronType?: FeatureValueSet<
 			Extract<
 				AbstractFeatureValue<"pronType">,

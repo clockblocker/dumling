@@ -1,10 +1,10 @@
 import { z } from "zod/v3";
+import type { DeAdverbFeatures } from "../../../../../types/concrete-language/features/de/lexeme/adverb";
 import { abstractFeatureAtomSchemas } from "../../../../abstract/feature-schemas";
 import {
 	buildOptionalFeatureObjectSchema,
 	requireNonEmptyFeatureObject,
 } from "../../../../shared/feature-helpers";
-import type { DeAdverbFeatures } from "../../../../../types/concrete-language/features/de/lexeme/adverb";
 
 export const deAdverbFeaturesSchema = z
 	.object({

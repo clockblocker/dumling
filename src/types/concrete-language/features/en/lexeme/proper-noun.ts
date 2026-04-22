@@ -7,6 +7,9 @@ export type EnProperNounFeatures = {
 		style?: Extract<AbstractFeatureValue<"style">, "Expr">;
 	};
 	inflectional: {
-		number?: Extract<AbstractFeatureValue<"number">, "Plur" | "Ptan" | "Sing">;
+		number?: Extract<
+			AbstractFeatureValue<"number">,
+			"Plur" | "Ptan" | "Sing"
+		>;
 	};
 };

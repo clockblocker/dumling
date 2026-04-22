@@ -5,12 +5,12 @@ import type {
 	LemmaSubKindFor,
 } from "dumling/types";
 import { z } from "zod/v3";
+import type { ConcreteLanguage } from "../../types/concrete-language/features/feature-registry";
 import {
 	type OrthographicStatus,
 	SelectionCoverage,
 	SpellingRelation,
 } from "../../types/core/enums";
-import type { ConcreteLanguage } from "../../types/concrete-language/features/feature-registry";
 import {
 	normalizedLowercaseStringSchema,
 	normalizedStringSchema,
@@ -172,7 +172,7 @@ type FeatureSchemaFor<
 	inflectional: z.ZodType<InflectionalFeaturesFor<L, LK, LSK>>;
 }>;
 
-export type FeatureSchemaTree<L extends ConcreteLanguage> = {
+type FeatureSchemaTree<L extends ConcreteLanguage> = {
 	[LK in LemmaKindFor<L>]: {
 		[LSK in LemmaSubKindFor<L, LK>]: FeatureSchemaFor<L, LK, LSK>;
 	};

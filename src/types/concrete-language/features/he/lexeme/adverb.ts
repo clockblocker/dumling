@@ -4,5 +4,5 @@ export type HeAdverbFeatures = {
 	inherent: {
 		prefix?: AbstractFeatureValue<"prefix">;
 	};
-	inflectional: {};
+	inflectional: Record<never, never>;
 };

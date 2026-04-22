@@ -11,7 +11,15 @@ export type EnPronounFeatures = {
 		pronType?: FeatureValueSet<
 			Extract<
 				AbstractFeatureValue<"pronType">,
-				"Dem" | "Emp" | "Ind" | "Int" | "Neg" | "Prs" | "Rcp" | "Rel" | "Tot"
+				| "Dem"
+				| "Emp"
+				| "Ind"
+				| "Int"
+				| "Neg"
+				| "Prs"
+				| "Rcp"
+				| "Rel"
+				| "Tot"
 			>
 		>;
 		style?: Extract<
@@ -21,7 +29,10 @@ export type EnPronounFeatures = {
 	};
 	inflectional: {
 		case?: Extract<AbstractFeatureValue<"case">, "Acc" | "Gen" | "Nom">;
-		gender?: Extract<AbstractFeatureValue<"gender">, "Fem" | "Masc" | "Neut">;
+		gender?: Extract<
+			AbstractFeatureValue<"gender">,
+			"Fem" | "Masc" | "Neut"
+		>;
 		number?: Extract<AbstractFeatureValue<"number">, "Plur" | "Sing">;
 		reflex?: AbstractFeatureValue<"reflex">;
 	};

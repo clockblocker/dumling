@@ -21,7 +21,12 @@ test("README examples expose all named blocks used by the template", () => {
 
 	for (const blockName of templateBlockNames) {
 		expect(blockName).toBeDefined();
-		expect(blocks.has(blockName!)).toBe(true);
+		if (blockName === undefined) {
+			throw new Error(
+				"template block match did not include a block name",
+			);
+		}
+		expect(blocks.has(blockName)).toBe(true);
 	}
 });
 

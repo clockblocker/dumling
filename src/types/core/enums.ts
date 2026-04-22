@@ -5,9 +5,6 @@ const supportedLanguageValues = ["en", "de", "he"] as const;
 export const SupportedLanguage = z.enum(supportedLanguageValues);
 export type SupportedLanguage = z.infer<typeof SupportedLanguage>;
 
-export const Language = SupportedLanguage;
-export type Language = SupportedLanguage;
-
 export const AbstractLanguageTag = z.string().min(1);
 export type AbstractLanguageTag = string;
 
@@ -92,15 +89,6 @@ const morphemeKindValues = [
 
 export const MorphemeKind = z.enum(morphemeKindValues);
 export type MorphemeKind = z.infer<typeof MorphemeKind>;
-
-export const LexemeSubKind = Pos;
-export type LexemeSubKind = Pos;
-
-export const PhrasemeSubKind = PhrasemeKind;
-export type PhrasemeSubKind = PhrasemeKind;
-
-export const MorphemeSubKind = MorphemeKind;
-export type MorphemeSubKind = MorphemeKind;
 
 const lemmaSubKindValues = [
 	...posValues,

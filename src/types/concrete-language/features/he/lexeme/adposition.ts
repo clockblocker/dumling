@@ -5,5 +5,5 @@ export type HeAdpositionFeatures = {
 		abbr?: AbstractFeatureValue<"abbr">;
 		case?: Extract<AbstractFeatureValue<"case">, "Acc" | "Gen">;
 	};
-	inflectional: {};
+	inflectional: Record<never, never>;
 };

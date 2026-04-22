@@ -8,9 +8,15 @@ export type DeAdjectiveFeatures = {
 		variant?: AbstractFeatureValue<"variant">;
 	};
 	inflectional: {
-		case?: Extract<AbstractFeatureValue<"case">, "Acc" | "Dat" | "Gen" | "Nom">;
+		case?: Extract<
+			AbstractFeatureValue<"case">,
+			"Acc" | "Dat" | "Gen" | "Nom"
+		>;
 		degree?: Extract<AbstractFeatureValue<"degree">, "Cmp" | "Pos" | "Sup">;
-		gender?: Extract<AbstractFeatureValue<"gender">, "Fem" | "Masc" | "Neut">;
+		gender?: Extract<
+			AbstractFeatureValue<"gender">,
+			"Fem" | "Masc" | "Neut"
+		>;
 		number?: Extract<AbstractFeatureValue<"number">, "Plur" | "Sing">;
 	};
 };

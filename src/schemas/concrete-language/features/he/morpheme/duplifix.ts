@@ -1,6 +1,6 @@
 import { z } from "zod/v3";
-import { buildOptionalFeatureObjectSchema } from "../../../../shared/feature-helpers";
 import type { HeDuplifixMorphemeFeatures } from "../../../../../types/concrete-language/features/he/morpheme/duplifix";
+import { buildOptionalFeatureObjectSchema } from "../../../../shared/feature-helpers";
 
 export const heDuplifixMorphemeFeaturesSchema = z
 	.object({

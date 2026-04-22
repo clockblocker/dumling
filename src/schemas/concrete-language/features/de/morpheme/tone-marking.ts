@@ -1,6 +1,6 @@
 import { z } from "zod/v3";
-import { buildOptionalFeatureObjectSchema } from "../../../../shared/feature-helpers";
 import type { DeToneMarkingMorphemeFeatures } from "../../../../../types/concrete-language/features/de/morpheme/tone-marking";
+import { buildOptionalFeatureObjectSchema } from "../../../../shared/feature-helpers";
 
 export const deToneMarkingMorphemeFeaturesSchema = z
 	.object({

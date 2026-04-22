@@ -1,11 +1,12 @@
 import type { z } from "zod/v3";
 import type { SupportedLanguage } from "../types/core/enums";
 
-export type LanguageTypePack<L extends SupportedLanguage = SupportedLanguage> = {
-	lemma: { language: L };
-	surface: { language: L };
-	selection: { language: L };
-};
+export type LanguageTypePack<L extends SupportedLanguage = SupportedLanguage> =
+	{
+		lemma: { language: L };
+		surface: { language: L };
+		selection: { language: L };
+	};
 
 export type RuntimeSchemaSet<TPack extends LanguageTypePack> = {
 	lemma: z.ZodType<TPack["lemma"]>;
@@ -28,7 +29,7 @@ export type ImplementedLanguagePackDescriptor<
 	status: "implemented";
 };
 
-export type StubLanguagePackDescriptor<
+type StubLanguagePackDescriptor<
 	L extends SupportedLanguage,
 	TSchemaTree = unknown,
 > = {
@@ -37,7 +38,7 @@ export type StubLanguagePackDescriptor<
 	status: "stub";
 };
 
-export type LanguagePackDescriptor<
+type LanguagePackDescriptor<
 	L extends SupportedLanguage,
 	TPack extends LanguageTypePack<L>,
 	TSchemaTree = unknown,
@@ -47,7 +48,7 @@ export type LanguagePackDescriptor<
 	| ImplementedLanguagePackDescriptor<L, TPack, TSchemaTree, TCreate, TParse>
 	| StubLanguagePackDescriptor<L, TSchemaTree>;
 
-export type LanguagePackRegistry<
+type LanguagePackRegistry<
 	TSchemaTreeByLanguage extends Record<SupportedLanguage, unknown>,
 	TCreateByLanguage extends Record<SupportedLanguage, unknown>,
 	TParseByLanguage extends Record<SupportedLanguage, unknown>,

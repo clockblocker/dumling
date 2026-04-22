@@ -1,10 +1,10 @@
 import { z } from "zod/v3";
 
-export function normalizeNfc(value: string) {
+function normalizeNfc(value: string) {
 	return value.normalize("NFC");
 }
 
-export function normalizeNfcLowercase(value: string) {
+function normalizeNfcLowercase(value: string) {
 	return normalizeNfc(value).toLowerCase();
 }
 

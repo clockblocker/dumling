@@ -8,7 +8,9 @@ export type HeAdjectiveFeatures = {
 	};
 	inflectional: {
 		definite?: Extract<AbstractFeatureValue<"definite">, "Cons" | "Def">;
-		gender?: FeatureValueSet<Extract<AbstractFeatureValue<"gender">, "Fem" | "Masc">>;
+		gender?: FeatureValueSet<
+			Extract<AbstractFeatureValue<"gender">, "Fem" | "Masc">
+		>;
 		number?: Extract<AbstractFeatureValue<"number">, "Plur" | "Sing">;
 	};
 };

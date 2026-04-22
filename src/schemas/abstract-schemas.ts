@@ -1,6 +1,5 @@
 import type { z } from "zod/v3";
 import { z as zod } from "zod/v3";
-import { abstractRuntimeSchemas } from "./abstract/registry";
 import {
 	AbstractLanguageTag,
 	LemmaKind,
@@ -18,6 +17,7 @@ import type {
 	OrthographicStatus as OrthographicStatusType,
 	SurfaceKind as SurfaceKindType,
 } from "../types/public-types";
+import { abstractRuntimeSchemas } from "./abstract/registry";
 
 type AbstractLemmaDescriptor = {
 	[LK in LemmaKindType]: {

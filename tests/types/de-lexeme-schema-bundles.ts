@@ -1,10 +1,6 @@
-import { z } from "zod/v3";
+import type { z } from "zod/v3";
 import { schemasFor } from "../../src/schema";
-import type {
-	Lemma,
-	Selection,
-	Surface,
-} from "../../src/types/public-types";
+import type { Lemma, Selection, Surface } from "../../src/types/public-types";
 
 const adjectiveLemma = schemasFor.de.entity.Lemma.Lexeme.ADJ();
 const adpositionLemma = schemasFor.de.entity.Lemma.Lexeme.ADP();

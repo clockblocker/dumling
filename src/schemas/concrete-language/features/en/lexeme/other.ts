@@ -1,7 +1,7 @@
 import { z } from "zod/v3";
+import type { EnOtherFeatures } from "../../../../../types/concrete-language/features/en/lexeme/other";
 import { abstractFeatureAtomSchemas } from "../../../../abstract/feature-schemas";
 import { buildOptionalFeatureObjectSchema } from "../../../../shared/feature-helpers";
-import type { EnOtherFeatures } from "../../../../../types/concrete-language/features/en/lexeme/other";
 
 export const enOtherFeaturesSchema = z
 	.object({

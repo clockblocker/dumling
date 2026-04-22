@@ -6,5 +6,5 @@ export type EnParticleFeatures = {
 		extPos?: Extract<AbstractFeatureValue<"extPos">, "CCONJ">;
 		polarity?: Extract<AbstractFeatureValue<"polarity">, "Neg">;
 	};
-	inflectional: {};
+	inflectional: Record<never, never>;
 };

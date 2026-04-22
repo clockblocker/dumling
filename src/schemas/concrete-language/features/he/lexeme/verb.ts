@@ -1,11 +1,11 @@
 import { z } from "zod/v3";
+import type { HeVerbFeatures } from "../../../../../types/concrete-language/features/he/lexeme/verb";
 import { abstractFeatureAtomSchemas } from "../../../../abstract/feature-schemas";
 import {
 	buildOptionalFeatureObjectSchema,
 	featureValueSet,
 	requireNonEmptyFeatureObject,
 } from "../../../../shared/feature-helpers";
-import type { HeVerbFeatures } from "../../../../../types/concrete-language/features/he/lexeme/verb";
 
 export const heVerbFeaturesSchema = z
 	.object({

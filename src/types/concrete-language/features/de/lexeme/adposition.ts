@@ -3,11 +3,14 @@ import type { AbstractFeatureValue } from "../../../../abstract/features/feature
 export type DeAdpositionFeatures = {
 	inherent: {
 		abbr?: AbstractFeatureValue<"abbr">;
-		adpType?: Extract<AbstractFeatureValue<"adpType">, "Circ" | "Post" | "Prep">;
+		adpType?: Extract<
+			AbstractFeatureValue<"adpType">,
+			"Circ" | "Post" | "Prep"
+		>;
 		extPos?: Extract<AbstractFeatureValue<"extPos">, "ADV" | "SCONJ">;
 		foreign?: AbstractFeatureValue<"foreign">;
 		governedCase?: AbstractFeatureValue<"governedCase">;
 		partType?: Extract<AbstractFeatureValue<"partType">, "Vbp">;
 	};
-	inflectional: {};
+	inflectional: Record<never, never>;
 };

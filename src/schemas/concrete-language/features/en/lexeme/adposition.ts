@@ -1,7 +1,7 @@
 import { z } from "zod/v3";
+import type { EnAdpositionFeatures } from "../../../../../types/concrete-language/features/en/lexeme/adposition";
 import { abstractFeatureAtomSchemas } from "../../../../abstract/feature-schemas";
 import { buildOptionalFeatureObjectSchema } from "../../../../shared/feature-helpers";
-import type { EnAdpositionFeatures } from "../../../../../types/concrete-language/features/en/lexeme/adposition";
 
 export const enAdpositionFeaturesSchema = z
 	.object({

@@ -10,14 +10,14 @@ import type {
 	SurfaceKindFor,
 } from "../types/public-types";
 import type {
-	LemmaSubKindForSurfaceKind,
 	LanguageDescriptorSchemaTree,
+	LemmaSubKindForSurfaceKind,
 	RawEntitySchemaRegistry,
 } from "./shared/schema-helper-types";
 
 type DescriptorSchema<TDescriptor> = z.ZodType<TDescriptor>;
 
-export type DescriptorSchemaTree = {
+type DescriptorSchemaTree = {
 	[L in ConcreteLanguage]: LanguageDescriptorSchemaTree<L>;
 };
 

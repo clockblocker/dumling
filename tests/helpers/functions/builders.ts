@@ -31,11 +31,8 @@ function makeLemma<
 		canonicalLemma,
 		lemmaKind,
 		lemmaSubKind,
-		inherentFeatures: (options.inherentFeatures ?? {}) as InherentFeaturesFor<
-			L,
-			LK,
-			LSK
-		>,
+		inherentFeatures: (options.inherentFeatures ??
+			{}) as InherentFeaturesFor<L, LK, LSK>,
 		meaningInEmojis: options.meaningInEmojis ?? "🔤",
 	} as Lemma<L, LK, LSK>;
 }
