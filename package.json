@@ -68,7 +68,7 @@
 		"lint": "bunx @biomejs/biome check .",
 		"prepack": "bun run generate:readme && bun run build",
 		"test": "bun test",
-		"test:package": "bun test ./tests/external/package-entrypoints.check.ts"
+		"test:package": "bun test ./tests/internal/package-hygine/package-entrypoints.check.ts"
 	},
 	"dependencies": {
 		"zod": "3.25.76"

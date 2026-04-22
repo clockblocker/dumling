@@ -3,7 +3,7 @@ import { execFileSync } from "node:child_process";
 import { mkdtempSync, rmSync, statSync, writeFileSync } from "node:fs";
 import { join, resolve } from "node:path";
 
-const projectRoot = resolve(import.meta.dir, "../..");
+const projectRoot = resolve(import.meta.dir, "../../..");
 
 setDefaultTimeout(30_000);
 
