@@ -34,10 +34,14 @@ English noun `number` supports `Sing`, `Plur`, and `Ptan`. English verb `tense` 
 
 English attestation source files live in `src/content/attestations-to-generate/en`. Each file exports exactly one attested dumling object and generates exactly one Markdown attestation.
 
-Selection attestations are generated from files under `selection/`. The file basename and generated Markdown basename are the API base64url ID returned by `dumling.en.id.encode.asBase64Url(selection)`, which is the linked surface ID.
+Lemma, surface, and selection attestations are generated from files under `lemma/`, `surface/`, and `selection/`. The file basename and generated Markdown basename are the API base64url ID returned by `dumling.en.id.encode.asBase64Url(entity)`.
 
 - [`walk`](./attestation/djEscyxjLHdhbGssbCxlbixsLG4sd2Fsayzwn5q2LA/)
 - [`walk in the park`](./attestation/djEscyxjLHdhbGsgaW4gdGhlIHBhcmssbCxlbixwLGlkLHdhbGsgaW4gdGhlIHBhcmss8J-YjCw/)
+- [`run`](./attestation/djEsbCxlbixsLHYscnVuLPCfj4Ms/)
+- [`book`](./attestation/djEsbCxlbixsLG4sYm9vayzwn5OaLA/)
+- [`ran`](./attestation/djEscyxpLHJhbix0ZT1wfHZmPWYsbCxlbixsLHYscnVuLPCfj4Ms/)
+- [`books`](./attestation/djEscyxpLGJvb2tzLG51PXAsbCxlbixsLG4sYm9vayzwn5OaLA/)
 
 ## Example
 
