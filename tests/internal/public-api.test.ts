@@ -43,6 +43,32 @@ describe("public API usage", () => {
 		expect(inspectId("not-a-dumling-id")).toBeUndefined();
 	});
 
+	it("keeps the exported language inventory from changing ID inspection", () => {
+		const forgedId = `dumling:${Buffer.from(
+			JSON.stringify({ entityKind: "Lemma", language: "fr" }),
+			"utf8",
+		).toString("base64url")}`;
+		const mutableLanguages = supportedLanguages as unknown as string[];
+
+		let inspectionAfterMutation: ReturnType<typeof inspectId> | undefined;
+		try {
+			try {
+				mutableLanguages.push("fr");
+			} catch {
+				// Frozen public inventories can reject mutation attempts.
+			}
+			inspectionAfterMutation = inspectId(forgedId);
+		} finally {
+			const forgedLanguageIndex = mutableLanguages.indexOf("fr");
+			if (forgedLanguageIndex !== -1) {
+				mutableLanguages.splice(forgedLanguageIndex, 1);
+			}
+		}
+
+		expect(inspectionAfterMutation).toBeUndefined();
+		expect(supportedLanguages).toEqual(["de", "en", "he"]);
+	});
+
 	it("keeps schemas available from the dedicated schema entrypoint", () => {
 		expect(
 			typeof schema.de.selection.standard.inflection.lexeme.verb().parse,
