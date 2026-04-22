@@ -58,6 +58,7 @@ dumling.de.id.decode.asSurface(input);
 - Row kind, language code, enum values, feature names, and feature values are case-sensitive. Lemma and surface text fields are canonicalized by the language parser, so caller-provided text casing does not matter there.
 - `Selection` does not get its own ID shape. `id.encode.asCsv(selection)` and `id.encode.asBase64Url(selection)` are accepted for caller ergonomics, but they first convert the selection to its linked `Surface`.
 - IDs identify normalized linguistic entities, not learner-observed selections. Selection coverage, typo spelling, and spelling relation are intentionally not represented in IDs.
+- `Selection` remains a general DTO/entity kind where the broader API needs it, but it is no longer an ID-addressable kind. Remove `decodeAs("Selection")` expectations from ID tests.
 - `id.decode.*` returns decode metadata plus the decoded `Lemma` or `Surface`.
 - Decoding through a language namespace enforces language match. For example, `dumling.de.id.decode.any("Lemma,en,...")` returns `LanguageMismatch`.
 - Existing `dumling:<base64url-json>` IDs are not supported. This is a clean breaking migration.
@@ -65,6 +66,8 @@ dumling.de.id.decode.asSurface(input);
 - Feature keys are sorted alphabetically for stable IDs.
 - Feature values are sorted alphabetically for stable IDs.
 - One-item feature arrays encode the same as scalar feature values after schema parsing and canonicalization.
+- Duplicate feature values are invalid for IDs. Encoders and decoders must reject them instead of deduping silently.
+- ID feature parsing must reject unknown feature keys before language parser normalization, because some current schema preprocessing strips unknown ontology keys.
 - Tiny token coverage must be complete. New enum members, feature names, or feature values must fail tests until explicit `v1` tokens are added.
 - `DumlingId` and `DumlingIdInspection` are removed from the public type surface. They are replaced by `DumlingCsv`, `DumlingBase64Url`, and `IdDecodeSuccess`.
 
@@ -201,7 +204,7 @@ multi-value feature value: key=value+value
 
 Feature keys sort alphabetically. Values inside a multi-value feature sort alphabetically. Feature pairs sort by feature key.
 
-Strict canonical decode rejects:
+Readable CSV decode still rejects:
 
 - row kinds other than exact `Lemma` or `Surface`;
 - lowercased row kinds such as `lemma`;
@@ -212,7 +215,9 @@ Strict canonical decode rejects:
 - unsorted multi-values;
 - non-canonical but semantically equivalent CSV quoting.
 
-The encoder must parse/canonicalize input entities before serialization, so schema-equivalent values produce one stable ID. For example, `{ case: ["Nom"] }` and `{ case: "Nom" }` encode identically after parsing.
+The encoder must parse/canonicalize input entities before serialization, so schema-equivalent values produce one stable ID. For example, `{ case: ["Nom"] }` and `{ case: "Nom" }` encode identically after parsing. Duplicate feature values such as `{ case: ["Nom", "Nom"] }` are rejected for ID encoding even if lower-level schemas would otherwise accept them.
+
+ID parsing must validate feature keys before handing a feature object to the language parser. Unknown feature keys are invalid ID payloads and must not be silently stripped by schema preprocessing.
 
 Canonical lemma row example:
 
@@ -347,9 +352,7 @@ The feature-set grammar is valid only for catalog-backed atomic feature tokens. 
 
 Coverage must be asserted from the actual schema/type registry, including language-specific features and values such as Hebrew features, phraseme and morpheme subkinds, POS values, `gender[psor]`, and `number[psor]`.
 
-If the current runtime schemas are too difficult to introspect safely, add an explicit runtime feature-token coverage registry rather than relying on brittle Zod internals. The coverage test should compare that registry against the concrete language schema inventory.
-
-Prefer adding an explicit runtime schema inventory or token coverage registry as part of this migration. Avoid mining brittle Zod internals where possible.
+Add an explicit runtime schema inventory or token coverage registry as part of this migration. Do not rely on mining brittle Zod internals. The coverage test should compare that registry against the concrete language schema inventory and the explicit token tables.
 
 ## Decode Rules
 
@@ -360,7 +363,29 @@ Prefer adding an explicit runtime schema inventory or token coverage registry as
 
 Canonical row-kind fields are never quoted. No leading whitespace or BOM is allowed. Inputs starting with `Lemma` or `Surface` but malformed as readable CSV must return a CSV-shaped error and must not fall through to base64url decoding. This keeps errors tied to the format the caller visibly provided.
 
+Detection edge cases:
+
+| Input prefix | Behavior |
+| --- | --- |
+| `Lemma,` | Parse as readable CSV lemma row |
+| `Surface,` | Parse as readable CSV surface row |
+| `Lemma` without comma | Treat as malformed readable CSV, not base64url |
+| `Surface` without comma | Treat as malformed readable CSV, not base64url |
+| `LemmaX` | Treat as malformed readable CSV, not base64url |
+| `"Lemma",` | Treat as base64url candidate; quoted row kind is not canonical readable CSV |
+| leading space, tab, newline, or BOM before `Lemma,`/`Surface,` | `MalformedId` |
+| lowercase `lemma,`/`surface,` | Treat as base64url candidate, which normally returns `MalformedId` |
+
 Language mismatch is explicit. If a namespace-bound decoder receives a structurally valid ID for a different language, return `LanguageMismatch`, for both readable CSV and base64url inputs.
+
+Language error precedence:
+
+| Input | Namespace | Error code |
+| --- | --- | --- |
+| `Lemma,en,...` | `dumling.de` | `LanguageMismatch` |
+| `Lemma,fr,...` | `dumling.de` | `LanguageNotImplemented` |
+| base64url payload containing `Lemma,en,...` | `dumling.de` | `LanguageMismatch` |
+| base64url payload containing `Lemma,fr,...` | `dumling.de` | `LanguageNotImplemented` |
 
 `id.encode.asBase64Url(csv)` must parse, canonicalize, and validate that branded CSV belongs to the namespace language before converting it to tiny CSV. Brands are compile-time hints, not runtime trust boundaries. Base64url output always encodes canonical tiny CSV, even when the readable CSV input used non-canonical text casing.
 
@@ -413,6 +438,8 @@ ID decode error boundaries:
 | Recognized `v1` tiny CSV with bad field count or bad row structure | `InvalidPayload` |
 | Unknown tiny token in recognized `v1` payload | `InvalidPayload` |
 | Readable CSV has wrong field count or bad row structure | `InvalidPayload` |
+| Readable CSV has duplicate feature keys or duplicate feature values | `InvalidPayload` |
+| Readable CSV contains unknown feature keys before parser normalization | `InvalidPayload` |
 | Readable CSV has valid structure but language parser rejects the entity | `InvalidPayload` |
 | Unsupported language code | `LanguageNotImplemented` |
 | Valid ID for a different namespace language | `LanguageMismatch` |
@@ -446,15 +473,18 @@ TDD-focused checks:
 13. Add token coverage tests for every public enum member, feature name, and feature value.
 14. Add tests proving selections encode to the same ID as their linked surface.
 15. Add tests proving typo spelling, spelling relation, and selection coverage do not affect encoded IDs.
-16. Add tests proving malformed readable CSV does not fall through to base64url decoding.
-17. Add tests proving language mismatch is reported for readable CSV and base64url.
-18. Add tests proving readable CSV accepts parser-normalizable lemma/surface text casing.
-19. Add tests proving one-item arrays and scalar feature values encode identically after canonicalization.
-20. Add tests proving encoded readable CSV and base64url use parser-normalized lowercase lemma/surface text.
-21. Add tests for the decode error taxonomy table.
-22. Remove `DumlingId` and `DumlingIdInspection` from public type exports and update package hygiene assertions.
-23. Update internal API tests.
-24. Update external public ID tests.
-25. Update type tests.
-26. Update README template and regenerate README.
-27. Run `bun test`, `bun run check`, and `bun run check:types`.
+16. Remove `decodeAs("Selection")` expectations from ID tests.
+17. Add tests proving malformed readable CSV does not fall through to base64url decoding.
+18. Add tests proving language mismatch and language-not-implemented precedence for readable CSV and base64url.
+19. Add tests proving readable CSV accepts parser-normalizable lemma/surface text casing.
+20. Add tests proving one-item arrays and scalar feature values encode identically after canonicalization.
+21. Add tests proving duplicate feature values are rejected for ID encoding and decoding.
+22. Add tests proving unknown feature keys are rejected before parser normalization.
+23. Add tests proving encoded readable CSV and base64url use parser-normalized lowercase lemma/surface text.
+24. Add tests for the decode error taxonomy table.
+25. Remove `DumlingId` and `DumlingIdInspection` from public type exports and update package hygiene assertions.
+26. Update internal API tests.
+27. Update external public ID tests.
+28. Update type tests.
+29. Update README template and regenerate README.
+30. Run `bun test`, `bun run check`, and `bun run check:types`.
