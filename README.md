@@ -2,7 +2,9 @@
 
 # `dumling`
 
-`dumling` is a TypeScript and Zod package for learner-facing linguistic annotation centered on hydrated `lemma`, `surface`, and `selection` DTOs.
+## The best parts of computational linguistics with a typesafe API
+
+`dumling` provides types and Zod schemas for learner-facing meaning-focused segmentation.
 
 This package ships working runtime surfaces for `de`, `en`, and `he`.
 
@@ -14,11 +16,11 @@ This package ships working runtime surfaces for `de`, `en`, and `he`.
 
 ## Entrypoints
 
-| Import path | Purpose |
-| --- | --- |
-| `dumling` | Root runtime API: `dumling.<language>`, `getLanguageApi`, `supportedLanguages`, and `inspectId` |
-| `dumling/types` | Public DTOs, feature helpers, descriptors, and API/result/error types |
-| `dumling/schema` | Concrete runtime schema registry: `schemasFor` and `getSchemaTreeFor(language)` |
+| Import path      | Purpose                                                                                         |
+| ---------------- | ----------------------------------------------------------------------------------------------- |
+| `dumling`        | Root runtime API: `dumling.<language>`, `getLanguageApi`, `supportedLanguages`, and `inspectId` |
+| `dumling/types`  | Public DTOs, feature helpers, descriptors, and API/result/error types                           |
+| `dumling/schema` | Concrete runtime schema registry: `schemasFor` and `getSchemaTreeFor(language)`                 |
 
 ## Runtime API
 

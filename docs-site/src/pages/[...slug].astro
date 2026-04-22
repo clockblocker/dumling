@@ -1,7 +1,11 @@
 ---
 import { getCollection, render } from "astro:content";
 import DocsLayout from "../layouts/DocsLayout.astro";
-import { hrefForDocId, navItemsForDocs } from "../lib/navigation";
+import {
+	hrefForDocId,
+	navItemsForDocs,
+	routeIdForDocId,
+} from "../lib/navigation";
 
 export async function getStaticPaths() {
 	const docs = await getCollection("docs");
@@ -9,7 +13,7 @@ export async function getStaticPaths() {
 	return docs
 		.filter((page) => page.id !== "index")
 		.map((page) => ({
-			params: { slug: page.id },
+			params: { slug: routeIdForDocId(page.id) },
 			props: { page },
 		}));
 }

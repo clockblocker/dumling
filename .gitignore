@@ -2,7 +2,7 @@ dist
 docs-site/.astro
 docs-site/dist
 docs-site/node_modules
-docs-site/public/*.md
+docs-site/public/**/*.md
 docs-site/public/nav.json
 docs-site/src/generated
 .types-temp

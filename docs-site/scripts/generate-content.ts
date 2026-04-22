@@ -47,7 +47,10 @@ function listMarkdownFiles(dir: string): string[] {
 }
 
 function routeIdForSourcePath(sourcePath: string): string {
-	return relative(sourceDocsDir, sourcePath).replace(/\.md$/, "");
+	const routeId = relative(sourceDocsDir, sourcePath).replace(/\.md$/, "");
+	return routeId.endsWith("/index")
+		? routeId.slice(0, -"/index".length)
+		: routeId;
 }
 
 function publicMarkdownPathForRouteId(routeId: string): string {
@@ -137,6 +140,29 @@ function ensureCleanDir(dir: string): void {
 	mkdirSync(dir, { recursive: true });
 }
 
+function removeGeneratedPublicFiles(dir: string): void {
+	if (!existsSync(dir)) {
+		return;
+	}
+
+	for (const entry of readdirSync(dir, { withFileTypes: true })) {
+		const entryPath = join(dir, entry.name);
+		if (entry.isDirectory()) {
+			removeGeneratedPublicFiles(entryPath);
+			if (readdirSync(entryPath).length === 0) {
+				rmSync(entryPath, { recursive: true });
+			}
+			continue;
+		}
+		if (
+			entry.isFile() &&
+			(entry.name.endsWith(".md") || entry.name === "nav.json")
+		) {
+			rmSync(entryPath);
+		}
+	}
+}
+
 function writeGeneratedMarkdown(
 	routeId: string,
 	frontmatter: Frontmatter,
@@ -196,6 +222,7 @@ function generateContent(): void {
 
 	ensureCleanDir(generatedDocsDir);
 	mkdirSync(publicDir, { recursive: true });
+	removeGeneratedPublicFiles(publicDir);
 
 	for (const sourcePath of listMarkdownFiles(sourceDocsDir)) {
 		const routeId = routeIdForSourcePath(sourcePath);

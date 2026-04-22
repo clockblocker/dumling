@@ -6,12 +6,18 @@ export interface NavItem {
 	title: string;
 }
 
+export function routeIdForDocId(id: string): string {
+	return id.endsWith("/index") ? id.slice(0, -"/index".length) : id;
+}
+
 export function hrefForDocId(id: string): string {
-	return id === "index" ? "/" : `/${id}/`;
+	const routeId = routeIdForDocId(id);
+	return routeId === "index" ? "/" : `/${routeId}/`;
 }
 
 export function mdHrefForDocId(id: string): string {
-	return id === "index" ? "/index.md" : `/${id}.md`;
+	const routeId = routeIdForDocId(id);
+	return routeId === "index" ? "/index.md" : `/${routeId}.md`;
 }
 
 export function navItemsForDocs(docs: CollectionEntry<"docs">[]): NavItem[] {
