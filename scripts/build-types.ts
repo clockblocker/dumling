@@ -12,7 +12,7 @@ const projectRoot = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const tempTypesDir = resolve(projectRoot, ".types-temp");
 const distDir = resolve(projectRoot, "dist");
 
-const publicEntrypoints = ["index", "types"] as const;
+const publicEntrypoints = ["types"] as const;
 
 const suppressedConsoleMessageIds = new Set<string>([
 	ConsoleMessageId.Preamble,
@@ -252,6 +252,52 @@ function writeSchemaEntrypointDeclaration() {
 	);
 }
 
+function writeIndexEntrypointDeclaration() {
+	writeFileSync(
+		resolve(distDir, "index.d.ts"),
+		[
+			'import type { DumlingApi, DumlingIdInspection, LanguageApi, Lemma, OrthographicStatus, Selection, SelectionOptionsFor, SupportedLanguage, Surface } from "dumling/types";',
+			"",
+			"type GenericLanguageApi<L extends SupportedLanguage> = Omit<",
+			"\tLanguageApi<L>,",
+			'\t"convert"',
+			"> & {",
+			"\tconvert: {",
+			"\t\tlemma: {",
+			"\t\t\ttoSurface(lemma: Lemma<L>): Surface<L>;",
+			'\t\t\ttoSelection<TStatus extends OrthographicStatus = "Standard">(',
+			"\t\t\t\tlemma: Lemma<L>,",
+			"\t\t\t\toptions?: SelectionOptionsFor<TStatus>,",
+			"\t\t\t): Selection<L, TStatus>;",
+			"\t\t};",
+			"\t\tsurface: {",
+			'\t\t\ttoSelection<TStatus extends OrthographicStatus = "Standard">(',
+			"\t\t\t\tsurface: Surface<L>,",
+			"\t\t\t\toptions?: SelectionOptionsFor<TStatus>,",
+			"\t\t\t): Selection<L, TStatus>;",
+			"\t\t};",
+			"\t};",
+			"};",
+			"",
+			"export declare const dumling: DumlingApi;",
+			"",
+			'export declare function getLanguageApi(language: "de"): LanguageApi<"de">;',
+			'export declare function getLanguageApi(language: "en"): LanguageApi<"en">;',
+			'export declare function getLanguageApi(language: "he"): LanguageApi<"he">;',
+			"export declare function getLanguageApi<L extends SupportedLanguage>(",
+			"\tlanguage: L,",
+			"): GenericLanguageApi<L>;",
+			"",
+			"export declare function inspectId(",
+			"\tid: string,",
+			"): DumlingIdInspection | undefined;",
+			"",
+			"export declare const supportedLanguages: readonly SupportedLanguage[];",
+			"",
+		].join("\n"),
+	);
+}
+
 async function main() {
 	await emitDeclarations();
 
@@ -259,6 +305,7 @@ async function main() {
 		await rollupEntrypoint(entrypoint);
 	}
 
+	writeIndexEntrypointDeclaration();
 	writeSchemaEntrypointDeclaration();
 
 	rmSync(tempTypesDir, { force: true, recursive: true });

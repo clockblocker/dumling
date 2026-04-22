@@ -129,15 +129,7 @@ export type LanguageApi<L extends SupportedLanguage> = {
 			>(
 				lemma: TLemma,
 				options?: SelectionOptionsFor<TStatus>,
-			): Selection<
-				L,
-				TStatus,
-				LemmaSurfaceKind<L>,
-				TLemma["lemmaKind"] &
-					LemmaKindForSurfaceKind<L, LemmaSurfaceKind<L>>,
-				TLemma["lemmaSubKind"] &
-					LemmaSubKindFor<L, TLemma["lemmaKind"] & LemmaKindFor<L>>
-			>;
+			): SelectionFromLemma<L, TStatus, TLemma>;
 		};
 		surface: {
 			toSelection<
@@ -146,21 +138,7 @@ export type LanguageApi<L extends SupportedLanguage> = {
 			>(
 				surface: TSurface,
 				options?: SelectionOptionsFor<TStatus>,
-			): Selection<
-				L,
-				TStatus,
-				TSurface["surfaceKind"] & SurfaceKindFor<L>,
-				TSurface["lemma"]["lemmaKind"] &
-					LemmaKindForSurfaceKind<
-						L,
-						TSurface["surfaceKind"] & SurfaceKindFor<L>
-					>,
-				TSurface["lemma"]["lemmaSubKind"] &
-					LemmaSubKindFor<
-						L,
-						TSurface["lemma"]["lemmaKind"] & LemmaKindFor<L>
-					>
-			>;
+			): SelectionFromSurface<L, TStatus, TSurface>;
 		};
 	};
 	extract: {
@@ -240,6 +218,44 @@ type InflectionSurfaceKind<L extends SupportedLanguage> = Extract<
 	SurfaceKindFor<L>,
 	"Inflection"
 >;
+type SelectionFromLemma<
+	L extends SupportedLanguage,
+	TStatus extends OrthographicStatus,
+	TLemma extends Lemma<L>,
+> = Lemma<L> extends TLemma
+	? Selection<L, TStatus>
+	: Selection<L, TStatus> &
+			Selection<
+				L,
+				TStatus,
+				LemmaSurfaceKind<L>,
+				TLemma["lemmaKind"] &
+					LemmaKindForSurfaceKind<L, LemmaSurfaceKind<L>>,
+				TLemma["lemmaSubKind"] &
+					LemmaSubKindFor<L, TLemma["lemmaKind"] & LemmaKindFor<L>>
+			>;
+type SelectionFromSurface<
+	L extends SupportedLanguage,
+	TStatus extends OrthographicStatus,
+	TSurface extends Surface<L>,
+> = Surface<L> extends TSurface
+	? Selection<L, TStatus>
+	: Selection<L, TStatus> &
+			Selection<
+				L,
+				TStatus,
+				TSurface["surfaceKind"] & SurfaceKindFor<L>,
+				TSurface["lemma"]["lemmaKind"] &
+					LemmaKindForSurfaceKind<
+						L,
+						TSurface["surfaceKind"] & SurfaceKindFor<L>
+					>,
+				TSurface["lemma"]["lemmaSubKind"] &
+					LemmaSubKindFor<
+						L,
+						TSurface["lemma"]["lemmaKind"] & LemmaKindFor<L>
+					>
+			>;
 type EntityLemmaKind<TValue> = TValue extends {
 	lemmaKind: infer LK extends LemmaKind;
 }
