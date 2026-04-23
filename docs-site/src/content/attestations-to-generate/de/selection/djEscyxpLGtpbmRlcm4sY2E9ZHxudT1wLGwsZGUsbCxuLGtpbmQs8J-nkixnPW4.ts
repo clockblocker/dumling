@@ -1,0 +1,35 @@
+import type { Selection } from "dumling/types";
+
+export const deSelection013 = {
+	language: "de",
+	orthographicStatus: "Standard",
+	selectionCoverage: "Full",
+	spelledSelection: "Kindern",
+	spellingRelation: "Canonical",
+	surface: {
+		language: "de",
+		normalizedFullSurface: "Kindern",
+		surfaceKind: "Inflection",
+		inflectionalFeatures: {
+			case: "Dat",
+			number: "Plur",
+		},
+		lemma: {
+			language: "de",
+			canonicalLemma: "Kind",
+			lemmaKind: "Lexeme",
+			lemmaSubKind: "NOUN",
+			inherentFeatures: {
+				gender: "Neut",
+			},
+			meaningInEmojis: "🧒",
+		},
+	},
+} satisfies Selection<"de", "Standard", "Inflection", "Lexeme", "NOUN">;
+
+export const attestation = {
+	order: 212,
+	selection: deSelection013,
+	sentenceMarkdown: "Mit den **Kindern** ist es nie langweilig.",
+	title: "Kindern: dative plural",
+} as const;
