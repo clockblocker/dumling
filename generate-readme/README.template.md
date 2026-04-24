@@ -8,7 +8,7 @@ This package ships working runtime surfaces for `de`, `en`, and `he`.
 
 `dumling` keeps three linked DTOs separate:
 
-- `Lemma`: the dictionary lemma
+- `Lemma`: the dictionary or lemma-like entry
 - `Surface`: the normalized full form in context
 - `Selection`: the exact text the learner highlighted
 
@@ -51,7 +51,7 @@ The root runtime entrypoint also exposes:
 
 Start with a German noun lemma, build the linked learner-facing entities explicitly, and then use the runtime helpers for parsing and IDs.
 
-The `Lemma` is the dictionary lemma:
+The `Lemma` is the dictionary or lemma-like entry:
 
 <!-- README_BLOCK:core-lemma -->
 
@@ -105,6 +105,8 @@ Selections are always hydrated:
 
 - a `Selection` always contains a `Surface`
 - a `Surface` always contains a `Lemma`
+
+Lemma kinds also include `Fusion` for lemma-like fused forms such as German `zum`, `zur`, or `beim`. Fusion entries are citation-only today.
 
 ## Scope
 
