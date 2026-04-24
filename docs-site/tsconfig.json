@@ -2,6 +2,12 @@
 	"extends": "astro/tsconfigs/strict",
 	"compilerOptions": {
 		"allowImportingTsExtensions": true,
+		"baseUrl": ".",
+		"paths": {
+			"dumling": ["../src/index.ts"],
+			"dumling/schema": ["../src/schema.ts"],
+			"dumling/types": ["../src/types.ts"]
+		},
 		"types": ["node"]
 	},
 	"include": [".astro/types.d.ts", "**/*"],
