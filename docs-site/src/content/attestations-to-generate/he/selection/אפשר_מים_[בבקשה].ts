@@ -30,5 +30,4 @@ export const bevakashaFormulaSelection = {
 export const attestation = {
 	selection: bevakashaFormulaSelection,
 	sentenceMarkdown: "אפשר מים, [בבקשה]?",
-	title: bevakashaFormulaSelection.surface.normalizedFullSurface,
 } as const satisfies AttestedSelection;

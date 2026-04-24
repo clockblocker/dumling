@@ -26,5 +26,4 @@ export const deSelection007 = {
 export const attestation = {
 	selection: deSelection007,
 	sentenceMarkdown: "Der [Kiefer] schmerzte nach der Operation.",
-	title: "Kiefer: jaw",
 } as const satisfies AttestedSelection;

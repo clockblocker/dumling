@@ -30,5 +30,4 @@ export const deSelection025 = {
 export const attestation = {
 	selection: deSelection025,
 	sentenceMarkdown: "[Geh] bitte nicht ohne Jacke raus.",
-	title: "Geh: imperative",
 } as const satisfies AttestedSelection;

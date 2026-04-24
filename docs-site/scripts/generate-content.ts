@@ -496,11 +496,6 @@ function validateSelectionAttestation(
 			`${source.sourcePath} selection attestations must define sentenceMarkdown.`,
 		);
 	}
-	if (source.title === undefined) {
-		throw new Error(
-			`${source.sourcePath} selection attestations must define title.`,
-		);
-	}
 
 	const { selectedText } = parseSelectionSentenceMarkdown(
 		source.sentenceMarkdown,

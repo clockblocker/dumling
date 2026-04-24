@@ -27,5 +27,4 @@ export const betterAdjectiveSelection = {
 export const attestation = {
 	selection: betterAdjectiveSelection,
 	sentenceMarkdown: "This is the [better] option.",
-	title: betterAdjectiveSelection.surface.normalizedFullSurface,
 } as const satisfies AttestedSelection;

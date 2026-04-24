@@ -24,5 +24,4 @@ export const byAndLargeIdiomSelection = {
 export const attestation = {
 	selection: byAndLargeIdiomSelection,
 	sentenceMarkdown: "[By and large], the migration worked.",
-	title: byAndLargeIdiomSelection.surface.normalizedFullSurface,
 } as const satisfies AttestedSelection;

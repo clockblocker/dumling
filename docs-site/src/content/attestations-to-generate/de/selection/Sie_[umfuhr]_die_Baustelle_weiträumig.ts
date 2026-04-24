@@ -31,5 +31,4 @@ export const deSelection016 = {
 export const attestation = {
 	selection: deSelection016,
 	sentenceMarkdown: "Sie [umfuhr] die Baustelle weiträumig.",
-	title: "Umfuhr: inseparable umfahren",
 } as const satisfies AttestedSelection;

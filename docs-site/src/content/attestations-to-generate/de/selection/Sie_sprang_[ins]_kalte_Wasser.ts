@@ -24,5 +24,4 @@ export const deSelection040 = {
 export const attestation = {
 	selection: deSelection040,
 	sentenceMarkdown: "Sie sprang [ins] kalte Wasser.",
-	title: "Ins: fusion",
 } as const satisfies AttestedSelection;

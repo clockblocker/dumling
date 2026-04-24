@@ -24,5 +24,4 @@ export const sawNounSelection = {
 export const attestation = {
 	selection: sawNounSelection,
 	sentenceMarkdown: "The [saw] needs a new blade.",
-	title: sawNounSelection.surface.normalizedFullSurface,
 } as const satisfies AttestedSelection;

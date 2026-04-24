@@ -29,5 +29,4 @@ export const shteiNumeralSelection = {
 export const attestation = {
 	selection: shteiNumeralSelection,
 	sentenceMarkdown: "קניתי [שתי] מחברות.",
-	title: shteiNumeralSelection.surface.normalizedFullSurface,
 } as const satisfies AttestedSelection;

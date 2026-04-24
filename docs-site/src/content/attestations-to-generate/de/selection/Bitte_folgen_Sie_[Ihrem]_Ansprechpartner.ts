@@ -36,5 +36,4 @@ export const deSelection033 = {
 export const attestation = {
 	selection: deSelection033,
 	sentenceMarkdown: "Bitte folgen Sie [Ihrem] Ansprechpartner.",
-	title: "Ihrem: polite possessive determiner",
 } as const satisfies AttestedSelection;

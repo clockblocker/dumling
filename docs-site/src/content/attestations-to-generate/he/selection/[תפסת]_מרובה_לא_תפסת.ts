@@ -24,5 +24,4 @@ export const tafastaMerubeSelection = {
 export const attestation = {
 	selection: tafastaMerubeSelection,
 	sentenceMarkdown: "[תפסת] מרובה לא תפסת.",
-	title: tafastaMerubeSelection.surface.normalizedFullSurface,
 } as const satisfies AttestedSelection;

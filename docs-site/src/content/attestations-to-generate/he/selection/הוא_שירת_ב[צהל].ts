@@ -27,5 +27,4 @@ export const tzahalAbbrevSelection = {
 export const attestation = {
 	selection: tzahalAbbrevSelection,
 	sentenceMarkdown: 'הוא שירת ב[צה"ל].',
-	title: tzahalAbbrevSelection.surface.normalizedFullSurface,
 } as const satisfies AttestedSelection;

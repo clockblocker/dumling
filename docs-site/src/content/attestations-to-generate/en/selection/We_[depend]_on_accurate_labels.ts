@@ -26,5 +26,4 @@ export const dependOnGovernedPrepSelection = {
 export const attestation = {
 	selection: dependOnGovernedPrepSelection,
 	sentenceMarkdown: "We [depend] on accurate labels.",
-	title: dependOnGovernedPrepSelection.surface.normalizedFullSurface,
 } as const satisfies AttestedSelection;

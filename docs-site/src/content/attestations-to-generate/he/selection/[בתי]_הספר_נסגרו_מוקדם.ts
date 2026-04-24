@@ -30,5 +30,4 @@ export const bateiConstructSelection = {
 export const attestation = {
 	selection: bateiConstructSelection,
 	sentenceMarkdown: "[בתי] הספר נסגרו מוקדם.",
-	title: bateiConstructSelection.surface.normalizedFullSurface,
 } as const satisfies AttestedSelection;

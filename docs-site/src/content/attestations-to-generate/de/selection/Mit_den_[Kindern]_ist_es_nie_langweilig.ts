@@ -30,5 +30,4 @@ export const deSelection013 = {
 export const attestation = {
 	selection: deSelection013,
 	sentenceMarkdown: "Mit den [Kindern] ist es nie langweilig.",
-	title: "Kindern: dative plural",
 } as const satisfies AttestedSelection;

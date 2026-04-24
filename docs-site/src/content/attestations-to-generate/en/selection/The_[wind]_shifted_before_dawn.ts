@@ -24,5 +24,4 @@ export const windNounHomographSelection = {
 export const attestation = {
 	selection: windNounHomographSelection,
 	sentenceMarkdown: "The [wind] shifted before dawn.",
-	title: windNounHomographSelection.surface.normalizedFullSurface,
 } as const satisfies AttestedSelection;

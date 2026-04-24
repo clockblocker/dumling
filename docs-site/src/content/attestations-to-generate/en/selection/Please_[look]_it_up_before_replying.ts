@@ -26,5 +26,4 @@ export const lookUpPartialPhrasalVerbSelection = {
 export const attestation = {
 	selection: lookUpPartialPhrasalVerbSelection,
 	sentenceMarkdown: "Please [look] it up before replying.",
-	title: lookUpPartialPhrasalVerbSelection.surface.normalizedFullSurface,
 } as const satisfies AttestedSelection;

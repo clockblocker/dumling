@@ -24,5 +24,4 @@ export const bloodyInfixPartialSelection = {
 export const attestation = {
 	selection: bloodyInfixPartialSelection,
 	sentenceMarkdown: "Abso-[bloody]-lutely not.",
-	title: bloodyInfixPartialSelection.surface.normalizedFullSurface,
 } as const satisfies AttestedSelection;

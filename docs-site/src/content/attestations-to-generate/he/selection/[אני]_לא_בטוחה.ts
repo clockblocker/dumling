@@ -30,5 +30,4 @@ export const aniPronounSelection = {
 export const attestation = {
 	selection: aniPronounSelection,
 	sentenceMarkdown: "[אני] לא בטוחה.",
-	title: aniPronounSelection.surface.normalizedFullSurface,
 } as const satisfies AttestedSelection;

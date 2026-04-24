@@ -24,5 +24,4 @@ export const ishSuffixPartialSelection = {
 export const attestation = {
 	selection: ishSuffixPartialSelection,
 	sentenceMarkdown: "The estimate was thirty[ish] minutes.",
-	title: ishSuffixPartialSelection.surface.normalizedFullSurface,
 } as const satisfies AttestedSelection;

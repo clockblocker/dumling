@@ -33,5 +33,4 @@ export const deSelection017 = {
 export const attestation = {
 	selection: deSelection017,
 	sentenceMarkdown: "Der Laster [fuhr] das Schild um.",
-	title: "Fuhr um: separable umfahren",
 } as const satisfies AttestedSelection;

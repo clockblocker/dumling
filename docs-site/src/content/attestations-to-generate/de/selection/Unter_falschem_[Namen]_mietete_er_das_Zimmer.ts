@@ -30,5 +30,4 @@ export const deSelection015 = {
 export const attestation = {
 	selection: deSelection015,
 	sentenceMarkdown: "Unter falschem [Namen] mietete er das Zimmer.",
-	title: "Namen: weak noun dative singular",
 } as const satisfies AttestedSelection;

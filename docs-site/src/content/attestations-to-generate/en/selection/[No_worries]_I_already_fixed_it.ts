@@ -32,5 +32,4 @@ export const noWorriesFormulaSelection = {
 export const attestation = {
 	selection: noWorriesFormulaSelection,
 	sentenceMarkdown: "[No worries], I already fixed it.",
-	title: noWorriesFormulaSelection.surface.normalizedFullSurface,
 } as const satisfies AttestedSelection;

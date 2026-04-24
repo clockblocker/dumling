@@ -30,5 +30,4 @@ export const deSelection053 = {
 export const attestation = {
 	selection: deSelection053,
 	sentenceMarkdown: "Im Heft stand [Filosofie] statt Philosophie.",
-	title: "Filosofie typo",
 } as const satisfies AttestedSelection;

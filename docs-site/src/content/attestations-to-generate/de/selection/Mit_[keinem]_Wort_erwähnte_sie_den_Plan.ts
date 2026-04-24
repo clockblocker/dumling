@@ -31,5 +31,4 @@ export const deSelection035 = {
 export const attestation = {
 	selection: deSelection035,
 	sentenceMarkdown: "Mit [keinem] Wort erwähnte sie den Plan.",
-	title: "Keinem: negative determiner",
 } as const satisfies AttestedSelection;

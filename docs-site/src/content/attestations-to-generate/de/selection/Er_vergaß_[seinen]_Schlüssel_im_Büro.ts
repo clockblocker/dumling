@@ -35,5 +35,4 @@ export const deSelection034 = {
 export const attestation = {
 	selection: deSelection034,
 	sentenceMarkdown: "Er vergaß [seinen] Schlüssel im Büro.",
-	title: "Seinen: possessive determiner",
 } as const satisfies AttestedSelection;

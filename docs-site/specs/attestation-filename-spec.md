@@ -37,7 +37,6 @@ The intended shape is:
 export const attestation = {
 	selection: deSelection053,
 	sentenceMarkdown: 'Im Heft stand [Filosofie] statt Philosophie.',
-	title: 'Filosofie typo',
 	lessonsLearned:
 		'Typo spelling should still point to the canonical noun lemma.',
 } as const satisfies AttestedSelection;
@@ -47,7 +46,6 @@ Rules:
 
 - `selection` is the classified `Selection` value.
 - `sentenceMarkdown` is required.
-- `title` is required.
 - `lessonsLearned` is optional.
 - `order` is not part of `AttestedSelection`.
 

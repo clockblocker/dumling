@@ -26,5 +26,4 @@ export const deSelection002 = {
 export const attestation = {
 	selection: deSelection002,
 	sentenceMarkdown: "Das rote [Band] lag auf dem Geschenk.",
-	title: "Band: ribbon",
 } as const satisfies AttestedSelection;

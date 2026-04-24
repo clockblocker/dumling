@@ -30,5 +30,4 @@ export const shalomFormulaSelection = {
 export const attestation = {
 	selection: shalomFormulaSelection,
 	sentenceMarkdown: "[שלום], מה שלומך?",
-	title: shalomFormulaSelection.surface.normalizedFullSurface,
 } as const satisfies AttestedSelection;

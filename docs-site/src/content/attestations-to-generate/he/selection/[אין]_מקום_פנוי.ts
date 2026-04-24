@@ -26,5 +26,4 @@ export const einExistentialSelection = {
 export const attestation = {
 	selection: einExistentialSelection,
 	sentenceMarkdown: "[אין] מקום פנוי.",
-	title: einExistentialSelection.surface.normalizedFullSurface,
 } as const satisfies AttestedSelection;

@@ -26,5 +26,4 @@ export const deSelection003 = {
 export const attestation = {
 	selection: deSelection003,
 	sentenceMarkdown: "Die [Band] spielt heute im Kellerclub.",
-	title: "Band: music group",
 } as const satisfies AttestedSelection;

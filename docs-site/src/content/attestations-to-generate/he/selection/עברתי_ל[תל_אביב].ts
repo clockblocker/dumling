@@ -26,5 +26,4 @@ export const telAvivSelection = {
 export const attestation = {
 	selection: telAvivSelection,
 	sentenceMarkdown: "עברתי ל[תל אביב].",
-	title: telAvivSelection.surface.normalizedFullSurface,
 } as const satisfies AttestedSelection;

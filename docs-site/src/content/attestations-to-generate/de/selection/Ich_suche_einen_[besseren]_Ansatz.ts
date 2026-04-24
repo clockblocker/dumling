@@ -30,5 +30,4 @@ export const deSelection027 = {
 export const attestation = {
 	selection: deSelection027,
 	sentenceMarkdown: "Ich suche einen [besseren] Ansatz.",
-	title: "Besseren: comparative adjective",
 } as const satisfies AttestedSelection;

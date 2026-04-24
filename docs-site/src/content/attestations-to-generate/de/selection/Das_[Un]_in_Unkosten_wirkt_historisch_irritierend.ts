@@ -24,5 +24,4 @@ export const deSelection050 = {
 export const attestation = {
 	selection: deSelection050,
 	sentenceMarkdown: "Das [Un]- in Unkosten wirkt historisch irritierend.",
-	title: "Un- prefix",
 } as const satisfies AttestedSelection;

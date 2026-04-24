@@ -31,5 +31,4 @@ export const ochalVerbSelection = {
 export const attestation = {
 	selection: ochalVerbSelection,
 	sentenceMarkdown: "מחר [אוכל] מוקדם.",
-	title: ochalVerbSelection.surface.normalizedFullSurface,
 } as const satisfies AttestedSelection;

@@ -28,5 +28,4 @@ export const readPastHomographSelection = {
 export const attestation = {
 	selection: readPastHomographSelection,
 	sentenceMarkdown: "Yesterday I [read] the warning twice.",
-	title: readPastHomographSelection.surface.normalizedFullSurface,
 } as const satisfies AttestedSelection;

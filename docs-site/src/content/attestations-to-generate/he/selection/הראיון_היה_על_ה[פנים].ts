@@ -24,5 +24,4 @@ export const alHapanimIdiomSelection = {
 export const attestation = {
 	selection: alHapanimIdiomSelection,
 	sentenceMarkdown: "הראיון היה על ה[פנים].",
-	title: alHapanimIdiomSelection.surface.normalizedFullSurface,
 } as const satisfies AttestedSelection;

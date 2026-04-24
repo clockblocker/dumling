@@ -24,5 +24,4 @@ export const kickTheBucketPartialIdiomSelection = {
 export const attestation = {
 	selection: kickTheBucketPartialIdiomSelection,
 	sentenceMarkdown: "The old laptop finally [kicked] the bucket.",
-	title: kickTheBucketPartialIdiomSelection.surface.normalizedFullSurface,
 } as const satisfies AttestedSelection;

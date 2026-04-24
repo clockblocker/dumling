@@ -34,5 +34,4 @@ export const deSelection020 = {
 export const attestation = {
 	selection: deSelection020,
 	sentenceMarkdown: "Sie [erinnert] sich an den Geruch.",
-	title: "Erinnert: reflexive verb",
 } as const satisfies AttestedSelection;

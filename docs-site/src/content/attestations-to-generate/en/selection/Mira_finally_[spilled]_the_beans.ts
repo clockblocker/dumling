@@ -24,5 +24,4 @@ export const spillTheBeansPartialIdiomSelection = {
 export const attestation = {
 	selection: spillTheBeansPartialIdiomSelection,
 	sentenceMarkdown: "Mira finally [spilled] the beans.",
-	title: spillTheBeansPartialIdiomSelection.surface.normalizedFullSurface,
 } as const satisfies AttestedSelection;

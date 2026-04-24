@@ -26,5 +26,4 @@ export const thatPronounSelection = {
 export const attestation = {
 	selection: thatPronounSelection,
 	sentenceMarkdown: "[That] was unexpected.",
-	title: thatPronounSelection.surface.normalizedFullSurface,
 } as const satisfies AttestedSelection;

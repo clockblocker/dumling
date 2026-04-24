@@ -30,5 +30,4 @@ export const deSelection001 = {
 export const attestation = {
 	selection: deSelection001,
 	sentenceMarkdown: "Auf der Karte sind drei [Seen] eingezeichnet.",
-	title: "Seen: plural of See",
 } as const satisfies AttestedSelection;

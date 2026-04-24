@@ -31,5 +31,4 @@ export const deSelection031 = {
 export const attestation = {
 	selection: deSelection031,
 	sentenceMarkdown: "Der Autor, [dessen] Buch fehlt, wartet draußen.",
-	title: "Dessen: relative pronoun",
 } as const satisfies AttestedSelection;

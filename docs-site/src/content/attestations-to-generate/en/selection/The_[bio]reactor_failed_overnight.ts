@@ -24,5 +24,4 @@ export const bioRootPartialSelection = {
 export const attestation = {
 	selection: bioRootPartialSelection,
 	sentenceMarkdown: "The [bio]reactor failed overnight.",
-	title: bioRootPartialSelection.surface.normalizedFullSurface,
 } as const satisfies AttestedSelection;

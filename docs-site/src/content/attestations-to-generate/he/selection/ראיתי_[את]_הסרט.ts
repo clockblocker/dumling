@@ -26,5 +26,4 @@ export const etAccusativeSelection = {
 export const attestation = {
 	selection: etAccusativeSelection,
 	sentenceMarkdown: "ראיתי [את] הסרט.",
-	title: etAccusativeSelection.surface.normalizedFullSurface,
 } as const satisfies AttestedSelection;

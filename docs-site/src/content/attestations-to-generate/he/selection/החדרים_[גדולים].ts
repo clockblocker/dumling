@@ -28,5 +28,4 @@ export const gdolimAdjectiveSelection = {
 export const attestation = {
 	selection: gdolimAdjectiveSelection,
 	sentenceMarkdown: "החדרים [גדולים].",
-	title: gdolimAdjectiveSelection.surface.normalizedFullSurface,
 } as const satisfies AttestedSelection;

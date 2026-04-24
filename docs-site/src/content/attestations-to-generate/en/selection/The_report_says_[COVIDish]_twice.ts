@@ -26,5 +26,4 @@ export const covidXTokenSelection = {
 export const attestation = {
 	selection: covidXTokenSelection,
 	sentenceMarkdown: "The report says [COVID-ish] twice.",
-	title: covidXTokenSelection.surface.normalizedFullSurface,
 } as const satisfies AttestedSelection;

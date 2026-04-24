@@ -24,5 +24,4 @@ export const loDubimVeloYaarSelection = {
 export const attestation = {
 	selection: loDubimVeloYaarSelection,
 	sentenceMarkdown: "הבטיחו דרמה, אבל [לא דובים ולא יער].",
-	title: loDubimVeloYaarSelection.surface.normalizedFullSurface,
 } as const satisfies AttestedSelection;

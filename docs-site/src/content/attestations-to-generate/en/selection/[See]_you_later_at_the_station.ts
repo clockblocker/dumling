@@ -32,5 +32,4 @@ export const seeYouLaterFormulaPartialSelection = {
 export const attestation = {
 	selection: seeYouLaterFormulaPartialSelection,
 	sentenceMarkdown: "[See] you later at the station.",
-	title: seeYouLaterFormulaPartialSelection.surface.normalizedFullSurface,
 } as const satisfies AttestedSelection;

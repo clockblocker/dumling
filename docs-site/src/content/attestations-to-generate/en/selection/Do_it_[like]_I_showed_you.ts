@@ -26,5 +26,4 @@ export const likeSubordinatorSelection = {
 export const attestation = {
 	selection: likeSubordinatorSelection,
 	sentenceMarkdown: "Do it [like] I showed you.",
-	title: likeSubordinatorSelection.surface.normalizedFullSurface,
 } as const satisfies AttestedSelection;

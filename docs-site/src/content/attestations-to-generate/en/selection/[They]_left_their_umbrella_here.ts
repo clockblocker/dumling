@@ -31,5 +31,4 @@ export const theyPronounPluralSelection = {
 export const attestation = {
 	selection: theyPronounPluralSelection,
 	sentenceMarkdown: "[They] left their umbrella here.",
-	title: theyPronounPluralSelection.surface.normalizedFullSurface,
 } as const satisfies AttestedSelection;

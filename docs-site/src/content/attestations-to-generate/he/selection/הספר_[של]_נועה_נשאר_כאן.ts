@@ -26,5 +26,4 @@ export const shelGenitiveSelection = {
 export const attestation = {
 	selection: shelGenitiveSelection,
 	sentenceMarkdown: "הספר [של] נועה נשאר כאן.",
-	title: shelGenitiveSelection.surface.normalizedFullSurface,
 } as const satisfies AttestedSelection;

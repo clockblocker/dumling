@@ -30,5 +30,4 @@ export const eizeDeterminerSelection = {
 export const attestation = {
 	selection: eizeDeterminerSelection,
 	sentenceMarkdown: "[איזה] רחוב זה?",
-	title: eizeDeterminerSelection.surface.normalizedFullSurface,
 } as const satisfies AttestedSelection;

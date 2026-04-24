@@ -24,5 +24,4 @@ export const deSelection052 = {
 export const attestation = {
 	selection: deSelection052,
 	sentenceMarkdown: "Bei Mäd[chen] ist -chen kein freies Wort.",
-	title: "-chen suffix",
 } as const satisfies AttestedSelection;

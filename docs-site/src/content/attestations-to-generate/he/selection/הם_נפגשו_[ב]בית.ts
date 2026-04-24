@@ -24,5 +24,4 @@ export const bePrefixSelection = {
 export const attestation = {
 	selection: bePrefixSelection,
 	sentenceMarkdown: "הם נפגשו [ב]בית.",
-	title: bePrefixSelection.surface.normalizedFullSurface,
 } as const satisfies AttestedSelection;

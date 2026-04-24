@@ -31,5 +31,4 @@ export const holchimParticipleSelection = {
 export const attestation = {
 	selection: holchimParticipleSelection,
 	sentenceMarkdown: "אנחנו [הולכים] עכשיו.",
-	title: holchimParticipleSelection.surface.normalizedFullSurface,
 } as const satisfies AttestedSelection;

@@ -32,5 +32,4 @@ export const deSelection049 = {
 export const attestation = {
 	selection: deSelection049,
 	sentenceMarkdown: "[Tut mir leid], das war mein Fehler.",
-	title: "Tut mir leid discourse formula",
 } as const satisfies AttestedSelection;

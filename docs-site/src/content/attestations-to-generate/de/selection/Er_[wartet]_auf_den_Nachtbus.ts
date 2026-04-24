@@ -33,5 +33,4 @@ export const deSelection021 = {
 export const attestation = {
 	selection: deSelection021,
 	sentenceMarkdown: "Er [wartet] auf den Nachtbus.",
-	title: "Wartet: governed preposition",
 } as const satisfies AttestedSelection;

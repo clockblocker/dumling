@@ -29,5 +29,4 @@ export const yadayimDualSelection = {
 export const attestation = {
 	selection: yadayimDualSelection,
 	sentenceMarkdown: "רחצתי [ידיים].",
-	title: yadayimDualSelection.surface.normalizedFullSurface,
 } as const satisfies AttestedSelection;

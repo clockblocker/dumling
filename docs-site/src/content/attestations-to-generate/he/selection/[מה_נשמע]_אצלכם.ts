@@ -30,5 +30,4 @@ export const maNishmaFormulaSelection = {
 export const attestation = {
 	selection: maNishmaFormulaSelection,
 	sentenceMarkdown: "[מה נשמע] אצלכם?",
-	title: maNishmaFormulaSelection.surface.normalizedFullSurface,
 } as const satisfies AttestedSelection;

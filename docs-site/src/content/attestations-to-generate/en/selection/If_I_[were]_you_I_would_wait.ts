@@ -29,5 +29,4 @@ export const wereSubjunctiveAuxSelection = {
 export const attestation = {
 	selection: wereSubjunctiveAuxSelection,
 	sentenceMarkdown: "If I [were] you, I would wait.",
-	title: wereSubjunctiveAuxSelection.surface.normalizedFullSurface,
 } as const satisfies AttestedSelection;

@@ -24,5 +24,4 @@ export const nuInterjectionSelection = {
 export const attestation = {
 	selection: nuInterjectionSelection,
 	sentenceMarkdown: "[נו], תספר כבר.",
-	title: nuInterjectionSelection.surface.normalizedFullSurface,
 } as const satisfies AttestedSelection;

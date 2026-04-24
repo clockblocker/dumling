@@ -24,5 +24,4 @@ export const leadNounHomographSelection = {
 export const attestation = {
 	selection: leadNounHomographSelection,
 	sentenceMarkdown: "The pipe contained traces of [lead].",
-	title: leadNounHomographSelection.surface.normalizedFullSurface,
 } as const satisfies AttestedSelection;

@@ -27,5 +27,4 @@ export const bestAdverbSelection = {
 export const attestation = {
 	selection: bestAdverbSelection,
 	sentenceMarkdown: "She performed [best] under pressure.",
-	title: bestAdverbSelection.surface.normalizedFullSurface,
 } as const satisfies AttestedSelection;

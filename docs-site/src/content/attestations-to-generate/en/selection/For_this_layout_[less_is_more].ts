@@ -24,5 +24,4 @@ export const lessIsMoreAphorismSelection = {
 export const attestation = {
 	selection: lessIsMoreAphorismSelection,
 	sentenceMarkdown: "For this layout, [less is more].",
-	title: lessIsMoreAphorismSelection.surface.normalizedFullSurface,
 } as const satisfies AttestedSelection;

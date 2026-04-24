@@ -28,5 +28,4 @@ export const gdolaAdjectiveSelection = {
 export const attestation = {
 	selection: gdolaAdjectiveSelection,
 	sentenceMarkdown: "זו טעות [גדולה].",
-	title: gdolaAdjectiveSelection.surface.normalizedFullSurface,
 } as const satisfies AttestedSelection;

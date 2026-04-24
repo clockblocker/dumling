@@ -24,5 +24,4 @@ export const deSelection045 = {
 export const attestation = {
 	selection: deSelection045,
 	sentenceMarkdown: "Damit triffst du den [Nagel] auf den Kopf.",
-	title: "Nagel in idiom",
 } as const satisfies AttestedSelection;

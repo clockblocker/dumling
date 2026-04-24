@@ -24,5 +24,4 @@ export const shePrefixSelection = {
 export const attestation = {
 	selection: shePrefixSelection,
 	sentenceMarkdown: "אמרת [ש]תבוא.",
-	title: shePrefixSelection.surface.normalizedFullSurface,
 } as const satisfies AttestedSelection;

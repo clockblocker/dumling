@@ -31,5 +31,4 @@ export const deSelection018 = {
 export const attestation = {
 	selection: deSelection018,
 	sentenceMarkdown: "Sie [übersetzt] den Vertrag ins Deutsche.",
-	title: "Übersetzt: finite translate",
 } as const satisfies AttestedSelection;

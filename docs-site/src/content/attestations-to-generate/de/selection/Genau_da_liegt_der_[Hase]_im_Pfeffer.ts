@@ -24,5 +24,4 @@ export const deSelection044 = {
 export const attestation = {
 	selection: deSelection044,
 	sentenceMarkdown: "Genau da liegt der [Hase] im Pfeffer.",
-	title: "Hase in idiom",
 } as const satisfies AttestedSelection;

@@ -29,5 +29,4 @@ export const habayitPartialSelection = {
 export const attestation = {
 	selection: habayitPartialSelection,
 	sentenceMarkdown: "חזרתי ל[בית].",
-	title: habayitPartialSelection.surface.normalizedFullSurface,
 } as const satisfies AttestedSelection;

@@ -33,5 +33,4 @@ export const hitkatevVerbSelection = {
 export const attestation = {
 	selection: hitkatevVerbSelection,
 	sentenceMarkdown: "הוא [התכתב] עם המרצה.",
-	title: hitkatevVerbSelection.surface.normalizedFullSurface,
 } as const satisfies AttestedSelection;

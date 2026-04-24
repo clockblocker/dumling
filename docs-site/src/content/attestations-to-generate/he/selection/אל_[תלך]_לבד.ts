@@ -33,5 +33,4 @@ export const telechNegativeSelection = {
 export const attestation = {
 	selection: telechNegativeSelection,
 	sentenceMarkdown: "אל [תלך] לבד.",
-	title: telechNegativeSelection.surface.normalizedFullSurface,
 } as const satisfies AttestedSelection;

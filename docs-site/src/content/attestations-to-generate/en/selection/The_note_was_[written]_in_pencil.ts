@@ -28,5 +28,4 @@ export const writtenPassiveParticipleSelection = {
 export const attestation = {
 	selection: writtenPassiveParticipleSelection,
 	sentenceMarkdown: "The note was [written] in pencil.",
-	title: writtenPassiveParticipleSelection.surface.normalizedFullSurface,
 } as const satisfies AttestedSelection;

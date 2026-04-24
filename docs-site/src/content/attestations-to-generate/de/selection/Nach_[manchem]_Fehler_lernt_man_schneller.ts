@@ -31,5 +31,4 @@ export const deSelection036 = {
 export const attestation = {
 	selection: deSelection036,
 	sentenceMarkdown: "Nach [manchem] Fehler lernt man schneller.",
-	title: "Manchem: indefinite determiner",
 } as const satisfies AttestedSelection;

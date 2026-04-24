@@ -28,5 +28,4 @@ export const sawVerbPastSelection = {
 export const attestation = {
 	selection: sawVerbPastSelection,
 	sentenceMarkdown: "I [saw] the comet through binoculars.",
-	title: sawVerbPastSelection.surface.normalizedFullSurface,
 } as const satisfies AttestedSelection;

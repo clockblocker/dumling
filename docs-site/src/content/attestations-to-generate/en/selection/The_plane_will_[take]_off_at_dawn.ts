@@ -26,5 +26,4 @@ export const takeOffParticlePartialSelection = {
 export const attestation = {
 	selection: takeOffParticlePartialSelection,
 	sentenceMarkdown: "The plane will [take] off at dawn.",
-	title: takeOffParticlePartialSelection.surface.normalizedFullSurface,
 } as const satisfies AttestedSelection;

@@ -24,5 +24,4 @@ export const chasVechalilaIdiomSelection = {
 export const attestation = {
 	selection: chasVechalilaIdiomSelection,
 	sentenceMarkdown: "[חס וחלילה] שנאחר שוב.",
-	title: chasVechalilaIdiomSelection.surface.normalizedFullSurface,
 } as const satisfies AttestedSelection;

@@ -24,5 +24,4 @@ export const walkInTheParkSelection = {
 export const attestation = {
 	selection: walkInTheParkSelection,
 	sentenceMarkdown: "This exam was a [walk] in the park.",
-	title: walkInTheParkSelection.surface.normalizedFullSurface,
 } as const satisfies AttestedSelection;

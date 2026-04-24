@@ -30,5 +30,4 @@ export const deSelection014 = {
 export const attestation = {
 	selection: deSelection014,
 	sentenceMarkdown: "Sie folgte ihrem [Herzen].",
-	title: "Herzen: weak dative singular",
 } as const satisfies AttestedSelection;

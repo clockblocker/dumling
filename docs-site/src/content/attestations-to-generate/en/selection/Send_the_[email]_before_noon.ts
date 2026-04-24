@@ -24,5 +24,4 @@ export const emailVariantSelection = {
 export const attestation = {
 	selection: emailVariantSelection,
 	sentenceMarkdown: "Send the [e-mail] before noon.",
-	title: emailVariantSelection.surface.normalizedFullSurface,
 } as const satisfies AttestedSelection;

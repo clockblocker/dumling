@@ -33,5 +33,4 @@ export const nichtavVerbSelection = {
 export const attestation = {
 	selection: nichtavVerbSelection,
 	sentenceMarkdown: 'הדו"ח [נכתב] אתמול.',
-	title: nichtavVerbSelection.surface.normalizedFullSurface,
 } as const satisfies AttestedSelection;

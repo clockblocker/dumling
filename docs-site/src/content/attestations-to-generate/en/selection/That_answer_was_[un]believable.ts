@@ -24,5 +24,4 @@ export const unPrefixPartialSelection = {
 export const attestation = {
 	selection: unPrefixPartialSelection,
 	sentenceMarkdown: "That answer was [un]believable.",
-	title: unPrefixPartialSelection.surface.normalizedFullSurface,
 } as const satisfies AttestedSelection;

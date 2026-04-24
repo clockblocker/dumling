@@ -30,5 +30,4 @@ export const deSelection029 = {
 export const attestation = {
 	selection: deSelection029,
 	sentenceMarkdown: "Die [linke] Hand zitterte.",
-	title: "Linke: short adjective variant",
 } as const satisfies AttestedSelection;

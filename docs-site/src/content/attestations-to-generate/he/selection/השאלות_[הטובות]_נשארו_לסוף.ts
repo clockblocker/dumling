@@ -29,5 +29,4 @@ export const hatovotAdjectiveSelection = {
 export const attestation = {
 	selection: hatovotAdjectiveSelection,
 	sentenceMarkdown: "השאלות [הטובות] נשארו לסוף.",
-	title: hatovotAdjectiveSelection.surface.normalizedFullSurface,
 } as const satisfies AttestedSelection;

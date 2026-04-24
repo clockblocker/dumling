@@ -27,5 +27,4 @@ export const halfDeterminerFractionSelection = {
 export const attestation = {
 	selection: halfDeterminerFractionSelection,
 	sentenceMarkdown: "Use [half] the flour first.",
-	title: halfDeterminerFractionSelection.surface.normalizedFullSurface,
 } as const satisfies AttestedSelection;

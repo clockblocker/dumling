@@ -26,5 +26,4 @@ export const haDeterminerSelection = {
 export const attestation = {
 	selection: haDeterminerSelection,
 	sentenceMarkdown: "[ה]בית פתוח.",
-	title: haDeterminerSelection.surface.normalizedFullSurface,
 } as const satisfies AttestedSelection;

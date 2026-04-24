@@ -26,5 +26,4 @@ export const deSelection004 = {
 export const attestation = {
 	selection: deSelection004,
 	sentenceMarkdown: "Der dritte [Band] ist längst vergriffen.",
-	title: "Band: book volume",
 } as const satisfies AttestedSelection;

@@ -24,5 +24,4 @@ export const ktvRootSelection = {
 export const attestation = {
 	selection: ktvRootSelection,
 	sentenceMarkdown: "במילה מ[כתב] רואים את השורש.",
-	title: ktvRootSelection.surface.normalizedFullSurface,
 } as const satisfies AttestedSelection;

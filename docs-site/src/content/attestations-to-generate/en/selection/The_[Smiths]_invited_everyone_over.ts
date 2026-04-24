@@ -27,5 +27,4 @@ export const smithsPluralProperNounSelection = {
 export const attestation = {
 	selection: smithsPluralProperNounSelection,
 	sentenceMarkdown: "The [Smiths] invited everyone over.",
-	title: smithsPluralProperNounSelection.surface.normalizedFullSurface,
 } as const satisfies AttestedSelection;

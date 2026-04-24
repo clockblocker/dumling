@@ -28,5 +28,4 @@ export const deSelection019 = {
 export const attestation = {
 	selection: deSelection019,
 	sentenceMarkdown: "Der Fährmann hat uns [übergesetzt].",
-	title: "Übergesetzt: ferry across participle",
 } as const satisfies AttestedSelection;

@@ -24,5 +24,4 @@ export const deSelection046 = {
 export const attestation = {
 	selection: deSelection046,
 	sentenceMarkdown: "[Morgenstund] hat Gold im Mund, sagte sie verschlafen.",
-	title: "Morgenstund proverb",
 } as const satisfies AttestedSelection;

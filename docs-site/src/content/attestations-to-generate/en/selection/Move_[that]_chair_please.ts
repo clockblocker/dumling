@@ -26,5 +26,4 @@ export const thatDeterminerSelection = {
 export const attestation = {
 	selection: thatDeterminerSelection,
 	sentenceMarkdown: "Move [that] chair, please.",
-	title: thatDeterminerSelection.surface.normalizedFullSurface,
 } as const satisfies AttestedSelection;

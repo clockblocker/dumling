@@ -27,5 +27,4 @@ export const twentyFirstAdjectiveOrdinalSelection = {
 export const attestation = {
 	selection: twentyFirstAdjectiveOrdinalSelection,
 	sentenceMarkdown: "The [twenty-first] attempt finally passed.",
-	title: twentyFirstAdjectiveOrdinalSelection.surface.normalizedFullSurface,
 } as const satisfies AttestedSelection;

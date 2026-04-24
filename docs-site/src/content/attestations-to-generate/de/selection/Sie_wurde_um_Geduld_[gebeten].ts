@@ -30,5 +30,4 @@ export const deSelection026 = {
 export const attestation = {
 	selection: deSelection026,
 	sentenceMarkdown: "Sie wurde um Geduld [gebeten].",
-	title: "Gebeten: governed-preposition participle",
 } as const satisfies AttestedSelection;

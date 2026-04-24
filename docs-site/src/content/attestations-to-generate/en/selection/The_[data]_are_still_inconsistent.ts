@@ -27,5 +27,4 @@ export const dataPluralSelection = {
 export const attestation = {
 	selection: dataPluralSelection,
 	sentenceMarkdown: "The [data] are still inconsistent.",
-	title: dataPluralSelection.surface.normalizedFullSurface,
 } as const satisfies AttestedSelection;

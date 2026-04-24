@@ -24,5 +24,4 @@ export const biglalAdpositionSelection = {
 export const attestation = {
 	selection: biglalAdpositionSelection,
 	sentenceMarkdown: "נשארנו בבית [בגלל] הגשם.",
-	title: biglalAdpositionSelection.surface.normalizedFullSurface,
 } as const satisfies AttestedSelection;

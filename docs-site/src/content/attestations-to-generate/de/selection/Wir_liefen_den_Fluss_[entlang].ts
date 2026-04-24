@@ -27,5 +27,4 @@ export const deSelection038 = {
 export const attestation = {
 	selection: deSelection038,
 	sentenceMarkdown: "Wir liefen den Fluss [entlang].",
-	title: "Entlang: postposition",
 } as const satisfies AttestedSelection;

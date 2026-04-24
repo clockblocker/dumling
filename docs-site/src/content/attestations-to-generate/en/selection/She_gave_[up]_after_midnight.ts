@@ -24,5 +24,4 @@ export const upParticleSelection = {
 export const attestation = {
 	selection: upParticleSelection,
 	sentenceMarkdown: "She gave [up] after midnight.",
-	title: upParticleSelection.surface.normalizedFullSurface,
 } as const satisfies AttestedSelection;

@@ -24,5 +24,4 @@ export const accommodationTypoPartialSelection = {
 export const attestation = {
 	selection: accommodationTypoPartialSelection,
 	sentenceMarkdown: "The sign advertised [acommodation] nearby.",
-	title: accommodationTypoPartialSelection.surface.normalizedFullSurface,
 } as const satisfies AttestedSelection;

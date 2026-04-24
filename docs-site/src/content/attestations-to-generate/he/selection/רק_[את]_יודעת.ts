@@ -31,5 +31,4 @@ export const atPronounSelection = {
 export const attestation = {
 	selection: atPronounSelection,
 	sentenceMarkdown: "רק [את] יודעת.",
-	title: atPronounSelection.surface.normalizedFullSurface,
 } as const satisfies AttestedSelection;

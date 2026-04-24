@@ -26,5 +26,4 @@ export const deSelection041 = {
 export const attestation = {
 	selection: deSelection041,
 	sentenceMarkdown: "Das ist [nicht] mein Problem.",
-	title: "Nicht: negative particle",
 } as const satisfies AttestedSelection;

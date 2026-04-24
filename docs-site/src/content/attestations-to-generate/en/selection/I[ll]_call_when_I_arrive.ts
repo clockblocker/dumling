@@ -24,5 +24,4 @@ export const llCliticPartialSelection = {
 export const attestation = {
 	selection: llCliticPartialSelection,
 	sentenceMarkdown: "I'[ll] call when I arrive.",
-	title: llCliticPartialSelection.surface.normalizedFullSurface,
 } as const satisfies AttestedSelection;

@@ -26,5 +26,4 @@ export const deSelection042 = {
 export const attestation = {
 	selection: deSelection042,
 	sentenceMarkdown: "Das ist schwer [zu] erklären.",
-	title: "Zu: infinitive particle",
 } as const satisfies AttestedSelection;

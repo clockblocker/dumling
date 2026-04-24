@@ -28,5 +28,4 @@ export const deSelection022 = {
 export const attestation = {
 	selection: deSelection022,
 	sentenceMarkdown: "Das wäre fast schief [gewesen].",
-	title: "Gewesen: auxiliary participle",
 } as const satisfies AttestedSelection;

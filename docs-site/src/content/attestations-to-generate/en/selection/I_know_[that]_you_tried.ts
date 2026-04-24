@@ -24,5 +24,4 @@ export const thatSubordinatorSelection = {
 export const attestation = {
 	selection: thatSubordinatorSelection,
 	sentenceMarkdown: "I know [that] you tried.",
-	title: thatSubordinatorSelection.surface.normalizedFullSurface,
 } as const satisfies AttestedSelection;

@@ -29,5 +29,4 @@ export const yerushalayimSelection = {
 export const attestation = {
 	selection: yerushalayimSelection,
 	sentenceMarkdown: "[ירושלים] יפה בלילה.",
-	title: yerushalayimSelection.surface.normalizedFullSurface,
 } as const satisfies AttestedSelection;

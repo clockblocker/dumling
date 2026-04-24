@@ -24,5 +24,4 @@ export const okVariantSelection = {
 export const attestation = {
 	selection: okVariantSelection,
 	sentenceMarkdown: "Is [OK] still acceptable here?",
-	title: okVariantSelection.surface.normalizedFullSurface,
 } as const satisfies AttestedSelection;

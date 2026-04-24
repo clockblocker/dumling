@@ -24,5 +24,4 @@ export const vavCliticSelection = {
 export const attestation = {
 	selection: vavCliticSelection,
 	sentenceMarkdown: "[ו]דנה כבר חיכתה בחוץ.",
-	title: vavCliticSelection.surface.normalizedFullSurface,
 } as const satisfies AttestedSelection;

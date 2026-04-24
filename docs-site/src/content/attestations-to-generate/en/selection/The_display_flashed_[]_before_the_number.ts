@@ -24,5 +24,4 @@ export const minusSymbolSelection = {
 export const attestation = {
 	selection: minusSymbolSelection,
 	sentenceMarkdown: "The display flashed [-] before the number.",
-	title: minusSymbolSelection.surface.normalizedFullSurface,
 } as const satisfies AttestedSelection;

@@ -26,5 +26,4 @@ export const kaasherSubordinatorSelection = {
 export const attestation = {
 	selection: kaasherSubordinatorSelection,
 	sentenceMarkdown: "נמשיך [כאשר] כולם יגיעו.",
-	title: kaasherSubordinatorSelection.surface.normalizedFullSurface,
 } as const satisfies AttestedSelection;

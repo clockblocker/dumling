@@ -27,5 +27,4 @@ export const scissorsPluralTantumSelection = {
 export const attestation = {
 	selection: scissorsPluralTantumSelection,
 	sentenceMarkdown: "These [scissors] are blunt.",
-	title: scissorsPluralTantumSelection.surface.normalizedFullSurface,
 } as const satisfies AttestedSelection;

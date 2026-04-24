@@ -31,5 +31,4 @@ export const halachtiTypoSelection = {
 export const attestation = {
 	selection: halachtiTypoSelection,
 	sentenceMarkdown: "אתמול [לכתי] לשוק.",
-	title: halachtiTypoSelection.surface.normalizedFullSurface,
 } as const satisfies AttestedSelection;

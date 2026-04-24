@@ -30,5 +30,4 @@ export const whosePronounPossessiveSelection = {
 export const attestation = {
 	selection: whosePronounPossessiveSelection,
 	sentenceMarkdown: "[Whose] keys are these?",
-	title: whosePronounPossessiveSelection.surface.normalizedFullSurface,
 } as const satisfies AttestedSelection;

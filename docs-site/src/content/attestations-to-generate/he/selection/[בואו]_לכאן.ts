@@ -31,5 +31,4 @@ export const boUImperativeSelection = {
 export const attestation = {
 	selection: boUImperativeSelection,
 	sentenceMarkdown: "[בואו] לכאן.",
-	title: boUImperativeSelection.surface.normalizedFullSurface,
 } as const satisfies AttestedSelection;

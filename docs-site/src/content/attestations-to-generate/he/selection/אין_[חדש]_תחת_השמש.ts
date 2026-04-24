@@ -24,5 +24,4 @@ export const einChadashTachatSelection = {
 export const attestation = {
 	selection: einChadashTachatSelection,
 	sentenceMarkdown: "אין [חדש] תחת השמש.",
-	title: einChadashTachatSelection.surface.normalizedFullSurface,
 } as const satisfies AttestedSelection;

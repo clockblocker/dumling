@@ -24,5 +24,4 @@ export const definitelyTypoSelection = {
 export const attestation = {
 	selection: definitelyTypoSelection,
 	sentenceMarkdown: "I [definately] saved the file.",
-	title: definitelyTypoSelection.surface.normalizedFullSurface,
 } as const satisfies AttestedSelection;

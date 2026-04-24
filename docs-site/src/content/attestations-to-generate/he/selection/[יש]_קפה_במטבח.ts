@@ -26,5 +26,4 @@ export const yeshExistentialSelection = {
 export const attestation = {
 	selection: yeshExistentialSelection,
 	sentenceMarkdown: "[יש] קפה במטבח.",
-	title: yeshExistentialSelection.surface.normalizedFullSurface,
 } as const satisfies AttestedSelection;

@@ -24,5 +24,4 @@ export const lePrefixSelection = {
 export const attestation = {
 	selection: lePrefixSelection,
 	sentenceMarkdown: "יצאתי [ל]עבודה מוקדם.",
-	title: lePrefixSelection.surface.normalizedFullSurface,
 } as const satisfies AttestedSelection;

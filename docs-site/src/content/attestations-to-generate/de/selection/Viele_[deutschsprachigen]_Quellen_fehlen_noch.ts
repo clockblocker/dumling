@@ -29,5 +29,4 @@ export const deSelection030 = {
 export const attestation = {
 	selection: deSelection030,
 	sentenceMarkdown: "Viele [deutschsprachigen] Quellen fehlen noch.",
-	title: "Deutschsprachigen: nominal-looking adjective",
 } as const satisfies AttestedSelection;

@@ -32,5 +32,4 @@ export const katvaVerbSelection = {
 export const attestation = {
 	selection: katvaVerbSelection,
 	sentenceMarkdown: "היא [כתבה] מכתב קצר.",
-	title: katvaVerbSelection.surface.normalizedFullSurface,
 } as const satisfies AttestedSelection;

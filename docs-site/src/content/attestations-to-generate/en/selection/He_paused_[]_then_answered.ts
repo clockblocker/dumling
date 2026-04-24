@@ -24,5 +24,4 @@ export const ellipsisPunctuationSelection = {
 export const attestation = {
 	selection: ellipsisPunctuationSelection,
 	sentenceMarkdown: "He paused [...] then answered.",
-	title: ellipsisPunctuationSelection.surface.normalizedFullSurface,
 } as const satisfies AttestedSelection;

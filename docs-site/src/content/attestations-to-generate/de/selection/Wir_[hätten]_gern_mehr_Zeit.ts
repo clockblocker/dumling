@@ -31,5 +31,4 @@ export const deSelection023 = {
 export const attestation = {
 	selection: deSelection023,
 	sentenceMarkdown: "Wir [hätten] gern mehr Zeit.",
-	title: "Hätten: subjunctive auxiliary",
 } as const satisfies AttestedSelection;

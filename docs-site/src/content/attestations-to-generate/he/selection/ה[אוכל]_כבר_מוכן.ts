@@ -26,5 +26,4 @@ export const ochelNounSelection = {
 export const attestation = {
 	selection: ochelNounSelection,
 	sentenceMarkdown: "ה[אוכל] כבר מוכן.",
-	title: ochelNounSelection.surface.normalizedFullSurface,
 } as const satisfies AttestedSelection;

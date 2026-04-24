@@ -24,5 +24,4 @@ export const windVerbHomographSelection = {
 export const attestation = {
 	selection: windVerbHomographSelection,
 	sentenceMarkdown: "Could you [wind] the old clock?",
-	title: windVerbHomographSelection.surface.normalizedFullSurface,
 } as const satisfies AttestedSelection;

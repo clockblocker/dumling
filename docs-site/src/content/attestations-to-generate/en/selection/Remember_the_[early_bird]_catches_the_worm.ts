@@ -24,5 +24,4 @@ export const earlyBirdProverbPartialSelection = {
 export const attestation = {
 	selection: earlyBirdProverbPartialSelection,
 	sentenceMarkdown: "Remember, the [early bird] catches the worm.",
-	title: earlyBirdProverbPartialSelection.surface.normalizedFullSurface,
 } as const satisfies AttestedSelection;

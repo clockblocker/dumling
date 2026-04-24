@@ -31,5 +31,4 @@ export const hemPronounSelection = {
 export const attestation = {
 	selection: hemPronounSelection,
 	sentenceMarkdown: "[הם] הגיעו בזמן.",
-	title: hemPronounSelection.surface.normalizedFullSurface,
 } as const satisfies AttestedSelection;

@@ -30,5 +30,4 @@ export const todaFormulaSelection = {
 export const attestation = {
 	selection: todaFormulaSelection,
 	sentenceMarkdown: "[תודה] על העזרה.",
-	title: todaFormulaSelection.surface.normalizedFullSurface,
 } as const satisfies AttestedSelection;

@@ -33,5 +33,4 @@ export const deSelection024 = {
 export const attestation = {
 	selection: deSelection024,
 	sentenceMarkdown: "Das [muss] heute noch raus.",
-	title: "Muss: modal auxiliary",
 } as const satisfies AttestedSelection;

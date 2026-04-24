@@ -31,5 +31,4 @@ export const deSelection032 = {
 export const attestation = {
 	selection: deSelection032,
 	sentenceMarkdown: "Die Zeugin, [deren] Aussage zählt, bleibt anonym.",
-	title: "Deren: feminine relative pronoun",
 } as const satisfies AttestedSelection;

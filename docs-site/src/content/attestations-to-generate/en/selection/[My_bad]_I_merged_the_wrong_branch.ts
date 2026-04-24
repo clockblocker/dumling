@@ -32,5 +32,4 @@ export const myBadFormulaSelection = {
 export const attestation = {
 	selection: myBadFormulaSelection,
 	sentenceMarkdown: "[My bad], I merged the wrong branch.",
-	title: myBadFormulaSelection.surface.normalizedFullSurface,
 } as const satisfies AttestedSelection;

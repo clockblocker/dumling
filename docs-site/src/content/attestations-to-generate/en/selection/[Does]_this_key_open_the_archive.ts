@@ -31,5 +31,4 @@ export const doesAuxSelection = {
 export const attestation = {
 	selection: doesAuxSelection,
 	sentenceMarkdown: "[Does] this key open the archive?",
-	title: doesAuxSelection.surface.normalizedFullSurface,
 } as const satisfies AttestedSelection;

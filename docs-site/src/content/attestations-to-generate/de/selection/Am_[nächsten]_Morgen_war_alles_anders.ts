@@ -30,5 +30,4 @@ export const deSelection028 = {
 export const attestation = {
 	selection: deSelection028,
 	sentenceMarkdown: "Am [nächsten] Morgen war alles anders.",
-	title: "Nächsten: superlative adjective",
 } as const satisfies AttestedSelection;

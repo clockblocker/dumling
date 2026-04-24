@@ -24,5 +24,4 @@ export const hashSymbolVariantSelection = {
 export const attestation = {
 	selection: hashSymbolVariantSelection,
 	sentenceMarkdown: "Tag the issue with [#] before the number.",
-	title: hashSymbolVariantSelection.surface.normalizedFullSurface,
 } as const satisfies AttestedSelection;

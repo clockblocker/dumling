@@ -31,5 +31,4 @@ export const themAccPronounSelection = {
 export const attestation = {
 	selection: themAccPronounSelection,
 	sentenceMarkdown: "I emailed [them] yesterday.",
-	title: themAccPronounSelection.surface.normalizedFullSurface,
 } as const satisfies AttestedSelection;

@@ -32,5 +32,4 @@ export const deSelection048 = {
 export const attestation = {
 	selection: deSelection048,
 	sentenceMarkdown: "[Guten Tag], ich habe einen Termin.",
-	title: "Guten Tag discourse formula",
 } as const satisfies AttestedSelection;

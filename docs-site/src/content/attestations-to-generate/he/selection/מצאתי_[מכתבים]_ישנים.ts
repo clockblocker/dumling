@@ -29,5 +29,4 @@ export const michtavimNounSelection = {
 export const attestation = {
 	selection: michtavimNounSelection,
 	sentenceMarkdown: "מצאתי [מכתבים] ישנים.",
-	title: michtavimNounSelection.surface.normalizedFullSurface,
 } as const satisfies AttestedSelection;

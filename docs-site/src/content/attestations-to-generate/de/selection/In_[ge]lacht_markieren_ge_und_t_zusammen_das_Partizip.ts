@@ -25,5 +25,4 @@ export const attestation = {
 	selection: deSelection051,
 	sentenceMarkdown:
 		"In [ge]lacht markieren ge- und -t zusammen das Partizip.",
-	title: "Ge-...-t circumfix",
 } as const satisfies AttestedSelection;

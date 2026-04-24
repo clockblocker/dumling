@@ -24,5 +24,4 @@ export const yearNumberSelection = {
 export const attestation = {
 	selection: yearNumberSelection,
 	sentenceMarkdown: "הכנס נקבע ל-[2026].",
-	title: yearNumberSelection.surface.normalizedFullSurface,
 } as const satisfies AttestedSelection;

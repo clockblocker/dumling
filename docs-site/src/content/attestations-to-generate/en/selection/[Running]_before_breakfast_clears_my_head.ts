@@ -27,5 +27,4 @@ export const runningGerundSelection = {
 export const attestation = {
 	selection: runningGerundSelection,
 	sentenceMarkdown: "[Running] before breakfast clears my head.",
-	title: runningGerundSelection.surface.normalizedFullSurface,
 } as const satisfies AttestedSelection;

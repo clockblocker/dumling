@@ -26,5 +26,4 @@ export const imaVariantSelection = {
 export const attestation = {
 	selection: imaVariantSelection,
 	sentenceMarkdown: "[אמא] התקשרה.",
-	title: imaVariantSelection.surface.normalizedFullSurface,
 } as const satisfies AttestedSelection;

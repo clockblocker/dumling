@@ -27,5 +27,4 @@ export const deSelection037 = {
 export const attestation = {
 	selection: deSelection037,
 	sentenceMarkdown: "[Wegen] dem Regen kamen wir zu spät.",
-	title: "Wegen: genitive adposition in dative phrase",
 } as const satisfies AttestedSelection;

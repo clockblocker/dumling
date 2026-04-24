@@ -30,5 +30,4 @@ export const hasfarimSelection = {
 export const attestation = {
 	selection: hasfarimSelection,
 	sentenceMarkdown: "[הספרים] על השולחן.",
-	title: hasfarimSelection.surface.normalizedFullSurface,
 } as const satisfies AttestedSelection;

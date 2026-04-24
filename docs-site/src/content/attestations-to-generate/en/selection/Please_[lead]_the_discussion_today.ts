@@ -24,5 +24,4 @@ export const leadVerbHomographSelection = {
 export const attestation = {
 	selection: leadVerbHomographSelection,
 	sentenceMarkdown: "Please [lead] the discussion today.",
-	title: leadVerbHomographSelection.surface.normalizedFullSurface,
 } as const satisfies AttestedSelection;
