@@ -5,28 +5,25 @@ export const deSelection040 = {
 	orthographicStatus: "Standard",
 	selectionCoverage: "Full",
 	spelledSelection: "ins",
-	spellingRelation: "Variant",
+	spellingRelation: "Canonical",
 	surface: {
 		language: "de",
 		normalizedFullSurface: "ins",
 		surfaceKind: "Citation",
 		lemma: {
 			language: "de",
-			canonicalLemma: "in",
-			lemmaKind: "Lexeme",
-			lemmaSubKind: "ADP",
-			inherentFeatures: {
-				adpType: "Prep",
-				governedCase: "Acc",
-			},
+			canonicalLemma: "ins",
+			lemmaKind: "Fusion",
+			lemmaSubKind: "General",
+			inherentFeatures: {},
 			meaningInEmojis: "🏊",
 		},
 	},
-} satisfies Selection<"de", "Standard", "Citation", "Lexeme", "ADP">;
+} satisfies Selection<"de", "Standard", "Citation", "Fusion", "General">;
 
 export const attestation = {
 	order: 239,
 	selection: deSelection040,
 	sentenceMarkdown: "Sie sprang **ins** kalte Wasser.",
-	title: "Ins: contraction",
+	title: "Ins: fusion",
 } as const;

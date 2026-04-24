@@ -53,10 +53,12 @@ Dumling focuses on lexical classification for learning tools:
 - **Lemma**: the lexical item behind the expression, such as _"walk"_, _"give up"_, or _"walk in the park"_
 - **Surface**: the normalized full form in context, such as _"gave up"_
 - **Selection**: the exact text the learner highlighted, such as **give**, **up**, or **walk**
-- lexical kind: `Lexeme`, `Morpheme`, or `Phraseme`
+- lexical kind: `Lexeme`, `Morpheme`, `Phraseme`, or `Fusion`
 - learner-relevant coverage: whether a selection is `Full` or `Partial`
 - learner-relevant spelling: whether a selection is standard, variant, or typo-shaped
 - language-specific lexical inventories built on a shared cross-language model
+
+`Fusion` is the lemma-like branch for fused forms such as German `zum`, `zur`, `beim`, or `ins`, when the fused form itself is the learner-facing unit the app wants to preserve.
 
 The framework is implemented as a TypeScript and Zod package so apps can validate, serialize, search, and round-trip these objects through IDs.
 

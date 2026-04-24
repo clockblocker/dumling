@@ -8,7 +8,7 @@ order: 20
 
 The public model is built around three hydrated DTOs:
 
-- `Lemma`: the dictionary lemma
+- `Lemma`: the dictionary or lemma-like entry
 - `Surface`: the normalized full form in context
 - `Selection`: the exact observed highlight in learner text
 
@@ -21,13 +21,15 @@ Selections are always hydrated:
 
 <!-- DOC_BLOCK:core-lemma -->
 
-A lemma is the canonical lexical object. It is where you put the language, the canonical dictionary form, the broad lemma kind, the concrete lemma subtype, inherent features, and a learner-facing meaning hint.
+A lemma is the canonical lexical object, or a lemma-like fused entry. It is where you put the language, the canonical form, the broad lemma kind, the concrete lemma subtype, inherent features, and a learner-facing meaning hint.
 
 ## Surface
 
 <!-- DOC_BLOCK:core-surface -->
 
 A citation surface uses `surfaceKind: "Citation"` and normally has the canonical lemma spelling as `normalizedFullSurface`.
+
+Fusion entries are citation-only today, so `Fusion/General` only appears under `Surface<Citation>` and never under `Surface<Inflection>`.
 
 An inflection surface uses `surfaceKind: "Inflection"` and adds `inflectionalFeatures`:
 
@@ -46,7 +48,7 @@ const ranSurface = dumling.en.create.surface.inflection({
 
 <!-- DOC_BLOCK:core-selection -->
 
-A selection records what was observed in text. The normalized surface stays available through `selection.surface`, and the dictionary lemma stays available through `selection.surface.lemma`.
+A selection records what was observed in text. The normalized surface stays available through `selection.surface`, and the lemma entry stays available through `selection.surface.lemma`.
 
 ## Descriptors
 

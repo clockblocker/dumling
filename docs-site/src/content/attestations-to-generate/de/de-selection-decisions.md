@@ -4,12 +4,12 @@ This log records non-obvious choices made while generating the German selection 
 
 ## Global decisions
 
-- Every new source is a `Selection` because the requested example was a selection attestation and selections let us stress partial highlights, typos, contractions, and phraseme internals.
+- Every new source is a `Selection` because the requested example was a selection attestation and selections let us stress partial highlights, typos, fused forms, and phraseme internals.
 - Filenames are generated with `dumling.de.id.encode.asBase64Url(selection)`; the docs generator requires that exact ID as the basename.
 - Selection IDs now include selection metadata, so entries that differ only by selected substring or spelling no longer collide unless the full selection payload matches.
 - Capitalization in German sentences is preserved in `spelledSelection` and `sentenceMarkdown`, while `normalizedFullSurface` follows the attested surface and may be normalized by the encoder.
 - For homographs with identical grammar, I used `meaningInEmojis` and attestation titles to keep the intended sense inspectable. That is intentionally questionable because the current model does not have a richer sense ID.
-- For contractions such as `zum` and `ins`, the model cannot encode fused multi-lemma tokens, so I represented the preposition as the lemma and marked the spelling relation as `Variant`.
+- For fused forms such as `zum`, `ins`, `zur`, and `beim`, use `Fusion/General` as a lemma-like citation entry. The fusion itself is both canonical lemma and citation surface; finer decomposition is outside the current public DTO.
 - For partial phraseme selections, the selected token is not classified compositionally; the full phraseme is the surface/lemma and `selectionCoverage` is `Partial`.
 - For bound morphemes, the canonical lemma keeps hyphen/dot notation where useful, while `spelledSelection` may contain only the visible learner-selected characters.
 
@@ -55,8 +55,8 @@ This log records non-obvious choices made while generating the German selection 
 | 36 | Manchem: indefinite determiner | `manchem` | Annotated as DET because it modifies Fehler; could be PRON if used substantively. |
 | 37 | Wegen: genitive adposition in dative phrase | `wegen` | Questionable colloquial dative complement; lemma still records governedCase Gen as the normative government. |
 | 38 | Entlang: postposition | `entlang` | Postpositional ADP rather than ADV, based on its syntactic relation to den Fluss. |
-| 39 | Zum: contraction | `zum` | Fused zu dem cannot encode two lemmas; represented as ADP zu with surface zum and Variant spelling. |
-| 40 | Ins: contraction | `ins` | Fused in das represented as ADP in; accusative case is captured only as governedCase. |
+| 39 | Zum: fusion | `zum` | Modeled as `Fusion/General`: the fused form itself is the canonical lemma and citation surface. |
+| 40 | Ins: fusion | `ins` | Same `Fusion/General` treatment as zum; the public DTO preserves the fused form intact. |
 | 41 | Nicht: negative particle | `nicht` | Negation as PART with polarity Neg rather than ADV. |
 | 42 | Zu: infinitive particle | `zu` | Infinitival zu as PART PartType Inf, distinct from prepositional zu. |
 | 43 | Bahnhof in idiom | `nur Bahnhof verstehen` | Selected word is a noun-shaped substring inside the idiom nur Bahnhof verstehen; selection coverage is partial. |

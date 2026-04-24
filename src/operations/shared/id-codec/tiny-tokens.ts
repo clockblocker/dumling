@@ -1,9 +1,9 @@
 import type {
 	LemmaKind,
+	LemmaSubKind,
 	OrthographicStatus,
 	SelectionCoverage,
 	SpellingRelation,
-	LemmaSubKind,
 	SupportedLanguage,
 	SurfaceKind,
 } from "../../../types/public-types";
@@ -60,6 +60,7 @@ export const spellingRelationTokens = {
 } as const satisfies TokenMap<SpellingRelation>;
 
 export const lemmaKindTokens = {
+	Fusion: "f",
 	Lexeme: "l",
 	Morpheme: "m",
 	Phraseme: "p",
@@ -77,6 +78,7 @@ export const lemmaSubKindTokens = {
 	DET: "dt",
 	DiscourseFormula: "df",
 	Duplifix: "dfx",
+	General: "gen",
 	INTJ: "ij",
 	Idiom: "id",
 	Infix: "if",

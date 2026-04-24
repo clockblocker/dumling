@@ -5,28 +5,25 @@ export const deSelection039 = {
 	orthographicStatus: "Standard",
 	selectionCoverage: "Full",
 	spelledSelection: "zum",
-	spellingRelation: "Variant",
+	spellingRelation: "Canonical",
 	surface: {
 		language: "de",
 		normalizedFullSurface: "zum",
 		surfaceKind: "Citation",
 		lemma: {
 			language: "de",
-			canonicalLemma: "zu",
-			lemmaKind: "Lexeme",
-			lemmaSubKind: "ADP",
-			inherentFeatures: {
-				adpType: "Prep",
-				governedCase: "Dat",
-			},
+			canonicalLemma: "zum",
+			lemmaKind: "Fusion",
+			lemmaSubKind: "General",
+			inherentFeatures: {},
 			meaningInEmojis: "➡️",
 		},
 	},
-} satisfies Selection<"de", "Standard", "Citation", "Lexeme", "ADP">;
+} satisfies Selection<"de", "Standard", "Citation", "Fusion", "General">;
 
 export const attestation = {
 	order: 238,
 	selection: deSelection039,
 	sentenceMarkdown: "Er ging **zum** Bahnhof.",
-	title: "Zum: contraction",
+	title: "Zum: fusion",
 } as const;

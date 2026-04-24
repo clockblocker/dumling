@@ -96,3 +96,23 @@ export function makePhrasemeSurfaceReference<
 		),
 	};
 }
+
+export function makeFusionSurfaceReference<
+	L extends SupportedLanguage,
+	LSK extends LemmaSubKindFor<L, "Fusion" & LemmaKindFor<L>>,
+>(
+	language: L,
+	lemmaSubKind: LSK,
+	canonicalLemma: string,
+	options: BuilderOptions<L, "Fusion" & LemmaKindFor<L>, LSK> = {},
+) {
+	return {
+		lemma: makeLemma(
+			language,
+			"Fusion" as "Fusion" & LemmaKindFor<L>,
+			lemmaSubKind,
+			canonicalLemma,
+			options,
+		),
+	};
+}
