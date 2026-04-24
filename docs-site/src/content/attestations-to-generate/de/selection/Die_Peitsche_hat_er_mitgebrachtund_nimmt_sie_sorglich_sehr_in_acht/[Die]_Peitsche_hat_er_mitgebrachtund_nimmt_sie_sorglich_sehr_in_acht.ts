@@ -12,7 +12,6 @@ const deSelection = {
 		surfaceKind: "Inflection",
 		inflectionalFeatures: {
 			case: "Nom",
-			gender: "Fem",
 			number: "Sing",
 		},
 		lemma: {
@@ -34,5 +33,5 @@ export const attestation = {
 	sentenceMarkdown: `[Die] Peitsche hat er mitgebracht
 und nimmt sie sorglich sehr in acht.`,
 	classifierNotes:
-		"Sentence-initial Die is the capitalized nominative feminine singular article, not a pronoun.",
+		"Sentence-initial Die is the capitalized article form of der, not a pronoun; the determiner surface stays nominative singular here without encoding feminine gender.",
 } as const satisfies AttestedSelection;
