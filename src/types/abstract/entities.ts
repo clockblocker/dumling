@@ -1,4 +1,5 @@
 import type {
+	FusionKind,
 	LemmaKind,
 	MorphemeKind,
 	OrthographicStatus,
@@ -23,7 +24,9 @@ export type AbstractLemmaSubKindFor<LK extends LemmaKind> = LK extends "Lexeme"
 		? MorphemeKind
 		: LK extends "Phraseme"
 			? PhrasemeKind
-			: never;
+			: LK extends "Fusion"
+				? FusionKind
+				: never;
 
 export type AbstractInherentFeaturesFor<
 	LK extends LemmaKind = LemmaKind,

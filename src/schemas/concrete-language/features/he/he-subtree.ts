@@ -1,4 +1,5 @@
 import { buildLanguageSchema } from "../../../shared/builders";
+import { heGeneralFusionFeaturesSchema } from "./fusion/general";
 import { heAdjectiveFeaturesSchema } from "./lexeme/adjective";
 import { heAdpositionFeaturesSchema } from "./lexeme/adposition";
 import { heAdverbFeaturesSchema } from "./lexeme/adverb";
@@ -70,5 +71,8 @@ export const heSubtree = buildLanguageSchema("he", {
 		DiscourseFormula: heDiscourseFormulaPhrasemeFeaturesSchema,
 		Idiom: heIdiomPhrasemeFeaturesSchema,
 		Proverb: heProverbPhrasemeFeaturesSchema,
+	},
+	Fusion: {
+		General: heGeneralFusionFeaturesSchema,
 	},
 });
