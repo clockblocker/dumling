@@ -1,8 +1,8 @@
-### Common Mistakes
+# Common Mistakes
 
 -
 
-### Locked-In Rules
+# Locked-In Rules
 
 ## Verb
 

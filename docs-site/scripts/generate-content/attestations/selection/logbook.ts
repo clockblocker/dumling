@@ -50,7 +50,7 @@ export function validateLogbookFile(
 
 	for (const section of expectedSections) {
 		const escapedSection = section.replace(/[.*+?^${}()|[\]\\]/gu, "\\$&");
-		const matcher = new RegExp(`^### ${escapedSection}$`, "gmu");
+		const matcher = new RegExp(`^#{1,6} ${escapedSection}$`, "gmu");
 		const previousMatchIndex =
 			sectionMatches[sectionMatches.length - 1]?.index ?? -1;
 		matcher.lastIndex = previousMatchIndex + 1;
@@ -58,7 +58,7 @@ export function validateLogbookFile(
 
 		if (match?.index === undefined) {
 			throw new Error(
-				`${path} must contain these sections in order: ${expectedSections.map((expectedSection) => `### ${expectedSection}`).join(", ")}.`,
+				`${path} must contain these sections in order: ${expectedSections.map((expectedSection) => `"${expectedSection}"`).join(", ")}.`,
 			);
 		}
 
@@ -78,12 +78,15 @@ export function validateLogbookFile(
 
 		if (body.length === 0) {
 			throw new Error(
-				`${path} section "### ${expectedSections[index]}" must not be empty; empty sections must contain exactly "-".`,
+				`${path} section "${expectedSections[index]}" must not be empty; empty sections must contain exactly "-".`,
 			);
 		}
-		if (body.startsWith("-") && body !== "-" && !body.startsWith("-\n")) {
+		if (body === "-") {
+			continue;
+		}
+		if (!/\S/u.test(body)) {
 			throw new Error(
-				`${path} section "### ${expectedSections[index]}" must be exactly "-" when empty.`,
+				`${path} section "${expectedSections[index]}" must contain text or exactly "-".`,
 			);
 		}
 	}
