@@ -24,4 +24,5 @@ export const byAndLargeIdiomSelection = {
 export const attestation = {
 	selection: byAndLargeIdiomSelection,
 	sentenceMarkdown: "[By and large], the migration worked.",
+	classifierNotes: "Sentence-initial capitalization is preserved only in spelledSelection.",
 } as const satisfies AttestedSelection;

@@ -24,4 +24,5 @@ export const nuInterjectionSelection = {
 export const attestation = {
 	selection: nuInterjectionSelection,
 	sentenceMarkdown: "[נו], תספר כבר.",
+	classifierNotes: "נו is kept as INTJ rather than a discourse formula because it functions as a prompting interjection.",
 } as const satisfies AttestedSelection;

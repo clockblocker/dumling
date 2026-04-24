@@ -29,4 +29,5 @@ export const wereSubjunctiveAuxSelection = {
 export const attestation = {
 	selection: wereSubjunctiveAuxSelection,
 	sentenceMarkdown: "If I [were] you, I would wait.",
+	classifierNotes: "Were in if I were you is AUX with Mood=Sub; the schema allows mood without forcing person or number.",
 } as const satisfies AttestedSelection;

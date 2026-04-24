@@ -24,4 +24,5 @@ export const bePrefixSelection = {
 export const attestation = {
 	selection: bePrefixSelection,
 	sentenceMarkdown: "הם נפגשו [ב]בית.",
+	classifierNotes: "ב is treated as a prefix morpheme even though it corresponds semantically to a preposition.",
 } as const satisfies AttestedSelection;

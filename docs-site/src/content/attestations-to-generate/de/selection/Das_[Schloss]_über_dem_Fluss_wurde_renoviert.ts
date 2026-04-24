@@ -26,4 +26,5 @@ export const deSelection011 = {
 export const attestation = {
 	selection: deSelection011,
 	sentenceMarkdown: "Das [Schloss] über dem Fluss wurde renoviert.",
+	classifierNotes: "This is the castle sense of Schloss.",
 } as const satisfies AttestedSelection;

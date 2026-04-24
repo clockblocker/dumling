@@ -24,4 +24,5 @@ export const deSelection039 = {
 export const attestation = {
 	selection: deSelection039,
 	sentenceMarkdown: "Er ging [zum] Bahnhof.",
+	classifierNotes: "Zum is modeled as Fusion/General, with the fused form itself as the canonical lemma and citation surface.",
 } as const satisfies AttestedSelection;

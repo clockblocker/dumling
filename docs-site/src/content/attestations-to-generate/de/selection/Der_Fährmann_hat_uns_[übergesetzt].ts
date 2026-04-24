@@ -28,4 +28,5 @@ export const deSelection019 = {
 export const attestation = {
 	selection: deSelection019,
 	sentenceMarkdown: "Der Fährmann hat uns [übergesetzt].",
+	classifierNotes: "This is the ferry-across participle, with related spelling but a different sense.",
 } as const satisfies AttestedSelection;

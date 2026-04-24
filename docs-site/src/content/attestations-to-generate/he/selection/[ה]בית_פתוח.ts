@@ -26,4 +26,5 @@ export const haDeterminerSelection = {
 export const attestation = {
 	selection: haDeterminerSelection,
 	sentenceMarkdown: "[ה]בית פתוח.",
+	classifierNotes: "The standalone article is modeled as DET with pronType Art, not as a noun definiteness feature.",
 } as const satisfies AttestedSelection;

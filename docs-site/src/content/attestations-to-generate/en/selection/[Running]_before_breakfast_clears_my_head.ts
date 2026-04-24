@@ -27,4 +27,5 @@ export const runningGerundSelection = {
 export const attestation = {
 	selection: runningGerundSelection,
 	sentenceMarkdown: "[Running] before breakfast clears my head.",
+	classifierNotes: "Gerund running is a VERB inflection, not a noun, despite occupying a nominal clause position.",
 } as const satisfies AttestedSelection;

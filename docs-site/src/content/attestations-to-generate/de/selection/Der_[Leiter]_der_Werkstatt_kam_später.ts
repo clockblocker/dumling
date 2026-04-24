@@ -26,4 +26,5 @@ export const deSelection006 = {
 export const attestation = {
 	selection: deSelection006,
 	sentenceMarkdown: "Der [Leiter] der Werkstatt kam später.",
+	classifierNotes: "Leiter is the person-role sense here, with masculine gender.",
 } as const satisfies AttestedSelection;

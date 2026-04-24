@@ -26,4 +26,5 @@ export const dependOnGovernedPrepSelection = {
 export const attestation = {
 	selection: dependOnGovernedPrepSelection,
 	sentenceMarkdown: "We [depend] on accurate labels.",
+	classifierNotes: "Depend on uses hasGovPrep rather than phrasal because on is governed by the verb.",
 } as const satisfies AttestedSelection;

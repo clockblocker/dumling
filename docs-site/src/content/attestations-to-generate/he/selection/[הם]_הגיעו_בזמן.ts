@@ -31,4 +31,5 @@ export const hemPronounSelection = {
 export const attestation = {
 	selection: hemPronounSelection,
 	sentenceMarkdown: "[הם] הגיעו בזמן.",
+	classifierNotes: "הם is a third-person masculine plural pronoun.",
 } as const satisfies AttestedSelection;

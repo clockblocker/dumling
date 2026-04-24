@@ -30,4 +30,5 @@ export const aniPronounSelection = {
 export const attestation = {
 	selection: aniPronounSelection,
 	sentenceMarkdown: "[אני] לא בטוחה.",
+	classifierNotes: "The first-person pronoun has person and number but no gender feature.",
 } as const satisfies AttestedSelection;

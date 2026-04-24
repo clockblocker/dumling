@@ -33,4 +33,5 @@ export const telechNegativeSelection = {
 export const attestation = {
 	selection: telechNegativeSelection,
 	sentenceMarkdown: "אל [תלך] לבד.",
+	classifierNotes: "The verb carries polarity Neg because the negative-command context matters even though אל is separate.",
 } as const satisfies AttestedSelection;

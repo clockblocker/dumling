@@ -31,4 +31,5 @@ export const deSelection032 = {
 export const attestation = {
 	selection: deSelection032,
 	sentenceMarkdown: "Die Zeugin, [deren] Aussage zählt, bleibt anonym.",
+	classifierNotes: "Deren is the feminine genitive singular counterpart to dessen in this context.",
 } as const satisfies AttestedSelection;

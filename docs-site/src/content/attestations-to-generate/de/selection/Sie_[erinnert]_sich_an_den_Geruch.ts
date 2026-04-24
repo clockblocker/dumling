@@ -34,4 +34,5 @@ export const deSelection020 = {
 export const attestation = {
 	selection: deSelection020,
 	sentenceMarkdown: "Sie [erinnert] sich an den Geruch.",
+	classifierNotes: "The lemma is lexically reflexive, but the selected token excludes sich; reflexivity stays inherent on the lemma.",
 } as const satisfies AttestedSelection;

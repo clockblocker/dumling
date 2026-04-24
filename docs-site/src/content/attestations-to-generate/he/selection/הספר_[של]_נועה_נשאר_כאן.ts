@@ -26,4 +26,5 @@ export const shelGenitiveSelection = {
 export const attestation = {
 	selection: shelGenitiveSelection,
 	sentenceMarkdown: "הספר [של] נועה נשאר כאן.",
+	classifierNotes: "של is the genitive relation marker here, modeled as ADP.",
 } as const satisfies AttestedSelection;

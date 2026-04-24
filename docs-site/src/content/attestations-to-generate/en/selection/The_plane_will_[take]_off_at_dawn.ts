@@ -26,4 +26,5 @@ export const takeOffParticlePartialSelection = {
 export const attestation = {
 	selection: takeOffParticlePartialSelection,
 	sentenceMarkdown: "The plane will [take] off at dawn.",
+	classifierNotes: "Only the verb component is selected, but the lemma and surface are the phrasal verb take off.",
 } as const satisfies AttestedSelection;

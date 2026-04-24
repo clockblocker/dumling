@@ -30,4 +30,5 @@ export const deSelection001 = {
 export const attestation = {
 	selection: deSelection001,
 	sentenceMarkdown: "Auf der Karte sind drei [Seen] eingezeichnet.",
+	classifierNotes: "Plural noun with masculine lemma See; the capitalized surface is normalized by the encoder.",
 } as const satisfies AttestedSelection;

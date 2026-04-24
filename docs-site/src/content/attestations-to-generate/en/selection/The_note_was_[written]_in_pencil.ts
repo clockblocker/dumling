@@ -28,4 +28,5 @@ export const writtenPassiveParticipleSelection = {
 export const attestation = {
 	selection: writtenPassiveParticipleSelection,
 	sentenceMarkdown: "The note was [written] in pencil.",
+	classifierNotes: "Voice=Pass is context-sensitive for English participles; it is included to test whether the model accepts contextual morphology.",
 } as const satisfies AttestedSelection;

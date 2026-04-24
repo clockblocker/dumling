@@ -32,4 +32,5 @@ export const noWorriesFormulaSelection = {
 export const attestation = {
 	selection: noWorriesFormulaSelection,
 	sentenceMarkdown: "[No worries], I already fixed it.",
+	classifierNotes: "No worries is a discourse formula rather than compositional negation plus noun.",
 } as const satisfies AttestedSelection;

@@ -24,4 +24,5 @@ export const biglalAdpositionSelection = {
 export const attestation = {
 	selection: biglalAdpositionSelection,
 	sentenceMarkdown: "נשארנו בבית [בגלל] הגשם.",
+	classifierNotes: "בגלל is a causal adposition without an additional case feature in the current schema.",
 } as const satisfies AttestedSelection;

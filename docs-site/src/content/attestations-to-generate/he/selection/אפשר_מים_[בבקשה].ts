@@ -30,4 +30,5 @@ export const bevakashaFormulaSelection = {
 export const attestation = {
 	selection: bevakashaFormulaSelection,
 	sentenceMarkdown: "אפשר מים, [בבקשה]?",
+	classifierNotes: "בבקשה is treated as a request politeness formula despite containing the noun בקשה.",
 } as const satisfies AttestedSelection;

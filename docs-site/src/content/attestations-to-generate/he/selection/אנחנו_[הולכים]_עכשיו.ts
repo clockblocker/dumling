@@ -31,4 +31,5 @@ export const holchimParticipleSelection = {
 export const attestation = {
 	selection: holchimParticipleSelection,
 	sentenceMarkdown: "אנחנו [הולכים] עכשיו.",
+	classifierNotes: "Present-like verbal forms are represented as verbForm Part rather than tense Pres.",
 } as const satisfies AttestedSelection;

@@ -30,4 +30,5 @@ export const todaFormulaSelection = {
 export const attestation = {
 	selection: todaFormulaSelection,
 	sentenceMarkdown: "[תודה] על העזרה.",
+	classifierNotes: "תודה is treated as a thanks formula rather than as a standalone noun.",
 } as const satisfies AttestedSelection;

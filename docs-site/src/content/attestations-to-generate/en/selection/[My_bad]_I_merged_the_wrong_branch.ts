@@ -32,4 +32,5 @@ export const myBadFormulaSelection = {
 export const attestation = {
 	selection: myBadFormulaSelection,
 	sentenceMarkdown: "[My bad], I merged the wrong branch.",
+	classifierNotes: "My bad is categorized by discourse function Apology, not by the adjective bad.",
 } as const satisfies AttestedSelection;

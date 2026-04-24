@@ -27,4 +27,5 @@ export const deSelection037 = {
 export const attestation = {
 	selection: deSelection037,
 	sentenceMarkdown: "[Wegen] dem Regen kamen wir zu spät.",
+	classifierNotes: "This is the normative genitive-governing adposition even though the complement phrase is colloquially dative.",
 } as const satisfies AttestedSelection;

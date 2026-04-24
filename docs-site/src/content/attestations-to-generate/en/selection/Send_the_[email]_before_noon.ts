@@ -24,4 +24,5 @@ export const emailVariantSelection = {
 export const attestation = {
 	selection: emailVariantSelection,
 	sentenceMarkdown: "Send the [e-mail] before noon.",
+	classifierNotes: "Hyphenated e-mail is a standard variant of email, not a typo.",
 } as const satisfies AttestedSelection;

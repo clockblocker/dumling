@@ -24,4 +24,5 @@ export const sawNounSelection = {
 export const attestation = {
 	selection: sawNounSelection,
 	sentenceMarkdown: "The [saw] needs a new blade.",
+	classifierNotes: "Tool saw is a noun citation surface; the model can keep it distinct from the verb surface saw.",
 } as const satisfies AttestedSelection;

@@ -30,4 +30,5 @@ export const deSelection025 = {
 export const attestation = {
 	selection: deSelection025,
 	sentenceMarkdown: "[Geh] bitte nicht ohne Jacke raus.",
+	classifierNotes: "Imperative forms use mood Imp together with finite verbForm in the schema.",
 } as const satisfies AttestedSelection;

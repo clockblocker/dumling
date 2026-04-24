@@ -35,4 +35,5 @@ export const deSelection034 = {
 export const attestation = {
 	selection: deSelection034,
 	sentenceMarkdown: "Er vergaß [seinen] Schlüssel im Büro.",
+	classifierNotes: "Possessor gender is represented separately from agreement gender.",
 } as const satisfies AttestedSelection;

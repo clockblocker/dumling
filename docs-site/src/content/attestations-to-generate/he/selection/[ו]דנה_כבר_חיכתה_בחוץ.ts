@@ -24,4 +24,5 @@ export const vavCliticSelection = {
 export const attestation = {
 	selection: vavCliticSelection,
 	sentenceMarkdown: "[ו]דנה כבר חיכתה בחוץ.",
+	classifierNotes: "ו is modeled as a morpheme clitic rather than CCONJ to stress bound orthographic attachment.",
 } as const satisfies AttestedSelection;

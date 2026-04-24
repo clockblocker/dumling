@@ -31,4 +31,5 @@ export const deSelection036 = {
 export const attestation = {
 	selection: deSelection036,
 	sentenceMarkdown: "Nach [manchem] Fehler lernt man schneller.",
+	classifierNotes: "Manchem is annotated as DET because it modifies Fehler; it would be PRON only in substantive use.",
 } as const satisfies AttestedSelection;

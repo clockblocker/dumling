@@ -30,4 +30,5 @@ export const shalomFormulaSelection = {
 export const attestation = {
 	selection: shalomFormulaSelection,
 	sentenceMarkdown: "[שלום], מה שלומך?",
+	classifierNotes: "שלום is treated as a discourse formula rather than as the noun peace because the sentence is a greeting.",
 } as const satisfies AttestedSelection;

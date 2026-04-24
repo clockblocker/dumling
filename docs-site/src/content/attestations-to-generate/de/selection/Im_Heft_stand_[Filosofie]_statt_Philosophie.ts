@@ -30,4 +30,5 @@ export const deSelection053 = {
 export const attestation = {
 	selection: deSelection053,
 	sentenceMarkdown: "Im Heft stand [Filosofie] statt Philosophie.",
+	classifierNotes: "This is a typo attestation whose noncanonical spelling still points to the canonical lemma Philosophie.",
 } as const satisfies AttestedSelection;

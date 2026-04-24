@@ -24,4 +24,5 @@ export const deSelection040 = {
 export const attestation = {
 	selection: deSelection040,
 	sentenceMarkdown: "Sie sprang [ins] kalte Wasser.",
+	classifierNotes: "Ins gets the same Fusion/General treatment as zum; the public DTO preserves the fused form intact.",
 } as const satisfies AttestedSelection;

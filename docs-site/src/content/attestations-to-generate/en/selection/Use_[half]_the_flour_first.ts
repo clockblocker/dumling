@@ -27,4 +27,5 @@ export const halfDeterminerFractionSelection = {
 export const attestation = {
 	selection: halfDeterminerFractionSelection,
 	sentenceMarkdown: "Use [half] the flour first.",
+	classifierNotes: "Half before a noun phrase is DET with fractional number features, not NUM.",
 } as const satisfies AttestedSelection;

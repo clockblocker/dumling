@@ -26,4 +26,5 @@ export const deSelection004 = {
 export const attestation = {
 	selection: deSelection004,
 	sentenceMarkdown: "Der dritte [Band] ist längst vergriffen.",
+	classifierNotes: "This is the masculine lexical item meaning volume, which stresses homograph and gender disambiguation.",
 } as const satisfies AttestedSelection;

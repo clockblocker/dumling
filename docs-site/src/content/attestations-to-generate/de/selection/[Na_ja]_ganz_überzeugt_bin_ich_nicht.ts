@@ -32,4 +32,5 @@ export const deSelection047 = {
 export const attestation = {
 	selection: deSelection047,
 	sentenceMarkdown: "[Na ja], ganz überzeugt bin ich nicht.",
+	classifierNotes: "Na ja is treated as a discourse formula with the role Reaction; punctuation is excluded from the normalized surface.",
 } as const satisfies AttestedSelection;

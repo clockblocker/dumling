@@ -31,4 +31,5 @@ export const boUImperativeSelection = {
 export const attestation = {
 	selection: boUImperativeSelection,
 	sentenceMarkdown: "[בואו] לכאן.",
+	classifierNotes: "בואו is an imperative plural form with mood Imp and no tense.",
 } as const satisfies AttestedSelection;

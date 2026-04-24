@@ -24,4 +24,5 @@ export const deSelection043 = {
 export const attestation = {
 	selection: deSelection043,
 	sentenceMarkdown: "Bei dieser Formel verstehe ich nur [Bahnhof].",
+	classifierNotes: "The selected word is a noun-shaped substring inside the idiom nur Bahnhof verstehen, so the selection coverage is partial.",
 } as const satisfies AttestedSelection;

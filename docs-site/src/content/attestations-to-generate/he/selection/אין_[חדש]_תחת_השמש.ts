@@ -24,4 +24,5 @@ export const einChadashTachatSelection = {
 export const attestation = {
 	selection: einChadashTachatSelection,
 	sentenceMarkdown: "אין [חדש] תחת השמש.",
+	classifierNotes: "This is a partial selection against a proverb, not an adjective surface.",
 } as const satisfies AttestedSelection;

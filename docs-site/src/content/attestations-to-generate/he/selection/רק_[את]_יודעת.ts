@@ -31,4 +31,5 @@ export const atPronounSelection = {
 export const attestation = {
 	selection: atPronounSelection,
 	sentenceMarkdown: "רק [את] יודעת.",
+	classifierNotes: "את is the pronoun homograph here, modeled with feminine second-person features.",
 } as const satisfies AttestedSelection;

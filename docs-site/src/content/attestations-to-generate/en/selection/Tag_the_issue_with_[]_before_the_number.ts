@@ -24,4 +24,5 @@ export const hashSymbolVariantSelection = {
 export const attestation = {
 	selection: hashSymbolVariantSelection,
 	sentenceMarkdown: "Tag the issue with [#] before the number.",
+	classifierNotes: "The symbol surface # points to a worded canonical lemma, number sign.",
 } as const satisfies AttestedSelection;

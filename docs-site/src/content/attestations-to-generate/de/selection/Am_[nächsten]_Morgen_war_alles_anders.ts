@@ -30,4 +30,5 @@ export const deSelection028 = {
 export const attestation = {
 	selection: deSelection028,
 	sentenceMarkdown: "Am [nächsten] Morgen war alles anders.",
+	classifierNotes: "Nächsten is treated as an adjective inflection in a fixed temporal expression.",
 } as const satisfies AttestedSelection;

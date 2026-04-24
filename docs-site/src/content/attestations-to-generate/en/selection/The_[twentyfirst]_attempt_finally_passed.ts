@@ -27,4 +27,5 @@ export const twentyFirstAdjectiveOrdinalSelection = {
 export const attestation = {
 	selection: twentyFirstAdjectiveOrdinalSelection,
 	sentenceMarkdown: "The [twenty-first] attempt finally passed.",
+	classifierNotes: "The hyphenated ordinal modifying a noun is ADJ with ordinal number features.",
 } as const satisfies AttestedSelection;

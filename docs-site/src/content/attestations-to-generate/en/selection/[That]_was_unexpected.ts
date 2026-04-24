@@ -26,4 +26,5 @@ export const thatPronounSelection = {
 export const attestation = {
 	selection: thatPronounSelection,
 	sentenceMarkdown: "[That] was unexpected.",
+	classifierNotes: "Standalone that is PRON; it shares its surface spelling with the DET and SCONJ examples.",
 } as const satisfies AttestedSelection;

@@ -28,4 +28,5 @@ export const readPastHomographSelection = {
 export const attestation = {
 	selection: readPastHomographSelection,
 	sentenceMarkdown: "Yesterday I [read] the warning twice.",
+	classifierNotes: "Past-tense read is orthographically identical to the citation form; the distinction lives only in surfaceKind and inflectionalFeatures.",
 } as const satisfies AttestedSelection;

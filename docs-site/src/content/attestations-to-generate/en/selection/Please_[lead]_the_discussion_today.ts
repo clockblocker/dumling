@@ -24,4 +24,5 @@ export const leadVerbHomographSelection = {
 export const attestation = {
 	selection: leadVerbHomographSelection,
 	sentenceMarkdown: "Please [lead] the discussion today.",
+	classifierNotes: "Verb lead is kept separate from noun lead despite identical spelling.",
 } as const satisfies AttestedSelection;

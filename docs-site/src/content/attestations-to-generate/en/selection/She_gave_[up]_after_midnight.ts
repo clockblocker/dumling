@@ -24,4 +24,5 @@ export const upParticleSelection = {
 export const attestation = {
 	selection: upParticleSelection,
 	sentenceMarkdown: "She gave [up] after midnight.",
+	classifierNotes: "Particle up in a phrasal verb is modeled as PART, separate from adposition and adverb uses.",
 } as const satisfies AttestedSelection;

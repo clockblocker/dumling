@@ -24,4 +24,5 @@ export const deSelection046 = {
 export const attestation = {
 	selection: deSelection046,
 	sentenceMarkdown: "[Morgenstund] hat Gold im Mund, sagte sie verschlafen.",
+	classifierNotes: "This is a partial selection inside a proverb, so the surface and lemma are the full proverb.",
 } as const satisfies AttestedSelection;

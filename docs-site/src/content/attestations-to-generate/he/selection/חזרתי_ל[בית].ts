@@ -29,4 +29,5 @@ export const habayitPartialSelection = {
 export const attestation = {
 	selection: habayitPartialSelection,
 	sentenceMarkdown: "חזרתי ל[בית].",
+	classifierNotes: "בית is a partial selection against a definite noun surface; the omitted article still drives definite Def.",
 } as const satisfies AttestedSelection;

@@ -24,4 +24,5 @@ export const windNounHomographSelection = {
 export const attestation = {
 	selection: windNounHomographSelection,
 	sentenceMarkdown: "The [wind] shifted before dawn.",
+	classifierNotes: "Wind as weather is a noun citation surface sharing spelling with the verb wind.",
 } as const satisfies AttestedSelection;

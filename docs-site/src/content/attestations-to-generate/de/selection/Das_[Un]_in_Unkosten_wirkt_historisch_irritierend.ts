@@ -24,4 +24,5 @@ export const deSelection050 = {
 export const attestation = {
 	selection: deSelection050,
 	sentenceMarkdown: "Das [Un]- in Unkosten wirkt historisch irritierend.",
+	classifierNotes: "The bound prefix is represented with the canonical hyphenated lemma un-, while the selected spelling excludes the hyphen.",
 } as const satisfies AttestedSelection;

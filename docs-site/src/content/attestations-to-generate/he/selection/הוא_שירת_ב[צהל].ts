@@ -27,4 +27,5 @@ export const tzahalAbbrevSelection = {
 export const attestation = {
 	selection: tzahalAbbrevSelection,
 	sentenceMarkdown: 'הוא שירת ב[צה"ל].',
+	classifierNotes: "צה\"ל is an abbreviated proper noun with the quote mark retained and abbr Yes.",
 } as const satisfies AttestedSelection;

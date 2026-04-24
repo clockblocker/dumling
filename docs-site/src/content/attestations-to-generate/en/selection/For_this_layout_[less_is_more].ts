@@ -24,4 +24,5 @@ export const lessIsMoreAphorismSelection = {
 export const attestation = {
 	selection: lessIsMoreAphorismSelection,
 	sentenceMarkdown: "For this layout, [less is more].",
+	classifierNotes: "Less is more is treated as an aphorism rather than a proverb because it states a maxim without narrative proverb form.",
 } as const satisfies AttestedSelection;

@@ -29,4 +29,5 @@ export const hatovotAdjectiveSelection = {
 export const attestation = {
 	selection: hatovotAdjectiveSelection,
 	sentenceMarkdown: "השאלות [הטובות] נשארו לסוף.",
+	classifierNotes: "הטובות is a definite feminine plural adjective surface that preserves article agreement.",
 } as const satisfies AttestedSelection;

@@ -175,6 +175,7 @@ export type AttestedSelection<L extends SupportedLanguage = SupportedLanguage> =
 	{
 		selection: Selection<L>;
 		sentenceMarkdown: string;
+		classifierNotes?: string;
 		lessonsLearned?: string;
 	};
 

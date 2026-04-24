@@ -27,4 +27,5 @@ export const dataPluralSelection = {
 export const attestation = {
 	selection: dataPluralSelection,
 	sentenceMarkdown: "The [data] are still inconsistent.",
+	classifierNotes: "Data is treated as a plural inflection of datum, even though contemporary usage often treats data as mass or singular.",
 } as const satisfies AttestedSelection;

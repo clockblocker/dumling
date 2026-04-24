@@ -27,4 +27,5 @@ export const smithsPluralProperNounSelection = {
 export const attestation = {
 	selection: smithsPluralProperNounSelection,
 	sentenceMarkdown: "The [Smiths] invited everyone over.",
+	classifierNotes: "Family-name plural is PROPN with inflectional number rather than a common noun.",
 } as const satisfies AttestedSelection;

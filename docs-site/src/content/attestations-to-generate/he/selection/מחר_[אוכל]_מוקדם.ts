@@ -31,4 +31,5 @@ export const ochalVerbSelection = {
 export const attestation = {
 	selection: ochalVerbSelection,
 	sentenceMarkdown: "מחר [אוכל] מוקדם.",
+	classifierNotes: "אוכל is the future first-person verb from אכל, separated from the noun homograph.",
 } as const satisfies AttestedSelection;

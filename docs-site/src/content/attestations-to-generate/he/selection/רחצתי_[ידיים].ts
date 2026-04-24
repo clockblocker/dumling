@@ -29,4 +29,5 @@ export const yadayimDualSelection = {
 export const attestation = {
 	selection: yadayimDualSelection,
 	sentenceMarkdown: "רחצתי [ידיים].",
+	classifierNotes: "ידיים is a dual-number surface for a paired body part.",
 } as const satisfies AttestedSelection;

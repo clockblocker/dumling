@@ -24,4 +24,5 @@ export const chasVechalilaIdiomSelection = {
 export const attestation = {
 	selection: chasVechalilaIdiomSelection,
 	sentenceMarkdown: "[חס וחלילה] שנאחר שוב.",
+	classifierNotes: "חס וחלילה is treated as an idiom because the literal pieces are not the learner-facing meaning.",
 } as const satisfies AttestedSelection;

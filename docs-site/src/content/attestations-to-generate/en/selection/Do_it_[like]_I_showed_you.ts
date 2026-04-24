@@ -26,4 +26,5 @@ export const likeSubordinatorSelection = {
 export const attestation = {
 	selection: likeSubordinatorSelection,
 	sentenceMarkdown: "Do it [like] I showed you.",
+	classifierNotes: "Like as a subordinator is marked SCONJ with vernacular style because many registers prefer as.",
 } as const satisfies AttestedSelection;

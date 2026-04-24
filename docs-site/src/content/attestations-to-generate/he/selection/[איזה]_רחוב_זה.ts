@@ -30,4 +30,5 @@ export const eizeDeterminerSelection = {
 export const attestation = {
 	selection: eizeDeterminerSelection,
 	sentenceMarkdown: "[איזה] רחוב זה?",
+	classifierNotes: "איזה is an interrogative determiner rather than a pronoun because it modifies רחוב.",
 } as const satisfies AttestedSelection;

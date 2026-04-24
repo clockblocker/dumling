@@ -33,4 +33,5 @@ export const deSelection024 = {
 export const attestation = {
 	selection: deSelection024,
 	sentenceMarkdown: "Das [muss] heute noch raus.",
+	classifierNotes: "Muss is represented as AUX with the inherent feature verbType Mod.",
 } as const satisfies AttestedSelection;

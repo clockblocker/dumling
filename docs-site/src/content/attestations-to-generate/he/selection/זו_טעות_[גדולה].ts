@@ -28,4 +28,5 @@ export const gdolaAdjectiveSelection = {
 export const attestation = {
 	selection: gdolaAdjectiveSelection,
 	sentenceMarkdown: "זו טעות [גדולה].",
+	classifierNotes: "גדולה is a feminine singular adjective inflection.",
 } as const satisfies AttestedSelection;

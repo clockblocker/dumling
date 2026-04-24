@@ -30,4 +30,5 @@ export const deSelection029 = {
 export const attestation = {
 	selection: deSelection029,
 	sentenceMarkdown: "Die [linke] Hand zitterte.",
+	classifierNotes: "This is ordinary adjective agreement, included to contrast the directional adjective with political and proper-noun readings.",
 } as const satisfies AttestedSelection;

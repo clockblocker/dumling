@@ -24,4 +24,5 @@ export const kickTheBucketPartialIdiomSelection = {
 export const attestation = {
 	selection: kickTheBucketPartialIdiomSelection,
 	sentenceMarkdown: "The old laptop finally [kicked] the bucket.",
+	classifierNotes: "The literal verb is inflected in the sentence, but the idiom entry stays citation-form only.",
 } as const satisfies AttestedSelection;

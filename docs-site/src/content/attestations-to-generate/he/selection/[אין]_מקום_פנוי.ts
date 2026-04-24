@@ -26,4 +26,5 @@ export const einExistentialSelection = {
 export const attestation = {
 	selection: einExistentialSelection,
 	sentenceMarkdown: "[אין] מקום פנוי.",
+	classifierNotes: "אין is the negative existential verb; its negativity is lexical here, not an inflectional polarity feature.",
 } as const satisfies AttestedSelection;

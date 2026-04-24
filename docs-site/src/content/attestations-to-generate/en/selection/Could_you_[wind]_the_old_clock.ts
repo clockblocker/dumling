@@ -24,4 +24,5 @@ export const windVerbHomographSelection = {
 export const attestation = {
 	selection: windVerbHomographSelection,
 	sentenceMarkdown: "Could you [wind] the old clock?",
+	classifierNotes: "Wind as a verb is modeled separately from wind as weather; pronunciation contrast is outside the object.",
 } as const satisfies AttestedSelection;

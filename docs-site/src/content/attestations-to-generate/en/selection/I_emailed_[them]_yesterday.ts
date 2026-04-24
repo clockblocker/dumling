@@ -31,4 +31,5 @@ export const themAccPronounSelection = {
 export const attestation = {
 	selection: themAccPronounSelection,
 	sentenceMarkdown: "I emailed [them] yesterday.",
+	classifierNotes: "Them is an accusative surface of they; singular-they readings are not separately encoded.",
 } as const satisfies AttestedSelection;

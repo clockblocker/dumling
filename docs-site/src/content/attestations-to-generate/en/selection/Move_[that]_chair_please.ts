@@ -26,4 +26,5 @@ export const thatDeterminerSelection = {
 export const attestation = {
 	selection: thatDeterminerSelection,
 	sentenceMarkdown: "Move [that] chair, please.",
+	classifierNotes: "That before a noun is DET, distinct from pronominal and complementizer that.",
 } as const satisfies AttestedSelection;

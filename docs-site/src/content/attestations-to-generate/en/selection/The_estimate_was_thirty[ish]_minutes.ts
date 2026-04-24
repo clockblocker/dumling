@@ -24,4 +24,5 @@ export const ishSuffixPartialSelection = {
 export const attestation = {
 	selection: ishSuffixPartialSelection,
 	sentenceMarkdown: "The estimate was thirty[ish] minutes.",
+	classifierNotes: "The suffix citation includes a leading hyphen, while the attested substring omits it.",
 } as const satisfies AttestedSelection;

@@ -26,4 +26,5 @@ export const deSelection005 = {
 export const attestation = {
 	selection: deSelection005,
 	sentenceMarkdown: "Die [Leiter] wackelte auf dem nassen Boden.",
+	classifierNotes: "Leiter is the ladder sense here, with feminine gender.",
 } as const satisfies AttestedSelection;

@@ -28,4 +28,5 @@ export const sawVerbPastSelection = {
 export const attestation = {
 	selection: sawVerbPastSelection,
 	sentenceMarkdown: "I [saw] the comet through binoculars.",
+	classifierNotes: "Saw is the past finite surface of see, not the citation noun saw.",
 } as const satisfies AttestedSelection;

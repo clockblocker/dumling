@@ -32,4 +32,5 @@ export const katavVerbSelection = {
 export const attestation = {
 	selection: katavVerbSelection,
 	sentenceMarkdown: "הוא [כתב] מהר.",
+	classifierNotes: "כתב is the verb inflection here, distinct from both the root morpheme and noun-like uses.",
 } as const satisfies AttestedSelection;

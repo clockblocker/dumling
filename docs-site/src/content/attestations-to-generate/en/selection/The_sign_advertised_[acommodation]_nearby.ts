@@ -24,4 +24,5 @@ export const accommodationTypoPartialSelection = {
 export const attestation = {
 	selection: accommodationTypoPartialSelection,
 	sentenceMarkdown: "The sign advertised [acommodation] nearby.",
+	classifierNotes: "Acommodation is represented as Typo with normalized surface accommodation; no edit-distance metadata exists.",
 } as const satisfies AttestedSelection;

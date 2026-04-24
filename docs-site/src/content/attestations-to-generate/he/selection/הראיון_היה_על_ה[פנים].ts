@@ -24,4 +24,5 @@ export const alHapanimIdiomSelection = {
 export const attestation = {
 	selection: alHapanimIdiomSelection,
 	sentenceMarkdown: "הראיון היה על ה[פנים].",
+	classifierNotes: "פנים is a partial selection against the whole idiom על הפנים, not a noun attestation.",
 } as const satisfies AttestedSelection;

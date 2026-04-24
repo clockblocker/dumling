@@ -26,4 +26,5 @@ export const kaasherSubordinatorSelection = {
 export const attestation = {
 	selection: kaasherSubordinatorSelection,
 	sentenceMarkdown: "נמשיך [כאשר] כולם יגיעו.",
+	classifierNotes: "כאשר is SCONJ with temporal case because the schema exposes that feature for Hebrew subordinators.",
 } as const satisfies AttestedSelection;

@@ -26,4 +26,5 @@ export const covidXTokenSelection = {
 export const attestation = {
 	selection: covidXTokenSelection,
 	sentenceMarkdown: "The report says [COVID-ish] twice.",
+	classifierNotes: "The hybrid nonce token is X with Foreign=Yes because it resists clean POS assignment in isolation.",
 } as const satisfies AttestedSelection;

@@ -31,4 +31,5 @@ export const doesAuxSelection = {
 export const attestation = {
 	selection: doesAuxSelection,
 	sentenceMarkdown: "[Does] this key open the archive?",
+	classifierNotes: "Sentence-initial Does keeps normalizedFullSurface lowercase while spelledSelection preserves casing.",
 } as const satisfies AttestedSelection;

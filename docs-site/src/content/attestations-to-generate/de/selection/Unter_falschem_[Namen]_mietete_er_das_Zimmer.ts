@@ -30,4 +30,5 @@ export const deSelection015 = {
 export const attestation = {
 	selection: deSelection015,
 	sentenceMarkdown: "Unter falschem [Namen] mietete er das Zimmer.",
+	classifierNotes: "Namen is dative singular of the weak masculine noun Name, even though the surface could be plural elsewhere.",
 } as const satisfies AttestedSelection;

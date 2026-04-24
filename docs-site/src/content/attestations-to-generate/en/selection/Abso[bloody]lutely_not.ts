@@ -24,4 +24,5 @@ export const bloodyInfixPartialSelection = {
 export const attestation = {
 	selection: bloodyInfixPartialSelection,
 	sentenceMarkdown: "Abso-[bloody]-lutely not.",
+	classifierNotes: "Expletive insertion is classified as Infix to stress an edge case that is morphologically debatable.",
 } as const satisfies AttestedSelection;

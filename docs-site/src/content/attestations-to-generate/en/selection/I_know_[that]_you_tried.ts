@@ -24,4 +24,5 @@ export const thatSubordinatorSelection = {
 export const attestation = {
 	selection: thatSubordinatorSelection,
 	sentenceMarkdown: "I know [that] you tried.",
+	classifierNotes: "Complementizer that is SCONJ; no clause-type feature exists, so POS carries the distinction.",
 } as const satisfies AttestedSelection;

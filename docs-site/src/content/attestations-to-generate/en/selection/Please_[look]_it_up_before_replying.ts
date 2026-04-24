@@ -26,4 +26,5 @@ export const lookUpPartialPhrasalVerbSelection = {
 export const attestation = {
 	selection: lookUpPartialPhrasalVerbSelection,
 	sentenceMarkdown: "Please [look] it up before replying.",
+	classifierNotes: "Discontinuous phrasal verb look ... up is approximated as a partial selection of the citation surface look up.",
 } as const satisfies AttestedSelection;

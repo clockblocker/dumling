@@ -24,4 +24,5 @@ export const unPrefixPartialSelection = {
 export const attestation = {
 	selection: unPrefixPartialSelection,
 	sentenceMarkdown: "That answer was [un]believable.",
+	classifierNotes: "The canonical prefix contains a hyphen, but the selected substring inside a word does not, so it is marked Variant and Partial.",
 } as const satisfies AttestedSelection;

@@ -30,4 +30,5 @@ export const deSelection026 = {
 export const attestation = {
 	selection: deSelection026,
 	sentenceMarkdown: "Sie wurde um Geduld [gebeten].",
+	classifierNotes: "The sentence is passive, but the selected participle is stored without voice because the form itself is simply the participle of bitten.",
 } as const satisfies AttestedSelection;

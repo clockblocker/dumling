@@ -30,4 +30,5 @@ export const deSelection013 = {
 export const attestation = {
 	selection: deSelection013,
 	sentenceMarkdown: "Mit den [Kindern] ist es nie langweilig.",
+	classifierNotes: "Kindern is a dative plural noun with plural -n; the surface features carry both case and number.",
 } as const satisfies AttestedSelection;

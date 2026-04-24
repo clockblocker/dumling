@@ -26,4 +26,5 @@ export const ochelNounSelection = {
 export const attestation = {
 	selection: ochelNounSelection,
 	sentenceMarkdown: "ה[אוכל] כבר מוכן.",
+	classifierNotes: "אוכל is the noun food here, separated from the future-verb homograph by lemma and POS.",
 } as const satisfies AttestedSelection;

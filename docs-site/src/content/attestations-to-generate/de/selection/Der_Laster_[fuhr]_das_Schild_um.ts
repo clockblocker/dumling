@@ -33,4 +33,5 @@ export const deSelection017 = {
 export const attestation = {
 	selection: deSelection017,
 	sentenceMarkdown: "Der Laster [fuhr] das Schild um.",
+	classifierNotes: "This is discontinuous separable umfahren compressed into the full surface fuhr um; the selected spelling is only the finite verb token.",
 } as const satisfies AttestedSelection;

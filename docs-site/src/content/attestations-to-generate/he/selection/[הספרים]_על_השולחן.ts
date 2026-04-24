@@ -30,4 +30,5 @@ export const hasfarimSelection = {
 export const attestation = {
 	selection: hasfarimSelection,
 	sentenceMarkdown: "[הספרים] על השולחן.",
+	classifierNotes: "This is a full selection of a definite plural noun surface.",
 } as const satisfies AttestedSelection;

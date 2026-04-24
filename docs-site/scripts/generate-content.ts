@@ -300,6 +300,7 @@ function lemmaForEntity(value: EntityValue): Lemma<SupportedLanguage> {
 }
 
 type AttestationSource = {
+	classifierNotes?: string;
 	entity: EntityValue;
 	lessonsLearned?: string;
 	order?: number;
@@ -314,6 +315,7 @@ type SelectionSentenceParts = {
 };
 
 type SelectionAttestationSource = AttestationSource & {
+	classifierNotes?: string;
 	entity: Selection<SupportedLanguage>;
 	lessonsLearned?: string;
 	sentenceMarkdown: string;
@@ -358,12 +360,17 @@ function getWrappedAttestation(
 		typeof wrapped.title === "string" && wrapped.title.length > 0
 			? wrapped.title
 			: undefined;
+	const classifierNotes =
+		typeof wrapped.classifierNotes === "string"
+			? wrapped.classifierNotes
+			: undefined;
 	const lessonsLearned =
 		typeof wrapped.lessonsLearned === "string"
 			? wrapped.lessonsLearned
 			: undefined;
 
 	return {
+		classifierNotes,
 		entity: entityEntries[0]?.[1] as EntityValue,
 		lessonsLearned,
 		order,
@@ -640,29 +647,18 @@ function migrateLegacySelectionNotes(): void {
 			languageDir,
 			`${language}-selection-decisions.md`,
 		);
-		const classifierNotesPath = join(logbookDir, "classifier-notes.md");
 		const reviewerNotesPath = join(logbookDir, "reviewer-notes.md");
 		const summaryPath = join(logbookDir, "summary.md");
 
 		mkdirSync(logbookDir, { recursive: true });
 
-		if (existsSync(legacyPath) && !existsSync(classifierNotesPath)) {
-			const legacyText = readFileSync(legacyPath, "utf8").trim();
-			writeFileSync(
-				classifierNotesPath,
-				`### Classifier Notes\n\n${legacyText}\n\n### Open Questions\n\n-\n`,
-			);
+		if (existsSync(legacyPath)) {
 			rmSync(legacyPath);
-		} else {
-			ensureTextFile(
-				classifierNotesPath,
-				defaultLogbookText("classifier"),
-			);
 		}
+		rmSync(join(logbookDir, "classifier-notes.md"), { force: true });
 
 		ensureTextFile(reviewerNotesPath, defaultLogbookText("reviewer"));
 		ensureTextFile(summaryPath, defaultLogbookText("summary"));
-		validateLogbookFile(classifierNotesPath, "classifier");
 		validateLogbookFile(reviewerNotesPath, "reviewer");
 		validateLogbookFile(summaryPath, "summary");
 	}
@@ -699,7 +695,7 @@ function writeSelectionLogbookCsv(
 		mkdirSync(logbookDir, { recursive: true });
 		const csvPath = join(logbookDir, `${language}-attested-selections.csv`);
 		const lines = [
-			"sentence_markdown,sectionId,lessonsLearned",
+			"sentence_markdown,sectionId,classifierNotes,lessonsLearned",
 			...selectionsForLanguage.map((selection) =>
 				[
 					csvCell(selection.sentenceMarkdown),
@@ -710,6 +706,7 @@ function writeSelectionLogbookCsv(
 							).id.encode.asCsv(selection.entity),
 						),
 					),
+					csvCell(selection.classifierNotes ?? ""),
 					csvCell(selection.lessonsLearned ?? ""),
 				].join(","),
 			),

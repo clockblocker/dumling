@@ -24,4 +24,5 @@ export const shePrefixSelection = {
 export const attestation = {
 	selection: shePrefixSelection,
 	sentenceMarkdown: "אמרת [ש]תבוא.",
+	classifierNotes: "ש is modeled as the bound complementizer or relative-marker prefix morpheme.",
 } as const satisfies AttestedSelection;

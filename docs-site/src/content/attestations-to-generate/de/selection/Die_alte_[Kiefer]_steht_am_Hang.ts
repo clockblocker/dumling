@@ -26,4 +26,5 @@ export const deSelection008 = {
 export const attestation = {
 	selection: deSelection008,
 	sentenceMarkdown: "Die alte [Kiefer] steht am Hang.",
+	classifierNotes: "Kiefer is the feminine pine-tree sense here.",
 } as const satisfies AttestedSelection;

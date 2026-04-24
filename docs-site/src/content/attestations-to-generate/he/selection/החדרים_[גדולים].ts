@@ -28,4 +28,5 @@ export const gdolimAdjectiveSelection = {
 export const attestation = {
 	selection: gdolimAdjectiveSelection,
 	sentenceMarkdown: "החדרים [גדולים].",
+	classifierNotes: "גדולים is a masculine plural adjective inflection.",
 } as const satisfies AttestedSelection;

@@ -37,6 +37,8 @@ The intended shape is:
 export const attestation = {
 	selection: deSelection053,
 	sentenceMarkdown: 'Im Heft stand [Filosofie] statt Philosophie.',
+	classifierNotes:
+		'Typo orthographic status still points to the canonical noun lemma.',
 	lessonsLearned:
 		'Typo spelling should still point to the canonical noun lemma.',
 } as const satisfies AttestedSelection;
@@ -46,6 +48,7 @@ Rules:
 
 - `selection` is the classified `Selection` value.
 - `sentenceMarkdown` is required.
+- `classifierNotes` is optional.
 - `lessonsLearned` is optional.
 - `order` is not part of `AttestedSelection`.
 
@@ -194,39 +197,23 @@ Each language directory gets a companion classification-logbook directory:
 
 Each directory contains:
 
-- `classifier-notes.md`
 - `reviewer-notes.md`
 - `summary.md`
 - `{lang}-attested-selections.csv`
 
 Example:
 
-- `docs-site/src/content/attestations-to-generate/de/classification-logbook/classifier-notes.md`
 - `docs-site/src/content/attestations-to-generate/de/classification-logbook/reviewer-notes.md`
 - `docs-site/src/content/attestations-to-generate/de/classification-logbook/summary.md`
 - `docs-site/src/content/attestations-to-generate/de/classification-logbook/de-attested-selections.csv`
 
 This split is intentional:
 
-- `classifier-notes.md` and `reviewer-notes.md` keep working context separate
+- fixture-level `classifierNotes` keep per-selection modeling decisions next to the source data
 - `summary.md` is curated
-- a single combined logbook would pollute classifier/reviewer context and make curation harder
+- `reviewer-notes.md` remains separate working context
 
 ## Required Logbook Files
-
-### `classifier-notes.md`
-
-Required structure:
-
-```md
-### Classifier Notes
-
--
-
-### Open Questions
-
--
-```
 
 ### `reviewer-notes.md`
 
@@ -260,9 +247,9 @@ Rules:
 
 - all required sections must be present
 - if a section is empty, its body is exactly `-`
-- `classifier-notes.md` and `reviewer-notes.md` are work-in-progress documents
+- `reviewer-notes.md` is a work-in-progress document
 - `summary.md` is curated
-- legacy `*-selection-decisions.md` material should migrate into `### Classifier Notes` first
+- legacy `*-selection-decisions.md` material should migrate into per-fixture `classifierNotes`
 
 ## Generated `*-attested-selections.csv`
 
@@ -273,13 +260,14 @@ The CSV is generated, not hand-edited.
 Header:
 
 ```text
-sentence_markdown,sectionId,lessonsLearned
+sentence_markdown,sectionId,classifierNotes,lessonsLearned
 ```
 
 Column meanings:
 
 - `sentence_markdown`: emitted exactly from the fixture
 - `sectionId`: the long human-readable section ID derived from `selection`
+- `classifierNotes`: emitted exactly as written, or empty when omitted
 - `lessonsLearned`: emitted exactly as written, or empty when omitted
 
 Rules:
@@ -295,7 +283,7 @@ Rules:
 4. Make the generator rename selection files from `sentenceMarkdown`.
 5. Generate `*-attested-selections.csv` from selection fixtures.
 6. Move classification logbook materials under `attestations-to-generate/{lang}/classification-logbook/`.
-7. Split working notes and curated summary into `classifier-notes.md`, `reviewer-notes.md`, and `summary.md`.
+7. Keep per-selection classifier decisions on `AttestedSelection.classifierNotes`, with `reviewer-notes.md` and `summary.md` as shared logbook artifacts.
 8. Align references with the new semantic filenames.
 
 ## Open Question

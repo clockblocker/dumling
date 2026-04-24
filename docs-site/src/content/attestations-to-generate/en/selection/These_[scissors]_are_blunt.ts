@@ -27,4 +27,5 @@ export const scissorsPluralTantumSelection = {
 export const attestation = {
 	selection: scissorsPluralTantumSelection,
 	sentenceMarkdown: "These [scissors] are blunt.",
+	classifierNotes: "Scissors uses Number=Ptan to stress plurale-tantum support.",
 } as const satisfies AttestedSelection;

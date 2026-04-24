@@ -24,4 +24,5 @@ export const tafastaMerubeSelection = {
 export const attestation = {
 	selection: tafastaMerubeSelection,
 	sentenceMarkdown: "[תפסת] מרובה לא תפסת.",
+	classifierNotes: "This is a partial selection against a proverb, not a verb attestation for תפסת.",
 } as const satisfies AttestedSelection;

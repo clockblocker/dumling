@@ -24,4 +24,5 @@ export const bioRootPartialSelection = {
 export const attestation = {
 	selection: bioRootPartialSelection,
 	sentenceMarkdown: "The [bio]reactor failed overnight.",
+	classifierNotes: "Bio is modeled as a bound root in bioreactor, not as a free clipping of biography.",
 } as const satisfies AttestedSelection;

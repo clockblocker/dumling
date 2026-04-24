@@ -27,4 +27,5 @@ export const betterAdjectiveSelection = {
 export const attestation = {
 	selection: betterAdjectiveSelection,
 	sentenceMarkdown: "This is the [better] option.",
+	classifierNotes: "Irregular comparative better is attached to the lemma good with Degree=Cmp.",
 } as const satisfies AttestedSelection;

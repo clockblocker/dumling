@@ -33,4 +33,5 @@ export const hitkatevVerbSelection = {
 export const attestation = {
 	selection: hitkatevVerbSelection,
 	sentenceMarkdown: "הוא [התכתב] עם המרצה.",
+	classifierNotes: "התכתב is analyzed as HITPAEL with voice Mid to expose reflexive or reciprocal middle behavior.",
 } as const satisfies AttestedSelection;

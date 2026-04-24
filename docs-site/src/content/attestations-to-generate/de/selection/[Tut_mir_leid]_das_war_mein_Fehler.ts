@@ -32,4 +32,5 @@ export const deSelection049 = {
 export const attestation = {
 	selection: deSelection049,
 	sentenceMarkdown: "[Tut mir leid], das war mein Fehler.",
+	classifierNotes: "Tut mir leid is stored as an apology phraseme, not as a literal finite-verb selection.",
 } as const satisfies AttestedSelection;

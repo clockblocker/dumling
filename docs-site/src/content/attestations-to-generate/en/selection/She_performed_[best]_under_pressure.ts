@@ -27,4 +27,5 @@ export const bestAdverbSelection = {
 export const attestation = {
 	selection: bestAdverbSelection,
 	sentenceMarkdown: "She performed [best] under pressure.",
+	classifierNotes: "Best is modeled as a superlative adverb here, not an adjective, because it modifies performed.",
 } as const satisfies AttestedSelection;

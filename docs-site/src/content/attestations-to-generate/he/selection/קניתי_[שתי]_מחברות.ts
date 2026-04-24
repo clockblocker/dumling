@@ -29,4 +29,5 @@ export const shteiNumeralSelection = {
 export const attestation = {
 	selection: shteiNumeralSelection,
 	sentenceMarkdown: "קניתי [שתי] מחברות.",
+	classifierNotes: "שתי is the construct or feminine form of שתיים and is intentionally awkward for feature-boundary testing.",
 } as const satisfies AttestedSelection;

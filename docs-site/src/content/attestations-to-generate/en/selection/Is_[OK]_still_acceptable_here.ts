@@ -24,4 +24,5 @@ export const okVariantSelection = {
 export const attestation = {
 	selection: okVariantSelection,
 	sentenceMarkdown: "Is [OK] still acceptable here?",
+	classifierNotes: "OK is treated as a standard spelling variant of the canonical lemma okay.",
 } as const satisfies AttestedSelection;

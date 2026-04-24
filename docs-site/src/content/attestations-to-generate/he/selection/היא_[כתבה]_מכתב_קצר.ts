@@ -32,4 +32,5 @@ export const katvaVerbSelection = {
 export const attestation = {
 	selection: katvaVerbSelection,
 	sentenceMarkdown: "היא [כתבה] מכתב קצר.",
+	classifierNotes: "כתבה is the past feminine-singular verb from כתב despite the homographic noun article.",
 } as const satisfies AttestedSelection;

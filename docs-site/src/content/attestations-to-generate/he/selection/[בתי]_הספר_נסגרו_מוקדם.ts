@@ -30,4 +30,5 @@ export const bateiConstructSelection = {
 export const attestation = {
 	selection: bateiConstructSelection,
 	sentenceMarkdown: "[בתי] הספר נסגרו מוקדם.",
+	classifierNotes: "בתי is the construct plural of בית, using definite Cons and number Plur.",
 } as const satisfies AttestedSelection;

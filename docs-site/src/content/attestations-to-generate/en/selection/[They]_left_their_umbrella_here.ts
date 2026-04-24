@@ -31,4 +31,5 @@ export const theyPronounPluralSelection = {
 export const attestation = {
 	selection: theyPronounPluralSelection,
 	sentenceMarkdown: "[They] left their umbrella here.",
+	classifierNotes: "They is marked plural because the current English PRON schema has number but no singular-they semantic flag.",
 } as const satisfies AttestedSelection;

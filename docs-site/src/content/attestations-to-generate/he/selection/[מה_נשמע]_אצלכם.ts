@@ -30,4 +30,5 @@ export const maNishmaFormulaSelection = {
 export const attestation = {
 	selection: maNishmaFormulaSelection,
 	sentenceMarkdown: "[מה נשמע] אצלכם?",
+	classifierNotes: "The multiword greeting is modeled as one discourse-formula surface.",
 } as const satisfies AttestedSelection;

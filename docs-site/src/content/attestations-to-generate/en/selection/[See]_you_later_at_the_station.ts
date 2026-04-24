@@ -32,4 +32,5 @@ export const seeYouLaterFormulaPartialSelection = {
 export const attestation = {
 	selection: seeYouLaterFormulaPartialSelection,
 	sentenceMarkdown: "[See] you later at the station.",
+	classifierNotes: "Only See is selected, but the intended formula is see you later.",
 } as const satisfies AttestedSelection;

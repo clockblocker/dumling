@@ -26,4 +26,5 @@ export const etAccusativeSelection = {
 export const attestation = {
 	selection: etAccusativeSelection,
 	sentenceMarkdown: "ראיתי [את] הסרט.",
+	classifierNotes: "את is the accusative marker here, modeled as ADP and kept separate from the pronoun homograph.",
 } as const satisfies AttestedSelection;

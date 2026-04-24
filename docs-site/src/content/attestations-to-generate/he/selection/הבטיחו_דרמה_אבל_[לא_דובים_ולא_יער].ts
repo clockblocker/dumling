@@ -24,4 +24,5 @@ export const loDubimVeloYaarSelection = {
 export const attestation = {
 	selection: loDubimVeloYaarSelection,
 	sentenceMarkdown: "הבטיחו דרמה, אבל [לא דובים ולא יער].",
+	classifierNotes: "לא דובים ולא יער is classified as an idiom; it is proverb-like, but used here as a fixed idiomatic denial.",
 } as const satisfies AttestedSelection;

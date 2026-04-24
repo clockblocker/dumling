@@ -31,4 +31,5 @@ export const deSelection016 = {
 export const attestation = {
 	selection: deSelection016,
 	sentenceMarkdown: "Sie [umfuhr] die Baustelle weiträumig.",
+	classifierNotes: "This is inseparable umfahren in the past finite form, so there is no separable-prefix feature.",
 } as const satisfies AttestedSelection;

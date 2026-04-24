@@ -33,4 +33,5 @@ export const nichtavVerbSelection = {
 export const attestation = {
 	selection: nichtavVerbSelection,
 	sentenceMarkdown: 'הדו"ח [נכתב] אתמול.',
+	classifierNotes: "נכתב is the NIFAL passive-like form, so it carries voice Pass.",
 } as const satisfies AttestedSelection;

@@ -26,4 +26,5 @@ export const yeshExistentialSelection = {
 export const attestation = {
 	selection: yeshExistentialSelection,
 	sentenceMarkdown: "[יש] קפה במטבח.",
+	classifierNotes: "יש is modeled as an existential verb, not as an adverb or particle.",
 } as const satisfies AttestedSelection;

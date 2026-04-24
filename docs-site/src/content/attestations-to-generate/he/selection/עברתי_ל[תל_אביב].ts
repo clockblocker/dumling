@@ -26,4 +26,5 @@ export const telAvivSelection = {
 export const attestation = {
 	selection: telAvivSelection,
 	sentenceMarkdown: "עברתי ל[תל אביב].",
+	classifierNotes: "תל אביב is a multiword proper-noun citation with no additional inflectional surface features.",
 } as const satisfies AttestedSelection;

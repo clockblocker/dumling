@@ -30,4 +30,5 @@ export const whosePronounPossessiveSelection = {
 export const attestation = {
 	selection: whosePronounPossessiveSelection,
 	sentenceMarkdown: "[Whose] keys are these?",
+	classifierNotes: "Whose is attached to who with possessive and interrogative inherent features plus genitive surface case.",
 } as const satisfies AttestedSelection;

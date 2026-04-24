@@ -29,4 +29,5 @@ export const michtavimNounSelection = {
 export const attestation = {
 	selection: michtavimNounSelection,
 	sentenceMarkdown: "מצאתי [מכתבים] ישנים.",
+	classifierNotes: "מכתבים is the plural noun from מכתב, not a verb-root attestation.",
 } as const satisfies AttestedSelection;
