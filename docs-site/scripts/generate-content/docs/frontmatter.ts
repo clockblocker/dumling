@@ -1,0 +1,79 @@
+import type { Frontmatter } from "../shared/types";
+
+export function parseFrontmatter(
+	sourceText: string,
+	sourcePath: string,
+): {
+	body: string;
+	frontmatter: Frontmatter;
+} {
+	if (!sourceText.startsWith("---\n")) {
+		throw new Error(`${sourcePath} is missing frontmatter.`);
+	}
+
+	const endIndex = sourceText.indexOf("\n---\n", 4);
+	if (endIndex === -1) {
+		throw new Error(`${sourcePath} has unterminated frontmatter.`);
+	}
+
+	const frontmatterText = sourceText.slice(4, endIndex);
+	const body = sourceText
+		.slice(endIndex + "\n---\n".length)
+		.replace(/^\n/, "");
+	const values = new Map<string, string>();
+
+	for (const rawLine of frontmatterText.split("\n")) {
+		const line = rawLine.trim();
+		if (line.length === 0) {
+			continue;
+		}
+		const separatorIndex = line.indexOf(":");
+		if (separatorIndex === -1) {
+			throw new Error(
+				`Invalid frontmatter line in ${sourcePath}: ${rawLine}`,
+			);
+		}
+		values.set(
+			line.slice(0, separatorIndex).trim(),
+			line.slice(separatorIndex + 1).trim(),
+		);
+	}
+
+	const title = values.get("title");
+	if (title === undefined || title.length === 0) {
+		throw new Error(`${sourcePath} is missing a title.`);
+	}
+
+	const orderText = values.get("order") ?? "0";
+	const order = Number(orderText);
+	if (!Number.isFinite(order)) {
+		throw new Error(`${sourcePath} has an invalid order: ${orderText}`);
+	}
+
+	return {
+		body,
+		frontmatter: {
+			description: values.get("description"),
+			order,
+			slug: values.get("slug"),
+			title,
+		},
+	};
+}
+
+export function serializeFrontmatter(frontmatter: Frontmatter): string {
+	const lines = [
+		"---",
+		`title: ${frontmatter.title}`,
+		...(frontmatter.description === undefined
+			? []
+			: [`description: ${frontmatter.description}`]),
+		`order: ${frontmatter.order}`,
+		...(frontmatter.slug === undefined
+			? []
+			: [`slug: ${frontmatter.slug}`]),
+		"---",
+	];
+
+	return `${lines.join("\n")}\n`;
+}

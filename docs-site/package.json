@@ -6,7 +6,9 @@
 	"scripts": {
 		"build": "astro build",
 		"dev": "bun run generate:content && astro dev",
+		"generate:attestations": "bun run scripts/generate-attestations.ts",
 		"generate:content": "bun run scripts/generate-content.ts",
+		"generate:docs": "bun run scripts/generate-docs.ts",
 		"prebuild": "bun run generate:content",
 		"preview": "astro preview"
 	},
