@@ -92,6 +92,14 @@ const seeSelection = dumling.de.create.selection.standard({
 }) satisfies Selection<"de", "Standard", "Citation", "Lexeme", "NOUN">;
 ```
 
+For that same `Selection`, the readable CSV ID and the tiny CSV payload inside the base64url ID are:
+
+```ts
+const seeSelectionReadableCsv =
+	"Selection,Standard,Full,See,Canonical,Surface,Citation,see,Lemma,de,Lexeme,NOUN,see,🌊,gender=Masc";
+const seeSelectionTinyCsv = "v1,x,st,f,See,c,s,c,see,l,de,l,n,see,🌊,g=m";
+```
+
 ## Quickstart
 
 Install the package:
@@ -143,9 +151,9 @@ if (!parsed.success) {
 }
 
 const id = packageDumling.de.id.encode.asBase64Url(parsed.data);
-const decoded = packageDumling.de.id.decode.asSurface(id);
+const decoded = packageDumling.de.id.decode.asSelection(id);
 if (!decoded.success) {
-	throw new Error(decoded.error?.message ?? "Failed to decode surface ID");
+	throw new Error(decoded.error?.message ?? "Failed to decode selection ID");
 }
 
 descriptor.surfaceKind satisfies "Citation";
@@ -153,7 +161,7 @@ extractedLemma satisfies PackageLemma<"de">;
 gender satisfies "Masc";
 
 packageSchemas.de.entity.Selection.Standard.Citation.Lexeme.NOUN().parse(
-	decoded.data,
+	decoded.data.selection,
 );
 ```
 

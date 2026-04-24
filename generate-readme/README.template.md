@@ -63,6 +63,10 @@ The `Selection` is the exact observed highlight in the learner's text:
 
 <!-- README_BLOCK:core-selection -->
 
+For that same `Selection`, the readable CSV ID and the tiny CSV payload inside the base64url ID are:
+
+<!-- README_BLOCK:core-selection-id-examples -->
+
 ## Quickstart
 
 Install the package:

@@ -34,13 +34,13 @@ describe("public API usage", () => {
 		);
 		const id = dumling.de.id.encode.asBase64Url(selection);
 
-		expect(dumling.de.id.decode.asSurface(id)).toEqual({
+		expect(dumling.de.id.decode.asSelection(id)).toEqual({
 			success: true,
 			data: {
 				format: "base64url",
 				language: "de",
-				kind: "Surface",
-				surface: selection.surface,
+				kind: "Selection",
+				selection,
 			},
 		});
 	});

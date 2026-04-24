@@ -67,7 +67,7 @@ describe("published package entrypoints", () => {
 			});
 			const parsed = dumling.de.parse.selection(selection);
 			if (!parsed.success) throw new Error(parsed.error.message);
-			const decoded = dumling.de.id.decode.asSurface(dumling.de.id.encode.asBase64Url(parsed.data));
+			const decoded = dumling.de.id.decode.asSelection(dumling.de.id.encode.asBase64Url(parsed.data));
 			if (!decoded.success) throw new Error(decoded.error.message);
 			const staticSchema = schemasFor.de.entity.Selection.Standard.Citation.Lexeme.NOUN();
 			const dynamicSchema = getSchemaTreeFor("de").entity.Selection.Standard.Citation.Lexeme.NOUN();
@@ -117,17 +117,17 @@ describe("published package entrypoints", () => {
 					"void genericApi;",
 					"const selectionId = dumling.de.id.encode.asBase64Url(parsed.data);",
 					'selectionId satisfies DumlingBase64Url<"de">;',
-					"const decoded = dumling.de.id.decode.asSurface(selectionId);",
-					'decoded satisfies ApiResult<Extract<IdDecodeSuccess<"de">, { kind: "Surface" }>, IdDecodeError>;',
+					"const decoded = dumling.de.id.decode.asSelection(selectionId);",
+					'decoded satisfies ApiResult<Extract<IdDecodeSuccess<"de">, { kind: "Selection" }>, IdDecodeError>;',
 					"if (!decoded.success) throw new Error(decoded.error.message);",
 					'decoded.data satisfies IdDecodeSuccess<"de">;',
 					'const entityValue: EntityValue<"de"> = parsed.data;',
-					'const surfaceValue: Surface<"de"> = decoded.data.surface;',
+					'const selectionValue: Selection<"de"> = decoded.data.selection;',
 					'const entityForKind: EntityForKind<"de", "Selection"> = parsed.data;',
 					'const selectionOptions: SelectionOptionsFor<"Standard"> = { spelledSelection: "See" };',
 					"declare const parseError: ParseError;",
 					"void entityValue;",
-					"void surfaceValue;",
+					"void selectionValue;",
 					"void entityForKind;",
 					"void selectionOptions;",
 					"void parseError;",

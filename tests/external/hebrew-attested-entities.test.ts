@@ -123,22 +123,22 @@ describe("Hebrew attested entities", () => {
 				surface: hebrewKatvuInflectionSurface,
 			},
 		});
-		expect(dumling.he.id.decode.asSurface(selectionId)).toEqual({
+		expect(dumling.he.id.decode.asSelection(selectionId)).toEqual({
 			success: true,
 			data: {
 				format: "base64url",
 				language: "he",
-				kind: "Surface",
-				surface: hebrewKatvuStandardFullSelection.surface,
+				kind: "Selection",
+				selection: hebrewKatvuStandardFullSelection,
 			},
 		});
-		expect(dumling.he.id.decode.asSurface(pointedVariantId)).toEqual({
+		expect(dumling.he.id.decode.asSelection(pointedVariantId)).toEqual({
 			success: true,
 			data: {
 				format: "base64url",
 				language: "he",
-				kind: "Surface",
-				surface: hebrewKatvuPointedVariantSelection.surface,
+				kind: "Selection",
+				selection: hebrewKatvuPointedVariantSelection,
 			},
 		});
 		expect(dumling.he.id.decode.asLemma(abbreviationLemmaId)).toEqual({
@@ -150,14 +150,14 @@ describe("Hebrew attested entities", () => {
 				lemma: hebrewUsAbbreviationLemma,
 			},
 		});
-		expect(dumling.he.id.decode.asSurface(abbreviationSelectionId)).toEqual(
+		expect(dumling.he.id.decode.asSelection(abbreviationSelectionId)).toEqual(
 			{
 				success: true,
 				data: {
 					format: "base64url",
 					language: "he",
-					kind: "Surface",
-					surface: hebrewUsAbbreviationSelection.surface,
+					kind: "Selection",
+					selection: hebrewUsAbbreviationSelection,
 				},
 			},
 		);

@@ -12,11 +12,17 @@ import {
 	inverseLanguageTokens,
 	inverseLemmaKindTokens,
 	inverseLemmaSubKindTokens,
+	inverseOrthographicStatusTokens,
+	inverseSelectionCoverageTokens,
+	inverseSpellingRelationTokens,
 	inverseSurfaceKindTokens,
 	languageTokens,
 	lemmaKindTokens,
 	lemmaSubKindTokens,
+	orthographicStatusTokens,
 	rawStringFeatureNames,
+	selectionCoverageTokens,
+	spellingRelationTokens,
 	surfaceKindTokens,
 } from "./tiny-tokens";
 
@@ -214,8 +220,52 @@ export function readableCsvToTinyCsv(input: string): string {
 		return csvRow(["v1", ...readableLemmaFieldsToTiny(fields)]);
 	}
 
+	if (fields[0] === "Selection") {
+		const orthographicStatusToken =
+			orthographicStatusTokens[
+				fields[1] as keyof typeof orthographicStatusTokens
+			];
+		const selectionCoverageToken =
+			selectionCoverageTokens[
+				fields[2] as keyof typeof selectionCoverageTokens
+			];
+		const spellingRelationToken =
+			spellingRelationTokens[
+				fields[4] as keyof typeof spellingRelationTokens
+			];
+
+		if (
+			orthographicStatusToken === undefined ||
+			selectionCoverageToken === undefined ||
+			spellingRelationToken === undefined
+		) {
+			throw new Error(
+				"Readable CSV contains an unsupported selection token value",
+			);
+		}
+
+		const tinySurface = parseCsvRow(readableCsvToTinyCsv(csvRow(fields.slice(5))), {
+			requireCanonical: true,
+		});
+		if (!tinySurface.success) {
+			throw new Error(tinySurface.error.message);
+		}
+
+		return csvRow([
+			"v1",
+			entityKindTokens.Selection,
+			orthographicStatusToken,
+			selectionCoverageToken,
+			fields[3],
+			spellingRelationToken,
+			...tinySurface.data.slice(1),
+		]);
+	}
+
 	if (fields[0] !== "Surface") {
-		throw new Error("Readable CSV row must start with Lemma or Surface");
+		throw new Error(
+			"Readable CSV row must start with Lemma, Surface, or Selection",
+		);
 	}
 
 	const surfaceKindToken =
@@ -277,6 +327,51 @@ export function tinyCsvToReadableCsv(input: string): TinyResult {
 		return {
 			success: true,
 			data: csvRow(readable),
+		};
+	}
+
+	if (entityKind === "Selection") {
+		if (payload.length < 15) {
+			return invalid("Tiny Selection rows are missing surface fields");
+		}
+
+		const orthographicStatus = inverseOrthographicStatusTokens[payload[1] ?? ""];
+		const selectionCoverage = inverseSelectionCoverageTokens[payload[2] ?? ""];
+		const spellingRelation = inverseSpellingRelationTokens[payload[4] ?? ""];
+		if (
+			orthographicStatus === undefined ||
+			selectionCoverage === undefined ||
+			spellingRelation === undefined
+		) {
+			return invalid("Tiny Selection row contains an unknown selection token");
+		}
+
+		const surface = tinyCsvToReadableCsv(csvRow(["v1", ...payload.slice(5)]));
+		if (!surface.success) {
+			return surface;
+		}
+
+		const parsedSurface = parseCsvRow(surface.data, {
+			requireCanonical: true,
+		});
+		if (!parsedSurface.success) {
+			return parsedSurface;
+		}
+
+		if (parsedSurface.data[0] !== "Surface") {
+			return invalid("Tiny Selection rows must contain a Surface row");
+		}
+
+		return {
+			success: true,
+			data: csvRow([
+				"Selection",
+				orthographicStatus,
+				selectionCoverage,
+				payload[3],
+				spellingRelation,
+				...parsedSurface.data,
+			]),
 		};
 	}
 

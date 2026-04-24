@@ -1,5 +1,8 @@
 import type {
 	LemmaKind,
+	OrthographicStatus,
+	SelectionCoverage,
+	SpellingRelation,
 	LemmaSubKind,
 	SupportedLanguage,
 	SurfaceKind,
@@ -32,6 +35,7 @@ export const languageTokens = {
 
 export const entityKindTokens = {
 	Lemma: "l",
+	Selection: "x",
 	Surface: "s",
 } as const;
 
@@ -39,6 +43,21 @@ export const surfaceKindTokens = {
 	Citation: "c",
 	Inflection: "i",
 } as const satisfies TokenMap<SurfaceKind>;
+
+export const orthographicStatusTokens = {
+	Standard: "st",
+	Typo: "ty",
+} as const satisfies TokenMap<OrthographicStatus>;
+
+export const selectionCoverageTokens = {
+	Full: "f",
+	Partial: "p",
+} as const satisfies TokenMap<SelectionCoverage>;
+
+export const spellingRelationTokens = {
+	Canonical: "c",
+	Variant: "v",
+} as const satisfies TokenMap<SpellingRelation>;
 
 export const lemmaKindTokens = {
 	Lexeme: "l",
@@ -259,6 +278,18 @@ export const inverseEntityKindTokens = invert("entityKind", entityKindTokens);
 export const inverseSurfaceKindTokens = invert(
 	"surfaceKind",
 	surfaceKindTokens,
+);
+export const inverseOrthographicStatusTokens = invert(
+	"orthographicStatus",
+	orthographicStatusTokens,
+);
+export const inverseSelectionCoverageTokens = invert(
+	"selectionCoverage",
+	selectionCoverageTokens,
+);
+export const inverseSpellingRelationTokens = invert(
+	"spellingRelation",
+	spellingRelationTokens,
 );
 export const inverseLemmaKindTokens = invert("lemmaKind", lemmaKindTokens);
 export const inverseLemmaSubKindTokens = invert(

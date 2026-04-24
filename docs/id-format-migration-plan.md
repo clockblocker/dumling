@@ -41,6 +41,7 @@ dumling.de.id.encode.asBase64Url(entityOrCsv);
 dumling.de.id.decode.any(input);
 dumling.de.id.decode.asLemma(input);
 dumling.de.id.decode.asSurface(input);
+dumling.de.id.decode.asSelection(input);
 ```
 
 - `decode.*` accepts plain `string`, not only branded strings. Runtime input usually comes from URLs, databases, files, or clipboards and cannot be trusted by TypeScript brands.
@@ -54,12 +55,12 @@ dumling.de.id.decode.asSurface(input);
 - Readable CSV remains the public human-readable ID representation.
 - Readable CSV decoding is permissive for parser-normalized lemma and surface text. The encoder still emits canonical readable CSV.
 - Lemma and surface text are canonicalized through the existing language parser before encoding. For current language schemas, this includes NFC lowercasing for `canonicalLemma` and `normalizedFullSurface`.
-- Case preservation is not an ID concern. Observed casing belongs to `Selection.spelledSelection`; because selections encode as their linked surface, observed casing is intentionally dropped from IDs.
+- Case preservation is not a lemma/surface ID concern. `Selection.spelledSelection` remains case-preserving and is part of the selection ID payload.
 - Row kind, language code, enum values, feature names, and feature values are case-sensitive. Lemma and surface text fields are canonicalized by the language parser, so caller-provided text casing does not matter there.
-- `Selection` does not get its own ID shape. `id.encode.asCsv(selection)` and `id.encode.asBase64Url(selection)` are accepted for caller ergonomics, but they first convert the selection to its linked `Surface`.
-- IDs identify normalized linguistic entities, not learner-observed selections. Selection coverage, typo spelling, and spelling relation are intentionally not represented in IDs.
-- `Selection` remains a general DTO/entity kind where the broader API needs it, but it is no longer an ID-addressable kind. Remove `decodeAs("Selection")` expectations from ID tests.
-- `id.decode.*` returns decode metadata plus the decoded `Lemma` or `Surface`.
+- `Selection` gets its own ID shape. `id.encode.asCsv(selection)` and `id.encode.asBase64Url(selection)` preserve the canonicalized selection row plus its nested surface and lemma.
+- `Selection` IDs identify learner-observed selections as well as their linked normalized linguistic entities. Selection coverage, orthographic status, selected spelling, and spelling relation are all represented in IDs.
+- `Selection` remains a general DTO/entity kind where the broader API needs it, and it is again an ID-addressable kind.
+- `id.decode.*` returns decode metadata plus the decoded `Lemma`, `Surface`, or `Selection`.
 - Decoding through a language namespace enforces language match. For example, `dumling.de.id.decode.any("Lemma,en,...")` returns `LanguageMismatch`.
 - Existing `dumling:<base64url-json>` IDs are not supported. This is a clean breaking migration.
 - Remove the root `inspectId` helper. Decode success includes the inspection metadata callers need: `format`, `language`, and `kind`.
@@ -426,7 +427,7 @@ Decode success includes both metadata and the decoded entity:
 }
 ```
 
-`id.decode.asLemma(input)` and `id.decode.asSurface(input)` preserve the same metadata shape and narrow only by `kind`. If the decoded kind does not match, return `EntityMismatch`.
+`id.decode.asLemma(input)`, `id.decode.asSurface(input)`, and `id.decode.asSelection(input)` preserve the same metadata shape and narrow only by `kind`. If the decoded kind does not match, return `EntityMismatch`.
 
 ID decode error boundaries:
 
@@ -464,16 +465,16 @@ ID decode error boundaries:
 7. Route `id.encode.asBase64Url` through readable CSV then tiny CSV.
 8. Route `id.decode.any` through readable CSV or base64url detection.
 9. Add `id.decode.asLemma` and `id.decode.asSurface` entity-kind guards.
-10. Make `id.encode.*` accept `Selection` and encode it as `selection.surface`.
+10. Make `id.encode.*` accept `Selection` as its own canonical ID kind.
 11. Remove legacy `dumling:` decode support.
 12. Remove the root `inspectId` export.
 
 TDD-focused checks:
 
 13. Add token coverage tests for every public enum member, feature name, and feature value.
-14. Add tests proving selections encode to the same ID as their linked surface.
-15. Add tests proving typo spelling, spelling relation, and selection coverage do not affect encoded IDs.
-16. Remove `decodeAs("Selection")` expectations from ID tests.
+14. Add tests proving selections decode through `id.decode.asSelection(...)`.
+15. Add tests proving typo spelling, spelling relation, and selection coverage affect encoded selection IDs.
+16. Restore `Selection` decode expectations in ID tests.
 17. Add tests proving malformed readable CSV does not fall through to base64url decoding.
 18. Add tests proving language mismatch and language-not-implemented precedence for readable CSV and base64url.
 19. Add tests proving readable CSV accepts parser-normalizable lemma/surface text casing.
