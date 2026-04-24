@@ -1,0 +1,35 @@
+import type { AttestedSelection, Selection } from "dumling/types";
+
+export const ochalVerbSelection = {
+	language: "he",
+	orthographicStatus: "Standard",
+	selectionCoverage: "Full",
+	spelledSelection: "אוכל",
+	spellingRelation: "Canonical",
+	surface: {
+		language: "he",
+		normalizedFullSurface: "אוכל",
+		surfaceKind: "Inflection",
+		inflectionalFeatures: {
+			number: "Sing",
+			person: "1",
+			tense: "Fut",
+		},
+		lemma: {
+			language: "he",
+			canonicalLemma: "אכל",
+			lemmaKind: "Lexeme",
+			lemmaSubKind: "VERB",
+			inherentFeatures: {
+				hebBinyan: "PAAL",
+			},
+			meaningInEmojis: "🍽️",
+		},
+	},
+} satisfies Selection<"he", "Standard", "Inflection", "Lexeme", "VERB">;
+
+export const attestation = {
+	selection: ochalVerbSelection,
+	sentenceMarkdown: "מחר [אוכל] מוקדם.",
+	title: ochalVerbSelection.surface.normalizedFullSurface,
+} as const satisfies AttestedSelection;

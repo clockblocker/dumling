@@ -1,0 +1,36 @@
+import type { AttestedSelection, Selection } from "dumling/types";
+
+export const katvaVerbSelection = {
+	language: "he",
+	orthographicStatus: "Standard",
+	selectionCoverage: "Full",
+	spelledSelection: "כתבה",
+	spellingRelation: "Canonical",
+	surface: {
+		language: "he",
+		normalizedFullSurface: "כתבה",
+		surfaceKind: "Inflection",
+		inflectionalFeatures: {
+			gender: "Fem",
+			number: "Sing",
+			person: "3",
+			tense: "Past",
+		},
+		lemma: {
+			language: "he",
+			canonicalLemma: "כתב",
+			lemmaKind: "Lexeme",
+			lemmaSubKind: "VERB",
+			inherentFeatures: {
+				hebBinyan: "PAAL",
+			},
+			meaningInEmojis: "✍️",
+		},
+	},
+} satisfies Selection<"he", "Standard", "Inflection", "Lexeme", "VERB">;
+
+export const attestation = {
+	selection: katvaVerbSelection,
+	sentenceMarkdown: "היא [כתבה] מכתב קצר.",
+	title: katvaVerbSelection.surface.normalizedFullSurface,
+} as const satisfies AttestedSelection;

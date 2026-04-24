@@ -171,6 +171,14 @@ export type Selection<
 		>
 	: PlaceholderSelection<L, OS, SK, LK, LSK>;
 
+export type AttestedSelection<L extends SupportedLanguage = SupportedLanguage> =
+	{
+		selection: Selection<L>;
+		sentenceMarkdown: string;
+		title: string;
+		lessonsLearned?: string;
+	};
+
 export type FeatureSetKind = "inherent" | "inflectional";
 
 type PrettifyFeatureSet<T> = T extends object

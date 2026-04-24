@@ -3,11 +3,16 @@ import {
 	mkdirSync,
 	readFileSync,
 	readdirSync,
+	renameSync,
 	rmSync,
 	writeFileSync,
 } from "node:fs";
 import { basename, dirname, join, relative, resolve } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
+import {
+	collectBlocksFromDirectory,
+	renderMarkdownTemplate,
+} from "../../scripts/doc-blocks";
 import { getLanguageApi } from "../../src/index.ts";
 import type {
 	EntityKind,
@@ -17,10 +22,6 @@ import type {
 	SupportedLanguage,
 	Surface,
 } from "../../src/types/public-types.ts";
-import {
-	collectBlocksFromDirectory,
-	renderMarkdownTemplate,
-} from "../../scripts/doc-blocks";
 
 interface Frontmatter {
 	description?: string;
@@ -162,7 +163,9 @@ function serializeFrontmatter(frontmatter: Frontmatter): string {
 			? []
 			: [`description: ${frontmatter.description}`]),
 		`order: ${frontmatter.order}`,
-		...(frontmatter.slug === undefined ? [] : [`slug: ${frontmatter.slug}`]),
+		...(frontmatter.slug === undefined
+			? []
+			: [`slug: ${frontmatter.slug}`]),
 		"---",
 	];
 
@@ -298,10 +301,23 @@ function lemmaForEntity(value: EntityValue): Lemma<SupportedLanguage> {
 
 type AttestationSource = {
 	entity: EntityValue;
+	lessonsLearned?: string;
 	order?: number;
 	sentenceMarkdown?: string;
 	sourcePath: string;
 	title?: string;
+};
+
+type SelectionSentenceParts = {
+	selectedText: string;
+	sentenceText: string;
+};
+
+type SelectionAttestationSource = AttestationSource & {
+	entity: Selection<SupportedLanguage>;
+	lessonsLearned?: string;
+	sentenceMarkdown: string;
+	title: string;
 };
 
 function getWrappedAttestation(
@@ -313,7 +329,9 @@ function getWrappedAttestation(
 		return undefined;
 	}
 	if (!isRecord(wrapped)) {
-		throw new Error(`${sourcePath} exports attestation, but it is not an object.`);
+		throw new Error(
+			`${sourcePath} exports attestation, but it is not an object.`,
+		);
 	}
 
 	const entityEntries = [
@@ -340,9 +358,14 @@ function getWrappedAttestation(
 		typeof wrapped.title === "string" && wrapped.title.length > 0
 			? wrapped.title
 			: undefined;
+	const lessonsLearned =
+		typeof wrapped.lessonsLearned === "string"
+			? wrapped.lessonsLearned
+			: undefined;
 
 	return {
 		entity: entityEntries[0]?.[1] as EntityValue,
+		lessonsLearned,
 		order,
 		sentenceMarkdown,
 		title,
@@ -394,7 +417,10 @@ function expectedEntityKindForPath(sourcePath: string): EntityKind | undefined {
 	return undefined;
 }
 
-function validateAttestationPath(source: AttestationSource, base64UrlId: string) {
+function validateAttestationPath(
+	source: AttestationSource,
+	base64UrlId: string,
+) {
 	const expectedKind = expectedEntityKindForPath(source.sourcePath);
 	const actualKind = entityKindFor(source.entity);
 	if (expectedKind !== undefined && expectedKind !== actualKind) {
@@ -404,10 +430,238 @@ function validateAttestationPath(source: AttestationSource, base64UrlId: string)
 	}
 
 	const actualBaseName = basename(source.sourcePath, ".ts");
+	if (entityKindFor(source.entity) === "Selection") {
+		return;
+	}
 	if (actualBaseName !== base64UrlId) {
 		throw new Error(
 			`${source.sourcePath} must be named ${base64UrlId}.ts for its generated ID.`,
 		);
+	}
+}
+
+function parseSelectionSentenceMarkdown(
+	sentenceMarkdown: string,
+	sourcePath: string,
+): SelectionSentenceParts {
+	const spans = [...sentenceMarkdown.matchAll(/\[(.+?)\]/gu)];
+	if (spans.length !== 1) {
+		throw new Error(
+			`${sourcePath} sentenceMarkdown must contain exactly one bracketed selection span.`,
+		);
+	}
+
+	const match = spans[0];
+	const selectedText = match?.[1];
+	if (selectedText === undefined) {
+		throw new Error(
+			`${sourcePath} sentenceMarkdown has an invalid selection span.`,
+		);
+	}
+
+	const sentenceText = sentenceMarkdown.replace(/\[(.+?)\]/gu, "$1");
+
+	return { selectedText, sentenceText };
+}
+
+function semanticSelectionBasename(sentenceMarkdown: string): string {
+	return sentenceMarkdown
+		.normalize("NFC")
+		.replace(/[^\p{L}\p{M}\p{N}\p{Pc}\p{Zs}\[\]]+/gu, "")
+		.replace(/\p{Zs}+/gu, "_")
+		.replace(/_+/gu, "_")
+		.replace(/^_+|_+$/gu, "");
+}
+
+function isSelectionAttestationSource(
+	source: AttestationSource,
+): source is SelectionAttestationSource {
+	return isSelection(source.entity);
+}
+
+function validateSelectionAttestation(
+	source: AttestationSource,
+): asserts source is SelectionAttestationSource {
+	if (!isSelectionAttestationSource(source)) {
+		return;
+	}
+
+	if (source.order !== undefined) {
+		throw new Error(
+			`${source.sourcePath} selection attestations must not define order.`,
+		);
+	}
+	if (source.sentenceMarkdown === undefined) {
+		throw new Error(
+			`${source.sourcePath} selection attestations must define sentenceMarkdown.`,
+		);
+	}
+	if (source.title === undefined) {
+		throw new Error(
+			`${source.sourcePath} selection attestations must define title.`,
+		);
+	}
+
+	const { selectedText } = parseSelectionSentenceMarkdown(
+		source.sentenceMarkdown,
+		source.sourcePath,
+	);
+	if (selectedText !== source.entity.spelledSelection) {
+		throw new Error(
+			`${source.sourcePath} sentenceMarkdown selection "${selectedText}" must match spelledSelection "${source.entity.spelledSelection}".`,
+		);
+	}
+}
+
+function selectionSemanticSourcePath(
+	source: SelectionAttestationSource,
+): string {
+	return join(
+		dirname(source.sourcePath),
+		`${semanticSelectionBasename(source.sentenceMarkdown)}.ts`,
+	);
+}
+
+async function renameSelectionSources(): Promise<string[]> {
+	const selectionFiles = listTypeScriptFiles(sourceAttestationsDir).filter(
+		(sourcePath) => expectedEntityKindForPath(sourcePath) === "Selection",
+	);
+	const renamePlan = new Map<string, string>();
+	const claimedTargets = new Map<string, string>();
+
+	for (const sourcePath of selectionFiles) {
+		const source = await loadAttestationSource(sourcePath);
+		validateSelectionAttestation(source);
+		const targetPath = selectionSemanticSourcePath(source);
+		const priorSource = claimedTargets.get(targetPath);
+		if (priorSource !== undefined && priorSource !== sourcePath) {
+			throw new Error(
+				`Selection filename collision: ${priorSource} and ${sourcePath} both normalize to ${targetPath}.`,
+			);
+		}
+		claimedTargets.set(targetPath, sourcePath);
+		if (targetPath !== sourcePath) {
+			renamePlan.set(sourcePath, targetPath);
+		}
+	}
+
+	for (const [sourcePath, targetPath] of renamePlan) {
+		if (existsSync(targetPath) && !renamePlan.has(targetPath)) {
+			throw new Error(
+				`Cannot rename ${sourcePath} to ${targetPath}: target already exists.`,
+			);
+		}
+	}
+
+	for (const [sourcePath, targetPath] of renamePlan) {
+		renameSync(sourcePath, targetPath);
+	}
+
+	return listTypeScriptFiles(sourceAttestationsDir);
+}
+
+function csvCell(value: string): string {
+	return /[",\n\r]/u.test(value) ? `"${value.replaceAll('"', '""')}"` : value;
+}
+
+function defaultLogbookText(
+	kind: "classifier" | "reviewer" | "summary",
+): string {
+	if (kind === "classifier") {
+		return "### Classifier Notes\n\n-\n\n### Open Questions\n\n-\n";
+	}
+	if (kind === "reviewer") {
+		return "### Reviewer Notes\n\n-\n";
+	}
+	return "### Common Mistakes\n\n-\n\n### Locked-In Rules\n\n-\n";
+}
+
+function ensureTextFile(path: string, text: string): void {
+	if (!existsSync(path)) {
+		writeFileSync(path, text);
+	}
+}
+
+function migrateLegacySelectionNotes(): void {
+	for (const language of ["de", "en", "he"] satisfies SupportedLanguage[]) {
+		const languageDir = join(sourceAttestationsDir, language);
+		const logbookDir = join(languageDir, "classification-logbook");
+		const legacyPath = join(
+			languageDir,
+			`${language}-selection-decisions.md`,
+		);
+		const classifierNotesPath = join(logbookDir, "classifier-notes.md");
+		const reviewerNotesPath = join(logbookDir, "reviewer-notes.md");
+		const summaryPath = join(logbookDir, "summary.md");
+
+		mkdirSync(logbookDir, { recursive: true });
+
+		if (existsSync(legacyPath) && !existsSync(classifierNotesPath)) {
+			const legacyText = readFileSync(legacyPath, "utf8").trim();
+			writeFileSync(
+				classifierNotesPath,
+				`### Classifier Notes\n\n${legacyText}\n\n### Open Questions\n\n-\n`,
+			);
+			rmSync(legacyPath);
+		} else {
+			ensureTextFile(
+				classifierNotesPath,
+				defaultLogbookText("classifier"),
+			);
+		}
+
+		ensureTextFile(reviewerNotesPath, defaultLogbookText("reviewer"));
+		ensureTextFile(summaryPath, defaultLogbookText("summary"));
+	}
+}
+
+function writeSelectionLogbookCsv(
+	selections: SelectionAttestationSource[],
+): void {
+	const rowsByLanguage = new Map<
+		SupportedLanguage,
+		SelectionAttestationSource[]
+	>();
+
+	for (const selection of selections) {
+		const existing = rowsByLanguage.get(selection.entity.language) ?? [];
+		existing.push(selection);
+		rowsByLanguage.set(selection.entity.language, existing);
+	}
+
+	for (const language of ["de", "en", "he"] satisfies SupportedLanguage[]) {
+		const selectionsForLanguage = (
+			rowsByLanguage.get(language) ?? []
+		).toSorted((left, right) =>
+			selectionSemanticSourcePath(left).localeCompare(
+				selectionSemanticSourcePath(right),
+				language,
+			),
+		);
+		const logbookDir = join(
+			sourceAttestationsDir,
+			language,
+			"classification-logbook",
+		);
+		mkdirSync(logbookDir, { recursive: true });
+		const csvPath = join(logbookDir, `${language}-attested-selections.csv`);
+		const lines = [
+			"sentence_markdown,sectionId,lessonsLearned",
+			...selectionsForLanguage.map((selection) =>
+				[
+					csvCell(selection.sentenceMarkdown),
+					csvCell(
+						String(
+							getLanguageApi(
+								selection.entity.language,
+							).id.encode.asCsv(selection.entity),
+						),
+					),
+					csvCell(selection.lessonsLearned ?? ""),
+				].join(","),
+			),
+		];
+		writeFileSync(csvPath, `${lines.join("\n")}\n`);
 	}
 }
 
@@ -444,7 +698,10 @@ function renderTsValue(value: unknown, indent = 0): string {
 			return "[]";
 		}
 		return `[\n${value
-			.map((entry) => `${childIndentation}${renderTsValue(entry, indent + 1)},`)
+			.map(
+				(entry) =>
+					`${childIndentation}${renderTsValue(entry, indent + 1)},`,
+			)
 			.join("\n")}\n${indentation}]`;
 	}
 
@@ -510,9 +767,10 @@ function renderAttestationBody(
 	const kind = entityKindFor(entity);
 	const lemma = lemmaForEntity(entity);
 	const surface =
-		isSelection(entity) || isSurface(entity) ? surfaceForEntity(entity) : undefined;
-	const displayName =
-		surface?.normalizedFullSurface ?? lemma.canonicalLemma;
+		isSelection(entity) || isSurface(entity)
+			? surfaceForEntity(entity)
+			: undefined;
+	const displayName = surface?.normalizedFullSurface ?? lemma.canonicalLemma;
 	const variableBase = camelCaseIdentifier(displayName, "attested");
 	const entityVariable = `${variableBase}${kind}`;
 	const idVariable = `${entityVariable}Id`;
@@ -555,7 +813,9 @@ function generatedFrontmatterForAttestation(
 	const entity = source.entity;
 	const lemma = lemmaForEntity(entity);
 	const surface =
-		isSelection(entity) || isSurface(entity) ? surfaceForEntity(entity) : undefined;
+		isSelection(entity) || isSurface(entity)
+			? surfaceForEntity(entity)
+			: undefined;
 	const displayName =
 		source.title ?? surface?.normalizedFullSurface ?? lemma.canonicalLemma;
 
@@ -569,11 +829,18 @@ function generatedFrontmatterForAttestation(
 
 async function generateAttestationMarkdown(): Promise<SourcePage[]> {
 	const pages: SourcePage[] = [];
+	const selectionSources: SelectionAttestationSource[] = [];
 
-	for (const sourcePath of listTypeScriptFiles(sourceAttestationsDir)) {
+	migrateLegacySelectionNotes();
+	const sourcePaths = await renameSelectionSources();
+
+	for (const sourcePath of sourcePaths) {
 		const source = await loadAttestationSource(sourcePath);
+		validateSelectionAttestation(source);
 		const languageApi = getLanguageApi(source.entity.language);
-		const base64UrlId = String(languageApi.id.encode.asBase64Url(source.entity));
+		const base64UrlId = String(
+			languageApi.id.encode.asBase64Url(source.entity),
+		);
 		validateAttestationPath(source, base64UrlId);
 
 		const routeId = `lang/${source.entity.language}/attestation/${base64UrlId}`;
@@ -585,7 +852,12 @@ async function generateAttestationMarkdown(): Promise<SourcePage[]> {
 
 		writeGeneratedMarkdown(routeId, frontmatter, body);
 		pages.push({ frontmatter, routeId, sourcePath });
+		if (isSelectionAttestationSource(source)) {
+			selectionSources.push(source);
+		}
 	}
+
+	writeSelectionLogbookCsv(selectionSources);
 
 	return pages;
 }
