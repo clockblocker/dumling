@@ -30,10 +30,23 @@ function removeGeneratedAttestationOutputs(): void {
 				continue;
 			}
 
-			const { frontmatter } = parseFrontmatter(
-				readFileSync(generatedPath, "utf8"),
-				generatedPath,
-			);
+			let frontmatter;
+			try {
+				frontmatter = parseFrontmatter(
+					readFileSync(generatedPath, "utf8"),
+					generatedPath,
+				).frontmatter;
+			} catch (error) {
+				// Another cleanup step may have removed the file after discovery.
+				if (
+					error instanceof Error &&
+					"code" in error &&
+					error.code === "ENOENT"
+				) {
+					continue;
+				}
+				throw error;
+			}
 			if (frontmatter.routeId === undefined) {
 				continue;
 			}

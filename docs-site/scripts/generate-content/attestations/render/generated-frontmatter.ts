@@ -1,6 +1,7 @@
 import type { AttestationSource, Frontmatter } from "../../shared/types";
-import { languageLabelFor, lemmaForEntity, surfaceForEntity } from "../entity/helpers";
+import { lemmaForEntity, surfaceForEntity } from "../entity/helpers";
 import { isSelection, isSurface } from "../entity/guards";
+import { semanticSelectionBasename } from "../selection/semantic-source-path";
 
 export function generatedFrontmatterForAttestation(
 	source: AttestationSource,
@@ -14,11 +15,14 @@ export function generatedFrontmatterForAttestation(
 			: undefined;
 	const displayName =
 		source.title ?? surface?.normalizedFullSurface ?? lemma.canonicalLemma;
+	const generatedTitle =
+		isSelection(entity) && source.sentenceMarkdown !== undefined
+			? semanticSelectionBasename(source.sentenceMarkdown)
+			: displayName;
 
 	return {
-		description: `Valid dumling object and CSV ID for ${displayName}.`,
 		order: source.order ?? 1000,
 		routeId,
-		title: `${languageLabelFor(entity.language)} attestation - ${displayName}`,
+		title: generatedTitle,
 	};
 }

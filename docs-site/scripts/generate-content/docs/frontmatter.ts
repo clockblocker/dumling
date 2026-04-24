@@ -1,5 +1,20 @@
 import type { Frontmatter } from "../shared/types";
 
+function parseStringValue(rawValue: string): string {
+	if (
+		rawValue.length >= 2 &&
+		rawValue.startsWith("\"") &&
+		rawValue.endsWith("\"")
+	) {
+		return JSON.parse(rawValue) as string;
+	}
+	return rawValue;
+}
+
+function formatStringValue(value: string): string {
+	return JSON.stringify(value);
+}
+
 export function parseFrontmatter(
 	sourceText: string,
 	sourcePath: string,
@@ -53,10 +68,16 @@ export function parseFrontmatter(
 	return {
 		body,
 		frontmatter: {
-			description: values.get("description"),
+			description:
+				values.get("description") === undefined
+					? undefined
+					: parseStringValue(values.get("description") as string),
 			order,
-			routeId: values.get("routeId"),
-			title,
+			routeId:
+				values.get("routeId") === undefined
+					? undefined
+					: parseStringValue(values.get("routeId") as string),
+			title: parseStringValue(title),
 		},
 	};
 }
@@ -64,14 +85,14 @@ export function parseFrontmatter(
 export function serializeFrontmatter(frontmatter: Frontmatter): string {
 	const lines = [
 		"---",
-		`title: ${frontmatter.title}`,
+		`title: ${formatStringValue(frontmatter.title)}`,
 		...(frontmatter.description === undefined
 			? []
-			: [`description: ${frontmatter.description}`]),
+			: [`description: ${formatStringValue(frontmatter.description)}`]),
 		`order: ${frontmatter.order}`,
 		...(frontmatter.routeId === undefined
 			? []
-			: [`routeId: ${frontmatter.routeId}`]),
+			: [`routeId: ${formatStringValue(frontmatter.routeId)}`]),
 		"---",
 	];
 
