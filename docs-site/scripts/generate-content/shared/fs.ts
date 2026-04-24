@@ -77,6 +77,23 @@ export function removeGeneratedPublicFiles(dir: string): void {
 	}
 }
 
+export function removeEmptyDirectories(dir: string): void {
+	if (!existsSync(dir)) {
+		return;
+	}
+
+	for (const entry of readdirSync(dir, { withFileTypes: true })) {
+		if (!entry.isDirectory()) {
+			continue;
+		}
+		const entryPath = join(dir, entry.name);
+		removeEmptyDirectories(entryPath);
+		if (readdirSync(entryPath).length === 0) {
+			rmSync(entryPath, { recursive: true });
+		}
+	}
+}
+
 export function writeGeneratedMarkdown(
 	generatedPath: string,
 	frontmatter: Frontmatter,

@@ -6,7 +6,7 @@ Draft.
 
 ## Purpose
 
-Selection fixtures under `docs-site/src/content/attestations-to-generate/{lang}/selection/*.ts` are generator inputs.
+Selection fixtures under `docs-site/src/content/attestations-to-generate/{lang}/selection/{sentence}/*.ts` are generator inputs.
 
 Their file contents are the source of truth.
 
@@ -18,7 +18,7 @@ This spec applies only to `Selection` fixtures.
 
 It covers:
 
-- the required file contract for `selection/*.ts`
+- the required file contract for `selection/{sentence}/*.ts`
 - how semantic filenames are derived from `sentenceMarkdown`
 - where per-language classification logbook files live
 - the generated `*-attested-selections.csv` format
@@ -29,7 +29,7 @@ Lemma, surface, and other non-selection fixtures keep their current base64url ID
 
 ## Required File Contract
 
-Every file under `docs-site/src/content/attestations-to-generate/{lang}/selection/*.ts` must export exactly one `AttestedSelection`.
+Every file under `docs-site/src/content/attestations-to-generate/{lang}/selection/{sentence}/*.ts` must export exactly one `AttestedSelection`.
 
 The intended shape is:
 
@@ -86,12 +86,12 @@ The bracketed substring must agree with `attestation.selection`.
 
 ## Semantic Filenames
 
-Selection fixture filenames encode the full attested sentence in a normalized, human-readable form.
+Selection fixture filenames encode the full attested sentence in a normalized, human-readable form, and each file lives inside a sibling sentence directory derived from the same sentence string with the selection brackets removed.
 
 Example:
 
 ```text
-Im_Heft_stand_[Filosofie]_statt_Philosophie.ts
+Im_Heft_stand_Filosofie_statt_Philosophie/Im_Heft_stand_[Filosofie]_statt_Philosophie.ts
 ```
 
 ### Derivation
@@ -100,11 +100,12 @@ Start from `attestation.sentenceMarkdown`.
 
 1. Read the full sentence from `sentenceMarkdown`.
 2. Treat the single bracketed span as the selected text.
-3. Remove all punctuation except `[` and `]`.
+3. Derive the file basename by removing all punctuation except `[` and `]`.
 4. Replace spaces with `_`.
 5. Collapse repeated `_`.
 6. Trim leading and trailing `_`.
 7. Append `.ts`.
+8. Derive the parent sentence directory from the same basename, but remove `[` and `]`.
 
 ### Punctuation Rule
 

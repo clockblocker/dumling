@@ -1,5 +1,6 @@
-import { dirname, join } from "node:path";
+import { join } from "node:path";
 import type { SelectionAttestationSource } from "../../shared/types";
+import { sourceAttestationsDir } from "../../shared/paths";
 
 export function semanticSelectionBasename(sentenceMarkdown: string): string {
 	return sentenceMarkdown
@@ -10,11 +11,21 @@ export function semanticSelectionBasename(sentenceMarkdown: string): string {
 		.replace(/^_+|_+$/gu, "");
 }
 
+export function semanticSelectionDirectoryBasename(
+	sentenceMarkdown: string,
+): string {
+	return semanticSelectionBasename(sentenceMarkdown).replace(/[\[\]]/gu, "");
+}
+
 export function selectionSemanticSourcePath(
 	source: SelectionAttestationSource,
 ): string {
+	const semanticBasename = semanticSelectionBasename(source.sentenceMarkdown);
 	return join(
-		dirname(source.sourcePath),
-		`${semanticSelectionBasename(source.sentenceMarkdown)}.ts`,
+		sourceAttestationsDir,
+		source.entity.language,
+		"selection",
+		semanticSelectionDirectoryBasename(source.sentenceMarkdown),
+		`${semanticBasename}.ts`,
 	);
 }
