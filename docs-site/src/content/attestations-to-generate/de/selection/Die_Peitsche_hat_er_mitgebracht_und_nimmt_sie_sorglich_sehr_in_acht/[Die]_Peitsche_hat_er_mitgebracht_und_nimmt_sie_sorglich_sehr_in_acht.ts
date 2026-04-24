@@ -1,12 +1,38 @@
 import type { AttestedSelection, Selection } from "dumling/types";
 
 const deSelection = {
-	
-} satisfies Selection;
+	language: "de",
+	orthographicStatus: "Standard",
+	selectionCoverage: "Full",
+	spelledSelection: "Die",
+	spellingRelation: "Variant",
+	surface: {
+		language: "de",
+		normalizedFullSurface: "die",
+		surfaceKind: "Inflection",
+		inflectionalFeatures: {
+			case: "Nom",
+			gender: "Fem",
+			number: "Sing",
+		},
+		lemma: {
+			language: "de",
+			canonicalLemma: "der",
+			lemmaKind: "Lexeme",
+			lemmaSubKind: "DET",
+			inherentFeatures: {
+				definite: "Def",
+				pronType: "Art",
+			},
+			meaningInEmojis: "🧩",
+		},
+	},
+} satisfies Selection<"de", "Standard", "Inflection", "Lexeme", "DET">;
 
 export const attestation = {
 	selection: deSelection,
 	sentenceMarkdown: `[Die] Peitsche hat er mitgebracht
 und nimmt sie sorglich sehr in acht.`,
-	classifierNotes: "",
+	classifierNotes:
+		"Sentence-initial Die is the capitalized nominative feminine singular article, not a pronoun.",
 } as const satisfies AttestedSelection;

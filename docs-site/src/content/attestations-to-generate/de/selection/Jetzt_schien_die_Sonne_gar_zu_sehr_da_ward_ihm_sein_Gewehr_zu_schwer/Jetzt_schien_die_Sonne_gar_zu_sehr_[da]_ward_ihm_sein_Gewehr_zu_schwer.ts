@@ -1,12 +1,30 @@
 import type { AttestedSelection, Selection } from "dumling/types";
 
 const deSelection = {
-	
-} satisfies Selection;
+	language: "de",
+	orthographicStatus: "Standard",
+	selectionCoverage: "Full",
+	spelledSelection: "da",
+	spellingRelation: "Canonical",
+	surface: {
+		language: "de",
+		normalizedFullSurface: "da",
+		surfaceKind: "Citation",
+		lemma: {
+			language: "de",
+			canonicalLemma: "da",
+			lemmaKind: "Lexeme",
+			lemmaSubKind: "ADV",
+			inherentFeatures: {},
+			meaningInEmojis: "⏱️",
+		},
+	},
+} satisfies Selection<"de", "Standard", "Citation", "Lexeme", "ADV">;
 
 export const attestation = {
 	selection: deSelection,
 	sentenceMarkdown: `Jetzt schien die Sonne gar zu sehr,
 [da] ward ihm sein Gewehr zu schwer.`,
-	classifierNotes: "",
+	classifierNotes:
+		"I treated `da` as a narrative temporal adverb meaning roughly `then`, not as the subordinating conjunction, because the clause stays V2 (`da ward ...`) instead of showing subordinate verb-final order.",
 } as const satisfies AttestedSelection;

@@ -1,12 +1,38 @@
 import type { AttestedSelection, Selection } from "dumling/types";
 
 const deSelection = {
-	
-} satisfies Selection;
+	language: "de",
+	orthographicStatus: "Standard",
+	selectionCoverage: "Full",
+	spelledSelection: "sie",
+	spellingRelation: "Canonical",
+	surface: {
+		language: "de",
+		normalizedFullSurface: "sie",
+		surfaceKind: "Inflection",
+		inflectionalFeatures: {
+			case: "Acc",
+			gender: "Fem",
+			number: "Sing",
+		},
+		lemma: {
+			language: "de",
+			canonicalLemma: "sie",
+			lemmaKind: "Lexeme",
+			lemmaSubKind: "PRON",
+			inherentFeatures: {
+				person: "3",
+				pronType: "Prs",
+			},
+			meaningInEmojis: "👉",
+		},
+	},
+} satisfies Selection<"de", "Standard", "Inflection", "Lexeme", "PRON">;
 
 export const attestation = {
 	selection: deSelection,
 	sentenceMarkdown: `Die Peitsche hat er mitgebracht
 und nimmt [sie] sorglich sehr in acht.`,
-	classifierNotes: "",
+	classifierNotes:
+		"Sie is the accusative feminine singular object pronoun referring back to Peitsche, not nominative plural or polite Sie.",
 } as const satisfies AttestedSelection;

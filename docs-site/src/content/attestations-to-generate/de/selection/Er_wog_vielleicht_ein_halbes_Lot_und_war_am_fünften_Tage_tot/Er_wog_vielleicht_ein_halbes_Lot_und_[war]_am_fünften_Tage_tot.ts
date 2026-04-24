@@ -1,13 +1,38 @@
 import type { AttestedSelection, Selection } from "dumling/types";
 
 const deSelection = {
-	
-} satisfies Selection;
+	language: "de",
+	orthographicStatus: "Standard",
+	selectionCoverage: "Full",
+	spelledSelection: "war",
+	spellingRelation: "Canonical",
+	surface: {
+		language: "de",
+		normalizedFullSurface: "war",
+		surfaceKind: "Inflection",
+		inflectionalFeatures: {
+			mood: "Ind",
+			number: "Sing",
+			person: "3",
+			tense: "Past",
+			verbForm: "Fin",
+		},
+		lemma: {
+			language: "de",
+			canonicalLemma: "sein",
+			lemmaKind: "Lexeme",
+			lemmaSubKind: "AUX",
+			inherentFeatures: {},
+			meaningInEmojis: "🧩",
+		},
+	},
+} satisfies Selection<"de", "Standard", "Inflection", "Lexeme", "AUX">;
 
 export const attestation = {
 	selection: deSelection,
 	sentenceMarkdown: `Er wog vielleicht ein halbes Lot –
 und [war] am fünften Tage tot.
 `,
-	classifierNotes: "",
+	classifierNotes:
+		"I kept war under the AUX lemma sein, following the repo's treatment of finite and participial sein forms as auxiliary/copular rather than splitting off a separate lexical verb entry.",
 } as const satisfies AttestedSelection;

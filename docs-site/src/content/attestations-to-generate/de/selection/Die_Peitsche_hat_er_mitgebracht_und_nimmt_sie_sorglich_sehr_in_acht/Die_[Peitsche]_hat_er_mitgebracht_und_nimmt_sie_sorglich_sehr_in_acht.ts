@@ -1,8 +1,27 @@
 import type { AttestedSelection, Selection } from "dumling/types";
 
 const deSelection = {
-	
-} satisfies Selection;
+	language: "de",
+	orthographicStatus: "Standard",
+	selectionCoverage: "Full",
+	spelledSelection: "Peitsche",
+	spellingRelation: "Canonical",
+	surface: {
+		language: "de",
+		normalizedFullSurface: "Peitsche",
+		surfaceKind: "Citation",
+		lemma: {
+			language: "de",
+			canonicalLemma: "Peitsche",
+			lemmaKind: "Lexeme",
+			lemmaSubKind: "NOUN",
+			inherentFeatures: {
+				gender: "Fem",
+			},
+			meaningInEmojis: "🪢",
+		},
+	},
+} satisfies Selection<"de", "Standard", "Citation", "Lexeme", "NOUN">;
 
 export const attestation = {
 	selection: deSelection,

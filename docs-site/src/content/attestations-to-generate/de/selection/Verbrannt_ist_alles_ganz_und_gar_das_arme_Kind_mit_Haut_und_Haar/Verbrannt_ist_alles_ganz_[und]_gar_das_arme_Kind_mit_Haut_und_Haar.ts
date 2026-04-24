@@ -1,12 +1,30 @@
 import type { AttestedSelection, Selection } from "dumling/types";
 
-const deSelection = {
-	
-} satisfies Selection;
+const ganzUndGarIdiomSelection = {
+	language: "de",
+	orthographicStatus: "Standard",
+	selectionCoverage: "Partial",
+	spelledSelection: "und",
+	spellingRelation: "Canonical",
+	surface: {
+		language: "de",
+		normalizedFullSurface: "ganz und gar",
+		surfaceKind: "Citation",
+		lemma: {
+			language: "de",
+			canonicalLemma: "ganz und gar",
+			lemmaKind: "Phraseme",
+			lemmaSubKind: "Idiom",
+			inherentFeatures: {},
+			meaningInEmojis: "💯",
+		},
+	},
+} satisfies Selection<"de", "Standard", "Citation", "Phraseme", "Idiom">;
 
 export const attestation = {
-	selection: deSelection,
+	selection: ganzUndGarIdiomSelection,
 	sentenceMarkdown: `Verbrannt ist alles ganz [und] gar,
 das arme Kind mit Haut und Haar;`,
-	classifierNotes: "",
+	classifierNotes:
+		"The tempting word-level analysis would be CCONJ und, but here und is internal to the frozen intensifier ganz und gar. I therefore kept the learner-facing unit as a partial idiom selection.",
 } as const satisfies AttestedSelection;

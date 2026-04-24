@@ -1,12 +1,30 @@
 import type { AttestedSelection, Selection } from "dumling/types";
 
 const deSelection = {
-	
-} satisfies Selection;
+	language: "de",
+	orthographicStatus: "Standard",
+	selectionCoverage: "Partial",
+	spelledSelection: "acht",
+	spellingRelation: "Canonical",
+	surface: {
+		language: "de",
+		normalizedFullSurface: "in acht nehmen",
+		surfaceKind: "Citation",
+		lemma: {
+			language: "de",
+			canonicalLemma: "in acht nehmen",
+			lemmaKind: "Phraseme",
+			lemmaSubKind: "Idiom",
+			inherentFeatures: {},
+			meaningInEmojis: "👀",
+		},
+	},
+} satisfies Selection<"de", "Standard", "Citation", "Phraseme", "Idiom">;
 
 export const attestation = {
 	selection: deSelection,
 	sentenceMarkdown: `Die Peitsche hat er mitgebracht
 und nimmt sie sorglich sehr in [acht].`,
-	classifierNotes: "",
+	classifierNotes:
+		"Acht is not the numeral here. It is the internal noun-shaped component of the fixed idiom in acht nehmen, so the selection points to the whole idiom.",
 } as const satisfies AttestedSelection;
