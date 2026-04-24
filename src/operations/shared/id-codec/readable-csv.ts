@@ -11,6 +11,10 @@ import { featureNameTokens } from "./tiny-tokens";
 
 type CsvValue = string | number | boolean | null | undefined;
 type IdEntity<L extends SupportedLanguage> = Lemma<L> | Surface<L>;
+type CsvEntity<L extends SupportedLanguage> =
+	| Lemma<L>
+	| Surface<L>
+	| Selection<L>;
 
 export type ReadableCsvDecodeSuccess<L extends SupportedLanguage> =
 	| {
@@ -22,6 +26,11 @@ export type ReadableCsvDecodeSuccess<L extends SupportedLanguage> =
 			kind: "Surface";
 			language: L;
 			surface: Surface<L>;
+	  }
+	| {
+			kind: "Selection";
+			language: L;
+			selection: Selection<L>;
 	  };
 
 function invalidPayload(message: string): ApiResult<never, IdDecodeError> {
@@ -110,6 +119,15 @@ export function parseCsvRow(
 		success: true,
 		data: fields,
 	};
+}
+
+function parseCanonicalCsvRowOrThrow(input: string): string[] {
+	const parsed = parseCsvRow(input, { requireCanonical: true });
+	if (!parsed.success) {
+		throw new Error(parsed.error.message);
+	}
+
+	return parsed.data;
 }
 
 function assertNoFeatureDelimiters(value: string, context: string) {
@@ -339,7 +357,7 @@ function parseLemmaFields<L extends SupportedLanguage>(
 }
 
 export function entityToReadableCsv<L extends SupportedLanguage>(
-	entity: IdEntity<L>,
+	entity: CsvEntity<L>,
 ): string {
 	const lemmaFields = (lemma: Lemma<L>) => [
 		"Lemma",
@@ -350,6 +368,19 @@ export function entityToReadableCsv<L extends SupportedLanguage>(
 		lemma.meaningInEmojis,
 		formatFeatureSet(lemma.inherentFeatures as Record<string, unknown>),
 	];
+
+	if ("surface" in entity) {
+		return csvRow([
+			"Selection",
+			entity.orthographicStatus,
+			entity.selectionCoverage,
+			entity.spelledSelection,
+			entity.spellingRelation,
+			...parseCanonicalCsvRowOrThrow(
+				entityToReadableCsv(entity.surface as Surface<L>),
+			),
+		]);
+	}
 
 	if (!("surfaceKind" in entity)) {
 		return csvRow(lemmaFields(entity));
@@ -400,8 +431,48 @@ export function decodeReadableCsv<L extends SupportedLanguage>(
 		};
 	}
 
+	if (fields[0] === "Selection") {
+		if (fields.length < 15) {
+			return invalidPayload("Selection CSV rows are missing surface fields");
+		}
+
+		const surface = decodeReadableCsv(
+			namespaceLanguage,
+			parse,
+			csvRow(fields.slice(5)),
+		);
+		if (!surface.success) {
+			return surface;
+		}
+
+		if (surface.data.kind !== "Surface") {
+			return invalidPayload("Selection CSV rows must contain a Surface row");
+		}
+
+		const parsed = parse.selection({
+			language: namespaceLanguage,
+			orthographicStatus: fields[1],
+			selectionCoverage: fields[2],
+			spelledSelection: fields[3],
+			spellingRelation: fields[4],
+			surface: surface.data.surface,
+		});
+		if (!parsed.success) {
+			return invalidPayload(parsed.error.message);
+		}
+
+		return {
+			success: true,
+			data: {
+				kind: "Selection",
+				language: namespaceLanguage,
+				selection: parsed.data,
+			},
+		};
+	}
+
 	if (fields[0] !== "Surface") {
-		return invalidPayload("CSV row must start with Lemma or Surface");
+		return invalidPayload("CSV row must start with Lemma, Surface, or Selection");
 	}
 
 	if (fields[1] === "Citation") {

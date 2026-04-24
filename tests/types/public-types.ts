@@ -172,9 +172,9 @@ const typoOptions: SelectionOptionsFor<"Typo"> = {
 	orthographicStatus: "Typo",
 	spelledSelection: "Sse",
 };
-const decodedSelectionSurface = dumling.de.id.decode.asSurface(selectionId);
-decodedSelectionSurface satisfies ApiResult<
-	Extract<IdDecodeSuccess<"de">, { kind: "Surface" }>,
+const decodedSelection = dumling.de.id.decode.asSelection(selectionId);
+decodedSelection satisfies ApiResult<
+	Extract<IdDecodeSuccess<"de">, { kind: "Selection" }>,
 	IdDecodeError
 >;
 declare const parseError: ParseError;
@@ -184,11 +184,10 @@ void selectionForKind;
 void typoOptions;
 void unbrandedId;
 
-if (decodedSelectionSurface.success) {
-	decodedSelectionSurface.data satisfies IdDecodeSuccess<"de">;
-	decodedSelectionSurface.data.surface satisfies Surface<"de">;
-	// @ts-expect-error surface decode does not expose selection spelling metadata
-	decodedSelectionSurface.data.surface.spelledSelection;
+if (decodedSelection.success) {
+	decodedSelection.data satisfies IdDecodeSuccess<"de">;
+	decodedSelection.data.selection satisfies Selection<"de">;
+	decodedSelection.data.selection.spelledSelection;
 }
 
 const deSelectionLeaf =

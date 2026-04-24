@@ -29,17 +29,10 @@ type DecodeResult<L extends SupportedLanguage> = ApiResult<
 	IdDecodeError
 >;
 
-type IdAddressableEntity<L extends SupportedLanguage> = Lemma<L> | Surface<L>;
-
-function entityForId<L extends SupportedLanguage>(
-	value: Lemma<L> | Surface<L> | Selection<L>,
-): IdAddressableEntity<L> {
-	if ("surface" in value) {
-		return value.surface as Surface<L>;
-	}
-
-	return value;
-}
+type IdAddressableEntity<L extends SupportedLanguage> =
+	| Lemma<L>
+	| Surface<L>
+	| Selection<L>;
 
 function assertParseSuccess<T>(
 	result: ApiResult<T, { message: string }>,
@@ -58,20 +51,24 @@ function canonicalizeEntity<L extends SupportedLanguage>(
 ): IdAddressableEntity<L> {
 	assertEntityIdFeatureConstraints(value);
 
-	const idEntity = entityForId(value);
 	const parsed =
-		"surfaceKind" in idEntity
+		"surface" in value
 			? assertParseSuccess(
-					parse.surface(idEntity),
+					parse.selection(value),
+					"Invalid Selection ID input",
+				)
+			: "surfaceKind" in value
+			? assertParseSuccess(
+					parse.surface(value),
 					"Invalid Surface ID input",
 				)
 			: assertParseSuccess(
-					parse.lemma(idEntity),
+					parse.lemma(value),
 					"Invalid Lemma ID input",
 				);
 
 	assertEntityIdFeatureConstraints(parsed);
-	return parsed as IdAddressableEntity<L>;
+	return parsed;
 }
 
 function decodeReadableAsSuccess<L extends SupportedLanguage>(
@@ -97,6 +94,18 @@ function decodeReadableAsSuccess<L extends SupportedLanguage>(
 		};
 	}
 
+	if (decoded.data.kind === "Selection") {
+		return {
+			success: true,
+			data: {
+				format,
+				language,
+				kind: "Selection",
+				selection: decoded.data.selection,
+			},
+		};
+	}
+
 	return {
 		success: true,
 		data: {
@@ -109,11 +118,15 @@ function decodeReadableAsSuccess<L extends SupportedLanguage>(
 }
 
 function shouldTreatAsReadableCsv(input: string) {
-	return input.startsWith("Lemma") || input.startsWith("Surface");
+	return (
+		input.startsWith("Lemma") ||
+		input.startsWith("Surface") ||
+		input.startsWith("Selection")
+	);
 }
 
 function hasReadableCsvLeadingWhitespace(input: string) {
-	return /^[\s\uFEFF]+(?:Lemma|Surface)/u.test(input);
+	return /^[\s\uFEFF]+(?:Lemma|Surface|Selection)/u.test(input);
 }
 
 function decodeAny<L extends SupportedLanguage>(
@@ -161,7 +174,11 @@ function decodeAny<L extends SupportedLanguage>(
 function entityFromDecodeSuccess<L extends SupportedLanguage>(
 	success: IdDecodeSuccess<L>,
 ): IdAddressableEntity<L> {
-	return success.kind === "Lemma" ? success.lemma : success.surface;
+	return success.kind === "Lemma"
+		? success.lemma
+		: success.kind === "Surface"
+			? success.surface
+			: success.selection;
 }
 
 export function buildIdOperations<L extends SupportedLanguage>(
@@ -247,6 +264,27 @@ export function buildIdOperations<L extends SupportedLanguage>(
 
 				return decoded as ApiResult<
 					Extract<IdDecodeSuccess<L>, { kind: "Surface" }>,
+					IdDecodeError
+				>;
+			},
+			asSelection(input) {
+				const decoded = decodeAny(language, parse, input);
+				if (!decoded.success) {
+					return decoded;
+				}
+
+				if (decoded.data.kind !== "Selection") {
+					return {
+						success: false,
+						error: idError(
+							"EntityMismatch",
+							`Expected Selection, received ${decoded.data.kind}`,
+						),
+					};
+				}
+
+				return decoded as ApiResult<
+					Extract<IdDecodeSuccess<L>, { kind: "Selection" }>,
 					IdDecodeError
 				>;
 			},

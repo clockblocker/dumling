@@ -371,15 +371,15 @@ describe("API", () => {
 
 		const id = dumling.de.id.encode.asBase64Url(selection.data);
 		const decoded = dumling.de.id.decode.any(id);
-		const decodedAs = dumling.de.id.decode.asSurface(id);
+		const decodedAs = dumling.de.id.decode.asSelection(id);
 
 		expect(decoded.success).toBe(true);
 		expect(decodedAs.success).toBe(true);
 		if (!decoded.success || !decodedAs.success) {
 			throw new Error("expected successful decode");
 		}
-		expect(decoded.data.kind).toBe("Surface");
-		expect(decodedAs.data.surface).toEqual(selection.data.surface);
+		expect(decoded.data.kind).toBe("Selection");
+		expect(decodedAs.data.selection).toEqual(selection.data);
 
 		const englishLemma = dumling.en.create.lemma({
 			canonicalLemma: "see",
@@ -462,7 +462,7 @@ describe("API", () => {
 			success: false,
 			error: {
 				code: "EntityMismatch",
-				message: "Expected Lemma, received Surface",
+				message: "Expected Lemma, received Selection",
 			},
 		});
 	});

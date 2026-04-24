@@ -6,7 +6,7 @@ This log records non-obvious choices made while generating the German selection 
 
 - Every new source is a `Selection` because the requested example was a selection attestation and selections let us stress partial highlights, typos, contractions, and phraseme internals.
 - Filenames are generated with `dumling.de.id.encode.asBase64Url(selection)`; the docs generator requires that exact ID as the basename.
-- Selection IDs are surface-based, so entries that differ only by selected substring would collide. I avoided such collisions by varying the underlying surface or lemma features.
+- Selection IDs now include selection metadata, so entries that differ only by selected substring or spelling no longer collide unless the full selection payload matches.
 - Capitalization in German sentences is preserved in `spelledSelection` and `sentenceMarkdown`, while `normalizedFullSurface` follows the attested surface and may be normalized by the encoder.
 - For homographs with identical grammar, I used `meaningInEmojis` and attestation titles to keep the intended sense inspectable. That is intentionally questionable because the current model does not have a richer sense ID.
 - For contractions such as `zum` and `ins`, the model cannot encode fused multi-lemma tokens, so I represented the preposition as the lemma and marked the spelling relation as `Variant`.

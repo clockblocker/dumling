@@ -15,13 +15,19 @@ describe("ID helpers", () => {
 		const surfaceId = dumling.en.id.encode.asBase64Url(
 			englishWalkInflectionSurface,
 		);
+		const selectionCsv = dumling.en.id.encode.asCsv(
+			englishWalkStandardFullSelection,
+		);
 		const selectionId = dumling.en.id.encode.asBase64Url(
 			englishWalkStandardFullSelection,
 		);
 
 		expect(String(lemmaCsv)).toBe("Lemma,en,Lexeme,VERB,walk,🚶,");
 		expect(surfaceId).not.toStartWith("dumling:");
-		expect(selectionId).toBe(
+		expect(String(selectionCsv)).toBe(
+			"Selection,Standard,Full,walk,Canonical,Surface,Inflection,walk,tense=Pres|verbForm=Fin,Lemma,en,Lexeme,VERB,walk,🚶,",
+		);
+		expect(selectionId).not.toBe(
 			dumling.en.id.encode.asBase64Url(
 				englishWalkStandardFullSelection.surface,
 			),
@@ -45,13 +51,13 @@ describe("ID helpers", () => {
 				surface: englishWalkInflectionSurface,
 			},
 		});
-		expect(dumling.en.id.decode.asSurface(selectionId)).toEqual({
+		expect(dumling.en.id.decode.asSelection(selectionId)).toEqual({
 			success: true,
 			data: {
 				format: "base64url",
 				language: "en",
-				kind: "Surface",
-				surface: englishWalkStandardFullSelection.surface,
+				kind: "Selection",
+				selection: englishWalkStandardFullSelection,
 			},
 		});
 	});
@@ -86,12 +92,19 @@ describe("ID helpers", () => {
 			success: false,
 			error: {
 				code: "EntityMismatch",
-				message: "Expected Lemma, received Surface",
+				message: "Expected Lemma, received Selection",
+			},
+		});
+		expect(dumling.en.id.decode.asSurface(selectionId)).toEqual({
+			success: false,
+			error: {
+				code: "EntityMismatch",
+				message: "Expected Surface, received Selection",
 			},
 		});
 	});
 
-	it("encodes selections as their linked surface identity", () => {
+	it("encodes selections as their own identity", () => {
 		const upSelectionId = dumling.en.id.encode.asBase64Url(
 			englishGiveUpTypoPartialUpSelection,
 		);
@@ -99,15 +112,15 @@ describe("ID helpers", () => {
 			englishGiveUpTypoPartialGvaeSelection,
 		);
 
-		expect(upSelectionId).toBe(gvaeSelectionId);
-		expect(upSelectionId).toBe(
+		expect(upSelectionId).not.toBe(gvaeSelectionId);
+		expect(upSelectionId).not.toBe(
 			dumling.en.id.encode.asBase64Url(
 				englishGiveUpTypoPartialUpSelection.surface,
 			),
 		);
 	});
 
-	it("drops selection spelling metadata from IDs", () => {
+	it("preserves selection spelling metadata in IDs", () => {
 		const canonicalId = dumling.en.id.encode.asBase64Url(
 			englishWalkStandardFullSelection,
 		);
@@ -116,7 +129,7 @@ describe("ID helpers", () => {
 			spellingRelation: "Variant",
 		});
 
-		expect(canonicalId).toBe(variantId);
+		expect(canonicalId).not.toBe(variantId);
 	});
 
 	it("accepts parser-normalizable text casing in readable CSV", () => {

@@ -63,6 +63,10 @@ export type IdDecodeSuccess<L extends SupportedLanguage = SupportedLanguage> = {
 			kind: "Surface";
 			surface: Surface<L>;
 	  }
+	| {
+			kind: "Selection";
+			selection: Selection<L>;
+	  }
 );
 
 export type LanguageApi<L extends SupportedLanguage> = {
@@ -229,6 +233,12 @@ export type LanguageApi<L extends SupportedLanguage> = {
 				id: string,
 			): ApiResult<
 				Extract<IdDecodeSuccess<L>, { kind: "Surface" }>,
+				IdDecodeError
+			>;
+			asSelection(
+				id: string,
+			): ApiResult<
+				Extract<IdDecodeSuccess<L>, { kind: "Selection" }>,
 				IdDecodeError
 			>;
 		};

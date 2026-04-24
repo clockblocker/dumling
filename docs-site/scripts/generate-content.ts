@@ -526,7 +526,7 @@ function renderAttestationBody(
 			? ""
 			: `\nSentence:\n\n- *${source.sentenceMarkdown}*\n`;
 	const idNote = isSelection(entity)
-		? "\nSelection IDs use the linked `Surface` CSV. Selection spelling and coverage metadata do not change the ID.\n"
+		? "\nSelection IDs use their own canonical CSV row and preserve selection spelling, coverage, and orthographic metadata.\n"
 		: "\nIDs are emitted as canonical CSV.\n";
 
 	return `# ${languageLabelFor(entity.language)} attestation: ${title}
