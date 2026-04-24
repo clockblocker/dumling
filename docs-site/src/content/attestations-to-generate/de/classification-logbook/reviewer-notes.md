@@ -1,7 +1,41 @@
 ### Reviewer Notes
 
--
+- The file looks structurally sound as CSV, but the review metadata is incomplete. `lessonsLearned` is empty for all 117 rows, and 8 rows still have empty `classifierNotes` (`de-attested-selections.csv:33,37,41,62,64,143,145,147`). The omissions are clustered rather than random, which makes this look like an unfinished pass rather than intentional silence.
+
+- Capitalization-as-variant is not handled consistently. Sentence-initial `Am` and `Die` are marked `Variant` because the attested token is capitalized (`:2`, `:31-32`), but other sentence-initial lowercase lemmas stay `Canonical` even though the surface is equally capitalized by sentence position: `Einst` (`:62`), `Es` (`:87`, `:93`), `Fort` (`:99`), `Geh` (`:105`), `Sieh` (`:139`), `Wegen` (`:182`). This needs a single policy.
+
+- `Pass auf dich auf!` collapses two different token functions into the same analysis. The first `auf` is described as the governed preposition and the second as the detached separable prefix, but both rows encode the same sectionId apart from token position (`:129-132`). If token-level distinctions matter, the current representation is lossy.
+
+- The boundary between `Citation` and `Inflection` looks unstable when the surface is citation-shaped but syntax supplies features. Many nouns are stored as bare citation entries with no case/number (`Band`, `Schloss`, `Kiefer`, `Leiter`, `Mutter`, `Peitsche` at `:11-13`, `:17`, `:23-30`, `:33`, `:115`), while other equally citation-shaped nouns are forced into `Inflection` with syntactically inferred case (`Rand`, `Lot`, `Filosofie` at `:70`, `:78`, `:109`). The current notes suggest both approaches are acceptable, but the file does not make the rule predictable.
+
+- Several rows explicitly rely on uncertain or contestable readings, which is fine, but they probably deserve follow-up rather than being treated as settled. The clearest cases are `Rand` with accusative vs possible dative (`:70`), `ward` as `AUX` rather than `VERB` (`:113-114`), `Verbrannt` as participial verb rather than adjective (`:167-168`), and `lief hinaus` as separable `hinauslaufen` rather than `laufen` + adverb (`:121-124`).
+
+- Idiom-first analysis is applied aggressively, sometimes even where the literal reading is live in context. The strongest example is `mit Haut und Haar` in a scene where a child is literally burning (`:175-180`); the notes acknowledge the literal reading but still force all three tokens into the idiom. The same phrase-first preference appears in `nur Bahnhof verstehen`, `den Nagel auf den Kopf treffen`, `in acht nehmen`, `o wei`, `Morgenstund hat Gold im Mund`, and `ganz und gar` (`:5`, `:7`, `:44`, `:52-53`, `:57-59`, `:118`, `:169-174`). This is a real common pattern, but also a policy choice worth confirming.
+
+- The notes repeatedly expose schema pressure points. Degree/focus items are repeatedly parked under `ADV` because there is no finer subtype (`sehr`, `sogar`, `gar` at `:49`, `:91`, `:158`), `pfui` and `wupp` are treated as plain `INTJ` because response-particle/discourse options are too narrow (`:102`, `:149`), and `auf`/`an` leave `governedCase` unset because the feature is lexical but the attested phrase is token-specific (`:22`, `:66`). The file is consistent about documenting these limitations, but the limitations themselves recur often enough to be a pattern.
+
+- Governance is sometimes lexicalized even when the attested phrase contradicts it. `wegen` is stored with `governedCase=Gen` while the example is explicitly colloquial dative (`[Wegen] dem Regen`, `:182`). That may be the intended lemma policy, but it is a mismatch between lexical metadata and attested local syntax, so it should be an explicit convention rather than an ad hoc note.
+
+- Multiword handling is generally coherent but uneven at the border. `Guten Tag`, `Na ja`, `Tut mir leid`, and `o wei` are promoted to phrasemes/discourse formulas (`:57-59`, `:67`, `:77`, `:101`), while `Sieh einmal` is deliberately not treated as a larger formula (`:139-142`). That may be correct, but it is another place where the file would benefit from a sharper "when do we collapse to a phraseme?" rule.
+
+- Common pattern: there is a strong learner-facing preference for the larger meaning-bearing unit over token-level POS tagging.
+
+- Common pattern: separable verbs are frequently compressed into a single normalized inflected surface (`fuhr um`, `zog an`, `lief hinaus`, `pass auf`).
+
+- Common pattern: the file relies heavily on prose notes to justify edge cases; without the notes, several sectionIds would be hard to defend.
+
+- Common pattern: sense disambiguation for homographs is mostly carried by emoji plus gender/context (`Band`, `Schloss`, `Kiefer`, `Leiter`, `Mutter`).
 
 ### Open Questions
 
--
+- Should sentence-initial capitalization ever trigger `Variant`, or should all purely orthographic sentence-initial capitalization remain `Canonical` unless there is some other noncanonical property?
+
+- Do we want token-role information for split/governed verb constructions so that repeated surface forms like the two `auf` tokens in `Pass auf dich auf!` can be told apart without reading the prose note?
+
+- What is the intended rule for `Citation` vs `Inflection` when morphology is syncretic but syntax still supplies case/number/gender? Right now the file mixes both strategies.
+
+- For idiom/literal overlap cases, what should win: the larger conventional phrase or the locally literal reading? `mit Haut und Haar` is the sharpest test case, but the same question applies to other partial idiom selections too.
+
+- Is lemma-level governance supposed to reflect the dictionary norm even when the attested phrase shows something else, as in `wegen dem Regen`, or should attested syntax be recoverable somewhere in the row?
+
+- If `lessonsLearned` is meant to be used later, what kind of information belongs there? If it is not meant to be used, it is currently dead weight and makes the file look incomplete.
