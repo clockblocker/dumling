@@ -1,6 +1,6 @@
 import type { AttestedSelection, Selection } from "dumling/types";
 
-export const kaasherSubordinatorSelection = {
+const kaasherSubordinatorSelection = {
 	language: "he",
 	orthographicStatus: "Standard",
 	selectionCoverage: "Full",

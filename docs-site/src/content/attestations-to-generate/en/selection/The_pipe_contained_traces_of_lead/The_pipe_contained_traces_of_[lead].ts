@@ -1,6 +1,6 @@
 import type { AttestedSelection, Selection } from "dumling/types";
 
-export const leadNounHomographSelection = {
+const leadNounHomographSelection = {
 	language: "en",
 	orthographicStatus: "Standard",
 	selectionCoverage: "Full",

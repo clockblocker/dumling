@@ -1,6 +1,6 @@
 import type { AttestedSelection, Selection } from "dumling/types";
 
-export const telechNegativeSelection = {
+const telechNegativeSelection = {
 	language: "he",
 	orthographicStatus: "Standard",
 	selectionCoverage: "Full",

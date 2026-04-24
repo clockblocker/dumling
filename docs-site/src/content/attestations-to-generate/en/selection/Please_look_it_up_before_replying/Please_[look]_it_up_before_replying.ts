@@ -1,6 +1,6 @@
 import type { AttestedSelection, Selection } from "dumling/types";
 
-export const lookUpPartialPhrasalVerbSelection = {
+const lookUpPartialPhrasalVerbSelection = {
 	language: "en",
 	orthographicStatus: "Standard",
 	selectionCoverage: "Partial",

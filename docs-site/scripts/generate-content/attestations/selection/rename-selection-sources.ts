@@ -1,11 +1,12 @@
 import { existsSync, mkdirSync, renameSync } from "node:fs";
 import { dirname } from "node:path";
-import { listTypeScriptFiles } from "../../shared/fs";
+import { listTypeScriptFiles, removeEmptyDirectories } from "../../shared/fs";
 import { sourceAttestationsDir } from "../../shared/paths";
 import { loadAttestationSource } from "../source/load-attestation-source";
 import { selectionSemanticSourcePath } from "./semantic-source-path";
 import { expectedEntityKindForPath } from "../validate/expected-entity-kind-for-path";
 import { validateSelectionAttestation } from "../validate/validate-selection-attestation";
+import type { SupportedLanguage } from "../../../../../src/types/public-types.ts";
 
 export async function renameSelectionSources(): Promise<string[]> {
 	const selectionFiles = listTypeScriptFiles(sourceAttestationsDir).filter(
@@ -41,6 +42,12 @@ export async function renameSelectionSources(): Promise<string[]> {
 	for (const [sourcePath, targetPath] of renamePlan) {
 		mkdirSync(dirname(targetPath), { recursive: true });
 		renameSync(sourcePath, targetPath);
+	}
+
+	for (const language of ["de", "en", "he"] satisfies SupportedLanguage[]) {
+		removeEmptyDirectories(
+			`${sourceAttestationsDir}/${language}/selection`,
+		);
 	}
 
 	return listTypeScriptFiles(sourceAttestationsDir);

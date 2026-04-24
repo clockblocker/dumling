@@ -1,6 +1,6 @@
 import type { AttestedSelection, Selection } from "dumling/types";
 
-export const thatPronounSelection = {
+const thatPronounSelection = {
 	language: "en",
 	orthographicStatus: "Standard",
 	selectionCoverage: "Full",

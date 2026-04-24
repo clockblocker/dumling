@@ -1,6 +1,6 @@
 import type { AttestedSelection, Selection } from "dumling/types";
 
-export const lessIsMoreAphorismSelection = {
+const lessIsMoreAphorismSelection = {
 	language: "en",
 	orthographicStatus: "Standard",
 	selectionCoverage: "Full",

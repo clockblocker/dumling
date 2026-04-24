@@ -1,6 +1,6 @@
 import type { AttestedSelection, Selection } from "dumling/types";
 
-export const habayitPartialSelection = {
+const habayitPartialSelection = {
 	language: "he",
 	orthographicStatus: "Standard",
 	selectionCoverage: "Partial",

@@ -1,6 +1,6 @@
 import type { AttestedSelection, Selection } from "dumling/types";
 
-export const writtenPassiveParticipleSelection = {
+const writtenPassiveParticipleSelection = {
 	language: "en",
 	orthographicStatus: "Standard",
 	selectionCoverage: "Full",

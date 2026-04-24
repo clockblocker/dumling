@@ -1,6 +1,6 @@
 import type { AttestedSelection, Selection } from "dumling/types";
 
-export const kickTheBucketPartialIdiomSelection = {
+const kickTheBucketPartialIdiomSelection = {
 	language: "en",
 	orthographicStatus: "Standard",
 	selectionCoverage: "Partial",

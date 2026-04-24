@@ -1,6 +1,6 @@
 import type { AttestedSelection, Selection } from "dumling/types";
 
-export const deSelection011 = {
+const deSelection011 = {
 	language: "de",
 	orthographicStatus: "Standard",
 	selectionCoverage: "Full",

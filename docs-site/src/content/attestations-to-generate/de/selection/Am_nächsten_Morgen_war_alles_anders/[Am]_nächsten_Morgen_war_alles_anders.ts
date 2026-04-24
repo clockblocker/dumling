@@ -1,28 +1,29 @@
 import type { AttestedSelection, Selection } from "dumling/types";
 
-const deSelection040 = {
+const deSelection054 = {
 	language: "de",
 	orthographicStatus: "Standard",
 	selectionCoverage: "Full",
-	spelledSelection: "ins",
-	spellingRelation: "Canonical",
+	spelledSelection: "Am",
+	spellingRelation: "Variant",
 	surface: {
 		language: "de",
-		normalizedFullSurface: "ins",
+		normalizedFullSurface: "am",
 		surfaceKind: "Citation",
 		lemma: {
 			language: "de",
-			canonicalLemma: "ins",
+			canonicalLemma: "am",
 			lemmaKind: "Fusion",
 			lemmaSubKind: "General",
 			inherentFeatures: {},
-			meaningInEmojis: "🏊",
+			meaningInEmojis: "🌅",
 		},
 	},
 } satisfies Selection<"de", "Standard", "Citation", "Fusion", "General">;
 
 export const attestation = {
-	selection: deSelection040,
-	sentenceMarkdown: "Sie sprang [ins] kalte Wasser.",
-	classifierNotes: "Ins gets the same Fusion/General treatment as zum; the public DTO preserves the fused form intact.",
+	selection: deSelection054,
+	sentenceMarkdown: "[Am] nächsten Morgen war alles anders.",
+	classifierNotes:
+		"Am is modeled as Fusion/General, parallel to zum and ins, with the capitalized sentence-initial spelling treated as a variant of citation am.",
 } as const satisfies AttestedSelection;

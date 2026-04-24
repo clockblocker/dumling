@@ -1,6 +1,6 @@
 import type { AttestedSelection, Selection } from "dumling/types";
 
-export const tafastaMerubeSelection = {
+const tafastaMerubeSelection = {
 	language: "he",
 	orthographicStatus: "Standard",
 	selectionCoverage: "Partial",

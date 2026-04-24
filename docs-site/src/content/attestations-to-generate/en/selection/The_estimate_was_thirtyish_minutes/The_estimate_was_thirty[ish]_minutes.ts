@@ -1,6 +1,6 @@
 import type { AttestedSelection, Selection } from "dumling/types";
 
-export const ishSuffixPartialSelection = {
+const ishSuffixPartialSelection = {
 	language: "en",
 	orthographicStatus: "Standard",
 	selectionCoverage: "Partial",

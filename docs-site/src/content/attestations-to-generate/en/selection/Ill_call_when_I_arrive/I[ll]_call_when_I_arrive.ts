@@ -1,6 +1,6 @@
 import type { AttestedSelection, Selection } from "dumling/types";
 
-export const llCliticPartialSelection = {
+const llCliticPartialSelection = {
 	language: "en",
 	orthographicStatus: "Standard",
 	selectionCoverage: "Partial",

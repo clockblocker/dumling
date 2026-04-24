@@ -86,7 +86,7 @@ The bracketed substring must agree with `attestation.selection`.
 
 ## Semantic Filenames
 
-Selection fixture filenames encode the full attested sentence in a normalized, human-readable form, and each file lives inside a sibling sentence directory that drops the selection brackets.
+Selection fixture filenames encode the full attested sentence in a normalized, human-readable form, and each file lives inside a sibling sentence directory derived from the same sentence string with the selection brackets removed.
 
 Example:
 
