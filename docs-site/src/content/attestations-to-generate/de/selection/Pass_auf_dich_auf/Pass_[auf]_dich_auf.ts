@@ -4,7 +4,7 @@ const deSelection = {
 	language: "de",
 	orthographicStatus: "Standard",
 	selectionCoverage: "Partial",
-	spelledSelection: "Pass",
+	spelledSelection: "auf",
 	spellingRelation: "Canonical",
 	surface: {
 		language: "de",
@@ -34,5 +34,5 @@ export const attestation = {
 	selection: deSelection,
 	sentenceMarkdown: "Pass [auf] dich auf!",
 	classifierNotes:
-		"The first auf realizes the governed preposition selected by aufpassen, so it is stored as a partial selection of the verb lexeme rather than as a standalone ADP.",
+		"The governed preposition token still points to the same verbal surface `pass auf`; encode `auf` only in `lemma.inherentFeatures.hasGovPrep`, not as a standalone ADP and not by expanding `normalizedFullSurface`.",
 } as const satisfies AttestedSelection;

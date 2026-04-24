@@ -33,5 +33,5 @@ export const attestation = {
 	selection: dichReflexivePronounSelection,
 	sentenceMarkdown: "Pass auf [dich] auf!",
 	classifierNotes:
-		"Dich is encoded as the accusative second-person pronoun du, with reflexive use marked on the inflected surface.",
+		"Dich is the accusative second-person pronoun `du`, with reflexive use marked on the inflected surface; it is not part of `normalizedFullSurface`, which remains the verbal surface `pass auf` for the split verb tokens.",
 } as const satisfies AttestedSelection;

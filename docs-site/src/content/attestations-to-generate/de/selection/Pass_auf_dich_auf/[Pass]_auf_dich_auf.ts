@@ -34,5 +34,5 @@ export const attestation = {
 	selection: deSelection,
 	sentenceMarkdown: "[Pass] auf dich auf!",
 	classifierNotes:
-		"Pass is the finite verb token of the separable imperative pass auf from aufpassen; the governed preposition auf belongs on the lemma, not as a separate ADP analysis.",
+		"The finite verb token stays on the verbal surface `pass auf`; government is encoded on the lemma with `hasGovPrep: \"auf\"`, not by building a separate governed-preposition surface.",
 } as const satisfies AttestedSelection;

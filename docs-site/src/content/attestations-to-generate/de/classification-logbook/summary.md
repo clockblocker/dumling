@@ -1,11 +1,28 @@
-### Common Mistakes
+# Common Mistakes
 
+# Locked-In Rules
 
+## Verb
 
-### Locked-In Rules
+### Governed Prepositions
 
-The finite verb token, the governed preposition token, and the separated prefix token of the same separable verb construction should point to the same normalized verbal surface when they belong to one attested verb form.
+Governed prepositions must not be encoded in `normalizedFullSurface`.
 
-Example: in `Pass [auf] dich auf!`, the selected governed preposition `auf` should still use `normalizedFullSurface: "pass auf"` and the lemma `aufpassen`, rather than being classified as a standalone ADP.
+Encode verbal government only in `lemma.inherentFeatures.hasGovPrep: "{governed preposition}"`.
 
-Governed prepositions are expluded from "normalizedFullSurface". Thir only place is place is in `lemma.inherentFeatures.hasGovPrep: "{governed preposition}"`
+Use `normalizedFullSurface` for the attested verbal surface only.
+
+Example:
+
+In `Pass [auf] dich auf!`, the selected `auf` is not a standalone ADP. It remains anchored to the verb lemma `aufpassen`, with:
+
+- `normalizedFullSurface: "pass auf"`
+- `lemma.inherentFeatures.hasGovPrep: "auf"`
+- `lemma.inherentFeatures.hasSepPrefix: "auf"`
+
+Do not create a surface such as `aufpassen auf` just to represent the governed preposition.
+
+Sources:
+
+- `docs-site/src/content/attestations-to-generate/de/selection/Pass_auf_dich_auf/Pass_[auf]_dich_auf.ts`
+- `docs-site/src/content/attestations-to-generate/de/selection/Er_wartet_auf_den_Nachtbus/Er_[wartet]_auf_den_Nachtbus.ts`

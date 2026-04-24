@@ -34,5 +34,5 @@ export const attestation = {
 	selection: deSelection,
 	sentenceMarkdown: "Pass auf dich [auf]!",
 	classifierNotes:
-		"This is the detached separable-prefix token from the imperative pass auf of aufpassen; the same lemma also governs auf as its preposition.",
+		"The detached prefix token also points to the verbal surface `pass auf`; the governed preposition is kept separately on the lemma as `hasGovPrep: \"auf\"`.",
 } as const satisfies AttestedSelection;
