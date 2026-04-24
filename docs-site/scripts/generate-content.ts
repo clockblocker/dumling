@@ -571,7 +571,7 @@ function defaultLogbookText(
 		return "### Classifier Notes\n\n-\n\n### Open Questions\n\n-\n";
 	}
 	if (kind === "reviewer") {
-		return "### Reviewer Notes\n\n-\n";
+		return "### Reviewer Notes\n\n-\n\n### Open Questions\n\n-\n";
 	}
 	return "### Common Mistakes\n\n-\n\n### Locked-In Rules\n\n-\n";
 }
@@ -579,6 +579,61 @@ function defaultLogbookText(
 function ensureTextFile(path: string, text: string): void {
 	if (!existsSync(path)) {
 		writeFileSync(path, text);
+	}
+}
+
+type LogbookFileKind = "classifier" | "reviewer" | "summary";
+
+function requiredLogbookSections(kind: LogbookFileKind): string[] {
+	if (kind === "classifier") {
+		return ["Classifier Notes", "Open Questions"];
+	}
+	if (kind === "reviewer") {
+		return ["Reviewer Notes", "Open Questions"];
+	}
+	return ["Common Mistakes", "Locked-In Rules"];
+}
+
+function validateLogbookFile(path: string, kind: LogbookFileKind): void {
+	const text = readFileSync(path, "utf8");
+	const headings = [...text.matchAll(/^### (.+)$/gmu)];
+	const expectedSections = requiredLogbookSections(kind);
+	const actualSections = headings.map((match) => match[1]?.trim() ?? "");
+
+	if (
+		actualSections.length !== expectedSections.length ||
+		actualSections.some(
+			(section, index) => section !== expectedSections[index],
+		)
+	) {
+		throw new Error(
+			`${path} must contain exactly these sections in order: ${expectedSections.map((section) => `### ${section}`).join(", ")}.`,
+		);
+	}
+
+	for (let index = 0; index < headings.length; index += 1) {
+		const start = headings[index]?.index;
+		if (start === undefined) {
+			continue;
+		}
+		const headingLine = headings[index]?.[0] ?? "";
+		const bodyStart = start + headingLine.length;
+		const bodyEnd =
+			index + 1 < headings.length
+				? (headings[index + 1]?.index ?? text.length)
+				: text.length;
+		const body = text.slice(bodyStart, bodyEnd).trim();
+
+		if (body.length === 0) {
+			throw new Error(
+				`${path} section "### ${expectedSections[index]}" must not be empty; empty sections must contain exactly "-".`,
+			);
+		}
+		if (body.startsWith("-") && body !== "-" && !body.startsWith("-\n")) {
+			throw new Error(
+				`${path} section "### ${expectedSections[index]}" must be exactly "-" when empty.`,
+			);
+		}
 	}
 }
 
@@ -612,6 +667,9 @@ function migrateLegacySelectionNotes(): void {
 
 		ensureTextFile(reviewerNotesPath, defaultLogbookText("reviewer"));
 		ensureTextFile(summaryPath, defaultLogbookText("summary"));
+		validateLogbookFile(classifierNotesPath, "classifier");
+		validateLogbookFile(reviewerNotesPath, "reviewer");
+		validateLogbookFile(summaryPath, "summary");
 	}
 }
 
