@@ -11,6 +11,7 @@ import type {
 	Descriptor,
 	DumlingBase64Url,
 	DumlingCsv,
+	DumlingDescriptorCsv,
 	EntityForKind,
 	EntityKind,
 	EntityValue,
@@ -168,6 +169,9 @@ const selectionId = dumling.de.id.encode.asBase64Url(typoSelection);
 selectionId satisfies DumlingBase64Url<"de">;
 const selectionCsv = dumling.de.id.encode.asCsv(typoSelection);
 selectionCsv satisfies DumlingCsv<"de">;
+const selectionDescriptorCsv =
+	dumling.de.describe.asCsv.selection(inflectionSurface);
+selectionDescriptorCsv satisfies DumlingDescriptorCsv<"de", "Selection">;
 // @ts-expect-error plain strings are not branded Dumling base64url IDs
 const unbrandedId: DumlingBase64Url<"de"> = "abc";
 const entityValue: EntityValue<"de"> = typoSelection;
@@ -187,6 +191,7 @@ void entityValue;
 void selectionForKind;
 void typoOptions;
 void unbrandedId;
+void selectionDescriptorCsv;
 
 if (decodedSelection.success) {
 	decodedSelection.data satisfies IdDecodeSuccess<"de">;

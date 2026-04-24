@@ -77,5 +77,10 @@ describe("operations", () => {
 			lemmaKind: "Lexeme",
 			lemmaSubKind: "NOUN",
 		});
+		expect(
+			String(
+				dumling.en.describe.asCsv.selection(englishWalkInflectionSurface),
+			),
+		).toBe("Selection,en,Standard,Inflection,Lexeme,VERB");
 	});
 });
