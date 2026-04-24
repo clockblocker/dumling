@@ -2,6 +2,7 @@ import type { Descriptor } from "../types/descriptor";
 import type {
 	DumlingBase64Url,
 	DumlingCsv,
+	DumlingDescriptorCsv,
 	EntityForKind,
 	EntityKind,
 	EntityValue,
@@ -210,8 +211,19 @@ export type LanguageApi<L extends SupportedLanguage> = {
 						EntityLemmaKind<TValue> & LemmaKindFor<L>
 					>,
 				EntitySurfaceKind<TValue> & SurfaceKindFor<L>,
-				EntityOrthographicStatus<TValue> & OrthographicStatus
+					EntityOrthographicStatus<TValue> & OrthographicStatus
 			>;
+		};
+		asCsv: {
+			lemma<TValue extends EntityValue<L>>(
+				value: TValue,
+			): DumlingDescriptorCsv<L, "Lemma">;
+			surface<TValue extends EntityValue<L>>(
+				value: TValue,
+			): DumlingDescriptorCsv<L, "Surface">;
+			selection<TValue extends EntityValue<L>>(
+				value: TValue,
+			): DumlingDescriptorCsv<L, "Selection">;
 		};
 	};
 	id: {

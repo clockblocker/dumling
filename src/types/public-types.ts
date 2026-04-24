@@ -61,6 +61,16 @@ export type DumlingCsv<L extends SupportedLanguage = SupportedLanguage> =
 		};
 	};
 
+export type DumlingDescriptorCsv<
+	L extends SupportedLanguage = SupportedLanguage,
+	K extends EntityKind = EntityKind,
+> = string & {
+		readonly __dumlingDescriptorCsvBrand: {
+			readonly language: L;
+			readonly entityKind: K;
+		};
+	};
+
 export type DumlingBase64Url<L extends SupportedLanguage = SupportedLanguage> =
 	string & {
 		readonly __dumlingBase64UrlBrand: {

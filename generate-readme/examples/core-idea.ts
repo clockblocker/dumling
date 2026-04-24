@@ -48,6 +48,7 @@ void seeSelection;
 import { dumling as packageDumling } from "dumling";
 import { schemasFor as packageSchemas } from "dumling/schema";
 import type {
+	DumlingDescriptorCsv as PackageDumlingDescriptorCsv,
 	FeatureValue as PackageFeatureValue,
 	Lemma as PackageLemma,
 } from "dumling/types";
@@ -70,6 +71,7 @@ const selection = packageDumling.de.convert.surface.toSelection(surface, {
 	spelledSelection: "See",
 });
 const descriptor = packageDumling.de.describe.as.selection(surface);
+const descriptorCsv = packageDumling.de.describe.asCsv.selection(surface);
 const extractedLemma = packageDumling.de.extract.lemma(selection);
 const gender: PackageFeatureValue<
 	"de",
@@ -91,6 +93,7 @@ if (!decoded.success) {
 }
 
 descriptor.surfaceKind satisfies "Citation";
+descriptorCsv satisfies PackageDumlingDescriptorCsv<"de", "Selection">;
 extractedLemma satisfies PackageLemma<"de">;
 gender satisfies "Masc";
 

@@ -56,6 +56,15 @@ describe("API", () => {
 			lemmaKind: "Lexeme",
 			lemmaSubKind: "NOUN",
 		});
+		expect(String(dumling.de.describe.asCsv.lemma(selection))).toBe(
+			"Lemma,de,Lexeme,NOUN",
+		);
+		expect(String(dumling.de.describe.asCsv.surface(lemma))).toBe(
+			"Surface,de,Citation,Lexeme,NOUN",
+		);
+		expect(String(dumling.de.describe.asCsv.selection(surface))).toBe(
+			"Selection,de,Standard,Citation,Lexeme,NOUN",
+		);
 	});
 
 	it("ignores caller-supplied namespace-implied fields in create operations", () => {

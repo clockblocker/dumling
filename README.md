@@ -30,7 +30,7 @@ Each concrete language namespace (`dumling.de`, `dumling.en`, `dumling.he`) expo
 - `convert`: convenience projections from `lemma -> surface`, `lemma -> selection`, and `surface -> selection`
 - `extract`: entity accessors such as `extract.lemma(...)`
 - `parse`: safe parsing returning `ApiResult<T, ParseError>`
-- `describe`: descriptor helpers via `describe.as.lemma`, `surface`, and `selection`
+- `describe`: descriptor helpers via `describe.as.*` and canonical descriptor CSV via `describe.asCsv.*`
 - `id`: stable ID encode/decode helpers for hydrated DTOs
 
 The root runtime entrypoint also exposes:
@@ -46,7 +46,7 @@ The root runtime entrypoint also exposes:
 - Entity and ID helpers: `EntityValue`, `EntityForKind`, `DumlingCsv`, `DumlingBase64Url`, `SelectionOptionsFor`
 - Language-aware helper types: `LemmaKindFor`, `LemmaSubKindFor`, `SurfaceKindFor`, `LemmaKindForSurfaceKind`
 - Feature typing helpers: `FeatureSet`, `FeatureName`, `FeatureValue`, `InherentFeaturesFor`, `InflectionalFeaturesFor`
-- Descriptors and API shapes: `Descriptor`, `DumlingApi`, `LanguageApi`
+- Descriptors and API shapes: `Descriptor`, `DumlingApi`, `LanguageApi`, `DumlingDescriptorCsv`
 - Result and error types: `ApiResult`, `ParseError`, `IdDecodeError`, `IdDecodeSuccess`
 
 ## Core idea
@@ -114,6 +114,7 @@ Minimal end-to-end usage:
 import { dumling as packageDumling } from "dumling";
 import { schemasFor as packageSchemas } from "dumling/schema";
 import type {
+	DumlingDescriptorCsv as PackageDumlingDescriptorCsv,
 	FeatureValue as PackageFeatureValue,
 	Lemma as PackageLemma,
 } from "dumling/types";
@@ -136,6 +137,7 @@ const selection = packageDumling.de.convert.surface.toSelection(surface, {
 	spelledSelection: "See",
 });
 const descriptor = packageDumling.de.describe.as.selection(surface);
+const descriptorCsv = packageDumling.de.describe.asCsv.selection(surface);
 const extractedLemma = packageDumling.de.extract.lemma(selection);
 const gender: PackageFeatureValue<
 	"de",
@@ -157,6 +159,7 @@ if (!decoded.success) {
 }
 
 descriptor.surfaceKind satisfies "Citation";
+descriptorCsv satisfies PackageDumlingDescriptorCsv<"de", "Selection">;
 extractedLemma satisfies PackageLemma<"de">;
 gender satisfies "Masc";
 
