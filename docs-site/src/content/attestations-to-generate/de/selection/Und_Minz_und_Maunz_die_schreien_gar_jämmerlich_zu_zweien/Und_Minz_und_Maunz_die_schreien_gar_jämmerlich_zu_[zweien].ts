@@ -1,12 +1,35 @@
 import type { AttestedSelection, Selection } from "dumling/types";
 
 const deSelection = {
-	
-} satisfies Selection;
+	language: "de",
+	orthographicStatus: "Standard",
+	selectionCoverage: "Full",
+	spelledSelection: "zweien",
+	spellingRelation: "Canonical",
+	surface: {
+		language: "de",
+		normalizedFullSurface: "zweien",
+		surfaceKind: "Inflection",
+		inflectionalFeatures: {
+			case: "Dat",
+		},
+		lemma: {
+			language: "de",
+			canonicalLemma: "zwei",
+			lemmaKind: "Lexeme",
+			lemmaSubKind: "NUM",
+			inherentFeatures: {
+				numType: "Card",
+			},
+			meaningInEmojis: "2️⃣",
+		},
+	},
+} satisfies Selection<"de", "Standard", "Inflection", "Lexeme", "NUM">;
 
 export const attestation = {
 	selection: deSelection,
 	sentenceMarkdown: `Und Minz und Maunz, die schreien
 gar jämmerlich zu [zweien]`,
-	classifierNotes: "",
+	classifierNotes:
+		"I treated zweien as the dative inflected form of the cardinal numeral zwei inside the fixed phrase zu zweien, rather than as a pronoun-like item.",
 } as const satisfies AttestedSelection;

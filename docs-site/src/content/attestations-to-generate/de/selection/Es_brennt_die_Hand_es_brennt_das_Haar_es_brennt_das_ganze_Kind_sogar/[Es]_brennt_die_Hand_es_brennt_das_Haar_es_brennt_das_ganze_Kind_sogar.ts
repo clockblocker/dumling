@@ -1,12 +1,38 @@
 import type { AttestedSelection, Selection } from "dumling/types";
 
-const deSelection = {
-	
-} satisfies Selection;
+const esPronounSelection = {
+	language: "de",
+	orthographicStatus: "Standard",
+	selectionCoverage: "Full",
+	spelledSelection: "Es",
+	spellingRelation: "Canonical",
+	surface: {
+		language: "de",
+		normalizedFullSurface: "es",
+		surfaceKind: "Inflection",
+		inflectionalFeatures: {
+			case: "Nom",
+			gender: "Neut",
+			number: "Sing",
+		},
+		lemma: {
+			language: "de",
+			canonicalLemma: "es",
+			lemmaKind: "Lexeme",
+			lemmaSubKind: "PRON",
+			inherentFeatures: {
+				person: "3",
+				pronType: "Prs",
+			},
+			meaningInEmojis: "👉",
+		},
+	},
+} satisfies Selection<"de", "Standard", "Inflection", "Lexeme", "PRON">;
 
 export const attestation = {
-	selection: deSelection,
+	selection: esPronounSelection,
 	sentenceMarkdown: `[Es] brennt die Hand, es brennt das Haar,
 es brennt das ganze Kind sogar.`,
-	classifierNotes: "",
+	classifierNotes:
+		"Sentence-initial Es is capitalized in spelledSelection but normalizedFullSurface stays lowercase. I treated it as nominative personal-pronoun es in an expletive or impersonal use rather than as a referential neuter pronoun.",
 } as const satisfies AttestedSelection;

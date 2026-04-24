@@ -1,14 +1,36 @@
-
-
 import type { AttestedSelection, Selection } from "dumling/types";
 
 const deSelection = {
-	
-} satisfies Selection;
+	language: "de",
+	orthographicStatus: "Standard",
+	selectionCoverage: "Full",
+	spelledSelection: "Sieh",
+	spellingRelation: "Canonical",
+	surface: {
+		language: "de",
+		normalizedFullSurface: "sieh",
+		surfaceKind: "Inflection",
+		inflectionalFeatures: {
+			mood: "Imp",
+			number: "Sing",
+			person: "2",
+			verbForm: "Fin",
+		},
+		lemma: {
+			language: "de",
+			canonicalLemma: "sehen",
+			lemmaKind: "Lexeme",
+			lemmaSubKind: "VERB",
+			inherentFeatures: {},
+			meaningInEmojis: "👀",
+		},
+	},
+} satisfies Selection<"de", "Standard", "Inflection", "Lexeme", "VERB">;
 
 export const attestation = {
 	selection: deSelection,
 	sentenceMarkdown: `[Sieh] einmal, hier steht er, 
 pfui, der Struwwelpeter!`,
-	classifierNotes: "",
+	classifierNotes:
+		"I kept Sieh as the imperative inflection of sehen rather than treating Sieh einmal as one larger formula; the sentence-initial capital remains only in spelledSelection.",
 } as const satisfies AttestedSelection;
