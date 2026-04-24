@@ -1,10 +1,12 @@
-# Common Mistakes
+### Common Mistakes
 
-# Locked-In Rules
+-
+
+### Locked-In Rules
 
 ## Verb
 
-### Governed Prepositions
+#### Governed Prepositions
 
 Governed prepositions must not be encoded in `normalizedFullSurface`.
 

@@ -201,12 +201,14 @@ Each directory contains:
 - `reviewer-notes.md`
 - `summary.md`
 - `{lang}-attested-selections.csv`
+- `{lang}-attested-selection-descriptors.csv`
 
 Example:
 
 - `docs-site/src/content/attestations-to-generate/de/classification-logbook/reviewer-notes.md`
 - `docs-site/src/content/attestations-to-generate/de/classification-logbook/summary.md`
 - `docs-site/src/content/attestations-to-generate/de/classification-logbook/de-attested-selections.csv`
+- `docs-site/src/content/attestations-to-generate/de/classification-logbook/de-attested-selection-descriptors.csv`
 
 This split is intentional:
 
@@ -275,6 +277,33 @@ Rules:
 
 - the CSV does not include `order`
 - rows must be emitted in a deterministic order that does not depend on an `order` field
+
+## Generated `*-attested-selection-descriptors.csv`
+
+Each `classification-logbook/` directory contains a generated CSV named `{lang}-attested-selection-descriptors.csv`.
+
+The CSV is generated, not hand-edited.
+
+Header:
+
+```text
+sentence_markdown,normalizedFullSurface,orthographicStatus,surfaceKind,lemmaKind,lemmaSubKind
+```
+
+Column meanings:
+
+- `sentence_markdown`: emitted exactly from the fixture
+- `normalizedFullSurface`: emitted from `selection.surface.normalizedFullSurface`
+- `orthographicStatus`: emitted from the selection descriptor
+- `surfaceKind`: emitted from the selection descriptor
+- `lemmaKind`: emitted from the selection descriptor
+- `lemmaSubKind`: emitted from the selection descriptor
+
+Rules:
+
+- the descriptor fields are derived from dumling's public descriptor CSV representation for selections
+- the constant `entityKind` and `language` fields are omitted from this per-language logbook CSV
+- rows must be emitted in the same deterministic order as `{lang}-attested-selections.csv`
 
 ## Cleanup Sequence
 

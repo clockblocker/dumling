@@ -1,0 +1,48 @@
+sentence_markdown,normalizedFullSurface,orthographicStatus,surfaceKind,lemmaKind,lemmaSubKind
+[איזה] רחוב זה?,איזה,Standard,Inflection,Lexeme,DET
+אין [חדש] תחת השמש.,אין חדש תחת השמש,Standard,Citation,Phraseme,Proverb
+[אין] מקום פנוי.,אין,Standard,Citation,Lexeme,VERB
+אל [תלך] לבד.,תלך,Standard,Inflection,Lexeme,VERB
+[אמא] התקשרה.,אימא,Standard,Citation,Lexeme,NOUN
+אמרת [ש]תבוא.,ש,Standard,Citation,Morpheme,Prefix
+אנחנו [הולכים] עכשיו.,הולכים,Standard,Inflection,Lexeme,VERB
+[אני] לא בטוחה.,אני,Standard,Inflection,Lexeme,PRON
+"אפשר מים, [בבקשה]?",בבקשה,Standard,Citation,Phraseme,DiscourseFormula
+[בואו] לכאן.,בואו,Standard,Inflection,Lexeme,VERB
+[בתי] הספר נסגרו מוקדם.,בתי,Standard,Inflection,Lexeme,NOUN
+ה[אוכל] כבר מוכן.,אוכל,Standard,Citation,Lexeme,NOUN
+"הבטיחו דרמה, אבל [לא דובים ולא יער].",לא דובים ולא יער,Standard,Citation,Phraseme,Idiom
+[ה]בית פתוח.,ה,Standard,Citation,Lexeme,DET
+"הדו""ח [נכתב] אתמול.",נכתב,Standard,Inflection,Lexeme,VERB
+הוא [התכתב] עם המרצה.,התכתב,Standard,Inflection,Lexeme,VERB
+הוא [כתב] מהר.,כתב,Standard,Inflection,Lexeme,VERB
+"הוא שירת ב[צה""ל].","צה""ל",Standard,Citation,Lexeme,PROPN
+החדרים [גדולים].,גדולים,Standard,Inflection,Lexeme,ADJ
+היא [כתבה] מכתב קצר.,כתבה,Standard,Inflection,Lexeme,VERB
+[הם] הגיעו בזמן.,הם,Standard,Inflection,Lexeme,PRON
+הם נפגשו [ב]בית.,ב,Standard,Citation,Morpheme,Prefix
+הספר [של] נועה נשאר כאן.,של,Standard,Citation,Lexeme,ADP
+[הספרים] על השולחן.,הספרים,Standard,Inflection,Lexeme,NOUN
+הראיון היה על ה[פנים].,על הפנים,Standard,Citation,Phraseme,Idiom
+השאלות [הטובות] נשארו לסוף.,הטובות,Standard,Inflection,Lexeme,ADJ
+[ו]דנה כבר חיכתה בחוץ.,ו,Standard,Citation,Morpheme,Clitic
+זו טעות [גדולה].,גדולה,Standard,Inflection,Lexeme,ADJ
+חזרתי ל[בית].,הבית,Standard,Inflection,Lexeme,NOUN
+[חס וחלילה] שנאחר שוב.,חס וחלילה,Standard,Citation,Phraseme,Idiom
+יצאתי [ל]עבודה מוקדם.,ל,Standard,Citation,Morpheme,Prefix
+[ירושלים] יפה בלילה.,ירושלים,Standard,Inflection,Lexeme,PROPN
+[יש] קפה במטבח.,יש,Standard,Citation,Lexeme,VERB
+[מה נשמע] אצלכם?,מה נשמע,Standard,Citation,Phraseme,DiscourseFormula
+מחר [אוכל] מוקדם.,אוכל,Standard,Inflection,Lexeme,VERB
+מצאתי [מכתבים] ישנים.,מכתבים,Standard,Inflection,Lexeme,NOUN
+"[נו], תספר כבר.",נו,Standard,Citation,Lexeme,INTJ
+נמשיך [כאשר] כולם יגיעו.,כאשר,Standard,Citation,Lexeme,SCONJ
+נשארנו בבית [בגלל] הגשם.,בגלל,Standard,Citation,Lexeme,ADP
+עברתי ל[תל אביב].,תל אביב,Standard,Citation,Lexeme,PROPN
+קניתי [שתי] מחברות.,שתי,Standard,Inflection,Lexeme,NUM
+ראיתי [את] הסרט.,את,Standard,Citation,Lexeme,ADP
+רחצתי [ידיים].,ידיים,Standard,Inflection,Lexeme,NOUN
+רק [את] יודעת.,את,Standard,Inflection,Lexeme,PRON
+"[שלום], מה שלומך?",שלום,Standard,Citation,Phraseme,DiscourseFormula
+[תודה] על העזרה.,תודה,Standard,Citation,Phraseme,DiscourseFormula
+[תפסת] מרובה לא תפסת.,תפסת מרובה לא תפסת,Standard,Citation,Phraseme,Proverb

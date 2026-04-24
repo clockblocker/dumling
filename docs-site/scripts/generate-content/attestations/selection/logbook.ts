@@ -45,31 +45,34 @@ export function validateLogbookFile(
 	kind: LogbookFileKind,
 ): void {
 	const text = readFileSync(path, "utf8");
-	const headings = [...text.matchAll(/^### (.+)$/gmu)];
 	const expectedSections = requiredLogbookSections(kind);
-	const actualSections = headings.map((match) => match[1]?.trim() ?? "");
+	const sectionMatches: RegExpExecArray[] = [];
 
-	if (
-		actualSections.length !== expectedSections.length ||
-		actualSections.some(
-			(section, index) => section !== expectedSections[index],
-		)
-	) {
-		throw new Error(
-			`${path} must contain exactly these sections in order: ${expectedSections.map((section) => `### ${section}`).join(", ")}.`,
-		);
+	for (const section of expectedSections) {
+		const escapedSection = section.replace(/[.*+?^${}()|[\]\\]/gu, "\\$&");
+		const matcher = new RegExp(`^### ${escapedSection}$`, "gmu");
+		const previousMatchIndex =
+			sectionMatches[sectionMatches.length - 1]?.index ?? -1;
+		matcher.lastIndex = previousMatchIndex + 1;
+		const match = matcher.exec(text);
+
+		if (match?.index === undefined) {
+			throw new Error(
+				`${path} must contain these sections in order: ${expectedSections.map((expectedSection) => `### ${expectedSection}`).join(", ")}.`,
+			);
+		}
+
+		sectionMatches.push(match);
 	}
 
-	for (let index = 0; index < headings.length; index += 1) {
-		const start = headings[index]?.index;
-		if (start === undefined) {
-			continue;
-		}
-		const headingLine = headings[index]?.[0] ?? "";
+	for (let index = 0; index < sectionMatches.length; index += 1) {
+		const start = sectionMatches[index]?.index;
+		if (start === undefined) continue;
+		const headingLine = sectionMatches[index]?.[0] ?? "";
 		const bodyStart = start + headingLine.length;
 		const bodyEnd =
-			index + 1 < headings.length
-				? (headings[index + 1]?.index ?? text.length)
+			index + 1 < sectionMatches.length
+				? (sectionMatches[index + 1]?.index ?? text.length)
 				: text.length;
 		const body = text.slice(bodyStart, bodyEnd).trim();
 
@@ -140,8 +143,15 @@ export function writeSelectionLogbookCsv(
 			"classification-logbook",
 		);
 		mkdirSync(logbookDir, { recursive: true });
-		const csvPath = join(logbookDir, `${language}-attested-selections.csv`);
-		const lines = [
+		const selectionsCsvPath = join(
+			logbookDir,
+			`${language}-attested-selections.csv`,
+		);
+		const descriptorCsvPath = join(
+			logbookDir,
+			`${language}-attested-selection-descriptors.csv`,
+		);
+		const selectionLines = [
 			"sentence_markdown,sectionId,classifierNotes,lessonsLearned",
 			...selectionsForLanguage.map((selection) =>
 				[
@@ -158,6 +168,45 @@ export function writeSelectionLogbookCsv(
 				].join(","),
 			),
 		];
-		writeFileSync(csvPath, `${lines.join("\n")}\n`);
+		const descriptorLines = [
+			"sentence_markdown,normalizedFullSurface,orthographicStatus,surfaceKind,lemmaKind,lemmaSubKind",
+			...selectionsForLanguage.map((selection) => {
+				const descriptorFields = String(
+					getLanguageApi(selection.entity.language).describe.asCsv.selection(
+						selection.entity,
+					),
+				).split(",");
+				const [
+					_entityKind,
+					_descriptorLanguage,
+					orthographicStatus,
+					surfaceKind,
+					lemmaKind,
+					lemmaSubKind,
+				] = descriptorFields;
+
+				if (
+					orthographicStatus === undefined ||
+					surfaceKind === undefined ||
+					lemmaKind === undefined ||
+					lemmaSubKind === undefined
+				) {
+					throw new Error(
+						`Unexpected descriptor CSV shape for ${selectionSemanticSourcePath(selection)}.`,
+					);
+				}
+
+				return [
+					csvCell(selection.sentenceMarkdown),
+					csvCell(selection.entity.surface.normalizedFullSurface),
+					csvCell(orthographicStatus),
+					csvCell(surfaceKind),
+					csvCell(lemmaKind),
+					csvCell(lemmaSubKind),
+				].join(",");
+			}),
+		];
+		writeFileSync(selectionsCsvPath, `${selectionLines.join("\n")}\n`);
+		writeFileSync(descriptorCsvPath, `${descriptorLines.join("\n")}\n`);
 	}
 }

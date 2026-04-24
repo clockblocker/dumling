@@ -1,0 +1,58 @@
+sentence_markdown,normalizedFullSurface,orthographicStatus,surfaceKind,lemmaKind,lemmaSubKind
+[Am] nächsten Morgen war alles anders.,am,Standard,Citation,Fusion,General
+Am [nächsten] Morgen war alles anders.,nächsten,Standard,Inflection,Lexeme,ADJ
+Auf der Karte sind drei [Seen] eingezeichnet.,Seen,Standard,Inflection,Lexeme,NOUN
+Bei dieser Formel verstehe ich nur [Bahnhof].,nur Bahnhof verstehen,Standard,Citation,Phraseme,Idiom
+Bitte folgen Sie [Ihrem] Ansprechpartner.,Ihrem,Standard,Inflection,Lexeme,DET
+Damit triffst du den [Nagel] auf den Kopf.,den Nagel auf den Kopf treffen,Standard,Citation,Phraseme,Idiom
+Das ist [nicht] mein Problem.,nicht,Standard,Citation,Lexeme,PART
+Das ist schwer [zu] erklären.,zu,Standard,Citation,Lexeme,PART
+Das [muss] heute noch raus.,muss,Standard,Inflection,Lexeme,AUX
+Das rote [Band] lag auf dem Geschenk.,Band,Standard,Citation,Lexeme,NOUN
+Das [Schloss] an der Tür klemmt.,Schloss,Standard,Citation,Lexeme,NOUN
+Das [Schloss] über dem Fluss wurde renoviert.,Schloss,Standard,Citation,Lexeme,NOUN
+Das [Un]- in Unkosten wirkt historisch irritierend.,un-,Standard,Citation,Morpheme,Prefix
+Das wäre fast schief [gewesen].,gewesen,Standard,Inflection,Lexeme,AUX
+"Der Autor, [dessen] Buch fehlt, wartet draußen.",dessen,Standard,Inflection,Lexeme,PRON
+Der dritte [Band] ist längst vergriffen.,Band,Standard,Citation,Lexeme,NOUN
+Der Fährmann hat uns [übergesetzt].,übergesetzt,Standard,Inflection,Lexeme,VERB
+Der [Kiefer] schmerzte nach der Operation.,Kiefer,Standard,Citation,Lexeme,NOUN
+Der Laster [fuhr] das Schild um.,fuhr um,Standard,Inflection,Lexeme,VERB
+Der [Leiter] der Werkstatt kam später.,Leiter,Standard,Citation,Lexeme,NOUN
+Die alte [Kiefer] steht am Hang.,Kiefer,Standard,Citation,Lexeme,NOUN
+Die [Band] spielt heute im Kellerclub.,Band,Standard,Citation,Lexeme,NOUN
+Die [Leiter] wackelte auf dem nassen Boden.,Leiter,Standard,Citation,Lexeme,NOUN
+Die [linke] Hand zitterte.,linke,Standard,Inflection,Lexeme,ADJ
+Die [Mutter] passt nicht auf diese Schraube.,Mutter,Standard,Citation,Lexeme,NOUN
+"Die Zeugin, [deren] Aussage zählt, bleibt anonym.",deren,Standard,Inflection,Lexeme,PRON
+Er ging [zum] Bahnhof.,zum,Standard,Citation,Fusion,General
+Er vergaß [seinen] Schlüssel im Büro.,seinen,Standard,Inflection,Lexeme,DET
+Er [wartet] auf den Nachtbus.,wartet,Standard,Inflection,Lexeme,VERB
+[Geh] bitte nicht ohne Jacke raus.,geh,Standard,Inflection,Lexeme,VERB
+Genau da liegt der [Hase] im Pfeffer.,da liegt der Hase im Pfeffer,Standard,Citation,Phraseme,Idiom
+"[Guten Tag], ich habe einen Termin.",Guten Tag,Standard,Citation,Phraseme,DiscourseFormula
+Ich suche einen [besseren] Ansatz.,besseren,Standard,Inflection,Lexeme,ADJ
+Im Heft stand [Filosofie] statt Philosophie.,Filosofie,Typo,Inflection,Lexeme,NOUN
+In [ge]lacht markieren ge- und -t zusammen das Partizip.,ge-...-t,Standard,Citation,Morpheme,Circumfix
+Meine [Mutter] ruft jeden Sonntag an.,Mutter,Standard,Citation,Lexeme,NOUN
+Mit den [Kindern] ist es nie langweilig.,Kindern,Standard,Inflection,Lexeme,NOUN
+Mit [keinem] Wort erwähnte sie den Plan.,keinem,Standard,Inflection,Lexeme,DET
+"[Morgenstund] hat Gold im Mund, sagte sie verschlafen.",Morgenstund hat Gold im Mund,Standard,Citation,Phraseme,Proverb
+"[Na ja], ganz überzeugt bin ich nicht.",na ja,Standard,Citation,Phraseme,DiscourseFormula
+Nach [manchem] Fehler lernt man schneller.,manchem,Standard,Inflection,Lexeme,DET
+[Pass] auf dich auf!,pass auf,Standard,Inflection,Lexeme,VERB
+Pass [auf] dich auf!,pass auf,Standard,Inflection,Lexeme,VERB
+Pass auf [dich] auf!,dich,Standard,Inflection,Lexeme,PRON
+Pass auf dich [auf]!,pass auf,Standard,Inflection,Lexeme,VERB
+Sie [erinnert] sich an den Geruch.,erinnert,Standard,Inflection,Lexeme,VERB
+Sie folgte ihrem [Herzen].,Herzen,Standard,Inflection,Lexeme,NOUN
+Sie sprang [ins] kalte Wasser.,ins,Standard,Citation,Fusion,General
+Sie [übersetzt] den Vertrag ins Deutsche.,übersetzt,Standard,Inflection,Lexeme,VERB
+Sie [umfuhr] die Baustelle weiträumig.,umfuhr,Standard,Inflection,Lexeme,VERB
+Sie wurde um Geduld [gebeten].,gebeten,Standard,Inflection,Lexeme,VERB
+"[Tut mir leid], das war mein Fehler.",tut mir leid,Standard,Citation,Phraseme,DiscourseFormula
+Unter falschem [Namen] mietete er das Zimmer.,Namen,Standard,Inflection,Lexeme,NOUN
+Viele [deutschsprachigen] Quellen fehlen noch.,deutschsprachigen,Standard,Inflection,Lexeme,ADJ
+[Wegen] dem Regen kamen wir zu spät.,wegen,Standard,Citation,Lexeme,ADP
+Wir [hätten] gern mehr Zeit.,hätten,Standard,Inflection,Lexeme,AUX
+Wir liefen den Fluss [entlang].,entlang,Standard,Citation,Lexeme,ADP

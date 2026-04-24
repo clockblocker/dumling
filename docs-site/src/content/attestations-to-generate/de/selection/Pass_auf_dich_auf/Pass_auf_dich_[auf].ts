@@ -4,7 +4,7 @@ const deSelection = {
 	language: "de",
 	orthographicStatus: "Standard",
 	selectionCoverage: "Partial",
-	spelledSelection: "Pass",
+	spelledSelection: "auf",
 	spellingRelation: "Canonical",
 	surface: {
 		language: "de",
