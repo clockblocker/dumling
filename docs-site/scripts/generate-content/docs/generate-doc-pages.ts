@@ -1,3 +1,4 @@
+import { join } from "node:path";
 import { readFileSync } from "node:fs";
 import {
 	collectBlocksFromDirectory,
@@ -6,7 +7,11 @@ import {
 import { parseFrontmatter } from "./frontmatter";
 import { publicMarkdownPathForRouteId, routeIdForSourcePath } from "./routes";
 import { listMarkdownFiles, writeGeneratedMarkdown } from "../shared/fs";
-import { readmeExamplesDir, sourceDocsDir } from "../shared/paths";
+import {
+	generatedDocsDir,
+	readmeExamplesDir,
+	sourceDocsDir,
+} from "../shared/paths";
 import type { SourcePage } from "../shared/types";
 
 export function generateDocPages(): SourcePage[] {
@@ -29,7 +34,7 @@ export function generateDocPages(): SourcePage[] {
 		});
 
 		writeGeneratedMarkdown(
-			routeId,
+			join(generatedDocsDir, `${routeId}.md`),
 			frontmatter,
 			renderedBody,
 			publicMarkdownPathForRouteId(routeId),

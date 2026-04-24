@@ -10,14 +10,30 @@ export function routeIdForDocId(id: string): string {
 	return id.endsWith("/index") ? id.slice(0, -"/index".length) : id;
 }
 
-export function hrefForDocId(id: string): string {
-	const routeId = routeIdForDocId(id);
+export function routeIdForPage(
+	page: CollectionEntry<"docs"> | CollectionEntry<"entities">,
+): string {
+	return page.data.routeId ?? routeIdForDocId(page.id);
+}
+
+export function hrefForRouteId(routeId: string): string {
 	return routeId === "index" ? "/" : `/${routeId}/`;
 }
 
-export function mdHrefForDocId(id: string): string {
-	const routeId = routeIdForDocId(id);
+export function hrefForPage(
+	page: CollectionEntry<"docs"> | CollectionEntry<"entities">,
+): string {
+	return hrefForRouteId(routeIdForPage(page));
+}
+
+export function mdHrefForRouteId(routeId: string): string {
 	return routeId === "index" ? "/index.md" : `/${routeId}.md`;
+}
+
+export function mdHrefForPage(
+	page: CollectionEntry<"docs"> | CollectionEntry<"entities">,
+): string {
+	return mdHrefForRouteId(routeIdForPage(page));
 }
 
 export function navItemsForDocs(docs: CollectionEntry<"docs">[]): NavItem[] {
@@ -30,8 +46,8 @@ export function navItemsForDocs(docs: CollectionEntry<"docs">[]): NavItem[] {
 			return left.data.title.localeCompare(right.data.title);
 		})
 		.map((doc) => ({
-			href: hrefForDocId(doc.id),
-			mdHref: mdHrefForDocId(doc.id),
+			href: hrefForPage(doc),
+			mdHref: mdHrefForPage(doc),
 			title: doc.data.title,
 		}));
 }

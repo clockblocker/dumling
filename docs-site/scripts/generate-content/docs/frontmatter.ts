@@ -55,7 +55,7 @@ export function parseFrontmatter(
 		frontmatter: {
 			description: values.get("description"),
 			order,
-			slug: values.get("slug"),
+			routeId: values.get("routeId"),
 			title,
 		},
 	};
@@ -69,9 +69,9 @@ export function serializeFrontmatter(frontmatter: Frontmatter): string {
 			? []
 			: [`description: ${frontmatter.description}`]),
 		`order: ${frontmatter.order}`,
-		...(frontmatter.slug === undefined
+		...(frontmatter.routeId === undefined
 			? []
-			: [`slug: ${frontmatter.slug}`]),
+			: [`routeId: ${frontmatter.routeId}`]),
 		"---",
 	];
 

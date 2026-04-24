@@ -7,7 +7,7 @@ import type {
 export interface Frontmatter {
 	description?: string;
 	order: number;
-	slug?: string;
+	routeId?: string;
 	title: string;
 }
 

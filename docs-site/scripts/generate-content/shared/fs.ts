@@ -6,7 +6,6 @@ import {
 	writeFileSync,
 } from "node:fs";
 import { dirname, join } from "node:path";
-import { generatedDocsDir } from "./paths";
 import type { Frontmatter } from "./types";
 import { serializeFrontmatter } from "../docs/frontmatter";
 
@@ -79,12 +78,11 @@ export function removeGeneratedPublicFiles(dir: string): void {
 }
 
 export function writeGeneratedMarkdown(
-	routeId: string,
+	generatedPath: string,
 	frontmatter: Frontmatter,
 	body: string,
 	publicPath: string,
 ): void {
-	const generatedPath = join(generatedDocsDir, `${routeId}.md`);
 	mkdirSync(dirname(generatedPath), { recursive: true });
 	writeFileSync(
 		generatedPath,

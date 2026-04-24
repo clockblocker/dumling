@@ -10,5 +10,6 @@ export const sourceAttestationsDir = join(
 );
 export const sourceDocsDir = join(siteRoot, "src/content/docs");
 export const generatedDocsDir = join(siteRoot, "src/generated/docs");
+export const generatedEntitiesDir = join(siteRoot, "src/generated/entities");
 export const publicDir = join(siteRoot, "public");
 export const readmeExamplesDir = join(repoRoot, "generate-readme/examples");

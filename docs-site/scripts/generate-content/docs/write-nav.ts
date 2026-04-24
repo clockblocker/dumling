@@ -22,7 +22,8 @@ export function writeNavFiles(): void {
 				readFileSync(generatedPath, "utf8"),
 				generatedPath,
 			);
-			const routeId = frontmatter.slug ?? generatedRouteIdForPath(generatedPath);
+			const routeId =
+				frontmatter.routeId ?? generatedRouteIdForPath(generatedPath);
 
 			return {
 				frontmatter,
@@ -73,7 +74,7 @@ export function removeGeneratedDocOutputs(): void {
 			readFileSync(generatedPath, "utf8"),
 			generatedPath,
 		);
-		if (frontmatter.slug !== undefined) {
+		if (frontmatter.routeId !== undefined) {
 			continue;
 		}
 

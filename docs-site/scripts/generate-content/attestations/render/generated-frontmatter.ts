@@ -18,7 +18,7 @@ export function generatedFrontmatterForAttestation(
 	return {
 		description: `Valid dumling object and CSV ID for ${displayName}.`,
 		order: source.order ?? 1000,
-		slug: routeId,
+		routeId,
 		title: `${languageLabelFor(entity.language)} attestation - ${displayName}`,
 	};
 }

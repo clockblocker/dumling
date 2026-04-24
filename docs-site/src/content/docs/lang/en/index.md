@@ -37,14 +37,14 @@ English noun `number` supports `Sing`, `Plur`, and `Ptan`. English verb `tense` 
 
 English attestation source files live in `src/content/attestations-to-generate/en`. Each file exports exactly one attested dumling object and generates exactly one Markdown attestation.
 
-Lemma and surface attestations are generated from files under `lemma/` and `surface/` with base64url ID basenames. Selection fixtures under `selection/` use semantic basenames derived from `sentenceMarkdown`, while generated Markdown attestation routes still use the API base64url ID returned by `dumling.en.id.encode.asBase64Url(entity)`.
+Lemma and surface attestations are generated from files under `lemma/` and `surface/` with base64url ID basenames. Selection fixtures under `selection/` use semantic basenames derived from `sentenceMarkdown`. Generated Markdown attestations are written to `src/generated/entities/en/{entityKind}/` and published at `/{lang}/{entityKind}/{base64urlId}/`.
 
-- [`walk`](./attestation/djEscyxjLHdhbGssbCxlbixsLG4sd2Fsayzwn5q2LA/)
-- [`walk in the park`](./attestation/djEscyxjLHdhbGsgaW4gdGhlIHBhcmssbCxlbixwLGlkLHdhbGsgaW4gdGhlIHBhcmss8J-YjCw/)
-- [`run`](./attestation/djEsbCxlbixsLHYscnVuLPCfj4Ms/)
-- [`book`](./attestation/djEsbCxlbixsLG4sYm9vayzwn5OaLA/)
-- [`ran`](./attestation/djEscyxpLHJhbix0ZT1wfHZmPWYsbCxlbixsLHYscnVuLPCfj4Ms/)
-- [`books`](./attestation/djEscyxpLGJvb2tzLG51PXAsbCxlbixsLG4sYm9vayzwn5OaLA/)
+- [`walk`](../../en/selection/djEscyxjLHdhbGssbCxlbixsLG4sd2Fsayzwn5q2LA/)
+- [`walk in the park`](../../en/selection/djEscyxjLHdhbGsgaW4gdGhlIHBhcmssbCxlbixwLGlkLHdhbGsgaW4gdGhlIHBhcmss8J-YjCw/)
+- [`run`](../../en/lemma/djEsbCxlbixsLHYscnVuLPCfj4Ms/)
+- [`book`](../../en/lemma/djEsbCxlbixsLG4sYm9vayzwn5OaLA/)
+- [`ran`](../../en/surface/djEscyxpLHJhbix0ZT1wfHZmPWYsbCxlbixsLHYscnVuLPCfj4Ms/)
+- [`books`](../../en/surface/djEscyxpLGJvb2tzLG51PXAsbCxlbixsLG4sYm9vayzwn5OaLA/)
 
 ## Example
 
