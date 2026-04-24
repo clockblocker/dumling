@@ -4,7 +4,7 @@ const deSelection = {
 	language: "de",
 	orthographicStatus: "Standard",
 	selectionCoverage: "Partial",
-	spelledSelection: "auf",
+	spelledSelection: "Pass",
 	spellingRelation: "Canonical",
 	surface: {
 		language: "de",
@@ -22,6 +22,7 @@ const deSelection = {
 			lemmaKind: "Lexeme",
 			lemmaSubKind: "VERB",
 			inherentFeatures: {
+				hasGovPrep: "auf",
 				hasSepPrefix: "auf",
 			},
 			meaningInEmojis: "👀",
@@ -33,5 +34,5 @@ export const attestation = {
 	selection: deSelection,
 	sentenceMarkdown: "Pass auf dich [auf]!",
 	classifierNotes:
-		"This is the separable imperative form pass auf of aufpassen; the selected spelling captures only the detached prefix token.",
+		"This is the detached separable-prefix token from the imperative pass auf of aufpassen; the same lemma also governs auf as its preposition.",
 } as const satisfies AttestedSelection;

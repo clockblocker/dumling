@@ -8,30 +8,31 @@ const deSelection = {
 	spellingRelation: "Canonical",
 	surface: {
 		language: "de",
-		normalizedFullSurface: "pass auf dich auf",
-		surfaceKind: "Citation",
+		normalizedFullSurface: "pass auf",
+		surfaceKind: "Inflection",
+		inflectionalFeatures: {
+			mood: "Imp",
+			number: "Sing",
+			person: "2",
+			verbForm: "Fin",
+		},
 		lemma: {
 			language: "de",
-			canonicalLemma: "pass auf dich auf",
-			lemmaKind: "Phraseme",
-			lemmaSubKind: "DiscourseFormula",
+			canonicalLemma: "aufpassen",
+			lemmaKind: "Lexeme",
+			lemmaSubKind: "VERB",
 			inherentFeatures: {
-				discourseFormulaRole: "Farewell",
+				hasGovPrep: "auf",
+				hasSepPrefix: "auf",
 			},
-			meaningInEmojis: "👋",
+			meaningInEmojis: "👀",
 		},
 	},
-} satisfies Selection<
-	"de",
-	"Standard",
-	"Citation",
-	"Phraseme",
-	"DiscourseFormula"
->;
+} satisfies Selection<"de", "Standard", "Inflection", "Lexeme", "VERB">;
 
 export const attestation = {
 	selection: deSelection,
 	sentenceMarkdown: "[Pass] auf dich auf!",
 	classifierNotes:
-		"Only Pass is selected, but the intended attested unit is the full farewell formula pass auf dich auf.",
+		"Pass is the finite verb token of the separable imperative pass auf from aufpassen; the governed preposition auf belongs on the lemma, not as a separate ADP analysis.",
 } as const satisfies AttestedSelection;

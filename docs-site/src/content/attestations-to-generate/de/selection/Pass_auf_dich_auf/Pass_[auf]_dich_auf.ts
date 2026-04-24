@@ -3,30 +3,36 @@ import type { AttestedSelection, Selection } from "dumling/types";
 const deSelection = {
 	language: "de",
 	orthographicStatus: "Standard",
-	selectionCoverage: "Full",
-	spelledSelection: "auf",
+	selectionCoverage: "Partial",
+	spelledSelection: "Pass",
 	spellingRelation: "Canonical",
 	surface: {
 		language: "de",
-		normalizedFullSurface: "auf",
-		surfaceKind: "Citation",
+		normalizedFullSurface: "pass auf",
+		surfaceKind: "Inflection",
+		inflectionalFeatures: {
+			mood: "Imp",
+			number: "Sing",
+			person: "2",
+			verbForm: "Fin",
+		},
 		lemma: {
 			language: "de",
-			canonicalLemma: "auf",
+			canonicalLemma: "aufpassen",
 			lemmaKind: "Lexeme",
-			lemmaSubKind: "ADP",
+			lemmaSubKind: "VERB",
 			inherentFeatures: {
-				adpType: "Prep",
-				governedCase: "Acc",
+				hasGovPrep: "auf",
+				hasSepPrefix: "auf",
 			},
-			meaningInEmojis: "🎯",
+			meaningInEmojis: "👀",
 		},
 	},
-} satisfies Selection<"de", "Standard", "Citation", "Lexeme", "ADP">;
+} satisfies Selection<"de", "Standard", "Inflection", "Lexeme", "VERB">;
 
 export const attestation = {
 	selection: deSelection,
 	sentenceMarkdown: "Pass [auf] dich auf!",
 	classifierNotes:
-		"The first auf is the accusative-governing preposition in auf dich, distinct from the final detached particle of aufpassen.",
+		"The first auf realizes the governed preposition selected by aufpassen, so it is stored as a partial selection of the verb lexeme rather than as a standalone ADP.",
 } as const satisfies AttestedSelection;
