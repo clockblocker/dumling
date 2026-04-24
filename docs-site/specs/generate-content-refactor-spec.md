@@ -77,6 +77,8 @@ The target directory layout is:
 
 ```text
 docs-site/scripts/
+  generate-attestations.ts
+  generate-docs.ts
   generate-content.ts
   generate-content/
     index.ts
@@ -91,6 +93,7 @@ docs-site/scripts/
       frontmatter.ts
       routes.ts
       generate-doc-pages.ts
+      generate-docs.ts
       write-nav.ts
 
     attestations/
@@ -126,18 +129,24 @@ docs-site/scripts/
 
 ## Entry Point Contract
 
-The existing script path remains the CLI entrypoint:
+The generator is split across three CLI entrypoints:
 
+- `docs-site/scripts/generate-attestations.ts`
+- `docs-site/scripts/generate-docs.ts`
 - `docs-site/scripts/generate-content.ts`
 
-That file becomes a thin compatibility shim.
+Each file becomes a thin compatibility shim.
 
-Its job is:
+Their jobs are:
 
-- import `generateContent` from `./generate-content/index.ts`
-- execute `await generateContent()`
+- `generate-attestations.ts` imports `generateAttestations` from `./generate-content/index.ts`
+- `generate-attestations.ts` executes `await generateAttestations()`
+- `generate-docs.ts` imports `generateDocs` from `./generate-content/index.ts`
+- `generate-docs.ts` executes `await generateDocs()`
+- `generate-content.ts` imports `generateContent` from `./generate-content/index.ts`
+- `generate-content.ts` executes `await generateContent()`
 
-It should not keep generator implementation logic.
+These files should not keep generator implementation logic.
 
 ## Public Module Surface
 
@@ -149,6 +158,7 @@ It should export:
 
 ```ts
 export { generateContent } from "./generate-content";
+export { generateDocs } from "./docs/generate-docs";
 export { generateAttestations } from "./attestations/generate-attestations";
 export { generateDocPages } from "./docs/generate-doc-pages";
 export { writeNavFiles } from "./docs/write-nav";
@@ -209,6 +219,7 @@ Owns filesystem helpers:
 - `ensureTextFile`
 
 `writeGeneratedMarkdown` remains a shared concern because both docs pages and generated attestations use it.
+It should accept the final public markdown path so `shared/` does not need to import from `docs/`.
 
 ### `docs/`
 
@@ -243,11 +254,28 @@ This file should expose:
 
 - `generateDocPages(): SourcePage[]`
 
+#### `docs/generate-docs.ts`
+
+Owns the docs workflow that:
+
+- cleans doc-owned generated outputs while preserving generated attestations
+- renders source markdown pages
+- scans the full generated docs tree
+- rebuilds nav output from generated pages already on disk
+
+This file should expose:
+
+- `generateDocs(): void`
+
 #### `docs/write-nav.ts`
 
 Owns:
 
 - `writeNavFiles`
+
+`writeNavFiles` should read generated markdown files from disk.
+It must not know about attestation source modules.
+It should work with any generated page that already exists under `src/generated/docs`.
 
 ### `attestations/`
 
@@ -426,18 +454,16 @@ This file should expose:
 
 - `generateAttestations(): Promise<SourcePage[]>`
 
+This workflow is responsible for cleaning and rewriting attestation-owned generated outputs before regeneration.
+
 ## Top-Level Orchestration
 
 `docs-site/scripts/generate-content/generate-content.ts` owns the full generation workflow.
 
 It should:
 
-1. clean generated output directories
-2. remove generated public files
-3. call `generateAttestations()`
-4. call `generateDocPages()`
-5. merge both page lists
-6. call `writeNavFiles()`
+1. call `generateAttestations()`
+2. call `generateDocs()`
 
 This file should expose:
 
@@ -475,6 +501,7 @@ The current functions should move as follows:
 | `listTypeScriptFiles` | `shared/fs.ts` |
 | `routeIdForSourcePath` | `docs/routes.ts` |
 | `publicMarkdownPathForRouteId` | `docs/routes.ts` |
+| `generatedRouteIdForPath` | `docs/routes.ts` |
 | `parseFrontmatter` | `docs/frontmatter.ts` |
 | `serializeFrontmatter` | `docs/frontmatter.ts` |
 | `ensureCleanDir` | `shared/fs.ts` |
@@ -515,6 +542,7 @@ The current functions should move as follows:
 | `renderAttestationBody` | `attestations/render/render-attestation-body.ts` |
 | `generatedFrontmatterForAttestation` | `attestations/render/generated-frontmatter.ts` |
 | `generateAttestationMarkdown` | `attestations/generate-attestations.ts` as `generateAttestations` |
+| docs generation workflow | `docs/generate-docs.ts` as `generateDocs` |
 | `writeNavFiles` | `docs/write-nav.ts` |
 | `generateContent` | `generate-content.ts` |
 
@@ -529,12 +557,19 @@ Reason:
 - it may rename source files
 - it writes per-language CSV logbook output
 
-The docs workflow function should be named `generateDocPages`.
+The docs page rendering helper should be named `generateDocPages`.
 
 Reason:
 
-- it clearly contrasts with `generateAttestations`
 - it reflects that the output is a set of generated docs pages, not a generic render helper
+
+The top-level docs workflow function should be named `generateDocs`.
+
+Reason:
+
+- it owns more than source-doc rendering
+- it preserves generated attestation pages
+- it rebuilds nav from generated content already on disk
 
 ## Behavioral Compatibility Requirements
 
@@ -548,6 +583,8 @@ The refactor must preserve:
 - selection collision behavior
 - logbook file validation behavior
 - logbook CSV output shape
+- the `bun run generate:attestations` command path
+- the `bun run generate:docs` command path
 - the `bun run generate:content` command path
 
 Any behavioral change outside those structural moves is out of scope for this refactor and should be proposed separately.
@@ -562,18 +599,20 @@ Any behavioral change outside those structural moves is out of scope for this re
 6. Move rendering helpers into `attestations/render/`.
 7. Build `attestations/generate-attestations.ts`.
 8. Build `docs/generate-doc-pages.ts`.
-9. Build top-level `generate-content.ts`.
-10. Replace the old `docs-site/scripts/generate-content.ts` with the thin shim.
-11. Run content generation and confirm output is unchanged except for intentional formatting noise, if any.
+9. Build `docs/generate-docs.ts`.
+10. Build top-level `generate-content.ts`.
+11. Replace the old top-level scripts with thin shims.
+12. Run content generation and confirm output is unchanged except for intentional formatting noise, if any.
 
 ## Acceptance Criteria
 
 The refactor is complete when:
 
-- `docs-site/scripts/generate-content.ts` no longer contains substantive generator logic
+- top-level generator scripts no longer contain substantive generator logic
 - implementation lives under `docs-site/scripts/generate-content/**`
 - `index.ts` exposes only workflow-level functions
-- `bun run docs:generate` still works
+- `bun run generate:attestations` works
+- `bun run generate:docs` works
+- `bun run generate:content` works
 - generated docs output remains behaviorally equivalent
 - the new folder layout reflects actual responsibilities rather than arbitrary file splitting
-
