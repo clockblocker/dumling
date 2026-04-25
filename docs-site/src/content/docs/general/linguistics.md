@@ -23,7 +23,7 @@ The lemma owns properties that belong to the lemma entry itself:
 - `inherentFeatures`: features that belong to the lemma as a lexical item
 - `meaningInEmojis`: a compact meaning hint for learner-facing UI
 
-`Construction` is the public branch for learner-relevant patterned entries such as fused forms like German `zum`, `zur`, `beim`, or `ins`, and paired frames such as `um_zu` or `entweder_oder`.
+`Construction` is the public branch for learner-relevant patterned entries such as fused forms like German `zum`, `zur`, `beim`, or `ins`, and paired frames such as `um zu` or `entweder oder`.
 
 ## Surface
 
@@ -67,7 +67,7 @@ A typo can still be a variant, and a partial selection can still point to a full
 | `Lexeme` | words and word-like lexical entries, categorized with Universal Dependencies-style POS tags |
 | `Morpheme` | roots, prefixes, suffixes, clitics, and related sub-word units |
 | `Phraseme` | multi-word or formulaic expressions such as idioms and proverbs |
-| `Construction` | learner-relevant patterned entries such as fused forms like `zum` and paired frames like `um_zu` |
+| `Construction` | learner-relevant patterned entries such as fused forms like `zum` and paired frames like `um zu` |
 
 `lemmaSubKind` is the public subtype field for all four families. The package does not expose separate public discriminator names like `pos`, `morphemeKind`, or `phrasemeKind`.
 

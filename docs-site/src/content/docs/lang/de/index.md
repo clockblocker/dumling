@@ -17,7 +17,7 @@ German is available at `dumling.de`, `getLanguageApi("de")`, and `schemasFor.de`
 | `Phraseme` | `Aphorism`, `DiscourseFormula`, `Idiom`, `Proverb` |
 | `Construction` | `Fusion`, `PairedFrame` |
 
-German uses `Construction/Fusion` for fused forms such as `zum`, `zur`, `beim`, or `ins`, and `Construction/PairedFrame` for learner-facing paired frames such as `um_zu`. These are citation-only entries in the current public DTO.
+German uses `Construction/Fusion` for fused forms such as `zum`, `zur`, `beim`, or `ins`, and `Construction/PairedFrame` for learner-facing paired frames such as `um zu`. These are citation-only entries in the current public DTO.
 
 ## Common Feature Areas
 
@@ -87,7 +87,7 @@ German paired-frame example:
 
 ```ts
 const umZuLemma = dumling.de.create.lemma({
-	canonicalLemma: "um_zu",
+	canonicalLemma: "um zu",
 	lemmaKind: "Construction",
 	lemmaSubKind: "PairedFrame",
 	inherentFeatures: {},

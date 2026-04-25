@@ -58,7 +58,7 @@ Dumling focuses on lexical classification for learning tools:
 - learner-relevant spelling: whether a selection is standard, variant, or typo-shaped
 - language-specific lexical inventories built on a shared cross-language model
 
-`Construction` is the learner-facing branch for patterned entries such as fused forms like German `zum` and paired frames such as `um_zu` or `entweder_oder`.
+`Construction` is the learner-facing branch for patterned entries such as fused forms like German `zum` and paired frames such as `um zu` or `entweder oder`.
 
 The framework is implemented as a TypeScript and Zod package so apps can validate, serialize, search, and round-trip these objects through IDs.
 

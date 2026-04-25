@@ -56,6 +56,9 @@
   Example:
     - `Bei dieser Formel verstehe ich nur [Bahnhof].`
 - `Phraseme` is citation-only in the public DTO.
+- Citation-only `Construction/PairedFrame` keeps `canonicalLemma` identical to citation `normalizedFullSurface`, using the plain spaced citation form rather than an internal delimiter spelling.
+  Example:
+    - `um zu`, not `um_zu`
 - Only add `gender[psor]` and `number[psor]` when the attested form or clearly recoverable context actually disambiguates possessor features.
 - Capitalization is not a Variant.
 
