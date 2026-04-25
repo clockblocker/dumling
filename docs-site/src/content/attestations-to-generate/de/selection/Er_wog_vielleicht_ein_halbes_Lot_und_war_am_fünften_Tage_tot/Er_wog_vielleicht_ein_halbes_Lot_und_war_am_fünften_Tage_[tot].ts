@@ -28,4 +28,5 @@ und war am fünften Tage [tot].
 `,
 	classifierNotes:
 		"Predicative tot is stored as a citation-shaped adjective because there is no overt inflection on the selected form.",
+	isVerified: true,
 } as const satisfies AttestedSelection;

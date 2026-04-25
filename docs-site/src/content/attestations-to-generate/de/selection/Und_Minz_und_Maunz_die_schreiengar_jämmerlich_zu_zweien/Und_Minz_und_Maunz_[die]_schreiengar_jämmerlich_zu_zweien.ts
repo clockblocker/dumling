@@ -33,4 +33,5 @@ export const attestation = {
 gar jämmerlich zu zweien`,
 	classifierNotes:
 		"Die links the relative clause back to Minz und Maunz, so this is the nominative plural relative pronoun, not the article.",
+	isVerified: true,
 } as const satisfies AttestedSelection;

@@ -27,4 +27,5 @@ export const attestation = {
 	selection: deSelection007,
 	sentenceMarkdown: "Der [Kiefer] schmerzte nach der Operation.",
 	classifierNotes: "Kiefer is the masculine jaw sense here.",
+	isVerified: true,
 } as const satisfies AttestedSelection;

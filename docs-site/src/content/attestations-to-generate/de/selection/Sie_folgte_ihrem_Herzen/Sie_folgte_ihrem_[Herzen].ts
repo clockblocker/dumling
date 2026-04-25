@@ -31,4 +31,5 @@ export const attestation = {
 	selection: deSelection014,
 	sentenceMarkdown: "Sie folgte ihrem [Herzen].",
 	classifierNotes: "Herzen is dative singular here, not plural, despite its weak-looking ending on a neuter noun.",
+	isVerified: true,
 } as const satisfies AttestedSelection;

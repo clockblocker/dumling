@@ -35,4 +35,5 @@ und war am fünften Tage tot.
 `,
 	classifierNotes:
 		"Here wog is the past finite form of wiegen in the 'have a weight of' sense, not a rocking or swaying reading.",
+	isVerified: true,
 } as const satisfies AttestedSelection;

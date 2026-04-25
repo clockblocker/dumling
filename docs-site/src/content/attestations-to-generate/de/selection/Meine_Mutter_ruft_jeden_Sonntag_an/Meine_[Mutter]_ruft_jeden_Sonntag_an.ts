@@ -27,4 +27,5 @@ export const attestation = {
 	selection: deSelection009,
 	sentenceMarkdown: "Meine [Mutter] ruft jeden Sonntag an.",
 	classifierNotes: "This is the kinship noun Mutter.",
+	isVerified: true,
 } as const satisfies AttestedSelection;

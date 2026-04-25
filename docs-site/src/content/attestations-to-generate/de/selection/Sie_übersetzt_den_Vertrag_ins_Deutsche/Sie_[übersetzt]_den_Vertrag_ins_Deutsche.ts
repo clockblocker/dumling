@@ -32,4 +32,5 @@ export const attestation = {
 	selection: deSelection018,
 	sentenceMarkdown: "Sie [übersetzt] den Vertrag ins Deutsche.",
 	classifierNotes: "The ambiguous surface übersetzt is taken as present finite, not as a participle.",
+	isVerified: true,
 } as const satisfies AttestedSelection;

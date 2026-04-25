@@ -32,4 +32,5 @@ export const attestation = {
 	selection: deSelection031,
 	sentenceMarkdown: "Der Autor, [dessen] Buch fehlt, wartet draußen.",
 	classifierNotes: "Dessen is a genitive relative pronoun with masculine antecedent features from the sentence.",
+	isVerified: true,
 } as const satisfies AttestedSelection;

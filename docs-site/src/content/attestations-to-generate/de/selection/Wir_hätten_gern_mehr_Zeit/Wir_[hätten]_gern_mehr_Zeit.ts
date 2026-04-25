@@ -32,4 +32,5 @@ export const attestation = {
 	selection: deSelection023,
 	sentenceMarkdown: "Wir [hätten] gern mehr Zeit.",
 	classifierNotes: "The Konjunktiv-like form is mapped to supported mood Sub plus past tense.",
+	isVerified: true,
 } as const satisfies AttestedSelection;

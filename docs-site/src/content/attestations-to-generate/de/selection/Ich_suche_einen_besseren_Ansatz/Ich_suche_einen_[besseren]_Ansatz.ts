@@ -31,4 +31,5 @@ export const attestation = {
 	selection: deSelection027,
 	sentenceMarkdown: "Ich suche einen [besseren] Ansatz.",
 	classifierNotes: "Besseren is a comparative adjective with accusative masculine singular agreement.",
+	isVerified: true,
 } as const satisfies AttestedSelection;

@@ -26,4 +26,5 @@ export const attestation = {
 	sentenceMarkdown: "Er ging [zum] Bahnhof.",
 	classifierNotes:
 		"Zum is modeled as Construction/Fusion, with the fused form itself as the canonical lemma and citation surface.",
+	isVerified: true,
 } as const satisfies AttestedSelection;

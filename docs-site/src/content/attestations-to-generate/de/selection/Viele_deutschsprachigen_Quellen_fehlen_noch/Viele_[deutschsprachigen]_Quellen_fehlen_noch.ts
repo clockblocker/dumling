@@ -30,4 +30,5 @@ export const attestation = {
 	selection: deSelection030,
 	sentenceMarkdown: "Viele [deutschsprachigen] Quellen fehlen noch.",
 	classifierNotes: "Deutschsprachigen looks noun-like in isolation but is annotated as an adjective inflection here.",
+	isVerified: true,
 } as const satisfies AttestedSelection;

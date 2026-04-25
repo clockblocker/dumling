@@ -27,4 +27,5 @@ export const attestation = {
 	selection: deSelection002,
 	sentenceMarkdown: "Das rote [Band] lag auf dem Geschenk.",
 	classifierNotes: "Band is the neuter ribbon or tape sense, kept separate from the music-group and book-volume senses by lexical features and emoji.",
+	isVerified: true,
 } as const satisfies AttestedSelection;

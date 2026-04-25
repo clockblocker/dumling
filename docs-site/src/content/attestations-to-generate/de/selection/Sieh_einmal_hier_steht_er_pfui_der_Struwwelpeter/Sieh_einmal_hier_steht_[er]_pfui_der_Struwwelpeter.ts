@@ -34,4 +34,5 @@ export const attestation = {
 	sentenceMarkdown: `Sieh einmal, hier steht [er], 
 pfui, der Struwwelpeter!`,
 	classifierNotes: "",
+	isVerified: true,
 } as const satisfies AttestedSelection;

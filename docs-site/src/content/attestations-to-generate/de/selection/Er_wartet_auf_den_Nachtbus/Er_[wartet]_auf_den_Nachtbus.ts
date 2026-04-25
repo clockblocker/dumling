@@ -34,4 +34,5 @@ export const attestation = {
 	selection: deSelection021,
 	sentenceMarkdown: "Er [wartet] auf den Nachtbus.",
 	classifierNotes: "The governed preposition auf is an inherent lemma feature, not part of the surface selection.",
+	isVerified: true,
 } as const satisfies AttestedSelection;

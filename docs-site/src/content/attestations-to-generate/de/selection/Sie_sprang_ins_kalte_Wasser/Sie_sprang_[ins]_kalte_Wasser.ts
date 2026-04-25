@@ -26,4 +26,5 @@ export const attestation = {
 	sentenceMarkdown: "Sie sprang [ins] kalte Wasser.",
 	classifierNotes:
 		"Ins gets the same Construction/Fusion treatment as zum; the public DTO preserves the fused form intact.",
+	isVerified: true,
 } as const satisfies AttestedSelection;

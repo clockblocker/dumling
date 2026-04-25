@@ -33,4 +33,5 @@ export const attestation = {
 mit der Mappe in der Hand.`,
 	classifierNotes:
 		"`Ufers` is genitive singular of `Ufer`. In this poetic noun phrase, the genitive depends on `Rand` (`Ufers Rand`), not directly on the preposition `an`.",
+	isVerified: true,
 } as const satisfies AttestedSelection;

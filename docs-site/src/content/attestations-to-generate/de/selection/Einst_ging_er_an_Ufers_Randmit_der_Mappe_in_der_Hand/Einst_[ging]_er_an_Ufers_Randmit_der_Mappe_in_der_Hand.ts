@@ -33,4 +33,5 @@ export const attestation = {
 	sentenceMarkdown: `Einst [ging] er an Ufers Rand
 mit der Mappe in der Hand.`,
 	classifierNotes: "",
+	isVerified: true,
 } as const satisfies AttestedSelection;

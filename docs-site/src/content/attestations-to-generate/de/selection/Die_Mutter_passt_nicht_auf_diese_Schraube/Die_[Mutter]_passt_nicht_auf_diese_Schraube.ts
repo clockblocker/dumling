@@ -27,4 +27,5 @@ export const attestation = {
 	selection: deSelection010,
 	sentenceMarkdown: "Die [Mutter] passt nicht auf diese Schraube.",
 	classifierNotes: "This is the hardware sense Mutter; lexical features match the kinship noun, so the distinction rests on the intended sense.",
+	isVerified: true,
 } as const satisfies AttestedSelection;
