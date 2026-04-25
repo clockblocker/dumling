@@ -26,17 +26,24 @@
 
 - Common pattern: sense disambiguation for homographs is mostly carried by emoji plus gender/context (`Band`, `Schloss`, `Kiefer`, `Leiter`, `Mutter`).
 
-
 ### Captured Mistakes
-- For linking stuff the meaningInEmojis is set to the sence of the surrounding phrase
-	Examples: 
-	- [Am] nächsten Morgen war alles anders -> 🌅
-- SpellingRelation set to "Variant" for Fusions. 
-	Examples: 
-	- [Am] nächsten Morgen war alles anders -> {spellingRelation: "Variant"}
 
-### Emerging Rules:
-- Common Fusions (am, ins, etc) are alwaus Standard, Full, Canonical
+- For linking stuff the `meaningInEmojis` is set to the sense of the surrounding phrase.
+  Examples:
+    - `[Am] nächsten Morgen war alles anders.` -> `🌅`
+- `spellingRelation` set to `"Variant"` for sentence-initial fusions.
+  Examples:
+    - `[Am] nächsten Morgen war alles anders.` -> `{ spellingRelation: "Variant" }
+- Etymological morphology is forced over learner-facing lexical meaning.
+  Examples: - `Am [nächsten] Morgen war alles anders.` -> `{ canonicalLemma: "nah", degree: "Sup", meaningInEmojis: "➡️" }`
+
+### Emerging Rules
+
+- Common fusions (`am`, `ins`, etc.) are always `Standard`, `Full`, `Canonical` when the attested spelling is just ordinary sentence-initial capitalization.
+- `meaningInEmojis` must point to the selected item itself, not to the larger surrounding phrase.
+- When a form is synchronically lexicalized for learners, classify that lexeme directly instead of forcing a historical or etymological source analysis.
+  Example:
+    - temporal `nächsten` in `am nächsten Morgen` should be modeled as lexical `nächst`, not as superlative `nah`
 
 ### Open Questions
 
