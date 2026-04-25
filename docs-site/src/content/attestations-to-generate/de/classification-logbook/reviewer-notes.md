@@ -52,6 +52,10 @@
   Examples:
     - `Auf der Karte sind drei Seen [eingezeichnet].`
     - `Sie wurde um Geduld [gebeten].`
+- Finite German modals split by whether they auxiliary-mark an overt infinitive. Use `AUX` when the modal combines with an overt infinitive, and use `VERB` when the modal stands as the clause's main predicate in an elliptical clause with no overt infinitive.
+  Examples:
+    - `Er [muss] heute arbeiten.` -> `AUX`
+    - `Das [muss] heute noch raus.` -> `VERB`
 - When a selected token is clearly just an internal component of an idiom, classify the idiom as the learner-facing unit rather than the token's standalone POS.
   Example:
     - `Bei dieser Formel verstehe ich nur [Bahnhof].`
