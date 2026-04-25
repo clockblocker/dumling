@@ -1,5 +1,5 @@
 sentence_markdown,normalizedFullSurface,orthographicStatus,surfaceKind,lemmaKind,lemmaSubKind
-[Am] nächsten Morgen war alles anders.,am,Standard,Citation,Fusion,General
+[Am] nächsten Morgen war alles anders.,am,Standard,Citation,Construction,Fusion
 Am [nächsten] Morgen war alles anders.,nächsten,Standard,Inflection,Lexeme,ADJ
 Am nächsten Morgen war alles [anders].,anders,Standard,Citation,Lexeme,ADJ
 Auf der Karte sind drei [Seen] eingezeichnet.,Seen,Standard,Inflection,Lexeme,NOUN
@@ -71,7 +71,7 @@ mit der Mappe in der Hand.",an,Standard,Citation,Lexeme,ADP
 mit der Mappe in der Hand.",Ufers,Standard,Inflection,Lexeme,NOUN
 "Einst ging er an Ufers [Rand]
 mit der Mappe in der Hand.",Rand,Standard,Inflection,Lexeme,NOUN
-Er ging [zum] Bahnhof.,zum,Standard,Citation,Fusion,General
+Er ging [zum] Bahnhof.,zum,Standard,Citation,Construction,Fusion
 Er vergaß [seinen] Schlüssel im Büro.,seinen,Standard,Inflection,Lexeme,DET
 Er [wartet] auf den Nachtbus.,wartet,Standard,Inflection,Lexeme,VERB
 "Er [wog] vielleicht ein halbes Lot –
@@ -107,7 +107,7 @@ wupp! den Daumen in den Mund.
 [Geh] bitte nicht ohne Jacke raus.,geh,Standard,Inflection,Lexeme,VERB
 Genau da liegt der [Hase] im Pfeffer.,da liegt der Hase im Pfeffer,Standard,Citation,Phraseme,Idiom
 "[Guten Tag], ich habe einen Termin.",Guten Tag,Standard,Citation,Phraseme,DiscourseFormula
-"Ich gehe Tomaten kaufen, um einen Salat [zu] machen.",zu,Standard,Citation,Lexeme,PART
+"Ich gehe Tomaten kaufen, um einen Salat [zu] machen.",um zu,Standard,Citation,Construction,PairedFrame
 Ich suche einen [besseren] Ansatz.,besseren,Standard,Inflection,Lexeme,ADJ
 Im Heft stand [Filosofie] statt Philosophie.,Filosofie,Typo,Inflection,Lexeme,NOUN
 In [ge]lacht markieren ge- und -t zusammen das Partizip.,ge-...-t,Standard,Citation,Morpheme,Circumfix
@@ -126,7 +126,7 @@ und [lief] hinaus ins Feld geschwind",lief hinaus,Standard,Inflection,Lexeme,VER
 "nahm Ranzen, Pulverhorn und Flint
 und lief [hinaus] ins Feld geschwind",lief hinaus,Standard,Inflection,Lexeme,VERB
 "nahm Ranzen, Pulverhorn und Flint
-und lief hinaus [ins] Feld geschwind",ins,Standard,Citation,Fusion,General
+und lief hinaus [ins] Feld geschwind",ins,Standard,Citation,Construction,Fusion
 "nahm Ranzen, Pulverhorn und Flint
 und lief hinaus ins Feld [geschwind]",geschwind,Standard,Citation,Lexeme,ADV
 [Pass] auf dich auf!,pass auf,Standard,Inflection,Lexeme,VERB
@@ -135,7 +135,7 @@ Pass auf [dich] auf!,dich,Standard,Inflection,Lexeme,PRON
 Pass auf dich [auf]!,pass auf,Standard,Inflection,Lexeme,VERB
 Sie [erinnert] sich an den Geruch.,erinnert,Standard,Inflection,Lexeme,VERB
 Sie folgte ihrem [Herzen].,Herzen,Standard,Inflection,Lexeme,NOUN
-Sie sprang [ins] kalte Wasser.,ins,Standard,Citation,Fusion,General
+Sie sprang [ins] kalte Wasser.,ins,Standard,Citation,Construction,Fusion
 Sie [übersetzt] den Vertrag ins Deutsche.,übersetzt,Standard,Inflection,Lexeme,VERB
 Sie [umfuhr] die Baustelle weiträumig.,umfuhr,Standard,Inflection,Lexeme,VERB
 Sie wurde um Geduld [gebeten].,gebeten,Standard,Inflection,Lexeme,VERB

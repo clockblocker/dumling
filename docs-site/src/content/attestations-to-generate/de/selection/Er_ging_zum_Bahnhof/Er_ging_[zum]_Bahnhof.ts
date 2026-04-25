@@ -13,16 +13,17 @@ const deSelection039 = {
 		lemma: {
 			language: "de",
 			canonicalLemma: "zum",
-			lemmaKind: "Fusion",
-			lemmaSubKind: "General",
+			lemmaKind: "Construction",
+			lemmaSubKind: "Fusion",
 			inherentFeatures: {},
 			meaningInEmojis: "➡️",
 		},
 	},
-} satisfies Selection<"de", "Standard", "Citation", "Fusion", "General">;
+} satisfies Selection<"de", "Standard", "Citation", "Construction", "Fusion">;
 
 export const attestation = {
 	selection: deSelection039,
 	sentenceMarkdown: "Er ging [zum] Bahnhof.",
-	classifierNotes: "Zum is modeled as Fusion/General, with the fused form itself as the canonical lemma and citation surface.",
+	classifierNotes:
+		"Zum is modeled as Construction/Fusion, with the fused form itself as the canonical lemma and citation surface.",
 } as const satisfies AttestedSelection;

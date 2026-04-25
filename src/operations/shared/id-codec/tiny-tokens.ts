@@ -60,7 +60,7 @@ export const spellingRelationTokens = {
 } as const satisfies TokenMap<SpellingRelation>;
 
 export const lemmaKindTokens = {
-	Fusion: "f",
+	Construction: "c",
 	Lexeme: "l",
 	Morpheme: "m",
 	Phraseme: "p",
@@ -78,7 +78,7 @@ export const lemmaSubKindTokens = {
 	DET: "dt",
 	DiscourseFormula: "df",
 	Duplifix: "dfx",
-	General: "gen",
+	Fusion: "fus",
 	INTJ: "ij",
 	Idiom: "id",
 	Infix: "if",
@@ -86,6 +86,7 @@ export const lemmaSubKindTokens = {
 	NOUN: "n",
 	NUM: "num",
 	PART: "pt",
+	PairedFrame: "pf",
 	PROPN: "pn",
 	PRON: "pr",
 	PUNCT: "pu",

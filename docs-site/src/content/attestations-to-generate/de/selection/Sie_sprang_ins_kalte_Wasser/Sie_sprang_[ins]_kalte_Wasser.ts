@@ -13,16 +13,17 @@ const deSelection040 = {
 		lemma: {
 			language: "de",
 			canonicalLemma: "ins",
-			lemmaKind: "Fusion",
-			lemmaSubKind: "General",
+			lemmaKind: "Construction",
+			lemmaSubKind: "Fusion",
 			inherentFeatures: {},
 			meaningInEmojis: "🏊",
 		},
 	},
-} satisfies Selection<"de", "Standard", "Citation", "Fusion", "General">;
+} satisfies Selection<"de", "Standard", "Citation", "Construction", "Fusion">;
 
 export const attestation = {
 	selection: deSelection040,
 	sentenceMarkdown: "Sie sprang [ins] kalte Wasser.",
-	classifierNotes: "Ins gets the same Fusion/General treatment as zum; the public DTO preserves the fused form intact.",
+	classifierNotes:
+		"Ins gets the same Construction/Fusion treatment as zum; the public DTO preserves the fused form intact.",
 } as const satisfies AttestedSelection;

@@ -15,9 +15,9 @@ German is available at `dumling.de`, `getLanguageApi("de")`, and `schemasFor.de`
 | `Lexeme` | `ADJ`, `ADP`, `ADV`, `AUX`, `CCONJ`, `DET`, `INTJ`, `NOUN`, `NUM`, `PART`, `PRON`, `PROPN`, `PUNCT`, `SCONJ`, `SYM`, `VERB`, `X` |
 | `Morpheme` | `Circumfix`, `Clitic`, `Duplifix`, `Infix`, `Interfix`, `Prefix`, `Root`, `Suffix`, `Suffixoid`, `ToneMarking`, `Transfix` |
 | `Phraseme` | `Aphorism`, `DiscourseFormula`, `Idiom`, `Proverb` |
-| `Fusion` | `General` |
+| `Construction` | `Fusion`, `PairedFrame` |
 
-German uses `Fusion/General` for fused forms such as `zum`, `zur`, `beim`, or `ins`. These are citation-only, lemma-like entries: the fusion itself is the canonical lemma and surface, while any finer decomposition lives outside the current public DTO.
+German uses `Construction/Fusion` for fused forms such as `zum`, `zur`, `beim`, or `ins`, and `Construction/PairedFrame` for learner-facing paired frames such as `um_zu`. These are citation-only entries in the current public DTO.
 
 ## Common Feature Areas
 
@@ -31,7 +31,7 @@ German has richer inflectional coverage than English for nouns and adjectives.
 
 German noun `gender` supports `Fem`, `Masc`, and `Neut`. German nominal and adjectival `case` supports `Nom`, `Acc`, `Dat`, and `Gen`.
 
-`Fusion/General` currently carries no additional inherent or inflectional features.
+`Construction/Fusion` and `Construction/PairedFrame` currently carry no additional inherent or inflectional features.
 
 ## Example
 
@@ -72,8 +72,8 @@ German fusion example:
 ```ts
 const zumLemma = dumling.de.create.lemma({
 	canonicalLemma: "zum",
-	lemmaKind: "Fusion",
-	lemmaSubKind: "General",
+	lemmaKind: "Construction",
+	lemmaSubKind: "Fusion",
 	inherentFeatures: {},
 	meaningInEmojis: "➡️",
 });
@@ -83,12 +83,31 @@ const zumSelection = dumling.de.convert.lemma.toSelection(zumLemma, {
 });
 ```
 
+German paired-frame example:
+
+```ts
+const umZuLemma = dumling.de.create.lemma({
+	canonicalLemma: "um_zu",
+	lemmaKind: "Construction",
+	lemmaSubKind: "PairedFrame",
+	inherentFeatures: {},
+	meaningInEmojis: "🎯",
+});
+
+const umZuSelection = dumling.de.convert.lemma.toSelection(umZuLemma, {
+	selectionCoverage: "Partial",
+	spelledSelection: "zu",
+});
+```
+
 ## Schema Access
 
 ```ts
 schemasFor.de.entity.Lemma.Lexeme.NOUN();
-schemasFor.de.entity.Lemma.Fusion.General();
+schemasFor.de.entity.Lemma.Construction.Fusion();
+schemasFor.de.entity.Lemma.Construction.PairedFrame();
 schemasFor.de.entity.Surface.Inflection.Lexeme.NOUN();
 schemasFor.de.entity.Selection.Standard.Inflection.Lexeme.NOUN();
-schemasFor.de.entity.Selection.Standard.Citation.Fusion.General();
+schemasFor.de.entity.Selection.Standard.Citation.Construction.Fusion();
+schemasFor.de.entity.Selection.Standard.Citation.Construction.PairedFrame();
 ```

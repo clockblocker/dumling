@@ -106,7 +106,7 @@ Selections are always hydrated:
 - a `Selection` always contains a `Surface`
 - a `Surface` always contains a `Lemma`
 
-Lemma kinds also include `Fusion` for lemma-like fused forms such as German `zum`, `zur`, or `beim`. Fusion entries are citation-only today.
+Lemma kinds also include `Construction` for learner-facing patterned entries such as fused forms like German `zum`, `zur`, or `beim`, and paired frames like `um_zu`. Construction entries are citation-only today.
 
 ## Scope
 

@@ -18,12 +18,12 @@ The lemma owns properties that belong to the lemma entry itself:
 
 - `language`: the concrete language, such as `de`, `en`, or `he`
 - `canonicalLemma`: the canonical lemma spelling
-- `lemmaKind`: the broad class: `Lexeme`, `Morpheme`, `Phraseme`, or `Fusion`
+- `lemmaKind`: the broad class: `Lexeme`, `Morpheme`, `Phraseme`, or `Construction`
 - `lemmaSubKind`: the concrete subtype, such as `NOUN`, `VERB`, `Prefix`, or `Idiom`
 - `inherentFeatures`: features that belong to the lemma as a lexical item
 - `meaningInEmojis`: a compact meaning hint for learner-facing UI
 
-`Fusion/General` is the public lemma-like branch for fused forms such as German `zum`, `zur`, `beim`, or `ins`, when the API should preserve the fused form instead of forcing a decomposed lexical analysis.
+`Construction` is the public branch for learner-relevant patterned entries such as fused forms like German `zum`, `zur`, `beim`, or `ins`, and paired frames such as `um_zu` or `entweder_oder`.
 
 ## Surface
 
@@ -67,7 +67,7 @@ A typo can still be a variant, and a partial selection can still point to a full
 | `Lexeme` | words and word-like lexical entries, categorized with Universal Dependencies-style POS tags |
 | `Morpheme` | roots, prefixes, suffixes, clitics, and related sub-word units |
 | `Phraseme` | multi-word or formulaic expressions such as idioms and proverbs |
-| `Fusion` | lemma-like fused forms that should stay intact as one public entry, such as German `zum` or `beim` |
+| `Construction` | learner-relevant patterned entries such as fused forms like `zum` and paired frames like `um_zu` |
 
 `lemmaSubKind` is the public subtype field for all four families. The package does not expose separate public discriminator names like `pos`, `morphemeKind`, or `phrasemeKind`.
 

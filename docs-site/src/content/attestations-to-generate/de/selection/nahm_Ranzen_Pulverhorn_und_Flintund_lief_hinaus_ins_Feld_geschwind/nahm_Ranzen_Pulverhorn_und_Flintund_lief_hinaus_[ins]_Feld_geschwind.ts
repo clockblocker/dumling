@@ -13,18 +13,18 @@ const deSelection = {
 		lemma: {
 			language: "de",
 			canonicalLemma: "ins",
-			lemmaKind: "Fusion",
-			lemmaSubKind: "General",
+			lemmaKind: "Construction",
+			lemmaSubKind: "Fusion",
 			inherentFeatures: {},
 			meaningInEmojis: "➡️",
 		},
 	},
-} satisfies Selection<"de", "Standard", "Citation", "Fusion", "General">;
+} satisfies Selection<"de", "Standard", "Citation", "Construction", "Fusion">;
 
 export const attestation = {
 	selection: deSelection,
 	sentenceMarkdown: `nahm Ranzen, Pulverhorn und Flint
 und lief hinaus [ins] Feld geschwind`,
 	classifierNotes:
-		"Ins is the usual German fused form, so Dumling keeps it as Fusion/General rather than decomposing it into in + das.",
+		"Ins is the usual German fused form, so Dumling keeps it as Construction/Fusion rather than decomposing it into in + das.",
 } as const satisfies AttestedSelection;

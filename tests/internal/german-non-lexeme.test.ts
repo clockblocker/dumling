@@ -4,7 +4,7 @@ import {
 	germanAbPrefixLemma,
 	germanAufJedenFallDiscourseFormulaSelection,
 	germanAufJedenFallPartialSelection,
-	makeFusionSurfaceReference,
+	makeConstructionSurfaceReference,
 	makeMorphemeSurfaceReference,
 } from "../helpers";
 
@@ -64,7 +64,7 @@ describe("German non-lexeme schemas", () => {
 			"Morpheme" in schemasFor.de.entity.Selection.Standard.Inflection,
 		).toBe(false);
 		expect(
-			"Fusion" in schemasFor.de.entity.Selection.Standard.Inflection,
+			"Construction" in schemasFor.de.entity.Selection.Standard.Inflection,
 		).toBe(false);
 		expect(
 			schemasFor.de.entity.Selection.Typo.Citation.Morpheme.Suffix().safeParse(
@@ -85,20 +85,20 @@ describe("German non-lexeme schemas", () => {
 		).toBe(true);
 	});
 
-	it("accepts fusion entities as citation-only entries", () => {
+	it("accepts construction entities as citation-only entries", () => {
 		expect(
-			schemasFor.de.entity.Lemma.Fusion.General().safeParse({
+			schemasFor.de.entity.Lemma.Construction.Fusion().safeParse({
 				language: "de",
 				canonicalLemma: "zum",
-				lemmaKind: "Fusion",
-				lemmaSubKind: "General",
+				lemmaKind: "Construction",
+				lemmaSubKind: "Fusion",
 				inherentFeatures: {},
 				meaningInEmojis: "➡️",
 			}).success,
 		).toBe(true);
 
 		expect(
-			schemasFor.de.entity.Selection.Standard.Citation.Fusion.General().safeParse(
+			schemasFor.de.entity.Selection.Standard.Citation.Construction.Fusion().safeParse(
 				{
 					language: "de",
 					orthographicStatus: "Standard",
@@ -106,7 +106,7 @@ describe("German non-lexeme schemas", () => {
 					spelledSelection: "zum",
 					spellingRelation: "Canonical",
 					surface: {
-						...makeFusionSurfaceReference("de", "General", "zum"),
+						...makeConstructionSurfaceReference("de", "Fusion", "zum"),
 						language: "de",
 						normalizedFullSurface: "zum",
 						surfaceKind: "Citation",
