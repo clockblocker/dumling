@@ -3,6 +3,7 @@ sentence_markdown,normalizedFullSurface,orthographicStatus,surfaceKind,lemmaKind
 Am [nächsten] Morgen war alles anders.,nächsten,Standard,Inflection,Lexeme,ADJ
 Am nächsten Morgen war alles [anders].,anders,Standard,Citation,Lexeme,ADJ
 Auf der Karte sind drei [Seen] eingezeichnet.,Seen,Standard,Inflection,Lexeme,NOUN
+Auf der Karte sind drei Seen [eingezeichnet].,eingezeichnet,Standard,Inflection,Lexeme,VERB
 Bei dieser Formel verstehe ich nur [Bahnhof].,nur Bahnhof verstehen,Standard,Citation,Phraseme,Idiom
 Bitte folgen Sie [Ihrem] Ansprechpartner.,Ihrem,Standard,Inflection,Lexeme,DET
 Damit triffst du den [Nagel] auf den Kopf.,den Nagel auf den Kopf treffen,Standard,Citation,Phraseme,Idiom
@@ -106,6 +107,7 @@ wupp! den Daumen in den Mund.
 [Geh] bitte nicht ohne Jacke raus.,geh,Standard,Inflection,Lexeme,VERB
 Genau da liegt der [Hase] im Pfeffer.,da liegt der Hase im Pfeffer,Standard,Citation,Phraseme,Idiom
 "[Guten Tag], ich habe einen Termin.",Guten Tag,Standard,Citation,Phraseme,DiscourseFormula
+"Ich gehe Tomaten kaufen, um einen Salat [zu] machen.",zu,Standard,Citation,Lexeme,PART
 Ich suche einen [besseren] Ansatz.,besseren,Standard,Inflection,Lexeme,ADJ
 Im Heft stand [Filosofie] statt Philosophie.,Filosofie,Typo,Inflection,Lexeme,NOUN
 In [ge]lacht markieren ge- und -t zusammen das Partizip.,ge-...-t,Standard,Citation,Morpheme,Circumfix

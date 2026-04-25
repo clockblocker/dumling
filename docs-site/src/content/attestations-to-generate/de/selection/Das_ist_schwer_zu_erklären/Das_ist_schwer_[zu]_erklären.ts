@@ -27,4 +27,5 @@ export const attestation = {
 	selection: deSelection042,
 	sentenceMarkdown: "Das ist schwer [zu] erklären.",
 	classifierNotes: "Infinitival zu is PART with partType Inf, distinct from prepositional zu.",
+	isVerified: true,
 } as const satisfies AttestedSelection;
