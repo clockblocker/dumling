@@ -1,6 +1,6 @@
 {
 	"name": "dumling",
-	"version": "0.1.9",
+	"version": "0.1.10",
 	"description": "TypeScript and Zod schemas, DTO types, operations, and stable IDs for learner-facing linguistic annotation.",
 	"type": "module",
 	"packageManager": "bun@1.3.0",
@@ -41,7 +41,11 @@
 		},
 		"./package.json": "./package.json"
 	},
-	"files": ["dist", "README.md", "LICENSE"],
+	"files": [
+		"dist",
+		"README.md",
+		"LICENSE"
+	],
 	"engines": {
 		"node": ">=20"
 	},
