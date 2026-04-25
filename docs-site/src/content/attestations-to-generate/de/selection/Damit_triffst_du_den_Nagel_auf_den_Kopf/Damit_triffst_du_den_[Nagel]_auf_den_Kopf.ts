@@ -25,4 +25,5 @@ export const attestation = {
 	selection: deSelection045,
 	sentenceMarkdown: "Damit triffst du den [Nagel] auf den Kopf.",
 	classifierNotes: "The inflected sentence form points to the citation phraseme; the selected token is only an internal component.",
+	isVerified: true,
 } as const satisfies AttestedSelection;

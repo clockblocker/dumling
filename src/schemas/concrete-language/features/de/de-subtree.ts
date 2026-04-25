@@ -1,5 +1,6 @@
 import { buildLanguageSchema } from "../../../shared/builders";
-import { deGeneralFusionFeaturesSchema } from "./fusion/general";
+import { deConstructionFusionFeaturesSchema } from "./construction/fusion";
+import { deConstructionPairedFrameFeaturesSchema } from "./construction/paired-frame";
 import { deAdjectiveFeaturesSchema } from "./lexeme/adjective";
 import { deAdpositionFeaturesSchema } from "./lexeme/adposition";
 import { deAdverbFeaturesSchema } from "./lexeme/adverb";
@@ -72,7 +73,8 @@ export const deSubtree = buildLanguageSchema("de", {
 		Idiom: deIdiomPhrasemeFeaturesSchema,
 		Proverb: deProverbPhrasemeFeaturesSchema,
 	},
-	Fusion: {
-		General: deGeneralFusionFeaturesSchema,
+	Construction: {
+		Fusion: deConstructionFusionFeaturesSchema,
+		PairedFrame: deConstructionPairedFrameFeaturesSchema,
 	},
 });

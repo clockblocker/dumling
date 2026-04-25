@@ -1,6 +1,7 @@
 import type { z } from "zod/v3";
 import {
 	AbstractLanguageTag,
+	ConstructionKind,
 	MorphemeKind,
 	PhrasemeKind,
 	Pos,
@@ -30,7 +31,7 @@ type AbstractLeafBundle = {
 };
 
 function buildAbstractLeafBundle(
-	lemmaKind: "Lexeme" | "Morpheme" | "Phraseme",
+	lemmaKind: "Lexeme" | "Morpheme" | "Phraseme" | "Construction",
 	lemmaSubKind: string,
 ): AbstractLeafBundle {
 	const lemmaSchema = buildLemmaSchema({
@@ -90,6 +91,7 @@ for (const [lemmaKind, subKinds] of [
 	["Lexeme", Pos.options],
 	["Morpheme", MorphemeKind.options],
 	["Phraseme", PhrasemeKind.options],
+	["Construction", ConstructionKind.options],
 ] as const) {
 	for (const lemmaSubKind of subKinds) {
 		const bundle = buildAbstractLeafBundle(lemmaKind, lemmaSubKind);

@@ -1,7 +1,9 @@
 sentence_markdown,normalizedFullSurface,orthographicStatus,surfaceKind,lemmaKind,lemmaSubKind
-[Am] nächsten Morgen war alles anders.,am,Standard,Citation,Fusion,General
+[Am] nächsten Morgen war alles anders.,am,Standard,Citation,Construction,Fusion
 Am [nächsten] Morgen war alles anders.,nächsten,Standard,Inflection,Lexeme,ADJ
+Am nächsten Morgen war alles [anders].,anders,Standard,Citation,Lexeme,ADJ
 Auf der Karte sind drei [Seen] eingezeichnet.,Seen,Standard,Inflection,Lexeme,NOUN
+Auf der Karte sind drei Seen [eingezeichnet].,eingezeichnet,Standard,Inflection,Lexeme,VERB
 Bei dieser Formel verstehe ich nur [Bahnhof].,nur Bahnhof verstehen,Standard,Citation,Phraseme,Idiom
 Bitte folgen Sie [Ihrem] Ansprechpartner.,Ihrem,Standard,Inflection,Lexeme,DET
 Damit triffst du den [Nagel] auf den Kopf.,den Nagel auf den Kopf treffen,Standard,Citation,Phraseme,Idiom
@@ -16,6 +18,10 @@ Das wäre fast schief [gewesen].,gewesen,Standard,Inflection,Lexeme,AUX
 "Der Autor, [dessen] Buch fehlt, wartet draußen.",dessen,Standard,Inflection,Lexeme,PRON
 Der dritte [Band] ist längst vergriffen.,Band,Standard,Citation,Lexeme,NOUN
 Der Fährmann hat uns [übergesetzt].,übergesetzt,Standard,Inflection,Lexeme,VERB
+"Der hockte da im grünen Gras;
+dem [floß] der Kaffee auf die Nas.",floß,Standard,Inflection,Lexeme,VERB
+"Der hockte da im grünen Gras;
+dem floß der Kaffee [auf] die Nas.",auf,Standard,Citation,Lexeme,ADP
 Der [Kiefer] schmerzte nach der Operation.,Kiefer,Standard,Citation,Lexeme,NOUN
 Der Laster [fuhr] das Schild um.,fuhr um,Standard,Inflection,Lexeme,VERB
 Der [Leiter] der Werkstatt kam später.,Leiter,Standard,Citation,Lexeme,NOUN
@@ -24,34 +30,157 @@ Die [Band] spielt heute im Kellerclub.,Band,Standard,Citation,Lexeme,NOUN
 Die [Leiter] wackelte auf dem nassen Boden.,Leiter,Standard,Citation,Lexeme,NOUN
 Die [linke] Hand zitterte.,linke,Standard,Inflection,Lexeme,ADJ
 Die [Mutter] passt nicht auf diese Schraube.,Mutter,Standard,Citation,Lexeme,NOUN
+"[Die] Peitsche hat er mitgebracht
+und nimmt sie sorglich sehr in acht.",die,Standard,Inflection,Lexeme,DET
+"Die [Peitsche] hat er mitgebracht
+und nimmt sie sorglich sehr in acht.",Peitsche,Standard,Citation,Lexeme,NOUN
+"Die Peitsche [hat] er mitgebracht
+und nimmt sie sorglich sehr in acht.",hat,Standard,Inflection,Lexeme,AUX
+"Die Peitsche hat [er] mitgebracht
+und nimmt sie sorglich sehr in acht.",er,Standard,Inflection,Lexeme,PRON
+"Die Peitsche hat er [mitgebracht]
+und nimmt sie sorglich sehr in acht.",mitgebracht,Standard,Inflection,Lexeme,VERB
+"Die Peitsche hat er mitgebracht
+[und] nimmt sie sorglich sehr in acht.",und,Standard,Citation,Lexeme,CCONJ
+"Die Peitsche hat er mitgebracht
+und [nimmt] sie sorglich sehr in acht.",in acht nehmen,Standard,Citation,Phraseme,Idiom
+"Die Peitsche hat er mitgebracht
+und nimmt [sie] sorglich sehr in acht.",sie,Standard,Inflection,Lexeme,PRON
+"Die Peitsche hat er mitgebracht
+und nimmt sie [sorglich] sehr in acht.",sorglich,Standard,Citation,Lexeme,ADV
+"Die Peitsche hat er mitgebracht
+und nimmt sie sorglich [sehr] in acht.",sehr,Standard,Citation,Lexeme,ADV
+"Die Peitsche hat er mitgebracht
+und nimmt sie sorglich sehr [in] acht.",in acht nehmen,Standard,Citation,Phraseme,Idiom
+"Die Peitsche hat er mitgebracht
+und nimmt sie sorglich sehr in [acht].",in acht nehmen,Standard,Citation,Phraseme,Idiom
+"Die schoß das Häschen ganz [entzwei];
+da rief die Frau: »O wei! O wei!«",entzwei,Standard,Citation,Lexeme,ADJ
+"Die schoß das Häschen ganz entzwei;
+da rief die Frau: »[O] wei! O wei!«",o wei,Standard,Citation,Phraseme,DiscourseFormula
+"Die schoß das Häschen ganz entzwei;
+da rief die Frau: »O [wei]! O wei!«",o wei,Standard,Citation,Phraseme,DiscourseFormula
 "Die Zeugin, [deren] Aussage zählt, bleibt anonym.",deren,Standard,Inflection,Lexeme,PRON
-Er ging [zum] Bahnhof.,zum,Standard,Citation,Fusion,General
+"[Einst] ging er an Ufers Rand
+mit der Mappe in der Hand.",einst,Standard,Citation,Lexeme,ADV
+"Einst [ging] er an Ufers Rand
+mit der Mappe in der Hand.",ging,Standard,Inflection,Lexeme,VERB
+"Einst ging er [an] Ufers Rand
+mit der Mappe in der Hand.",an,Standard,Citation,Lexeme,ADP
+"Einst ging er an [Ufers] Rand
+mit der Mappe in der Hand.",Ufers,Standard,Inflection,Lexeme,NOUN
+"Einst ging er an Ufers [Rand]
+mit der Mappe in der Hand.",Rand,Standard,Inflection,Lexeme,NOUN
+Er ging [zum] Bahnhof.,zum,Standard,Citation,Construction,Fusion
 Er vergaß [seinen] Schlüssel im Büro.,seinen,Standard,Inflection,Lexeme,DET
 Er [wartet] auf den Nachtbus.,wartet,Standard,Inflection,Lexeme,VERB
+"Er [wog] vielleicht ein halbes Lot –
+und war am fünften Tage tot.
+",wog,Standard,Inflection,Lexeme,VERB
+"Er wog vielleicht ein halbes [Lot] –
+und war am fünften Tage tot.
+",Lot,Standard,Inflection,Lexeme,NOUN
+"Er wog vielleicht ein halbes Lot –
+und [war] am fünften Tage tot.
+",war,Standard,Inflection,Lexeme,AUX
+"Er wog vielleicht ein halbes Lot –
+und war am fünften Tage [tot].
+",tot,Standard,Citation,Lexeme,ADJ
+"[Es] brennt die Hand, es brennt das Haar,
+es brennt das ganze Kind sogar.",es,Standard,Inflection,Lexeme,PRON
+"Es brennt die Hand, es brennt das Haar,
+es brennt das [ganze] Kind sogar.",ganze,Standard,Inflection,Lexeme,ADJ
+"Es brennt die Hand, es brennt das Haar,
+es brennt das ganze Kind [sogar].",sogar,Standard,Citation,Lexeme,ADV
+"[Es] zog der wilde Jägersmann
+	sein grasgrün neues Röcklein an;",es,Standard,Inflection,Lexeme,PRON
+"Es [zog] der wilde Jägersmann
+	sein grasgrün neues Röcklein an;",zog an,Standard,Inflection,Lexeme,VERB
+"Es zog der wilde Jägersmann
+	sein grasgrün neues Röcklein [an];",zog an,Standard,Inflection,Lexeme,VERB
+"[Fort] geht nun die Mutter und
+wupp! den Daumen in den Mund.
+",fort,Standard,Citation,Lexeme,ADV
+"Fort geht nun die Mutter und
+[wupp]! den Daumen in den Mund.
+",wupp,Standard,Citation,Lexeme,INTJ
 [Geh] bitte nicht ohne Jacke raus.,geh,Standard,Inflection,Lexeme,VERB
 Genau da liegt der [Hase] im Pfeffer.,da liegt der Hase im Pfeffer,Standard,Citation,Phraseme,Idiom
 "[Guten Tag], ich habe einen Termin.",Guten Tag,Standard,Citation,Phraseme,DiscourseFormula
+"Ich gehe Tomaten kaufen, um einen Salat [zu] machen.",um zu,Standard,Citation,Construction,PairedFrame
 Ich suche einen [besseren] Ansatz.,besseren,Standard,Inflection,Lexeme,ADJ
 Im Heft stand [Filosofie] statt Philosophie.,Filosofie,Typo,Inflection,Lexeme,NOUN
 In [ge]lacht markieren ge- und -t zusammen das Partizip.,ge-...-t,Standard,Citation,Morpheme,Circumfix
+"Jetzt schien die Sonne gar zu sehr,
+[da] ward ihm sein Gewehr zu schwer.",da,Standard,Citation,Lexeme,ADV
+"Jetzt schien die Sonne gar zu sehr,
+da [ward] ihm sein Gewehr zu schwer.",ward,Standard,Inflection,Lexeme,AUX
 Meine [Mutter] ruft jeden Sonntag an.,Mutter,Standard,Citation,Lexeme,NOUN
 Mit den [Kindern] ist es nie langweilig.,Kindern,Standard,Inflection,Lexeme,NOUN
 Mit [keinem] Wort erwähnte sie den Plan.,keinem,Standard,Inflection,Lexeme,DET
 "[Morgenstund] hat Gold im Mund, sagte sie verschlafen.",Morgenstund hat Gold im Mund,Standard,Citation,Phraseme,Proverb
 "[Na ja], ganz überzeugt bin ich nicht.",na ja,Standard,Citation,Phraseme,DiscourseFormula
 Nach [manchem] Fehler lernt man schneller.,manchem,Standard,Inflection,Lexeme,DET
+"nahm Ranzen, Pulverhorn und Flint
+und [lief] hinaus ins Feld geschwind",lief hinaus,Standard,Inflection,Lexeme,VERB
+"nahm Ranzen, Pulverhorn und Flint
+und lief [hinaus] ins Feld geschwind",lief hinaus,Standard,Inflection,Lexeme,VERB
+"nahm Ranzen, Pulverhorn und Flint
+und lief hinaus [ins] Feld geschwind",ins,Standard,Citation,Construction,Fusion
+"nahm Ranzen, Pulverhorn und Flint
+und lief hinaus ins Feld [geschwind]",geschwind,Standard,Citation,Lexeme,ADV
 [Pass] auf dich auf!,pass auf,Standard,Inflection,Lexeme,VERB
 Pass [auf] dich auf!,pass auf,Standard,Inflection,Lexeme,VERB
 Pass auf [dich] auf!,dich,Standard,Inflection,Lexeme,PRON
 Pass auf dich [auf]!,pass auf,Standard,Inflection,Lexeme,VERB
 Sie [erinnert] sich an den Geruch.,erinnert,Standard,Inflection,Lexeme,VERB
 Sie folgte ihrem [Herzen].,Herzen,Standard,Inflection,Lexeme,NOUN
-Sie sprang [ins] kalte Wasser.,ins,Standard,Citation,Fusion,General
+Sie sprang [ins] kalte Wasser.,ins,Standard,Citation,Construction,Fusion
 Sie [übersetzt] den Vertrag ins Deutsche.,übersetzt,Standard,Inflection,Lexeme,VERB
 Sie [umfuhr] die Baustelle weiträumig.,umfuhr,Standard,Inflection,Lexeme,VERB
 Sie wurde um Geduld [gebeten].,gebeten,Standard,Inflection,Lexeme,VERB
+"[Sieh] einmal, hier steht er, 
+pfui, der Struwwelpeter!",sieh,Standard,Inflection,Lexeme,VERB
+"Sieh [einmal], hier steht er, 
+pfui, der Struwwelpeter!",einmal,Standard,Citation,Lexeme,ADV
+"Sieh einmal, [hier] steht er, 
+pfui, der Struwwelpeter!",hier,Standard,Citation,Lexeme,ADV
+"Sieh einmal, hier [steht] er, 
+pfui, der Struwwelpeter!",steht,Standard,Inflection,Lexeme,VERB
+"Sieh einmal, hier steht [er], 
+pfui, der Struwwelpeter!",er,Standard,Inflection,Lexeme,PRON
+"Sieh einmal, hier steht er, 
+[pfui], der Struwwelpeter!",pfui,Standard,Citation,Lexeme,INTJ
+"Sieh einmal, hier steht er, 
+pfui, [der] Struwwelpeter!",der,Standard,Inflection,Lexeme,DET
+"Sieh einmal, hier steht er, 
+pfui, der [Struwwelpeter]!",Struwwelpeter,Standard,Citation,Lexeme,PROPN
 "[Tut mir leid], das war mein Fehler.",tut mir leid,Standard,Citation,Phraseme,DiscourseFormula
+"Und Minz und Maunz, [die] schreien
+gar jämmerlich zu zweien",die,Standard,Inflection,Lexeme,PRON
+"Und Minz und Maunz, die schreien
+[gar] jämmerlich zu zweien",gar,Standard,Citation,Lexeme,ADV
+"Und Minz und Maunz, die schreien
+gar [jämmerlich] zu zweien",jämmerlich,Standard,Citation,Lexeme,ADV
+"Und Minz und Maunz, die schreien
+gar jämmerlich [zu] zweien",zu,Standard,Citation,Lexeme,ADP
+"Und Minz und Maunz, die schreien
+gar jämmerlich zu [zweien]",zweien,Standard,Inflection,Lexeme,NUM
 Unter falschem [Namen] mietete er das Zimmer.,Namen,Standard,Inflection,Lexeme,NOUN
+"[Verbrannt] ist alles ganz und gar,
+das arme Kind mit Haut und Haar;",verbrannt,Standard,Inflection,Lexeme,VERB
+"Verbrannt ist alles [ganz] und gar,
+das arme Kind mit Haut und Haar;",ganz und gar,Standard,Citation,Phraseme,Idiom
+"Verbrannt ist alles ganz [und] gar,
+das arme Kind mit Haut und Haar;",ganz und gar,Standard,Citation,Phraseme,Idiom
+"Verbrannt ist alles ganz und [gar],
+das arme Kind mit Haut und Haar;",ganz und gar,Standard,Citation,Phraseme,Idiom
+"Verbrannt ist alles ganz und gar,
+das arme Kind mit [Haut] und Haar;",mit Haut und Haar,Standard,Citation,Phraseme,Idiom
+"Verbrannt ist alles ganz und gar,
+das arme Kind mit Haut [und] Haar;",mit Haut und Haar,Standard,Citation,Phraseme,Idiom
+"Verbrannt ist alles ganz und gar,
+das arme Kind mit Haut und [Haar];",mit Haut und Haar,Standard,Citation,Phraseme,Idiom
 Viele [deutschsprachigen] Quellen fehlen noch.,deutschsprachigen,Standard,Inflection,Lexeme,ADJ
 [Wegen] dem Regen kamen wir zu spät.,wegen,Standard,Citation,Lexeme,ADP
 Wir [hätten] gern mehr Zeit.,hätten,Standard,Inflection,Lexeme,AUX

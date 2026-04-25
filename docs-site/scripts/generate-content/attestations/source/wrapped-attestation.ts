@@ -44,15 +44,17 @@ export function getWrappedAttestation(
 		typeof wrapped.classifierNotes === "string"
 			? wrapped.classifierNotes
 			: undefined;
-	const lessonsLearned =
-		typeof wrapped.lessonsLearned === "string"
-			? wrapped.lessonsLearned
+	const classificationMistakes =
+		typeof wrapped.classificationMistakes === "string"
+			? wrapped.classificationMistakes
 			: undefined;
+	const isVerified = wrapped.isVerified === true ? true : undefined;
 
 	return {
 		classifierNotes,
+		classificationMistakes,
 		entity: entityEntries[0]?.[1] as EntityValue,
-		lessonsLearned,
+		isVerified,
 		order,
 		sentenceMarkdown,
 		title,

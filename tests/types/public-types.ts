@@ -136,16 +136,16 @@ const unionKindFeatureValue: FeatureValue<
 > = Math.random() > 0.5 ? "Masc" : "Sing";
 const deLemmaKind: LemmaKindFor<"de"> = "Lexeme";
 const deLexemeSubKind: LemmaSubKindFor<"de", "Lexeme"> = "NOUN";
-const deFusionKind: LemmaKindFor<"de"> = "Fusion";
-const deFusionSubKind: LemmaSubKindFor<"de", "Fusion"> = "General";
+const deConstructionKind: LemmaKindFor<"de"> = "Construction";
+const deConstructionSubKind: LemmaSubKindFor<"de", "Construction"> = "Fusion";
 const deSurfaceKind: SurfaceKindFor<"de"> = "Citation";
 void featureName;
 void unionKindFeatureName;
 void unionKindFeatureValue;
 void deLemmaKind;
 void deLexemeSubKind;
-void deFusionKind;
-void deFusionSubKind;
+void deConstructionKind;
+void deConstructionSubKind;
 void deSurfaceKind;
 void gender;
 void standardSelection;
@@ -206,19 +206,19 @@ deSelectionLeaf satisfies ZodType<
 >;
 const deFusionLemma = dumling.de.create.lemma({
 	canonicalLemma: "zum",
-	lemmaKind: "Fusion",
-	lemmaSubKind: "General",
+	lemmaKind: "Construction",
+	lemmaSubKind: "Fusion",
 	inherentFeatures: {},
 	meaningInEmojis: "➡️",
-}) satisfies Lemma<"de", "Fusion", "General">;
+}) satisfies Lemma<"de", "Construction", "Fusion">;
 const deFusionSelection = dumling.de.convert.lemma.toSelection(
 	deFusionLemma,
-) satisfies Selection<"de", "Standard", "Citation", "Fusion", "General">;
+) satisfies Selection<"de", "Standard", "Citation", "Construction", "Fusion">;
 void deFusionSelection;
 const deFusionSelectionLeaf =
-	schemasFor.de.entity.Selection.Standard.Citation.Fusion.General();
+	schemasFor.de.entity.Selection.Standard.Citation.Construction.Fusion();
 deFusionSelectionLeaf satisfies ZodType<
-	Selection<"de", "Standard", "Citation", "Fusion", "General">
+	Selection<"de", "Standard", "Citation", "Construction", "Fusion">
 >;
 const deLemmaDescriptorLeaf = schemasFor.de.descriptor.Lemma.Lexeme.NOUN;
 deLemmaDescriptorLeaf satisfies ZodType<

@@ -1,4 +1,5 @@
-import type { DeGeneralFusionFeatures } from "./de/fusion/general";
+import type { DeConstructionFusionFeatures } from "./de/construction/fusion";
+import type { DeConstructionPairedFrameFeatures } from "./de/construction/paired-frame";
 import type { DeAdjectiveFeatures } from "./de/lexeme/adjective";
 import type { DeAdpositionFeatures } from "./de/lexeme/adposition";
 import type { DeAdverbFeatures } from "./de/lexeme/adverb";
@@ -31,7 +32,8 @@ import type { DeAphorismPhrasemeFeatures } from "./de/phraseme/aphorism";
 import type { DeDiscourseFormulaPhrasemeFeatures } from "./de/phraseme/discourse-formula";
 import type { DeIdiomPhrasemeFeatures } from "./de/phraseme/idiom";
 import type { DeProverbPhrasemeFeatures } from "./de/phraseme/proverb";
-import type { EnGeneralFusionFeatures } from "./en/fusion/general";
+import type { EnConstructionFusionFeatures } from "./en/construction/fusion";
+import type { EnConstructionPairedFrameFeatures } from "./en/construction/paired-frame";
 import type { EnAdjectiveFeatures } from "./en/lexeme/adjective";
 import type { EnAdpositionFeatures } from "./en/lexeme/adposition";
 import type { EnAdverbFeatures } from "./en/lexeme/adverb";
@@ -64,7 +66,8 @@ import type { EnAphorismPhrasemeFeatures } from "./en/phraseme/aphorism";
 import type { EnDiscourseFormulaPhrasemeFeatures } from "./en/phraseme/discourse-formula";
 import type { EnIdiomPhrasemeFeatures } from "./en/phraseme/idiom";
 import type { EnProverbPhrasemeFeatures } from "./en/phraseme/proverb";
-import type { HeGeneralFusionFeatures } from "./he/fusion/general";
+import type { HeConstructionFusionFeatures } from "./he/construction/fusion";
+import type { HeConstructionPairedFrameFeatures } from "./he/construction/paired-frame";
 import type { HeAdjectiveFeatures } from "./he/lexeme/adjective";
 import type { HeAdpositionFeatures } from "./he/lexeme/adposition";
 import type { HeAdverbFeatures } from "./he/lexeme/adverb";
@@ -138,8 +141,9 @@ export type LanguagePackFeatureRegistry = {
 			Idiom: DeIdiomPhrasemeFeatures;
 			Proverb: DeProverbPhrasemeFeatures;
 		};
-		Fusion: {
-			General: DeGeneralFusionFeatures;
+		Construction: {
+			Fusion: DeConstructionFusionFeatures;
+			PairedFrame: DeConstructionPairedFrameFeatures;
 		};
 	};
 	en: {
@@ -181,8 +185,9 @@ export type LanguagePackFeatureRegistry = {
 			Idiom: EnIdiomPhrasemeFeatures;
 			Proverb: EnProverbPhrasemeFeatures;
 		};
-		Fusion: {
-			General: EnGeneralFusionFeatures;
+		Construction: {
+			Fusion: EnConstructionFusionFeatures;
+			PairedFrame: EnConstructionPairedFrameFeatures;
 		};
 	};
 	he: {
@@ -224,8 +229,9 @@ export type LanguagePackFeatureRegistry = {
 			Idiom: HeIdiomPhrasemeFeatures;
 			Proverb: HeProverbPhrasemeFeatures;
 		};
-		Fusion: {
-			General: HeGeneralFusionFeatures;
+		Construction: {
+			Fusion: HeConstructionFusionFeatures;
+			PairedFrame: HeConstructionPairedFrameFeatures;
 		};
 	};
 };

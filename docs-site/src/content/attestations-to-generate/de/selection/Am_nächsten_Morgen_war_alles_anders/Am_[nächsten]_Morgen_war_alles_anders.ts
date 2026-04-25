@@ -12,17 +12,17 @@ const deSelection028 = {
 		surfaceKind: "Inflection",
 		inflectionalFeatures: {
 			case: "Dat",
-			degree: "Sup",
+			degree: "Pos",
 			gender: "Masc",
 			number: "Sing",
 		},
 		lemma: {
 			language: "de",
-			canonicalLemma: "nah",
+			canonicalLemma: "nächst",
 			lemmaKind: "Lexeme",
 			lemmaSubKind: "ADJ",
 			inherentFeatures: {},
-			meaningInEmojis: "➡️",
+			meaningInEmojis: "🔜",
 		},
 	},
 } satisfies Selection<"de", "Standard", "Inflection", "Lexeme", "ADJ">;
@@ -30,5 +30,9 @@ const deSelection028 = {
 export const attestation = {
 	selection: deSelection028,
 	sentenceMarkdown: "Am [nächsten] Morgen war alles anders.",
-	classifierNotes: "Nächsten is treated as an adjective inflection in a fixed temporal expression.",
+	classifierNotes:
+		"Nächsten is treated here as an inflected form of the lexical adjective nächst in its temporal 'next/upcoming' sense, not as the superlative of nah.",
+	classificationMistakes:
+		"Do not force this row under lemma nah with degree Sup just because nächsten is historically related to nah. In this attestation the learner-facing meaning is temporal 'next', so the earlier mistakes were using canonicalLemma nah, degree Sup, and a proximity-style emoji instead of modeling lexical nächst directly.",
+	isVerified: true,
 } as const satisfies AttestedSelection;

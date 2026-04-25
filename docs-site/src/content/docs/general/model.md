@@ -29,7 +29,7 @@ A lemma is the canonical lexical object, or a lemma-like fused entry. It is wher
 
 A citation surface uses `surfaceKind: "Citation"` and normally has the canonical lemma spelling as `normalizedFullSurface`.
 
-Fusion entries are citation-only today, so `Fusion/General` only appears under `Surface<Citation>` and never under `Surface<Inflection>`.
+Construction entries are citation-only today, so `Construction/Fusion` and `Construction/PairedFrame` only appear under `Surface<Citation>` and never under `Surface<Inflection>`.
 
 An inflection surface uses `surfaceKind: "Inflection"` and adds `inflectionalFeatures`:
 
