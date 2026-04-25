@@ -52,6 +52,10 @@
   Examples:
     - `Auf der Karte sind drei Seen [eingezeichnet].`
     - `Sie wurde um Geduld [gebeten].`
+- When a selected token is clearly just an internal component of an idiom, classify the idiom as the learner-facing unit rather than the token's standalone POS.
+  Example:
+    - `Bei dieser Formel verstehe ich nur [Bahnhof].`
+- `Phraseme` is citation-only in the public DTO.
 - Capitalization is not a Variant.
 
 ### Open Questions

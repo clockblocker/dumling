@@ -24,5 +24,7 @@ const deSelection043 = {
 export const attestation = {
 	selection: deSelection043,
 	sentenceMarkdown: "Bei dieser Formel verstehe ich nur [Bahnhof].",
-	classifierNotes: "The selected word is a noun-shaped substring inside the idiom nur Bahnhof verstehen, so the selection coverage is partial.",
+	classifierNotes:
+		"Bahnhof is treated as a partial selection of the idiom nur Bahnhof verstehen, not as the lexical noun, because the sentence clearly uses the fixed idiomatic meaning 'understand nothing' rather than a literal station reading.",
+	isVerified: true,
 } as const satisfies AttestedSelection;
