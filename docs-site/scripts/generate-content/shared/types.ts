@@ -19,8 +19,8 @@ export interface SourcePage {
 
 export type AttestationSource = {
 	classifierNotes?: string;
+	classificationMistakes?: string;
 	entity: EntityValue;
-	lessonsLearned?: string;
 	order?: number;
 	sentenceMarkdown?: string;
 	sourcePath: string;
@@ -34,8 +34,8 @@ export type SelectionSentenceParts = {
 
 export type SelectionAttestationSource = AttestationSource & {
 	classifierNotes?: string;
+	classificationMistakes?: string;
 	entity: Selection<SupportedLanguage>;
-	lessonsLearned?: string;
 	sentenceMarkdown: string;
 	title: string;
 };

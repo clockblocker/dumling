@@ -1,4 +1,4 @@
-sentence_markdown,sectionId,classifierNotes,lessonsLearned
+sentence_markdown,sectionId,classifierNotes,classificationMistakes
 Abso-[bloody]-lutely not.,"Selection,Standard,Partial,bloody,Canonical,Surface,Citation,bloody,Lemma,en,Morpheme,Infix,bloody,💢,",Expletive insertion is classified as Infix to stress an edge case that is morphologically debatable.,
 "[By and large], the migration worked.","Selection,Standard,Full,By and large,Canonical,Surface,Citation,by and large,Lemma,en,Phraseme,Idiom,by and large,📌,",Sentence-initial capitalization is preserved only in spelledSelection.,
 Could you [wind] the old clock?,"Selection,Standard,Full,wind,Canonical,Surface,Citation,wind,Lemma,en,Lexeme,VERB,wind,🕰️,",Wind as a verb is modeled separately from wind as weather; pronunciation contrast is outside the object.,

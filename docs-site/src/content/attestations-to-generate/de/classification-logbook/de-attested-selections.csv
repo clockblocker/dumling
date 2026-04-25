@@ -1,4 +1,4 @@
-sentence_markdown,sectionId,classifierNotes,lessonsLearned
+sentence_markdown,sectionId,classifierNotes,classificationMistakes
 [Am] nächsten Morgen war alles anders.,"Selection,Standard,Full,Am,Variant,Surface,Citation,am,Lemma,de,Fusion,General,am,🌅,","Am is modeled as Fusion/General, parallel to zum and ins, with the capitalized sentence-initial spelling treated as a variant of citation am.",
 Am [nächsten] Morgen war alles anders.,"Selection,Standard,Full,nächsten,Canonical,Surface,Inflection,nächsten,case=Dat|degree=Sup|gender=Masc|number=Sing,Lemma,de,Lexeme,ADJ,nah,➡️,",Nächsten is treated as an adjective inflection in a fixed temporal expression.,
 Auf der Karte sind drei [Seen] eingezeichnet.,"Selection,Standard,Full,Seen,Canonical,Surface,Inflection,seen,case=Nom|number=Plur,Lemma,de,Lexeme,NOUN,see,🌊,gender=Masc",Plural noun with masculine lemma See; the capitalized surface is normalized by the encoder.,

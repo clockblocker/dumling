@@ -1,6 +1,6 @@
 ### Reviewer Notes
 
-- The file looks structurally sound as CSV, but the review metadata is incomplete. `lessonsLearned` is empty for all 117 rows, and 8 rows still have empty `classifierNotes` (`de-attested-selections.csv:33,37,41,62,64,143,145,147`). The omissions are clustered rather than random, which makes this look like an unfinished pass rather than intentional silence.
+- The file looks structurally sound as CSV, but the review metadata is incomplete. `classificationMistakes` is empty for all 117 rows, and 8 rows still have empty `classifierNotes` (`de-attested-selections.csv:33,37,41,62,64,143,145,147`). The omissions are clustered rather than random, which makes this look like an unfinished pass rather than intentional silence.
 
 - Capitalization-as-variant is not handled consistently. Sentence-initial `Am` and `Die` are marked `Variant` because the attested token is capitalized (`:2`, `:31-32`), but other sentence-initial lowercase lemmas stay `Canonical` even though the surface is equally capitalized by sentence position: `Einst` (`:62`), `Es` (`:87`, `:93`), `Fort` (`:99`), `Geh` (`:105`), `Sieh` (`:139`), `Wegen` (`:182`). This needs a single policy.
 
@@ -26,6 +26,18 @@
 
 - Common pattern: sense disambiguation for homographs is mostly carried by emoji plus gender/context (`Band`, `Schloss`, `Kiefer`, `Leiter`, `Mutter`).
 
+
+### Captured Mistakes
+- For linking stuff the meaningInEmojis is set to the sence of the surrounding phrase
+	Examples: 
+	- [Am] nächsten Morgen war alles anders -> 🌅
+- SpellingRelation set to "Variant" for Fusions. 
+	Examples: 
+	- [Am] nächsten Morgen war alles anders -> {spellingRelation: "Variant"}
+
+### Emerging Rules:
+- Common Fusions (am, ins, etc) are alwaus Standard, Full, Canonical
+
 ### Open Questions
 
 - Should sentence-initial capitalization ever trigger `Variant`, or should all purely orthographic sentence-initial capitalization remain `Canonical` unless there is some other noncanonical property?
@@ -38,4 +50,4 @@
 
 - Is lemma-level governance supposed to reflect the dictionary norm even when the attested phrase shows something else, as in `wegen dem Regen`, or should attested syntax be recoverable somewhere in the row?
 
-- If `lessonsLearned` is meant to be used later, what kind of information belongs there? If it is not meant to be used, it is currently dead weight and makes the file look incomplete.
+- If `classificationMistakes` is meant to be used later, what kind of information belongs there? If it is not meant to be used, it is currently dead weight and makes the file look incomplete.

@@ -1,4 +1,4 @@
-sentence_markdown,sectionId,classifierNotes,lessonsLearned
+sentence_markdown,sectionId,classifierNotes,classificationMistakes
 [איזה] רחוב זה?,"Selection,Standard,Full,איזה,Canonical,Surface,Inflection,איזה,gender=Masc|number=Sing,Lemma,he,Lexeme,DET,איזה,❓,pronType=Int",איזה is an interrogative determiner rather than a pronoun because it modifies רחוב.,
 אין [חדש] תחת השמש.,"Selection,Standard,Partial,חדש,Canonical,Surface,Citation,אין חדש תחת השמש,Lemma,he,Phraseme,Proverb,אין חדש תחת השמש,☀️,","This is a partial selection against a proverb, not an adjective surface.",
 [אין] מקום פנוי.,"Selection,Standard,Full,אין,Canonical,Surface,Citation,אין,Lemma,he,Lexeme,VERB,אין,❌,hebExistential=Yes","אין is the negative existential verb; its negativity is lexical here, not an inflectional polarity feature.",

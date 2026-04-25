@@ -39,7 +39,7 @@ export const attestation = {
 	sentenceMarkdown: 'Im Heft stand [Filosofie] statt Philosophie.',
 	classifierNotes:
 		'Typo orthographic status still points to the canonical noun lemma.',
-	lessonsLearned:
+	classificationMistakes:
 		'Typo spelling should still point to the canonical noun lemma.',
 } as const satisfies AttestedSelection;
 ```
@@ -49,7 +49,7 @@ Rules:
 - `selection` is the classified `Selection` value.
 - `sentenceMarkdown` is required.
 - `classifierNotes` is optional.
-- `lessonsLearned` is optional.
+- `classificationMistakes` is optional.
 - `order` is not part of `AttestedSelection`.
 
 ## `sentenceMarkdown`
@@ -263,7 +263,7 @@ The CSV is generated, not hand-edited.
 Header:
 
 ```text
-sentence_markdown,sectionId,classifierNotes,lessonsLearned
+sentence_markdown,sectionId,classifierNotes,classificationMistakes
 ```
 
 Column meanings:
@@ -271,7 +271,7 @@ Column meanings:
 - `sentence_markdown`: emitted exactly from the fixture
 - `sectionId`: the long human-readable section ID derived from `selection`
 - `classifierNotes`: emitted exactly as written, or empty when omitted
-- `lessonsLearned`: emitted exactly as written, or empty when omitted
+- `classificationMistakes`: emitted exactly as written, or empty when omitted
 
 Rules:
 
