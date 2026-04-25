@@ -14,8 +14,6 @@ const deSelection033 = {
 			case: "Dat",
 			gender: "Masc",
 			number: "Sing",
-			"gender[psor]": ["Masc", "Fem", "Neut"],
-			"number[psor]": "Sing",
 		},
 		lemma: {
 			language: "de",
@@ -37,4 +35,6 @@ export const attestation = {
 	selection: deSelection033,
 	sentenceMarkdown: "Bitte folgen Sie [Ihrem] Ansprechpartner.",
 	classifierNotes: "The capitalized polite possessive is encoded as DET with person 2, polite Form, and poss Yes.",
+	classificationMistakes:
+		"Do not add gender[psor] or number[psor] unless the attested form or context actually disambiguates them. For polite Ihrem here, the earlier mistake was adding possessor features that are not recoverable from the attestation.",
 } as const satisfies AttestedSelection;

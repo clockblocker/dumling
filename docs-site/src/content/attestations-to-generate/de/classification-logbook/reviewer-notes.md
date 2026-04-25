@@ -56,6 +56,7 @@
   Example:
     - `Bei dieser Formel verstehe ich nur [Bahnhof].`
 - `Phraseme` is citation-only in the public DTO.
+- Only add `gender[psor]` and `number[psor]` when the attested form or clearly recoverable context actually disambiguates possessor features.
 - Capitalization is not a Variant.
 
 ### Open Questions
