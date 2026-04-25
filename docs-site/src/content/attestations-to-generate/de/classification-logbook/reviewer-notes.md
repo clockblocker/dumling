@@ -48,6 +48,10 @@
 - Predicative `anders` with copular `sein` is classified as `ADJ`, not `ADV`.
   Example:
     - `Am nächsten Morgen war alles [anders].`
+- Participles are stored as inflections of `VERB`, even in stative or passive-like clauses, unless there is a stronger reason to treat the form as a fully lexicalized adjective.
+  Examples:
+    - `Auf der Karte sind drei Seen [eingezeichnet].`
+    - `Sie wurde um Geduld [gebeten].`
 - Capitalization is not a Variant.
 
 ### Open Questions

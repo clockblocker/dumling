@@ -32,4 +32,5 @@ export const attestation = {
 	sentenceMarkdown: "Auf der Karte sind drei Seen [eingezeichnet].",
 	classifierNotes:
 		"Eingezeichnet is treated as the perfect participle of separable einzeichnen. The clause has a result-state or passive-like reading, but dumling's German pattern stores the selected form itself as a verbal participle rather than recasting it as an adjective.",
+	isVerified: true,
 } as const satisfies AttestedSelection;
