@@ -7,13 +7,13 @@ import { parseSelectionSentenceMarkdown } from "../selection/parse-sentence-mark
 
 export function isSelectionAttestationSource(
 	source: AttestationSource,
-): source is SelectionAttestationSource {
+): source is AttestationSource & SelectionAttestationSource {
 	return isSelection(source.entity);
 }
 
 export function validateSelectionAttestation(
 	source: AttestationSource,
-): asserts source is SelectionAttestationSource {
+): asserts source is AttestationSource & SelectionAttestationSource {
 	if (!isSelectionAttestationSource(source)) {
 		return;
 	}

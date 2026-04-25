@@ -2,7 +2,6 @@
 	"extends": "astro/tsconfigs/strict",
 	"compilerOptions": {
 		"allowImportingTsExtensions": true,
-		"baseUrl": ".",
 		"paths": {
 			"dumling": ["../src/index.ts"],
 			"dumling/schema": ["../src/schema.ts"],

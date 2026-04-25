@@ -176,6 +176,13 @@ describe("published package entrypoints", () => {
 				"--pretty",
 				"false",
 			]);
+
+			run(resolve(projectRoot, "node_modules/.bin/tsc"), [
+				"--project",
+				resolve(projectRoot, "docs-site/tsconfig.json"),
+				"--pretty",
+				"false",
+			]);
 		} finally {
 			rmSync(typecheckDir, { force: true, recursive: true });
 		}
@@ -199,6 +206,19 @@ describe("published package entrypoints", () => {
 			resolve(projectRoot, "dist/types.d.ts"),
 			"utf8",
 		);
+		const indexEntrypointTypes = readFileSync(
+			resolve(projectRoot, "dist/index.d.ts"),
+			"utf8",
+		);
+		const schemaEntrypointTypes = readFileSync(
+			resolve(projectRoot, "dist/schema.d.ts"),
+			"utf8",
+		);
+
+		expect(indexEntrypointTypes).toContain('from "./types.js"');
+		expect(indexEntrypointTypes).not.toContain('from "dumling/types"');
+		expect(schemaEntrypointTypes).toContain('from "./types.js"');
+		expect(schemaEntrypointTypes).not.toContain('from "dumling/types"');
 		expect(rolledTypes).not.toContain(
 			"export declare type AbstractLanguageTag",
 		);

@@ -1,6 +1,13 @@
 import { join } from "node:path";
-import type { SelectionAttestationSource } from "../../shared/types";
+import type { SupportedLanguage } from "../../../../../src/types/public-types.ts";
 import { sourceAttestationsDir } from "../../shared/paths";
+
+type SelectionSemanticSourceInput = {
+	entity: {
+		language: SupportedLanguage;
+	};
+	sentenceMarkdown: string;
+};
 
 export function semanticSelectionBasename(sentenceMarkdown: string): string {
 	return sentenceMarkdown
@@ -18,7 +25,7 @@ export function semanticSelectionDirectoryBasename(
 }
 
 export function selectionSemanticSourcePath(
-	source: SelectionAttestationSource,
+	source: SelectionSemanticSourceInput,
 ): string {
 	const semanticBasename = semanticSelectionBasename(source.sentenceMarkdown);
 	return join(

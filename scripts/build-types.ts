@@ -101,7 +101,7 @@ function writeSchemaEntrypointDeclaration() {
 	writeFileSync(
 		resolve(distDir, "schema.d.ts"),
 		[
-			'import type { AbstractLemma, AbstractLemmaSubKindFor, AbstractSelection, AbstractSurface, Descriptor, EntityKind, Lemma, LemmaKind, LemmaKindFor, LemmaKindForSurfaceKind, LemmaSubKindFor, OrthographicStatus, Selection, SupportedLanguage, Surface, SurfaceKind, SurfaceKindFor } from "dumling/types";',
+			'import type { AbstractLemma, AbstractLemmaSubKindFor, AbstractSelection, AbstractSurface, Descriptor, EntityKind, Lemma, LemmaKind, LemmaKindFor, LemmaKindForSurfaceKind, LemmaSubKindFor, OrthographicStatus, Selection, SupportedLanguage, Surface, SurfaceKind, SurfaceKindFor } from "./types.js";',
 			'import type { z } from "zod/v3";',
 			"",
 			"type SchemaGetter<T> = () => z.ZodType<T>;",
@@ -256,9 +256,9 @@ function writeIndexEntrypointDeclaration() {
 	writeFileSync(
 		resolve(distDir, "index.d.ts"),
 		[
-			'import type { DumlingApi, LanguageApi, SupportedLanguage } from "dumling/types";',
+			'import type { DumlingApi, LanguageApi, SupportedLanguage } from "./types.js";',
 			"",
-			'export type * from "dumling/types";',
+			'export type * from "./types.js";',
 			"",
 			"export declare const dumling: DumlingApi;",
 			"",
