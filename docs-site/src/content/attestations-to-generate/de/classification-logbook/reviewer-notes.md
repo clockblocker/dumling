@@ -47,6 +47,8 @@
 
 ### Open Questions
 
+- whether `anders` should be treated here as ADJ or ADV in Am_nächsten_Morgen_war_alles_[anders]
+
 - Should sentence-initial capitalization ever trigger `Variant`, or should all purely orthographic sentence-initial capitalization remain `Canonical` unless there is some other noncanonical property?
 
 - Do we want token-role information for split/governed verb constructions so that repeated surface forms like the two `auf` tokens in `Pass auf dich auf!` can be told apart without reading the prose note?
