@@ -9,11 +9,16 @@ Bitte folgen Sie [Ihrem] Ansprechpartner.,Ihrem,Standard,Inflection,Lexeme,DET
 Damit triffst du den [Nagel] auf den Kopf.,den Nagel auf den Kopf treffen,Standard,Citation,Phraseme,Idiom
 Das ist [nicht] mein Problem.,nicht,Standard,Citation,Lexeme,PART
 Das ist schwer [zu] erklären.,zu,Standard,Citation,Lexeme,PART
-Das [muss] heute noch raus.,muss,Standard,Inflection,Lexeme,AUX
+Das [muss] heute noch raus.,muss,Standard,Inflection,Lexeme,VERB
+Das muss heute noch [raus].,raus,Standard,Citation,Lexeme,ADV
 Das rote [Band] lag auf dem Geschenk.,Band,Standard,Citation,Lexeme,NOUN
+Das rote Band [lag] auf dem Geschenk.,lag,Standard,Inflection,Lexeme,VERB
+Das rote Band lag [auf] dem Geschenk.,auf,Standard,Citation,Lexeme,ADP
 Das [Schloss] an der Tür klemmt.,Schloss,Standard,Citation,Lexeme,NOUN
 Das [Schloss] über dem Fluss wurde renoviert.,Schloss,Standard,Citation,Lexeme,NOUN
 Das [Un]- in Unkosten wirkt historisch irritierend.,un-,Standard,Citation,Morpheme,Prefix
+Das [wäre] fast schief gewesen.,wäre,Standard,Inflection,Lexeme,AUX
+Das wäre [fast] schief gewesen.,fast,Standard,Citation,Lexeme,ADV
 Das wäre fast schief [gewesen].,gewesen,Standard,Inflection,Lexeme,AUX
 "Der Autor, [dessen] Buch fehlt, wartet draußen.",dessen,Standard,Inflection,Lexeme,PRON
 Der dritte [Band] ist längst vergriffen.,Band,Standard,Citation,Lexeme,NOUN
@@ -72,6 +77,7 @@ mit der Mappe in der Hand.",Ufers,Standard,Inflection,Lexeme,NOUN
 "Einst ging er an Ufers [Rand]
 mit der Mappe in der Hand.",Rand,Standard,Inflection,Lexeme,NOUN
 Er ging [zum] Bahnhof.,zum,Standard,Citation,Construction,Fusion
+Er [muss] heute arbeiten.,muss,Standard,Inflection,Lexeme,AUX
 Er vergaß [seinen] Schlüssel im Büro.,seinen,Standard,Inflection,Lexeme,DET
 Er [wartet] auf den Nachtbus.,wartet,Standard,Inflection,Lexeme,VERB
 "Er [wog] vielleicht ein halbes Lot –
