@@ -44,10 +44,11 @@
 - When a form is synchronically lexicalized for learners, classify that lexeme directly instead of forcing a historical or etymological source analysis.
   Example:
     - temporal `nächsten` in `am nächsten Morgen` should be modeled as lexical `nächst`, not as superlative `nah`
+- Predicative `anders` with copular `sein` is classified as `ADJ`, not `ADV`.
+  Example:
+    - `Am nächsten Morgen war alles [anders].`
 
 ### Open Questions
-
-- whether `anders` should be treated here as ADJ or ADV in Am_nächsten_Morgen_war_alles_[anders]
 
 - Should sentence-initial capitalization ever trigger `Variant`, or should all purely orthographic sentence-initial capitalization remain `Canonical` unless there is some other noncanonical property?
 
