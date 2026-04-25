@@ -263,7 +263,7 @@ The CSV is generated, not hand-edited.
 Header:
 
 ```text
-sentence_markdown,sectionId,classifierNotes,classificationMistakes
+sentence_markdown,sectionId,classifierNotes,classificationMistakes,isVerified
 ```
 
 Column meanings:
@@ -272,6 +272,7 @@ Column meanings:
 - `sectionId`: the long human-readable section ID derived from `selection`
 - `classifierNotes`: emitted exactly as written, or empty when omitted
 - `classificationMistakes`: emitted exactly as written, or empty when omitted
+- `isVerified`: emitted as `true` when the fixture sets `isVerified: true`, or empty when omitted
 
 Rules:
 

@@ -21,6 +21,7 @@ export type AttestationSource = {
 	classifierNotes?: string;
 	classificationMistakes?: string;
 	entity: EntityValue;
+	isVerified?: true;
 	order?: number;
 	sentenceMarkdown?: string;
 	sourcePath: string;
@@ -36,6 +37,7 @@ export type SelectionAttestationSource = AttestationSource & {
 	classifierNotes?: string;
 	classificationMistakes?: string;
 	entity: Selection<SupportedLanguage>;
+	isVerified?: true;
 	sentenceMarkdown: string;
 	title: string;
 };

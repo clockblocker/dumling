@@ -36,6 +36,7 @@
     - `[Am] nächsten Morgen war alles anders.` -> `{ spellingRelation: "Variant" }
 - Etymological morphology is forced over learner-facing lexical meaning.
   Examples: - `Am [nächsten] Morgen war alles anders.` -> `{ canonicalLemma: "nah", degree: "Sup", meaningInEmojis: "➡️" }`
+- Agents seem to be confused when diven the capitalised words like `[Am] nächsten Morgen war alles anders.`. This leads them to overthink and lean towards { spellingRelation: "Variant" }
 
 ### Emerging Rules
 
@@ -47,6 +48,7 @@
 - Predicative `anders` with copular `sein` is classified as `ADJ`, not `ADV`.
   Example:
     - `Am nächsten Morgen war alles [anders].`
+- Capitalization is not a Variant.
 
 ### Open Questions
 

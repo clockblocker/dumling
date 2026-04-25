@@ -48,11 +48,13 @@ export function getWrappedAttestation(
 		typeof wrapped.classificationMistakes === "string"
 			? wrapped.classificationMistakes
 			: undefined;
+	const isVerified = wrapped.isVerified === true ? true : undefined;
 
 	return {
 		classifierNotes,
 		classificationMistakes,
 		entity: entityEntries[0]?.[1] as EntityValue,
+		isVerified,
 		order,
 		sentenceMarkdown,
 		title,

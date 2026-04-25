@@ -34,4 +34,5 @@ export const attestation = {
 		"Nächsten is treated here as an inflected form of the lexical adjective nächst in its temporal 'next/upcoming' sense, not as the superlative of nah.",
 	classificationMistakes:
 		"Do not force this row under lemma nah with degree Sup just because nächsten is historically related to nah. In this attestation the learner-facing meaning is temporal 'next', so the earlier mistakes were using canonicalLemma nah, degree Sup, and a proximity-style emoji instead of modeling lexical nächst directly.",
+	isVerified: true,
 } as const satisfies AttestedSelection;

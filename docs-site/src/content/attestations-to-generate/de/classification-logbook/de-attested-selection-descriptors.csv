@@ -1,6 +1,7 @@
 sentence_markdown,normalizedFullSurface,orthographicStatus,surfaceKind,lemmaKind,lemmaSubKind
 [Am] nächsten Morgen war alles anders.,am,Standard,Citation,Fusion,General
 Am [nächsten] Morgen war alles anders.,nächsten,Standard,Inflection,Lexeme,ADJ
+Am nächsten Morgen war alles [anders].,anders,Standard,Citation,Lexeme,ADJ
 Auf der Karte sind drei [Seen] eingezeichnet.,Seen,Standard,Inflection,Lexeme,NOUN
 Bei dieser Formel verstehe ich nur [Bahnhof].,nur Bahnhof verstehen,Standard,Citation,Phraseme,Idiom
 Bitte folgen Sie [Ihrem] Ansprechpartner.,Ihrem,Standard,Inflection,Lexeme,DET

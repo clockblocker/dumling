@@ -155,7 +155,7 @@ export function writeSelectionLogbookCsv(
 			`${language}-attested-selection-descriptors.csv`,
 		);
 		const selectionLines = [
-			"sentence_markdown,sectionId,classifierNotes,classificationMistakes",
+			"sentence_markdown,sectionId,classifierNotes,classificationMistakes,isVerified",
 			...selectionsForLanguage.map((selection) =>
 				[
 					csvCell(selection.sentenceMarkdown),
@@ -168,6 +168,7 @@ export function writeSelectionLogbookCsv(
 					),
 					csvCell(selection.classifierNotes ?? ""),
 					csvCell(selection.classificationMistakes ?? ""),
+					csvCell(selection.isVerified === true ? "true" : ""),
 				].join(","),
 			),
 		];
