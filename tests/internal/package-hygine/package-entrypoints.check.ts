@@ -170,14 +170,14 @@ describe("published package entrypoints", () => {
 				),
 			);
 
-			run(resolve(projectRoot, "node_modules/.bin/tsc"), [
+			run(resolve(projectRoot, "node_modules/.bin/tsgo"), [
 				"--project",
 				join(typecheckDir, "tsconfig.json"),
 				"--pretty",
 				"false",
 			]);
 
-			run(resolve(projectRoot, "node_modules/.bin/tsc"), [
+			run(resolve(projectRoot, "node_modules/.bin/tsgo"), [
 				"--project",
 				resolve(projectRoot, "docs-site/tsconfig.json"),
 				"--pretty",
