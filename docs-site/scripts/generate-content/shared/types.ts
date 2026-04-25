@@ -1,6 +1,5 @@
 import type {
 	EntityValue,
-	Selection,
 	SupportedLanguage,
 } from "../../../../src/types/public-types.ts";
 
@@ -33,13 +32,19 @@ export type SelectionSentenceParts = {
 	sentenceText: string;
 };
 
-export type SelectionAttestationSource = AttestationSource & {
+export type SelectionAttestationSource = {
 	classifierNotes?: string;
 	classificationMistakes?: string;
-	entity: Selection<SupportedLanguage>;
+	entity: {
+		language: SupportedLanguage;
+		spelledSelection: string;
+		surface: {
+			normalizedFullSurface: string;
+		};
+	};
 	isVerified?: true;
 	sentenceMarkdown: string;
-	title: string;
+	sourcePath: string;
 };
 
 export type LogbookFileKind = "classifier" | "reviewer" | "summary";

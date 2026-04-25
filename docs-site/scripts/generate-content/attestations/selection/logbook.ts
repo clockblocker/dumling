@@ -12,9 +12,21 @@ import { ensureTextFile } from "../../shared/fs";
 import { sourceAttestationsDir } from "../../shared/paths";
 import type {
 	LogbookFileKind,
-	SelectionAttestationSource,
 } from "../../shared/types";
 import { selectionSemanticSourcePath } from "./semantic-source-path";
+
+type SelectionLogbookRow = {
+	classifierNotes?: string;
+	classificationMistakes?: string;
+	entity: {
+		language: SupportedLanguage;
+		surface: {
+			normalizedFullSurface: string;
+		};
+	};
+	isVerified?: true;
+	sentenceMarkdown: string;
+};
 
 export function csvCell(value: string): string {
 	return /[",\n\r]/u.test(value) ? `"${value.replaceAll('"', '""')}"` : value;
@@ -118,17 +130,15 @@ export function migrateLegacySelectionNotes(): void {
 }
 
 export function writeSelectionLogbookCsv(
-	selections: SelectionAttestationSource[],
+	selections: SelectionLogbookRow[],
 ): void {
-	const rowsByLanguage = new Map<
-		SupportedLanguage,
-		SelectionAttestationSource[]
-	>();
+	const rowsByLanguage = new Map<SupportedLanguage, SelectionLogbookRow[]>();
 
 	for (const selection of selections) {
-		const existing = rowsByLanguage.get(selection.entity.language) ?? [];
+		const language = selection.entity.language as SupportedLanguage;
+		const existing = rowsByLanguage.get(language) ?? [];
 		existing.push(selection);
-		rowsByLanguage.set(selection.entity.language, existing);
+		rowsByLanguage.set(language, existing);
 	}
 
 	for (const language of ["de", "en", "he"] satisfies SupportedLanguage[]) {
@@ -156,29 +166,28 @@ export function writeSelectionLogbookCsv(
 		);
 		const selectionLines = [
 			"sentence_markdown,sectionId,classifierNotes,classificationMistakes,isVerified",
-			...selectionsForLanguage.map((selection) =>
-				[
+			...selectionsForLanguage.map((selection) => {
+				const language = selection.entity.language;
+				const languageApi = getLanguageApi(language);
+
+				return [
 					csvCell(selection.sentenceMarkdown),
 					csvCell(
-						String(
-							getLanguageApi(
-								selection.entity.language,
-							).id.encode.asCsv(selection.entity),
-						),
+						String(languageApi.id.encode.asCsv(selection.entity as never)),
 					),
 					csvCell(selection.classifierNotes ?? ""),
 					csvCell(selection.classificationMistakes ?? ""),
 					csvCell(selection.isVerified === true ? "true" : ""),
-				].join(","),
-			),
+				].join(",");
+			}),
 		];
 		const descriptorLines = [
 			"sentence_markdown,normalizedFullSurface,orthographicStatus,surfaceKind,lemmaKind,lemmaSubKind",
 			...selectionsForLanguage.map((selection) => {
+				const language = selection.entity.language;
+				const languageApi = getLanguageApi(language);
 				const descriptorFields = String(
-					getLanguageApi(selection.entity.language).describe.asCsv.selection(
-						selection.entity,
-					),
+					languageApi.describe.asCsv.selection(selection.entity as never),
 				).split(",");
 				const [
 					_entityKind,
