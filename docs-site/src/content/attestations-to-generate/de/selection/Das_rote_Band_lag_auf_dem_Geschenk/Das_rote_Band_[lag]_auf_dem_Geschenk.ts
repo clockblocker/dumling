@@ -33,4 +33,5 @@ export const attestation = {
 	sentenceMarkdown: "Das rote Band [lag] auf dem Geschenk.",
 	classifierNotes:
 		"Lag is the past finite form of liegen in a stative location reading, not a causative legen form.",
+	isVerified: true,
 } as const satisfies AttestedSelection;

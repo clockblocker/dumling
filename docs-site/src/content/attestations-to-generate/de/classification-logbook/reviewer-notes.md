@@ -56,6 +56,14 @@
   Examples:
     - `Er [muss] heute arbeiten.` -> `AUX`
     - `Das [muss] heute noch raus.` -> `VERB`
+- Short directional forms like `raus`, `rein`, `rüber`, `runter`, `drin`, and `draußen` stay standalone `ADV` entries when there is no overt verb host that licenses a separable-verb analysis. Do not invent a larger verb lemma from clause meaning alone in elliptical clauses.
+  Examples:
+    - `Das muss heute noch [raus].` -> `ADV` lemma `heraus`
+    - `Die Kinder sind schon [drin].` -> `ADV` lemma `drinnen`
+- Free prepositions heading ordinary prepositional phrases stay standalone `ADP` entries and are not pulled into the verb. Only lexically governed prepositions or true separable prefixes belong on the verb analysis.
+  Examples:
+    - `Das rote Band lag [auf] dem Geschenk.` -> standalone `ADP`
+    - `Das rote Band [lag] auf dem Geschenk.` -> `VERB` lemma `liegen`, no `hasGovPrep`
 - When a selected token is clearly just an internal component of an idiom, classify the idiom as the learner-facing unit rather than the token's standalone POS.
   Example:
     - `Bei dieser Formel verstehe ich nur [Bahnhof].`
