@@ -27,4 +27,5 @@ export const attestation = {
 	selection: deSelection041,
 	sentenceMarkdown: "Das ist [nicht] mein Problem.",
 	classifierNotes: "Nicht is modeled as PART with polarity Neg rather than as an adverb.",
+	isVerified: true,
 } as const satisfies AttestedSelection;

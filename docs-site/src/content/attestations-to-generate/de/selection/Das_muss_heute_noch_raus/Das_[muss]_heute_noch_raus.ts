@@ -21,17 +21,21 @@ const deSelection024 = {
 			language: "de",
 			canonicalLemma: "müssen",
 			lemmaKind: "Lexeme",
-			lemmaSubKind: "AUX",
+			lemmaSubKind: "VERB",
 			inherentFeatures: {
 				verbType: "Mod",
 			},
 			meaningInEmojis: "⚠️",
 		},
 	},
-} satisfies Selection<"de", "Standard", "Inflection", "Lexeme", "AUX">;
+} satisfies Selection<"de", "Standard", "Inflection", "Lexeme", "VERB">;
 
 export const attestation = {
 	selection: deSelection024,
 	sentenceMarkdown: "Das [muss] heute noch raus.",
-	classifierNotes: "Muss is represented as AUX with the inherent feature verbType Mod.",
+	classifierNotes:
+		"Muss is treated as a lexical modal VERB with verbType Mod here, because it is the clause's main predicate and there is no overt infinitive for it to auxiliary-mark.",
+	classificationMistakes:
+		"Do not default finite müssen to AUX just because it is modal. In this attestation the earlier mistake was classifying muss as lemmaSubKind AUX even though the clause is elliptical and the selected word functions as the main predicate rather than as an auxiliary to an overt infinitive.",
+	isVerified: true,
 } as const satisfies AttestedSelection;
