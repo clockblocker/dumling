@@ -1,3 +1,9 @@
+---
+title: What To Do With Numerals
+description: Classification notes for German numeral-like selections.
+order: 111
+---
+
 # What To Do With Numerals: Follow UD precisely when classifying.
 
 Examples:

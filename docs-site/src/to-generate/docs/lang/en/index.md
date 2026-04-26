@@ -35,7 +35,7 @@ English noun `number` supports `Sing`, `Plur`, and `Ptan`. English verb `tense` 
 
 ## Attestation Files
 
-English attestation source files live in `src/content/attestations-to-generate/en`. Each file exports exactly one attested dumling object and generates exactly one Markdown attestation.
+English attestation source files live in `src/to-generate/attestations/en`. Each file exports exactly one attested dumling object and generates exactly one Markdown attestation.
 
 Lemma and surface attestations are generated from files under `lemma/` and `surface/` with base64url ID basenames. Selection fixtures under `selection/{sentence}/` use a sentence directory normalized from `sentenceMarkdown` without brackets plus a semantic filename that keeps the bracketed selection span, which allows multiple selections for the same sentence. Generated Markdown attestations are written to `src/generated/entities/en/{entityKind}/` and published at `/{lang}/{entityKind}/{base64urlId}/`.
 

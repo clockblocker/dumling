@@ -26,7 +26,7 @@
 		"verbatimModuleSyntax": true
 	},
 	"include": [
-		"docs-site/src/content/attestations-to-generate/**/*.ts",
+		"docs-site/src/to-generate/attestations/**/*.ts",
 		"generate-readme/**/*.ts",
 		"scripts/doc-blocks.ts",
 		"src/**/*.ts",

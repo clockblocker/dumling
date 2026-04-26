@@ -6,9 +6,9 @@ export const siteRoot = resolve(scriptDir, "../../..");
 export const repoRoot = resolve(siteRoot, "..");
 export const sourceAttestationsDir = join(
 	siteRoot,
-	"src/content/attestations-to-generate",
+	"src/to-generate/attestations",
 );
-export const sourceDocsDir = join(siteRoot, "src/content/docs");
+export const sourceDocsDir = join(siteRoot, "src/to-generate/docs");
 export const generatedDocsDir = join(siteRoot, "src/generated/docs");
 export const generatedEntitiesDir = join(siteRoot, "src/generated/entities");
 export const publicDir = join(siteRoot, "public");

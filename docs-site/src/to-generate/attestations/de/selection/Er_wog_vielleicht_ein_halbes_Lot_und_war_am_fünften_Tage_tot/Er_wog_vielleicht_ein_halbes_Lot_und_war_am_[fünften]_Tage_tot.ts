@@ -22,7 +22,6 @@ const deSelection = {
 			lemmaKind: "Lexeme",
 			lemmaSubKind: "ADJ",
 			inherentFeatures: {
-				numForm: "Word",
 				numType: "Ord",
 			},
 			meaningInEmojis: "5️⃣",
