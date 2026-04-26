@@ -50,5 +50,7 @@ export async function renameSelectionSources(): Promise<string[]> {
 		);
 	}
 
-	return listTypeScriptFiles(sourceAttestationsDir);
+	return listTypeScriptFiles(sourceAttestationsDir).filter(
+		(sourcePath) => expectedEntityKindForPath(sourcePath) !== undefined,
+	);
 }
