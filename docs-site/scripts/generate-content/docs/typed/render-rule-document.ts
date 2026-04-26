@@ -1,20 +1,23 @@
 import type { TypedDocsGenerationConfig } from "./config";
-import type { RuleDocument, RuleExample } from "./load-typed-doc-source";
+import type { RuleDocument } from "./load-typed-doc-source";
+import type { AttestedSelection } from "../../../../../src/types/public-types.ts";
 
 function renderRuleExample(
-	example: RuleExample,
-	rendererName: string,
+	example: AttestedSelection,
 	config: TypedDocsGenerationConfig,
 	sourceTitle: string,
 ): string {
-	const renderer = config.attestedSelectionRenderers[rendererName];
+	const renderer =
+		config.attestedSelectionRenderers[
+			config.defaultAttestedSelectionRenderer
+		];
 	if (renderer === undefined) {
 		throw new Error(
-			`${sourceTitle} references unknown attested-selection renderer "${rendererName}".`,
+			`${sourceTitle} references unknown attested-selection renderer "${config.defaultAttestedSelectionRenderer}".`,
 		);
 	}
 
-	return renderer(example.selection);
+	return renderer(example);
 }
 
 export function renderRuleDocument(
@@ -37,9 +40,6 @@ export function renderRuleDocument(
 					...block.examples.map((example) =>
 						renderRuleExample(
 							example,
-							example.render ??
-								block.render ??
-								config.defaultAttestedSelectionRenderer,
 							config,
 							document.meta.title,
 						),

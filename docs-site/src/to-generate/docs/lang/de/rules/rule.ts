@@ -8,17 +8,11 @@ type DocPageMeta = {
 	title: string;
 };
 
-type RuleExample = {
-	render?: string;
-	selection: AttestedSelection;
-};
-
-type RuleBlock = Prettify<{
+type RuleBlock = {
 	body?: string;
-	examples: readonly RuleExample[];
+	examples: readonly AttestedSelection[];
 	heading?: string;
-	render?: string;
-}>;
+};
 
 export type RuleDocument = Prettify<{
 	blocks: readonly RuleBlock[];

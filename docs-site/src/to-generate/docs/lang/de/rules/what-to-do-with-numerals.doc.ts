@@ -15,17 +15,13 @@ const document = {
 		{
 			body:
 				"Follow the actual lexical behavior of the attested selection rather than assuming every numeral-shaped item is `NUM`.",
-			examples: [
-				{ selection: zweien },
-				{ selection: fuenften },
-				{ selection: einmal },
-			],
+			examples: [zweien, fuenften, einmal],
 			heading: "Follow the attested function",
 		},
 		{
 			body:
 				"Numeral-adjacent quantifiers can still land outside `NUM` when they function as determiners or pronouns in context.",
-			examples: [{ selection: keinem }, { selection: viele }],
+			examples: [keinem, viele],
 			heading: "Keep DET and PRON available",
 		},
 	],

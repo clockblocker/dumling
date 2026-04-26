@@ -12,16 +12,10 @@ import {
 	routeIdForTypedDocSourcePath,
 } from "../routes";
 
-export type RuleExample = {
-	render?: string;
-	selection: AttestedSelection;
-};
-
 export type RuleBlock = {
 	body?: string;
-	examples: readonly RuleExample[];
+	examples: readonly AttestedSelection[];
 	heading?: string;
-	render?: string;
 };
 
 export type RuleDocument = {
@@ -61,23 +55,16 @@ function isAttestedSelection(value: unknown): value is AttestedSelection {
 	return typeof value.selection.language === "string";
 }
 
-function parseRuleExample(value: unknown, sourcePath: string): RuleExample {
-	if (!isRecord(value)) {
-		throw new Error(`${sourcePath} has an invalid rule example.`);
-	}
-	if (!isAttestedSelection(value.selection)) {
+function parseRuleExample(
+	value: unknown,
+	sourcePath: string,
+): AttestedSelection {
+	if (!isAttestedSelection(value)) {
 		throw new Error(
 			`${sourcePath} rule examples must reference AttestedSelection sources.`,
 		);
 	}
-	if (value.render !== undefined && typeof value.render !== "string") {
-		throw new Error(`${sourcePath} has a non-string example renderer name.`);
-	}
-
-	return {
-		render: value.render,
-		selection: value.selection,
-	};
+	return value;
 }
 
 function parseRuleBlock(value: unknown, sourcePath: string): RuleBlock {
@@ -93,9 +80,6 @@ function parseRuleBlock(value: unknown, sourcePath: string): RuleBlock {
 	if (value.body !== undefined && typeof value.body !== "string") {
 		throw new Error(`${sourcePath} has a non-string rule block body.`);
 	}
-	if (value.render !== undefined && typeof value.render !== "string") {
-		throw new Error(`${sourcePath} has a non-string rule block renderer name.`);
-	}
 
 	return {
 		body: value.body,
@@ -103,7 +87,6 @@ function parseRuleBlock(value: unknown, sourcePath: string): RuleBlock {
 			parseRuleExample(example, sourcePath),
 		),
 		heading: value.heading,
-		render: value.render,
 	};
 }
 
