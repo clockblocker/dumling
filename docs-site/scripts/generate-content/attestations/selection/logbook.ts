@@ -1,6 +1,7 @@
 import {
 	existsSync,
 	mkdirSync,
+	readdirSync,
 	readFileSync,
 	rmSync,
 	writeFileSync,
@@ -9,7 +10,10 @@ import { join } from "node:path";
 import { getLanguageApi } from "../../../../../src/index.ts";
 import type { SupportedLanguage } from "../../../../../src/types/public-types.ts";
 import { ensureTextFile } from "../../shared/fs";
-import { sourceAttestationsDir } from "../../shared/paths";
+import {
+	classificationLogbookDir,
+	sourceAttestationsDir,
+} from "../../shared/paths";
 import type {
 	LogbookFileKind,
 } from "../../shared/types";
@@ -108,12 +112,34 @@ export function validateLogbookFile(
 	}
 }
 
-export function migrateLegacySelectionNotes(): void {
+function legacyClassificationLogbookDir(language: SupportedLanguage): string {
+	return join(sourceAttestationsDir, language, "classification-logbook");
+}
+
+function activeClassificationLogbookDir(language: SupportedLanguage): string {
+	return join(classificationLogbookDir, language);
+}
+
+function assertNoLegacyClassificationLogbookContent(): void {
 	for (const language of ["de", "en", "he"] satisfies SupportedLanguage[]) {
-		const languageDir = join(sourceAttestationsDir, language);
-		const logbookDir = join(languageDir, "classification-logbook");
+		const legacyDir = legacyClassificationLogbookDir(language);
+		if (!existsSync(legacyDir) || readdirSync(legacyDir).length === 0) {
+			continue;
+		}
+		throw new Error(
+			`Legacy classification logbook content still exists at ${legacyDir}. Move it to ${activeClassificationLogbookDir(language)} before generating attestations.`,
+		);
+	}
+}
+
+export function prepareSelectionLogbooks(): void {
+	assertNoLegacyClassificationLogbookContent();
+
+	for (const language of ["de", "en", "he"] satisfies SupportedLanguage[]) {
+		const logbookDir = activeClassificationLogbookDir(language);
 		const legacyPath = join(
-			languageDir,
+			sourceAttestationsDir,
+			language,
 			`${language}-selection-decisions.md`,
 		);
 		const reviewerNotesPath = join(logbookDir, "reviewer-notes.md");
@@ -154,11 +180,7 @@ export function writeSelectionLogbookCsv(
 				language,
 			),
 		);
-		const logbookDir = join(
-			sourceAttestationsDir,
-			language,
-			"classification-logbook",
-		);
+		const logbookDir = activeClassificationLogbookDir(language);
 		mkdirSync(logbookDir, { recursive: true });
 		const selectionsCsvPath = join(
 			logbookDir,

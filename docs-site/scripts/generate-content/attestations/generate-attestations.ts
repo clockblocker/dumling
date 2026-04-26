@@ -14,7 +14,10 @@ import type { SelectionAttestationSource, SourcePage } from "../shared/types";
 import { entityKindFor } from "./entity/helpers";
 import { generatedFrontmatterForAttestation } from "./render/generated-frontmatter";
 import { renderAttestationBody } from "./render/render-attestation-body";
-import { migrateLegacySelectionNotes, writeSelectionLogbookCsv } from "./selection/logbook";
+import {
+	prepareSelectionLogbooks,
+	writeSelectionLogbookCsv,
+} from "./selection/logbook";
 import { renameSelectionSources } from "./selection/rename-selection-sources";
 import { loadAttestationSource } from "./source/load-attestation-source";
 import { validateAttestationPath } from "./validate/validate-attestation-path";
@@ -74,7 +77,7 @@ export async function generateAttestations(): Promise<SourcePage[]> {
 	mkdirSync(generatedEntitiesDir, { recursive: true });
 	mkdirSync(publicDir, { recursive: true });
 	removeGeneratedAttestationOutputs();
-	migrateLegacySelectionNotes();
+	prepareSelectionLogbooks();
 	const sourcePaths = await renameSelectionSources();
 
 	for (const sourcePath of sourcePaths) {

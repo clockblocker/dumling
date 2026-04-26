@@ -1,29 +1,18 @@
-import {
-	existsSync,
-	mkdirSync,
-	readFileSync,
-	rmSync,
-	writeFileSync,
-} from "node:fs";
+import { mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { parseFrontmatter } from "./frontmatter";
-import {
-	generatedRouteIdForPath,
-	publicMarkdownPathForRouteId,
-} from "./routes";
-import { listMarkdownFiles } from "../shared/fs";
+import { generatedRouteIdForPath, publicMarkdownPathForRouteId } from "./routes";
+import { listMarkdownFiles, removeEmptyDirectories } from "../shared/fs";
 import { generatedDocsDir, publicDir } from "../shared/paths";
 
 export function writeNavFiles(): void {
 	const navItems = listMarkdownFiles(generatedDocsDir)
-		.filter((generatedPath) => existsSync(generatedPath))
 		.map((generatedPath) => {
 			const { frontmatter } = parseFrontmatter(
 				readFileSync(generatedPath, "utf8"),
 				generatedPath,
 			);
-			const routeId =
-				frontmatter.routeId ?? generatedRouteIdForPath(generatedPath);
+			const routeId = generatedRouteIdForPath(generatedPath);
 
 			return {
 				frontmatter,
@@ -66,24 +55,15 @@ export function writeNavFiles(): void {
 
 export function removeGeneratedDocOutputs(): void {
 	for (const generatedPath of listMarkdownFiles(generatedDocsDir)) {
-		if (!existsSync(generatedPath)) {
-			continue;
-		}
-
-		const { frontmatter } = parseFrontmatter(
-			readFileSync(generatedPath, "utf8"),
-			generatedPath,
-		);
-		if (frontmatter.routeId !== undefined) {
-			continue;
-		}
-
 		const routeId = generatedRouteIdForPath(generatedPath);
-		rmSync(generatedPath);
+		rmSync(generatedPath, { force: true });
 		rmSync(publicMarkdownPathForRouteId(routeId), { force: true });
 	}
 
 	for (const navPath of [join(publicDir, "nav.json"), join(publicDir, "nav.md")]) {
 		rmSync(navPath, { force: true });
 	}
+
+	removeEmptyDirectories(generatedDocsDir);
+	removeEmptyDirectories(publicDir);
 }

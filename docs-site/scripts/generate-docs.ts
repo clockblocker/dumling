@@ -1,3 +1,4 @@
-import { generateDocs } from "./generate-content/index.ts";
+import { generateDocs, runDocsHousekeeping } from "./generate-content/index.ts";
 
-generateDocs();
+await runDocsHousekeeping();
+await generateDocs();
