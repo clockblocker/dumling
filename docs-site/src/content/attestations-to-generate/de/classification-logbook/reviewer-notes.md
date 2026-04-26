@@ -45,9 +45,11 @@
 - When a form is synchronically lexicalized for learners, classify that lexeme directly instead of forcing a historical or etymological source analysis.
   Example:
     - temporal `nächsten` in `am nächsten Morgen` should be modeled as lexical `nächst`, not as superlative `nah`
-- Predicative `anders` with copular `sein` is classified as `ADJ`, not `ADV`.
-  Example:
+- State predicates that predicate over an argument rather than modifying the event stay `ADJ`, even when they can feel adverb-like on the surface. This includes ordinary predicatives with copular `sein` and resultative predicates like `entzwei`.
+  Examples:
     - `Am nächsten Morgen war alles [anders].`
+    - `Er war am fünften Tage [tot].`
+    - `Die schoß das Häschen ganz [entzwei].`
 - Participles are stored as inflections of `VERB`, even in stative or passive-like clauses, unless there is a stronger reason to treat the form as a fully lexicalized adjective.
   Examples:
     - `Auf der Karte sind drei Seen [eingezeichnet].`

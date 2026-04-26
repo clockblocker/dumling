@@ -5,7 +5,6 @@ export const unstampedGoodBoys = [
 ] as const;
 
 export const children = [
-	`Die schoß das Häschen ganz [entzwei]; da rief die Frau: »O wei! O wei!`,
 	`Die schoß das Häschen ganz entzwei; da rief die Frau: »[O] wei! O wei!`,
 	`Die schoß das Häschen ganz entzwei; da rief die Frau: »O [wei]! O wei!`,
 	`Einst ging er an Ufers [Rand] mit der Mappe in der Hand`,
