@@ -35,4 +35,5 @@ export const attestation = {
 da rief die Frau: »O [wei]! O wei!«`,
 	classifierNotes:
 		"This is the same reaction formula analysis as the O selection: wei is treated as a partial slice of the discourse formula o wei, not as an independent lexeme.",
+	isVerified: true,
 } as const satisfies AttestedSelection;

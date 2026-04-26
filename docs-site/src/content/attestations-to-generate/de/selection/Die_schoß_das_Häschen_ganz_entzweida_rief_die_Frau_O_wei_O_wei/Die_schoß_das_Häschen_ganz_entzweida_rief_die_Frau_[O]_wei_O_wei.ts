@@ -35,4 +35,5 @@ export const attestation = {
 da rief die Frau: »[O] wei! O wei!«`,
 	classifierNotes:
 		"I linked the selected O to the whole exclamation o wei as a discourse formula, not to a standalone interjection token. That follows the dumling preference for preserving the meaning-bearing multiword formula when a learner highlights only one part of it.",
+	isVerified: true,
 } as const satisfies AttestedSelection;
