@@ -27,4 +27,5 @@ export const attestation = {
 gar [jämmerlich] zu zweien`,
 	classifierNotes:
 		"Jämmerlich is adjective-shaped, but in this sentence it modifies schreien adverbially. I classified the attested use as ADV to reflect the learner-facing role in context.",
+	isVerified: true,
 } as const satisfies AttestedSelection;

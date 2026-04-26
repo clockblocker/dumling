@@ -28,12 +28,6 @@ export const naughtyBoys = [
 ];
 
 export const unstampedGoodBoys = [
-	`Es [zog] der wilde Jägersmann sein grasgrün neues Röcklein an;`,
-	`Es zog der wilde Jägersmann sein grasgrün neues Röcklein [an];`,
-	`"Jetzt schien die Sonne gar zu sehr, [da] ward ihm sein Gewehr zu schwer."`,
-	`"nahm Ranzen, Pulverhorn und Flint und lief hinaus [ins] Feld geschwind"`,
-	`"nahm Ranzen, Pulverhorn und Flint und lief hinaus ins Feld [geschwind]"`,
-	`"Und Minz und Maunz, die schreien gar [jämmerlich] zu zweien"`,
 ] as const;
 
 export const children = [

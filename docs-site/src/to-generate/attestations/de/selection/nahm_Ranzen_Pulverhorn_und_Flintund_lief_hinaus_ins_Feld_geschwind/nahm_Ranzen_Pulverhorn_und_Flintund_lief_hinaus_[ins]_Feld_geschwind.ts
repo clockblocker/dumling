@@ -27,4 +27,5 @@ export const attestation = {
 und lief hinaus [ins] Feld geschwind`,
 	classifierNotes:
 		"Ins is the usual German fused form, so Dumling keeps it as Construction/Fusion rather than decomposing it into in + das.",
+	isVerified: true,
 } as const satisfies AttestedSelection;

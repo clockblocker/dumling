@@ -27,4 +27,5 @@ export const attestation = {
 [da] ward ihm sein Gewehr zu schwer.`,
 	classifierNotes:
 		"I treated `da` as a narrative temporal adverb meaning roughly `then`, not as the subordinating conjunction, because the clause stays V2 (`da ward ...`) instead of showing subordinate verb-final order.",
+	isVerified: true,
 } as const satisfies AttestedSelection;

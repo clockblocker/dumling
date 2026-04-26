@@ -36,4 +36,5 @@ export const attestation = {
 	sein grasgrün neues Röcklein [an];`,
 	classifierNotes:
 		"The detached prefix token is still classified against the same separable verbal surface `zog an`, following the existing Dumling pattern for split verbs like `pass auf`.",
+	isVerified: true,
 } as const satisfies AttestedSelection;

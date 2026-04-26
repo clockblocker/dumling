@@ -36,4 +36,5 @@ export const attestation = {
 	sein grasgrün neues Röcklein an;`,
 	classifierNotes:
 		"This is the finite part of the separable verb `anziehen`, so the selection is Partial while `normalizedFullSurface` keeps the full attested verb surface `zog an`.",
+	isVerified: true,
 } as const satisfies AttestedSelection;

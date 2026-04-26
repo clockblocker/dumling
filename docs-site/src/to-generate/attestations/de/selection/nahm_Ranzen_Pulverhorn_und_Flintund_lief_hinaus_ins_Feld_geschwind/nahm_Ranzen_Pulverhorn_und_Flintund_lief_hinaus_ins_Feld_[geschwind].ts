@@ -27,4 +27,5 @@ export const attestation = {
 und lief hinaus ins Feld [geschwind]`,
 	classifierNotes:
 		"I treated `geschwind` here as an adverb meaning `quickly`, not as an adjective, because it modifies the running event directly and shows no adjectival inflection in this use.",
+	isVerified: true,
 } as const satisfies AttestedSelection;
