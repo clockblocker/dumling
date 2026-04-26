@@ -268,7 +268,7 @@ sentence_markdown,sectionId,classifierNotes,classificationMistakes,isVerified
 
 Column meanings:
 
-- `sentence_markdown`: emitted exactly from the fixture
+- `sentence_markdown`: emitted from the fixture with embedded newlines collapsed to single spaces
 - `sectionId`: the long human-readable section ID derived from `selection`
 - `classifierNotes`: emitted exactly as written, or empty when omitted
 - `classificationMistakes`: emitted exactly as written, or empty when omitted
@@ -293,7 +293,7 @@ sentence_markdown,normalizedFullSurface,orthographicStatus,surfaceKind,lemmaKind
 
 Column meanings:
 
-- `sentence_markdown`: emitted exactly from the fixture
+- `sentence_markdown`: emitted from the fixture with embedded newlines collapsed to single spaces
 - `normalizedFullSurface`: emitted from `selection.surface.normalizedFullSurface`
 - `orthographicStatus`: emitted from the selection descriptor
 - `surfaceKind`: emitted from the selection descriptor

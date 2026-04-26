@@ -32,6 +32,10 @@ export function csvCell(value: string): string {
 	return /[",\n\r]/u.test(value) ? `"${value.replaceAll('"', '""')}"` : value;
 }
 
+export function sentenceMarkdownCsvValue(sentenceMarkdown: string): string {
+	return sentenceMarkdown.replaceAll(/\s*[\r\n]+\s*/gu, " ");
+}
+
 export function defaultLogbookText(kind: LogbookFileKind): string {
 	if (kind === "classifier") {
 		return "### Classifier Notes\n\n-\n\n### Open Questions\n\n-\n";
@@ -171,7 +175,7 @@ export function writeSelectionLogbookCsv(
 				const languageApi = getLanguageApi(language);
 
 				return [
-					csvCell(selection.sentenceMarkdown),
+					csvCell(sentenceMarkdownCsvValue(selection.sentenceMarkdown)),
 					csvCell(
 						String(languageApi.id.encode.asCsv(selection.entity as never)),
 					),
@@ -210,7 +214,7 @@ export function writeSelectionLogbookCsv(
 				}
 
 				return [
-					csvCell(selection.sentenceMarkdown),
+					csvCell(sentenceMarkdownCsvValue(selection.sentenceMarkdown)),
 					csvCell(selection.entity.surface.normalizedFullSurface),
 					csvCell(orthographicStatus),
 					csvCell(surfaceKind),
