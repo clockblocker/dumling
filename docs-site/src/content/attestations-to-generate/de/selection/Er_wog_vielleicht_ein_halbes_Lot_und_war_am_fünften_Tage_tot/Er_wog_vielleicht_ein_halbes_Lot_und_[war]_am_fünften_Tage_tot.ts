@@ -35,4 +35,5 @@ und [war] am fünften Tage tot.
 `,
 	classifierNotes:
 		"I kept war under the AUX lemma sein, following the repo's treatment of finite and participial sein forms as auxiliary/copular rather than splitting off a separate lexical verb entry.",
+	isVerified: true,
 } as const satisfies AttestedSelection;

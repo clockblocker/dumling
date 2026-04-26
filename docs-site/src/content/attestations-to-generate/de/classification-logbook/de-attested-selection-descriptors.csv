@@ -61,6 +61,7 @@ Er [wartet] auf den Nachtbus.,wartet,Standard,Inflection,Lexeme,VERB
 Er [wog] vielleicht ein halbes Lot – und war am fünften Tage tot. ,wog,Standard,Inflection,Lexeme,VERB
 Er wog vielleicht ein halbes [Lot] – und war am fünften Tage tot. ,Lot,Standard,Inflection,Lexeme,NOUN
 Er wog vielleicht ein halbes Lot – und [war] am fünften Tage tot. ,war,Standard,Inflection,Lexeme,AUX
+Er wog vielleicht ein halbes Lot – und war am [fünften] Tage tot. ,fünften,Standard,Inflection,Lexeme,ADJ
 Er wog vielleicht ein halbes Lot – und war am fünften Tage [tot]. ,tot,Standard,Citation,Lexeme,ADJ
 "[Es] brennt die Hand, es brennt das Haar, es brennt das ganze Kind sogar.",es,Standard,Inflection,Lexeme,PRON
 "Es brennt die Hand, es brennt das Haar, es brennt das [ganze] Kind sogar.",ganze,Standard,Inflection,Lexeme,ADJ
