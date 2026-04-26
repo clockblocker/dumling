@@ -29,4 +29,5 @@ export const attestation = {
 	selection: deSelection022,
 	sentenceMarkdown: "Das wäre fast schief [gewesen].",
 	classifierNotes: "Gewesen is treated as an AUX participle rather than a lexical verb.",
+	isVerified: true,
 } as const satisfies AttestedSelection;

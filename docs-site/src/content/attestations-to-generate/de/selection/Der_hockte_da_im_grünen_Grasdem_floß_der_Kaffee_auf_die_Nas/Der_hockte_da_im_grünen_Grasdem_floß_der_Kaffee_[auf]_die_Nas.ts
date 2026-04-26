@@ -29,4 +29,5 @@ export const attestation = {
 dem floß der Kaffee [auf] die Nas.`,
 	classifierNotes:
 		"`auf` heads the directional phrase `auf die Nas`, so I treated it as an ordinary preposition, not as a verbal particle. I left `governedCase` unset even though this local phrase is accusative, because the lemma `auf` is a two-way preposition and the Dumling schema stores that feature lexically rather than per attested token.",
+	isVerified: true,
 } as const satisfies AttestedSelection;

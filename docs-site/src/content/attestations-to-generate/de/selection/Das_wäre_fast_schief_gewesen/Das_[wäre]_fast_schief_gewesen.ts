@@ -32,4 +32,5 @@ export const attestation = {
 	selection: deSelection,
 	sentenceMarkdown: "Das [wäre] fast schief gewesen.",
 	classifierNotes: "The Konjunktiv-II form is mapped to supported mood Sub plus past tense.",
+	isVerified: true,
 } as const satisfies AttestedSelection;

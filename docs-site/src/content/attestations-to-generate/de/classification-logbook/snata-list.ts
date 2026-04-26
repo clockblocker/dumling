@@ -5,10 +5,6 @@ export const unstampedGoodBoys = [
 ] as const;
 
 export const children = [
-	`Das [wäre] fast schief gewesen`,
-	`Das wäre fast schief [gewesen]`,
-	`Der hockte da im grünen Gras; dem [floß] der Kaffee auf die Nas.`,
-	`Der hockte da im grünen Gras; dem floß der Kaffee [auf] die Nas`,
 	`[Die] Peitsche hat er mitgebracht und nimmt sie sorglich sehr in acht`,
 	`Die [Peitsche] hat er mitgebracht und nimmt sie sorglich sehr in acht`,
 	`Die Peitsche [hat] er mitgebracht und nimmt sie sorglich sehr in acht`,

@@ -34,4 +34,5 @@ export const attestation = {
 dem [floß] der Kaffee auf die Nas.`,
 	classifierNotes:
 		"I read `floß` as the 3sg past finite of `fließen`: `dem floß der Kaffee auf die Nas` means the coffee ran onto his nose. I considered the noun `Floß` for a second because the isolated form is ambiguous, but the clause structure with dative experiencer `dem` and subject `der Kaffee` makes the verbal reading clearly better.",
+	isVerified: true,
 } as const satisfies AttestedSelection;
