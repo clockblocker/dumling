@@ -33,4 +33,5 @@ export const attestation = {
 pfui, der Struwwelpeter!`,
 	classifierNotes:
 		"I kept Sieh as the imperative inflection of sehen rather than treating Sieh einmal as one larger formula; the sentence-initial capital remains only in spelledSelection.",
+	isVerified: true,
 } as const satisfies AttestedSelection;

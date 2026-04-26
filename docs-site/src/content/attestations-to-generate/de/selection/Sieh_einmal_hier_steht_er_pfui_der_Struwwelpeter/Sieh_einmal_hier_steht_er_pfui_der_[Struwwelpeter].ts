@@ -29,4 +29,5 @@ export const attestation = {
 pfui, der [Struwwelpeter]!`,
 	classifierNotes:
 		"I treated Struwwelpeter as PROPN: der is a stylistic article here, but the referent is still the named character rather than a common noun.",
+	isVerified: true,
 } as const satisfies AttestedSelection;

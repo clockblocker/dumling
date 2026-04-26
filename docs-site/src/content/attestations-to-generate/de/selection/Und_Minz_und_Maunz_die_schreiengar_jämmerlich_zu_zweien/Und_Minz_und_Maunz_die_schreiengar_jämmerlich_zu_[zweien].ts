@@ -32,4 +32,5 @@ export const attestation = {
 gar jämmerlich zu [zweien]`,
 	classifierNotes:
 		"I treated zweien as the dative inflected form of the cardinal numeral zwei inside the fixed phrase zu zweien, rather than as a pronoun-like item.",
+	isVerified: true,
 } as const satisfies AttestedSelection;

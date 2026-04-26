@@ -35,4 +35,5 @@ export const attestation = {
 pfui, [der] Struwwelpeter!`,
 	classifierNotes:
 		"This der is the definite article introducing Struwwelpeter, not a standalone pronoun, so it stays DET even though it precedes a name-like label.",
+	isVerified: true,
 } as const satisfies AttestedSelection;

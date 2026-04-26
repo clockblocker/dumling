@@ -9,20 +9,6 @@ mit der Mappe in der Hand.`,
 ];
 
 export const unstampedGoodBoys = [
-	"Mit [keinem] Wort erwähnte sie den Plan.",
-	`[Sieh] einmal, hier steht er,
-pfui, der Struwwelpeter!`,
-	`Sieh einmal, hier steht er,
-[pfui], der Struwwelpeter!`,
-	`Sieh einmal, hier steht er,
-pfui, [der] Struwwelpeter!`,
-	`Sieh einmal, hier steht er,
-pfui, der [Struwwelpeter]!`,
-	`Und Minz und Maunz, die schreien
-gar jämmerlich [zu] zweien`,
-	`Und Minz und Maunz, die schreien
-gar jämmerlich zu [zweien]`,
-	"Unter falschem [Namen] mietete er das Zimmer.",
 ] as const;
 
 export const unstampedGoodBoySet = new Set<string>(unstampedGoodBoys);

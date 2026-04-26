@@ -32,4 +32,5 @@ export const attestation = {
 	selection: deSelection035,
 	sentenceMarkdown: "Mit [keinem] Wort erwähnte sie den Plan.",
 	classifierNotes: "Keinem is a negative determiner rather than a pronoun because it modifies Wort.",
+	isVerified: true,
 } as const satisfies AttestedSelection;

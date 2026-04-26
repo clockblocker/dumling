@@ -30,4 +30,5 @@ export const attestation = {
 gar jämmerlich [zu] zweien`,
 	classifierNotes:
 		"Here zu is the preposition heading the fixed adverbial phrase zu zweien, so I kept it as ADP rather than reading it as infinitival or separable-particle zu.",
+	isVerified: true,
 } as const satisfies AttestedSelection;

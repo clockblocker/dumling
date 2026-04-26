@@ -27,4 +27,5 @@ export const attestation = {
 [pfui], der Struwwelpeter!`,
 	classifierNotes:
 		"Pfui is treated as a plain interjection. I did not force `partType: Res` because this use expresses disgust/exclamation, not the schema's narrower response-particle reading.",
+	isVerified: true,
 } as const satisfies AttestedSelection;
