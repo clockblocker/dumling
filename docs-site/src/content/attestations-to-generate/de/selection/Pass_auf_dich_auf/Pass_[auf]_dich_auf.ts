@@ -35,4 +35,5 @@ export const attestation = {
 	sentenceMarkdown: "Pass [auf] dich auf!",
 	classifierNotes:
 		"The governed preposition token still points to the same verbal surface `pass auf`; encode `auf` only in `lemma.inherentFeatures.hasGovPrep`, not as a standalone ADP and not by expanding `normalizedFullSurface`.",
+	isVerified: true,
 } as const satisfies AttestedSelection;

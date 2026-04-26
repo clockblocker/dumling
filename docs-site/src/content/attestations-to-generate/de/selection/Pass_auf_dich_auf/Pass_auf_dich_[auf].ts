@@ -35,4 +35,5 @@ export const attestation = {
 	sentenceMarkdown: "Pass auf dich [auf]!",
 	classifierNotes:
 		"The detached prefix token also points to the verbal surface `pass auf`; the governed preposition is kept separately on the lemma as `hasGovPrep: \"auf\"`.",
+	isVerified: true,
 } as const satisfies AttestedSelection;
