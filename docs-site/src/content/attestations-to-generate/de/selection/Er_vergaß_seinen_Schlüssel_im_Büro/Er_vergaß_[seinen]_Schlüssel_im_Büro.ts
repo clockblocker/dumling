@@ -27,7 +27,7 @@ const deSelection034 = {
 				poss: "Yes",
 				pronType: "Prs",
 			},
-			meaningInEmojis: "🔑",
+			meaningInEmojis: "👦",
 		},
 	},
 } satisfies Selection<"de", "Standard", "Inflection", "Lexeme", "DET">;
@@ -35,5 +35,9 @@ const deSelection034 = {
 export const attestation = {
 	selection: deSelection034,
 	sentenceMarkdown: "Er vergaß [seinen] Schlüssel im Büro.",
-	classifierNotes: "Possessor gender is represented separately from agreement gender.",
+	classifierNotes:
+		"`Seinen` is the accusative masculine singular possessive determiner agreeing with Schlüssel. Here the subject `Er` makes the possessor reading specifically 3rd-person masculine singular, so the separate possessor features are justified.",
+	classificationMistakes:
+		"Do not set meaningInEmojis from the possessed noun phrase when the selection is a possessive determiner. The earlier mistake here was using a key emoji for `seinen` instead of representing the determiner's `his` meaning.",
+	isVerified: true,
 } as const satisfies AttestedSelection;

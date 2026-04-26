@@ -31,6 +31,7 @@
 - For linking stuff the `meaningInEmojis` is set to the sense of the surrounding phrase.
   Examples:
     - `[Am] nächsten Morgen war alles anders.` -> `🌅`
+    - `Er vergaß [seinen] Schlüssel im Büro.` -> `🔑`
 - `spellingRelation` set to `"Variant"` for sentence-initial fusions.
   Examples:
     - `[Am] nächsten Morgen war alles anders.` -> `{ spellingRelation: "Variant" }

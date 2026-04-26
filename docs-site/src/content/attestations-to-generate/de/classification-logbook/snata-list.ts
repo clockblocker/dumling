@@ -5,7 +5,6 @@ export const unstampedGoodBoys = [
 ] as const;
 
 export const children = [
-	`Er vergaß [seinen] Schlüssel im Büro`,
 	`Er wog vielleicht ein halbes [Lot] – und war am fünften Tage tot.`,
 	`Er wog vielleicht ein halbes Lot – und [war] am fünften Tage tot.`,
 	`"[Es] brennt die Hand, es brennt das Haar, es brennt das ganze Kind sogar.`,
