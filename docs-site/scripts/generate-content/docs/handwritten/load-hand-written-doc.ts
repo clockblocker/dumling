@@ -10,7 +10,10 @@ import {
 	routeIdForHandWrittenSourcePath,
 } from "../routes";
 import type { DocsOutput } from "../types";
-import { readmeExamplesDir } from "../../shared/paths";
+import {
+	pathRelativeToSiteRoot,
+	readmeExamplesDir,
+} from "../../shared/paths";
 
 const markdownBlocks = collectBlocksFromDirectory({
 	examplesDir: readmeExamplesDir,
@@ -41,6 +44,7 @@ export function loadHandWrittenDoc(sourcePath: string): DocsOutput {
 		body: renderedBody,
 		frontmatter: {
 			description: frontmatter.description,
+			generatedFrom: pathRelativeToSiteRoot(sourcePath),
 			order: frontmatter.order,
 			title: frontmatter.title,
 		},

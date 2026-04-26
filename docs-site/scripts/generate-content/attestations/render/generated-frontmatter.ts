@@ -1,4 +1,5 @@
 import type { AttestationSource, Frontmatter } from "../../shared/types";
+import { pathRelativeToSiteRoot } from "../../shared/paths";
 import { lemmaForEntity, surfaceForEntity } from "../entity/helpers";
 import { isSelection, isSurface } from "../entity/guards";
 import { semanticSelectionBasename } from "../selection/semantic-source-path";
@@ -21,6 +22,7 @@ export function generatedFrontmatterForAttestation(
 			: displayName;
 
 	return {
+		generatedFrom: pathRelativeToSiteRoot(source.sourcePath),
 		order: source.order ?? 1000,
 		routeId,
 		title: generatedTitle,

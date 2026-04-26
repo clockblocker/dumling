@@ -5,6 +5,7 @@ import type {
 
 export interface Frontmatter {
 	description?: string;
+	generatedFrom?: string;
 	order: number;
 	routeId?: string;
 	title: string;

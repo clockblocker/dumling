@@ -1,4 +1,4 @@
-import { dirname, join, resolve } from "node:path";
+import { dirname, join, relative, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
 export const scriptDir = dirname(fileURLToPath(import.meta.url));
@@ -18,3 +18,7 @@ export const generatedDocsDir = join(siteRoot, "src/generated/docs");
 export const generatedEntitiesDir = join(siteRoot, "src/generated/entities");
 export const publicDir = join(siteRoot, "public");
 export const readmeExamplesDir = join(repoRoot, "generate-readme/examples");
+
+export function pathRelativeToSiteRoot(path: string): string {
+	return relative(siteRoot, path).replaceAll("\\", "/");
+}

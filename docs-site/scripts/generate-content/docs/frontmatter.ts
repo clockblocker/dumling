@@ -72,6 +72,10 @@ export function parseFrontmatter(
 				values.get("description") === undefined
 					? undefined
 					: parseStringValue(values.get("description") as string),
+			generatedFrom:
+				values.get("generatedFrom") === undefined
+					? undefined
+					: parseStringValue(values.get("generatedFrom") as string),
 			order,
 			routeId:
 				values.get("routeId") === undefined
@@ -89,6 +93,9 @@ export function serializeFrontmatter(frontmatter: Frontmatter): string {
 		...(frontmatter.description === undefined
 			? []
 			: [`description: ${formatStringValue(frontmatter.description)}`]),
+		...(frontmatter.generatedFrom === undefined
+			? []
+			: [`generatedFrom: ${formatStringValue(frontmatter.generatedFrom)}`]),
 		`order: ${frontmatter.order}`,
 		...(frontmatter.routeId === undefined
 			? []

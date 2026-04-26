@@ -5,6 +5,7 @@ import {
 	frontmatterForDocMeta,
 	parseDocPageMeta,
 } from "../metadata";
+import { pathRelativeToSiteRoot } from "../../shared/paths";
 import {
 	generatedPathForTypedDoc,
 	publicMarkdownPathForRouteId,
@@ -133,7 +134,10 @@ export async function loadTypedDocSource(
 
 	return {
 		document,
-		frontmatter: frontmatterForDocMeta(meta),
+		frontmatter: {
+			...frontmatterForDocMeta(meta),
+			generatedFrom: pathRelativeToSiteRoot(sourcePath),
+		},
 		generatedPath: generatedPathForTypedDoc(sourcePath, slug),
 		publicPath: publicMarkdownPathForRouteId(routeId),
 		routeId,
