@@ -10,6 +10,7 @@
 		"generate:attestations": "bun run scripts/generate-attestations.ts",
 		"generate:content": "bun run scripts/generate-content.ts",
 		"generate:docs": "bun run scripts/generate-docs.ts",
+		"generate": "bun run generate:attestations && bun run generate:content bun run generate:docs",
 		"prebuild": "bun run generate:content",
 		"preview": "astro preview"
 	},
