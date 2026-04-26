@@ -8,13 +8,13 @@ type DocPageMeta = {
 	title: string;
 };
 
-type RuleBlock = {
+type RuleSection = {
 	body?: string;
 	examples: readonly AttestedSelection[];
 	heading?: string;
 };
 
-export type RuleDocument = Prettify<{
-	blocks: readonly RuleBlock[];
+export type RuleDocument = Prettify<RuleSection & {
 	meta: DocPageMeta;
+	subsections?: readonly RuleSection[];
 }>;

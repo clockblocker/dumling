@@ -19,13 +19,15 @@ export type RuleBlock = {
 };
 
 export type RuleDocument = {
-	blocks: readonly RuleBlock[];
+	body?: string;
+	examples: readonly AttestedSelection[];
 	meta: {
 		description?: string;
 		order?: number;
 		slug?: string;
 		title: string;
 	};
+	subsections?: readonly RuleBlock[];
 };
 
 export type TypedDocSource = {
@@ -94,13 +96,28 @@ function parseRuleDocument(value: unknown, sourcePath: string): RuleDocument {
 	if (!isRecord(value)) {
 		throw new Error(`${sourcePath} must default-export a typed document object.`);
 	}
-	if (!Array.isArray(value.blocks)) {
-		throw new Error(`${sourcePath} must export a blocks array.`);
+	if (!Array.isArray(value.examples)) {
+		throw new Error(`${sourcePath} must export an examples array.`);
+	}
+	if (value.body !== undefined && typeof value.body !== "string") {
+		throw new Error(`${sourcePath} has a non-string document body.`);
+	}
+	if (
+		value.subsections !== undefined &&
+		!Array.isArray(value.subsections)
+	) {
+		throw new Error(`${sourcePath} must export subsections as an array when present.`);
 	}
 
 	return {
-		blocks: value.blocks.map((block) => parseRuleBlock(block, sourcePath)),
+		body: value.body,
+		examples: value.examples.map((example) =>
+			parseRuleExample(example, sourcePath),
+		),
 		meta: parseDocPageMeta(value.meta, sourcePath),
+		subsections: value.subsections?.map((block) =>
+			parseRuleBlock(block, sourcePath),
+		),
 	};
 }
 

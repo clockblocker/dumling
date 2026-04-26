@@ -26,18 +26,41 @@ export function renderRuleDocument(
 ): string {
 	const sections = [`# ${document.meta.title}`];
 
-	for (const block of document.blocks) {
-		if (block.heading !== undefined) {
-			sections.push(`## ${block.heading}`);
+	if (document.body !== undefined && document.body.trim().length > 0) {
+		sections.push(document.body.trim());
+	}
+	if (document.examples.length > 0) {
+		sections.push(
+			[
+				"Examples:",
+				...document.examples.map((example) =>
+					renderRuleExample(
+						example,
+						config,
+						document.meta.title,
+					),
+				),
+			].join("\n"),
+		);
+	}
+
+	for (const subsection of document.subsections ?? []) {
+		if (subsection.heading !== undefined) {
+			sections.push(`## ${subsection.heading}`);
+		} else {
+			sections.push("---");
 		}
-		if (block.body !== undefined && block.body.trim().length > 0) {
-			sections.push(block.body.trim());
+		if (
+			subsection.body !== undefined &&
+			subsection.body.trim().length > 0
+		) {
+			sections.push(subsection.body.trim());
 		}
-		if (block.examples.length > 0) {
+		if (subsection.examples.length > 0) {
 			sections.push(
 				[
 					"Examples:",
-					...block.examples.map((example) =>
+					...subsection.examples.map((example) =>
 						renderRuleExample(
 							example,
 							config,

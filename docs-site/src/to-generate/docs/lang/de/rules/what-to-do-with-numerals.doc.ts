@@ -6,25 +6,22 @@ import { attestation as zweien } from "../../../../attestations/de/selection/Und
 import type { RuleDocument } from "./rule.ts";
 
 const document = {
+	body: "Follow UD precisely when classifying.",
+	examples: [zweien, fuenften, einmal],
+
+	subsections: [
+		{
+			body:
+				"Numeral-adjacent quantifiers can still be `DET` or `PRON` when that is their real behavior.",
+			examples: [keinem, viele],
+		},
+	],
+
 	meta: {
 		description: "Classification notes for German numeral-like selections.",
 		order: 111,
 		title: "What To Do With Numerals",
 	},
-	blocks: [
-		{
-			body:
-				"Follow the actual lexical behavior of the attested selection rather than assuming every numeral-shaped item is `NUM`.",
-			examples: [zweien, fuenften, einmal],
-			heading: "Follow the attested function",
-		},
-		{
-			body:
-				"Numeral-adjacent quantifiers can still land outside `NUM` when they function as determiners or pronouns in context.",
-			examples: [keinem, viele],
-			heading: "Keep DET and PRON available",
-		},
-	],
 } satisfies RuleDocument;
 
 export default document;
