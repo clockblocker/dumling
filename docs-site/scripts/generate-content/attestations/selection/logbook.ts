@@ -32,6 +32,21 @@ type SelectionLogbookRow = {
 	sentenceMarkdown: string;
 };
 
+export function selectionLogbookCsvRow(
+	selection: SelectionLogbookRow,
+): string {
+	const language = selection.entity.language;
+	const languageApi = getLanguageApi(language);
+
+	return [
+		csvCell(sentenceMarkdownCsvValue(selection.sentenceMarkdown)),
+		csvCell(String(languageApi.id.encode.asCsv(selection.entity as never))),
+		csvCell(selection.classifierNotes ?? ""),
+		csvCell(selection.classificationMistakes ?? ""),
+		csvCell(selection.isVerified === true ? "true" : ""),
+	].join(",");
+}
+
 export function csvCell(value: string): string {
 	return /[",\n\r]/u.test(value) ? `"${value.replaceAll('"', '""')}"` : value;
 }
@@ -192,20 +207,9 @@ export function writeSelectionLogbookCsv(
 		);
 		const selectionLines = [
 			"sentence_markdown,sectionId,classifierNotes,classificationMistakes,isVerified",
-			...selectionsForLanguage.map((selection) => {
-				const language = selection.entity.language;
-				const languageApi = getLanguageApi(language);
-
-				return [
-					csvCell(sentenceMarkdownCsvValue(selection.sentenceMarkdown)),
-					csvCell(
-						String(languageApi.id.encode.asCsv(selection.entity as never)),
-					),
-					csvCell(selection.classifierNotes ?? ""),
-					csvCell(selection.classificationMistakes ?? ""),
-					csvCell(selection.isVerified === true ? "true" : ""),
-				].join(",");
-			}),
+			...selectionsForLanguage.map((selection) =>
+				selectionLogbookCsvRow(selection),
+			),
 		];
 		const descriptorLines = [
 			"sentence_markdown,normalizedFullSurface,orthographicStatus,surfaceKind,lemmaKind,lemmaSubKind",

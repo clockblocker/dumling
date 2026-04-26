@@ -1,8 +1,23 @@
-import { renameSync } from "node:fs";
+import { existsSync, renameSync } from "node:fs";
+import { dirname, join } from "node:path";
 import { canonicalSlugForDocMeta } from "../metadata";
 import { canonicalTypedDocEntrypointPath } from "../routes";
 import { listTypedDocEntrypoints } from "./list-typed-doc-entrypoints";
 import { loadTypedDocSource } from "./load-typed-doc-source";
+
+function temporaryTypedDocPath(sourcePath: string, index: number): string {
+	const directory = dirname(sourcePath);
+	const fileName = `${index}.typed-doc-normalize.tmp`;
+	const temporaryPath = join(directory, fileName);
+
+	if (existsSync(temporaryPath)) {
+		throw new Error(
+			`Cannot normalize typed docs because temporary path ${temporaryPath} already exists.`,
+		);
+	}
+
+	return temporaryPath;
+}
 
 export async function normalizeTypedDocSources(): Promise<void> {
 	const entrypoints = listTypedDocEntrypoints();
@@ -29,10 +44,31 @@ export async function normalizeTypedDocSources(): Promise<void> {
 		canonicalPaths.set(canonicalPath, source.sourcePath);
 	}
 
-	for (const [canonicalPath, sourcePath] of canonicalPaths) {
-		if (canonicalPath === sourcePath) {
-			continue;
+	const moves = [...canonicalPaths.entries()]
+		.map(([canonicalPath, sourcePath]) => ({
+			canonicalPath,
+			sourcePath,
+		}))
+		.filter(({ canonicalPath, sourcePath }) => canonicalPath !== sourcePath);
+
+	const temporaryMoves = moves.map(({ sourcePath }, index) => ({
+		sourcePath,
+		temporaryPath: temporaryTypedDocPath(sourcePath, index),
+	}));
+
+	for (const move of temporaryMoves) {
+		renameSync(move.sourcePath, move.temporaryPath);
+	}
+
+	for (const move of temporaryMoves) {
+		const canonicalPath = moves.find(
+			(candidate) => candidate.sourcePath === move.sourcePath,
+		)?.canonicalPath;
+		if (canonicalPath === undefined) {
+			throw new Error(
+				`Missing canonical path for normalized typed doc ${move.sourcePath}.`,
+			);
 		}
-		renameSync(sourcePath, canonicalPath);
+		renameSync(move.temporaryPath, canonicalPath);
 	}
 }
