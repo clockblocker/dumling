@@ -9,11 +9,7 @@ const deSelection = {
 	surface: {
 		language: "de",
 		normalizedFullSurface: "Rand",
-		surfaceKind: "Inflection",
-		inflectionalFeatures: {
-			case: "Acc",
-			number: "Sing",
-		},
+		surfaceKind: "Citation",
 		lemma: {
 			language: "de",
 			canonicalLemma: "Rand",
@@ -25,12 +21,15 @@ const deSelection = {
 			meaningInEmojis: "🧭",
 		},
 	},
-} satisfies Selection<"de", "Standard", "Inflection", "Lexeme", "NOUN">;
+} satisfies Selection<"de", "Standard", "Citation", "Lexeme", "NOUN">;
 
 export const attestation = {
 	selection: deSelection,
 	sentenceMarkdown: `Einst ging er an Ufers [Rand]
 mit der Mappe in der Hand.`,
 	classifierNotes:
-		"I classified `Rand` as accusative singular because `ging an ...` most naturally reads as directional movement toward the riverbank. I was not fully certain because the bare form `Rand` is syncretic here and a locative dative reading is also possible in poetic style.",
+		"`Rand` stays citation-shaped here. The attested noun form itself does not overtly distinguish accusative from dative, and this poetic `an Ufers Rand` phrase can be read either as directional movement or as a locative bank-edge setting, so I avoided encoding a guessed case on the surface.",
+	classificationMistakes:
+		"Do not force a citation-shaped noun into `Surface/Inflection` with guessed case features when the local syntax is genuinely ambiguous. The earlier mistake here was storing `Rand` as accusative singular even though the attested form is syncretic and the phrase also allows a locative reading.",
+	isVerified: true,
 } as const satisfies AttestedSelection;
