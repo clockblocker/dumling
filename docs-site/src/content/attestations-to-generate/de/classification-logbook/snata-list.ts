@@ -26,6 +26,7 @@ export const children = [
 	`"Jetzt schien die Sonne gar zu sehr, da [ward] ihm sein Gewehr zu schwer.`,
 	`"[Morgenstund] hat Gold im Mund, sagte sie verschlafen.`,
 	`"[Na ja], ganz überzeugt bin ich nicht.`,
+	`"Na [ja], ganz überzeugt bin ich nicht.`,
 	`"nahm Ranzen, Pulverhorn und Flint und [lief] hinaus ins Feld geschwind"`,
 	`"nahm Ranzen, Pulverhorn und Flint und lief [hinaus] ins Feld geschwind`,
 	`"nahm Ranzen, Pulverhorn und Flint und lief hinaus [ins] Feld geschwind`,
