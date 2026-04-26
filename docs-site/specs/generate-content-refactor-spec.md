@@ -84,6 +84,7 @@ docs-site/
   - `summary.md`
   - `{lang}-attested-selections.csv`
   - `{lang}-attested-selection-descriptors.csv`
+  - `snata-list.ts`, if present
 
 `src/generated/docs/**`
 
@@ -141,6 +142,23 @@ src/hand-written/foo/index.md
 ```
 
 Both normalize to `/foo/`, so that combination is invalid.
+
+For hand-written section index pages, the canonical source shape is:
+
+```text
+src/hand-written/foo/index.md
+```
+
+The first implementation locks this in.
+
+Docs housekeeping should fail early if:
+
+```text
+src/hand-written/foo/index.md
+src/hand-written/foo/foo.md
+```
+
+both exist, because `foo/index.md` is the canonical section index and `foo/foo.md` is not allowed when that index already exists.
 
 The first implementation does not support typed `index` pages.
 Section index pages remain hand-written Markdown.
@@ -215,19 +233,31 @@ The generator must:
 This applies only to typed doc entrypoints.
 Hand-written Markdown files are not renamed by content introspection.
 
+## Docs Housekeeping
+
+Source-tree mutation does not happen inside `generateDocs()`.
+
+Instead, docs housekeeping runs as a separate script before each docs generation pass in local and CI workflows.
+
+Housekeeping owns:
+
+- normalizing typed doc entrypoint filenames under `src/to-generate/docs`
+- failing on typed doc filename collisions before docs generation starts
+- validating hand-written section index conventions before docs generation starts
+- any future source-tree cleanup that is specific to docs inputs
+
 ## Docs Generation Workflow
 
 `generateDocs()` becomes asynchronous and runs in this order:
 
 1. remove old generated docs outputs
-2. normalize typed doc entrypoints under `src/to-generate/docs`
-3. discover typed doc outputs and hand-written outputs
-4. normalize their route ids
-5. fail on any route collision before writing generated docs
-6. generate typed docs into `src/generated/docs`
-7. copy hand-written Markdown from `src/hand-written` into `src/generated/docs`
-8. build nav files from generated docs
-9. emit public Markdown sidecars from generated docs
+2. discover typed doc outputs and hand-written outputs
+3. normalize their route ids
+4. fail on any route collision before writing generated docs
+5. generate typed docs into `src/generated/docs`
+6. copy hand-written Markdown from `src/hand-written` into `src/generated/docs`
+7. build nav files from generated docs
+8. emit public Markdown sidecars from generated docs
 
 The hand-written copy phase is not an override phase.
 If a hand-written page and a typed page target the same output path, generation fails.
@@ -267,6 +297,7 @@ The generator should:
 - ensure `src/classification-logbook/{lang}` exists
 - write generated inventory CSVs there
 - read and preserve reviewer notes and summaries there
+- move any existing `snata-list.ts` there as part of the migration to the new logbook home
 - fail if legacy `src/to-generate/attestations/{lang}/classification-logbook/**` content still exists
 
 ## First Typed Doc Kind: RuleDocument
@@ -274,24 +305,15 @@ The generator should:
 The first typed doc kind is `RuleDocument`.
 
 ```ts
-type AttestedSelectionRendererRequest =
-  | {
-      renderer: "selection-csv";
-    }
-  | {
-      renderer: "selection-fields";
-      fields: readonly string[];
-    };
-
 type RuleExample = {
   selection: AttestedSelection;
-  render?: AttestedSelectionRendererRequest;
+  render?: string;
 };
 
 type RuleBlock = {
   heading?: string;
   body?: string;
-  render?: AttestedSelectionRendererRequest;
+  render?: string;
   examples: readonly RuleExample[];
 };
 
@@ -304,9 +326,10 @@ type RuleDocument = {
 Rules:
 
 - rule examples reference typed `AttestedSelection` sources directly
-- a block may define a default example renderer
-- an example may override that renderer
-- rule documents do not carry arbitrary render functions
+- typed rule docs may reference `AttestedSelection` sources from any language
+- a block may define a default example renderer by name
+- an example may override that renderer by name
+- rule documents do not carry arbitrary render functions or inline renderer config
 
 The point of this shape is to stop drift between rule prose and attested examples while keeping rendering policy in the generator.
 
@@ -314,46 +337,32 @@ The point of this shape is to stop drift between rule prose and attested example
 
 `AttestedSelection` rendering is registry-driven.
 
-The document requests a renderer by id.
+The document requests a renderer by name.
 The generator owns the implementation.
 
-Initial renderer ids:
+The registry must stay open and easy to extend by adding new named renderers in one small generator-side submodule.
 
-- `selection-csv`
-- `selection-fields`
+Initial renderer names:
 
-### `selection-csv`
+- `asFullCsv`
+
+### `asFullCsv`
 
 Renders the full selection through one canonical serializer.
 
 The first implementation should reuse the same full-record data shape used by the classification inventory pipeline, rather than inventing a second “full selection” format.
-
-### `selection-fields`
-
-Renders a small selected subset of properties from the `AttestedSelection`.
-
-Field picking uses validated property paths relative to the `AttestedSelection` root, for example:
-
-- `selection.spelledSelection`
-- `selection.surface.normalizedFullSurface`
-- `selection.surface.lemma.lemmaSubKind`
-
-Unknown field paths must fail generation.
 
 ## Single Typed Docs Config
 
 Typed doc rendering should use one generator-side config object.
 
 ```ts
-type AttestedSelectionRenderer = {
-  render: (
-    attestedSelection: AttestedSelection,
-    request: AttestedSelectionRendererRequest,
-  ) => string;
-};
+type AttestedSelectionRenderer = (
+  attestedSelection: AttestedSelection,
+) => string;
 
 type TypedDocsGenerationConfig = {
-  defaultAttestedSelectionRenderer: AttestedSelectionRendererRequest;
+  defaultAttestedSelectionRenderer: string;
   attestedSelectionRenderers: Record<string, AttestedSelectionRenderer>;
 };
 ```
@@ -362,9 +371,17 @@ This config owns:
 
 - the renderer registry
 - the default example renderer
-- any shared formatting defaults needed by typed docs
+- validation that requested renderer names exist
 
 That keeps rendering policy centralized and extendable.
+
+`renderers/attested-selection/index.ts` should expose the named registry object, for example:
+
+```ts
+export const attestedSelectionRenderers = {
+  asFullCsv,
+};
+```
 
 ## Module Layout
 
@@ -373,6 +390,7 @@ The refactor should split docs generation by responsibility:
 ```text
 docs-site/scripts/generate-content/
   docs/
+    housekeeping.ts
     generate-docs.ts
     routes.ts
     metadata.ts
@@ -390,7 +408,15 @@ docs-site/scripts/generate-content/
       render-rule-document.ts
 
       renderers/
-        attested-selection-renderers.ts
+        attested-selection/
+          index.ts
+          types.ts
+
+          helpers/
+            as-csv.ts
+
+          attested-selection-renderers/
+            as-full-csv.ts
 ```
 
 The attestation side should also stop assuming that classification-logbook files live inside the attestation source tree.
@@ -414,18 +440,20 @@ The shared paths module should expose:
 The top-level generation order remains:
 
 1. generate attestations
-2. generate docs
+2. run docs housekeeping
+3. generate docs
 
 This refactor does not change that external contract.
 
 ## Migration Plan
 
 1. Move authored Markdown docs from `src/to-generate/docs/**/*.md` to `src/hand-written/**/*.md`, preserving relative paths.
-2. Move classification-logbook materials from `src/to-generate/attestations/{lang}/classification-logbook/**` to `src/classification-logbook/{lang}/**`.
+2. Move classification-logbook materials from `src/to-generate/attestations/{lang}/classification-logbook/**` to `src/classification-logbook/{lang}/**`, including `snata-list.ts` where present.
 3. Refactor docs generation to read from both `src/to-generate/docs` and `src/hand-written`, and to write only to `src/generated/docs`.
 4. Remove support for Markdown files under `src/to-generate/docs`.
-5. Rename typed doc entrypoints to `*.doc.ts` and make them default-export their document object.
-6. Add `RuleDocument` as the first supported typed doc kind.
+5. Add docs housekeeping and run it before each docs generation pass.
+6. Rename typed doc entrypoints to `*.doc.ts` and make them default-export their document object.
+7. Add `RuleDocument` as the first supported typed doc kind.
 
 ## Non-Goals For This Refactor
 
