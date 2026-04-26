@@ -26,6 +26,8 @@ The goal is to make the source tree honest about what is authored, what is gener
 4. `src/classification-logbook/{lang}` owns reviewer notes, summaries, and generated inventory CSVs.
 5. Typed doc source filenames may be normalized by the generator.
 6. Docs routes are path-based. The first implementation does not support a `routeId` override for docs.
+7. Typed doc entrypoints use the `*.doc.ts` suffix and `export default`.
+8. The first implementation does not support typed `index` pages.
 
 ## Target Directory Layout
 
@@ -36,6 +38,7 @@ docs-site/
       attestations/
         {lang}/...
       docs/
+        **/*.doc.ts
         **/*.ts
 
     hand-written/
@@ -64,6 +67,8 @@ docs-site/
 - typed doc source modules
 - generator input only
 - entrypoints for generated docs such as rules
+- entrypoints are `*.doc.ts`
+- non-entrypoint helpers must not use the `*.doc.ts` suffix
 
 `src/hand-written/**`
 
@@ -118,13 +123,27 @@ src/hand-written/general/model.md
 -> src/generated/docs/general/model.md
 -> /general/model/
 
-src/to-generate/docs/lang/de/rules/what-to-do-with-numerals.ts
+src/to-generate/docs/lang/de/rules/what-to-do-with-numerals.doc.ts
 -> src/generated/docs/lang/de/rules/what-to-do-with-numerals.md
 -> /lang/de/rules/what-to-do-with-numerals/
 ```
 
 For typed docs, the relative directory comes from the source path.
 The basename comes from the canonical slug.
+
+Route collision checks use normalized route ids, not raw file paths.
+
+Examples of equivalent routes:
+
+```text
+src/hand-written/foo.md
+src/hand-written/foo/index.md
+```
+
+Both normalize to `/foo/`, so that combination is invalid.
+
+The first implementation does not support typed `index` pages.
+Section index pages remain hand-written Markdown.
 
 ## Typed Docs Metadata
 
@@ -147,6 +166,36 @@ Rules:
 - `description` and `order` are authored page metadata
 - docs do not use a `routeId` override
 
+## Typed Doc Entrypoint Contract
+
+Typed doc discovery is explicit.
+
+Entrypoints:
+
+- must match `**/*.doc.ts`
+- must default-export one typed doc object
+- must live under `src/to-generate/docs`
+
+Helpers:
+
+- may live anywhere under `src/to-generate/docs`
+- must not match `**/*.doc.ts`
+- are never directly loaded, renamed, or routed as pages
+
+The first implementation should use:
+
+```ts
+export default document;
+```
+
+for typed doc entrypoints.
+
+This keeps discovery, normalization, and routing policy trivial:
+
+- load only `*.doc.ts`
+- rename only `*.doc.ts`
+- route only `*.doc.ts`
+
 ## Filename Normalization
 
 Typed doc source filenames are normalized from metadata.
@@ -158,12 +207,12 @@ Canonical basename:
 
 The generator must:
 
-- load each typed doc source
+- load each typed doc entrypoint
 - compute its canonical path
 - rename the file if it drifted
 - fail on collisions
 
-This applies only to typed doc sources.
+This applies only to typed doc entrypoints.
 Hand-written Markdown files are not renamed by content introspection.
 
 ## Docs Generation Workflow
@@ -171,12 +220,14 @@ Hand-written Markdown files are not renamed by content introspection.
 `generateDocs()` becomes asynchronous and runs in this order:
 
 1. remove old generated docs outputs
-2. normalize typed doc sources under `src/to-generate/docs`
-3. generate typed docs into `src/generated/docs`
-4. copy hand-written Markdown from `src/hand-written` into `src/generated/docs`
-5. fail on any route collision across those sources
-6. build nav files from generated docs
-7. emit public Markdown sidecars from generated docs
+2. normalize typed doc entrypoints under `src/to-generate/docs`
+3. discover typed doc outputs and hand-written outputs
+4. normalize their route ids
+5. fail on any route collision before writing generated docs
+6. generate typed docs into `src/generated/docs`
+7. copy hand-written Markdown from `src/hand-written` into `src/generated/docs`
+8. build nav files from generated docs
+9. emit public Markdown sidecars from generated docs
 
 The hand-written copy phase is not an override phase.
 If a hand-written page and a typed page target the same output path, generation fails.
@@ -189,6 +240,7 @@ The generator should:
 
 - parse their existing frontmatter
 - preserve `title`, `description`, and `order`
+- fail if `routeId` is present
 - copy the page body into `src/generated/docs/**`
 
 The first implementation does not attempt to reinterpret hand-written docs as typed documents.
@@ -215,6 +267,7 @@ The generator should:
 - ensure `src/classification-logbook/{lang}` exists
 - write generated inventory CSVs there
 - read and preserve reviewer notes and summaries there
+- fail if legacy `src/to-generate/attestations/{lang}/classification-logbook/**` content still exists
 
 ## First Typed Doc Kind: RuleDocument
 
@@ -294,7 +347,7 @@ Typed doc rendering should use one generator-side config object.
 ```ts
 type AttestedSelectionRenderer = {
   render: (
-    selection: AttestedSelection,
+    attestedSelection: AttestedSelection,
     request: AttestedSelectionRendererRequest,
   ) => string;
 };
@@ -332,6 +385,7 @@ docs-site/scripts/generate-content/
       config.ts
       generate-typed-docs.ts
       load-typed-doc-source.ts
+      list-typed-doc-entrypoints.ts
       normalize-typed-doc-sources.ts
       render-rule-document.ts
 
@@ -370,7 +424,8 @@ This refactor does not change that external contract.
 2. Move classification-logbook materials from `src/to-generate/attestations/{lang}/classification-logbook/**` to `src/classification-logbook/{lang}/**`.
 3. Refactor docs generation to read from both `src/to-generate/docs` and `src/hand-written`, and to write only to `src/generated/docs`.
 4. Remove support for Markdown files under `src/to-generate/docs`.
-5. Add `RuleDocument` as the first supported typed doc kind.
+5. Rename typed doc entrypoints to `*.doc.ts` and make them default-export their document object.
+6. Add `RuleDocument` as the first supported typed doc kind.
 
 ## Non-Goals For This Refactor
 
