@@ -73,6 +73,16 @@ Sources:
 
 - `In_[ge]lacht_markieren_ge_und_t_zusammen_das_Partizip.ts`
 
+## Citation-Shaped Nouns
+
+If a German noun token is identical to its learner-facing Grundform, it may stay `Citation` even when the local syntax also supports a nominative-singular reading. Do not force `Inflection` just because nominative singular is recoverable from context when the attested noun itself is citation-shaped.
+
+Sources:
+
+- `Die_[Peitsche]_hat_er_mitgebrachtund_nimmt_sie_sorglich_sehr_in_acht.ts`
+- `Das_rote_[Band]_lag_auf_dem_Geschenk.ts`
+- `Die_[Leiter]_wackelte_auf_dem_nassen_Boden.ts`
+
 ## Adpositions
 
 For non-fixed phrases like `[Wegen] dem Regen`, use a plain lexical `ADP` analysis rather than a phraseme-style inflation. Avoid prescriptive inherent features that are not supported by the attested usage.

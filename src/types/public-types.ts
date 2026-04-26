@@ -127,6 +127,15 @@ export type Lemma<
 		>
 	: PlaceholderLemma<L, LK, LSK>;
 
+/**
+ * A Surface is the normalized learner-facing form that the attested selection resolves to.
+ *
+ * `surfaceKind: "Citation"` means the surface is stored in citation / Grundform shape.
+ * Example: German `Mutter` stays `Citation`.
+ *
+ * `surfaceKind: "Inflection"` means the surface is stored as an inflected form with inflectional features.
+ * Example: German `Kindern` is `Inflection`.
+ */
 export type Surface<
 	L extends SupportedLanguage = SupportedLanguage,
 	SK extends SurfaceKindFor<L> = SurfaceKindFor<L>,
@@ -162,6 +171,7 @@ export type Surface<
  *
  * It is intentionally not reversible. Distinct highlighted spans may collapse
  * to the same payload when they point to the same learner-facing unit.
+*
  * Example: `Pass [auf] dich auf!` and `Pass auf dich [auf]!` may both resolve
  * to the same verbal payload for `aufpassen`.
  */
