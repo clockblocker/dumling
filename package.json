@@ -72,6 +72,7 @@
 		"docs:generate": "cd docs-site && bun run generate:content",
 		"docs:preview": "cd docs-site && bun run preview",
 		"fix": "bunx @biomejs/biome check --write .",
+		"generate": "bun run generate:readme && bun run docs:generate",
 		"generate:readme": "bun run generate-readme/generate-readme.ts",
 		"knip": "bunx knip",
 		"lint": "bunx @biomejs/biome check .",
