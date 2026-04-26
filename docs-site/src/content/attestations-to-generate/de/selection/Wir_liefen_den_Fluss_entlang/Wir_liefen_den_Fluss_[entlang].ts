@@ -28,4 +28,5 @@ export const attestation = {
 	selection: deSelection038,
 	sentenceMarkdown: "Wir liefen den Fluss [entlang].",
 	classifierNotes: "Entlang is treated as a postposition rather than an adverb because of its syntactic relation to den Fluss.",
+	isVerified: true,
 } as const satisfies AttestedSelection;

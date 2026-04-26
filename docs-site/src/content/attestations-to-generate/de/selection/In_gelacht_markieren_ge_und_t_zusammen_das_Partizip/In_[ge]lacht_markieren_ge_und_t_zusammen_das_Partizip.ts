@@ -26,4 +26,5 @@ export const attestation = {
 	sentenceMarkdown:
 		"In [ge]lacht markieren ge- und -t zusammen das Partizip.",
 	classifierNotes: "The circumfix is modeled as one morpheme even though the selected spelling shows only its first visible segment.",
+	isVerified: true,
 } as const satisfies AttestedSelection;
