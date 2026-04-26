@@ -34,4 +34,5 @@ export const attestation = {
 und nimmt sie sorglich sehr in acht.`,
 	classifierNotes:
 		"Hat is the present finite auxiliary in the perfect construction hat mitgebracht, not a lexical possession verb here.",
+	isVerified: true,
 } as const satisfies AttestedSelection;

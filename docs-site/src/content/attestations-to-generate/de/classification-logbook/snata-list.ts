@@ -5,18 +5,6 @@ export const unstampedGoodBoys = [
 ] as const;
 
 export const children = [
-	`[Die] Peitsche hat er mitgebracht und nimmt sie sorglich sehr in acht`,
-	`Die [Peitsche] hat er mitgebracht und nimmt sie sorglich sehr in acht`,
-	`Die Peitsche [hat] er mitgebracht und nimmt sie sorglich sehr in acht`,
-	`Die Peitsche hat [er] mitgebracht und nimmt sie sorglich sehr in acht`,
-	`Die Peitsche hat er [mitgebracht] und nimmt sie sorglich sehr in acht`,
-	`Die Peitsche hat er mitgebracht [und] nimmt sie sorglich sehr in acht`,
-	`Die Peitsche hat er mitgebracht und [nimmt] sie sorglich sehr in acht`,
-	`Die Peitsche hat er mitgebracht und nimmt [sie] sorglich sehr in acht`,
-	`Die Peitsche hat er mitgebracht und nimmt sie [sorglich] sehr in acht`,
-	`Die Peitsche hat er mitgebracht und nimmt sie sorglich [sehr] in acht`,
-	`Die Peitsche hat er mitgebracht und nimmt sie sorglich sehr [in] acht`,
-	`Die Peitsche hat er mitgebracht und nimmt sie sorglich sehr in [acht]`,
 	`Die schoß das Häschen ganz [entzwei]; da rief die Frau: »O wei! O wei!`,
 	`Die schoß das Häschen ganz entzwei; da rief die Frau: »[O] wei! O wei!`,
 	`Die schoß das Häschen ganz entzwei; da rief die Frau: »O [wei]! O wei!`,

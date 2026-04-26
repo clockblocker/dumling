@@ -27,4 +27,5 @@ export const attestation = {
 und nimmt sie sorglich sehr [in] acht.`,
 	classifierNotes:
 		"I treated in as part of the idiom in acht nehmen rather than as a free adposition, because the phrase is functioning as one fixed learner-facing unit here.",
+	isVerified: true,
 } as const satisfies AttestedSelection;

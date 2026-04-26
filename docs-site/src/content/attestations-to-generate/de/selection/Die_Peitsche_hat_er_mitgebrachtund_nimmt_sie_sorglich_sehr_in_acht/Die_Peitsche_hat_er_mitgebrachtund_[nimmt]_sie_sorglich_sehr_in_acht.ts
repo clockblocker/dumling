@@ -27,4 +27,5 @@ export const attestation = {
 und [nimmt] sie sorglich sehr in acht.`,
 	classifierNotes:
 		"The clause uses the fixed expression in acht nehmen, so the finite verb token is treated as a partial selection of the idiom rather than as a standalone nehmen inflection.",
+	isVerified: true,
 } as const satisfies AttestedSelection;

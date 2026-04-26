@@ -28,4 +28,5 @@ export const attestation = {
 	sentenceMarkdown: `Die [Peitsche] hat er mitgebracht
 und nimmt sie sorglich sehr in acht.`,
 	classifierNotes: "",
+	isVerified: true,
 } as const satisfies AttestedSelection;

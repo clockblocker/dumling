@@ -27,4 +27,5 @@ export const attestation = {
 und nimmt sie sorglich [sehr] in acht.`,
 	classifierNotes:
 		"Sehr functions as an intensifying adverb here; dumling does not currently split German degree particles away from ADV.",
+	isVerified: true,
 } as const satisfies AttestedSelection;

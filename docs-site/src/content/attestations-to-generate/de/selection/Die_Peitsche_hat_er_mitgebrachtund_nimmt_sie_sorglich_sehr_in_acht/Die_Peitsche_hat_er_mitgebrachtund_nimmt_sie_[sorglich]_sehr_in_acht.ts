@@ -27,4 +27,5 @@ export const attestation = {
 und nimmt sie [sorglich] sehr in acht.`,
 	classifierNotes:
 		"Sorglich is a manner adverb here, even though the form can feel adjective-like in modern German because it is rare outside literary style.",
+	isVerified: true,
 } as const satisfies AttestedSelection;

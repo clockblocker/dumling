@@ -35,4 +35,5 @@ export const attestation = {
 und nimmt [sie] sorglich sehr in acht.`,
 	classifierNotes:
 		"Sie is the accusative feminine singular object pronoun referring back to Peitsche, not nominative plural or polite Sie.",
+	isVerified: true,
 } as const satisfies AttestedSelection;

@@ -58,12 +58,17 @@ Sources:
 
 For clear idioms, proverbs, and other fixed expressions, `selectionCoverage: "Partial"` plus the full citation-form phraseme surface is the correct analysis.
 
+Multiple different highlighted tokens inside the same fixed phraseme may all point to that same citation-form phraseme surface when they select the same learner-facing unit.
+
 Sources:
 
 - `Bei_dieser_Formel_verstehe_ich_nur_[Bahnhof].ts`
 - `Damit_triffst_du_den_[Nagel]_auf_den_Kopf.ts`
 - `Genau_da_liegt_der_[Hase]_im_Pfeffer.ts`
 - `[Morgenstund]_hat_Gold_im_Mund_sagte_sie_verschlafen.ts`
+- `Die_Peitsche_hat_er_mitgebrachtund_[nimmt]_sie_sorglich_sehr_in_acht.ts`
+- `Die_Peitsche_hat_er_mitgebrachtund_nimmt_sie_sorglich_sehr_[in]_acht.ts`
+- `Die_Peitsche_hat_er_mitgebrachtund_nimmt_sie_sorglich_sehr_in_[acht].ts`
 
 ## Discontinuous Morphemes
 

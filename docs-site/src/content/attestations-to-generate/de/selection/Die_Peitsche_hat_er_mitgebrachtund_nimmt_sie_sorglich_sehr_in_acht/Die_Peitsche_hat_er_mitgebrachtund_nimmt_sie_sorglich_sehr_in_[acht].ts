@@ -27,4 +27,5 @@ export const attestation = {
 und nimmt sie sorglich sehr in [acht].`,
 	classifierNotes:
 		"Acht is not the numeral here. It is the internal noun-shaped component of the fixed idiom in acht nehmen, so the selection points to the whole idiom.",
+	isVerified: true,
 } as const satisfies AttestedSelection;
