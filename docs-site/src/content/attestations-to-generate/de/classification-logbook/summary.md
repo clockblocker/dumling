@@ -35,6 +35,15 @@ Sources:
 - `Genau_da_liegt_der_[Hase]_im_Pfeffer.ts`
 - `[Morgenstund]_hat_Gold_im_Mund_sagte_sie_verschlafen.ts`
 
+## Selection Reversibility
+
+Do not treat `Selection` as a reversible token record. It is only an ingest-time wrapper for choosing the real payload, so distinct highlighted spans may legitimately collapse to the same `surface` and `lemma` when they point to the same learner-facing unit. Example: `Pass [auf] dich auf!` and `Pass auf dich [auf]!` can both resolve to the same verbal payload for `aufpassen`; the difference between governed-preposition `auf` and separable-prefix `auf` does not need to survive serialization unless it changes the chosen payload.
+
+Sources:
+
+- `Pass_[auf]_dich_auf.ts`
+- `Pass_auf_dich_[auf].ts`
+
 # Locked-In Rules
 
 ## Typo Attestations
@@ -104,3 +113,12 @@ Sources:
 
 - `Pass_[auf]_dich_auf.ts`
 - `Er_[wartet]_auf_den_Nachtbus.ts`
+
+## Selection Directionality
+
+Treat `Selection` as an ingest-only wrapper around the real payload. The authoritative linguistic content is the selected `surface` and `lemma`, and distinct highlighted spans may map to the same payload when they point to the same learner-facing unit. Example: `Pass [auf] dich auf!` and `Pass auf dich [auf]!` can both map to the verbal payload `normalizedFullSurface: "pass auf"` with lemma `aufpassen`; token-role differences do not need to survive serialization unless they change the chosen payload.
+
+Sources:
+
+- `Pass_[auf]_dich_auf.ts`
+- `Pass_auf_dich_[auf].ts`

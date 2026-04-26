@@ -153,6 +153,18 @@ export type Surface<
 		>
 	: PlaceholderSurface<L, SK, LK, LSK>;
 
+/**
+ * A Selection is an ingest-time wrapper that resolves a highlighted span in
+ * context to the intended linguistic payload.
+ *
+ * The contract is directional:
+ *   (sentence + selected span) -> surface / lemma payload
+ *
+ * It is intentionally not reversible. Distinct highlighted spans may collapse
+ * to the same payload when they point to the same learner-facing unit.
+ * Example: `Pass [auf] dich auf!` and `Pass auf dich [auf]!` may both resolve
+ * to the same verbal payload for `aufpassen`.
+ */
 export type Selection<
 	L extends SupportedLanguage = SupportedLanguage,
 	OS extends OrthographicStatus = OrthographicStatus,
@@ -181,6 +193,13 @@ export type Selection<
 		>
 	: PlaceholderSelection<L, OS, SK, LK, LSK>;
 
+/**
+ * Attestation wrapper for a Selection in sentence context.
+ *
+ * The `selection` payload is authoritative. `sentenceMarkdown` exists to show
+ * the attested highlight that led to that payload, not to guarantee that the
+ * exact selected token role can be reconstructed from serialized data.
+ */
 export type AttestedSelection<L extends SupportedLanguage = SupportedLanguage> =
 	{
 		selection: Selection<L>;

@@ -29,4 +29,5 @@ export const attestation = {
 mit der Mappe in der Hand.`,
 	classifierNotes:
 		"`an` is the ordinary two-way preposition. I left `governedCase` unset because this schema only accepts one value there, while the lexeme alternates between accusative and dative and the local context is not decisive enough to hard-code one on the lemma itself.",
+	isVerified: true,
 } as const satisfies AttestedSelection;

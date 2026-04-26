@@ -1,6 +1,4 @@
 export const naughtyBoys = [
-	`Einst ging er [an] Ufers Rand
-mit der Mappe in der Hand.`,
 	"In [ge]lacht markieren ge- und -t zusammen das Partizip.",
 	"[Pass] auf dich auf!",
 	"Pass [auf] dich auf!",

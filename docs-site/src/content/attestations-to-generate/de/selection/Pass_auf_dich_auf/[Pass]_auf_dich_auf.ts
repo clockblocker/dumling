@@ -35,4 +35,5 @@ export const attestation = {
 	sentenceMarkdown: "[Pass] auf dich auf!",
 	classifierNotes:
 		"The finite verb token stays on the verbal surface `pass auf`; government is encoded on the lemma with `hasGovPrep: \"auf\"`, not by building a separate governed-preposition surface.",
+	isVerified: true,
 } as const satisfies AttestedSelection;
