@@ -1,4 +1,5 @@
 import type { AttestedSelection } from "dumling/types";
+import type { Prettify } from "../../../../../../helper-types";
 
 type DocPageMeta = {
 	description?: string;
@@ -12,18 +13,14 @@ type RuleExample = {
 	selection: AttestedSelection;
 };
 
-type RuleBlock = {
+type RuleBlock = Prettify<{
 	body?: string;
 	examples: readonly RuleExample[];
 	heading?: string;
 	render?: string;
-};
+}>;
 
-export type RuleDocument = {
+export type RuleDocument = Prettify<{
 	blocks: readonly RuleBlock[];
 	meta: DocPageMeta;
-};
-
-export function defineRuleDocument(document: RuleDocument): RuleDocument {
-	return document;
-}
+}>;

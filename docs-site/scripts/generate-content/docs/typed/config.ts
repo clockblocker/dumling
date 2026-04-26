@@ -8,5 +8,5 @@ export type TypedDocsGenerationConfig = {
 
 export const typedDocsGenerationConfig: TypedDocsGenerationConfig = {
 	attestedSelectionRenderers,
-	defaultAttestedSelectionRenderer: "asFullCsv",
+	defaultAttestedSelectionRenderer: "asSentenceAndLemmaSubKind",
 };

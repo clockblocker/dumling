@@ -1,14 +1,6 @@
 import type { TypedDocsGenerationConfig } from "./config";
 import type { RuleDocument, RuleExample } from "./load-typed-doc-source";
 
-function renderSentenceMarkdown(sentenceMarkdown: string): string {
-	return sentenceMarkdown
-		.trim()
-		.split("\n")
-		.map((line) => `> ${line.trimEnd()}`)
-		.join("\n");
-}
-
 function renderRuleExample(
 	example: RuleExample,
 	rendererName: string,
@@ -22,12 +14,7 @@ function renderRuleExample(
 		);
 	}
 
-	return [
-		renderSentenceMarkdown(example.selection.sentenceMarkdown),
-		"```text",
-		renderer(example.selection),
-		"```",
-	].join("\n");
+	return renderer(example.selection);
 }
 
 export function renderRuleDocument(
@@ -45,8 +32,9 @@ export function renderRuleDocument(
 		}
 		if (block.examples.length > 0) {
 			sections.push(
-				block.examples
-					.map((example) =>
+				[
+					"Examples:",
+					...block.examples.map((example) =>
 						renderRuleExample(
 							example,
 							example.render ??
@@ -55,8 +43,8 @@ export function renderRuleDocument(
 							config,
 							document.meta.title,
 						),
-					)
-					.join("\n\n"),
+					),
+				].join("\n"),
 			);
 		}
 	}
