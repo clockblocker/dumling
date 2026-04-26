@@ -26,4 +26,5 @@ export const attestation = {
 	sentenceMarkdown: "Das wäre [fast] schief gewesen.",
 	classifierNotes:
 		"Fast is the approximative adverb here, modifying the predication schief gewesen rather than functioning as an adjective or particle.",
+	isVerified: true,
 } as const satisfies AttestedSelection;
