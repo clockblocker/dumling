@@ -2,9 +2,10 @@
 
 Examples:
 
-- `zwei` / `zweien` -> `NUM`
-- `fünfte` / `fünften` -> `ADJ`
-- `einmal`, `zweimal`, `erstens`, `zweitens` -> `ADV`
+- `Und Minz und Maunz, die schreien gar jämmerlich zu [zweien].` -> `NUM`
+- `Er wog vielleicht ein halbes Lot – und war am [fünften] Tage tot.` -> `ADJ`
+- `[Einmal] hörte ich das schon.` -> `ADV` // 
+- `[Erstens] fehlt die Zeit.` -> `ADV`
 
 ---
 
