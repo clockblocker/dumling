@@ -65,6 +65,10 @@
   Examples:
     - `Das muss heute noch [raus].` -> `ADV` lemma `heraus`
     - `Die Kinder sind schon [drin].` -> `ADV` lemma `drinnen`
+- Colloquial reduced `mal` stays a standalone `Lexeme/ADV` with canonical lemma `einmal`. Treat it as `Variant` spelling rather than collapsing imperative-plus-`mal` frames into a `Phraseme`, unless the whole formula itself is the learner-facing unit.
+  Examples:
+    - `Sieh [einmal], hier steht er, pfui, der Struwwelpeter!` -> standalone `ADV` lemma `einmal`
+    - `Sieh [mal] an, die Kleine von nebenan.` -> standalone `ADV`, `spellingRelation: "Variant"`, lemma `einmal`
 - Standalone German intensifiers and scalar-focus items stay `Lexeme/ADV` unless the selected token is clearly part of a fixed learner-facing expression that should be modeled as a larger unit.
   Examples:
     - `Und Minz und Maunz, die schreien [gar] jämmerlich zu zweien.` -> standalone `ADV`
