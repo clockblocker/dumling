@@ -1,5 +1,5 @@
-import { existsSync, mkdirSync, rmSync, writeFileSync } from "node:fs";
-import { dirname, resolve } from "node:path";
+import { existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import { dirname, relative, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import {
 	ConsoleMessageId,
@@ -18,6 +18,10 @@ const suppressedConsoleMessageIds = new Set<string>([
 	ConsoleMessageId.Preamble,
 	ConsoleMessageId.CompilerVersionNotice,
 ]);
+
+function projectRelativePath(path: string) {
+	return relative(projectRoot, path).replaceAll("\\", "/");
+}
 
 async function emitDeclarations() {
 	if (existsSync(tempTypesDir)) {
@@ -39,6 +43,29 @@ async function rollupEntrypoint(
 ) {
 	const entryDeclarationPath = resolve(tempTypesDir, `${entrypoint}.d.ts`);
 	const outputDeclarationPath = resolve(distDir, `${entrypoint}.d.ts`);
+	const tsconfig = JSON.parse(
+		readFileSync(resolve(projectRoot, "tsconfig.build.json"), "utf8"),
+	) as {
+		compilerOptions?: Record<string, unknown>;
+		extends?: string;
+		include?: string[];
+	};
+	const extractorCompilerOptions = {
+		...(tsconfig.compilerOptions ?? {}),
+		noEmit: true,
+		paths: {
+			dumling: [projectRelativePath(resolve(tempTypesDir, "index.d.ts"))],
+			"dumling/schema": [
+				projectRelativePath(resolve(tempTypesDir, "schema.d.ts")),
+			],
+			"dumling/types": [
+				projectRelativePath(resolve(tempTypesDir, "types.d.ts")),
+			],
+		},
+	};
+	delete extractorCompilerOptions.outDir;
+	delete extractorCompilerOptions.rootDir;
+	delete extractorCompilerOptions.declarationDir;
 	const extractorConfig = ExtractorConfig.prepare({
 		configObject: {
 			$schema:
@@ -47,7 +74,12 @@ async function rollupEntrypoint(
 			mainEntryPointFilePath: entryDeclarationPath,
 			bundledPackages: [],
 			compiler: {
-				tsconfigFilePath: resolve(projectRoot, "tsconfig.build.json"),
+				overrideTsconfig: {
+					extends: tsconfig.extends,
+					compilerOptions: extractorCompilerOptions,
+					include: [projectRelativePath(resolve(tempTypesDir, "**/*.d.ts"))],
+					files: [projectRelativePath(entryDeclarationPath)],
+				},
 			},
 			apiReport: {
 				enabled: false,
