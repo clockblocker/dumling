@@ -48,15 +48,17 @@ The selection always contains a `Surface`, and that surface always contains a `L
 Selection -> Surface -> Lemma
 ```
 
-`Selection` has three independent annotation axes:
+Marked selection mismatches live in the optional `selectionFeatures` bag:
 
-| Field | Values | Meaning |
+| Field | Marked value | Meaning |
 | --- | --- | --- |
-| `orthographicStatus` | `Standard`, `Typo` | whether the observed spelling is standard or a typo |
-| `selectionCoverage` | `Full`, `Partial` | whether the learner highlighted the whole surface or part of it |
-| `spellingRelation` | `Canonical`, `Variant` | whether the spelling is canonical or an accepted variant |
+| `orthography` | `Typo` | the observed selection is misspelled |
+| `coverage` | `Partial` | the learner highlighted only part of the resolved surface |
+| `spelling` | `Variant` | the observed spelling is licensed but non-canonical |
 
-A typo can still be a variant, and a partial selection can still point to a full normalized surface. These fields describe different facts.
+Absence means the unmarked default: standard orthography, full coverage, and canonical spelling.
+
+These axes remain independent. A typo can still be partial, and a partial selection can still point to a full normalized surface.
 
 ## Lemma Kinds
 
@@ -77,5 +79,7 @@ Features are split by where they belong:
 
 - `inherentFeatures` describe the lemma itself
 - `inflectionalFeatures` describe a concrete inflected surface
+- `selectionFeatures` describe how the attested highlight differs from the resolved surface
+- `surfaceFeatures` describe marked properties of the resolved surface itself, such as `historicalStatus: "Archaic"`
 
 Each language narrows the abstract feature inventory. For example, German nouns support grammatical gender as an inherent feature and case/number as inflectional features. English nouns support number inflection but not grammatical case in the same way. Hebrew supports language-specific features such as `hebBinyan` for verbs.

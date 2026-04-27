@@ -44,7 +44,7 @@ The implemented language namespaces are:
 
 ## create
 
-`create` constructors set namespace-implied fields such as `language`, `surfaceKind`, and `orthographicStatus`.
+`create` constructors set namespace-implied fields such as `language` and `surfaceKind`.
 
 ```ts
 const lemma = dumling.en.create.lemma({
@@ -64,11 +64,9 @@ const surface = dumling.en.create.surface.inflection({
 	},
 });
 
-const selection = dumling.en.create.selection.standard({
+const selection = dumling.en.create.selection({
 	surface,
 	spelledSelection: "ran",
-	spellingRelation: "Canonical",
-	selectionCoverage: "Full",
 });
 ```
 
@@ -81,17 +79,18 @@ const surface = dumling.de.convert.lemma.toSurface(lemma);
 
 const selection = dumling.de.convert.surface.toSelection(surface, {
 	spelledSelection: "See",
-	selectionCoverage: "Full",
-	spellingRelation: "Canonical",
+	selectionFeatures: {
+		coverage: "Partial",
+	},
 });
 ```
 
 Defaults for generated selections are:
 
-- `orthographicStatus: "Standard"`
-- `selectionCoverage: "Full"`
-- `spellingRelation: "Canonical"`
 - `spelledSelection: surface.normalizedFullSurface`
+- omitted `selectionFeatures.orthography` means standard orthography
+- omitted `selectionFeatures.coverage` means full coverage
+- omitted `selectionFeatures.spelling` means canonical spelling relation
 
 ## extract
 
@@ -152,7 +151,7 @@ Concrete leaf schema getters return Zod schemas:
 ```ts
 schemasFor.de.entity.Lemma.Lexeme.NOUN();
 schemasFor.en.entity.Surface.Inflection.Lexeme.VERB();
-schemasFor.he.entity.Selection.Standard.Inflection.Lexeme.NOUN();
+schemasFor.he.entity.Selection.Inflection.Lexeme.NOUN();
 ```
 
 Use `getSchemaTreeFor(language)` when the language is only known at runtime.

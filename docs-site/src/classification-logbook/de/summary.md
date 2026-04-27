@@ -56,7 +56,7 @@ Sources:
 
 ## Partial Phraseme Selection
 
-For clear idioms, proverbs, and other fixed expressions, `selectionCoverage: "Partial"` plus the full citation-form phraseme surface is the correct analysis.
+For clear idioms, proverbs, and other fixed expressions, `selectionFeatures: { coverage: "Partial" }` plus the full citation-form phraseme surface is the correct analysis.
 
 Multiple different highlighted tokens inside the same fixed phraseme may all point to that same citation-form phraseme surface when they select the same learner-facing unit.
 

@@ -5,7 +5,7 @@
       "name": "@dumling/docs-site",
       "dependencies": {
         "astro": "^6.1.8",
-        "dumling": "0.1.11",
+        "dumling": "0.1.12",
       },
       "devDependencies": {
         "@types/node": "^24.5.2",
@@ -328,7 +328,7 @@
 
     "dset": ["dset@3.1.4", "", {}, "sha512-2QF/g9/zTaPDc3BjNcVTGoBbXBgYfMTTceLaYcFJ/W9kggFUkhxD/hMEeuLKbugyef9SqAx8cpgwlIP/jinUTA=="],
 
-    "dumling": ["dumling@0.1.11", "", { "dependencies": { "zod": "3.25.76" } }, "sha512-5QjfGU/7i1tsS2fKovBe7Agy74NO2RXBGjCqarHwyl1/yXfHr4iJHOxo3W89/DxsUCCW2BHe8xBZdjK+G85SuA=="],
+    "dumling": ["dumling@0.1.12", "", { "dependencies": { "zod": "3.25.76" } }, "sha512-Ci0i1dBSoKXUk68bUb/TjG2zJ2GPWykDsUccfGm4VxNG9x9xFhiuOjLYCw0gghc2SELeppSQ1sAGa2gotAlQ+A=="],
 
     "entities": ["entities@6.0.1", "", {}, "sha512-aN97NXWF6AWBTahfVOIrB/NShkzi5H7F9r1s9mD3cDj4Ko5f2qhhVoYMibXF7GlLveb/D2ioWay8lxI97Ven3g=="],
 

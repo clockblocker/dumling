@@ -68,8 +68,8 @@ const surface = packageDumling.de.create.surface.citation({
 const selection = packageDumling.de.convert.surface.toSelection(surface, {
 	spelledSelection: "See",
 });
-const descriptor = packageDumling.de.describe.as.selection(surface);
-const descriptorCsv = packageDumling.de.describe.asCsv.selection(surface);
+const descriptor = packageDumling.de.describe.as.selection(selection);
+const descriptorCsv = packageDumling.de.describe.asCsv.selection(selection);
 const extractedLemma = packageDumling.de.extract.lemma(selection);
 const gender: PackageFeatureValue<
 	"de",

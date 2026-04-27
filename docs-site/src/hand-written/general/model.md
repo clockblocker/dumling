@@ -29,6 +29,8 @@ A lemma is the canonical lexical object, or a lemma-like fused entry. It is wher
 
 A citation surface uses `surfaceKind: "Citation"` and normally has the canonical lemma spelling as `normalizedFullSurface`.
 
+Marked properties of the resolved surface live in `surfaceFeatures`. For example, a historical citation or inflection can carry `surfaceFeatures: { historicalStatus: "Archaic" }`.
+
 Construction entries are citation-only today, so `Construction/Fusion` and `Construction/PairedFrame` only appear under `Surface<Citation>` and never under `Surface<Inflection>`.
 
 An inflection surface uses `surfaceKind: "Inflection"` and adds `inflectionalFeatures`:
@@ -50,9 +52,17 @@ const ranSurface = dumling.en.create.surface.inflection({
 
 A selection records what was observed in text. The normalized surface stays available through `selection.surface`, and the lemma entry stays available through `selection.surface.lemma`.
 
+Only marked mismatches are stored on the selection itself. `selectionFeatures` can record:
+
+- `orthography: "Typo"`
+- `coverage: "Partial"`
+- `spelling: "Variant"`
+
+When `selectionFeatures` is omitted, the selection is implicitly standard, full, and canonically spelled relative to its resolved surface.
+
 ## Descriptors
 
-Descriptors are compact structural summaries of DTOs. They are useful when code needs to route by entity kind, language, lemma kind, surface kind, or orthographic status without carrying the whole object through the branch.
+Descriptors are compact structural summaries of DTOs. They are useful when code needs to route by entity kind, language, lemma kind, or surface kind without carrying the whole object through the branch.
 
 ```ts
 const descriptor = dumling.de.describe.as.selection(seeSelection);
@@ -62,7 +72,6 @@ descriptor.language; // "de"
 descriptor.lemmaKind; // "Lexeme"
 descriptor.lemmaSubKind; // "NOUN"
 descriptor.surfaceKind; // "Citation"
-descriptor.orthographicStatus; // "Standard"
 ```
 
 ## IDs
@@ -91,5 +100,5 @@ if (!parsed.success) {
 The schema entrypoint exposes concrete Zod schemas when a caller needs direct validator access:
 
 ```ts
-schemasFor.de.entity.Selection.Standard.Citation.Lexeme.NOUN().parse(value);
+schemasFor.de.entity.Selection.Citation.Lexeme.NOUN().parse(value);
 ```

@@ -26,5 +26,5 @@ export const attestation = {
 	selection: imaVariantSelection,
 	sentenceMarkdown: "[אמא] התקשרה.",
 	classifierNotes:
-		"This captures an accepted spelling variant: selected spelling אמא, normalized surface אימא, spellingRelation Variant.",
+		'This captures an accepted spelling variant: selected spelling אמא, normalized surface אימא, so `selectionFeatures.spelling: "Variant"` is the right mark.',
 } as const satisfies AttestedSelection;

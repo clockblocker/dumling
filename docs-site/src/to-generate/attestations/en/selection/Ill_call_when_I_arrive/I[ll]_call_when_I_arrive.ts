@@ -24,5 +24,5 @@ export const attestation = {
 	selection: llCliticPartialSelection,
 	sentenceMarkdown: "I'[ll] call when I arrive.",
 	classifierNotes:
-		"The apostrophe is outside the selected substring; spellingRelation flags the mismatch against the clitic lemma.",
+		'The apostrophe is outside the selected substring, so `selectionFeatures.spelling: "Variant"` marks the mismatch against the clitic lemma.',
 } as const satisfies AttestedSelection;

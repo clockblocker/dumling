@@ -57,11 +57,9 @@ const seenSurface = dumling.de.create.surface.inflection({
 	},
 });
 
-const seenSelection = dumling.de.create.selection.standard({
+const seenSelection = dumling.de.create.selection({
 	surface: seenSurface,
 	spelledSelection: "Seen",
-	spellingRelation: "Canonical",
-	selectionCoverage: "Full",
 });
 
 dumling.de.id.encode(seenSelection);
@@ -95,7 +93,9 @@ const umZuLemma = dumling.de.create.lemma({
 });
 
 const umZuSelection = dumling.de.convert.lemma.toSelection(umZuLemma, {
-	selectionCoverage: "Partial",
+	selectionFeatures: {
+		coverage: "Partial",
+	},
 	spelledSelection: "zu",
 });
 ```
@@ -107,7 +107,7 @@ schemasFor.de.entity.Lemma.Lexeme.NOUN();
 schemasFor.de.entity.Lemma.Construction.Fusion();
 schemasFor.de.entity.Lemma.Construction.PairedFrame();
 schemasFor.de.entity.Surface.Inflection.Lexeme.NOUN();
-schemasFor.de.entity.Selection.Standard.Inflection.Lexeme.NOUN();
-schemasFor.de.entity.Selection.Standard.Citation.Construction.Fusion();
-schemasFor.de.entity.Selection.Standard.Citation.Construction.PairedFrame();
+schemasFor.de.entity.Selection.Inflection.Lexeme.NOUN();
+schemasFor.de.entity.Selection.Citation.Construction.Fusion();
+schemasFor.de.entity.Selection.Citation.Construction.PairedFrame();
 ```

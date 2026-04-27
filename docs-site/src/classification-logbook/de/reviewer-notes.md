@@ -2,7 +2,7 @@
 
 - The file looks structurally sound as CSV, but the review metadata is incomplete. `classificationMistakes` is empty for all 117 rows, and 8 rows still have empty `classifierNotes` (`de-attested-selections.csv:33,37,41,62,64,143,145,147`). The omissions are clustered rather than random, which makes this look like an unfinished pass rather than intentional silence.
 
-- Capitalization-as-variant is not handled consistently. Sentence-initial `Am` and `Die` are marked `Variant` because the attested token is capitalized (`:2`, `:31-32`), but other sentence-initial lowercase lemmas stay `Canonical` even though the surface is equally capitalized by sentence position: `Einst` (`:62`), `Es` (`:87`, `:93`), `Fort` (`:99`), `Geh` (`:105`), `Sieh` (`:139`), `Wegen` (`:182`). This needs a single policy.
+- Capitalization-as-variant is not handled consistently. Sentence-initial `Am` and `Die` were previously marked with `selectionFeatures.spelling: "Variant"` because the attested token is capitalized (`:2`, `:31-32`), but other sentence-initial lowercase lemmas stayed unmarked even though the surface was equally capitalized by sentence position: `Einst` (`:62`), `Es` (`:87`, `:93`), `Fort` (`:99`), `Geh` (`:105`), `Sieh` (`:139`), `Wegen` (`:182`). This needs a single policy.
 
 - `Pass auf dich auf!` collapses two different token functions into the same analysis. The first `auf` is described as the governed preposition and the second as the detached separable prefix, but both rows encode the same sectionId apart from token position (`:129-132`). If token-level distinctions matter, the current representation is lossy.
 
@@ -33,16 +33,16 @@
     - `[Am] nächsten Morgen war alles anders.` -> `🌅`
     - `Er vergaß [seinen] Schlüssel im Büro.` -> `🔑`
     - `[Wegen] dem Regen kamen wir zu spät.` -> `🌧️`
-- `spellingRelation` set to `"Variant"` for sentence-initial fusions.
+- `selectionFeatures.spelling` set to `"Variant"` for sentence-initial fusions.
   Examples:
-    - `[Am] nächsten Morgen war alles anders.` -> `{ spellingRelation: "Variant" }
+    - `[Am] nächsten Morgen war alles anders.` -> `{ selectionFeatures: { spelling: "Variant" } }`
 - Etymological morphology is forced over learner-facing lexical meaning.
   Examples: - `Am [nächsten] Morgen war alles anders.` -> `{ canonicalLemma: "nah", degree: "Sup", meaningInEmojis: "➡️" }`
-- Agents seem to be confused when diven the capitalised words like `[Am] nächsten Morgen war alles anders.`. This leads them to overthink and lean towards { spellingRelation: "Variant" }
+- Agents seem to be confused by capitalized words like `[Am] nächsten Morgen war alles anders.`. This leads them to overthink and lean towards `{ selectionFeatures: { spelling: "Variant" } }`.
 
 ### Emerging Rules
 
-- Common fusions (`am`, `ins`, etc.) are always `Standard`, `Full`, `Canonical` when the attested spelling is just ordinary sentence-initial capitalization.
+- Common fusions (`am`, `ins`, etc.) keep ordinary sentence-initial capitalization unmarked. They should not grow a `selectionFeatures` bag just because the sentence starts with a capital letter.
 - `meaningInEmojis` must point to the selected item itself, not to the larger surrounding phrase.
 - When a form is synchronically lexicalized for learners, classify that lexeme directly instead of forcing a historical or etymological source analysis.
   Example:
@@ -77,7 +77,7 @@
 - Colloquial reduced `mal` stays a standalone `Lexeme/ADV` with canonical lemma `einmal`. Treat it as `Variant` spelling rather than collapsing imperative-plus-`mal` frames into a `Phraseme`, unless the whole formula itself is the learner-facing unit.
   Examples:
     - `Sieh [einmal], hier steht er, pfui, der Struwwelpeter!` -> standalone `ADV` lemma `einmal`
-    - `Sieh [mal] an, die Kleine von nebenan.` -> standalone `ADV`, `spellingRelation: "Variant"`, lemma `einmal`
+    - `Sieh [mal] an, die Kleine von nebenan.` -> standalone `ADV`, `selectionFeatures: { spelling: "Variant" }`, lemma `einmal`
 - Standalone German intensifiers and scalar-focus items stay `Lexeme/ADV` unless the selected token is clearly part of a fixed learner-facing expression that should be modeled as a larger unit.
   Examples:
     - `Und Minz und Maunz, die schreien [gar] jämmerlich zu zweien.` -> standalone `ADV`
@@ -96,7 +96,7 @@
 - When a selected token is clearly just an internal component of an idiom, classify the idiom as the learner-facing unit rather than the token's standalone POS.
   Example:
     - `Bei dieser Formel verstehe ich nur [Bahnhof].`
-- Conventional multiword discourse formulas stay `Phraseme/DiscourseFormula` when the learner-facing meaning belongs to the fixed formula rather than to the selected word in isolation. If only one component is selected, keep `selectionCoverage: "Partial"` and still point to the full citation-form formula. Fall back to standalone `INTJ`, `PART`, or other token-level POS only when no larger fixed formula is recoverable.
+- Conventional multiword discourse formulas stay `Phraseme/DiscourseFormula` when the learner-facing meaning belongs to the fixed formula rather than to the selected word in isolation. If only one component is selected, keep `selectionFeatures: { coverage: "Partial" }` and still point to the full citation-form formula. Fall back to standalone `INTJ`, `PART`, or other token-level POS only when no larger fixed formula is recoverable.
   Examples:
     - `[Na ja], ganz überzeugt bin ich nicht.` -> full `Phraseme/DiscourseFormula`
     - `Na [ja], ganz überzeugt bin ich nicht.` -> partial `Phraseme/DiscourseFormula` for `na ja`
@@ -122,7 +122,7 @@
 
 ### Open Questions
 
-- Should sentence-initial capitalization ever trigger `Variant`, or should all purely orthographic sentence-initial capitalization remain `Canonical` unless there is some other noncanonical property?
+- Should sentence-initial capitalization ever trigger `selectionFeatures.spelling: "Variant"`, or should all purely orthographic sentence-initial capitalization stay unmarked unless there is some other noncanonical property?
 
 - Do we want token-role information for split/governed verb constructions so that repeated surface forms like the two `auf` tokens in `Pass auf dich auf!` can be told apart without reading the prose note?
 

@@ -24,5 +24,5 @@ export const attestation = {
 	selection: definitelyTypoSelection,
 	sentenceMarkdown: "I [definately] saved the file.",
 	classifierNotes:
-		"Definately is a typo of definitely; spellingRelation remains Canonical because the intended standard spelling is canonical, not a licensed variant.",
+		'Definately is a typo of definitely; mark only `selectionFeatures.orthography: "Typo"` here, not a spelling variant, because the intended resolved surface is canonical.',
 } as const satisfies AttestedSelection;

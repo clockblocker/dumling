@@ -59,7 +59,6 @@ const katavSurface = dumling.he.create.surface.inflection({
 
 const katavSelection = dumling.he.convert.surface.toSelection(katavSurface, {
 	spelledSelection: "כתב",
-	spellingRelation: "Canonical",
 });
 
 dumling.he.parse.selection(katavSelection);
@@ -70,5 +69,5 @@ dumling.he.parse.selection(katavSelection);
 ```ts
 schemasFor.he.entity.Lemma.Lexeme.VERB();
 schemasFor.he.entity.Surface.Inflection.Lexeme.VERB();
-schemasFor.he.entity.Selection.Standard.Inflection.Lexeme.VERB();
+schemasFor.he.entity.Selection.Inflection.Lexeme.VERB();
 ```

@@ -54,8 +54,8 @@ Dumling focuses on lexical classification for learning tools:
 - **Surface**: the normalized full form in context, such as _"gave up"_
 - **Selection**: the exact text the learner highlighted, such as **give**, **up**, or **walk**
 - lexical kind: `Lexeme`, `Morpheme`, `Phraseme`, or `Construction`
-- learner-relevant coverage: whether a selection is `Full` or `Partial`
-- learner-relevant spelling: whether a selection is standard, variant, or typo-shaped
+- learner-relevant selection features: partial coverage, licensed spelling variants, and typos when those facts are marked
+- learner-relevant surface features: properties of the resolved full surface, such as archaic status
 - language-specific lexical inventories built on a shared cross-language model
 
 `Construction` is the learner-facing branch for patterned entries such as fused forms like German `zum` and paired frames such as `um zu` or `entweder oder`.

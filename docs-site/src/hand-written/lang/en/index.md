@@ -80,5 +80,5 @@ dumling.en.parse.selection(ranSelection);
 ```ts
 schemasFor.en.entity.Lemma.Lexeme.VERB();
 schemasFor.en.entity.Surface.Inflection.Lexeme.VERB();
-schemasFor.en.entity.Selection.Standard.Inflection.Lexeme.VERB();
+schemasFor.en.entity.Selection.Inflection.Lexeme.VERB();
 ```

@@ -26,7 +26,7 @@ This package ships working runtime surfaces for `de`, `en`, and `he`.
 
 Each concrete language namespace (`dumling.de`, `dumling.en`, `dumling.he`) exposes:
 
-- `create`: explicit constructors for `lemma`, `surface.citation`, `surface.inflection`, `selection.standard`, and `selection.typo`
+- `create`: explicit constructors for `lemma`, `surface.citation`, `surface.inflection`, and `selection`
 - `convert`: convenience projections from `lemma -> surface`, `lemma -> selection`, and `surface -> selection`
 - `extract`: entity accessors such as `extract.lemma(...)`
 - `parse`: safe parsing returning `ApiResult<T, ParseError>`
@@ -134,8 +134,8 @@ const surface = packageDumling.de.create.surface.citation({
 const selection = packageDumling.de.convert.surface.toSelection(surface, {
 	spelledSelection: "See",
 });
-const descriptor = packageDumling.de.describe.as.selection(surface);
-const descriptorCsv = packageDumling.de.describe.asCsv.selection(surface);
+const descriptor = packageDumling.de.describe.as.selection(selection);
+const descriptorCsv = packageDumling.de.describe.asCsv.selection(selection);
 const extractedLemma = packageDumling.de.extract.lemma(selection);
 const gender: PackageFeatureValue<
 	"de",
@@ -182,11 +182,13 @@ People often look for this package using adjacent terms:
 
 ## Model notes
 
-The public DTO model treats these as independent axes:
+The public DTO model keeps selection mismatch features sparse:
 
-- `orthographicStatus`: whether the observed spelling is standard or a typo
-- `spellingRelation`: whether a known spelling is canonical or an accepted variant
-- `selectionCoverage`: whether the learner highlighted the full surface or only part of it
+- `selectionFeatures.orthography: "Typo"` marks misspellings
+- `selectionFeatures.spelling: "Variant"` marks licensed non-canonical spellings
+- `selectionFeatures.coverage: "Partial"` marks partial highlights
+- omitted selection features mean standard orthography, canonical spelling, and full coverage
+- `surfaceFeatures.historicalStatus: "Archaic"` marks the resolved surface itself, not the selection-to-surface relation
 
 Selections are always hydrated:
 
