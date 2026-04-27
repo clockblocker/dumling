@@ -8,7 +8,7 @@
 
 - The boundary between `Citation` and `Inflection` looks unstable when the surface is citation-shaped but syntax supplies features. Many nouns are stored as bare citation entries with no case/number (`Band`, `Schloss`, `Kiefer`, `Leiter`, `Mutter`, `Peitsche` at `:11-13`, `:17`, `:23-30`, `:33`, `:115`), while other equally citation-shaped nouns are forced into `Inflection` with syntactically inferred case (`Rand`, `Lot`, `Filosofie` at `:70`, `:78`, `:109`). The current notes suggest both approaches are acceptable, but the file does not make the rule predictable.
 
-- Several rows explicitly rely on uncertain or contestable readings, which is fine, but they probably deserve follow-up rather than being treated as settled. The clearest cases are `ward` as `AUX` rather than `VERB` (`:113-114`), `Verbrannt` as participial verb rather than adjective (`:167-168`), and `lief hinaus` as separable `hinauslaufen` rather than `laufen` + adverb (`:121-124`).
+- Several rows explicitly rely on uncertain or contestable readings, which is fine, but they probably deserve follow-up rather than being treated as settled. The clearest cases are `ward` as `AUX` rather than `VERB` (`:113-114`) and `Verbrannt` as participial verb rather than adjective (`:167-168`).
 
 - Idiom-first analysis is applied aggressively, sometimes even where the literal reading is live in context. The strongest example is `mit Haut und Haar` in a scene where a child is literally burning (`:175-180`); the notes acknowledge the literal reading but still force all three tokens into the idiom. The same phrase-first preference appears in `nur Bahnhof verstehen`, `den Nagel auf den Kopf treffen`, `in acht nehmen`, `o wei`, `Morgenstund hat Gold im Mund`, and `ganz und gar` (`:5`, `:7`, `:44`, `:52-53`, `:57-59`, `:118`, `:169-174`). This is a real common pattern, but also a policy choice worth confirming.
 
@@ -20,7 +20,7 @@
 
 - Common pattern: there is a strong learner-facing preference for the larger meaning-bearing unit over token-level POS tagging.
 
-- Common pattern: separable verbs are frequently compressed into a single normalized inflected surface (`fuhr um`, `zog an`, `lief hinaus`, `pass auf`).
+- Common pattern: separable verbs are frequently compressed into a single normalized inflected surface (`fuhr um`, `zog an`, `pass auf`).
 
 - Common pattern: the file relies heavily on prose notes to justify edge cases; without the notes, several sectionIds would be hard to defend.
 
@@ -65,6 +65,11 @@
   Examples:
     - `Das muss heute noch [raus].` -> `ADV` lemma `heraus`
     - `Die Kinder sind schon [drin].` -> `ADV` lemma `drinnen`
+- When a motion verb plus directional item can be read either as a lexicalized separable verb or as plain `Verb + directional adverb`, lean to the compositional analysis unless the form itself clearly disambiguates toward the separable verb.
+  Examples:
+    - `Er lief erst nach links und dann [hinaus].` -> standalone `ADV` lemma `hinaus`
+    - `nahm Ranzen, Pulverhorn und Flint und lief [hinaus] ins Feld geschwind` -> standalone `ADV` lemma `hinaus`
+    - `Er versucht, [hinauszulaufen].` -> inflected `VERB` lemma `hinauslaufen`
 - Colloquial reduced `mal` stays a standalone `Lexeme/ADV` with canonical lemma `einmal`. Treat it as `Variant` spelling rather than collapsing imperative-plus-`mal` frames into a `Phraseme`, unless the whole formula itself is the learner-facing unit.
   Examples:
     - `Sieh [einmal], hier steht er, pfui, der Struwwelpeter!` -> standalone `ADV` lemma `einmal`

@@ -55,8 +55,10 @@ Einst ging er [an] Ufers Rand mit der Mappe in der Hand.,an,Standard,Citation,Le
 Einst ging er an [Ufers] Rand mit der Mappe in der Hand.,Ufers,Standard,Inflection,Lexeme,NOUN
 Einst ging er an Ufers [Rand] mit der Mappe in der Hand.,Rand,Standard,Citation,Lexeme,NOUN
 Er ging [zum] Bahnhof.,zum,Standard,Citation,Construction,Fusion
+Er lief erst nach links und dann [hinaus].,hinaus,Standard,Citation,Lexeme,ADV
 Er [muss] heute arbeiten.,muss,Standard,Inflection,Lexeme,AUX
 Er vergaß [seinen] Schlüssel im Büro.,seinen,Standard,Inflection,Lexeme,DET
+"Er versucht, [hinauszulaufen].",hinauszulaufen,Standard,Inflection,Lexeme,VERB
 Er [wartet] auf den Nachtbus.,wartet,Standard,Inflection,Lexeme,VERB
 Er [wog] vielleicht ein halbes Lot – und war am fünften Tage tot. ,wog,Standard,Inflection,Lexeme,VERB
 Er wog vielleicht ein halbes [Lot] – und war am fünften Tage tot. ,Lot,Standard,Inflection,Lexeme,NOUN
@@ -87,8 +89,8 @@ Mit [keinem] Wort erwähnte sie den Plan.,keinem,Standard,Inflection,Lexeme,DET
 "[Na ja], ganz überzeugt bin ich nicht.",na ja,Standard,Citation,Phraseme,DiscourseFormula
 "Na [ja], ganz überzeugt bin ich nicht.",na ja,Standard,Citation,Phraseme,DiscourseFormula
 Nach [manchem] Fehler lernt man schneller.,manchem,Standard,Inflection,Lexeme,DET
-"nahm Ranzen, Pulverhorn und Flint und [lief] hinaus ins Feld geschwind",lief hinaus,Standard,Inflection,Lexeme,VERB
-"nahm Ranzen, Pulverhorn und Flint und lief [hinaus] ins Feld geschwind",lief hinaus,Standard,Inflection,Lexeme,VERB
+"nahm Ranzen, Pulverhorn und Flint und [lief] hinaus ins Feld geschwind",lief,Standard,Inflection,Lexeme,VERB
+"nahm Ranzen, Pulverhorn und Flint und lief [hinaus] ins Feld geschwind",hinaus,Standard,Citation,Lexeme,ADV
 "nahm Ranzen, Pulverhorn und Flint und lief hinaus [ins] Feld geschwind",ins,Standard,Citation,Construction,Fusion
 "nahm Ranzen, Pulverhorn und Flint und lief hinaus ins Feld [geschwind]",geschwind,Standard,Citation,Lexeme,ADV
 [Pass] auf dich auf!,pass auf,Standard,Inflection,Lexeme,VERB
@@ -109,6 +111,7 @@ Sie wurde um Geduld [gebeten].,gebeten,Standard,Inflection,Lexeme,VERB
 "Sieh einmal, hier steht er, [pfui], der Struwwelpeter!",pfui,Standard,Citation,Lexeme,INTJ
 "Sieh einmal, hier steht er, pfui, [der] Struwwelpeter!",der,Standard,Inflection,Lexeme,DET
 "Sieh einmal, hier steht er, pfui, der [Struwwelpeter]!",Struwwelpeter,Standard,Citation,Lexeme,PROPN
+"Sieh [mal] an, die Kleine von nebenan.",mal,Standard,Citation,Lexeme,ADV
 "[Tut mir leid], das war mein Fehler.",tut mir leid,Standard,Citation,Phraseme,DiscourseFormula
 "Und Minz und Maunz, [die] schreien gar jämmerlich zu zweien",die,Standard,Inflection,Lexeme,PRON
 "Und Minz und Maunz, die schreien [gar] jämmerlich zu zweien",gar,Standard,Citation,Lexeme,ADV

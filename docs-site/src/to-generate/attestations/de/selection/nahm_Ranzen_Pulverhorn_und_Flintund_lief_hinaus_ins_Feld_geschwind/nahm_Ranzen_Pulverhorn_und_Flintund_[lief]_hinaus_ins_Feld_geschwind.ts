@@ -8,7 +8,7 @@ const deSelection = {
 	spellingRelation: "Canonical",
 	surface: {
 		language: "de",
-		normalizedFullSurface: "lief hinaus",
+		normalizedFullSurface: "lief",
 		surfaceKind: "Inflection",
 		inflectionalFeatures: {
 			mood: "Ind",
@@ -19,12 +19,10 @@ const deSelection = {
 		},
 		lemma: {
 			language: "de",
-			canonicalLemma: "hinauslaufen",
+			canonicalLemma: "laufen",
 			lemmaKind: "Lexeme",
 			lemmaSubKind: "VERB",
-			inherentFeatures: {
-				hasSepPrefix: "hinaus",
-			},
+			inherentFeatures: {},
 			meaningInEmojis: "🏃",
 		},
 	},
@@ -34,6 +32,9 @@ export const attestation = {
 	selection: deSelection,
 	sentenceMarkdown: `nahm Ranzen, Pulverhorn und Flint
 und [lief] hinaus ins Feld geschwind`,
+	classificationMistakes:
+		"I previously inflated the selected finite verb into the separable verb `hinauslaufen`. With the directional-item rule tightened, the safer analysis here is the ordinary finite verb `laufen`, while `hinaus` is handled separately as an adverb.",
 	classifierNotes:
-		"I treated this as a Partial selection of the separable verb `hinauslaufen`, with the full in-context surface `lief hinaus`. Plain `laufen` + free adverb is possible in principle, but Dumling usually prefers the larger meaning-bearing unit when the particle reads as the verb's separable prefix.",
+		"The selected token is analyzed as the plain finite verb `lief` from lemma `laufen`. The following `hinaus` is treated separately as a directional adverb rather than being folded into a larger separable-verb payload here.",
+	isVerified: true,
 } as const satisfies AttestedSelection;
