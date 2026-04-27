@@ -12,8 +12,8 @@ import type {
 	LemmaKindFor,
 	LemmaKindForSurfaceKind,
 	LemmaSubKindFor,
-	OrthographicStatus,
 	Selection,
+	SelectionFeatures,
 	SelectionOptionsFor,
 	SupportedLanguage,
 	Surface,
@@ -111,20 +111,11 @@ export type LanguageApi<L extends SupportedLanguage> = {
 				},
 			): TSurface;
 		};
-		selection: {
-			standard<TSelection extends Selection<L, "Standard">>(
-				input: Omit<TSelection, "language" | "orthographicStatus"> & {
-					language?: unknown;
-					orthographicStatus?: unknown;
-				},
-			): TSelection;
-			typo<TSelection extends Selection<L, "Typo">>(
-				input: Omit<TSelection, "language" | "orthographicStatus"> & {
-					language?: unknown;
-					orthographicStatus?: unknown;
-				},
-			): TSelection;
-		};
+		selection<TSelection extends Selection<L>>(
+			input: Omit<TSelection, "language"> & {
+				language?: unknown;
+			},
+		): TSelection;
 	};
 	convert: {
 		lemma: {
@@ -138,22 +129,16 @@ export type LanguageApi<L extends SupportedLanguage> = {
 				TLemma["lemmaSubKind"] &
 					LemmaSubKindFor<L, TLemma["lemmaKind"] & LemmaKindFor<L>>
 			>;
-			toSelection<
-				TLemma extends Lemma<L>,
-				TStatus extends OrthographicStatus = "Standard",
-			>(
+			toSelection<TLemma extends Lemma<L>>(
 				lemma: TLemma,
-				options?: SelectionOptionsFor<TStatus>,
-			): SelectionFromLemma<L, TStatus, TLemma>;
+				options?: SelectionOptionsFor,
+			): SelectionFromLemma<L, TLemma>;
 		};
 		surface: {
-			toSelection<
-				TSurface extends Surface<L>,
-				TStatus extends OrthographicStatus = "Standard",
-			>(
+			toSelection<TSurface extends Surface<L>>(
 				surface: TSurface,
-				options?: SelectionOptionsFor<TStatus>,
-			): SelectionFromSurface<L, TStatus, TSurface>;
+				options?: SelectionOptionsFor,
+			): SelectionFromSurface<L, TSurface>;
 		};
 	};
 	extract: {
@@ -210,8 +195,7 @@ export type LanguageApi<L extends SupportedLanguage> = {
 						L,
 						EntityLemmaKind<TValue> & LemmaKindFor<L>
 					>,
-				EntitySurfaceKind<TValue> & SurfaceKindFor<L>,
-					EntityOrthographicStatus<TValue> & OrthographicStatus
+				EntitySurfaceKind<TValue> & SurfaceKindFor<L>
 			>;
 		};
 		asCsv: {
@@ -267,14 +251,12 @@ type InflectionSurfaceKind<L extends SupportedLanguage> = Extract<
 >;
 type SelectionFromLemma<
 	L extends SupportedLanguage,
-	TStatus extends OrthographicStatus,
 	TLemma extends Lemma<L>,
 > = Lemma<L> extends TLemma
-	? Selection<L, TStatus>
-	: Selection<L, TStatus> &
+	? Selection<L>
+	: Selection<L> &
 			Selection<
 				L,
-				TStatus,
 				CitationSurfaceKind<L>,
 				TLemma["lemmaKind"] &
 					LemmaKindForSurfaceKind<L, CitationSurfaceKind<L>>,
@@ -283,14 +265,12 @@ type SelectionFromLemma<
 			>;
 type SelectionFromSurface<
 	L extends SupportedLanguage,
-	TStatus extends OrthographicStatus,
 	TSurface extends Surface<L>,
 > = Surface<L> extends TSurface
-	? Selection<L, TStatus>
-	: Selection<L, TStatus> &
+	? Selection<L>
+	: Selection<L> &
 			Selection<
 				L,
-				TStatus,
 				TSurface["surfaceKind"] & SurfaceKindFor<L>,
 				TSurface["lemma"]["lemmaKind"] &
 					LemmaKindForSurfaceKind<
@@ -340,10 +320,3 @@ type EntitySurfaceKind<TValue> = TValue extends {
 		: TValue extends { lemmaKind: LemmaKind; lemmaSubKind: string }
 			? "Citation"
 			: never;
-type EntityOrthographicStatus<TValue> = TValue extends {
-	orthographicStatus: infer OS extends OrthographicStatus;
-}
-	? OS
-	: TValue extends { language: SupportedLanguage }
-		? "Standard"
-		: never;

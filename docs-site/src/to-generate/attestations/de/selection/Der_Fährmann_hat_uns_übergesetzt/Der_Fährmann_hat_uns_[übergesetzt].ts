@@ -2,10 +2,8 @@ import type { AttestedSelection, Selection } from "dumling/types";
 
 const deSelection019 = {
 	language: "de",
-	orthographicStatus: "Standard",
-	selectionCoverage: "Full",
 	spelledSelection: "übergesetzt",
-	spellingRelation: "Canonical",
+
 	surface: {
 		language: "de",
 		normalizedFullSurface: "übergesetzt",
@@ -23,11 +21,12 @@ const deSelection019 = {
 			meaningInEmojis: "⛴️",
 		},
 	},
-} satisfies Selection<"de", "Standard", "Inflection", "Lexeme", "VERB">;
+} satisfies Selection<"de", "Inflection", "Lexeme", "VERB">;
 
 export const attestation = {
 	selection: deSelection019,
 	sentenceMarkdown: "Der Fährmann hat uns [übergesetzt].",
-	classifierNotes: "This is the ferry-across participle, with related spelling but a different sense.",
+	classifierNotes:
+		"This is the ferry-across participle, with related spelling but a different sense.",
 	isVerified: true,
 } as const satisfies AttestedSelection;

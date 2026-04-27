@@ -3,6 +3,7 @@ import {
 	collectBlocksFromDirectory,
 	renderMarkdownTemplate,
 } from "../../../../../scripts/doc-blocks";
+import { pathRelativeToSiteRoot, readmeExamplesDir } from "../../shared/paths";
 import { parseFrontmatter } from "../frontmatter";
 import {
 	generatedPathForHandWrittenDoc,
@@ -10,10 +11,6 @@ import {
 	routeIdForHandWrittenSourcePath,
 } from "../routes";
 import type { DocsOutput } from "../types";
-import {
-	pathRelativeToSiteRoot,
-	readmeExamplesDir,
-} from "../../shared/paths";
 
 const markdownBlocks = collectBlocksFromDirectory({
 	examplesDir: readmeExamplesDir,

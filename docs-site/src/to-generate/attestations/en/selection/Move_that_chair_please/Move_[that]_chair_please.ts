@@ -2,10 +2,8 @@ import type { AttestedSelection, Selection } from "dumling/types";
 
 const thatDeterminerSelection = {
 	language: "en",
-	orthographicStatus: "Standard",
-	selectionCoverage: "Full",
 	spelledSelection: "that",
-	spellingRelation: "Canonical",
+
 	surface: {
 		language: "en",
 		normalizedFullSurface: "that",
@@ -21,10 +19,11 @@ const thatDeterminerSelection = {
 			meaningInEmojis: "👉",
 		},
 	},
-} satisfies Selection<"en", "Standard", "Citation", "Lexeme", "DET">;
+} satisfies Selection<"en", "Citation", "Lexeme", "DET">;
 
 export const attestation = {
 	selection: thatDeterminerSelection,
 	sentenceMarkdown: "Move [that] chair, please.",
-	classifierNotes: "That before a noun is DET, distinct from pronominal and complementizer that.",
+	classifierNotes:
+		"That before a noun is DET, distinct from pronominal and complementizer that.",
 } as const satisfies AttestedSelection;

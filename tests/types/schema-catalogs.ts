@@ -10,8 +10,8 @@ schemasFor.de.entity.Surface.Inflection.Lexeme.ADJ() satisfies z.ZodType<
 	Surface<"de", "Inflection", "Lexeme", "ADJ">
 >;
 
-schemasFor.de.entity.Selection.Standard.Inflection.Lexeme.ADJ() satisfies z.ZodType<
-	Selection<"de", "Standard", "Inflection", "Lexeme", "ADJ">
+schemasFor.de.entity.Selection.Inflection.Lexeme.ADJ() satisfies z.ZodType<
+	Selection<"de", "Inflection", "Lexeme", "ADJ">
 >;
 
 getSchemaTreeFor("en").descriptor.Lemma.Lexeme.NOUN satisfies z.ZodType<{

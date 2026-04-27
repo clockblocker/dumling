@@ -2,10 +2,8 @@ import type { AttestedSelection, Selection } from "dumling/types";
 
 const halfDeterminerFractionSelection = {
 	language: "en",
-	orthographicStatus: "Standard",
-	selectionCoverage: "Full",
 	spelledSelection: "half",
-	spellingRelation: "Canonical",
+
 	surface: {
 		language: "en",
 		normalizedFullSurface: "half",
@@ -22,10 +20,11 @@ const halfDeterminerFractionSelection = {
 			meaningInEmojis: "½",
 		},
 	},
-} satisfies Selection<"en", "Standard", "Citation", "Lexeme", "DET">;
+} satisfies Selection<"en", "Citation", "Lexeme", "DET">;
 
 export const attestation = {
 	selection: halfDeterminerFractionSelection,
 	sentenceMarkdown: "Use [half] the flour first.",
-	classifierNotes: "Half before a noun phrase is DET with fractional number features, not NUM.",
+	classifierNotes:
+		"Half before a noun phrase is DET with fractional number features, not NUM.",
 } as const satisfies AttestedSelection;

@@ -17,6 +17,7 @@ export const concreteFeatureSchemaInventory = {
 		"governedCase",
 		"hasGovPrep",
 		"hasSepPrefix",
+		"historicalStatus",
 		"hebBinyan",
 		"hebExistential",
 		"hyph",
@@ -26,6 +27,7 @@ export const concreteFeatureSchemaInventory = {
 		"number[psor]",
 		"numForm",
 		"numType",
+		"orthography",
 		"partType",
 		"person",
 		"phrasal",
@@ -36,6 +38,8 @@ export const concreteFeatureSchemaInventory = {
 		"pronType",
 		"punctType",
 		"reflex",
+		"coverage",
+		"spelling",
 		"style",
 		"tense",
 		"variant",
@@ -102,6 +106,7 @@ export const concreteFeatureSchemaInventory = {
 			"Tem",
 			"Ter",
 		],
+		historicalStatus: ["Archaic"],
 		hebBinyan: [
 			"HIFIL",
 			"HITPAEL",
@@ -119,6 +124,7 @@ export const concreteFeatureSchemaInventory = {
 		"number[psor]": ["Plur", "Sing"],
 		numForm: ["Combi", "Digit", "Roman", "Word"],
 		numType: ["Card", "Frac", "Mult", "Ord", "Range"],
+		orthography: ["Typo"],
 		partType: ["Inf", "Res", "Vbp"],
 		person: ["1", "2", "3"],
 		phrasal: ["Yes"],
@@ -151,6 +157,8 @@ export const concreteFeatureSchemaInventory = {
 			"Quot",
 		],
 		reflex: ["Yes"],
+		coverage: ["Partial"],
+		spelling: ["Variant"],
 		style: ["Arch", "Coll", "Expr", "Slng", "Vrnc"],
 		tense: ["Fut", "Past", "Pres"],
 		variant: ["Short"],
@@ -160,5 +168,7 @@ export const concreteFeatureSchemaInventory = {
 	},
 } as const satisfies {
 	featureNames: readonly FeatureNameTokenKey[];
-	finiteFeatureValues: Partial<Record<FeatureNameTokenKey, readonly string[]>>;
+	finiteFeatureValues: Partial<
+		Record<FeatureNameTokenKey, readonly string[]>
+	>;
 };

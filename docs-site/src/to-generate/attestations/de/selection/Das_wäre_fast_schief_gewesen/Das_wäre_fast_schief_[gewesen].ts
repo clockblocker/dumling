@@ -2,10 +2,8 @@ import type { AttestedSelection, Selection } from "dumling/types";
 
 const deSelection022 = {
 	language: "de",
-	orthographicStatus: "Standard",
-	selectionCoverage: "Full",
 	spelledSelection: "gewesen",
-	spellingRelation: "Canonical",
+
 	surface: {
 		language: "de",
 		normalizedFullSurface: "gewesen",
@@ -23,11 +21,12 @@ const deSelection022 = {
 			meaningInEmojis: "🧩",
 		},
 	},
-} satisfies Selection<"de", "Standard", "Inflection", "Lexeme", "AUX">;
+} satisfies Selection<"de", "Inflection", "Lexeme", "AUX">;
 
 export const attestation = {
 	selection: deSelection022,
 	sentenceMarkdown: "Das wäre fast schief [gewesen].",
-	classifierNotes: "Gewesen is treated as an AUX participle rather than a lexical verb.",
+	classifierNotes:
+		"Gewesen is treated as an AUX participle rather than a lexical verb.",
 	isVerified: true,
 } as const satisfies AttestedSelection;

@@ -2,10 +2,8 @@ import type { AttestedSelection, Selection } from "dumling/types";
 
 const deSelection026 = {
 	language: "de",
-	orthographicStatus: "Standard",
-	selectionCoverage: "Full",
 	spelledSelection: "gebeten",
-	spellingRelation: "Canonical",
+
 	surface: {
 		language: "de",
 		normalizedFullSurface: "gebeten",
@@ -25,11 +23,12 @@ const deSelection026 = {
 			meaningInEmojis: "🙏",
 		},
 	},
-} satisfies Selection<"de", "Standard", "Inflection", "Lexeme", "VERB">;
+} satisfies Selection<"de", "Inflection", "Lexeme", "VERB">;
 
 export const attestation = {
 	selection: deSelection026,
 	sentenceMarkdown: "Sie wurde um Geduld [gebeten].",
-	classifierNotes: "The sentence is passive, but the selected participle is stored without voice because the form itself is simply the participle of bitten.",
+	classifierNotes:
+		"The sentence is passive, but the selected participle is stored without voice because the form itself is simply the participle of bitten.",
 	isVerified: true,
 } as const satisfies AttestedSelection;

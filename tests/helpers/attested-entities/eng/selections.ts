@@ -8,39 +8,37 @@ import {
 // Attestation: "They [walk] home together."
 export const englishWalkStandardFullSelection = {
 	language: "en",
-	orthographicStatus: "Standard",
-	selectionCoverage: "Full",
 	spelledSelection: "walk",
-	spellingRelation: "Canonical",
+
 	surface: englishWalkInflectionSurface,
-} satisfies Selection<"en", "Standard", "Inflection", "Lexeme", "VERB">;
+} satisfies Selection<"en", "Inflection", "Lexeme", "VERB">;
 
 // Attestation: "They [walk] home together."
 export const englishWalkCitationSelection = {
 	language: "en",
-	orthographicStatus: "Standard",
-	selectionCoverage: "Full",
 	spelledSelection: "walk",
-	spellingRelation: "Canonical",
+
 	surface: englishWalkCitationSurface,
-} satisfies Selection<"en", "Standard", "Citation", "Lexeme", "VERB">;
+} satisfies Selection<"en", "Citation", "Lexeme", "VERB">;
 
 // Attestation: "Mark gvae [up] on it."
 export const englishGiveUpTypoPartialUpSelection = {
 	language: "en",
-	orthographicStatus: "Typo",
-	selectionCoverage: "Partial",
+	selectionFeatures: { orthography: "Typo", coverage: "Partial" },
 	spelledSelection: "up",
-	spellingRelation: "Canonical",
+
 	surface: englishGiveUpInflectionSurface,
-} satisfies Selection<"en", "Typo", "Inflection", "Lexeme", "VERB">;
+} satisfies Selection<"en", "Inflection", "Lexeme", "VERB">;
 
 // Attestation: "Mark [gvae] up on it."
 export const englishGiveUpTypoPartialGvaeSelection = {
 	language: "en",
-	orthographicStatus: "Typo",
-	selectionCoverage: "Partial",
+	selectionFeatures: {
+		orthography: "Typo",
+		coverage: "Partial",
+		spelling: "Variant",
+	},
 	spelledSelection: "gvae",
-	spellingRelation: "Variant",
+
 	surface: englishGiveUpInflectionSurface,
-} satisfies Selection<"en", "Typo", "Inflection", "Lexeme", "VERB">;
+} satisfies Selection<"en", "Inflection", "Lexeme", "VERB">;

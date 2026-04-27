@@ -2,10 +2,8 @@ import type { AttestedSelection, Selection } from "dumling/types";
 
 const hemPronounSelection = {
 	language: "he",
-	orthographicStatus: "Standard",
-	selectionCoverage: "Full",
 	spelledSelection: "הם",
-	spellingRelation: "Canonical",
+
 	surface: {
 		language: "he",
 		normalizedFullSurface: "הם",
@@ -26,7 +24,7 @@ const hemPronounSelection = {
 			meaningInEmojis: "👥",
 		},
 	},
-} satisfies Selection<"he", "Standard", "Inflection", "Lexeme", "PRON">;
+} satisfies Selection<"he", "Inflection", "Lexeme", "PRON">;
 
 export const attestation = {
 	selection: hemPronounSelection,

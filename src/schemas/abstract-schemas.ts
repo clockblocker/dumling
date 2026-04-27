@@ -4,7 +4,6 @@ import {
 	AbstractLanguageTag,
 	LemmaKind,
 	LemmaSubKind,
-	OrthographicStatus,
 	SurfaceKind,
 } from "../types/core/enums";
 import type {
@@ -14,7 +13,6 @@ import type {
 	AbstractSurface,
 	EntityKind,
 	LemmaKind as LemmaKindType,
-	OrthographicStatus as OrthographicStatusType,
 	SurfaceKind as SurfaceKindType,
 } from "../types/public-types";
 import { abstractRuntimeSchemas } from "./abstract/registry";
@@ -31,9 +29,7 @@ type AbstractSurfaceDescriptor = AbstractLemmaDescriptor & {
 	surfaceKind: SurfaceKindType;
 };
 
-type AbstractSelectionDescriptor = AbstractSurfaceDescriptor & {
-	orthographicStatus: OrthographicStatusType;
-};
+type AbstractSelectionDescriptor = AbstractSurfaceDescriptor;
 
 type AbstractDescriptor<K extends EntityKind> = K extends "Lemma"
 	? AbstractLemmaDescriptor
@@ -75,7 +71,6 @@ const abstractSelectionDescriptorSchema = zod
 		lemmaKind: LemmaKind,
 		lemmaSubKind: LemmaSubKind,
 		surfaceKind: SurfaceKind,
-		orthographicStatus: OrthographicStatus,
 	})
 	.strict() as unknown as z.ZodType<AbstractDescriptor<"Selection">>;
 

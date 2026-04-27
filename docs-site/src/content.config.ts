@@ -2,11 +2,11 @@ import { defineCollection, z } from "astro:content";
 import { glob } from "astro/loaders";
 
 const pageSchema = z.object({
-		description: z.string().optional(),
-		generatedFrom: z.string().optional(),
-		order: z.number().default(0),
-		routeId: z.string().optional(),
-		title: z.string(),
+	description: z.string().optional(),
+	generatedFrom: z.string().optional(),
+	order: z.number().default(0),
+	routeId: z.string().optional(),
+	title: z.string(),
 });
 
 const docs = defineCollection({

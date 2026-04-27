@@ -2,10 +2,8 @@ import type { AttestedSelection, Selection } from "dumling/types";
 
 const shteiNumeralSelection = {
 	language: "he",
-	orthographicStatus: "Standard",
-	selectionCoverage: "Full",
 	spelledSelection: "שתי",
-	spellingRelation: "Canonical",
+
 	surface: {
 		language: "he",
 		normalizedFullSurface: "שתי",
@@ -24,10 +22,11 @@ const shteiNumeralSelection = {
 			meaningInEmojis: "2️⃣",
 		},
 	},
-} satisfies Selection<"he", "Standard", "Inflection", "Lexeme", "NUM">;
+} satisfies Selection<"he", "Inflection", "Lexeme", "NUM">;
 
 export const attestation = {
 	selection: shteiNumeralSelection,
 	sentenceMarkdown: "קניתי [שתי] מחברות.",
-	classifierNotes: "שתי is the construct or feminine form of שתיים and is intentionally awkward for feature-boundary testing.",
+	classifierNotes:
+		"שתי is the construct or feminine form of שתיים and is intentionally awkward for feature-boundary testing.",
 } as const satisfies AttestedSelection;

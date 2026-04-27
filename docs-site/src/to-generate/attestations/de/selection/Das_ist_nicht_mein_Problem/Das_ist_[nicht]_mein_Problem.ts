@@ -2,10 +2,8 @@ import type { AttestedSelection, Selection } from "dumling/types";
 
 const deSelection041 = {
 	language: "de",
-	orthographicStatus: "Standard",
-	selectionCoverage: "Full",
 	spelledSelection: "nicht",
-	spellingRelation: "Canonical",
+
 	surface: {
 		language: "de",
 		normalizedFullSurface: "nicht",
@@ -21,11 +19,12 @@ const deSelection041 = {
 			meaningInEmojis: "⛔",
 		},
 	},
-} satisfies Selection<"de", "Standard", "Citation", "Lexeme", "PART">;
+} satisfies Selection<"de", "Citation", "Lexeme", "PART">;
 
 export const attestation = {
 	selection: deSelection041,
 	sentenceMarkdown: "Das ist [nicht] mein Problem.",
-	classifierNotes: "Nicht is modeled as PART with polarity Neg rather than as an adverb.",
+	classifierNotes:
+		"Nicht is modeled as PART with polarity Neg rather than as an adverb.",
 	isVerified: true,
 } as const satisfies AttestedSelection;

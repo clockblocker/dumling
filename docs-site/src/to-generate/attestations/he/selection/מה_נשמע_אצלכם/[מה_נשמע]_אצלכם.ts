@@ -2,10 +2,8 @@ import type { AttestedSelection, Selection } from "dumling/types";
 
 const maNishmaFormulaSelection = {
 	language: "he",
-	orthographicStatus: "Standard",
-	selectionCoverage: "Full",
 	spelledSelection: "מה נשמע",
-	spellingRelation: "Canonical",
+
 	surface: {
 		language: "he",
 		normalizedFullSurface: "מה נשמע",
@@ -19,16 +17,11 @@ const maNishmaFormulaSelection = {
 			meaningInEmojis: "💬",
 		},
 	},
-} satisfies Selection<
-	"he",
-	"Standard",
-	"Citation",
-	"Phraseme",
-	"DiscourseFormula"
->;
+} satisfies Selection<"he", "Citation", "Phraseme", "DiscourseFormula">;
 
 export const attestation = {
 	selection: maNishmaFormulaSelection,
 	sentenceMarkdown: "[מה נשמע] אצלכם?",
-	classifierNotes: "The multiword greeting is modeled as one discourse-formula surface.",
+	classifierNotes:
+		"The multiword greeting is modeled as one discourse-formula surface.",
 } as const satisfies AttestedSelection;

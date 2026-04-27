@@ -2,10 +2,8 @@ import type { AttestedSelection, Selection } from "dumling/types";
 
 const fastAdverbSelection = {
 	language: "de",
-	orthographicStatus: "Standard",
-	selectionCoverage: "Full",
 	spelledSelection: "fast",
-	spellingRelation: "Canonical",
+
 	surface: {
 		language: "de",
 		normalizedFullSurface: "fast",
@@ -19,7 +17,7 @@ const fastAdverbSelection = {
 			meaningInEmojis: "🤏",
 		},
 	},
-} satisfies Selection<"de", "Standard", "Citation", "Lexeme", "ADV">;
+} satisfies Selection<"de", "Citation", "Lexeme", "ADV">;
 
 export const attestation = {
 	selection: fastAdverbSelection,

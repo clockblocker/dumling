@@ -2,10 +2,8 @@ import type { AttestedSelection, Selection } from "dumling/types";
 
 const deSelection032 = {
 	language: "de",
-	orthographicStatus: "Standard",
-	selectionCoverage: "Full",
 	spelledSelection: "deren",
-	spellingRelation: "Canonical",
+
 	surface: {
 		language: "de",
 		normalizedFullSurface: "deren",
@@ -26,11 +24,12 @@ const deSelection032 = {
 			meaningInEmojis: "🔗",
 		},
 	},
-} satisfies Selection<"de", "Standard", "Inflection", "Lexeme", "PRON">;
+} satisfies Selection<"de", "Inflection", "Lexeme", "PRON">;
 
 export const attestation = {
 	selection: deSelection032,
 	sentenceMarkdown: "Die Zeugin, [deren] Aussage zählt, bleibt anonym.",
-	classifierNotes: "Deren is the feminine genitive singular counterpart to dessen in this context.",
+	classifierNotes:
+		"Deren is the feminine genitive singular counterpart to dessen in this context.",
 	isVerified: true,
 } as const satisfies AttestedSelection;

@@ -2,10 +2,8 @@ import type { AttestedSelection, Selection } from "dumling/types";
 
 const deSelection049 = {
 	language: "de",
-	orthographicStatus: "Standard",
-	selectionCoverage: "Full",
 	spelledSelection: "Tut mir leid",
-	spellingRelation: "Canonical",
+
 	surface: {
 		language: "de",
 		normalizedFullSurface: "tut mir leid",
@@ -21,17 +19,12 @@ const deSelection049 = {
 			meaningInEmojis: "🙇",
 		},
 	},
-} satisfies Selection<
-	"de",
-	"Standard",
-	"Citation",
-	"Phraseme",
-	"DiscourseFormula"
->;
+} satisfies Selection<"de", "Citation", "Phraseme", "DiscourseFormula">;
 
 export const attestation = {
 	selection: deSelection049,
 	sentenceMarkdown: "[Tut mir leid], das war mein Fehler.",
-	classifierNotes: "Tut mir leid is stored as an apology phraseme, not as a literal finite-verb selection.",
+	classifierNotes:
+		"Tut mir leid is stored as an apology phraseme, not as a literal finite-verb selection.",
 	isVerified: true,
 } as const satisfies AttestedSelection;

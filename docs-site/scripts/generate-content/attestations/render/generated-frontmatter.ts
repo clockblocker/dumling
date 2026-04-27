@@ -1,7 +1,7 @@
-import type { AttestationSource, Frontmatter } from "../../shared/types";
 import { pathRelativeToSiteRoot } from "../../shared/paths";
-import { lemmaForEntity, surfaceForEntity } from "../entity/helpers";
+import type { AttestationSource, Frontmatter } from "../../shared/types";
 import { isSelection, isSurface } from "../entity/guards";
+import { lemmaForEntity, surfaceForEntity } from "../entity/helpers";
 import { semanticSelectionBasename } from "../selection/semantic-source-path";
 
 export function generatedFrontmatterForAttestation(

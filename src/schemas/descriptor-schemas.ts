@@ -6,7 +6,6 @@ import type {
 	LemmaKindFor,
 	LemmaKindForSurfaceKind,
 	LemmaSubKindFor,
-	OrthographicStatus,
 	SurfaceKindFor,
 } from "../types/public-types";
 import type {
@@ -24,19 +23,13 @@ type DescriptorSchemaTree = {
 type MutableLanguageDescriptorSchemaTree = {
 	Lemma: Record<string, Record<string, z.ZodTypeAny>>;
 	Surface: Record<string, Record<string, Record<string, z.ZodTypeAny>>>;
-	Selection: Record<
-		OrthographicStatus,
-		Record<string, Record<string, Record<string, z.ZodTypeAny>>>
-	>;
+	Selection: Record<string, Record<string, Record<string, z.ZodTypeAny>>>;
 };
 
 type IterableLanguageSchemaTree = {
 	Lemma: Record<string, Record<string, unknown>>;
 	Surface: Record<string, Record<string, Record<string, unknown>>>;
-	Selection: Record<
-		OrthographicStatus,
-		Record<string, Record<string, Record<string, unknown>>>
-	>;
+	Selection: Record<string, Record<string, Record<string, unknown>>>;
 };
 
 function ensureFamily<TValue>(
@@ -88,28 +81,23 @@ function buildSurfaceDescriptorSchema<
 
 function buildSelectionDescriptorSchema<
 	L extends ConcreteLanguage,
-	const OS extends OrthographicStatus,
 	const SK extends SurfaceKindFor<L>,
 	const LK extends LemmaKindForSurfaceKind<L, SK>,
 	const LSK extends LemmaSubKindForSurfaceKind<L, SK, LK>,
 >(
 	language: L,
-	orthographicStatus: OS,
 	surfaceKind: SK,
 	lemmaKind: LK,
 	lemmaSubKind: LSK,
-): DescriptorSchema<Descriptor<"Selection", L, LK, LSK, SK, OS>> {
+): DescriptorSchema<Descriptor<"Selection", L, LK, LSK, SK>> {
 	return zod
 		.object({
 			language: zod.literal(language),
-			orthographicStatus: zod.literal(orthographicStatus),
 			surfaceKind: zod.literal(surfaceKind),
 			lemmaKind: zod.literal(lemmaKind),
 			lemmaSubKind: zod.literal(lemmaSubKind),
 		})
-		.strict() as DescriptorSchema<
-		Descriptor<"Selection", L, LK, LSK, SK, OS>
-	>;
+		.strict() as DescriptorSchema<Descriptor<"Selection", L, LK, LSK, SK>>;
 }
 
 function buildLanguageDescriptorSchemas<L extends ConcreteLanguage>(
@@ -123,14 +111,8 @@ function buildLanguageDescriptorSchemas<L extends ConcreteLanguage>(
 			Inflection: {},
 		},
 		Selection: {
-			Standard: {
-				Citation: {},
-				Inflection: {},
-			},
-			Typo: {
-				Citation: {},
-				Inflection: {},
-			},
+			Citation: {},
+			Inflection: {},
 		},
 	};
 	const iterableSchemaTree = schemaTree;
@@ -175,44 +157,28 @@ function buildLanguageDescriptorSchemas<L extends ConcreteLanguage>(
 		}
 	}
 
-	for (const [orthographicStatus, surfaceKindSchemas] of Object.entries(
+	for (const [surfaceKind, lemmaKindSchemas] of Object.entries(
 		iterableSchemaTree.Selection,
-	) as [
-		OrthographicStatus,
-		IterableLanguageSchemaTree["Selection"][OrthographicStatus],
-	][]) {
-		for (const [surfaceKind, lemmaKindSchemas] of Object.entries(
-			surfaceKindSchemas,
+	)) {
+		descriptorTree.Selection[surfaceKind] ??= {};
+		const surfaceKindTree = descriptorTree.Selection[surfaceKind];
+
+		for (const [lemmaKind, subKindSchemas] of Object.entries(
+			lemmaKindSchemas,
 		)) {
-			descriptorTree.Selection[orthographicStatus][surfaceKind] ??= {};
-			const surfaceKindTree =
-				descriptorTree.Selection[orthographicStatus][surfaceKind];
+			const selectionFamily = ensureFamily(surfaceKindTree, lemmaKind);
 
-			for (const [lemmaKind, subKindSchemas] of Object.entries(
-				lemmaKindSchemas,
-			)) {
-				const selectionFamily = ensureFamily(
-					surfaceKindTree,
-					lemmaKind,
+			for (const lemmaSubKind of Object.keys(subKindSchemas)) {
+				selectionFamily[lemmaSubKind] = buildSelectionDescriptorSchema(
+					language,
+					surfaceKind as SurfaceKindFor<L>,
+					lemmaKind as LemmaKindForSurfaceKind<L, SurfaceKindFor<L>>,
+					lemmaSubKind as LemmaSubKindForSurfaceKind<
+						L,
+						SurfaceKindFor<L>,
+						LemmaKindForSurfaceKind<L, SurfaceKindFor<L>>
+					>,
 				);
-
-				for (const lemmaSubKind of Object.keys(subKindSchemas)) {
-					selectionFamily[lemmaSubKind] =
-						buildSelectionDescriptorSchema(
-							language,
-							orthographicStatus,
-							surfaceKind as SurfaceKindFor<L>,
-							lemmaKind as LemmaKindForSurfaceKind<
-								L,
-								SurfaceKindFor<L>
-							>,
-							lemmaSubKind as LemmaSubKindForSurfaceKind<
-								L,
-								SurfaceKindFor<L>,
-								LemmaKindForSurfaceKind<L, SurfaceKindFor<L>>
-							>,
-						);
-				}
 			}
 		}
 	}

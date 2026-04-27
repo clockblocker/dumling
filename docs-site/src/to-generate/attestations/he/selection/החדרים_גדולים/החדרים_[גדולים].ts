@@ -2,10 +2,8 @@ import type { AttestedSelection, Selection } from "dumling/types";
 
 const gdolimAdjectiveSelection = {
 	language: "he",
-	orthographicStatus: "Standard",
-	selectionCoverage: "Full",
 	spelledSelection: "גדולים",
-	spellingRelation: "Canonical",
+
 	surface: {
 		language: "he",
 		normalizedFullSurface: "גדולים",
@@ -23,7 +21,7 @@ const gdolimAdjectiveSelection = {
 			meaningInEmojis: "📏",
 		},
 	},
-} satisfies Selection<"he", "Standard", "Inflection", "Lexeme", "ADJ">;
+} satisfies Selection<"he", "Inflection", "Lexeme", "ADJ">;
 
 export const attestation = {
 	selection: gdolimAdjectiveSelection,

@@ -14,25 +14,21 @@ describe("German noun schemas", () => {
 				.success,
 		).toBe(true);
 		expect(
-			schemasFor.de.entity.Selection.Standard.Inflection.Lexeme.NOUN().safeParse(
-				{
+			schemasFor.de.entity.Selection.Inflection.Lexeme.NOUN().safeParse({
+				language: "de",
+				spelledSelection: "kindern",
+
+				surface: {
+					...makeLexemeSurfaceReference("de", "NOUN", "kind"),
 					language: "de",
-					orthographicStatus: "Standard",
-					selectionCoverage: "Full",
-					spelledSelection: "kindern",
-					spellingRelation: "Canonical",
-					surface: {
-						...makeLexemeSurfaceReference("de", "NOUN", "kind"),
-						language: "de",
-						normalizedFullSurface: "kindern",
-						surfaceKind: "Inflection",
-						inflectionalFeatures: {
-							case: "Dat",
-							number: "Plur",
-						},
+					normalizedFullSurface: "kindern",
+					surfaceKind: "Inflection",
+					inflectionalFeatures: {
+						case: "Dat",
+						number: "Plur",
 					},
 				},
-			).success,
+			}).success,
 		).toBe(true);
 	});
 
@@ -51,25 +47,21 @@ describe("German noun schemas", () => {
 		).toBe(false);
 
 		expect(
-			schemasFor.de.entity.Selection.Standard.Inflection.Lexeme.NOUN().safeParse(
-				{
+			schemasFor.de.entity.Selection.Inflection.Lexeme.NOUN().safeParse({
+				language: "de",
+				spelledSelection: "kindern",
+
+				surface: {
+					...makeLexemeSurfaceReference("de", "NOUN", "kind"),
 					language: "de",
-					orthographicStatus: "Standard",
-					selectionCoverage: "Full",
-					spelledSelection: "kindern",
-					spellingRelation: "Canonical",
-					surface: {
-						...makeLexemeSurfaceReference("de", "NOUN", "kind"),
-						language: "de",
-						normalizedFullSurface: "kindern",
-						surfaceKind: "Inflection",
-						inflectionalFeatures: {
-							case: "Ins",
-							number: "Dual",
-						},
+					normalizedFullSurface: "kindern",
+					surfaceKind: "Inflection",
+					inflectionalFeatures: {
+						case: "Ins",
+						number: "Dual",
 					},
 				},
-			).success,
+			}).success,
 		).toBe(false);
 	});
 
@@ -80,13 +72,12 @@ describe("German noun schemas", () => {
 			).success,
 		).toBe(true);
 		expect(
-			schemasFor.de.entity.Selection.Standard.Citation.Lexeme.PROPN().safeParse(
+			schemasFor.de.entity.Selection.Citation.Lexeme.PROPN().safeParse(
 				germanBVGAbbreviationSelection,
 			).success,
 		).toBe(true);
 		expect(
-			typeof schemasFor.de.entity.Selection.Standard.Citation.Lexeme.NOUN()
-				.parse,
+			typeof schemasFor.de.entity.Selection.Citation.Lexeme.NOUN().parse,
 		).toBe("function");
 	});
 });

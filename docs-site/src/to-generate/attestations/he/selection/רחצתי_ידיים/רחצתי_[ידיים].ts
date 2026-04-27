@@ -2,10 +2,8 @@ import type { AttestedSelection, Selection } from "dumling/types";
 
 const yadayimDualSelection = {
 	language: "he",
-	orthographicStatus: "Standard",
-	selectionCoverage: "Full",
 	spelledSelection: "ידיים",
-	spellingRelation: "Canonical",
+
 	surface: {
 		language: "he",
 		normalizedFullSurface: "ידיים",
@@ -24,7 +22,7 @@ const yadayimDualSelection = {
 			meaningInEmojis: "🤲",
 		},
 	},
-} satisfies Selection<"he", "Standard", "Inflection", "Lexeme", "NOUN">;
+} satisfies Selection<"he", "Inflection", "Lexeme", "NOUN">;
 
 export const attestation = {
 	selection: yadayimDualSelection,

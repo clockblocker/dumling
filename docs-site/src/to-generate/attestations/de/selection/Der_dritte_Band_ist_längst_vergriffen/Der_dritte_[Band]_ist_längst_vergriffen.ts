@@ -2,10 +2,8 @@ import type { AttestedSelection, Selection } from "dumling/types";
 
 const deSelection004 = {
 	language: "de",
-	orthographicStatus: "Standard",
-	selectionCoverage: "Full",
 	spelledSelection: "Band",
-	spellingRelation: "Canonical",
+
 	surface: {
 		language: "de",
 		normalizedFullSurface: "Band",
@@ -21,11 +19,12 @@ const deSelection004 = {
 			meaningInEmojis: "📘",
 		},
 	},
-} satisfies Selection<"de", "Standard", "Citation", "Lexeme", "NOUN">;
+} satisfies Selection<"de", "Citation", "Lexeme", "NOUN">;
 
 export const attestation = {
 	selection: deSelection004,
 	sentenceMarkdown: "Der dritte [Band] ist längst vergriffen.",
-	classifierNotes: "This is the masculine lexical item meaning volume, which stresses homograph and gender disambiguation.",
+	classifierNotes:
+		"This is the masculine lexical item meaning volume, which stresses homograph and gender disambiguation.",
 	isVerified: true,
 } as const satisfies AttestedSelection;

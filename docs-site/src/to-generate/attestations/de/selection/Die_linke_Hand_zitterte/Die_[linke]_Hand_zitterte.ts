@@ -2,10 +2,8 @@ import type { AttestedSelection, Selection } from "dumling/types";
 
 const deSelection029 = {
 	language: "de",
-	orthographicStatus: "Standard",
-	selectionCoverage: "Full",
 	spelledSelection: "linke",
-	spellingRelation: "Canonical",
+
 	surface: {
 		language: "de",
 		normalizedFullSurface: "linke",
@@ -25,11 +23,12 @@ const deSelection029 = {
 			meaningInEmojis: "⬅️",
 		},
 	},
-} satisfies Selection<"de", "Standard", "Inflection", "Lexeme", "ADJ">;
+} satisfies Selection<"de", "Inflection", "Lexeme", "ADJ">;
 
 export const attestation = {
 	selection: deSelection029,
 	sentenceMarkdown: "Die [linke] Hand zitterte.",
-	classifierNotes: "This is ordinary adjective agreement, included to contrast the directional adjective with political and proper-noun readings.",
+	classifierNotes:
+		"This is ordinary adjective agreement, included to contrast the directional adjective with political and proper-noun readings.",
 	isVerified: true,
 } as const satisfies AttestedSelection;

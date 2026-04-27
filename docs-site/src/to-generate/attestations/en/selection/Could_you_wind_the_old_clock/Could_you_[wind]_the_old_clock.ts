@@ -2,10 +2,8 @@ import type { AttestedSelection, Selection } from "dumling/types";
 
 const windVerbHomographSelection = {
 	language: "en",
-	orthographicStatus: "Standard",
-	selectionCoverage: "Full",
 	spelledSelection: "wind",
-	spellingRelation: "Canonical",
+
 	surface: {
 		language: "en",
 		normalizedFullSurface: "wind",
@@ -19,10 +17,11 @@ const windVerbHomographSelection = {
 			meaningInEmojis: "🕰️",
 		},
 	},
-} satisfies Selection<"en", "Standard", "Citation", "Lexeme", "VERB">;
+} satisfies Selection<"en", "Citation", "Lexeme", "VERB">;
 
 export const attestation = {
 	selection: windVerbHomographSelection,
 	sentenceMarkdown: "Could you [wind] the old clock?",
-	classifierNotes: "Wind as a verb is modeled separately from wind as weather; pronunciation contrast is outside the object.",
+	classifierNotes:
+		"Wind as a verb is modeled separately from wind as weather; pronunciation contrast is outside the object.",
 } as const satisfies AttestedSelection;

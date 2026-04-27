@@ -2,10 +2,9 @@ import type { AttestedSelection, Selection } from "dumling/types";
 
 const deSelection053 = {
 	language: "de",
-	orthographicStatus: "Typo",
-	selectionCoverage: "Full",
+	selectionFeatures: { orthography: "Typo", spelling: "Variant" },
 	spelledSelection: "Filosofie",
-	spellingRelation: "Variant",
+
 	surface: {
 		language: "de",
 		normalizedFullSurface: "Filosofie",
@@ -25,11 +24,12 @@ const deSelection053 = {
 			meaningInEmojis: "📚",
 		},
 	},
-} satisfies Selection<"de", "Typo", "Inflection", "Lexeme", "NOUN">;
+} satisfies Selection<"de", "Inflection", "Lexeme", "NOUN">;
 
 export const attestation = {
 	selection: deSelection053,
 	sentenceMarkdown: "Im Heft stand [Filosofie] statt Philosophie.",
-	classifierNotes: "This is a typo attestation whose noncanonical spelling still points to the canonical lemma Philosophie.",
+	classifierNotes:
+		"This is a typo attestation whose noncanonical spelling still points to the canonical lemma Philosophie.",
 	isVerified: true,
 } as const satisfies AttestedSelection;

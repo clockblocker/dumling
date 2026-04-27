@@ -2,10 +2,8 @@ import type { AttestedSelection, Selection } from "dumling/types";
 
 const deSelection031 = {
 	language: "de",
-	orthographicStatus: "Standard",
-	selectionCoverage: "Full",
 	spelledSelection: "dessen",
-	spellingRelation: "Canonical",
+
 	surface: {
 		language: "de",
 		normalizedFullSurface: "dessen",
@@ -26,11 +24,12 @@ const deSelection031 = {
 			meaningInEmojis: "🔗",
 		},
 	},
-} satisfies Selection<"de", "Standard", "Inflection", "Lexeme", "PRON">;
+} satisfies Selection<"de", "Inflection", "Lexeme", "PRON">;
 
 export const attestation = {
 	selection: deSelection031,
 	sentenceMarkdown: "Der Autor, [dessen] Buch fehlt, wartet draußen.",
-	classifierNotes: "Dessen is a genitive relative pronoun with masculine antecedent features from the sentence.",
+	classifierNotes:
+		"Dessen is a genitive relative pronoun with masculine antecedent features from the sentence.",
 	isVerified: true,
 } as const satisfies AttestedSelection;

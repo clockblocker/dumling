@@ -1,12 +1,12 @@
 import { existsSync, mkdirSync, renameSync } from "node:fs";
 import { dirname } from "node:path";
+import type { SupportedLanguage } from "../../../../../src/types/public-types.ts";
 import { listTypeScriptFiles, removeEmptyDirectories } from "../../shared/fs";
 import { sourceAttestationsDir } from "../../shared/paths";
 import { loadAttestationSource } from "../source/load-attestation-source";
-import { selectionSemanticSourcePath } from "./semantic-source-path";
 import { expectedEntityKindForPath } from "../validate/expected-entity-kind-for-path";
 import { validateSelectionAttestation } from "../validate/validate-selection-attestation";
-import type { SupportedLanguage } from "../../../../../src/types/public-types.ts";
+import { selectionSemanticSourcePath } from "./semantic-source-path";
 
 export async function renameSelectionSources(): Promise<string[]> {
 	const selectionFiles = listTypeScriptFiles(sourceAttestationsDir).filter(

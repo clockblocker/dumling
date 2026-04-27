@@ -2,10 +2,8 @@ import type { AttestedSelection, Selection } from "dumling/types";
 
 const deSelection = {
 	language: "de",
-	orthographicStatus: "Standard",
-	selectionCoverage: "Full",
 	spelledSelection: "wäre",
-	spellingRelation: "Canonical",
+
 	surface: {
 		language: "de",
 		normalizedFullSurface: "wäre",
@@ -26,11 +24,12 @@ const deSelection = {
 			meaningInEmojis: "🧩",
 		},
 	},
-} satisfies Selection<"de", "Standard", "Inflection", "Lexeme", "AUX">;
+} satisfies Selection<"de", "Inflection", "Lexeme", "AUX">;
 
 export const attestation = {
 	selection: deSelection,
 	sentenceMarkdown: "Das [wäre] fast schief gewesen.",
-	classifierNotes: "The Konjunktiv-II form is mapped to supported mood Sub plus past tense.",
+	classifierNotes:
+		"The Konjunktiv-II form is mapped to supported mood Sub plus past tense.",
 	isVerified: true,
 } as const satisfies AttestedSelection;

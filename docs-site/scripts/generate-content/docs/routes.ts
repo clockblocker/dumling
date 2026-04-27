@@ -47,10 +47,7 @@ export function generatedRouteIdForPath(sourcePath: string): string {
 }
 
 export function generatedPathForHandWrittenDoc(sourcePath: string): string {
-	return join(
-		generatedDocsDir,
-		relative(handWrittenDocsDir, sourcePath),
-	);
+	return join(generatedDocsDir, relative(handWrittenDocsDir, sourcePath));
 }
 
 export function generatedPathForTypedDoc(

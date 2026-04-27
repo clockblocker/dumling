@@ -81,7 +81,8 @@ export function parseDocPageMeta(
 	const meta = value as Record<string, unknown>;
 	const title = assertNonEmptyString(meta.title, "meta.title", sourcePath);
 	const description =
-		typeof meta.description === "string" && meta.description.trim().length > 0
+		typeof meta.description === "string" &&
+		meta.description.trim().length > 0
 			? meta.description.trim()
 			: undefined;
 	const slug =

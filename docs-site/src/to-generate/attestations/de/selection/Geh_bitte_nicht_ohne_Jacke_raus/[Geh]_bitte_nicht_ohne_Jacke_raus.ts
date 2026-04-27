@@ -2,10 +2,8 @@ import type { AttestedSelection, Selection } from "dumling/types";
 
 const deSelection025 = {
 	language: "de",
-	orthographicStatus: "Standard",
-	selectionCoverage: "Full",
 	spelledSelection: "Geh",
-	spellingRelation: "Canonical",
+
 	surface: {
 		language: "de",
 		normalizedFullSurface: "geh",
@@ -25,11 +23,12 @@ const deSelection025 = {
 			meaningInEmojis: "🚶",
 		},
 	},
-} satisfies Selection<"de", "Standard", "Inflection", "Lexeme", "VERB">;
+} satisfies Selection<"de", "Inflection", "Lexeme", "VERB">;
 
 export const attestation = {
 	selection: deSelection025,
 	sentenceMarkdown: "[Geh] bitte nicht ohne Jacke raus.",
-	classifierNotes: "Imperative forms use mood Imp together with finite verbForm in the schema.",
+	classifierNotes:
+		"Imperative forms use mood Imp together with finite verbForm in the schema.",
 	isVerified: true,
 } as const satisfies AttestedSelection;

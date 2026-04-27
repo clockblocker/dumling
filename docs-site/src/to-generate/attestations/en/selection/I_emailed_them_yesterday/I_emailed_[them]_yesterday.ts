@@ -2,10 +2,8 @@ import type { AttestedSelection, Selection } from "dumling/types";
 
 const themAccPronounSelection = {
 	language: "en",
-	orthographicStatus: "Standard",
-	selectionCoverage: "Full",
 	spelledSelection: "them",
-	spellingRelation: "Canonical",
+
 	surface: {
 		language: "en",
 		normalizedFullSurface: "them",
@@ -26,10 +24,11 @@ const themAccPronounSelection = {
 			meaningInEmojis: "👥",
 		},
 	},
-} satisfies Selection<"en", "Standard", "Inflection", "Lexeme", "PRON">;
+} satisfies Selection<"en", "Inflection", "Lexeme", "PRON">;
 
 export const attestation = {
 	selection: themAccPronounSelection,
 	sentenceMarkdown: "I emailed [them] yesterday.",
-	classifierNotes: "Them is an accusative surface of they; singular-they readings are not separately encoded.",
+	classifierNotes:
+		"Them is an accusative surface of they; singular-they readings are not separately encoded.",
 } as const satisfies AttestedSelection;

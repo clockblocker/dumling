@@ -25,7 +25,7 @@ describe("ID helpers", () => {
 		expect(String(lemmaCsv)).toBe("Lemma,en,Lexeme,VERB,walk,🚶,");
 		expect(surfaceId).not.toStartWith("dumling:");
 		expect(String(selectionCsv)).toBe(
-			"Selection,Standard,Full,walk,Canonical,Surface,Inflection,walk,tense=Pres|verbForm=Fin,Lemma,en,Lexeme,VERB,walk,🚶,",
+			"Selection,walk,Surface,Inflection,walk,tense=Pres|verbForm=Fin,Lemma,en,Lexeme,VERB,walk,🚶,",
 		);
 		expect(selectionId).not.toBe(
 			dumling.en.id.encode.asBase64Url(
@@ -126,7 +126,7 @@ describe("ID helpers", () => {
 		);
 		const variantId = dumling.en.id.encode.asBase64Url({
 			...englishWalkStandardFullSelection,
-			spellingRelation: "Variant",
+			selectionFeatures: { spelling: "Variant" },
 		});
 
 		expect(canonicalId).not.toBe(variantId);

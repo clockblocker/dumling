@@ -2,11 +2,8 @@ import type {
 	ConstructionKind,
 	LemmaKind,
 	MorphemeKind,
-	OrthographicStatus,
 	PhrasemeKind,
 	Pos,
-	SelectionCoverage,
-	SpellingRelation,
 	SurfaceKind,
 } from "../core/enums";
 import type {
@@ -17,6 +14,16 @@ import type {
 type RequireAtLeastOne<T extends object> = {
 	[K in keyof T]-?: Required<Pick<T, K>> & Partial<Omit<T, K>>;
 }[keyof T];
+
+export type SelectionFeatures = RequireAtLeastOne<{
+	orthography?: "Typo";
+	coverage?: "Partial";
+	spelling?: "Variant";
+}>;
+
+export type SurfaceFeatures = RequireAtLeastOne<{
+	historicalStatus?: "Archaic";
+}>;
 
 export type AbstractLemmaSubKindFor<LK extends LemmaKind> = LK extends "Lexeme"
 	? Pos
@@ -72,20 +79,18 @@ export type AbstractSurface<
 	language: L;
 	normalizedFullSurface: string;
 	surfaceKind: SK;
+	surfaceFeatures?: SurfaceFeatures;
 	lemma: AbstractLemma<L, LK, LSK>;
 } & AbstractSurfacePayload<SK, LK, LSK>;
 
 export type AbstractSelection<
 	L extends string = string,
-	OS extends OrthographicStatus = OrthographicStatus,
 	SK extends SurfaceKind = SurfaceKind,
 	LK extends LemmaKind = LemmaKind,
 	LSK extends AbstractLemmaSubKindFor<LK> = AbstractLemmaSubKindFor<LK>,
 > = {
 	language: L;
-	orthographicStatus: OS;
-	selectionCoverage: SelectionCoverage;
+	selectionFeatures?: SelectionFeatures;
 	spelledSelection: string;
-	spellingRelation: SpellingRelation;
 	surface: AbstractSurface<L, SK, LK, LSK>;
 };

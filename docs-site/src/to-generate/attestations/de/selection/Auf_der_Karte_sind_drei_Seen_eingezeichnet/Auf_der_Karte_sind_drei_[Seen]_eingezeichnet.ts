@@ -2,10 +2,8 @@ import type { AttestedSelection, Selection } from "dumling/types";
 
 const deSelection001 = {
 	language: "de",
-	orthographicStatus: "Standard",
-	selectionCoverage: "Full",
 	spelledSelection: "Seen",
-	spellingRelation: "Canonical",
+
 	surface: {
 		language: "de",
 		normalizedFullSurface: "Seen",
@@ -25,11 +23,12 @@ const deSelection001 = {
 			meaningInEmojis: "🌊",
 		},
 	},
-} satisfies Selection<"de", "Standard", "Inflection", "Lexeme", "NOUN">;
+} satisfies Selection<"de", "Inflection", "Lexeme", "NOUN">;
 
 export const attestation = {
 	selection: deSelection001,
 	sentenceMarkdown: "Auf der Karte sind drei [Seen] eingezeichnet.",
-	classifierNotes: "Plural noun with masculine lemma See; the capitalized surface is normalized by the encoder.",
+	classifierNotes:
+		"Plural noun with masculine lemma See; the capitalized surface is normalized by the encoder.",
 	isVerified: true,
 } as const satisfies AttestedSelection;

@@ -2,10 +2,8 @@ import type { AttestedSelection, Selection } from "dumling/types";
 
 const smithsPluralProperNounSelection = {
 	language: "en",
-	orthographicStatus: "Standard",
-	selectionCoverage: "Full",
 	spelledSelection: "Smiths",
-	spellingRelation: "Canonical",
+
 	surface: {
 		language: "en",
 		normalizedFullSurface: "Smiths",
@@ -22,10 +20,11 @@ const smithsPluralProperNounSelection = {
 			meaningInEmojis: "👨‍👩‍👧‍👦",
 		},
 	},
-} satisfies Selection<"en", "Standard", "Inflection", "Lexeme", "PROPN">;
+} satisfies Selection<"en", "Inflection", "Lexeme", "PROPN">;
 
 export const attestation = {
 	selection: smithsPluralProperNounSelection,
 	sentenceMarkdown: "The [Smiths] invited everyone over.",
-	classifierNotes: "Family-name plural is PROPN with inflectional number rather than a common noun.",
+	classifierNotes:
+		"Family-name plural is PROPN with inflectional number rather than a common noun.",
 } as const satisfies AttestedSelection;

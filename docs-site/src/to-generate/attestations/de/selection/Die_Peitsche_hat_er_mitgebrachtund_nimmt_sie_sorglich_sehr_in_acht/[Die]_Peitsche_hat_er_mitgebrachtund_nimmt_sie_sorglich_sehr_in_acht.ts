@@ -2,10 +2,8 @@ import type { AttestedSelection, Selection } from "dumling/types";
 
 const deSelection = {
 	language: "de",
-	orthographicStatus: "Standard",
-	selectionCoverage: "Full",
 	spelledSelection: "Die",
-	spellingRelation: "Canonical",
+
 	surface: {
 		language: "de",
 		normalizedFullSurface: "die",
@@ -26,7 +24,7 @@ const deSelection = {
 			meaningInEmojis: "🧩",
 		},
 	},
-} satisfies Selection<"de", "Standard", "Inflection", "Lexeme", "DET">;
+} satisfies Selection<"de", "Inflection", "Lexeme", "DET">;
 
 export const attestation = {
 	selection: deSelection,
@@ -35,6 +33,6 @@ und nimmt sie sorglich sehr in acht.`,
 	classifierNotes:
 		"Sentence-initial Die is the capitalized article form of der, not a pronoun; the determiner surface stays nominative singular here without encoding feminine gender.",
 	classificationMistakes:
-		"Do not mark ordinary sentence-initial capitalization as Variant. For this row, the earlier mistake was { spellingRelation: \"Variant\" } even though Die is just the standard capitalized attested form at the start of the sentence.",
+		'Do not mark ordinary sentence-initial capitalization as Variant. For this row, the earlier mistake was { spellingRelation: "Variant" } even though Die is just the standard capitalized attested form at the start of the sentence.',
 	isVerified: true,
 } as const satisfies AttestedSelection;

@@ -16,12 +16,12 @@ describe("German non-lexeme schemas", () => {
 			).success,
 		).toBe(true);
 		expect(
-			schemasFor.de.entity.Selection.Standard.Citation.Phraseme.DiscourseFormula().safeParse(
+			schemasFor.de.entity.Selection.Citation.Phraseme.DiscourseFormula().safeParse(
 				germanAufJedenFallDiscourseFormulaSelection,
 			).success,
 		).toBe(true);
 		expect(
-			schemasFor.de.entity.Selection.Standard.Citation.Phraseme.DiscourseFormula().safeParse(
+			schemasFor.de.entity.Selection.Citation.Phraseme.DiscourseFormula().safeParse(
 				germanAufJedenFallPartialSelection,
 			).success,
 		).toBe(true);
@@ -57,23 +57,22 @@ describe("German non-lexeme schemas", () => {
 
 	it("keeps non-lexeme branches lemma-only", () => {
 		expect(
-			typeof schemasFor.de.entity.Selection.Standard.Citation.Morpheme.Prefix()
+			typeof schemasFor.de.entity.Selection.Citation.Morpheme.Prefix()
 				.parse,
 		).toBe("function");
+		expect("Morpheme" in schemasFor.de.entity.Selection.Inflection).toBe(
+			false,
+		);
 		expect(
-			"Morpheme" in schemasFor.de.entity.Selection.Standard.Inflection,
+			"Construction" in schemasFor.de.entity.Selection.Inflection,
 		).toBe(false);
 		expect(
-			"Construction" in schemasFor.de.entity.Selection.Standard.Inflection,
-		).toBe(false);
-		expect(
-			schemasFor.de.entity.Selection.Typo.Citation.Morpheme.Suffix().safeParse(
+			schemasFor.de.entity.Selection.Citation.Morpheme.Suffix().safeParse(
 				{
 					language: "de",
-					orthographicStatus: "Typo",
-					selectionCoverage: "Full",
+					selectionFeatures: { orthography: "Typo" },
 					spelledSelection: "hait",
-					spellingRelation: "Canonical",
+
 					surface: {
 						...makeMorphemeSurfaceReference("de", "Suffix", "heit"),
 						language: "de",
@@ -98,15 +97,17 @@ describe("German non-lexeme schemas", () => {
 		).toBe(true);
 
 		expect(
-			schemasFor.de.entity.Selection.Standard.Citation.Construction.Fusion().safeParse(
+			schemasFor.de.entity.Selection.Citation.Construction.Fusion().safeParse(
 				{
 					language: "de",
-					orthographicStatus: "Standard",
-					selectionCoverage: "Full",
 					spelledSelection: "zum",
-					spellingRelation: "Canonical",
+
 					surface: {
-						...makeConstructionSurfaceReference("de", "Fusion", "zum"),
+						...makeConstructionSurfaceReference(
+							"de",
+							"Fusion",
+							"zum",
+						),
 						language: "de",
 						normalizedFullSurface: "zum",
 						surfaceKind: "Citation",

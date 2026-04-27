@@ -2,10 +2,8 @@ import type { AttestedSelection, Selection } from "dumling/types";
 
 const hitkatevVerbSelection = {
 	language: "he",
-	orthographicStatus: "Standard",
-	selectionCoverage: "Full",
 	spelledSelection: "התכתב",
-	spellingRelation: "Canonical",
+
 	surface: {
 		language: "he",
 		normalizedFullSurface: "התכתב",
@@ -28,10 +26,11 @@ const hitkatevVerbSelection = {
 			meaningInEmojis: "💬",
 		},
 	},
-} satisfies Selection<"he", "Standard", "Inflection", "Lexeme", "VERB">;
+} satisfies Selection<"he", "Inflection", "Lexeme", "VERB">;
 
 export const attestation = {
 	selection: hitkatevVerbSelection,
 	sentenceMarkdown: "הוא [התכתב] עם המרצה.",
-	classifierNotes: "התכתב is analyzed as HITPAEL with voice Mid to expose reflexive or reciprocal middle behavior.",
+	classifierNotes:
+		"התכתב is analyzed as HITPAEL with voice Mid to expose reflexive or reciprocal middle behavior.",
 } as const satisfies AttestedSelection;

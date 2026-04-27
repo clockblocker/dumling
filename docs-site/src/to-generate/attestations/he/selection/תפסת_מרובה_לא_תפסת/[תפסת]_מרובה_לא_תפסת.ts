@@ -2,10 +2,9 @@ import type { AttestedSelection, Selection } from "dumling/types";
 
 const tafastaMerubeSelection = {
 	language: "he",
-	orthographicStatus: "Standard",
-	selectionCoverage: "Partial",
+	selectionFeatures: { coverage: "Partial" },
 	spelledSelection: "תפסת",
-	spellingRelation: "Canonical",
+
 	surface: {
 		language: "he",
 		normalizedFullSurface: "תפסת מרובה לא תפסת",
@@ -19,10 +18,11 @@ const tafastaMerubeSelection = {
 			meaningInEmojis: "⚖️",
 		},
 	},
-} satisfies Selection<"he", "Standard", "Citation", "Phraseme", "Proverb">;
+} satisfies Selection<"he", "Citation", "Phraseme", "Proverb">;
 
 export const attestation = {
 	selection: tafastaMerubeSelection,
 	sentenceMarkdown: "[תפסת] מרובה לא תפסת.",
-	classifierNotes: "This is a partial selection against a proverb, not a verb attestation for תפסת.",
+	classifierNotes:
+		"This is a partial selection against a proverb, not a verb attestation for תפסת.",
 } as const satisfies AttestedSelection;

@@ -2,10 +2,8 @@ import type { AttestedSelection, Selection } from "dumling/types";
 
 const deSelection033 = {
 	language: "de",
-	orthographicStatus: "Standard",
-	selectionCoverage: "Full",
 	spelledSelection: "Ihrem",
-	spellingRelation: "Canonical",
+
 	surface: {
 		language: "de",
 		normalizedFullSurface: "Ihrem",
@@ -29,12 +27,13 @@ const deSelection033 = {
 			meaningInEmojis: "🤝",
 		},
 	},
-} satisfies Selection<"de", "Standard", "Inflection", "Lexeme", "DET">;
+} satisfies Selection<"de", "Inflection", "Lexeme", "DET">;
 
 export const attestation = {
 	selection: deSelection033,
 	sentenceMarkdown: "Bitte folgen Sie [Ihrem] Ansprechpartner.",
-	classifierNotes: "The capitalized polite possessive is encoded as DET with person 2, polite Form, and poss Yes.",
+	classifierNotes:
+		"The capitalized polite possessive is encoded as DET with person 2, polite Form, and poss Yes.",
 	classificationMistakes:
 		"Do not add gender[psor] or number[psor] unless the attested form or context actually disambiguates them. For polite Ihrem here, the earlier mistake was adding possessor features that are not recoverable from the attestation.",
 	isVerified: true,

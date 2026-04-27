@@ -1,5 +1,5 @@
-import { existsSync, mkdirSync, rmSync, writeFileSync } from "node:fs";
-import { dirname, resolve } from "node:path";
+import { existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import { dirname, relative, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import {
 	ConsoleMessageId,
@@ -18,6 +18,10 @@ const suppressedConsoleMessageIds = new Set<string>([
 	ConsoleMessageId.Preamble,
 	ConsoleMessageId.CompilerVersionNotice,
 ]);
+
+function projectRelativePath(path: string) {
+	return relative(projectRoot, path).replaceAll("\\", "/");
+}
 
 async function emitDeclarations() {
 	if (existsSync(tempTypesDir)) {
@@ -39,6 +43,29 @@ async function rollupEntrypoint(
 ) {
 	const entryDeclarationPath = resolve(tempTypesDir, `${entrypoint}.d.ts`);
 	const outputDeclarationPath = resolve(distDir, `${entrypoint}.d.ts`);
+	const tsconfig = JSON.parse(
+		readFileSync(resolve(projectRoot, "tsconfig.build.json"), "utf8"),
+	) as {
+		compilerOptions?: Record<string, unknown>;
+		extends?: string;
+		include?: string[];
+	};
+	const extractorCompilerOptions = {
+		...(tsconfig.compilerOptions ?? {}),
+		noEmit: true,
+		paths: {
+			dumling: [projectRelativePath(resolve(tempTypesDir, "index.d.ts"))],
+			"dumling/schema": [
+				projectRelativePath(resolve(tempTypesDir, "schema.d.ts")),
+			],
+			"dumling/types": [
+				projectRelativePath(resolve(tempTypesDir, "types.d.ts")),
+			],
+		},
+	};
+	delete extractorCompilerOptions.outDir;
+	delete extractorCompilerOptions.rootDir;
+	delete extractorCompilerOptions.declarationDir;
 	const extractorConfig = ExtractorConfig.prepare({
 		configObject: {
 			$schema:
@@ -47,7 +74,12 @@ async function rollupEntrypoint(
 			mainEntryPointFilePath: entryDeclarationPath,
 			bundledPackages: [],
 			compiler: {
-				tsconfigFilePath: resolve(projectRoot, "tsconfig.build.json"),
+				overrideTsconfig: {
+					extends: tsconfig.extends,
+					compilerOptions: extractorCompilerOptions,
+					include: [projectRelativePath(resolve(tempTypesDir, "**/*.d.ts"))],
+					files: [projectRelativePath(entryDeclarationPath)],
+				},
 			},
 			apiReport: {
 				enabled: false,
@@ -101,7 +133,7 @@ function writeSchemaEntrypointDeclaration() {
 	writeFileSync(
 		resolve(distDir, "schema.d.ts"),
 		[
-			'import type { AbstractLemma, AbstractLemmaSubKindFor, AbstractSelection, AbstractSurface, Descriptor, EntityKind, Lemma, LemmaKind, LemmaKindFor, LemmaKindForSurfaceKind, LemmaSubKindFor, OrthographicStatus, Selection, SupportedLanguage, Surface, SurfaceKind, SurfaceKindFor } from "./types.js";',
+			'import type { AbstractLemma, AbstractLemmaSubKindFor, AbstractSelection, AbstractSurface, Descriptor, EntityKind, Lemma, LemmaKind, LemmaKindFor, LemmaKindForSurfaceKind, LemmaSubKindFor, Selection, SupportedLanguage, Surface, SurfaceKind, SurfaceKindFor } from "./types.js";',
 			'import type { z } from "zod/v3";',
 			"",
 			"type SchemaGetter<T> = () => z.ZodType<T>;",
@@ -160,15 +192,13 @@ function writeSchemaEntrypointDeclaration() {
 			"};",
 			"",
 			"type SelectionSchemaSubtree<L extends SupportedLanguage> = {",
-			"\t[OS in OrthographicStatus]: {",
-			"\t\t[SK in SurfaceKindFor<L>]: {",
-			"\t\t\t[LK in LemmaKindForSurfaceKind<L, SK>]: {",
-			"\t\t\t\t[LSK in LemmaSubKindForSurfaceKind<",
-			"\t\t\t\t\tL,",
-			"\t\t\t\t\tSK,",
-			"\t\t\t\t\tLK",
-			"\t\t\t\t>]: SchemaGetter<Selection<L, OS, SK, LK, LSK>>;",
-			"\t\t\t};",
+			"\t[SK in SurfaceKindFor<L>]: {",
+			"\t\t[LK in LemmaKindForSurfaceKind<L, SK>]: {",
+			"\t\t\t[LSK in LemmaSubKindForSurfaceKind<",
+			"\t\t\t\tL,",
+			"\t\t\t\tSK,",
+			"\t\t\t\tLK",
+			"\t\t\t>]: SchemaGetter<Selection<L, SK, LK, LSK>>;",
 			"\t\t};",
 			"\t};",
 			"};",
@@ -196,13 +226,11 @@ function writeSchemaEntrypointDeclaration() {
 			"};",
 			"",
 			"type SelectionDescriptorSchemaSubtree<L extends SupportedLanguage> = {",
-			"\t[OS in OrthographicStatus]: {",
-			"\t\t[SK in SurfaceKindFor<L>]: {",
-			"\t\t\t[LK in LemmaKindForSurfaceKind<L, SK>]: {",
-			"\t\t\t\t[LSK in LemmaSubKindForSurfaceKind<L, SK, LK>]: z.ZodType<",
-			'\t\t\t\t\tDescriptor<"Selection", L, LK, LSK, SK, OS>',
-			"\t\t\t\t>;",
-			"\t\t\t};",
+			"\t[SK in SurfaceKindFor<L>]: {",
+			"\t\t[LK in LemmaKindForSurfaceKind<L, SK>]: {",
+			"\t\t\t[LSK in LemmaSubKindForSurfaceKind<L, SK, LK>]: z.ZodType<",
+			'\t\t\t\tDescriptor<"Selection", L, LK, LSK, SK>',
+			"\t\t\t>;",
 			"\t\t};",
 			"\t};",
 			"};",
@@ -219,9 +247,7 @@ function writeSchemaEntrypointDeclaration() {
 			"\tsurfaceKind: SurfaceKind;",
 			"};",
 			"",
-			"type AbstractSelectionDescriptor = AbstractSurfaceDescriptor & {",
-			"\torthographicStatus: OrthographicStatus;",
-			"};",
+			"type AbstractSelectionDescriptor = AbstractSurfaceDescriptor;",
 			"",
 			'type AbstractDescriptor<K extends EntityKind> = K extends "Lemma"',
 			"\t? AbstractLemmaDescriptor",

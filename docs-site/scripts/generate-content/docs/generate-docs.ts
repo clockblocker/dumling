@@ -1,11 +1,14 @@
 import { mkdirSync } from "node:fs";
-import { discoverHandWrittenDocs, copyHandWrittenDocs } from "./handwritten/copy-hand-written-docs";
+import { generatedDocsDir, publicDir } from "../shared/paths";
+import type { SourcePage } from "../shared/types";
+import {
+	copyHandWrittenDocs,
+	discoverHandWrittenDocs,
+} from "./handwritten/copy-hand-written-docs";
 import { typedDocsGenerationConfig } from "./typed/config";
 import { discoverTypedDocs, writeTypedDocs } from "./typed/generate-typed-docs";
-import { removeGeneratedDocOutputs, writeNavFiles } from "./write-nav";
-import { generatedDocsDir, publicDir } from "../shared/paths";
 import type { DocsOutput } from "./types";
-import type { SourcePage } from "../shared/types";
+import { removeGeneratedDocOutputs, writeNavFiles } from "./write-nav";
 
 function assertUniqueRouteIds(outputs: DocsOutput[]): void {
 	const routeIds = new Map<string, string>();

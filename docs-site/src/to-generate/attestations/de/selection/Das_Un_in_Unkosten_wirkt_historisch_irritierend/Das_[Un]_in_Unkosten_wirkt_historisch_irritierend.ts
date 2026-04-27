@@ -2,10 +2,9 @@ import type { AttestedSelection, Selection } from "dumling/types";
 
 const deSelection050 = {
 	language: "de",
-	orthographicStatus: "Standard",
-	selectionCoverage: "Partial",
+	selectionFeatures: { coverage: "Partial", spelling: "Variant" },
 	spelledSelection: "Un",
-	spellingRelation: "Variant",
+
 	surface: {
 		language: "de",
 		normalizedFullSurface: "un-",
@@ -19,11 +18,12 @@ const deSelection050 = {
 			meaningInEmojis: "🚫",
 		},
 	},
-} satisfies Selection<"de", "Standard", "Citation", "Morpheme", "Prefix">;
+} satisfies Selection<"de", "Citation", "Morpheme", "Prefix">;
 
 export const attestation = {
 	selection: deSelection050,
 	sentenceMarkdown: "Das [Un]- in Unkosten wirkt historisch irritierend.",
-	classifierNotes: "The bound prefix is represented with the canonical hyphenated lemma un-, while the selected spelling excludes the hyphen.",
+	classifierNotes:
+		"The bound prefix is represented with the canonical hyphenated lemma un-, while the selected spelling excludes the hyphen.",
 	isVerified: true,
 } as const satisfies AttestedSelection;

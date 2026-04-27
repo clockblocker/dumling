@@ -2,10 +2,8 @@ import type { AttestedSelection, Selection } from "dumling/types";
 
 const telechNegativeSelection = {
 	language: "he",
-	orthographicStatus: "Standard",
-	selectionCoverage: "Full",
 	spelledSelection: "תלך",
-	spellingRelation: "Canonical",
+
 	surface: {
 		language: "he",
 		normalizedFullSurface: "תלך",
@@ -28,10 +26,11 @@ const telechNegativeSelection = {
 			meaningInEmojis: "🚶",
 		},
 	},
-} satisfies Selection<"he", "Standard", "Inflection", "Lexeme", "VERB">;
+} satisfies Selection<"he", "Inflection", "Lexeme", "VERB">;
 
 export const attestation = {
 	selection: telechNegativeSelection,
 	sentenceMarkdown: "אל [תלך] לבד.",
-	classifierNotes: "The verb carries polarity Neg because the negative-command context matters even though אל is separate.",
+	classifierNotes:
+		"The verb carries polarity Neg because the negative-command context matters even though אל is separate.",
 } as const satisfies AttestedSelection;

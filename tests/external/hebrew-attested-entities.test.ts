@@ -45,22 +45,22 @@ describe("Hebrew attested entities", () => {
 			).success,
 		).toBe(true);
 		expect(
-			schemasFor.he.entity.Selection.Standard.Inflection.Lexeme.VERB().safeParse(
+			schemasFor.he.entity.Selection.Inflection.Lexeme.VERB().safeParse(
 				hebrewKatvuStandardFullSelection,
 			).success,
 		).toBe(true);
 		expect(
-			schemasFor.he.entity.Selection.Standard.Citation.Lexeme.NOUN().safeParse(
+			schemasFor.he.entity.Selection.Citation.Lexeme.NOUN().safeParse(
 				hebrewShanaCitationSelection,
 			).success,
 		).toBe(true);
 		expect(
-			schemasFor.he.entity.Selection.Standard.Citation.Lexeme.PROPN().safeParse(
+			schemasFor.he.entity.Selection.Citation.Lexeme.PROPN().safeParse(
 				hebrewUsAbbreviationSelection,
 			).success,
 		).toBe(true);
 		expect(
-			schemasFor.he.entity.Selection.Standard.Inflection.Lexeme.VERB().safeParse(
+			schemasFor.he.entity.Selection.Inflection.Lexeme.VERB().safeParse(
 				hebrewKatvuPointedVariantSelection,
 			).success,
 		).toBe(true);
@@ -80,7 +80,6 @@ describe("Hebrew attested entities", () => {
 			dumling.he.describe.as.selection(hebrewKatvuInflectionSurface),
 		).toEqual({
 			language: "he",
-			orthographicStatus: "Standard",
 			surfaceKind: "Inflection",
 			lemmaKind: "Lexeme",
 			lemmaSubKind: "VERB",
@@ -150,16 +149,16 @@ describe("Hebrew attested entities", () => {
 				lemma: hebrewUsAbbreviationLemma,
 			},
 		});
-		expect(dumling.he.id.decode.asSelection(abbreviationSelectionId)).toEqual(
-			{
-				success: true,
-				data: {
-					format: "base64url",
-					language: "he",
-					kind: "Selection",
-					selection: hebrewUsAbbreviationSelection,
-				},
+		expect(
+			dumling.he.id.decode.asSelection(abbreviationSelectionId),
+		).toEqual({
+			success: true,
+			data: {
+				format: "base64url",
+				language: "he",
+				kind: "Selection",
+				selection: hebrewUsAbbreviationSelection,
 			},
-		);
+		});
 	});
 });

@@ -3,8 +3,8 @@ import type { Frontmatter } from "../shared/types";
 function parseStringValue(rawValue: string): string {
 	if (
 		rawValue.length >= 2 &&
-		rawValue.startsWith("\"") &&
-		rawValue.endsWith("\"")
+		rawValue.startsWith('"') &&
+		rawValue.endsWith('"')
 	) {
 		return JSON.parse(rawValue) as string;
 	}
@@ -95,7 +95,9 @@ export function serializeFrontmatter(frontmatter: Frontmatter): string {
 			: [`description: ${formatStringValue(frontmatter.description)}`]),
 		...(frontmatter.generatedFrom === undefined
 			? []
-			: [`generatedFrom: ${formatStringValue(frontmatter.generatedFrom)}`]),
+			: [
+					`generatedFrom: ${formatStringValue(frontmatter.generatedFrom)}`,
+				]),
 		`order: ${frontmatter.order}`,
 		...(frontmatter.routeId === undefined
 			? []

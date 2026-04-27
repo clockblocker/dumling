@@ -47,11 +47,11 @@ describe("public API usage", () => {
 
 	it("keeps schemas available from the dedicated schema entrypoint", () => {
 		const nounSelectionSchema =
-			schemasFor.de.entity.Selection.Standard.Citation.Lexeme.NOUN();
+			schemasFor.de.entity.Selection.Citation.Lexeme.NOUN();
 		const nounDescriptorSchema = schemasFor.de.descriptor.Lemma.Lexeme.NOUN;
 
 		expect(
-			typeof schemasFor.de.entity.Selection.Standard.Inflection.Lexeme.VERB()
+			typeof schemasFor.de.entity.Selection.Inflection.Lexeme.VERB()
 				.parse,
 		).toBe("function");
 		expect(typeof nounDescriptorSchema.parse).toBe("function");
@@ -60,9 +60,9 @@ describe("public API usage", () => {
 			"function",
 		);
 		expect(getSchemaTreeFor("de")).toBe(schemasFor.de);
-		expect(
-			schemasFor.de.entity.Selection.Standard.Citation.Lexeme.NOUN(),
-		).toBe(nounSelectionSchema);
+		expect(schemasFor.de.entity.Selection.Citation.Lexeme.NOUN()).toBe(
+			nounSelectionSchema,
+		);
 		expect(
 			nounDescriptorSchema.safeParse({
 				language: "de",
@@ -96,7 +96,6 @@ describe("public API usage", () => {
 		expect(
 			abstractSchemas.descriptor.Selection.safeParse({
 				language: "fr",
-				orthographicStatus: "Standard",
 				surfaceKind: "Citation",
 				lemmaKind: "Lexeme",
 				lemmaSubKind: "VERB",

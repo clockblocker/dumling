@@ -14,7 +14,9 @@ type RuleSection = {
 	heading?: string;
 };
 
-export type RuleDocument = Prettify<RuleSection & {
-	meta: DocPageMeta;
-	subsections?: readonly RuleSection[];
-}>;
+export type RuleDocument = Prettify<
+	RuleSection & {
+		meta: DocPageMeta;
+		subsections?: readonly RuleSection[];
+	}
+>;

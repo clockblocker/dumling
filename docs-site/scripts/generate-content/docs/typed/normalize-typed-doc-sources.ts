@@ -49,7 +49,9 @@ export async function normalizeTypedDocSources(): Promise<void> {
 			canonicalPath,
 			sourcePath,
 		}))
-		.filter(({ canonicalPath, sourcePath }) => canonicalPath !== sourcePath);
+		.filter(
+			({ canonicalPath, sourcePath }) => canonicalPath !== sourcePath,
+		);
 
 	const temporaryMoves = moves.map(({ sourcePath }, index) => ({
 		sourcePath,

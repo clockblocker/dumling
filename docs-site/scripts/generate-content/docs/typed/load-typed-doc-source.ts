@@ -1,11 +1,11 @@
 import { pathToFileURL } from "node:url";
 import type { AttestedSelection } from "../../../../../src/types/public-types.ts";
+import { pathRelativeToSiteRoot } from "../../shared/paths";
 import {
 	canonicalSlugForDocMeta,
 	frontmatterForDocMeta,
 	parseDocPageMeta,
 } from "../metadata";
-import { pathRelativeToSiteRoot } from "../../shared/paths";
 import {
 	generatedPathForTypedDoc,
 	publicMarkdownPathForRouteId,
@@ -74,7 +74,9 @@ function parseRuleBlock(value: unknown, sourcePath: string): RuleBlock {
 		throw new Error(`${sourcePath} has an invalid rule block.`);
 	}
 	if (!Array.isArray(value.examples)) {
-		throw new Error(`${sourcePath} rule blocks must define an examples array.`);
+		throw new Error(
+			`${sourcePath} rule blocks must define an examples array.`,
+		);
 	}
 	if (value.heading !== undefined && typeof value.heading !== "string") {
 		throw new Error(`${sourcePath} has a non-string rule block heading.`);
@@ -94,7 +96,9 @@ function parseRuleBlock(value: unknown, sourcePath: string): RuleBlock {
 
 function parseRuleDocument(value: unknown, sourcePath: string): RuleDocument {
 	if (!isRecord(value)) {
-		throw new Error(`${sourcePath} must default-export a typed document object.`);
+		throw new Error(
+			`${sourcePath} must default-export a typed document object.`,
+		);
 	}
 	if (!Array.isArray(value.examples)) {
 		throw new Error(`${sourcePath} must export an examples array.`);
@@ -102,11 +106,10 @@ function parseRuleDocument(value: unknown, sourcePath: string): RuleDocument {
 	if (value.body !== undefined && typeof value.body !== "string") {
 		throw new Error(`${sourcePath} has a non-string document body.`);
 	}
-	if (
-		value.subsections !== undefined &&
-		!Array.isArray(value.subsections)
-	) {
-		throw new Error(`${sourcePath} must export subsections as an array when present.`);
+	if (value.subsections !== undefined && !Array.isArray(value.subsections)) {
+		throw new Error(
+			`${sourcePath} must export subsections as an array when present.`,
+		);
 	}
 
 	return {

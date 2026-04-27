@@ -2,10 +2,8 @@ import type { AttestedSelection, Selection } from "dumling/types";
 
 const hasfarimSelection = {
 	language: "he",
-	orthographicStatus: "Standard",
-	selectionCoverage: "Full",
 	spelledSelection: "הספרים",
-	spellingRelation: "Canonical",
+
 	surface: {
 		language: "he",
 		normalizedFullSurface: "הספרים",
@@ -25,10 +23,11 @@ const hasfarimSelection = {
 			meaningInEmojis: "📚",
 		},
 	},
-} satisfies Selection<"he", "Standard", "Inflection", "Lexeme", "NOUN">;
+} satisfies Selection<"he", "Inflection", "Lexeme", "NOUN">;
 
 export const attestation = {
 	selection: hasfarimSelection,
 	sentenceMarkdown: "[הספרים] על השולחן.",
-	classifierNotes: "This is a full selection of a definite plural noun surface.",
+	classifierNotes:
+		"This is a full selection of a definite plural noun surface.",
 } as const satisfies AttestedSelection;

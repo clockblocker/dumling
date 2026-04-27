@@ -2,10 +2,8 @@ import type { AttestedSelection, Selection } from "dumling/types";
 
 const deSelection047 = {
 	language: "de",
-	orthographicStatus: "Standard",
-	selectionCoverage: "Full",
 	spelledSelection: "Na ja",
-	spellingRelation: "Canonical",
+
 	surface: {
 		language: "de",
 		normalizedFullSurface: "na ja",
@@ -21,16 +19,11 @@ const deSelection047 = {
 			meaningInEmojis: "🤷",
 		},
 	},
-} satisfies Selection<
-	"de",
-	"Standard",
-	"Citation",
-	"Phraseme",
-	"DiscourseFormula"
->;
+} satisfies Selection<"de", "Citation", "Phraseme", "DiscourseFormula">;
 
 export const attestation = {
 	selection: deSelection047,
 	sentenceMarkdown: "[Na ja], ganz überzeugt bin ich nicht.",
-	classifierNotes: "Na ja is treated as a discourse formula with the role Reaction; punctuation is excluded from the normalized surface.",
+	classifierNotes:
+		"Na ja is treated as a discourse formula with the role Reaction; punctuation is excluded from the normalized surface.",
 } as const satisfies AttestedSelection;

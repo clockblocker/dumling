@@ -2,10 +2,8 @@ import type { AttestedSelection, Selection } from "dumling/types";
 
 const deSelection036 = {
 	language: "de",
-	orthographicStatus: "Standard",
-	selectionCoverage: "Full",
 	spelledSelection: "manchem",
-	spellingRelation: "Canonical",
+
 	surface: {
 		language: "de",
 		normalizedFullSurface: "manchem",
@@ -26,11 +24,12 @@ const deSelection036 = {
 			meaningInEmojis: "🎲",
 		},
 	},
-} satisfies Selection<"de", "Standard", "Inflection", "Lexeme", "DET">;
+} satisfies Selection<"de", "Inflection", "Lexeme", "DET">;
 
 export const attestation = {
 	selection: deSelection036,
 	sentenceMarkdown: "Nach [manchem] Fehler lernt man schneller.",
-	classifierNotes: "Manchem is annotated as DET because it modifies Fehler; it would be PRON only in substantive use.",
+	classifierNotes:
+		"Manchem is annotated as DET because it modifies Fehler; it would be PRON only in substantive use.",
 	isVerified: true,
 } as const satisfies AttestedSelection;

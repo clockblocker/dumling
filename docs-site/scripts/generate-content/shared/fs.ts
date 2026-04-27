@@ -6,8 +6,8 @@ import {
 	writeFileSync,
 } from "node:fs";
 import { dirname, join } from "node:path";
-import type { Frontmatter } from "./types";
 import { serializeFrontmatter } from "../docs/frontmatter";
+import type { Frontmatter } from "./types";
 
 export function listMarkdownFiles(dir: string): string[] {
 	if (!existsSync(dir)) {

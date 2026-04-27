@@ -5,66 +5,54 @@ import { makeLexemeSurfaceReference } from "../helpers";
 describe("English schema specificity", () => {
 	it("keeps English adjective and noun morphology narrow", () => {
 		expect(
-			schemasFor.en.entity.Selection.Standard.Inflection.Lexeme.ADJ().safeParse(
-				{
+			schemasFor.en.entity.Selection.Inflection.Lexeme.ADJ().safeParse({
+				language: "en",
+				spelledSelection: "smaller",
+
+				surface: {
+					...makeLexemeSurfaceReference("en", "ADJ", "small"),
 					language: "en",
-					orthographicStatus: "Standard",
-					selectionCoverage: "Full",
-					spelledSelection: "smaller",
-					spellingRelation: "Canonical",
-					surface: {
-						...makeLexemeSurfaceReference("en", "ADJ", "small"),
-						language: "en",
-						normalizedFullSurface: "smaller",
-						surfaceKind: "Inflection",
-						inflectionalFeatures: {
-							degree: "Cmp",
-						},
+					normalizedFullSurface: "smaller",
+					surfaceKind: "Inflection",
+					inflectionalFeatures: {
+						degree: "Cmp",
 					},
 				},
-			).success,
+			}).success,
 		).toBe(true);
 
 		expect(
-			schemasFor.en.entity.Selection.Standard.Inflection.Lexeme.ADJ().safeParse(
-				{
+			schemasFor.en.entity.Selection.Inflection.Lexeme.ADJ().safeParse({
+				language: "en",
+				spelledSelection: "small",
+
+				surface: {
+					...makeLexemeSurfaceReference("en", "ADJ", "small"),
 					language: "en",
-					orthographicStatus: "Standard",
-					selectionCoverage: "Full",
-					spelledSelection: "small",
-					spellingRelation: "Canonical",
-					surface: {
-						...makeLexemeSurfaceReference("en", "ADJ", "small"),
-						language: "en",
-						normalizedFullSurface: "small",
-						surfaceKind: "Inflection",
-						inflectionalFeatures: {
-							case: "Dat",
-						},
+					normalizedFullSurface: "small",
+					surfaceKind: "Inflection",
+					inflectionalFeatures: {
+						case: "Dat",
 					},
 				},
-			).success,
+			}).success,
 		).toBe(false);
 
 		expect(
-			schemasFor.en.entity.Selection.Standard.Inflection.Lexeme.NOUN().safeParse(
-				{
+			schemasFor.en.entity.Selection.Inflection.Lexeme.NOUN().safeParse({
+				language: "en",
+				spelledSelection: "scissors",
+
+				surface: {
+					...makeLexemeSurfaceReference("en", "NOUN", "scissors"),
 					language: "en",
-					orthographicStatus: "Standard",
-					selectionCoverage: "Full",
-					spelledSelection: "scissors",
-					spellingRelation: "Canonical",
-					surface: {
-						...makeLexemeSurfaceReference("en", "NOUN", "scissors"),
-						language: "en",
-						normalizedFullSurface: "scissors",
-						surfaceKind: "Inflection",
-						inflectionalFeatures: {
-							number: "Ptan",
-						},
+					normalizedFullSurface: "scissors",
+					surfaceKind: "Inflection",
+					inflectionalFeatures: {
+						number: "Ptan",
 					},
 				},
-			).success,
+			}).success,
 		).toBe(true);
 
 		expect(
@@ -110,68 +98,56 @@ describe("English schema specificity", () => {
 		).toBe(false);
 
 		expect(
-			schemasFor.en.entity.Selection.Standard.Inflection.Lexeme.VERB().safeParse(
-				{
+			schemasFor.en.entity.Selection.Inflection.Lexeme.VERB().safeParse({
+				language: "en",
+				spelledSelection: "washing",
+
+				surface: {
+					...makeLexemeSurfaceReference("en", "VERB", "wash"),
 					language: "en",
-					orthographicStatus: "Standard",
-					selectionCoverage: "Full",
-					spelledSelection: "washing",
-					spellingRelation: "Canonical",
-					surface: {
-						...makeLexemeSurfaceReference("en", "VERB", "wash"),
-						language: "en",
-						normalizedFullSurface: "washing",
-						surfaceKind: "Inflection",
-						inflectionalFeatures: {
-							verbForm: "Ger",
-						},
+					normalizedFullSurface: "washing",
+					surfaceKind: "Inflection",
+					inflectionalFeatures: {
+						verbForm: "Ger",
 					},
 				},
-			).success,
+			}).success,
 		).toBe(true);
 
 		expect(
-			schemasFor.en.entity.Selection.Standard.Inflection.Lexeme.VERB().safeParse(
-				{
+			schemasFor.en.entity.Selection.Inflection.Lexeme.VERB().safeParse({
+				language: "en",
+				spelledSelection: "washed",
+
+				surface: {
+					...makeLexemeSurfaceReference("en", "VERB", "wash"),
 					language: "en",
-					orthographicStatus: "Standard",
-					selectionCoverage: "Full",
-					spelledSelection: "washed",
-					spellingRelation: "Canonical",
-					surface: {
-						...makeLexemeSurfaceReference("en", "VERB", "wash"),
-						language: "en",
-						normalizedFullSurface: "washed",
-						surfaceKind: "Inflection",
-						inflectionalFeatures: {
-							gender: "Fem",
-						},
+					normalizedFullSurface: "washed",
+					surfaceKind: "Inflection",
+					inflectionalFeatures: {
+						gender: "Fem",
 					},
 				},
-			).success,
+			}).success,
 		).toBe(false);
 	});
 
 	it("keeps pronoun, determiner, and symbol features aligned with the English catalog", () => {
 		expect(
-			schemasFor.en.entity.Selection.Standard.Inflection.Lexeme.PRON().safeParse(
-				{
+			schemasFor.en.entity.Selection.Inflection.Lexeme.PRON().safeParse({
+				language: "en",
+				spelledSelection: "him",
+
+				surface: {
+					...makeLexemeSurfaceReference("en", "PRON", "him"),
 					language: "en",
-					orthographicStatus: "Standard",
-					selectionCoverage: "Full",
-					spelledSelection: "him",
-					spellingRelation: "Canonical",
-					surface: {
-						...makeLexemeSurfaceReference("en", "PRON", "him"),
-						language: "en",
-						normalizedFullSurface: "him",
-						surfaceKind: "Inflection",
-						inflectionalFeatures: {
-							case: "Acc",
-						},
+					normalizedFullSurface: "him",
+					surfaceKind: "Inflection",
+					inflectionalFeatures: {
+						case: "Acc",
 					},
 				},
-			).success,
+			}).success,
 		).toBe(true);
 
 		expect(
@@ -193,28 +169,24 @@ describe("English schema specificity", () => {
 		).toBe(true);
 
 		expect(
-			schemasFor.en.entity.Selection.Standard.Inflection.Lexeme.SYM().safeParse(
-				{
+			schemasFor.en.entity.Selection.Inflection.Lexeme.SYM().safeParse({
+				language: "en",
+				spelledSelection: "%",
+
+				surface: {
+					...makeLexemeSurfaceReference("en", "SYM", "%"),
 					language: "en",
-					orthographicStatus: "Standard",
-					selectionCoverage: "Full",
-					spelledSelection: "%",
-					spellingRelation: "Canonical",
-					surface: {
-						...makeLexemeSurfaceReference("en", "SYM", "%"),
-						language: "en",
-						normalizedFullSurface: "%",
-						surfaceKind: "Inflection",
-						inflectionalFeatures: {
-							number: "Sing",
-						},
+					normalizedFullSurface: "%",
+					surfaceKind: "Inflection",
+					inflectionalFeatures: {
+						number: "Sing",
 					},
 				},
-			).success,
+			}).success,
 		).toBe(true);
 
 		expect(
-			typeof schemasFor.en.entity.Selection.Standard.Inflection.Lexeme.VERB()
+			typeof schemasFor.en.entity.Selection.Inflection.Lexeme.VERB()
 				.parse,
 		).toBe("function");
 	});

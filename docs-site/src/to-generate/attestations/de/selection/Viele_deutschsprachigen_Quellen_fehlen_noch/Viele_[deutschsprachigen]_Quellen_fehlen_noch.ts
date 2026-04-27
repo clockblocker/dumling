@@ -2,10 +2,8 @@ import type { AttestedSelection, Selection } from "dumling/types";
 
 const deSelection030 = {
 	language: "de",
-	orthographicStatus: "Standard",
-	selectionCoverage: "Full",
 	spelledSelection: "deutschsprachigen",
-	spellingRelation: "Canonical",
+
 	surface: {
 		language: "de",
 		normalizedFullSurface: "deutschsprachigen",
@@ -24,11 +22,12 @@ const deSelection030 = {
 			meaningInEmojis: "🗣️",
 		},
 	},
-} satisfies Selection<"de", "Standard", "Inflection", "Lexeme", "ADJ">;
+} satisfies Selection<"de", "Inflection", "Lexeme", "ADJ">;
 
 export const attestation = {
 	selection: deSelection030,
 	sentenceMarkdown: "Viele [deutschsprachigen] Quellen fehlen noch.",
-	classifierNotes: "Deutschsprachigen looks noun-like in isolation but is annotated as an adjective inflection here.",
+	classifierNotes:
+		"Deutschsprachigen looks noun-like in isolation but is annotated as an adjective inflection here.",
 	isVerified: true,
 } as const satisfies AttestedSelection;

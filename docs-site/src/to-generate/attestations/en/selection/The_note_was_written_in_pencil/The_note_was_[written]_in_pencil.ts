@@ -2,10 +2,8 @@ import type { AttestedSelection, Selection } from "dumling/types";
 
 const writtenPassiveParticipleSelection = {
 	language: "en",
-	orthographicStatus: "Standard",
-	selectionCoverage: "Full",
 	spelledSelection: "written",
-	spellingRelation: "Canonical",
+
 	surface: {
 		language: "en",
 		normalizedFullSurface: "written",
@@ -23,10 +21,11 @@ const writtenPassiveParticipleSelection = {
 			meaningInEmojis: "✍️",
 		},
 	},
-} satisfies Selection<"en", "Standard", "Inflection", "Lexeme", "VERB">;
+} satisfies Selection<"en", "Inflection", "Lexeme", "VERB">;
 
 export const attestation = {
 	selection: writtenPassiveParticipleSelection,
 	sentenceMarkdown: "The note was [written] in pencil.",
-	classifierNotes: "Voice=Pass is context-sensitive for English participles; it is included to test whether the model accepts contextual morphology.",
+	classifierNotes:
+		"Voice=Pass is context-sensitive for English participles; it is included to test whether the model accepts contextual morphology.",
 } as const satisfies AttestedSelection;

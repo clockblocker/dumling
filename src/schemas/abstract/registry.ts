@@ -27,7 +27,10 @@ type AbstractLeafBundle = {
 	citationSurfaceSchema: z.ZodType<AbstractSurface<string, "Citation">>;
 	inflectionSurfaceSchema: z.ZodType<AbstractSurface<string, "Inflection">>;
 	lemmaSchema: z.ZodType<AbstractLemma<string>>;
-	selectionSchemas: readonly z.ZodTypeAny[];
+	selectionSchemas: readonly [
+		z.ZodType<AbstractSelection<string, "Citation">>,
+		z.ZodType<AbstractSelection<string, "Inflection">>,
+	];
 };
 
 function buildAbstractLeafBundle(
@@ -49,37 +52,20 @@ function buildAbstractLeafBundle(
 		lemmaSchema,
 		inflectionalFeaturesSchema: abstractInflectionalFeaturesSchema,
 	}) as z.ZodType<AbstractSurface<string, "Inflection">>;
-	const standardCitationSelectionSchema = buildSelectionSchema({
+	const citationSelectionSchema = buildSelectionSchema({
 		languageSchema: AbstractLanguageTag,
-		orthographicStatus: "Standard",
 		surfaceSchema: citationSurfaceSchema,
-	}) as z.ZodType<AbstractSelection<string, "Standard", "Citation">>;
-	const typoCitationSelectionSchema = buildSelectionSchema({
+	}) as z.ZodType<AbstractSelection<string, "Citation">>;
+	const inflectionSelectionSchema = buildSelectionSchema({
 		languageSchema: AbstractLanguageTag,
-		orthographicStatus: "Typo",
-		surfaceSchema: citationSurfaceSchema,
-	}) as z.ZodType<AbstractSelection<string, "Typo", "Citation">>;
-	const standardInflectionSelectionSchema = buildSelectionSchema({
-		languageSchema: AbstractLanguageTag,
-		orthographicStatus: "Standard",
 		surfaceSchema: inflectionSurfaceSchema,
-	}) as z.ZodType<AbstractSelection<string, "Standard", "Inflection">>;
-	const typoInflectionSelectionSchema = buildSelectionSchema({
-		languageSchema: AbstractLanguageTag,
-		orthographicStatus: "Typo",
-		surfaceSchema: inflectionSurfaceSchema,
-	}) as z.ZodType<AbstractSelection<string, "Typo", "Inflection">>;
+	}) as z.ZodType<AbstractSelection<string, "Inflection">>;
 
 	return {
 		lemmaSchema,
 		citationSurfaceSchema,
 		inflectionSurfaceSchema,
-		selectionSchemas: [
-			standardCitationSelectionSchema,
-			typoCitationSelectionSchema,
-			standardInflectionSelectionSchema,
-			typoInflectionSelectionSchema,
-		],
+		selectionSchemas: [citationSelectionSchema, inflectionSelectionSchema],
 	};
 }
 

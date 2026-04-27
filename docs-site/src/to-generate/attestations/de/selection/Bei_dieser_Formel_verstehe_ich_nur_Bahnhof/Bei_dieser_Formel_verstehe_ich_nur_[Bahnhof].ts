@@ -2,10 +2,9 @@ import type { AttestedSelection, Selection } from "dumling/types";
 
 const deSelection043 = {
 	language: "de",
-	orthographicStatus: "Standard",
-	selectionCoverage: "Partial",
+	selectionFeatures: { coverage: "Partial" },
 	spelledSelection: "Bahnhof",
-	spellingRelation: "Canonical",
+
 	surface: {
 		language: "de",
 		normalizedFullSurface: "nur Bahnhof verstehen",
@@ -19,7 +18,7 @@ const deSelection043 = {
 			meaningInEmojis: "❓",
 		},
 	},
-} satisfies Selection<"de", "Standard", "Citation", "Phraseme", "Idiom">;
+} satisfies Selection<"de", "Citation", "Phraseme", "Idiom">;
 
 export const attestation = {
 	selection: deSelection043,
