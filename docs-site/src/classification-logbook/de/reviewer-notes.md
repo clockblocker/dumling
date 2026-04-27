@@ -1,4 +1,4 @@
-### Captured Mistakes
+### Reviewer Notes
 
 - For linking stuff the `meaningInEmojis` is set to the sense of the surrounding phrase.
   Examples:

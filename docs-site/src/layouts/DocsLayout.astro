@@ -9,6 +9,48 @@ interface Props {
 }
 
 const { currentHref, description, navItems, title } = Astro.props;
+
+function isDescendantRoute(ancestorRouteId: string, routeId: string): boolean {
+	return (
+		ancestorRouteId !== "index" &&
+		routeId.startsWith(`${ancestorRouteId}/`)
+	);
+}
+
+function topLevelNavItems(items: NavItem[]): NavItem[] {
+	return items.filter(
+		(item) =>
+			!items.some(
+				(candidate) =>
+					candidate.routeId !== item.routeId &&
+					isDescendantRoute(candidate.routeId, item.routeId),
+			),
+	);
+}
+
+function directChildrenFor(parent: NavItem, items: NavItem[]): NavItem[] {
+	return items.filter((item) => {
+		if (!isDescendantRoute(parent.routeId, item.routeId)) {
+			return false;
+		}
+
+		const relativeRouteId = item.routeId.slice(parent.routeId.length + 1);
+		return !relativeRouteId.includes("/");
+	});
+}
+
+function descendantsFor(parent: NavItem, items: NavItem[]): NavItem[] {
+	return items.filter((item) => isDescendantRoute(parent.routeId, item.routeId));
+}
+
+function currentItemIsWithin(item: NavItem, items: NavItem[], href: string): boolean {
+	return (
+		item.href === href ||
+		descendantsFor(item, items).some((candidate) => candidate.href === href)
+	);
+}
+
+const headerItems = topLevelNavItems(navItems);
 ---
 
 <!doctype html>
@@ -24,14 +66,125 @@ const { currentHref, description, navItems, title } = Astro.props;
 			<a class="brand" href="/">dumling</a>
 			<nav aria-label="Docs">
 				{
-					navItems.map((item) => (
-						<a
-							aria-current={item.href === currentHref ? "page" : undefined}
-							href={item.href}
-						>
-							{item.title}
-						</a>
-					))
+					headerItems.map((item) => {
+						const directChildren = directChildrenFor(item, navItems);
+						const isActiveGroup = currentItemIsWithin(
+							item,
+							navItems,
+							currentHref,
+						);
+
+						if (directChildren.length === 0) {
+							return (
+								<a
+									aria-current={
+										item.href === currentHref ? "page" : undefined
+									}
+									href={item.href}
+								>
+									{item.title}
+								</a>
+							);
+						}
+
+						return (
+							<details class="nav-group">
+								<summary class:list={["nav-summary", isActiveGroup && "is-active"]}>
+									<span>{item.title}</span>
+									<span aria-hidden="true" class="nav-caret">
+										▾
+									</span>
+								</summary>
+								<div class="nav-panel">
+									<a
+										aria-current={
+											item.href === currentHref ? "page" : undefined
+										}
+										class="nav-panel-link nav-overview"
+										href={item.href}
+									>
+										Overview
+									</a>
+									{
+										directChildren.map((child) => {
+											const nestedChildren = directChildrenFor(
+												child,
+												navItems,
+											);
+											const isActiveSubgroup = currentItemIsWithin(
+												child,
+												navItems,
+												currentHref,
+											);
+
+											if (nestedChildren.length === 0) {
+												return (
+													<a
+														aria-current={
+															child.href === currentHref
+																? "page"
+																: undefined
+														}
+														class="nav-panel-link"
+														href={child.href}
+													>
+														{child.title}
+													</a>
+												);
+											}
+
+											return (
+												<details
+													class="nav-subgroup"
+													open={isActiveSubgroup}
+												>
+													<summary
+														class:list={[
+															"nav-subgroup-summary",
+															isActiveSubgroup && "is-active",
+														]}
+													>
+														<span>{child.title}</span>
+														<span aria-hidden="true" class="nav-caret">
+															▾
+														</span>
+													</summary>
+													<div class="nav-subgroup-panel">
+														<a
+															aria-current={
+																child.href === currentHref
+																	? "page"
+																	: undefined
+															}
+															class="nav-panel-link nav-section-link"
+															href={child.href}
+														>
+															Overview
+														</a>
+														{
+															nestedChildren.map((nestedChild) => (
+																<a
+																	aria-current={
+																		nestedChild.href === currentHref
+																			? "page"
+																			: undefined
+																	}
+																	class="nav-panel-link nav-nested-link"
+																	href={nestedChild.href}
+																>
+																	{nestedChild.title}
+																</a>
+															))
+														}
+													</div>
+												</details>
+											);
+										})
+									}
+								</div>
+							</details>
+						);
+					})
 				}
 			</nav>
 		</header>
@@ -92,14 +245,130 @@ const { currentHref, description, navItems, title } = Astro.props;
 		justify-content: flex-end;
 	}
 
-	nav a {
+	nav a,
+	.nav-summary {
 		color: #4e4a43;
 		text-decoration: none;
 	}
 
-	nav a[aria-current="page"] {
+	nav a[aria-current="page"],
+	.nav-summary.is-active {
 		color: #202124;
 		font-weight: 650;
+	}
+
+	.nav-group {
+		position: relative;
+	}
+
+	.nav-summary {
+		align-items: center;
+		border-radius: 999px;
+		cursor: pointer;
+		display: inline-flex;
+		gap: 0.35rem;
+		list-style: none;
+		padding: 0.2rem 0.55rem;
+	}
+
+	.nav-summary::-webkit-details-marker {
+		display: none;
+	}
+
+	.nav-caret {
+		font-size: 0.75rem;
+		transition: transform 140ms ease;
+	}
+
+	.nav-group[open] .nav-caret {
+		transform: rotate(180deg);
+	}
+
+	.nav-panel {
+		background: #fffdfa;
+		border: 1px solid #ddd8cf;
+		border-radius: 10px;
+		box-shadow: 0 10px 30px rgba(32, 33, 36, 0.1);
+		display: grid;
+		gap: 0.45rem;
+		min-width: 18rem;
+		max-width: min(24rem, calc(100vw - 2rem));
+		padding: 0.65rem;
+		position: absolute;
+		left: 0;
+		top: calc(100% + 0.65rem);
+		z-index: 10;
+	}
+
+	.nav-panel-link {
+		border-radius: 7px;
+		display: block;
+		padding: 0.4rem 0.55rem;
+		text-decoration: none;
+	}
+
+	.nav-panel-link:hover,
+	.nav-summary:hover {
+		color: #202124;
+	}
+
+	.nav-summary:hover {
+		background: #f4efe5;
+	}
+
+	.nav-panel-link:hover {
+		background: #f4efe5;
+	}
+
+	.nav-overview {
+		border-bottom: 1px solid #ece5d9;
+		font-weight: 650;
+		margin-bottom: 0.2rem;
+		padding-bottom: 0.55rem;
+	}
+
+	.nav-subgroup {
+		border-top: 1px solid #f0e9de;
+		padding-top: 0.35rem;
+	}
+
+	.nav-subgroup-summary {
+		align-items: center;
+		border-radius: 7px;
+		cursor: pointer;
+		display: flex;
+		font-weight: 650;
+		justify-content: space-between;
+		list-style: none;
+		padding: 0.4rem 0.55rem;
+	}
+
+	.nav-subgroup-summary::-webkit-details-marker {
+		display: none;
+	}
+
+	.nav-subgroup-summary:hover {
+		background: #f4efe5;
+		color: #202124;
+	}
+
+	.nav-subgroup-summary.is-active {
+		color: #202124;
+	}
+
+	.nav-subgroup-panel {
+		display: grid;
+		gap: 0.15rem;
+		margin-top: 0.2rem;
+	}
+
+	.nav-section-link {
+		font-weight: 650;
+	}
+
+	.nav-nested-link {
+		font-size: 0.95rem;
+		padding-left: 1rem;
 	}
 
 	main {
@@ -189,6 +458,16 @@ const { currentHref, description, navItems, title } = Astro.props;
 
 		nav {
 			justify-content: flex-start;
+		}
+
+		.nav-group {
+			width: 100%;
+		}
+
+		.nav-panel {
+			box-shadow: none;
+			min-width: 0;
+			position: static;
 		}
 	}
 </style>

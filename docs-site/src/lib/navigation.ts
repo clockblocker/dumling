@@ -3,6 +3,7 @@ import type { CollectionEntry } from "astro:content";
 export interface NavItem {
 	href: string;
 	mdHref: string;
+	routeId: string;
 	title: string;
 }
 
@@ -48,6 +49,7 @@ export function navItemsForDocs(docs: CollectionEntry<"docs">[]): NavItem[] {
 		.map((doc) => ({
 			href: hrefForPage(doc),
 			mdHref: mdHrefForPage(doc),
+			routeId: routeIdForPage(doc),
 			title: doc.data.title,
 		}));
 }
