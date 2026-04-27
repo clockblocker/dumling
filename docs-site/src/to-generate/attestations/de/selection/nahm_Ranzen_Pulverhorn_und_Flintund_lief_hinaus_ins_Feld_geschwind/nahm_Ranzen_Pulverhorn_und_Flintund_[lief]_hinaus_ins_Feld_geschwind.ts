@@ -3,7 +3,7 @@ import type { AttestedSelection, Selection } from "dumling/types";
 const deSelection = {
 	language: "de",
 	orthographicStatus: "Standard",
-	selectionCoverage: "Partial",
+	selectionCoverage: "Full",
 	spelledSelection: "lief",
 	spellingRelation: "Canonical",
 	surface: {

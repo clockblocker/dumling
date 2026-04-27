@@ -34,4 +34,5 @@ export const attestation = {
 	sentenceMarkdown: "Na [ja], ganz überzeugt bin ich nicht.",
 	classifierNotes:
 		"I treated the selected ja as part of the larger discourse formula na ja, so this is a Partial selection of the phraseme rather than a standalone response particle.",
+	isVerified: true,
 } as const satisfies AttestedSelection;

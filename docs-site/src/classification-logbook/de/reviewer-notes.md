@@ -61,6 +61,9 @@
   Examples:
     - `Er [muss] heute arbeiten.` -> `AUX`
     - `Das [muss] heute noch raus.` -> `VERB`
+- Finite `werden` splits by function. Use `AUX` when it auxiliary-marks another verbal form, and use `VERB` when it itself carries the clause's change-of-state meaning with a predicative complement.
+  Examples:
+    - `Jetzt schien die Sonne gar zu sehr, da [ward] ihm sein Gewehr zu schwer.` -> `VERB`
 - Short directional forms like `raus`, `rein`, `rüber`, `runter`, `drin`, and `draußen` stay standalone `ADV` entries when there is no overt verb host that licenses a separable-verb analysis. Do not invent a larger verb lemma from clause meaning alone in elliptical clauses.
   Examples:
     - `Das muss heute noch [raus].` -> `ADV` lemma `heraus`
