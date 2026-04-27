@@ -4,197 +4,303 @@ Status: draft
 
 Date: 2026-04-27
 
-## Goal
+## Scope
 
-Overhaul the client-facing doc-cite routes so they follow the Universal Dependencies route shape:
+This spec defines the client-facing route overhaul for doc-cite docs.
 
-- universal pages live at `/u/...`
-- language pages live at `/{lang}/...`
-- enum-backed leaf pages mimic UD-style leaf paths such as `/u/pos/VERB.html` and `/de/pos/VERB.html`
+The target is a UD-shaped public tree:
 
-For the first pass, only the German tree is authored. The `/u/` tree is a temporary content copy of the German one.
+- universal pages under `/u/...`
+- language pages under `/{lang}/...`
+- enum-member leaf pages rendered as `.html`, e.g. `/u/pos/VERB.html`
 
-This pass is spec-first. No doc-cite generation behavior changes are implemented here.
+Phase 1 only authors German content.
 
-## What The Repo Does Today
-
-The current docs generator is path-based:
-
-- typed docs live under `docs-site/src/to-generate/docs`
-- every `*.doc.ts` file becomes one generated markdown page
-- typed-doc route IDs are derived from `source directory + slug`
-- slugs are lowercased and validated against `^[a-z0-9-]+$`
-- typed docs cannot currently declare an explicit `routeId`
-- navigation assumes HTML pages live at `/${routeId}/`
-- public markdown output assumes the markdown sibling is `/${routeId}.md`
-
-This means the current system cannot express UD-like routes exactly, because:
-
-- `VERB.html` contains uppercase letters and a dot
-- `Case.html` contains uppercase letters and a dot
-- a route ending in `.html` would currently generate a broken markdown sibling such as `VERB.html.md`
-- nav helpers currently append a trailing slash, which would turn `VERB.html` into `VERB.html/`
-
-## Route Target
-
-### Public route families
-
-We want one note page for every:
-
-- entity kind: `Lemma`, `Surface`, `Selection`
-- surface kind: `Citation`, `Inflection`
-- lemma kind: `Lexeme`, `Morpheme`, `Phraseme`, `Construction`
-- lexeme subkind / POS: the concrete `Lexeme` POS inventory
-- morpheme subkind: every `MorphemeKind`
-- phraseme subkind: every `PhrasemeKind`
-- construction subkind: every `ConstructionKind`
-- selection feature: every key in `selectionFeatures`
-- surface feature: every key in `surfaceFeatures`
-- grammatical feature: every feature name used anywhere in `inherentFeatures` or `inflectionalFeatures`
-
-### Public path shape
-
-Recommended public HTML path shape:
-
-- universal entity index: `/u/entity.html`
-- language entity index: `/de/entity.html`
-- universal entity kind: `/u/entity/Lemma.html`
-- language entity kind: `/de/entity/Lemma.html`
-- universal surface index: `/u/surface.html`
-- language surface index: `/de/surface.html`
-- universal surface kind: `/u/surface/Citation.html`
-- language surface kind: `/de/surface/Citation.html`
-- universal lemma-kind index: `/u/kind.html`
-- language lemma-kind index: `/de/kind.html`
-- universal lemma kind: `/u/kind/Lexeme.html`
-- language lemma kind: `/de/kind/Lexeme.html`
-- universal POS index: `/u/pos.html`
-- language POS index: `/de/pos.html`
-- universal POS: `/u/pos/VERB.html`
-- language POS: `/de/pos/VERB.html`
-- universal morpheme index: `/u/morpheme.html`
-- language morpheme index: `/de/morpheme.html`
-- universal morpheme subkind: `/u/morpheme/Prefix.html`
-- language morpheme subkind: `/de/morpheme/Prefix.html`
-- universal phraseme index: `/u/phraseme.html`
-- language phraseme index: `/de/phraseme.html`
-- universal phraseme subkind: `/u/phraseme/Idiom.html`
-- language phraseme subkind: `/de/phraseme/Idiom.html`
-- universal construction index: `/u/construction.html`
-- language construction index: `/de/construction.html`
-- universal construction subkind: `/u/construction/Fusion.html`
-- language construction subkind: `/de/construction/Fusion.html`
-- universal selection-feature index: `/u/feature/selection.html`
-- language selection-feature index: `/de/feature/selection.html`
-- universal selection feature: `/u/feature/selection/coverage.html`
-- language selection feature: `/de/feature/selection/coverage.html`
-- universal surface-feature index: `/u/feature/surface.html`
-- language surface-feature index: `/de/feature/surface.html`
-- universal surface feature: `/u/feature/surface/historical-status.html`
-- language surface feature: `/de/feature/surface/historical-status.html`
-- universal grammatical-feature index: `/u/feature.html`
-- language grammatical-feature index: `/de/feature.html`
-- universal grammatical feature: `/u/feature/Case.html`
-- language grammatical feature: `/de/feature/Case.html`
-
-The first-pass language scope is only `de`.
-
-Recommendation:
-
-- enum-valued lexical families that already behave like UD labels keep their native casing in the public leaf, e.g. `VERB.html`, `Fusion.html`, `Lemma.html`
-- bag-local feature names that are not already standardized as UD page names use kebab-case public leaves, e.g. `coverage.html`, `historical-status.html`
-- grammatical feature pages are flat by feature name; inherent-vs-inflectional usage is documented inside the page per language and per lemma subkind
-
-### Universal-vs-language behavior for phase 1
-
-Phase 1 does not attempt true language-neutral universal pages.
-
-Instead:
+In phase 1:
 
 - `/de/...` is the authored source of truth
-- `/u/...` is generated as a content copy of the matching German page
-- both routes are first-class generated pages, not redirects
+- `/u/...` is a generated mirror of the German tree
 
-This matches the requested temporary behavior and keeps the site static.
+This is a docs-site spec only. It does not change attestation routes.
 
-### Section index rule
+## Why This Needs A Real Overhaul
 
-Every route family directory should have a corresponding index-style overview page.
+The current typed-doc pipeline is path-derived and slash-oriented:
+
+- typed docs live under `docs-site/src/to-generate/docs`
+- every `*.doc.ts` produces one generated markdown page
+- route IDs are derived from `source directory + slug`
+- slugs are lowercased and restricted to `^[a-z0-9-]+$`
+- navigation assumes HTML pages live at `/${routeId}/`
+- public markdown siblings assume `/${routeId}.md`
+
+That model cannot express UD-style routes exactly because:
+
+- leaf names such as `VERB.html` and `Case.html` are case-sensitive and include `.html`
+- `/${routeId}/` is wrong for a public leaf like `/de/pos/VERB.html`
+- deriving markdown from the HTML path would produce `VERB.html.md`
+
+So this is not just a content reorganization. The docs generator needs explicit route support.
+
+## Goals
+
+We want one client-facing note page for every public enum bucket that matters to doc-cite users:
+
+- entity kind
+- surface kind
+- lemma kind
+- lexeme subkind / POS
+- morpheme subkind
+- phraseme subkind
+- construction subkind
+- selection feature
+- surface feature
+- grammatical feature name
+
+We also want every section to have an overview page that explains the category and links to the concrete leaf pages.
+
+Example:
+
+- `/de/entity.html` explains what entities are, why the distinction matters, and links to `Lemma`, `Surface`, and `Selection`
+
+## Non-Goals
+
+- replacing attestation routes
+- retiring the current `/lang/de/...` handbook pages in phase 1
+- generating true cross-language universal prose in phase 1
+- auto-deriving all prose from type metadata alone
+
+## Public Route Model
+
+### Core rule
+
+Every route family has:
+
+- one section overview page
+- one leaf page for each concrete enum member or feature key
+
+### Public families
+
+#### Entity
+
+- index: `/u/entity.html`, `/de/entity.html`
+- leaves:
+  - `/u/entity/Lemma.html`, `/de/entity/Lemma.html`
+  - `/u/entity/Surface.html`, `/de/entity/Surface.html`
+  - `/u/entity/Selection.html`, `/de/entity/Selection.html`
+
+#### Surface kind
+
+- index: `/u/surface.html`, `/de/surface.html`
+- leaves:
+  - `/u/surface/Citation.html`, `/de/surface/Citation.html`
+  - `/u/surface/Inflection.html`, `/de/surface/Inflection.html`
+
+#### Lemma kind
+
+- index: `/u/kind.html`, `/de/kind.html`
+- leaves:
+  - `/u/kind/Lexeme.html`, `/de/kind/Lexeme.html`
+  - `/u/kind/Morpheme.html`, `/de/kind/Morpheme.html`
+  - `/u/kind/Phraseme.html`, `/de/kind/Phraseme.html`
+  - `/u/kind/Construction.html`, `/de/kind/Construction.html`
+
+#### POS
+
+- index: `/u/pos.html`, `/de/pos.html`
+- leaf example:
+  - `/u/pos/VERB.html`, `/de/pos/VERB.html`
+
+#### Morpheme subkind
+
+- index: `/u/morpheme.html`, `/de/morpheme.html`
+- leaf example:
+  - `/u/morpheme/Prefix.html`, `/de/morpheme/Prefix.html`
+
+#### Phraseme subkind
+
+- index: `/u/phraseme.html`, `/de/phraseme.html`
+- leaf example:
+  - `/u/phraseme/Idiom.html`, `/de/phraseme/Idiom.html`
+
+#### Construction subkind
+
+- index: `/u/construction.html`, `/de/construction.html`
+- leaf example:
+  - `/u/construction/Fusion.html`, `/de/construction/Fusion.html`
+
+#### Selection features
+
+- index: `/u/feature/selection.html`, `/de/feature/selection.html`
+- leaves:
+  - `/u/feature/selection/coverage.html`, `/de/feature/selection/coverage.html`
+  - `/u/feature/selection/orthography.html`, `/de/feature/selection/orthography.html`
+  - `/u/feature/selection/spelling.html`, `/de/feature/selection/spelling.html`
+
+#### Surface features
+
+- index: `/u/feature/surface.html`, `/de/feature/surface.html`
+- leaves:
+  - `/u/feature/surface/historical-status.html`, `/de/feature/surface/historical-status.html`
+
+#### Grammatical features
+
+- index: `/u/feature.html`, `/de/feature.html`
+- leaf example:
+  - `/u/feature/Case.html`, `/de/feature/Case.html`
+
+## Public Naming Rules
+
+### Leaf casing
+
+Use public leaf names that reflect the underlying model category:
+
+- enum-style names keep their native exported casing:
+  - `Lemma.html`
+  - `Citation.html`
+  - `Lexeme.html`
+  - `VERB.html`
+  - `Fusion.html`
+  - `Case.html`
+- bag-local non-enum feature keys use kebab-case:
+  - `coverage.html`
+  - `orthography.html`
+  - `spelling.html`
+  - `historical-status.html`
+
+### Index-page names
+
+Section overview pages are flat `.html` leaves at the family root:
+
+- `/de/entity.html`
+- `/de/feature.html`
+- `/de/feature/selection.html`
+
+Not:
+
+- `/de/entity/index.html`
+- `/de/feature/selection/index.html`
+
+## Route Identity Model
+
+The current `routeId` concept is too overloaded. We need to split internal identity from public URL.
+
+### `docId`
+
+`docId` is the internal hierarchical identifier.
+
+Rules:
+
+- extensionless
+- stable
+- hierarchy-preserving
+- used for grouping, collision detection, internal linking, and markdown sibling paths
 
 Examples:
 
-- `/de/entity.html` explains the entity model, why entity kinds matter, and links to `Lemma`, `Surface`, and `Selection`
-- `/de/surface.html` explains the surface layer and links to `Citation` and `Inflection`
-- `/de/kind.html` explains the four lemma families and links to `Lexeme`, `Morpheme`, `Phraseme`, and `Construction`
-- `/de/pos.html` explains the role of POS pages and links to the concrete POS pages
-- `/de/feature.html` explains grammatical features as a cross-cutting system and links to the concrete feature pages
-- `/de/feature/selection.html` explains selection-only metadata and links to `coverage`, `orthography`, and `spelling`
+- `de/entity`
+- `de/entity/Lemma`
+- `de/surface/Citation`
+- `de/pos/VERB`
+- `de/feature`
+- `de/feature/Case`
+- `de/feature/selection`
+- `de/feature/selection/coverage`
+- `u/feature/Case`
 
-These overview pages are required, not optional.
+### `htmlRoute`
 
-## Key Design Decision
+`htmlRoute` is the exact public output path.
 
-The current `routeId` concept is too overloaded for this overhaul.
+Examples:
 
-Right now it means all of these at once:
+- `/de/entity.html`
+- `/de/entity/Lemma.html`
+- `/de/feature/Case.html`
+- `/de/feature/selection/coverage.html`
+- `/u/pos/VERB.html`
 
-- source-derived identity
-- navigation hierarchy key
-- public HTML path
-- base for public markdown sibling output
+### Markdown sibling rule
 
-That coupling works for slash-style routes, but it is the wrong abstraction for UD-style `.html` leaf paths.
+Markdown siblings derive from `docId`, not from `htmlRoute`.
 
-### Proposed split
+Examples:
 
-Introduce two route concepts for docs pages:
+- `docId: de/entity` -> markdown `/de/entity.md`
+- `docId: de/entity/Lemma` -> markdown `/de/entity/Lemma.md`
+- `docId: de/feature/Case` -> markdown `/de/feature/Case.md`
 
-- `docId`
-    - extensionless, hierarchical, stable internal identity
-    - examples:
-        - `de/entity/Lemma`
-        - `de/surface/Citation`
-        - `de/pos/VERB`
-        - `de/feature/selection/coverage`
-        - `u/feature/Case`
-    - used for collision detection, parent-child nav grouping, sorting, and internal references
-- `htmlRoute`
-    - exact public output path
-    - examples:
-        - `/de/entity/Lemma.html`
-        - `/de/feature/selection/coverage.html`
-        - `/u/pos/VERB.html`
+This avoids invalid outputs such as `VERB.html.md`.
 
-Markdown sibling output should derive from `docId`, not from `htmlRoute`:
+## Phase-1 Content Policy
 
-- `docId: de/entity/Lemma`
-- HTML: `/de/entity/Lemma.html`
-- Markdown: `/de/entity/Lemma.md`
+### German source of truth
 
-This keeps the public HTML routes UD-shaped without infecting all internal helpers with file-extension semantics.
+In phase 1, only `de` pages are authored by hand.
 
-## Authoring Model
+### Universal mirror
 
-All doc-cite source files should stay as `.ts` files under `docs-site/src/to-generate/docs`.
+In phase 1, the `/u/...` tree is a generated copy of the German tree.
 
-Each source file should default-export a single object that satisfies a type from:
+That means:
+
+- every `/de/...` page that exists in the doc-cite tree gets a matching `/u/...` page
+- `/u/...` pages are not redirects
+- `/u/...` pages may carry mirror metadata linking back to the German source page
+
+### What `/u/...` means in phase 1
+
+It does not mean truly universal prose yet.
+
+It means:
+
+- public universal route shape is already established
+- content is temporarily German-backed
+
+## Required Overview Pages
+
+Every section family must have a required overview page.
+
+The overview page must:
+
+- explain what the category is
+- explain why the distinction matters in Dumling
+- explain how the category is used in doc-cite
+- link to the concrete child pages
+
+Minimum required overview pages in phase 1:
+
+- `/de/entity.html`
+- `/de/surface.html`
+- `/de/kind.html`
+- `/de/pos.html`
+- `/de/morpheme.html`
+- `/de/phraseme.html`
+- `/de/construction.html`
+- `/de/feature.html`
+- `/de/feature/selection.html`
+- `/de/feature/surface.html`
+
+And the mirrored `/u/...` equivalents.
+
+## Source Authoring Model
+
+All typed doc-cite source files remain `.ts` files under:
+
+- `docs-site/src/to-generate/docs`
+
+Each source file default-exports one object satisfying a shared shape from:
 
 - `docs-site/src/to-generate/docs/document-shapes.ts`
 
-We should stop duplicating the typed-doc shape in the loader and in per-page local `rule.ts` files.
+We should stop duplicating page shapes in:
 
-### Recommended source shape direction
+- the typed-doc loader
+- ad hoc local `rule.ts` files next to docs
 
-The current `RuleDocument` shape is too narrow for route-driven doc-cite pages. We need a central shape that can carry:
+## Page Shape
 
-- page metadata
-- explicit internal identity
-- explicit public HTML route
-- page family
-- page subject
-- body sections
-- attested examples
-- optional mirror metadata for `/u/` copies
+The current `RuleDocument` shape is too narrow. We need an explicit route-aware page shape.
 
 Recommended direction:
 
@@ -207,9 +313,9 @@ type DocCitePageFamily =
 	| "morpheme"
 	| "phraseme"
 	| "construction"
+	| "feature"
 	| "feature-selection"
-	| "feature-surface"
-	| "feature";
+	| "feature-surface";
 
 type DocCitePageDocument = {
 	meta: {
@@ -235,13 +341,19 @@ type DocCitePageDocument = {
 };
 ```
 
-This is intentionally close to the current rule-doc authoring model, but it makes routes explicit instead of deriving them from titles.
+### Page-shape requirements
 
-## Source Tree Recommendation
+- `doc.docId` is required
+- `doc.htmlRoute` is required
+- `doc.family` is required
+- `doc.scope` is required
+- `doc.subject` is required
+- `meta.title` is required
+- `meta.slug` should not be used for these pages
 
-The source tree should already reflect the public information architecture, even if `docId` and `htmlRoute` become explicit fields.
+## Source Tree
 
-Recommended first-pass layout:
+Recommended source layout:
 
 ```text
 docs-site/src/to-generate/docs/
@@ -266,28 +378,80 @@ docs-site/src/to-generate/docs/
     pos/
       adj.doc.ts
       adp.doc.ts
-      ...
+      adv.doc.ts
+      aux.doc.ts
+      cconj.doc.ts
+      det.doc.ts
+      intj.doc.ts
+      noun.doc.ts
+      num.doc.ts
+      part.doc.ts
+      pron.doc.ts
+      propn.doc.ts
+      punct.doc.ts
+      sconj.doc.ts
+      sym.doc.ts
       verb.doc.ts
+      x.doc.ts
     morpheme.doc.ts
     morpheme/
+      circumfix.doc.ts
+      clitic.doc.ts
+      duplifix.doc.ts
+      infix.doc.ts
+      interfix.doc.ts
       prefix.doc.ts
+      root.doc.ts
       suffix.doc.ts
-      ...
+      suffixoid.doc.ts
+      tone-marking.doc.ts
+      transfix.doc.ts
     phraseme.doc.ts
     phraseme/
-      idiom.doc.ts
+      discourse-formula.doc.ts
+      aphorism.doc.ts
       proverb.doc.ts
-      ...
+      idiom.doc.ts
     construction.doc.ts
     construction/
       fusion.doc.ts
       paired-frame.doc.ts
     feature.doc.ts
     feature/
+      abbr.doc.ts
+      adp-type.doc.ts
+      aspect.doc.ts
       case.doc.ts
+      conj-type.doc.ts
+      definite.doc.ts
+      degree.doc.ts
+      discourse-formula-role.doc.ts
+      ext-pos.doc.ts
+      foreign.doc.ts
+      gender.doc.ts
+      gender-psor.doc.ts
+      governed-case.doc.ts
+      has-gov-prep.doc.ts
+      has-sep-prefix.doc.ts
+      hyph.doc.ts
+      lexically-reflexive.doc.ts
+      mood.doc.ts
+      number.doc.ts
+      number-psor.doc.ts
+      num-type.doc.ts
+      part-type.doc.ts
       person.doc.ts
+      polarity.doc.ts
+      polite.doc.ts
+      poss.doc.ts
+      pron-type.doc.ts
+      punct-type.doc.ts
+      reflex.doc.ts
+      tense.doc.ts
+      variant.doc.ts
       verb-form.doc.ts
-      ...
+      verb-type.doc.ts
+      voice.doc.ts
       selection.doc.ts
       selection/
         coverage.doc.ts
@@ -297,48 +461,42 @@ docs-site/src/to-generate/docs/
       surface/
         historical-status.doc.ts
   u/
-    entity.doc.ts
-    entity/
-    surface.doc.ts
-    surface/
-    kind.doc.ts
-    kind/
-    pos.doc.ts
-    pos/
-    morpheme.doc.ts
-    morpheme/
-    phraseme.doc.ts
-    phraseme/
-    construction.doc.ts
-    construction/
-    feature.doc.ts
-    feature/
-      selection.doc.ts
-      surface.doc.ts
+    ... mirrored structure ...
 ```
 
-Recommendation: keep source filenames lowercase and extensionless in spirit, and let `htmlRoute` carry the UD-style case-sensitive leaf segment. That avoids tying source filenames to case-sensitive public URLs.
+### Source naming rule
 
-For section overview pages, the source file should sit at the parent level and generate the bare family page:
+Keep source filenames lowercase and extensionless in spirit.
+
+The case-sensitive public leaf lives in `htmlRoute`, not in the source filename.
+
+Examples:
+
+- `docs-site/src/to-generate/docs/de/pos/verb.doc.ts` can generate `/de/pos/VERB.html`
+- `docs-site/src/to-generate/docs/de/feature/case.doc.ts` can generate `/de/feature/Case.html`
+
+### Overview-page source rule
+
+The overview page source lives at the parent level:
 
 - `docs-site/src/to-generate/docs/de/entity.doc.ts` -> `/de/entity.html`
 - `docs-site/src/to-generate/docs/de/feature.doc.ts` -> `/de/feature.html`
 - `docs-site/src/to-generate/docs/de/feature/selection.doc.ts` -> `/de/feature/selection.html`
 
-## Initial German Inventory
+## Phase-1 German Inventory
 
-### Entity pages
+### Entity kinds
 
 - `Lemma`
 - `Surface`
 - `Selection`
 
-### Surface-kind pages
+### Surface kinds
 
 - `Citation`
 - `Inflection`
 
-### Kind pages
+### Lemma kinds
 
 - `Lexeme`
 - `Morpheme`
@@ -347,7 +505,7 @@ For section overview pages, the source file should sit at the parent level and g
 
 ### POS pages
 
-German `Lexeme` pages should initially cover the current `Pos` enum:
+Phase-1 German POS pages cover the current `Pos` enum:
 
 - `ADJ`
 - `ADP`
@@ -367,7 +525,7 @@ German `Lexeme` pages should initially cover the current `Pos` enum:
 - `VERB`
 - `X`
 
-### Morpheme-subkind pages
+### Morpheme kinds
 
 - `Circumfix`
 - `Clitic`
@@ -381,55 +539,31 @@ German `Lexeme` pages should initially cover the current `Pos` enum:
 - `ToneMarking`
 - `Transfix`
 
-### Phraseme-subkind pages
+### Phraseme kinds
 
 - `DiscourseFormula`
 - `Aphorism`
 - `Proverb`
 - `Idiom`
 
-### Construction-subkind pages
+### Construction kinds
 
 - `Fusion`
 - `PairedFrame`
 
-### Feature pages
-
-Feature pages should be flat at the route level for grammatical feature names.
-
-That means:
-
-- `feature/selection/*` documents keys that live in `selectionFeatures`
-- `feature/surface/*` documents keys that live in `surfaceFeatures`
-- `feature/*` documents grammatical feature names that may appear in `inherentFeatures`, `inflectionalFeatures`, or both
-
-The inherent-vs-inflectional split exists, but it exists inside the language pack model at the per-language / per-lemma-subkind level, not as a top-level client-facing route family.
-
-So `Case` should have one route:
-
-- `/de/feature/Case.html`
-
-And that page can then explain:
-
-- which German subkinds expose `Case`
-- what de POSes use `Case`
-- how Dumling uses it versus the broader UD meaning
-
-### Selection-feature pages
+### Selection features
 
 - `coverage`
 - `orthography`
 - `spelling`
 
-### Surface-feature pages
+### Surface features
 
 - `historical-status`
 
-### Grammatical feature pages
+### Grammatical features
 
-The initial German grammatical-feature inventory should match the features actually used by the German pack, not the entire abstract UD catalog.
-
-Based on the current German feature types, the phase-1 flat feature page set should include:
+Phase-1 German grammatical feature pages should match the feature names actually used by the German pack:
 
 - `Abbr`
 - `AdpType`
@@ -466,88 +600,109 @@ Based on the current German feature types, the phase-1 flat feature page set sho
 - `VerbType`
 - `Voice`
 
-We should treat this inventory as generated-from-types in later implementation, even if phase 1 is authored manually.
+## How Grammatical Feature Pages Work
+
+Grammatical feature pages are flat at the route level.
+
+Example:
+
+- `/de/feature/Case.html`
+
+There is not one route for “inherent Case” and another for “inflectional Case”.
+
+Instead, the single feature page explains, for German:
+
+- which lemma subkinds expose the feature
+- whether the feature is inherent, inflectional, or both for each relevant subkind
+- how the feature is constrained in Dumling
+- where Dumling follows UD directly and where it narrows or extends usage
+
+This matches the real model boundary:
+
+- inherent vs inflectional is per language and per lemma subkind
+- it is not a public top-level route family
 
 ## Generator Changes Required
 
-### Typed doc loading
+### Typed-doc loading
 
-Typed docs need an explicit-route path instead of title-derived slugs.
+Required:
 
-Required changes:
-
-- allow typed doc objects to declare `docId`
-- allow typed doc objects to declare `htmlRoute`
+- allow typed docs to declare explicit `docId`
+- allow typed docs to declare explicit `htmlRoute`
 - stop requiring route derivation from `meta.slug`
 - stop filename normalization that depends on slugified title
 
 ### Route helpers
 
-Navigation and output helpers need to stop assuming that public HTML routes are slash-based:
+Required:
 
-- `hrefForRouteId()` cannot blindly append `/`
-- markdown sibling generation cannot blindly append `.md` to the HTML path
-- internal grouping should use `docId`, not `htmlRoute`
+- stop assuming public HTML pages are slash-routes
+- do not append `/` to public `.html` routes
+- derive markdown output from `docId`, not `htmlRoute`
+- group navigation by `docId`, not by raw public URL
 
 ### Frontmatter
 
-Generated frontmatter likely needs both fields:
+Generated frontmatter should carry:
 
-- `routeId` or renamed internal `docId`
-- public `htmlRoute`
+- internal doc identity
+- public HTML route
 
-If we keep the frontmatter name `routeId`, it should store the internal extensionless value, not the `.html` output path.
+If the current field name `routeId` is kept, it should store the internal extensionless identity, not the public `.html` path.
 
-## Rollout Plan
+### Collision rules
 
-### Phase 1
+Collisions must be checked on:
 
-- add explicit doc-cite page shape in `document-shapes.ts`
-- add explicit doc identity and public HTML route support to typed docs
-- author the German `de/` doc-cite tree
-- generate a mirrored `/u/` copy from the German tree
-- keep existing `/lang/de/...` pages in place
+- `docId`
+- `htmlRoute`
+
+Both must be globally unique within docs output.
+
+## Acceptance Criteria For Phase 1
+
+Phase 1 is complete when all of the following are true:
+
+1. The generator can emit docs whose public routes end in `.html`.
+2. The generator can emit matching markdown siblings without producing `.html.md`.
+3. `de` overview pages exist for every required route family.
+4. `de` leaf pages exist for every phase-1 enum member and feature key listed above.
+5. The `u` tree is generated as a mirror of the `de` tree.
+6. Navigation groups pages by family and child pages correctly using internal hierarchy, not path-string hacks.
+7. Existing `/lang/de/...` docs still build and remain accessible.
+
+## Implementation Order
+
+1. Add the new shared doc shape to `document-shapes.ts`.
+2. Refactor typed-doc loading to accept explicit `docId` and `htmlRoute`.
+3. Refactor navigation and markdown output to use `docId`.
+4. Implement one overview page pilot:
+   `de/entity.html`
+5. Implement one enum leaf pilot:
+   `de/entity/Lemma.html`
+6. Implement one feature-family pilot:
+   `de/feature/selection.html`
+7. Implement one feature leaf pilot:
+   `de/feature/selection/coverage.html`
+8. Build the full `de` tree.
+9. Generate the mirrored `u` tree.
+
+## Follow-Up Phases
 
 ### Phase 2
 
 - cross-link old `/lang/de/...` pages to the new `/de/...` tree
-- decide whether old pages remain as overview pages, redirects, or are retired
-- derive DTO/kind/POS/feature page inventories from source-of-truth enums and registries instead of hand-maintained lists
+- decide whether old handbook pages stay, redirect, or shrink to overview pages
+- derive inventories from source-of-truth enums and registries instead of maintaining manual lists
 
 ### Phase 3
 
-- replace `/u/` copies with genuinely universal pages where the content is truly cross-language
-- add language-authored trees for `en` and `he`
+- replace German-backed `/u/...` prose with genuinely universal prose where appropriate
+- add authored `en` and `he` trees
 
-## Non-Goals For Phase 1
+## Open Decisions
 
-- full replacement of all current handbook-style docs
-- redirects for every existing docs page
-- fully automated page generation from type metadata alone
-- language-neutral universal prose
-- attestation route changes
-
-## Recommended First Implementation Order
-
-1. Refactor typed docs to support explicit `docId` and `htmlRoute`.
-2. Move the source shape to `document-shapes.ts` and delete local duplicate rule types.
-3. Generate one thin pilot family end-to-end, preferably `de/entity/Lemma.html`.
-4. Once that route works, add one routed feature pilot, preferably `de/feature/selection/coverage.html`.
-5. After entity and feature pilots work, add the rest of the enum families: `surface`, `kind`, `pos`, `morpheme`, `phraseme`, `construction`.
-6. Generate `/u/*` as mirrored copies of the German pages.
-
-## Open Questions
-
-- Should the old `/lang/de/...` rules pages survive as handbook overviews, or do we want them eventually replaced by the new `/de/...` taxonomy tree?
-- Do we want `/u/...` copies to share the same title as `/de/...`, or should universal copies be visibly labeled as temporary German-backed pages?
-- Should the feature family be exposed as `/feat/` to match UD exactly, even for Dumling-specific features such as `HasGovPrep`, or do we want a separate `/feature/` or `/custom-feat/` namespace for non-UD names?
-
-## Recommendation
-
-Use `/feat/` for all feature pages, including Dumling-only features.
-
-Reason:
-
-- it preserves the UD mental model at the route level
-- it keeps the tree shallow and predictable
-- the distinction between UD-native and Dumling-specific features belongs in page content, not in the route taxonomy
+1. Whether frontmatter should keep the name `routeId` for internal identity or be renamed to `docId`.
+2. Whether `/u/...` mirror pages should visibly disclose that they are temporarily German-backed.
+3. Whether some current `/lang/de/...` rules pages should become source material for the new overview pages.
