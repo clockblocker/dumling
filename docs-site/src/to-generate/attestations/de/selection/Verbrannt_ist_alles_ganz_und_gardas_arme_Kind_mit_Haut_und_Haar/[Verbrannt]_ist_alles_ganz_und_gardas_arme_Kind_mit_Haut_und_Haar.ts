@@ -31,4 +31,5 @@ export const attestation = {
 das arme Kind mit Haut und Haar;`,
 	classifierNotes:
 		"I treated Verbrannt as the participial verb form of verbrennen rather than as a plain adjective. A predicative-adjective reading is possible in German, but dumling-wise the learner-facing meaning here still points most directly to the lexical verb and its result-state participle.",
+	isVerified: true,
 } as const satisfies AttestedSelection;

@@ -74,6 +74,9 @@
   Examples:
     - `Das rote Band lag [auf] dem Geschenk.` -> standalone `ADP`
     - `Das rote Band [lag] auf dem Geschenk.` -> `VERB` lemma `liegen`, no `hasGovPrep`
+- When a conventional idiom is being used literally rather than idiomatically, classify the attested words word-by-word instead of collapsing them into a `Phraseme`.
+  Example:
+    - `Verbrannt ist alles ganz und gar, das arme Kind mit Haut und [Haar];` -> standalone noun `Haar`, not idiom `mit Haut und Haar`
 - If a noun surface is citation-shaped and the local syntax does not decisively resolve the case reading, prefer `Surface/Citation` over a guessed inflectional analysis.
   Example:
     - `Einst ging er an Ufers [Rand] mit der Mappe in der Hand.`
