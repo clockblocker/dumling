@@ -48,38 +48,54 @@ We want one note page for every:
 - morpheme subkind: every `MorphemeKind`
 - phraseme subkind: every `PhrasemeKind`
 - construction subkind: every `ConstructionKind`
-- feature family member in every relevant feature bag:
-    - `selectionFeatures`
-    - `surfaceFeatures`
-    - `inherentFeatures`
-    - `inflectionalFeatures`
+- selection feature: every key in `selectionFeatures`
+- surface feature: every key in `surfaceFeatures`
+- grammatical feature: every feature name used anywhere in `inherentFeatures` or `inflectionalFeatures`
 
 ### Public path shape
 
 Recommended public HTML path shape:
 
+- universal entity index: `/u/entity.html`
+- language entity index: `/de/entity.html`
 - universal entity kind: `/u/entity/Lemma.html`
 - language entity kind: `/de/entity/Lemma.html`
+- universal surface index: `/u/surface.html`
+- language surface index: `/de/surface.html`
 - universal surface kind: `/u/surface/Citation.html`
 - language surface kind: `/de/surface/Citation.html`
+- universal lemma-kind index: `/u/kind.html`
+- language lemma-kind index: `/de/kind.html`
 - universal lemma kind: `/u/kind/Lexeme.html`
 - language lemma kind: `/de/kind/Lexeme.html`
+- universal POS index: `/u/pos.html`
+- language POS index: `/de/pos.html`
 - universal POS: `/u/pos/VERB.html`
 - language POS: `/de/pos/VERB.html`
+- universal morpheme index: `/u/morpheme.html`
+- language morpheme index: `/de/morpheme.html`
 - universal morpheme subkind: `/u/morpheme/Prefix.html`
 - language morpheme subkind: `/de/morpheme/Prefix.html`
+- universal phraseme index: `/u/phraseme.html`
+- language phraseme index: `/de/phraseme.html`
 - universal phraseme subkind: `/u/phraseme/Idiom.html`
 - language phraseme subkind: `/de/phraseme/Idiom.html`
+- universal construction index: `/u/construction.html`
+- language construction index: `/de/construction.html`
 - universal construction subkind: `/u/construction/Fusion.html`
 - language construction subkind: `/de/construction/Fusion.html`
+- universal selection-feature index: `/u/feature/selection.html`
+- language selection-feature index: `/de/feature/selection.html`
 - universal selection feature: `/u/feature/selection/coverage.html`
 - language selection feature: `/de/feature/selection/coverage.html`
+- universal surface-feature index: `/u/feature/surface.html`
+- language surface-feature index: `/de/feature/surface.html`
 - universal surface feature: `/u/feature/surface/historical-status.html`
 - language surface feature: `/de/feature/surface/historical-status.html`
-- universal inherent feature: `/u/feature/inherent/Case.html`
-- language inherent feature: `/de/feature/inherent/Case.html`
-- universal inflectional feature: `/u/feature/inflectional/Case.html`
-- language inflectional feature: `/de/feature/inflectional/Case.html`
+- universal grammatical-feature index: `/u/feature.html`
+- language grammatical-feature index: `/de/feature.html`
+- universal grammatical feature: `/u/feature/Case.html`
+- language grammatical feature: `/de/feature/Case.html`
 
 The first-pass language scope is only `de`.
 
@@ -87,6 +103,7 @@ Recommendation:
 
 - enum-valued lexical families that already behave like UD labels keep their native casing in the public leaf, e.g. `VERB.html`, `Fusion.html`, `Lemma.html`
 - bag-local feature names that are not already standardized as UD page names use kebab-case public leaves, e.g. `coverage.html`, `historical-status.html`
+- grammatical feature pages are flat by feature name; inherent-vs-inflectional usage is documented inside the page per language and per lemma subkind
 
 ### Universal-vs-language behavior for phase 1
 
@@ -99,6 +116,21 @@ Instead:
 - both routes are first-class generated pages, not redirects
 
 This matches the requested temporary behavior and keeps the site static.
+
+### Section index rule
+
+Every route family directory should have a corresponding index-style overview page.
+
+Examples:
+
+- `/de/entity.html` explains the entity model, why entity kinds matter, and links to `Lemma`, `Surface`, and `Selection`
+- `/de/surface.html` explains the surface layer and links to `Citation` and `Inflection`
+- `/de/kind.html` explains the four lemma families and links to `Lexeme`, `Morpheme`, `Phraseme`, and `Construction`
+- `/de/pos.html` explains the role of POS pages and links to the concrete POS pages
+- `/de/feature.html` explains grammatical features as a cross-cutting system and links to the concrete feature pages
+- `/de/feature/selection.html` explains selection-only metadata and links to `coverage`, `orthography`, and `spelling`
+
+These overview pages are required, not optional.
 
 ## Key Design Decision
 
@@ -124,7 +156,7 @@ Introduce two route concepts for docs pages:
         - `de/surface/Citation`
         - `de/pos/VERB`
         - `de/feature/selection/coverage`
-        - `u/feature/inherent/Case`
+        - `u/feature/Case`
     - used for collision detection, parent-child nav grouping, sorting, and internal references
 - `htmlRoute`
     - exact public output path
@@ -177,8 +209,7 @@ type DocCitePageFamily =
 	| "construction"
 	| "feature-selection"
 	| "feature-surface"
-	| "feature-inherent"
-	| "feature-inflectional";
+	| "feature";
 
 type DocCitePageDocument = {
 	meta: {
@@ -216,55 +247,83 @@ Recommended first-pass layout:
 docs-site/src/to-generate/docs/
   document-shapes.ts
   de/
+    entity.doc.ts
     entity/
       lemma.doc.ts
       surface.doc.ts
       selection.doc.ts
+    surface.doc.ts
     surface/
+      citation.doc.ts
+      inflection.doc.ts
+    kind.doc.ts
+    kind/
       lexeme.doc.ts
       morpheme.doc.ts
       phraseme.doc.ts
       construction.doc.ts
+    pos.doc.ts
     pos/
       adj.doc.ts
       adp.doc.ts
       ...
       verb.doc.ts
+    morpheme.doc.ts
     morpheme/
       prefix.doc.ts
       suffix.doc.ts
       ...
+    phraseme.doc.ts
     phraseme/
       idiom.doc.ts
       proverb.doc.ts
       ...
+    construction.doc.ts
     construction/
       fusion.doc.ts
       paired-frame.doc.ts
+    feature.doc.ts
     feature/
+      case.doc.ts
+      person.doc.ts
+      verb-form.doc.ts
+      ...
+      selection.doc.ts
       selection/
         coverage.doc.ts
         orthography.doc.ts
         spelling.doc.ts
+      surface.doc.ts
       surface/
         historical-status.doc.ts
-        case.doc.ts
-        person.doc.ts
-        case.doc.ts
-        person.doc.ts
-      ...
   u/
+    entity.doc.ts
     entity/
+    surface.doc.ts
     surface/
+    kind.doc.ts
     kind/
+    pos.doc.ts
     pos/
+    morpheme.doc.ts
     morpheme/
+    phraseme.doc.ts
     phraseme/
+    construction.doc.ts
     construction/
+    feature.doc.ts
     feature/
+      selection.doc.ts
+      surface.doc.ts
 ```
 
 Recommendation: keep source filenames lowercase and extensionless in spirit, and let `htmlRoute` carry the UD-style case-sensitive leaf segment. That avoids tying source filenames to case-sensitive public URLs.
+
+For section overview pages, the source file should sit at the parent level and generate the bare family page:
+
+- `docs-site/src/to-generate/docs/de/entity.doc.ts` -> `/de/entity.html`
+- `docs-site/src/to-generate/docs/de/feature.doc.ts` -> `/de/feature.html`
+- `docs-site/src/to-generate/docs/de/feature/selection.doc.ts` -> `/de/feature/selection.html`
 
 ## Initial German Inventory
 
@@ -336,16 +395,25 @@ German `Lexeme` pages should initially cover the current `Pos` enum:
 
 ### Feature pages
 
-Feature pages should be bag-specific, not one flat global bucket.
+Feature pages should be flat at the route level for grammatical feature names.
 
 That means:
 
 - `feature/selection/*` documents keys that live in `selectionFeatures`
 - `feature/surface/*` documents keys that live in `surfaceFeatures`
-- `feature/inherent/*` documents keys that live in lemma `inherentFeatures`
-- `feature/inflectional/*` documents keys that live in surface `inflectionalFeatures`
+- `feature/*` documents grammatical feature names that may appear in `inherentFeatures`, `inflectionalFeatures`, or both
 
-This avoids collisions like `Case` appearing in one bag while `coverage` appears in another, and it keeps the route tree aligned with the DTO model.
+The inherent-vs-inflectional split exists, but it exists inside the language pack model at the per-language / per-lemma-subkind level, not as a top-level client-facing route family.
+
+So `Case` should have one route:
+
+- `/de/feature/Case.html`
+
+And that page can then explain:
+
+- which German subkinds expose `Case`
+- what de POSes use `Case`
+- how Dumling uses it versus the broader UD meaning
 
 ### Selection-feature pages
 
@@ -357,25 +425,33 @@ This avoids collisions like `Case` appearing in one bag while `coverage` appears
 
 - `historical-status`
 
-### Inherent-feature pages
+### Grammatical feature pages
 
-The initial German inherent-feature inventory should match the features actually used by the German pack, not the entire abstract UD catalog.
+The initial German grammatical-feature inventory should match the features actually used by the German pack, not the entire abstract UD catalog.
 
-Based on the current German feature types, the phase-1 feature page set should include:
+Based on the current German feature types, the phase-1 flat feature page set should include:
 
 - `Abbr`
 - `AdpType`
+- `Aspect`
+- `Case`
 - `ConjType`
 - `Definite`
+- `Degree`
 - `DiscourseFormulaRole`
 - `ExtPos`
 - `Foreign`
 - `Gender`
+- `Gender[psor]`
 - `GovernedCase`
 - `HasGovPrep`
 - `HasSepPrefix`
 - `Hyph`
 - `LexicallyReflexive`
+- `Mood`
+- `Number`
+- `Number[psor]`
+- `NumType`
 - `PartType`
 - `Person`
 - `Polarity`
@@ -383,24 +459,11 @@ Based on the current German feature types, the phase-1 feature page set should i
 - `Poss`
 - `PronType`
 - `PunctType`
-- `Variant`
-- `VerbType`
-
-### Inflectional-feature pages
-
-- `Aspect`
-- `Case`
-- `Degree`
-- `Gender`
-- `Gender[psor]`
-- `Mood`
-- `Number`
-- `Number[psor]`
-- `NumType`
-- `Person`
 - `Reflex`
 - `Tense`
+- `Variant`
 - `VerbForm`
+- `VerbType`
 - `Voice`
 
 We should treat this inventory as generated-from-types in later implementation, even if phase 1 is authored manually.
