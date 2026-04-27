@@ -58,15 +58,13 @@ Dumling focuses on lexical classification for learning tools:
 - learner-relevant surface features: properties of the resolved full surface, such as archaic status
 - language-specific lexical inventories built on a shared cross-language model
 
-`Construction` is the learner-facing branch for patterned entries such as fused forms like German `zum` and paired frames such as `um zu` or `entweder oder`.
-
 The framework is implemented as a TypeScript and Zod package so apps can validate, serialize, search, and round-trip these objects through IDs.
 
 ## What It Omits
 
 Dumling intentionally does not try to be a full grammar model.
 
-It does not model syntactic dependency relations, phrase structure, or sentence-level grammar. It does not replace UD treebanks, parsers, or tokenizers. It also does not try to explain every grammatical relation between words in a sentence.
+It does not model syntactic dependency relations, phrase structure, or sentence-level grammar. It also does not try to explain every grammatical relation between words in a sentence.
 
 The scope is narrower: identify the meaning-bearing lexical unit behind a learner's selection, and describe that unit in a stable, language-aware shape.
 
