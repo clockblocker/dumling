@@ -266,6 +266,40 @@ We are explicitly taking the breaking-cleanup route.
   feature bags
 - update fixtures, docs, and generated attestations to match
 - do not add a compatibility layer for legacy selection payloads
+- keep the tiny CSV version label as `v1`
+
+Because this is greenfield and we are not carrying external compatibility
+constraints, there is no reason to introduce a `v2` namespace for a format we
+are redefining in place.
+
+### Sparse row policy
+
+The target serialization policy is sparse rather than fixed-width for optional
+feature bags.
+
+If all values in a feature bag are default / `undefined`, there should be no
+serialized bag payload in the row.
+
+Examples:
+
+- unmarked citation surface should serialize as
+  `Surface,Citation,see,Lemma,de,Lexeme,NOUN,see,🌊,gender=Masc`
+- archaic citation surface should serialize as
+  `Surface,Citation,lot,historicalStatus=Archaic,Lemma,de,Lexeme,NOUN,lot,⚖️,gender=Neut`
+- unmarked selection should serialize as
+  `Selection,See,Surface,Citation,see,Lemma,de,Lexeme,NOUN,see,🌊,gender=Masc`
+- marked selection should serialize as
+  `Selection,gvae,orthography=Typo|coverage=Partial|spelling=Variant,Surface,Citation,give up,Lemma,en,Lexeme,VERB,give up,⬆️,`
+
+In other words:
+
+- no placeholder empty column for `selectionFeatures`
+- no placeholder empty column for `surfaceFeatures`
+- presence of the bag column means at least one non-default feature is encoded
+
+This matches the semantic goal of the redesign: default values should disappear
+from serialized selection and surface identities rather than survive as empty
+structure.
 
 ## Migration Order
 
