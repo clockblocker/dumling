@@ -83,6 +83,12 @@
 - When a selected token is clearly just an internal component of an idiom, classify the idiom as the learner-facing unit rather than the token's standalone POS.
   Example:
     - `Bei dieser Formel verstehe ich nur [Bahnhof].`
+- Split `tut ... leid` by use, not by string shape alone. Use `Phraseme/DiscourseFormula` only when the expression itself performs a live apology; use `Lexeme/VERB` lemma `leidtun` when the clause predicates regret in an ordinary reportable/embeddable way.
+  Examples:
+    - `[Tut mir leid], das war mein Fehler.` -> `Phraseme/DiscourseFormula`
+    - `Es tut ihm [leid].` -> `Lexeme/VERB` lemma `leidtun`
+    - `Mark sagt, dass es ihm [leid] tut.` -> `Lexeme/VERB` lemma `leidtun`
+    - `[Tut] mir leid.` can still be `Partial` `Phraseme/DiscourseFormula` if the utterance is still functioning as a direct apology rather than as a reported predicate.
 - `Phraseme` is citation-only in the public DTO.
 - Citation-only `Construction/PairedFrame` keeps `canonicalLemma` identical to citation `normalizedFullSurface`, using the plain spaced citation form rather than an internal delimiter spelling.
   Example:
