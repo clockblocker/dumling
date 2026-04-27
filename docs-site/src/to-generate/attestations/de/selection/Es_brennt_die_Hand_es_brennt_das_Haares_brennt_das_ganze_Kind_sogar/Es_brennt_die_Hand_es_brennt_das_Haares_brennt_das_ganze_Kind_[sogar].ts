@@ -2,10 +2,8 @@ import type { AttestedSelection, Selection } from "dumling/types";
 
 const sogarAdverbSelection = {
 	language: "de",
-	orthographicStatus: "Standard",
-	selectionCoverage: "Full",
 	spelledSelection: "sogar",
-	spellingRelation: "Canonical",
+
 	surface: {
 		language: "de",
 		normalizedFullSurface: "sogar",
@@ -19,7 +17,7 @@ const sogarAdverbSelection = {
 			meaningInEmojis: "➕",
 		},
 	},
-} satisfies Selection<"de", "Standard", "Citation", "Lexeme", "ADV">;
+} satisfies Selection<"de", "Citation", "Lexeme", "ADV">;
 
 export const attestation = {
 	selection: sogarAdverbSelection,

@@ -2,10 +2,8 @@ import type { AttestedSelection, Selection } from "dumling/types";
 
 const haDeterminerSelection = {
 	language: "he",
-	orthographicStatus: "Standard",
-	selectionCoverage: "Full",
 	spelledSelection: "ה",
-	spellingRelation: "Canonical",
+
 	surface: {
 		language: "he",
 		normalizedFullSurface: "ה",
@@ -21,10 +19,11 @@ const haDeterminerSelection = {
 			meaningInEmojis: "🔎",
 		},
 	},
-} satisfies Selection<"he", "Standard", "Citation", "Lexeme", "DET">;
+} satisfies Selection<"he", "Citation", "Lexeme", "DET">;
 
 export const attestation = {
 	selection: haDeterminerSelection,
 	sentenceMarkdown: "[ה]בית פתוח.",
-	classifierNotes: "The standalone article is modeled as DET with pronType Art, not as a noun definiteness feature.",
+	classifierNotes:
+		"The standalone article is modeled as DET with pronType Art, not as a noun definiteness feature.",
 } as const satisfies AttestedSelection;

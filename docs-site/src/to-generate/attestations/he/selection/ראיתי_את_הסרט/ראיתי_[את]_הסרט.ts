@@ -2,10 +2,8 @@ import type { AttestedSelection, Selection } from "dumling/types";
 
 const etAccusativeSelection = {
 	language: "he",
-	orthographicStatus: "Standard",
-	selectionCoverage: "Full",
 	spelledSelection: "את",
-	spellingRelation: "Canonical",
+
 	surface: {
 		language: "he",
 		normalizedFullSurface: "את",
@@ -21,10 +19,11 @@ const etAccusativeSelection = {
 			meaningInEmojis: "🎯",
 		},
 	},
-} satisfies Selection<"he", "Standard", "Citation", "Lexeme", "ADP">;
+} satisfies Selection<"he", "Citation", "Lexeme", "ADP">;
 
 export const attestation = {
 	selection: etAccusativeSelection,
 	sentenceMarkdown: "ראיתי [את] הסרט.",
-	classifierNotes: "את is the accusative marker here, modeled as ADP and kept separate from the pronoun homograph.",
+	classifierNotes:
+		"את is the accusative marker here, modeled as ADP and kept separate from the pronoun homograph.",
 } as const satisfies AttestedSelection;

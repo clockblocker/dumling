@@ -1,8 +1,8 @@
 import {
 	existsSync,
 	mkdirSync,
-	readdirSync,
 	readFileSync,
+	readdirSync,
 	rmSync,
 	writeFileSync,
 } from "node:fs";
@@ -14,9 +14,7 @@ import {
 	classificationLogbookDir,
 	sourceAttestationsDir,
 } from "../../shared/paths";
-import type {
-	LogbookFileKind,
-} from "../../shared/types";
+import type { LogbookFileKind } from "../../shared/types";
 import { selectionSemanticSourcePath } from "./semantic-source-path";
 
 type SelectionLogbookRow = {
@@ -32,9 +30,7 @@ type SelectionLogbookRow = {
 	sentenceMarkdown: string;
 };
 
-export function selectionLogbookCsvRow(
-	selection: SelectionLogbookRow,
-): string {
+export function selectionLogbookCsvRow(selection: SelectionLogbookRow): string {
 	const language = selection.entity.language;
 	const languageApi = getLanguageApi(language);
 
@@ -75,10 +71,7 @@ export function requiredLogbookSections(kind: LogbookFileKind): string[] {
 	return ["Common Mistakes", "Locked-In Rules"];
 }
 
-export function validateLogbookFile(
-	path: string,
-	kind: LogbookFileKind,
-): void {
+export function validateLogbookFile(path: string, kind: LogbookFileKind): void {
 	const text = readFileSync(path, "utf8");
 	const expectedSections = requiredLogbookSections(kind);
 	const sectionMatches: RegExpExecArray[] = [];
@@ -217,7 +210,9 @@ export function writeSelectionLogbookCsv(
 				const language = selection.entity.language;
 				const languageApi = getLanguageApi(language);
 				const descriptorFields = String(
-					languageApi.describe.asCsv.selection(selection.entity as never),
+					languageApi.describe.asCsv.selection(
+						selection.entity as never,
+					),
 				).split(",");
 				const [
 					_entityKind,
@@ -240,7 +235,9 @@ export function writeSelectionLogbookCsv(
 				}
 
 				return [
-					csvCell(sentenceMarkdownCsvValue(selection.sentenceMarkdown)),
+					csvCell(
+						sentenceMarkdownCsvValue(selection.sentenceMarkdown),
+					),
 					csvCell(selection.entity.surface.normalizedFullSurface),
 					csvCell(orthographicStatus),
 					csvCell(surfaceKind),

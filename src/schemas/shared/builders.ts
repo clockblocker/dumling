@@ -7,11 +7,6 @@ import type {
 import { z } from "zod/v3";
 import type { ConcreteLanguage } from "../../types/concrete-language/features/feature-registry";
 import {
-	type OrthographicStatus,
-	SelectionCoverage,
-	SpellingRelation,
-} from "../../types/core/enums";
-import {
 	normalizedLowercaseStringSchema,
 	normalizedStringSchema,
 } from "./normalization";
@@ -19,6 +14,20 @@ import type { RawLanguageEntitySchemaTree } from "./schema-helper-types";
 
 type SchemaOutput<TSchema extends z.ZodTypeAny> = z.output<TSchema>;
 type SchemaTuple = readonly [z.ZodTypeAny, ...z.ZodTypeAny[]];
+
+function optionalNonEmptyObjectSchema<TShape extends z.ZodRawShape>(
+	shape: TShape,
+): z.ZodOptional<z.ZodEffects<z.ZodObject<TShape>>> {
+	return z
+		.object(shape)
+		.strict()
+		.refine(
+			(value) =>
+				Object.values(value).some((entry) => entry !== undefined),
+			"Feature bag must contain at least one marked value",
+		)
+		.optional();
+}
 
 export function buildLemmaSchema<
 	TLanguage extends string,
@@ -74,6 +83,9 @@ export function buildCitationSurfaceSchema<
 			language: options.languageSchema,
 			normalizedFullSurface: normalizedLowercaseStringSchema(),
 			surfaceKind: z.literal("Citation"),
+			surfaceFeatures: optionalNonEmptyObjectSchema({
+				historicalStatus: z.literal("Archaic").optional(),
+			}),
 			lemma: options.lemmaSchema,
 		})
 		.strict() as unknown as z.ZodType<{
@@ -81,6 +93,9 @@ export function buildCitationSurfaceSchema<
 		lemma: TLemma;
 		normalizedFullSurface: string;
 		surfaceKind: "Citation";
+		surfaceFeatures?: {
+			historicalStatus?: "Archaic";
+		};
 	}>;
 }
 
@@ -104,6 +119,9 @@ export function buildInflectionSurfaceSchema<
 			language: options.languageSchema,
 			normalizedFullSurface: normalizedLowercaseStringSchema(),
 			surfaceKind: z.literal("Inflection"),
+			surfaceFeatures: optionalNonEmptyObjectSchema({
+				historicalStatus: z.literal("Archaic").optional(),
+			}),
 			lemma: options.lemmaSchema,
 			inflectionalFeatures: options.inflectionalFeaturesSchema,
 		})
@@ -113,40 +131,47 @@ export function buildInflectionSurfaceSchema<
 		lemma: TLemma;
 		normalizedFullSurface: string;
 		surfaceKind: "Inflection";
+		surfaceFeatures?: {
+			historicalStatus?: "Archaic";
+		};
 	}>;
 }
 
 export function buildSelectionSchema<
 	TLanguage extends string,
-	TOrthographicStatus extends z.infer<typeof OrthographicStatus>,
 	TSurface extends { language: TLanguage },
 >(options: {
 	languageSchema: z.ZodType<TLanguage>;
-	orthographicStatus: TOrthographicStatus;
 	surfaceSchema: z.ZodType<TSurface>;
 }): z.ZodType<{
 	language: TLanguage;
-	orthographicStatus: TOrthographicStatus;
-	selectionCoverage: z.infer<typeof SelectionCoverage>;
+	selectionFeatures?: {
+		coverage?: "Partial";
+		orthography?: "Typo";
+		spelling?: "Variant";
+	};
 	spelledSelection: string;
-	spellingRelation: z.infer<typeof SpellingRelation>;
 	surface: TSurface;
 }> {
 	return z
 		.object({
 			language: options.languageSchema,
-			orthographicStatus: z.literal(options.orthographicStatus),
-			selectionCoverage: SelectionCoverage,
+			selectionFeatures: optionalNonEmptyObjectSchema({
+				coverage: z.literal("Partial").optional(),
+				orthography: z.literal("Typo").optional(),
+				spelling: z.literal("Variant").optional(),
+			}),
 			spelledSelection: normalizedStringSchema(),
-			spellingRelation: SpellingRelation,
 			surface: options.surfaceSchema,
 		})
 		.strict() as unknown as z.ZodType<{
 		language: TLanguage;
-		orthographicStatus: TOrthographicStatus;
-		selectionCoverage: z.infer<typeof SelectionCoverage>;
+		selectionFeatures?: {
+			coverage?: "Partial";
+			orthography?: "Typo";
+			spelling?: "Variant";
+		};
 		spelledSelection: string;
-		spellingRelation: z.infer<typeof SpellingRelation>;
 		surface: TSurface;
 	}>;
 }
@@ -180,24 +205,15 @@ type FeatureSchemaTree<L extends ConcreteLanguage> = {
 
 type LeafSchemas = {
 	lemma: z.ZodTypeAny;
-	citationSelection: {
-		Standard: z.ZodTypeAny;
-		Typo: z.ZodTypeAny;
-	};
+	citationSelection: z.ZodTypeAny;
 	citationSurface: z.ZodTypeAny;
-	inflectionSelection?: {
-		Standard: z.ZodTypeAny;
-		Typo: z.ZodTypeAny;
-	};
+	inflectionSelection?: z.ZodTypeAny;
 	inflectionSurface?: z.ZodTypeAny;
 };
 
 type MutableSchemaTree = {
 	Lemma: Record<string, Record<string, z.ZodTypeAny>>;
-	Selection: Record<
-		"Standard" | "Typo",
-		Record<string, Record<string, Record<string, z.ZodTypeAny>>>
-	>;
+	Selection: Record<string, Record<string, Record<string, z.ZodTypeAny>>>;
 	Surface: Record<string, Record<string, Record<string, z.ZodTypeAny>>>;
 };
 
@@ -228,25 +244,15 @@ function buildLeafSchemas<
 		lemmaSchema,
 	});
 
-	const standardCitationSelectionSchema = buildSelectionSchema({
+	const citationSelectionSchema = buildSelectionSchema({
 		languageSchema,
-		orthographicStatus: "Standard",
-		surfaceSchema: citationSurfaceSchema,
-	});
-
-	const typoCitationSelectionSchema = buildSelectionSchema({
-		languageSchema,
-		orthographicStatus: "Typo",
 		surfaceSchema: citationSurfaceSchema,
 	});
 
 	const leaf = {
 		lemma: lemmaSchema,
 		citationSurface: citationSurfaceSchema,
-		citationSelection: {
-			Standard: standardCitationSelectionSchema,
-			Typo: typoCitationSelectionSchema,
-		},
+		citationSelection: citationSelectionSchema,
 	};
 
 	if (!hasInflectionSurface(featuresSchema.shape.inflectional)) {
@@ -259,25 +265,15 @@ function buildLeafSchemas<
 		inflectionalFeaturesSchema: featuresSchema.shape.inflectional,
 	});
 
-	const standardInflectionSelectionSchema = buildSelectionSchema({
+	const inflectionSelectionSchema = buildSelectionSchema({
 		languageSchema,
-		orthographicStatus: "Standard",
-		surfaceSchema: inflectionSurfaceSchema,
-	});
-
-	const typoInflectionSelectionSchema = buildSelectionSchema({
-		languageSchema,
-		orthographicStatus: "Typo",
 		surfaceSchema: inflectionSurfaceSchema,
 	});
 
 	return {
 		...leaf,
 		inflectionSurface: inflectionSurfaceSchema,
-		inflectionSelection: {
-			Standard: standardInflectionSelectionSchema,
-			Typo: typoInflectionSelectionSchema,
-		},
+		inflectionSelection: inflectionSelectionSchema,
 	};
 }
 
@@ -300,14 +296,8 @@ export function buildLanguageSchema<L extends ConcreteLanguage>(
 			Inflection: {},
 		},
 		Selection: {
-			Standard: {
-				Citation: {},
-				Inflection: {},
-			},
-			Typo: {
-				Citation: {},
-				Inflection: {},
-			},
+			Citation: {},
+			Inflection: {},
 		},
 	} satisfies MutableSchemaTree;
 
@@ -329,12 +319,8 @@ export function buildLanguageSchema<L extends ConcreteLanguage>(
 			schemaTree.Surface.Citation,
 			lemmaKind,
 		);
-		const standardCitationSelectionFamily = ensureFamily(
-			schemaTree.Selection.Standard.Citation,
-			lemmaKind,
-		);
-		const typoCitationSelectionFamily = ensureFamily(
-			schemaTree.Selection.Typo.Citation,
+		const citationSelectionFamily = ensureFamily(
+			schemaTree.Selection.Citation,
 			lemmaKind,
 		);
 
@@ -357,10 +343,7 @@ export function buildLanguageSchema<L extends ConcreteLanguage>(
 
 			lemmaFamily[lemmaSubKind] = leaf.lemma;
 			citationSurfaceFamily[lemmaSubKind] = leaf.citationSurface;
-			standardCitationSelectionFamily[lemmaSubKind] =
-				leaf.citationSelection.Standard;
-			typoCitationSelectionFamily[lemmaSubKind] =
-				leaf.citationSelection.Typo;
+			citationSelectionFamily[lemmaSubKind] = leaf.citationSelection;
 
 			if (!leaf.inflectionSurface || !leaf.inflectionSelection) {
 				continue;
@@ -370,20 +353,13 @@ export function buildLanguageSchema<L extends ConcreteLanguage>(
 				schemaTree.Surface.Inflection,
 				lemmaKind,
 			);
-			const standardInflectionSelectionFamily = ensureFamily(
-				schemaTree.Selection.Standard.Inflection,
-				lemmaKind,
-			);
-			const typoInflectionSelectionFamily = ensureFamily(
-				schemaTree.Selection.Typo.Inflection,
+			const inflectionSelectionFamily = ensureFamily(
+				schemaTree.Selection.Inflection,
 				lemmaKind,
 			);
 
 			inflectionSurfaceFamily[lemmaSubKind] = leaf.inflectionSurface;
-			standardInflectionSelectionFamily[lemmaSubKind] =
-				leaf.inflectionSelection.Standard;
-			typoInflectionSelectionFamily[lemmaSubKind] =
-				leaf.inflectionSelection.Typo;
+			inflectionSelectionFamily[lemmaSubKind] = leaf.inflectionSelection;
 		}
 	}
 

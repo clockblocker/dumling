@@ -2,10 +2,8 @@ import type { AttestedSelection, Selection } from "dumling/types";
 
 const yerushalayimSelection = {
 	language: "he",
-	orthographicStatus: "Standard",
-	selectionCoverage: "Full",
 	spelledSelection: "ירושלים",
-	spellingRelation: "Canonical",
+
 	surface: {
 		language: "he",
 		normalizedFullSurface: "ירושלים",
@@ -24,10 +22,11 @@ const yerushalayimSelection = {
 			meaningInEmojis: "🏙️",
 		},
 	},
-} satisfies Selection<"he", "Standard", "Inflection", "Lexeme", "PROPN">;
+} satisfies Selection<"he", "Inflection", "Lexeme", "PROPN">;
 
 export const attestation = {
 	selection: yerushalayimSelection,
 	sentenceMarkdown: "[ירושלים] יפה בלילה.",
-	classifierNotes: "ירושלים is a proper noun with feminine inherent gender and singular surface number.",
+	classifierNotes:
+		"ירושלים is a proper noun with feminine inherent gender and singular surface number.",
 } as const satisfies AttestedSelection;

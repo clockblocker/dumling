@@ -2,10 +2,8 @@ import type { AttestedSelection, Selection } from "dumling/types";
 
 const shelGenitiveSelection = {
 	language: "he",
-	orthographicStatus: "Standard",
-	selectionCoverage: "Full",
 	spelledSelection: "של",
-	spellingRelation: "Canonical",
+
 	surface: {
 		language: "he",
 		normalizedFullSurface: "של",
@@ -21,7 +19,7 @@ const shelGenitiveSelection = {
 			meaningInEmojis: "🔗",
 		},
 	},
-} satisfies Selection<"he", "Standard", "Citation", "Lexeme", "ADP">;
+} satisfies Selection<"he", "Citation", "Lexeme", "ADP">;
 
 export const attestation = {
 	selection: shelGenitiveSelection,

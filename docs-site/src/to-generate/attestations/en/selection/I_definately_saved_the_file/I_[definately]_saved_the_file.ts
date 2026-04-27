@@ -2,10 +2,9 @@ import type { AttestedSelection, Selection } from "dumling/types";
 
 const definitelyTypoSelection = {
 	language: "en",
-	orthographicStatus: "Typo",
-	selectionCoverage: "Full",
+	selectionFeatures: { orthography: "Typo" },
 	spelledSelection: "definately",
-	spellingRelation: "Canonical",
+
 	surface: {
 		language: "en",
 		normalizedFullSurface: "definitely",
@@ -19,10 +18,11 @@ const definitelyTypoSelection = {
 			meaningInEmojis: "✅",
 		},
 	},
-} satisfies Selection<"en", "Typo", "Citation", "Lexeme", "ADV">;
+} satisfies Selection<"en", "Citation", "Lexeme", "ADV">;
 
 export const attestation = {
 	selection: definitelyTypoSelection,
 	sentenceMarkdown: "I [definately] saved the file.",
-	classifierNotes: "Definately is a typo of definitely; spellingRelation remains Canonical because the intended standard spelling is canonical, not a licensed variant.",
+	classifierNotes:
+		"Definately is a typo of definitely; spellingRelation remains Canonical because the intended standard spelling is canonical, not a licensed variant.",
 } as const satisfies AttestedSelection;

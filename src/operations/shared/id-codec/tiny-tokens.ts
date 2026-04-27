@@ -1,9 +1,6 @@
 import type {
 	LemmaKind,
 	LemmaSubKind,
-	OrthographicStatus,
-	SelectionCoverage,
-	SpellingRelation,
 	SupportedLanguage,
 	SurfaceKind,
 } from "../../../types/public-types";
@@ -43,21 +40,6 @@ export const surfaceKindTokens = {
 	Citation: "c",
 	Inflection: "i",
 } as const satisfies TokenMap<SurfaceKind>;
-
-export const orthographicStatusTokens = {
-	Standard: "st",
-	Typo: "ty",
-} as const satisfies TokenMap<OrthographicStatus>;
-
-export const selectionCoverageTokens = {
-	Full: "f",
-	Partial: "p",
-} as const satisfies TokenMap<SelectionCoverage>;
-
-export const spellingRelationTokens = {
-	Canonical: "c",
-	Variant: "v",
-} as const satisfies TokenMap<SpellingRelation>;
 
 export const lemmaKindTokens = {
 	Construction: "c",
@@ -119,6 +101,7 @@ export const featureNameTokens = {
 	governedCase: "gc",
 	hasGovPrep: "hgp",
 	hasSepPrefix: "hsp",
+	historicalStatus: "hs",
 	hebBinyan: "hb",
 	hebExistential: "he",
 	hyph: "hy",
@@ -128,6 +111,7 @@ export const featureNameTokens = {
 	number: "nu",
 	"number[psor]": "nps",
 	numType: "nt",
+	orthography: "ort",
 	partType: "pat",
 	person: "pe",
 	phrasal: "phr",
@@ -138,6 +122,8 @@ export const featureNameTokens = {
 	pronType: "prt",
 	punctType: "put",
 	reflex: "re",
+	coverage: "cov",
+	spelling: "spl",
 	style: "st",
 	tense: "te",
 	variant: "va",
@@ -215,6 +201,7 @@ export const featureValueTokens = {
 	},
 	hasGovPrep: {},
 	hasSepPrefix: {},
+	historicalStatus: { Archaic: "a" },
 	hebBinyan: {
 		HIFIL: "hif",
 		HITPAEL: "hit",
@@ -232,6 +219,7 @@ export const featureValueTokens = {
 	number: { Dual: "d", Plur: "p", Ptan: "pt", Sing: "s" },
 	"number[psor]": { Plur: "p", Sing: "s" },
 	numType: { Card: "c", Frac: "f", Mult: "m", Ord: "o", Range: "r" },
+	orthography: { Typo: "t" },
 	partType: { Inf: "i", Res: "r", Vbp: "v" },
 	person: { "1": "p1", "2": "p2", "3": "p3" },
 	phrasal: { Yes: "y" },
@@ -264,6 +252,8 @@ export const featureValueTokens = {
 		Quot: "qt",
 	},
 	reflex: { Yes: "y" },
+	coverage: { Partial: "p" },
+	spelling: { Variant: "v" },
 	style: { Arch: "a", Coll: "c", Expr: "e", Slng: "s", Vrnc: "v" },
 	tense: { Fut: "f", Past: "p", Pres: "pr" },
 	variant: { Short: "s" },
@@ -281,18 +271,6 @@ export const inverseEntityKindTokens = invert("entityKind", entityKindTokens);
 export const inverseSurfaceKindTokens = invert(
 	"surfaceKind",
 	surfaceKindTokens,
-);
-export const inverseOrthographicStatusTokens = invert(
-	"orthographicStatus",
-	orthographicStatusTokens,
-);
-export const inverseSelectionCoverageTokens = invert(
-	"selectionCoverage",
-	selectionCoverageTokens,
-);
-export const inverseSpellingRelationTokens = invert(
-	"spellingRelation",
-	spellingRelationTokens,
 );
 export const inverseLemmaKindTokens = invert("lemmaKind", lemmaKindTokens);
 export const inverseLemmaSubKindTokens = invert(

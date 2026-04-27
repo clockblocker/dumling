@@ -4,8 +4,7 @@ type EnCreateOperations = LanguageApi<"en">["create"];
 type EnCreateLemma = EnCreateOperations["lemma"];
 type EnCreateCitationSurface = EnCreateOperations["surface"]["citation"];
 type EnCreateInflectionSurface = EnCreateOperations["surface"]["inflection"];
-type EnCreateStandardSelection = EnCreateOperations["selection"]["standard"];
-type EnCreateTypoSelection = EnCreateOperations["selection"]["typo"];
+type EnCreateSelection = EnCreateOperations["selection"];
 
 export function buildEnCreateOperations(): LanguageApi<"en">["create"] {
 	const createLemma: EnCreateLemma = (input) =>
@@ -23,6 +22,7 @@ export function buildEnCreateOperations(): LanguageApi<"en">["create"] {
 			language: input.lemma.language,
 			normalizedFullSurface: input.normalizedFullSurface,
 			surfaceKind: "Citation",
+			surfaceFeatures: input.surfaceFeatures,
 			lemma: input.lemma,
 		}) as never;
 
@@ -31,27 +31,16 @@ export function buildEnCreateOperations(): LanguageApi<"en">["create"] {
 			language: input.lemma.language,
 			normalizedFullSurface: input.normalizedFullSurface,
 			surfaceKind: "Inflection",
+			surfaceFeatures: input.surfaceFeatures,
 			lemma: input.lemma,
 			inflectionalFeatures: input.inflectionalFeatures,
 		}) as never;
 
-	const createStandardSelection: EnCreateStandardSelection = (input) =>
+	const createSelection: EnCreateSelection = (input) =>
 		({
 			language: input.surface.language,
-			orthographicStatus: "Standard",
-			selectionCoverage: input.selectionCoverage,
+			selectionFeatures: input.selectionFeatures,
 			spelledSelection: input.spelledSelection,
-			spellingRelation: input.spellingRelation,
-			surface: input.surface,
-		}) as never;
-
-	const createTypoSelection: EnCreateTypoSelection = (input) =>
-		({
-			language: input.surface.language,
-			orthographicStatus: "Typo",
-			selectionCoverage: input.selectionCoverage,
-			spelledSelection: input.spelledSelection,
-			spellingRelation: input.spellingRelation,
 			surface: input.surface,
 		}) as never;
 
@@ -61,9 +50,6 @@ export function buildEnCreateOperations(): LanguageApi<"en">["create"] {
 			citation: createCitationSurface,
 			inflection: createInflectionSurface,
 		},
-		selection: {
-			standard: createStandardSelection,
-			typo: createTypoSelection,
-		},
+		selection: createSelection,
 	};
 }

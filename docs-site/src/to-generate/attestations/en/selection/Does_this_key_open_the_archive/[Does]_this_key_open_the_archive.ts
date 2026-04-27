@@ -2,10 +2,8 @@ import type { AttestedSelection, Selection } from "dumling/types";
 
 const doesAuxSelection = {
 	language: "en",
-	orthographicStatus: "Standard",
-	selectionCoverage: "Full",
 	spelledSelection: "Does",
-	spellingRelation: "Canonical",
+
 	surface: {
 		language: "en",
 		normalizedFullSurface: "does",
@@ -26,10 +24,11 @@ const doesAuxSelection = {
 			meaningInEmojis: "❓",
 		},
 	},
-} satisfies Selection<"en", "Standard", "Inflection", "Lexeme", "AUX">;
+} satisfies Selection<"en", "Inflection", "Lexeme", "AUX">;
 
 export const attestation = {
 	selection: doesAuxSelection,
 	sentenceMarkdown: "[Does] this key open the archive?",
-	classifierNotes: "Sentence-initial Does keeps normalizedFullSurface lowercase while spelledSelection preserves casing.",
+	classifierNotes:
+		"Sentence-initial Does keeps normalizedFullSurface lowercase while spelledSelection preserves casing.",
 } as const satisfies AttestedSelection;

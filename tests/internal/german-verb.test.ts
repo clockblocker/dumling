@@ -5,28 +5,24 @@ import { makeLexemeSurfaceReference } from "../helpers";
 describe("German verb schemas", () => {
 	it("accept supported verb inflectional and inherent features", () => {
 		expect(
-			schemasFor.de.entity.Selection.Standard.Inflection.Lexeme.VERB().safeParse(
-				{
+			schemasFor.de.entity.Selection.Inflection.Lexeme.VERB().safeParse({
+				language: "de",
+				spelledSelection: "ging",
+
+				surface: {
+					...makeLexemeSurfaceReference("de", "VERB", "gehen"),
 					language: "de",
-					orthographicStatus: "Standard",
-					selectionCoverage: "Full",
-					spelledSelection: "ging",
-					spellingRelation: "Canonical",
-					surface: {
-						...makeLexemeSurfaceReference("de", "VERB", "gehen"),
-						language: "de",
-						normalizedFullSurface: "ging",
-						surfaceKind: "Inflection",
-						inflectionalFeatures: {
-							mood: "Sub",
-							number: "Sing",
-							person: "3",
-							tense: "Past",
-							verbForm: "Fin",
-						},
+					normalizedFullSurface: "ging",
+					surfaceKind: "Inflection",
+					inflectionalFeatures: {
+						mood: "Sub",
+						number: "Sing",
+						person: "3",
+						tense: "Past",
+						verbForm: "Fin",
 					},
 				},
-			).success,
+			}).success,
 		).toBe(true);
 
 		expect(
@@ -71,52 +67,44 @@ describe("German verb schemas", () => {
 		).toBe(false);
 
 		expect(
-			schemasFor.de.entity.Selection.Standard.Inflection.Lexeme.VERB().safeParse(
-				{
+			schemasFor.de.entity.Selection.Inflection.Lexeme.VERB().safeParse({
+				language: "de",
+				spelledSelection: "geht",
+
+				surface: {
+					...makeLexemeSurfaceReference("de", "VERB", "gehen"),
 					language: "de",
-					orthographicStatus: "Standard",
-					selectionCoverage: "Full",
-					spelledSelection: "geht",
-					spellingRelation: "Canonical",
-					surface: {
-						...makeLexemeSurfaceReference("de", "VERB", "gehen"),
-						language: "de",
-						normalizedFullSurface: "geht",
-						surfaceKind: "Inflection",
-						inflectionalFeatures: {
-							gender: "Fem",
-							mood: "Ind",
-							number: "Sing",
-							person: "3",
-							tense: "Pres",
-							verbForm: "Fin",
-						},
+					normalizedFullSurface: "geht",
+					surfaceKind: "Inflection",
+					inflectionalFeatures: {
+						gender: "Fem",
+						mood: "Ind",
+						number: "Sing",
+						person: "3",
+						tense: "Pres",
+						verbForm: "Fin",
 					},
 				},
-			).success,
+			}).success,
 		).toBe(false);
 
 		expect(
-			schemasFor.de.entity.Selection.Standard.Inflection.Lexeme.VERB().safeParse(
-				{
+			schemasFor.de.entity.Selection.Inflection.Lexeme.VERB().safeParse({
+				language: "de",
+				spelledSelection: "geh",
+
+				surface: {
+					...makeLexemeSurfaceReference("de", "VERB", "gehen"),
 					language: "de",
-					orthographicStatus: "Standard",
-					selectionCoverage: "Full",
-					spelledSelection: "geh",
-					spellingRelation: "Canonical",
-					surface: {
-						...makeLexemeSurfaceReference("de", "VERB", "gehen"),
-						language: "de",
-						normalizedFullSurface: "geh",
-						surfaceKind: "Inflection",
-						inflectionalFeatures: {
-							mood: "Imp",
-							tense: "Past",
-							verbForm: "Fin",
-						},
+					normalizedFullSurface: "geh",
+					surfaceKind: "Inflection",
+					inflectionalFeatures: {
+						mood: "Imp",
+						tense: "Past",
+						verbForm: "Fin",
 					},
 				},
-			).success,
+			}).success,
 		).toBe(false);
 	});
 
@@ -125,7 +113,7 @@ describe("German verb schemas", () => {
 			"function",
 		);
 		expect(
-			typeof schemasFor.de.entity.Selection.Standard.Inflection.Lexeme.VERB()
+			typeof schemasFor.de.entity.Selection.Inflection.Lexeme.VERB()
 				.parse,
 		).toBe("function");
 	});

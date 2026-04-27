@@ -1,9 +1,12 @@
 import { mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
-import { parseFrontmatter } from "./frontmatter";
-import { generatedRouteIdForPath, publicMarkdownPathForRouteId } from "./routes";
 import { listMarkdownFiles, removeEmptyDirectories } from "../shared/fs";
 import { generatedDocsDir, publicDir } from "../shared/paths";
+import { parseFrontmatter } from "./frontmatter";
+import {
+	generatedRouteIdForPath,
+	publicMarkdownPathForRouteId,
+} from "./routes";
 
 export function writeNavFiles(): void {
 	const navItems = listMarkdownFiles(generatedDocsDir)
@@ -31,9 +34,7 @@ export function writeNavFiles(): void {
 		.map((page) => ({
 			href: page.routeId === "index" ? "/" : `/${page.routeId}/`,
 			mdHref:
-				page.routeId === "index"
-					? "/index.md"
-					: `/${page.routeId}.md`,
+				page.routeId === "index" ? "/index.md" : `/${page.routeId}.md`,
 			title: page.frontmatter.title,
 		}));
 
@@ -60,7 +61,10 @@ export function removeGeneratedDocOutputs(): void {
 		rmSync(publicMarkdownPathForRouteId(routeId), { force: true });
 	}
 
-	for (const navPath of [join(publicDir, "nav.json"), join(publicDir, "nav.md")]) {
+	for (const navPath of [
+		join(publicDir, "nav.json"),
+		join(publicDir, "nav.md"),
+	]) {
 		rmSync(navPath, { force: true });
 	}
 

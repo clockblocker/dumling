@@ -4,8 +4,7 @@ type DeCreateOperations = LanguageApi<"de">["create"];
 type DeCreateLemma = DeCreateOperations["lemma"];
 type DeCreateCitationSurface = DeCreateOperations["surface"]["citation"];
 type DeCreateInflectionSurface = DeCreateOperations["surface"]["inflection"];
-type DeCreateStandardSelection = DeCreateOperations["selection"]["standard"];
-type DeCreateTypoSelection = DeCreateOperations["selection"]["typo"];
+type DeCreateSelection = DeCreateOperations["selection"];
 
 export function buildDeCreateOperations(): LanguageApi<"de">["create"] {
 	const createLemma: DeCreateLemma = (input) =>
@@ -23,6 +22,7 @@ export function buildDeCreateOperations(): LanguageApi<"de">["create"] {
 			language: input.lemma.language,
 			normalizedFullSurface: input.normalizedFullSurface,
 			surfaceKind: "Citation",
+			surfaceFeatures: input.surfaceFeatures,
 			lemma: input.lemma,
 		}) as never;
 
@@ -31,27 +31,16 @@ export function buildDeCreateOperations(): LanguageApi<"de">["create"] {
 			language: input.lemma.language,
 			normalizedFullSurface: input.normalizedFullSurface,
 			surfaceKind: "Inflection",
+			surfaceFeatures: input.surfaceFeatures,
 			lemma: input.lemma,
 			inflectionalFeatures: input.inflectionalFeatures,
 		}) as never;
 
-	const createStandardSelection: DeCreateStandardSelection = (input) =>
+	const createSelection: DeCreateSelection = (input) =>
 		({
 			language: input.surface.language,
-			orthographicStatus: "Standard",
-			selectionCoverage: input.selectionCoverage,
+			selectionFeatures: input.selectionFeatures,
 			spelledSelection: input.spelledSelection,
-			spellingRelation: input.spellingRelation,
-			surface: input.surface,
-		}) as never;
-
-	const createTypoSelection: DeCreateTypoSelection = (input) =>
-		({
-			language: input.surface.language,
-			orthographicStatus: "Typo",
-			selectionCoverage: input.selectionCoverage,
-			spelledSelection: input.spelledSelection,
-			spellingRelation: input.spellingRelation,
 			surface: input.surface,
 		}) as never;
 
@@ -61,10 +50,7 @@ export function buildDeCreateOperations(): LanguageApi<"de">["create"] {
 			citation: createCitationSurface,
 			inflection: createInflectionSurface,
 		},
-		selection: {
-			standard: createStandardSelection,
-			typo: createTypoSelection,
-		},
+		selection: createSelection,
 	};
 
 	return operations;

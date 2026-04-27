@@ -8,42 +8,35 @@ import {
 // Attestation: "הם [כתבו] מכתב."
 export const hebrewKatvuStandardFullSelection = {
 	language: "he",
-	orthographicStatus: "Standard",
-	selectionCoverage: "Full",
 	spelledSelection: "כתבו",
-	spellingRelation: "Canonical",
+
 	surface: hebrewKatvuInflectionSurface,
-} satisfies Selection<"he", "Standard", "Inflection", "Lexeme", "VERB">;
+} satisfies Selection<"he", "Inflection", "Lexeme", "VERB">;
 
 // Attestation: "עוד [שנה] עברה."
 export const hebrewShanaCitationSelection = {
 	language: "he",
-	orthographicStatus: "Standard",
-	selectionCoverage: "Full",
 	spelledSelection: "שנה",
-	spellingRelation: "Canonical",
+
 	surface: hebrewShanaCitationSurface,
-} satisfies Selection<"he", "Standard", "Citation", "Lexeme", "NOUN">;
+} satisfies Selection<"he", "Citation", "Lexeme", "NOUN">;
 
 // Attestation: "[ארה״ב] הודיעה על צעד חדש."
 export const hebrewUsAbbreviationSelection = {
 	language: "he",
-	orthographicStatus: "Standard",
-	selectionCoverage: "Full",
 	spelledSelection: "ארה״ב",
-	spellingRelation: "Canonical",
+
 	surface: hebrewUsAbbreviationCitationSurface,
-} satisfies Selection<"he", "Standard", "Citation", "Lexeme", "PROPN">;
+} satisfies Selection<"he", "Citation", "Lexeme", "PROPN">;
 
 // Attestation: "הם [כָּתְבוּ] מכתב."
 export const hebrewKatvuPointedVariantSelection = {
 	language: "he",
-	orthographicStatus: "Standard",
-	selectionCoverage: "Full",
+	selectionFeatures: { spelling: "Variant" },
 	spelledSelection: "כָּתְבוּ",
-	spellingRelation: "Variant",
+
 	surface: {
 		...hebrewKatvuInflectionSurface,
 		normalizedFullSurface: "כָּתְבוּ",
 	},
-} satisfies Selection<"he", "Standard", "Inflection", "Lexeme", "VERB">;
+} satisfies Selection<"he", "Inflection", "Lexeme", "VERB">;

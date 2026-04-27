@@ -2,10 +2,8 @@ import type { AttestedSelection, Selection } from "dumling/types";
 
 const deSelection021 = {
 	language: "de",
-	orthographicStatus: "Standard",
-	selectionCoverage: "Full",
 	spelledSelection: "wartet",
-	spellingRelation: "Canonical",
+
 	surface: {
 		language: "de",
 		normalizedFullSurface: "wartet",
@@ -28,11 +26,12 @@ const deSelection021 = {
 			meaningInEmojis: "⏳",
 		},
 	},
-} satisfies Selection<"de", "Standard", "Inflection", "Lexeme", "VERB">;
+} satisfies Selection<"de", "Inflection", "Lexeme", "VERB">;
 
 export const attestation = {
 	selection: deSelection021,
 	sentenceMarkdown: "Er [wartet] auf den Nachtbus.",
-	classifierNotes: "The governed preposition auf is an inherent lemma feature, not part of the surface selection.",
+	classifierNotes:
+		"The governed preposition auf is an inherent lemma feature, not part of the surface selection.",
 	isVerified: true,
 } as const satisfies AttestedSelection;

@@ -1,6 +1,6 @@
 import type { EntityValue } from "../../../../../src/types/public-types.ts";
-import { lemmaForEntity } from "../entity/helpers";
 import { isSelection, isSurface } from "../entity/guards";
+import { lemmaForEntity } from "../entity/helpers";
 
 export function classificationLinesForEntity(entity: EntityValue): string[] {
 	const lemma = lemmaForEntity(entity);

@@ -2,10 +2,8 @@ import type { AttestedSelection, Selection } from "dumling/types";
 
 const walkSelection = {
 	language: "en",
-	orthographicStatus: "Standard",
-	selectionCoverage: "Full",
 	spelledSelection: "walk",
-	spellingRelation: "Canonical",
+
 	surface: {
 		language: "en",
 		normalizedFullSurface: "walk",
@@ -19,7 +17,7 @@ const walkSelection = {
 			meaningInEmojis: "🚶",
 		},
 	},
-} satisfies Selection<"en", "Standard", "Citation", "Lexeme", "NOUN">;
+} satisfies Selection<"en", "Citation", "Lexeme", "NOUN">;
 
 export const attestation = {
 	selection: walkSelection,

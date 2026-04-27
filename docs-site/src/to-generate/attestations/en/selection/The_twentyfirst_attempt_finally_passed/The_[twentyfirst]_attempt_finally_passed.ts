@@ -2,10 +2,8 @@ import type { AttestedSelection, Selection } from "dumling/types";
 
 const twentyFirstAdjectiveOrdinalSelection = {
 	language: "en",
-	orthographicStatus: "Standard",
-	selectionCoverage: "Full",
 	spelledSelection: "twenty-first",
-	spellingRelation: "Canonical",
+
 	surface: {
 		language: "en",
 		normalizedFullSurface: "twenty-first",
@@ -22,10 +20,11 @@ const twentyFirstAdjectiveOrdinalSelection = {
 			meaningInEmojis: "🔢",
 		},
 	},
-} satisfies Selection<"en", "Standard", "Citation", "Lexeme", "ADJ">;
+} satisfies Selection<"en", "Citation", "Lexeme", "ADJ">;
 
 export const attestation = {
 	selection: twentyFirstAdjectiveOrdinalSelection,
 	sentenceMarkdown: "The [twenty-first] attempt finally passed.",
-	classifierNotes: "The hyphenated ordinal modifying a noun is ADJ with ordinal number features.",
+	classifierNotes:
+		"The hyphenated ordinal modifying a noun is ADJ with ordinal number features.",
 } as const satisfies AttestedSelection;

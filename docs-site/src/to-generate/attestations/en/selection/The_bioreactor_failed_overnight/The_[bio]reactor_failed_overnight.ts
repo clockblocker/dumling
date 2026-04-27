@@ -2,10 +2,9 @@ import type { AttestedSelection, Selection } from "dumling/types";
 
 const bioRootPartialSelection = {
 	language: "en",
-	orthographicStatus: "Standard",
-	selectionCoverage: "Partial",
+	selectionFeatures: { coverage: "Partial" },
 	spelledSelection: "bio",
-	spellingRelation: "Canonical",
+
 	surface: {
 		language: "en",
 		normalizedFullSurface: "bio",
@@ -19,10 +18,11 @@ const bioRootPartialSelection = {
 			meaningInEmojis: "🧬",
 		},
 	},
-} satisfies Selection<"en", "Standard", "Citation", "Morpheme", "Root">;
+} satisfies Selection<"en", "Citation", "Morpheme", "Root">;
 
 export const attestation = {
 	selection: bioRootPartialSelection,
 	sentenceMarkdown: "The [bio]reactor failed overnight.",
-	classifierNotes: "Bio is modeled as a bound root in bioreactor, not as a free clipping of biography.",
+	classifierNotes:
+		"Bio is modeled as a bound root in bioreactor, not as a free clipping of biography.",
 } as const satisfies AttestedSelection;

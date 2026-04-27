@@ -58,14 +58,14 @@ function canonicalizeEntity<L extends SupportedLanguage>(
 					"Invalid Selection ID input",
 				)
 			: "surfaceKind" in value
-			? assertParseSuccess(
-					parse.surface(value),
-					"Invalid Surface ID input",
-				)
-			: assertParseSuccess(
-					parse.lemma(value),
-					"Invalid Lemma ID input",
-				);
+				? assertParseSuccess(
+						parse.surface(value),
+						"Invalid Surface ID input",
+					)
+				: assertParseSuccess(
+						parse.lemma(value),
+						"Invalid Lemma ID input",
+					);
 
 	assertEntityIdFeatureConstraints(parsed);
 	return parsed;

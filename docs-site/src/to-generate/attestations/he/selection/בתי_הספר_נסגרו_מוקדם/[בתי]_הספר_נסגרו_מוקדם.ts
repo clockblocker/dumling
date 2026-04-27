@@ -2,10 +2,8 @@ import type { AttestedSelection, Selection } from "dumling/types";
 
 const bateiConstructSelection = {
 	language: "he",
-	orthographicStatus: "Standard",
-	selectionCoverage: "Full",
 	spelledSelection: "בתי",
-	spellingRelation: "Canonical",
+
 	surface: {
 		language: "he",
 		normalizedFullSurface: "בתי",
@@ -25,10 +23,11 @@ const bateiConstructSelection = {
 			meaningInEmojis: "🏠",
 		},
 	},
-} satisfies Selection<"he", "Standard", "Inflection", "Lexeme", "NOUN">;
+} satisfies Selection<"he", "Inflection", "Lexeme", "NOUN">;
 
 export const attestation = {
 	selection: bateiConstructSelection,
 	sentenceMarkdown: "[בתי] הספר נסגרו מוקדם.",
-	classifierNotes: "בתי is the construct plural of בית, using definite Cons and number Plur.",
+	classifierNotes:
+		"בתי is the construct plural of בית, using definite Cons and number Plur.",
 } as const satisfies AttestedSelection;

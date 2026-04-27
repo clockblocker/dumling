@@ -2,10 +2,9 @@ import type { AttestedSelection, Selection } from "dumling/types";
 
 const imaVariantSelection = {
 	language: "he",
-	orthographicStatus: "Standard",
-	selectionCoverage: "Full",
+	selectionFeatures: { spelling: "Variant" },
 	spelledSelection: "אמא",
-	spellingRelation: "Variant",
+
 	surface: {
 		language: "he",
 		normalizedFullSurface: "אימא",
@@ -21,10 +20,11 @@ const imaVariantSelection = {
 			meaningInEmojis: "👩",
 		},
 	},
-} satisfies Selection<"he", "Standard", "Citation", "Lexeme", "NOUN">;
+} satisfies Selection<"he", "Citation", "Lexeme", "NOUN">;
 
 export const attestation = {
 	selection: imaVariantSelection,
 	sentenceMarkdown: "[אמא] התקשרה.",
-	classifierNotes: "This captures an accepted spelling variant: selected spelling אמא, normalized surface אימא, spellingRelation Variant.",
+	classifierNotes:
+		"This captures an accepted spelling variant: selected spelling אמא, normalized surface אימא, spellingRelation Variant.",
 } as const satisfies AttestedSelection;

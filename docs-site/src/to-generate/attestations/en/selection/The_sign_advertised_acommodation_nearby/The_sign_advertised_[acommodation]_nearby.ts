@@ -2,10 +2,9 @@ import type { AttestedSelection, Selection } from "dumling/types";
 
 const accommodationTypoPartialSelection = {
 	language: "en",
-	orthographicStatus: "Typo",
-	selectionCoverage: "Full",
+	selectionFeatures: { orthography: "Typo" },
 	spelledSelection: "acommodation",
-	spellingRelation: "Canonical",
+
 	surface: {
 		language: "en",
 		normalizedFullSurface: "accommodation",
@@ -19,10 +18,11 @@ const accommodationTypoPartialSelection = {
 			meaningInEmojis: "🏨",
 		},
 	},
-} satisfies Selection<"en", "Typo", "Citation", "Lexeme", "NOUN">;
+} satisfies Selection<"en", "Citation", "Lexeme", "NOUN">;
 
 export const attestation = {
 	selection: accommodationTypoPartialSelection,
 	sentenceMarkdown: "The sign advertised [acommodation] nearby.",
-	classifierNotes: "Acommodation is represented as Typo with normalized surface accommodation; no edit-distance metadata exists.",
+	classifierNotes:
+		"Acommodation is represented as Typo with normalized surface accommodation; no edit-distance metadata exists.",
 } as const satisfies AttestedSelection;

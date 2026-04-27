@@ -2,10 +2,8 @@ import type { AttestedSelection, Selection } from "dumling/types";
 
 const deSelection037 = {
 	language: "de",
-	orthographicStatus: "Standard",
-	selectionCoverage: "Full",
 	spelledSelection: "Wegen",
-	spellingRelation: "Canonical",
+
 	surface: {
 		language: "de",
 		normalizedFullSurface: "wegen",
@@ -22,12 +20,13 @@ const deSelection037 = {
 			meaningInEmojis: "🌧️",
 		},
 	},
-} satisfies Selection<"de", "Standard", "Citation", "Lexeme", "ADP">;
+} satisfies Selection<"de", "Citation", "Lexeme", "ADP">;
 
 export const attestation = {
 	selection: deSelection037,
 	sentenceMarkdown: "[Wegen] dem Regen kamen wir zu spät.",
-	classifierNotes: "This is the normative genitive-governing adposition even though the complement phrase is colloquially dative.",
+	classifierNotes:
+		"This is the normative genitive-governing adposition even though the complement phrase is colloquially dative.",
 	classificationMistakes:
 		"`meaningInEmojis` points to the surrounding rain scene (`🌧️`) instead of to the selected adposition `wegen` itself.",
 } as const satisfies AttestedSelection;

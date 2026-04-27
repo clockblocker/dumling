@@ -3,7 +3,6 @@ import type {
 	LemmaKindFor,
 	LemmaKindForSurfaceKind,
 	LemmaSubKindFor,
-	OrthographicStatus,
 	Selection,
 	SupportedLanguage,
 	Surface,
@@ -72,13 +71,11 @@ export type RawSurfaceSchemaSubtree<L extends SupportedLanguage> = {
 };
 
 export type RawSelectionSchemaSubtree<L extends SupportedLanguage> = {
-	[OS in OrthographicStatus]: {
-		[SK in SurfaceKindFor<L>]: {
-			[LK in LemmaKindForSurfaceKind<L, SK>]: {
-				[LSK in LemmaSubKindForSurfaceKind<L, SK, LK>]: z.ZodType<
-					Selection<L, OS, SK, LK, LSK>
-				>;
-			};
+	[SK in SurfaceKindFor<L>]: {
+		[LK in LemmaKindForSurfaceKind<L, SK>]: {
+			[LSK in LemmaSubKindForSurfaceKind<L, SK, LK>]: z.ZodType<
+				Selection<L, SK, LK, LSK>
+			>;
 		};
 	};
 };
@@ -106,13 +103,11 @@ export type SurfaceSchemaSubtree<L extends SupportedLanguage> = {
 };
 
 export type SelectionSchemaSubtree<L extends SupportedLanguage> = {
-	[OS in OrthographicStatus]: {
-		[SK in SurfaceKindFor<L>]: {
-			[LK in LemmaKindForSurfaceKind<L, SK>]: {
-				[LSK in LemmaSubKindForSurfaceKind<L, SK, LK>]: SchemaGetter<
-					Selection<L, OS, SK, LK, LSK>
-				>;
-			};
+	[SK in SurfaceKindFor<L>]: {
+		[LK in LemmaKindForSurfaceKind<L, SK>]: {
+			[LSK in LemmaSubKindForSurfaceKind<L, SK, LK>]: SchemaGetter<
+				Selection<L, SK, LK, LSK>
+			>;
 		};
 	};
 };
@@ -144,17 +139,11 @@ export type SurfaceDescriptorSchemaSubtree<L extends SupportedLanguage> = {
 };
 
 export type SelectionDescriptorSchemaSubtree<L extends SupportedLanguage> = {
-	[OS in OrthographicStatus]: {
-		[SK in SurfaceKindFor<L>]: {
-			[LK in LemmaKindForSurfaceKind<L, SK>]: {
-				[LSK in LemmaSubKindForSurfaceKind<
-					L,
-					SK,
-					LK
-				>]: DescriptorSchema<
-					Descriptor<"Selection", L, LK, LSK, SK, OS>
-				>;
-			};
+	[SK in SurfaceKindFor<L>]: {
+		[LK in LemmaKindForSurfaceKind<L, SK>]: {
+			[LSK in LemmaSubKindForSurfaceKind<L, SK, LK>]: DescriptorSchema<
+				Descriptor<"Selection", L, LK, LSK, SK>
+			>;
 		};
 	};
 };

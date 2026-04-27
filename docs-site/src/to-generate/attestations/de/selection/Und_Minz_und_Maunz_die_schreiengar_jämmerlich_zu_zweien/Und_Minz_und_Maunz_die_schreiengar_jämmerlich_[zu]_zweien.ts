@@ -2,10 +2,8 @@ import type { AttestedSelection, Selection } from "dumling/types";
 
 const deSelection = {
 	language: "de",
-	orthographicStatus: "Standard",
-	selectionCoverage: "Full",
 	spelledSelection: "zu",
-	spellingRelation: "Canonical",
+
 	surface: {
 		language: "de",
 		normalizedFullSurface: "zu",
@@ -22,7 +20,7 @@ const deSelection = {
 			meaningInEmojis: "👥",
 		},
 	},
-} satisfies Selection<"de", "Standard", "Citation", "Lexeme", "ADP">;
+} satisfies Selection<"de", "Citation", "Lexeme", "ADP">;
 
 export const attestation = {
 	selection: deSelection,

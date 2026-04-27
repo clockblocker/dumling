@@ -69,12 +69,12 @@ describe("published package entrypoints", () => {
 			if (!parsed.success) throw new Error(parsed.error.message);
 			const decoded = dumling.de.id.decode.asSelection(dumling.de.id.encode.asBase64Url(parsed.data));
 			if (!decoded.success) throw new Error(decoded.error.message);
-			const staticSchema = schemasFor.de.entity.Selection.Standard.Citation.Lexeme.NOUN();
-			const dynamicSchema = getSchemaTreeFor("de").entity.Selection.Standard.Citation.Lexeme.NOUN();
+			const staticSchema = schemasFor.de.entity.Selection.Citation.Lexeme.NOUN();
+			const dynamicSchema = getSchemaTreeFor("de").entity.Selection.Citation.Lexeme.NOUN();
 			if (typeof staticSchema.parse !== "function") throw new Error("schema entrypoint is missing german schemas");
 			staticSchema.parse(parsed.data);
 			dynamicSchema.parse(parsed.data);
-			if (schemasFor.de.entity.Selection.Standard.Citation.Lexeme.NOUN() !== staticSchema) throw new Error("leaf getter should return the stable schema object");
+			if (schemasFor.de.entity.Selection.Citation.Lexeme.NOUN() !== staticSchema) throw new Error("leaf getter should return the stable schema object");
 			if (getSchemaTreeFor("de") !== schemasFor.de) throw new Error("dynamic schema accessor must return registry object");
 			schemasFor.de.descriptor.Lemma.Lexeme.NOUN.parse({ language: "de", lemmaKind: "Lexeme", lemmaSubKind: "NOUN" });
 			abstractSchemas.descriptor.Lemma.parse({ language: "fr", lemmaKind: "Lexeme", lemmaSubKind: "NOUN" });
@@ -126,7 +126,7 @@ describe("published package entrypoints", () => {
 					'const entityValue: EntityValue<"de"> = parsed.data;',
 					'const selectionValue: Selection<"de"> = decoded.data.selection;',
 					'const entityForKind: EntityForKind<"de", "Selection"> = parsed.data;',
-					'const selectionOptions: SelectionOptionsFor<"Standard"> = { spelledSelection: "See" };',
+					'const selectionOptions: SelectionOptionsFor = { spelledSelection: "See" };',
 					"declare const parseError: ParseError;",
 					"void entityValue;",
 					"void selectionValue;",
@@ -135,21 +135,21 @@ describe("published package entrypoints", () => {
 					"void selectionDescriptorCsv;",
 					"void parseError;",
 					'const nounLemmaSchema: z.ZodType<Lemma<"de", "Lexeme", "NOUN">> = schemasFor.de.entity.Lemma.Lexeme.NOUN();',
-					'const nounSelectionSchema: z.ZodType<Selection<"de", "Standard", "Citation", "Lexeme", "NOUN">> = schemasFor.de.entity.Selection.Standard.Citation.Lexeme.NOUN();',
+					'const nounSelectionSchema: z.ZodType<Selection<"de", "Citation", "Lexeme", "NOUN">> = schemasFor.de.entity.Selection.Citation.Lexeme.NOUN();',
 					'const nounLemmaDescriptorSchema: z.ZodType<Descriptor<"Lemma", "de", "Lexeme", "NOUN">> = schemasFor.de.descriptor.Lemma.Lexeme.NOUN;',
 					"const abstractLemmaSchema: z.ZodType<AbstractLemma<string>> = abstractSchemas.entity.Lemma;",
 					'const deTree = getSchemaTreeFor("de");',
-					"deTree.entity.Selection.Standard.Citation.Lexeme.NOUN();",
+					"deTree.entity.Selection.Citation.Lexeme.NOUN();",
 					'deTree.descriptor.Lemma.Lexeme.NOUN.parse({ language: "de", lemmaKind: "Lexeme", lemmaSubKind: "NOUN" });',
 					"declare const language: SupportedLanguage;",
 					"const languageTree = getSchemaTreeFor(language);",
-					"languageTree.entity.Selection.Standard.Citation.Lexeme.NOUN();",
-					"getSchemaTreeFor(language).entity.Selection.Standard.Citation.Lexeme.NOUN();",
+					"languageTree.entity.Selection.Citation.Lexeme.NOUN();",
+					"getSchemaTreeFor(language).entity.Selection.Citation.Lexeme.NOUN();",
 					"nounLemmaSchema.parse(lemma);",
 					"nounSelectionSchema.parse(parsed.data);",
 					'nounLemmaDescriptorSchema.parse({ language: "de", lemmaKind: "Lexeme", lemmaSubKind: "NOUN" });',
 					'abstractLemmaSchema.parse({ language: "fr", canonicalLemma: "aller", lemmaKind: "Lexeme", lemmaSubKind: "VERB", inherentFeatures: {}, meaningInEmojis: "🚶" });',
-					"schemasFor.de.entity.Selection.Standard.Citation.Lexeme.NOUN().parse(parsed.data);",
+					"schemasFor.de.entity.Selection.Citation.Lexeme.NOUN().parse(parsed.data);",
 				].join("\n"),
 			);
 			writeFileSync(

@@ -2,10 +2,8 @@ import type { AttestedSelection, Selection } from "dumling/types";
 
 const covidXTokenSelection = {
 	language: "en",
-	orthographicStatus: "Standard",
-	selectionCoverage: "Full",
 	spelledSelection: "COVID-ish",
-	spellingRelation: "Canonical",
+
 	surface: {
 		language: "en",
 		normalizedFullSurface: "COVID-ish",
@@ -21,10 +19,11 @@ const covidXTokenSelection = {
 			meaningInEmojis: "🧪",
 		},
 	},
-} satisfies Selection<"en", "Standard", "Citation", "Lexeme", "X">;
+} satisfies Selection<"en", "Citation", "Lexeme", "X">;
 
 export const attestation = {
 	selection: covidXTokenSelection,
 	sentenceMarkdown: "The report says [COVID-ish] twice.",
-	classifierNotes: "The hybrid nonce token is X with Foreign=Yes because it resists clean POS assignment in isolation.",
+	classifierNotes:
+		"The hybrid nonce token is X with Foreign=Yes because it resists clean POS assignment in isolation.",
 } as const satisfies AttestedSelection;

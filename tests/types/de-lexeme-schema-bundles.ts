@@ -12,8 +12,8 @@ schemasFor.de.entity.Surface.Citation.Lexeme.ADP() satisfies z.ZodType<
 	Surface<"de", "Citation", "Lexeme", "ADP">
 >;
 
-schemasFor.de.entity.Selection.Typo.Citation.Lexeme.ADP() satisfies z.ZodType<
-	Selection<"de", "Typo", "Citation", "Lexeme", "ADP">
+schemasFor.de.entity.Selection.Citation.Lexeme.ADP() satisfies z.ZodType<
+	Selection<"de", "Citation", "Lexeme", "ADP">
 >;
 
 schemasFor.de.entity.Surface.Inflection.Lexeme.ADJ() satisfies z.ZodType<

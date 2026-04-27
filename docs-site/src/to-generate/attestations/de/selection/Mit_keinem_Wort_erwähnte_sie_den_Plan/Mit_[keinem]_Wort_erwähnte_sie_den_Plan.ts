@@ -2,10 +2,8 @@ import type { AttestedSelection, Selection } from "dumling/types";
 
 const deSelection035 = {
 	language: "de",
-	orthographicStatus: "Standard",
-	selectionCoverage: "Full",
 	spelledSelection: "keinem",
-	spellingRelation: "Canonical",
+
 	surface: {
 		language: "de",
 		normalizedFullSurface: "keinem",
@@ -26,11 +24,12 @@ const deSelection035 = {
 			meaningInEmojis: "🚫",
 		},
 	},
-} satisfies Selection<"de", "Standard", "Inflection", "Lexeme", "DET">;
+} satisfies Selection<"de", "Inflection", "Lexeme", "DET">;
 
 export const attestation = {
 	selection: deSelection035,
 	sentenceMarkdown: "Mit [keinem] Wort erwähnte sie den Plan.",
-	classifierNotes: "Keinem is a negative determiner rather than a pronoun because it modifies Wort.",
+	classifierNotes:
+		"Keinem is a negative determiner rather than a pronoun because it modifies Wort.",
 	isVerified: true,
 } as const satisfies AttestedSelection;

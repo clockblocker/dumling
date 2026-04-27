@@ -16,6 +16,8 @@ type CsvEntity<L extends SupportedLanguage> =
 	| Surface<L>
 	| Selection<L>;
 
+const surfaceFeatureNames = new Set(["historicalStatus"]);
+
 export type ReadableCsvDecodeSuccess<L extends SupportedLanguage> =
 	| {
 			kind: "Lemma";
@@ -278,6 +280,26 @@ function parseFeatureSet(
 	};
 }
 
+function parseMarkedFeatureSet(
+	input: string,
+	context: string,
+): ApiResult<Record<string, unknown>, IdDecodeError> {
+	const parsed = parseFeatureSet(input);
+	if (!parsed.success) {
+		return parsed;
+	}
+
+	if (Object.keys(parsed.data).length === 0) {
+		return invalidPayload(`${context} must contain at least one feature`);
+	}
+
+	return parsed;
+}
+
+function isSurfaceFeatureSet(features: Record<string, unknown>): boolean {
+	return Object.keys(features).every((key) => surfaceFeatureNames.has(key));
+}
+
 function assertLanguageForNamespace<L extends SupportedLanguage>(
 	namespaceLanguage: L,
 	payloadLanguage: string,
@@ -370,16 +392,29 @@ export function entityToReadableCsv<L extends SupportedLanguage>(
 	];
 
 	if ("surface" in entity) {
-		return csvRow([
-			"Selection",
-			entity.orthographicStatus,
-			entity.selectionCoverage,
-			entity.spelledSelection,
-			entity.spellingRelation,
-			...parseCanonicalCsvRowOrThrow(
-				entityToReadableCsv(entity.surface as Surface<L>),
-			),
-		]);
+		const selectionFeatures = entity.selectionFeatures
+			? formatFeatureSet(
+					entity.selectionFeatures as Record<string, unknown>,
+				)
+			: "";
+		return csvRow(
+			selectionFeatures === ""
+				? [
+						"Selection",
+						entity.spelledSelection,
+						...parseCanonicalCsvRowOrThrow(
+							entityToReadableCsv(entity.surface as Surface<L>),
+						),
+					]
+				: [
+						"Selection",
+						entity.spelledSelection,
+						selectionFeatures,
+						...parseCanonicalCsvRowOrThrow(
+							entityToReadableCsv(entity.surface as Surface<L>),
+						),
+					],
+		);
 	}
 
 	if (!("surfaceKind" in entity)) {
@@ -391,6 +426,13 @@ export function entityToReadableCsv<L extends SupportedLanguage>(
 		entity.surfaceKind,
 		entity.normalizedFullSurface,
 	];
+
+	const surfaceFeatures = entity.surfaceFeatures
+		? formatFeatureSet(entity.surfaceFeatures as Record<string, unknown>)
+		: "";
+	if (surfaceFeatures !== "") {
+		surfaceFields.push(surfaceFeatures);
+	}
 
 	if (entity.surfaceKind === "Inflection") {
 		surfaceFields.push(
@@ -432,33 +474,57 @@ export function decodeReadableCsv<L extends SupportedLanguage>(
 	}
 
 	if (fields[0] === "Selection") {
-		if (fields.length < 15) {
-			return invalidPayload("Selection CSV rows are missing surface fields");
+		if (fields.length < 12) {
+			return invalidPayload(
+				"Selection CSV rows are missing surface fields",
+			);
 		}
 
+		const hasSelectionFeatures = fields[2] !== "Surface";
+		const surfaceOffset = hasSelectionFeatures ? 3 : 2;
+		const selectionFeaturesField = hasSelectionFeatures
+			? fields[2]
+			: undefined;
 		const surface = decodeReadableCsv(
 			namespaceLanguage,
 			parse,
-			csvRow(fields.slice(5)),
+			csvRow(fields.slice(surfaceOffset)),
 		);
 		if (!surface.success) {
 			return surface;
 		}
 
 		if (surface.data.kind !== "Surface") {
-			return invalidPayload("Selection CSV rows must contain a Surface row");
+			return invalidPayload(
+				"Selection CSV rows must contain a Surface row",
+			);
 		}
 
-		const parsed = parse.selection({
+		let selectionFeatures: Record<string, unknown> | undefined;
+		if (selectionFeaturesField !== undefined) {
+			const parsedSelectionFeatures = parseMarkedFeatureSet(
+				selectionFeaturesField,
+				"selectionFeatures",
+			);
+			if (!parsedSelectionFeatures.success) {
+				return parsedSelectionFeatures;
+			}
+			if (isSurfaceFeatureSet(parsedSelectionFeatures.data)) {
+				return invalidPayload(
+					"Selection feature bag may only contain selection features",
+				);
+			}
+			selectionFeatures = parsedSelectionFeatures.data;
+		}
+
+		const parsedSelection = parse.selection({
 			language: namespaceLanguage,
-			orthographicStatus: fields[1],
-			selectionCoverage: fields[2],
-			spelledSelection: fields[3],
-			spellingRelation: fields[4],
+			selectionFeatures,
+			spelledSelection: fields[1],
 			surface: surface.data.surface,
 		});
-		if (!parsed.success) {
-			return invalidPayload(parsed.error.message);
+		if (!parsedSelection.success) {
+			return invalidPayload(parsedSelection.error.message);
 		}
 
 		return {
@@ -466,25 +532,46 @@ export function decodeReadableCsv<L extends SupportedLanguage>(
 			data: {
 				kind: "Selection",
 				language: namespaceLanguage,
-				selection: parsed.data,
+				selection: parsedSelection.data,
 			},
 		};
 	}
 
 	if (fields[0] !== "Surface") {
-		return invalidPayload("CSV row must start with Lemma, Surface, or Selection");
+		return invalidPayload(
+			"CSV row must start with Lemma, Surface, or Selection",
+		);
 	}
 
 	if (fields[1] === "Citation") {
-		if (fields.length !== 10) {
+		if (fields.length !== 10 && fields.length !== 11) {
 			return invalidPayload(
-				"Citation surface CSV rows must contain 10 fields",
+				"Citation surface CSV rows must contain 10 or 11 fields",
 			);
+		}
+
+		let surfaceFeatures: Record<string, unknown> | undefined;
+		let lemmaOffset = 3;
+		if (fields[3] !== "Lemma") {
+			const parsedSurfaceFeatures = parseMarkedFeatureSet(
+				fields[3] ?? "",
+				"surfaceFeatures",
+			);
+			if (!parsedSurfaceFeatures.success) {
+				return parsedSurfaceFeatures;
+			}
+			if (!isSurfaceFeatureSet(parsedSurfaceFeatures.data)) {
+				return invalidPayload(
+					"Citation surface feature bag may only contain surface features",
+				);
+			}
+			surfaceFeatures = parsedSurfaceFeatures.data;
+			lemmaOffset = 4;
 		}
 
 		const lemma = parseLemmaFields(
 			namespaceLanguage,
-			fields.slice(3),
+			fields.slice(lemmaOffset),
 			parse,
 		);
 		if (!lemma.success) {
@@ -495,6 +582,7 @@ export function decodeReadableCsv<L extends SupportedLanguage>(
 			language: namespaceLanguage,
 			surfaceKind: fields[1],
 			normalizedFullSurface: fields[2],
+			surfaceFeatures,
 			lemma: lemma.data,
 		});
 		if (!parsed.success) {
@@ -512,20 +600,41 @@ export function decodeReadableCsv<L extends SupportedLanguage>(
 	}
 
 	if (fields[1] === "Inflection") {
-		if (fields.length !== 11) {
+		if (fields.length !== 11 && fields.length !== 12) {
 			return invalidPayload(
-				"Inflection surface CSV rows must contain 11 fields",
+				"Inflection surface CSV rows must contain 11 or 12 fields",
 			);
 		}
 
-		const inflectionalFeatures = parseFeatureSet(fields[3] ?? "");
+		let surfaceFeatures: Record<string, unknown> | undefined;
+		let inflectionalFeaturesField = fields[3] ?? "";
+		let lemmaOffset = 4;
+		if (fields.length === 12) {
+			const parsedSurfaceFeatures = parseMarkedFeatureSet(
+				fields[3] ?? "",
+				"surfaceFeatures",
+			);
+			if (!parsedSurfaceFeatures.success) {
+				return parsedSurfaceFeatures;
+			}
+			if (!isSurfaceFeatureSet(parsedSurfaceFeatures.data)) {
+				return invalidPayload(
+					"Inflection surface feature bag may only contain surface features",
+				);
+			}
+			surfaceFeatures = parsedSurfaceFeatures.data;
+			inflectionalFeaturesField = fields[4] ?? "";
+			lemmaOffset = 5;
+		}
+
+		const inflectionalFeatures = parseFeatureSet(inflectionalFeaturesField);
 		if (!inflectionalFeatures.success) {
 			return inflectionalFeatures;
 		}
 
 		const lemma = parseLemmaFields(
 			namespaceLanguage,
-			fields.slice(4),
+			fields.slice(lemmaOffset),
 			parse,
 		);
 		if (!lemma.success) {
@@ -536,6 +645,7 @@ export function decodeReadableCsv<L extends SupportedLanguage>(
 			language: namespaceLanguage,
 			surfaceKind: fields[1],
 			normalizedFullSurface: fields[2],
+			surfaceFeatures,
 			inflectionalFeatures: inflectionalFeatures.data,
 			lemma: lemma.data,
 		});

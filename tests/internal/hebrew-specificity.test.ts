@@ -18,55 +18,47 @@ describe("Hebrew schema specificity", () => {
 		).toBe(true);
 
 		expect(
-			schemasFor.he.entity.Selection.Standard.Inflection.Lexeme.VERB().safeParse(
-				{
+			schemasFor.he.entity.Selection.Inflection.Lexeme.VERB().safeParse({
+				language: "he",
+				spelledSelection: "כתבו",
+
+				surface: {
+					...makeLexemeSurfaceReference("he", "VERB", "כתב"),
 					language: "he",
-					orthographicStatus: "Standard",
-					selectionCoverage: "Full",
-					spelledSelection: "כתבו",
-					spellingRelation: "Canonical",
-					surface: {
-						...makeLexemeSurfaceReference("he", "VERB", "כתב"),
-						language: "he",
-						normalizedFullSurface: "כתבו",
-						surfaceKind: "Inflection",
-						inflectionalFeatures: {
-							number: "Plur",
-							person: "3",
-							tense: "Past",
-						},
+					normalizedFullSurface: "כתבו",
+					surfaceKind: "Inflection",
+					inflectionalFeatures: {
+						number: "Plur",
+						person: "3",
+						tense: "Past",
 					},
 				},
-			).success,
+			}).success,
 		).toBe(true);
 
 		expect(
-			schemasFor.he.entity.Selection.Standard.Inflection.Lexeme.NOUN().safeParse(
-				{
+			schemasFor.he.entity.Selection.Inflection.Lexeme.NOUN().safeParse({
+				language: "he",
+				spelledSelection: "שנתיים",
+
+				surface: {
+					...makeLexemeSurfaceReference("he", "NOUN", "שנה"),
 					language: "he",
-					orthographicStatus: "Standard",
-					selectionCoverage: "Full",
-					spelledSelection: "שנתיים",
-					spellingRelation: "Canonical",
-					surface: {
-						...makeLexemeSurfaceReference("he", "NOUN", "שנה"),
-						language: "he",
-						normalizedFullSurface: "שנתיים",
-						surfaceKind: "Inflection",
-						inflectionalFeatures: {
-							number: ["Dual", "Plur"],
-						},
+					normalizedFullSurface: "שנתיים",
+					surfaceKind: "Inflection",
+					inflectionalFeatures: {
+						number: ["Dual", "Plur"],
 					},
 				},
-			).success,
+			}).success,
 		).toBe(true);
 	});
 
 	it("keeps Hebrew aligned with its implemented inventory", () => {
 		expect("PART" in schemasFor.he.entity.Lemma.Lexeme).toBe(true);
-		expect(
-			"PART" in schemasFor.he.entity.Selection.Standard.Inflection.Lexeme,
-		).toBe(false);
+		expect("PART" in schemasFor.he.entity.Selection.Inflection.Lexeme).toBe(
+			false,
+		);
 	});
 
 	it("rejects unsupported Hebrew feature spillover", () => {

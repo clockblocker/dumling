@@ -2,10 +2,8 @@ import type { AttestedSelection, Selection } from "dumling/types";
 
 const thatSubordinatorSelection = {
 	language: "en",
-	orthographicStatus: "Standard",
-	selectionCoverage: "Full",
 	spelledSelection: "that",
-	spellingRelation: "Canonical",
+
 	surface: {
 		language: "en",
 		normalizedFullSurface: "that",
@@ -19,10 +17,11 @@ const thatSubordinatorSelection = {
 			meaningInEmojis: "🔗",
 		},
 	},
-} satisfies Selection<"en", "Standard", "Citation", "Lexeme", "SCONJ">;
+} satisfies Selection<"en", "Citation", "Lexeme", "SCONJ">;
 
 export const attestation = {
 	selection: thatSubordinatorSelection,
 	sentenceMarkdown: "I know [that] you tried.",
-	classifierNotes: "Complementizer that is SCONJ; no clause-type feature exists, so POS carries the distinction.",
+	classifierNotes:
+		"Complementizer that is SCONJ; no clause-type feature exists, so POS carries the distinction.",
 } as const satisfies AttestedSelection;

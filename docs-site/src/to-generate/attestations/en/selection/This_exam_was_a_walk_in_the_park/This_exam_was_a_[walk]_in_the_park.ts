@@ -2,10 +2,9 @@ import type { AttestedSelection, Selection } from "dumling/types";
 
 const walkInTheParkSelection = {
 	language: "en",
-	orthographicStatus: "Standard",
-	selectionCoverage: "Partial",
+	selectionFeatures: { coverage: "Partial" },
 	spelledSelection: "walk",
-	spellingRelation: "Canonical",
+
 	surface: {
 		language: "en",
 		normalizedFullSurface: "walk in the park",
@@ -19,7 +18,7 @@ const walkInTheParkSelection = {
 			meaningInEmojis: "😌",
 		},
 	},
-} satisfies Selection<"en", "Standard", "Citation", "Phraseme", "Idiom">;
+} satisfies Selection<"en", "Citation", "Phraseme", "Idiom">;
 
 export const attestation = {
 	selection: walkInTheParkSelection,

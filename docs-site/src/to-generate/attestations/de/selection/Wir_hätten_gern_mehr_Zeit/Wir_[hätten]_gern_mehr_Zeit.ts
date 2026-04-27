@@ -2,10 +2,8 @@ import type { AttestedSelection, Selection } from "dumling/types";
 
 const deSelection023 = {
 	language: "de",
-	orthographicStatus: "Standard",
-	selectionCoverage: "Full",
 	spelledSelection: "hätten",
-	spellingRelation: "Canonical",
+
 	surface: {
 		language: "de",
 		normalizedFullSurface: "hätten",
@@ -26,11 +24,12 @@ const deSelection023 = {
 			meaningInEmojis: "🧺",
 		},
 	},
-} satisfies Selection<"de", "Standard", "Inflection", "Lexeme", "AUX">;
+} satisfies Selection<"de", "Inflection", "Lexeme", "AUX">;
 
 export const attestation = {
 	selection: deSelection023,
 	sentenceMarkdown: "Wir [hätten] gern mehr Zeit.",
-	classifierNotes: "The Konjunktiv-like form is mapped to supported mood Sub plus past tense.",
+	classifierNotes:
+		"The Konjunktiv-like form is mapped to supported mood Sub plus past tense.",
 	isVerified: true,
 } as const satisfies AttestedSelection;

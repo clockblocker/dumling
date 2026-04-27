@@ -2,10 +2,9 @@ import type { AttestedSelection, Selection } from "dumling/types";
 
 const habayitPartialSelection = {
 	language: "he",
-	orthographicStatus: "Standard",
-	selectionCoverage: "Partial",
+	selectionFeatures: { coverage: "Partial" },
 	spelledSelection: "בית",
-	spellingRelation: "Canonical",
+
 	surface: {
 		language: "he",
 		normalizedFullSurface: "הבית",
@@ -24,10 +23,11 @@ const habayitPartialSelection = {
 			meaningInEmojis: "🏠",
 		},
 	},
-} satisfies Selection<"he", "Standard", "Inflection", "Lexeme", "NOUN">;
+} satisfies Selection<"he", "Inflection", "Lexeme", "NOUN">;
 
 export const attestation = {
 	selection: habayitPartialSelection,
 	sentenceMarkdown: "חזרתי ל[בית].",
-	classifierNotes: "בית is a partial selection against a definite noun surface; the omitted article still drives definite Def.",
+	classifierNotes:
+		"בית is a partial selection against a definite noun surface; the omitted article still drives definite Def.",
 } as const satisfies AttestedSelection;

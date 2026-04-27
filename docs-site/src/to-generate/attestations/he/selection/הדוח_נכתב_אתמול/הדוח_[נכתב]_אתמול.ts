@@ -2,10 +2,8 @@ import type { AttestedSelection, Selection } from "dumling/types";
 
 const nichtavVerbSelection = {
 	language: "he",
-	orthographicStatus: "Standard",
-	selectionCoverage: "Full",
 	spelledSelection: "נכתב",
-	spellingRelation: "Canonical",
+
 	surface: {
 		language: "he",
 		normalizedFullSurface: "נכתב",
@@ -28,10 +26,11 @@ const nichtavVerbSelection = {
 			meaningInEmojis: "✍️",
 		},
 	},
-} satisfies Selection<"he", "Standard", "Inflection", "Lexeme", "VERB">;
+} satisfies Selection<"he", "Inflection", "Lexeme", "VERB">;
 
 export const attestation = {
 	selection: nichtavVerbSelection,
 	sentenceMarkdown: 'הדו"ח [נכתב] אתמול.',
-	classifierNotes: "נכתב is the NIFAL passive-like form, so it carries voice Pass.",
+	classifierNotes:
+		"נכתב is the NIFAL passive-like form, so it carries voice Pass.",
 } as const satisfies AttestedSelection;

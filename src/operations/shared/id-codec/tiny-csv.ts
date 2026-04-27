@@ -12,17 +12,11 @@ import {
 	inverseLanguageTokens,
 	inverseLemmaKindTokens,
 	inverseLemmaSubKindTokens,
-	inverseOrthographicStatusTokens,
-	inverseSelectionCoverageTokens,
-	inverseSpellingRelationTokens,
 	inverseSurfaceKindTokens,
 	languageTokens,
 	lemmaKindTokens,
 	lemmaSubKindTokens,
-	orthographicStatusTokens,
 	rawStringFeatureNames,
-	selectionCoverageTokens,
-	spellingRelationTokens,
 	surfaceKindTokens,
 } from "./tiny-tokens";
 
@@ -221,45 +215,34 @@ export function readableCsvToTinyCsv(input: string): string {
 	}
 
 	if (fields[0] === "Selection") {
-		const orthographicStatusToken =
-			orthographicStatusTokens[
-				fields[1] as keyof typeof orthographicStatusTokens
-			];
-		const selectionCoverageToken =
-			selectionCoverageTokens[
-				fields[2] as keyof typeof selectionCoverageTokens
-			];
-		const spellingRelationToken =
-			spellingRelationTokens[
-				fields[4] as keyof typeof spellingRelationTokens
-			];
-
-		if (
-			orthographicStatusToken === undefined ||
-			selectionCoverageToken === undefined ||
-			spellingRelationToken === undefined
-		) {
-			throw new Error(
-				"Readable CSV contains an unsupported selection token value",
-			);
-		}
-
-		const tinySurface = parseCsvRow(readableCsvToTinyCsv(csvRow(fields.slice(5))), {
-			requireCanonical: true,
-		});
+		const hasSelectionFeatures = fields[2] !== "Surface";
+		const surfaceOffset = hasSelectionFeatures ? 3 : 2;
+		const tinySurface = parseCsvRow(
+			readableCsvToTinyCsv(csvRow(fields.slice(surfaceOffset))),
+			{
+				requireCanonical: true,
+			},
+		);
 		if (!tinySurface.success) {
 			throw new Error(tinySurface.error.message);
 		}
 
-		return csvRow([
-			"v1",
-			entityKindTokens.Selection,
-			orthographicStatusToken,
-			selectionCoverageToken,
-			fields[3],
-			spellingRelationToken,
-			...tinySurface.data.slice(1),
-		]);
+		return csvRow(
+			hasSelectionFeatures
+				? [
+						"v1",
+						entityKindTokens.Selection,
+						fields[1],
+						encodeFeatureSet(fields[2] ?? ""),
+						...tinySurface.data.slice(1),
+					]
+				: [
+						"v1",
+						entityKindTokens.Selection,
+						fields[1],
+						...tinySurface.data.slice(1),
+					],
+		);
 	}
 
 	if (fields[0] !== "Surface") {
@@ -275,23 +258,48 @@ export function readableCsvToTinyCsv(input: string): string {
 	}
 
 	if (fields[1] === "Citation") {
-		return csvRow([
-			"v1",
-			entityKindTokens.Surface,
-			surfaceKindToken,
-			fields[2],
-			...readableLemmaFieldsToTiny(fields.slice(3)),
-		]);
+		const hasSurfaceFeatures = fields[3] !== "Lemma";
+		return csvRow(
+			hasSurfaceFeatures
+				? [
+						"v1",
+						entityKindTokens.Surface,
+						surfaceKindToken,
+						fields[2],
+						encodeFeatureSet(fields[3] ?? ""),
+						...readableLemmaFieldsToTiny(fields.slice(4)),
+					]
+				: [
+						"v1",
+						entityKindTokens.Surface,
+						surfaceKindToken,
+						fields[2],
+						...readableLemmaFieldsToTiny(fields.slice(3)),
+					],
+		);
 	}
 
-	return csvRow([
-		"v1",
-		entityKindTokens.Surface,
-		surfaceKindToken,
-		fields[2],
-		encodeFeatureSet(fields[3] ?? ""),
-		...readableLemmaFieldsToTiny(fields.slice(4)),
-	]);
+	const hasSurfaceFeatures = fields.length === 12;
+	return csvRow(
+		hasSurfaceFeatures
+			? [
+					"v1",
+					entityKindTokens.Surface,
+					surfaceKindToken,
+					fields[2],
+					encodeFeatureSet(fields[3] ?? ""),
+					encodeFeatureSet(fields[4] ?? ""),
+					...readableLemmaFieldsToTiny(fields.slice(5)),
+				]
+			: [
+					"v1",
+					entityKindTokens.Surface,
+					surfaceKindToken,
+					fields[2],
+					encodeFeatureSet(fields[3] ?? ""),
+					...readableLemmaFieldsToTiny(fields.slice(4)),
+				],
+	);
 }
 
 export function tinyCsvToReadableCsv(input: string): TinyResult {
@@ -331,22 +339,23 @@ export function tinyCsvToReadableCsv(input: string): TinyResult {
 	}
 
 	if (entityKind === "Selection") {
-		if (payload.length < 15) {
+		if (payload.length < 12) {
 			return invalid("Tiny Selection rows are missing surface fields");
 		}
 
-		const orthographicStatus = inverseOrthographicStatusTokens[payload[1] ?? ""];
-		const selectionCoverage = inverseSelectionCoverageTokens[payload[2] ?? ""];
-		const spellingRelation = inverseSpellingRelationTokens[payload[4] ?? ""];
-		if (
-			orthographicStatus === undefined ||
-			selectionCoverage === undefined ||
-			spellingRelation === undefined
-		) {
-			return invalid("Tiny Selection row contains an unknown selection token");
+		const hasSelectionFeatures = payload[2] !== entityKindTokens.Surface;
+		const selectionFeatures = hasSelectionFeatures
+			? decodeFeatureSet(payload[2] ?? "")
+			: undefined;
+		if (hasSelectionFeatures && selectionFeatures === undefined) {
+			return invalid(
+				"Tiny Selection row contains an unknown feature token",
+			);
 		}
 
-		const surface = tinyCsvToReadableCsv(csvRow(["v1", ...payload.slice(5)]));
+		const surface = tinyCsvToReadableCsv(
+			csvRow(["v1", ...payload.slice(hasSelectionFeatures ? 3 : 2)]),
+		);
 		if (!surface.success) {
 			return surface;
 		}
@@ -364,14 +373,16 @@ export function tinyCsvToReadableCsv(input: string): TinyResult {
 
 		return {
 			success: true,
-			data: csvRow([
-				"Selection",
-				orthographicStatus,
-				selectionCoverage,
-				payload[3],
-				spellingRelation,
-				...parsedSurface.data,
-			]),
+			data: csvRow(
+				selectionFeatures === undefined
+					? ["Selection", payload[1], ...parsedSurface.data]
+					: [
+							"Selection",
+							payload[1],
+							selectionFeatures,
+							...parsedSurface.data,
+						],
+			),
 		};
 	}
 
@@ -385,12 +396,23 @@ export function tinyCsvToReadableCsv(input: string): TinyResult {
 	}
 
 	if (surfaceKind === "Citation") {
-		if (payload.length !== 10) {
-			return invalid("Tiny Citation surface rows must contain 11 fields");
+		if (payload.length !== 10 && payload.length !== 11) {
+			return invalid(
+				"Tiny Citation surface rows must contain 11 or 12 fields",
+			);
 		}
 
-		const lemma = tinyLemmaFieldsToReadable(payload.slice(3));
-		if (lemma === undefined) {
+		const hasSurfaceFeatures = payload.length === 11;
+		const surfaceFeatures = hasSurfaceFeatures
+			? decodeFeatureSet(payload[3] ?? "")
+			: undefined;
+		const lemma = tinyLemmaFieldsToReadable(
+			payload.slice(hasSurfaceFeatures ? 4 : 3),
+		);
+		if (
+			lemma === undefined ||
+			(hasSurfaceFeatures && surfaceFeatures === undefined)
+		) {
 			return invalid(
 				"Tiny Citation surface row contains an unknown token",
 			);
@@ -398,22 +420,57 @@ export function tinyCsvToReadableCsv(input: string): TinyResult {
 
 		return {
 			success: true,
-			data: csvRow(["Surface", "Citation", payload[2], ...lemma]),
+			data: csvRow(
+				surfaceFeatures === undefined
+					? ["Surface", "Citation", payload[2], ...lemma]
+					: [
+							"Surface",
+							"Citation",
+							payload[2],
+							surfaceFeatures,
+							...lemma,
+						],
+			),
 		};
 	}
 
-	if (payload.length !== 11) {
-		return invalid("Tiny Inflection surface rows must contain 12 fields");
+	if (payload.length !== 11 && payload.length !== 12) {
+		return invalid(
+			"Tiny Inflection surface rows must contain 12 or 13 fields",
+		);
 	}
 
-	const features = decodeFeatureSet(payload[3] ?? "");
-	const lemma = tinyLemmaFieldsToReadable(payload.slice(4));
-	if (features === undefined || lemma === undefined) {
+	const hasSurfaceFeatures = payload.length === 12;
+	const surfaceFeatures = hasSurfaceFeatures
+		? decodeFeatureSet(payload[3] ?? "")
+		: undefined;
+	const features = decodeFeatureSet(
+		payload[hasSurfaceFeatures ? 4 : 3] ?? "",
+	);
+	const lemma = tinyLemmaFieldsToReadable(
+		payload.slice(hasSurfaceFeatures ? 5 : 4),
+	);
+	if (
+		features === undefined ||
+		lemma === undefined ||
+		(hasSurfaceFeatures && surfaceFeatures === undefined)
+	) {
 		return invalid("Tiny Inflection surface row contains an unknown token");
 	}
 
 	return {
 		success: true,
-		data: csvRow(["Surface", "Inflection", payload[2], features, ...lemma]),
+		data: csvRow(
+			surfaceFeatures === undefined
+				? ["Surface", "Inflection", payload[2], features, ...lemma]
+				: [
+						"Surface",
+						"Inflection",
+						payload[2],
+						surfaceFeatures,
+						features,
+						...lemma,
+					],
+		),
 	};
 }

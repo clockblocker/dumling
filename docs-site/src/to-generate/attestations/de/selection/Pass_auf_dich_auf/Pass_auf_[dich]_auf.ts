@@ -2,10 +2,8 @@ import type { AttestedSelection, Selection } from "dumling/types";
 
 const dichReflexivePronounSelection = {
 	language: "de",
-	orthographicStatus: "Standard",
-	selectionCoverage: "Full",
 	spelledSelection: "dich",
-	spellingRelation: "Canonical",
+
 	surface: {
 		language: "de",
 		normalizedFullSurface: "dich",
@@ -27,7 +25,7 @@ const dichReflexivePronounSelection = {
 			meaningInEmojis: "👉",
 		},
 	},
-} satisfies Selection<"de", "Standard", "Inflection", "Lexeme", "PRON">;
+} satisfies Selection<"de", "Inflection", "Lexeme", "PRON">;
 
 export const attestation = {
 	selection: dichReflexivePronounSelection,

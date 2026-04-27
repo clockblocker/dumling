@@ -5,27 +5,23 @@ import { makeLexemeSurfaceReference } from "../helpers";
 describe("German remaining POS schemas", () => {
 	it("accepts representative feature bundles across implemented POS classes", () => {
 		expect(
-			schemasFor.de.entity.Selection.Standard.Inflection.Lexeme.ADJ().safeParse(
-				{
+			schemasFor.de.entity.Selection.Inflection.Lexeme.ADJ().safeParse({
+				language: "de",
+				spelledSelection: "kleiner",
+
+				surface: {
+					...makeLexemeSurfaceReference("de", "ADJ", "klein"),
 					language: "de",
-					orthographicStatus: "Standard",
-					selectionCoverage: "Full",
-					spelledSelection: "kleiner",
-					spellingRelation: "Canonical",
-					surface: {
-						...makeLexemeSurfaceReference("de", "ADJ", "klein"),
-						language: "de",
-						normalizedFullSurface: "kleiner",
-						surfaceKind: "Inflection",
-						inflectionalFeatures: {
-							case: "Dat",
-							degree: "Cmp",
-							gender: "Fem",
-							number: "Sing",
-						},
+					normalizedFullSurface: "kleiner",
+					surfaceKind: "Inflection",
+					inflectionalFeatures: {
+						case: "Dat",
+						degree: "Cmp",
+						gender: "Fem",
+						number: "Sing",
 					},
 				},
-			).success,
+			}).success,
 		).toBe(true);
 
 		expect(
@@ -42,26 +38,22 @@ describe("German remaining POS schemas", () => {
 		).toBe(true);
 
 		expect(
-			schemasFor.de.entity.Selection.Standard.Inflection.Lexeme.DET().safeParse(
-				{
+			schemasFor.de.entity.Selection.Inflection.Lexeme.DET().safeParse({
+				language: "de",
+				spelledSelection: "dieser",
+
+				surface: {
+					...makeLexemeSurfaceReference("de", "DET", "dies"),
 					language: "de",
-					orthographicStatus: "Standard",
-					selectionCoverage: "Full",
-					spelledSelection: "dieser",
-					spellingRelation: "Canonical",
-					surface: {
-						...makeLexemeSurfaceReference("de", "DET", "dies"),
-						language: "de",
-						normalizedFullSurface: "dieser",
-						surfaceKind: "Inflection",
-						inflectionalFeatures: {
-							case: "Nom",
-							gender: "Masc",
-							number: "Sing",
-						},
+					normalizedFullSurface: "dieser",
+					surfaceKind: "Inflection",
+					inflectionalFeatures: {
+						case: "Nom",
+						gender: "Masc",
+						number: "Sing",
 					},
 				},
-			).success,
+			}).success,
 		).toBe(true);
 
 		expect(
@@ -79,23 +71,20 @@ describe("German remaining POS schemas", () => {
 	});
 
 	it("keeps non-inflecting classes strict", () => {
+		expect("ADP" in schemasFor.de.entity.Selection.Inflection.Lexeme).toBe(
+			false,
+		);
 		expect(
-			"ADP" in schemasFor.de.entity.Selection.Standard.Inflection.Lexeme,
+			"CCONJ" in schemasFor.de.entity.Selection.Inflection.Lexeme,
+		).toBe(false);
+		expect("INTJ" in schemasFor.de.entity.Selection.Inflection.Lexeme).toBe(
+			false,
+		);
+		expect(
+			"PUNCT" in schemasFor.de.entity.Selection.Inflection.Lexeme,
 		).toBe(false);
 		expect(
-			"CCONJ" in
-				schemasFor.de.entity.Selection.Standard.Inflection.Lexeme,
-		).toBe(false);
-		expect(
-			"INTJ" in schemasFor.de.entity.Selection.Standard.Inflection.Lexeme,
-		).toBe(false);
-		expect(
-			"PUNCT" in
-				schemasFor.de.entity.Selection.Standard.Inflection.Lexeme,
-		).toBe(false);
-		expect(
-			"SCONJ" in
-				schemasFor.de.entity.Selection.Standard.Inflection.Lexeme,
+			"SCONJ" in schemasFor.de.entity.Selection.Inflection.Lexeme,
 		).toBe(false);
 	});
 
@@ -115,30 +104,26 @@ describe("German remaining POS schemas", () => {
 
 		expect(
 			Reflect.get(
-				schemasFor.de.entity.Selection.Standard.Inflection.Lexeme,
+				schemasFor.de.entity.Selection.Inflection.Lexeme,
 				"ADP",
 			),
 		).toBeUndefined();
 
 		expect(
-			schemasFor.de.entity.Selection.Standard.Inflection.Lexeme.X().safeParse(
-				{
+			schemasFor.de.entity.Selection.Inflection.Lexeme.X().safeParse({
+				language: "de",
+				spelledSelection: "foobar",
+
+				surface: {
+					...makeLexemeSurfaceReference("de", "X", "foobar"),
 					language: "de",
-					orthographicStatus: "Standard",
-					selectionCoverage: "Full",
-					spelledSelection: "foobar",
-					spellingRelation: "Canonical",
-					surface: {
-						...makeLexemeSurfaceReference("de", "X", "foobar"),
-						language: "de",
-						normalizedFullSurface: "foobar",
-						surfaceKind: "Inflection",
-						inflectionalFeatures: {
-							tense: "Past",
-						},
+					normalizedFullSurface: "foobar",
+					surfaceKind: "Inflection",
+					inflectionalFeatures: {
+						tense: "Past",
 					},
 				},
-			).success,
+			}).success,
 		).toBe(false);
 	});
 });

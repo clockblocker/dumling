@@ -2,10 +2,8 @@ import type { AttestedSelection, Selection } from "dumling/types";
 
 const michtavimNounSelection = {
 	language: "he",
-	orthographicStatus: "Standard",
-	selectionCoverage: "Full",
 	spelledSelection: "מכתבים",
-	spellingRelation: "Canonical",
+
 	surface: {
 		language: "he",
 		normalizedFullSurface: "מכתבים",
@@ -24,10 +22,11 @@ const michtavimNounSelection = {
 			meaningInEmojis: "✉️",
 		},
 	},
-} satisfies Selection<"he", "Standard", "Inflection", "Lexeme", "NOUN">;
+} satisfies Selection<"he", "Inflection", "Lexeme", "NOUN">;
 
 export const attestation = {
 	selection: michtavimNounSelection,
 	sentenceMarkdown: "מצאתי [מכתבים] ישנים.",
-	classifierNotes: "מכתבים is the plural noun from מכתב, not a verb-root attestation.",
+	classifierNotes:
+		"מכתבים is the plural noun from מכתב, not a verb-root attestation.",
 } as const satisfies AttestedSelection;

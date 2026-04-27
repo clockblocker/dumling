@@ -2,10 +2,8 @@ import type { AttestedSelection, Selection } from "dumling/types";
 
 const byAndLargeIdiomSelection = {
 	language: "en",
-	orthographicStatus: "Standard",
-	selectionCoverage: "Full",
 	spelledSelection: "By and large",
-	spellingRelation: "Canonical",
+
 	surface: {
 		language: "en",
 		normalizedFullSurface: "by and large",
@@ -19,10 +17,11 @@ const byAndLargeIdiomSelection = {
 			meaningInEmojis: "📌",
 		},
 	},
-} satisfies Selection<"en", "Standard", "Citation", "Phraseme", "Idiom">;
+} satisfies Selection<"en", "Citation", "Phraseme", "Idiom">;
 
 export const attestation = {
 	selection: byAndLargeIdiomSelection,
 	sentenceMarkdown: "[By and large], the migration worked.",
-	classifierNotes: "Sentence-initial capitalization is preserved only in spelledSelection.",
+	classifierNotes:
+		"Sentence-initial capitalization is preserved only in spelledSelection.",
 } as const satisfies AttestedSelection;

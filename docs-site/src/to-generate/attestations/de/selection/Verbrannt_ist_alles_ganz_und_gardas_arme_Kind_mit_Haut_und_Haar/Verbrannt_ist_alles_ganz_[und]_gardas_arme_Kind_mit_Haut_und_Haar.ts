@@ -2,10 +2,9 @@ import type { AttestedSelection, Selection } from "dumling/types";
 
 const ganzUndGarIdiomSelection = {
 	language: "de",
-	orthographicStatus: "Standard",
-	selectionCoverage: "Partial",
+	selectionFeatures: { coverage: "Partial" },
 	spelledSelection: "und",
-	spellingRelation: "Canonical",
+
 	surface: {
 		language: "de",
 		normalizedFullSurface: "ganz und gar",
@@ -19,7 +18,7 @@ const ganzUndGarIdiomSelection = {
 			meaningInEmojis: "💯",
 		},
 	},
-} satisfies Selection<"de", "Standard", "Citation", "Phraseme", "Idiom">;
+} satisfies Selection<"de", "Citation", "Phraseme", "Idiom">;
 
 export const attestation = {
 	selection: ganzUndGarIdiomSelection,

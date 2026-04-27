@@ -2,10 +2,8 @@ import type { AttestedSelection, Selection } from "dumling/types";
 
 const deSelection027 = {
 	language: "de",
-	orthographicStatus: "Standard",
-	selectionCoverage: "Full",
 	spelledSelection: "besseren",
-	spellingRelation: "Canonical",
+
 	surface: {
 		language: "de",
 		normalizedFullSurface: "besseren",
@@ -25,11 +23,12 @@ const deSelection027 = {
 			meaningInEmojis: "📈",
 		},
 	},
-} satisfies Selection<"de", "Standard", "Inflection", "Lexeme", "ADJ">;
+} satisfies Selection<"de", "Inflection", "Lexeme", "ADJ">;
 
 export const attestation = {
 	selection: deSelection027,
 	sentenceMarkdown: "Ich suche einen [besseren] Ansatz.",
-	classifierNotes: "Besseren is a comparative adjective with accusative masculine singular agreement.",
+	classifierNotes:
+		"Besseren is a comparative adjective with accusative masculine singular agreement.",
 	isVerified: true,
 } as const satisfies AttestedSelection;

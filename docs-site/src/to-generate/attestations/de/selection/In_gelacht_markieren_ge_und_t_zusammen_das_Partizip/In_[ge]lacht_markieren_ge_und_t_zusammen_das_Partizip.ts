@@ -2,10 +2,9 @@ import type { AttestedSelection, Selection } from "dumling/types";
 
 const deSelection051 = {
 	language: "de",
-	orthographicStatus: "Standard",
-	selectionCoverage: "Partial",
+	selectionFeatures: { coverage: "Partial", spelling: "Variant" },
 	spelledSelection: "ge",
-	spellingRelation: "Variant",
+
 	surface: {
 		language: "de",
 		normalizedFullSurface: "ge-...-t",
@@ -19,12 +18,13 @@ const deSelection051 = {
 			meaningInEmojis: "🧬",
 		},
 	},
-} satisfies Selection<"de", "Standard", "Citation", "Morpheme", "Circumfix">;
+} satisfies Selection<"de", "Citation", "Morpheme", "Circumfix">;
 
 export const attestation = {
 	selection: deSelection051,
 	sentenceMarkdown:
 		"In [ge]lacht markieren ge- und -t zusammen das Partizip.",
-	classifierNotes: "The circumfix is modeled as one morpheme even though the selected spelling shows only its first visible segment.",
+	classifierNotes:
+		"The circumfix is modeled as one morpheme even though the selected spelling shows only its first visible segment.",
 	isVerified: true,
 } as const satisfies AttestedSelection;

@@ -37,7 +37,6 @@ function descriptorToCsv<L extends SupportedLanguage>(
 				: [
 						entityKind,
 						descriptor.language,
-						descriptor.orthographicStatus,
 						descriptor.surfaceKind,
 						descriptor.lemmaKind,
 						descriptor.lemmaSubKind,
@@ -89,7 +88,6 @@ export function buildDescribeOperations<
 			if ("surface" in value) {
 				return {
 					language: value.language,
-					orthographicStatus: value.orthographicStatus,
 					surfaceKind: value.surface.surfaceKind,
 					lemmaKind: value.surface.lemma.lemmaKind,
 					lemmaSubKind: value.surface.lemma.lemmaSubKind,
@@ -99,7 +97,6 @@ export function buildDescribeOperations<
 			if ("surfaceKind" in value) {
 				return {
 					language: value.language,
-					orthographicStatus: "Standard",
 					surfaceKind: value.surfaceKind,
 					lemmaKind: value.lemma.lemmaKind,
 					lemmaSubKind: value.lemma.lemmaSubKind,
@@ -108,7 +105,6 @@ export function buildDescribeOperations<
 
 			return {
 				language: value.language,
-				orthographicStatus: "Standard",
 				surfaceKind: "Citation",
 				lemmaKind: value.lemmaKind,
 				lemmaSubKind: value.lemmaSubKind,

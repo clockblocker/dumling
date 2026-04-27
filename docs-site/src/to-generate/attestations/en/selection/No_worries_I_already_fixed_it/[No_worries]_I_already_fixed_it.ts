@@ -2,10 +2,8 @@ import type { AttestedSelection, Selection } from "dumling/types";
 
 const noWorriesFormulaSelection = {
 	language: "en",
-	orthographicStatus: "Standard",
-	selectionCoverage: "Full",
 	spelledSelection: "No worries",
-	spellingRelation: "Canonical",
+
 	surface: {
 		language: "en",
 		normalizedFullSurface: "no worries",
@@ -21,16 +19,11 @@ const noWorriesFormulaSelection = {
 			meaningInEmojis: "🙂",
 		},
 	},
-} satisfies Selection<
-	"en",
-	"Standard",
-	"Citation",
-	"Phraseme",
-	"DiscourseFormula"
->;
+} satisfies Selection<"en", "Citation", "Phraseme", "DiscourseFormula">;
 
 export const attestation = {
 	selection: noWorriesFormulaSelection,
 	sentenceMarkdown: "[No worries], I already fixed it.",
-	classifierNotes: "No worries is a discourse formula rather than compositional negation plus noun.",
+	classifierNotes:
+		"No worries is a discourse formula rather than compositional negation plus noun.",
 } as const satisfies AttestedSelection;

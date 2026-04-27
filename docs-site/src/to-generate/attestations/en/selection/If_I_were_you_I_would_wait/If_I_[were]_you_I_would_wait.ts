@@ -2,10 +2,8 @@ import type { AttestedSelection, Selection } from "dumling/types";
 
 const wereSubjunctiveAuxSelection = {
 	language: "en",
-	orthographicStatus: "Standard",
-	selectionCoverage: "Full",
 	spelledSelection: "were",
-	spellingRelation: "Canonical",
+
 	surface: {
 		language: "en",
 		normalizedFullSurface: "were",
@@ -24,10 +22,11 @@ const wereSubjunctiveAuxSelection = {
 			meaningInEmojis: "🧩",
 		},
 	},
-} satisfies Selection<"en", "Standard", "Inflection", "Lexeme", "AUX">;
+} satisfies Selection<"en", "Inflection", "Lexeme", "AUX">;
 
 export const attestation = {
 	selection: wereSubjunctiveAuxSelection,
 	sentenceMarkdown: "If I [were] you, I would wait.",
-	classifierNotes: "Were in if I were you is AUX with Mood=Sub; the schema allows mood without forcing person or number.",
+	classifierNotes:
+		"Were in if I were you is AUX with Mood=Sub; the schema allows mood without forcing person or number.",
 } as const satisfies AttestedSelection;

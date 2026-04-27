@@ -34,9 +34,7 @@ describe("API", () => {
 
 		expect(lemma.language).toBe("de");
 		expect(surface.normalizedFullSurface).toBe("See");
-		expect(selection.orthographicStatus).toBe("Standard");
-		expect(selection.selectionCoverage).toBe("Full");
-		expect(selection.spellingRelation).toBe("Canonical");
+		expect(selection.selectionFeatures).toBeUndefined();
 		expect(dumling.de.extract.lemma(selection)).toBe(lemma);
 		expect(dumling.de.describe.as.lemma(selection)).toEqual({
 			language: "de",
@@ -51,7 +49,6 @@ describe("API", () => {
 		});
 		expect(dumling.de.describe.as.selection(surface)).toEqual({
 			language: "de",
-			orthographicStatus: "Standard",
 			surfaceKind: "Citation",
 			lemmaKind: "Lexeme",
 			lemmaSubKind: "NOUN",
@@ -63,7 +60,7 @@ describe("API", () => {
 			"Surface,de,Citation,Lexeme,NOUN",
 		);
 		expect(String(dumling.de.describe.asCsv.selection(surface))).toBe(
-			"Selection,de,Standard,Citation,Lexeme,NOUN",
+			"Selection,de,Citation,Lexeme,NOUN",
 		);
 	});
 
@@ -89,23 +86,24 @@ describe("API", () => {
 			typeof dumling.de.create.surface.citation
 		>[0]);
 
-		const typoSelection = dumling.de.create.selection.typo({
+		const typoSelection = dumling.de.create.selection({
 			language: "he",
-			orthographicStatus: "Standard",
-			selectionCoverage: "Full",
+			selectionFeatures: { orthography: "Typo" },
 			spelledSelection: "Sse",
-			spellingRelation: "Canonical",
+
 			surface: {
 				...citationSurface,
 				language: "en",
 			},
-		} as unknown as Parameters<typeof dumling.de.create.selection.typo>[0]);
+		} as unknown as Parameters<typeof dumling.de.create.selection>[0]);
 
 		expect(lemma.language).toBe("de");
 		expect(citationSurface.language).toBe(citationSurface.lemma.language);
 		expect(citationSurface.surfaceKind).toBe("Citation");
 		expect(typoSelection.language).toBe(typoSelection.surface.language);
-		expect(typoSelection.orthographicStatus).toBe("Typo");
+		expect(typoSelection.selectionFeatures).toEqual({
+			orthography: "Typo",
+		});
 	});
 
 	it("uses the current selection defaults in conversions", () => {
@@ -122,9 +120,7 @@ describe("API", () => {
 			dumling.de.convert.lemma.toSurface(lemma),
 		);
 
-		expect(fromLemma.orthographicStatus).toBe("Standard");
-		expect(fromLemma.selectionCoverage).toBe("Full");
-		expect(fromLemma.spellingRelation).toBe("Canonical");
+		expect(fromLemma.selectionFeatures).toBeUndefined();
 		expect(fromLemma.spelledSelection).toBe("See");
 		expect(fromSurface).toEqual(fromLemma);
 	});
@@ -254,10 +250,8 @@ describe("API", () => {
 
 		const parsedSelection = dumling.de.parse.selection({
 			language: "de",
-			orthographicStatus: "Standard",
-			selectionCoverage: "Full",
 			spelledSelection: "See",
-			spellingRelation: "Canonical",
+
 			surface: {
 				language: "de",
 				normalizedFullSurface: "See",
@@ -268,7 +262,7 @@ describe("API", () => {
 
 		expect(parsedSelection.success).toBe(true);
 		expect(
-			schemasFor.de.entity.Selection.Standard.Citation.Lexeme.NOUN().safeParse(
+			schemasFor.de.entity.Selection.Citation.Lexeme.NOUN().safeParse(
 				parsedSelection.success ? parsedSelection.data : undefined,
 			).success,
 		).toBe(true);
@@ -352,10 +346,9 @@ describe("API", () => {
 	it("round-trips german ids and exposes english and hebrew language behavior", () => {
 		const selection = dumling.de.parse.selection({
 			language: "de",
-			orthographicStatus: "Typo",
-			selectionCoverage: "Partial",
+			selectionFeatures: { orthography: "Typo", coverage: "Partial" },
 			spelledSelection: "Sse",
-			spellingRelation: "Canonical",
+
 			surface: {
 				language: "de",
 				normalizedFullSurface: "See",
@@ -403,7 +396,7 @@ describe("API", () => {
 			data: englishLemma,
 		});
 		expect(
-			schemasFor.en.entity.Selection.Standard.Citation.Lexeme.NOUN().safeParse(
+			schemasFor.en.entity.Selection.Citation.Lexeme.NOUN().safeParse(
 				dumling.en.convert.lemma.toSelection(englishLemma),
 			).success,
 		).toBe(true);
@@ -423,7 +416,7 @@ describe("API", () => {
 			data: hebrewLemma,
 		});
 		expect(
-			schemasFor.he.entity.Selection.Standard.Citation.Lexeme.VERB().safeParse(
+			schemasFor.he.entity.Selection.Citation.Lexeme.VERB().safeParse(
 				dumling.he.convert.lemma.toSelection(hebrewLemma),
 			).success,
 		).toBe(true);

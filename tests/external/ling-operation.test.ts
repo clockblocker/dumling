@@ -30,17 +30,13 @@ describe("operations", () => {
 			dumling.en.convert.surface.toSelection(
 				englishWalkInflectionSurface,
 				{
-					selectionCoverage: "Full",
 					spelledSelection: "Walk",
-					spellingRelation: "Canonical",
 				},
 			),
 		).toEqual({
 			language: "en",
-			orthographicStatus: "Standard",
-			selectionCoverage: "Full",
 			spelledSelection: "Walk",
-			spellingRelation: "Canonical",
+
 			surface: englishWalkInflectionSurface,
 		});
 	});
@@ -63,7 +59,6 @@ describe("operations", () => {
 			dumling.en.describe.as.selection(englishWalkInflectionSurface),
 		).toEqual({
 			language: "en",
-			orthographicStatus: "Standard",
 			surfaceKind: "Inflection",
 			lemmaKind: "Lexeme",
 			lemmaSubKind: "VERB",
@@ -72,15 +67,16 @@ describe("operations", () => {
 			dumling.de.describe.as.selection(germanHausCitationSurface),
 		).toEqual({
 			language: "de",
-			orthographicStatus: "Standard",
 			surfaceKind: "Citation",
 			lemmaKind: "Lexeme",
 			lemmaSubKind: "NOUN",
 		});
 		expect(
 			String(
-				dumling.en.describe.asCsv.selection(englishWalkInflectionSurface),
+				dumling.en.describe.asCsv.selection(
+					englishWalkInflectionSurface,
+				),
 			),
-		).toBe("Selection,en,Standard,Inflection,Lexeme,VERB");
+		).toBe("Selection,en,Inflection,Lexeme,VERB");
 	});
 });

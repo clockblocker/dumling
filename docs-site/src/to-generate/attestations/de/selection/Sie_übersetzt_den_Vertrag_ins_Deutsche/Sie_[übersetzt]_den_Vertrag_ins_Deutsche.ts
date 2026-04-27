@@ -2,10 +2,8 @@ import type { AttestedSelection, Selection } from "dumling/types";
 
 const deSelection018 = {
 	language: "de",
-	orthographicStatus: "Standard",
-	selectionCoverage: "Full",
 	spelledSelection: "übersetzt",
-	spellingRelation: "Canonical",
+
 	surface: {
 		language: "de",
 		normalizedFullSurface: "übersetzt",
@@ -26,11 +24,12 @@ const deSelection018 = {
 			meaningInEmojis: "🌐",
 		},
 	},
-} satisfies Selection<"de", "Standard", "Inflection", "Lexeme", "VERB">;
+} satisfies Selection<"de", "Inflection", "Lexeme", "VERB">;
 
 export const attestation = {
 	selection: deSelection018,
 	sentenceMarkdown: "Sie [übersetzt] den Vertrag ins Deutsche.",
-	classifierNotes: "The ambiguous surface übersetzt is taken as present finite, not as a participle.",
+	classifierNotes:
+		"The ambiguous surface übersetzt is taken as present finite, not as a participle.",
 	isVerified: true,
 } as const satisfies AttestedSelection;

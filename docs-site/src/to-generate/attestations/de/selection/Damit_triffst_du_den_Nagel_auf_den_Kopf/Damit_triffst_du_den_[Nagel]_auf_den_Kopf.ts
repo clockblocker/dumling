@@ -2,10 +2,9 @@ import type { AttestedSelection, Selection } from "dumling/types";
 
 const deSelection045 = {
 	language: "de",
-	orthographicStatus: "Standard",
-	selectionCoverage: "Partial",
+	selectionFeatures: { coverage: "Partial" },
 	spelledSelection: "Nagel",
-	spellingRelation: "Canonical",
+
 	surface: {
 		language: "de",
 		normalizedFullSurface: "den Nagel auf den Kopf treffen",
@@ -19,11 +18,12 @@ const deSelection045 = {
 			meaningInEmojis: "🎯",
 		},
 	},
-} satisfies Selection<"de", "Standard", "Citation", "Phraseme", "Idiom">;
+} satisfies Selection<"de", "Citation", "Phraseme", "Idiom">;
 
 export const attestation = {
 	selection: deSelection045,
 	sentenceMarkdown: "Damit triffst du den [Nagel] auf den Kopf.",
-	classifierNotes: "The inflected sentence form points to the citation phraseme; the selected token is only an internal component.",
+	classifierNotes:
+		"The inflected sentence form points to the citation phraseme; the selected token is only an internal component.",
 	isVerified: true,
 } as const satisfies AttestedSelection;

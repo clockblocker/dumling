@@ -1,5 +1,5 @@
-import type { EntityKind } from "../../../../../src/types/public-types.ts";
 import { relative } from "node:path";
+import type { EntityKind } from "../../../../../src/types/public-types.ts";
 import { sourceAttestationsDir } from "../../shared/paths";
 
 export function expectedEntityKindForPath(

@@ -1,10 +1,10 @@
-import { basename, join, relative } from "node:path";
 import { existsSync, readFileSync } from "node:fs";
-import { parseFrontmatter } from "./frontmatter";
-import { normalizeTypedDocSources } from "./typed/normalize-typed-doc-sources";
+import { basename, join, relative } from "node:path";
 import { listMarkdownFiles, listTypeScriptFiles } from "../shared/fs";
 import { handWrittenDocsDir, sourceTypedDocsDir } from "../shared/paths";
+import { parseFrontmatter } from "./frontmatter";
 import { routeIdForHandWrittenSourcePath } from "./routes";
+import { normalizeTypedDocSources } from "./typed/normalize-typed-doc-sources";
 
 function normalizeRelativePath(path: string): string {
 	return path.replaceAll("\\", "/");

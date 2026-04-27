@@ -3,7 +3,6 @@ import type {
 	LemmaKindFor,
 	LemmaKindForSurfaceKind,
 	LemmaSubKindFor,
-	OrthographicStatus,
 	SupportedLanguage,
 	SurfaceKindFor,
 } from "./public-types";
@@ -14,7 +13,6 @@ export type Descriptor<
 	LK extends LemmaKindFor<L> = LemmaKindFor<L>,
 	LSK extends LemmaSubKindFor<L, LK> = LemmaSubKindFor<L, LK>,
 	SK extends SurfaceKindFor<L> = SurfaceKindFor<L>,
-	OS extends OrthographicStatus = OrthographicStatus,
 > = K extends "Lemma"
 	? {
 			language: L;
@@ -31,7 +29,6 @@ export type Descriptor<
 			}
 		: {
 				language: L;
-				orthographicStatus: OS;
 				surfaceKind: SK;
 				lemmaKind: LK & LemmaKindForSurfaceKind<L, SK>;
 				lemmaSubKind: LSK &

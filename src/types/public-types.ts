@@ -4,7 +4,9 @@ import type {
 	AbstractLemma,
 	AbstractLemmaSubKindFor,
 	AbstractSelection,
+	SelectionFeatures as AbstractSelectionFeatures,
 	AbstractSurface,
+	SurfaceFeatures as AbstractSurfaceFeatures,
 } from "./abstract/entities";
 import type {
 	AbstractFeatureName,
@@ -12,7 +14,7 @@ import type {
 } from "./abstract/features/features-catalog";
 import type {
 	LanguageLemmaUnionMap,
-	LanguageSelectionByOrthographicStatusMap,
+	LanguageSelectionByKindMap,
 	LanguageSurfaceUnionMap,
 	SurfaceByKindForLanguage,
 } from "./concrete-language/concrete-language-types";
@@ -23,9 +25,6 @@ import type {
 import type {
 	LemmaKind as CoreLemmaKind,
 	LemmaSubKind as CoreLemmaSubKind,
-	OrthographicStatus as CoreOrthographicStatus,
-	SelectionCoverage as CoreSelectionCoverage,
-	SpellingRelation as CoreSpellingRelation,
 	SupportedLanguage as CoreSupportedLanguage,
 	SurfaceKind as CoreSurfaceKind,
 } from "./core/enums";
@@ -35,10 +34,9 @@ export type SupportedLanguage = CoreSupportedLanguage;
 export type Language = SupportedLanguage;
 export type LemmaKind = CoreLemmaKind;
 export type LemmaSubKind = CoreLemmaSubKind;
-export type OrthographicStatus = CoreOrthographicStatus;
-export type SelectionCoverage = CoreSelectionCoverage;
-export type SpellingRelation = CoreSpellingRelation;
 export type SurfaceKind = CoreSurfaceKind;
+export type SelectionFeatures = AbstractSelectionFeatures;
+export type SurfaceFeatures = AbstractSurfaceFeatures;
 export type EntityKind = "Lemma" | "Surface" | "Selection";
 export type EntityValue<L extends SupportedLanguage = SupportedLanguage> =
 	| Lemma<L>
@@ -65,11 +63,11 @@ export type DumlingDescriptorCsv<
 	L extends SupportedLanguage = SupportedLanguage,
 	K extends EntityKind = EntityKind,
 > = string & {
-		readonly __dumlingDescriptorCsvBrand: {
-			readonly language: L;
-			readonly entityKind: K;
-		};
+	readonly __dumlingDescriptorCsvBrand: {
+		readonly language: L;
+		readonly entityKind: K;
 	};
+};
 
 export type DumlingBase64Url<L extends SupportedLanguage = SupportedLanguage> =
 	string & {
@@ -171,20 +169,18 @@ export type Surface<
  *
  * It is intentionally not reversible. Distinct highlighted spans may collapse
  * to the same payload when they point to the same learner-facing unit.
-*
+ *
  * Example: `Pass [auf] dich auf!` and `Pass auf dich [auf]!` may both resolve
  * to the same verbal payload for `aufpassen`.
  */
 export type Selection<
 	L extends SupportedLanguage = SupportedLanguage,
-	OS extends OrthographicStatus = OrthographicStatus,
 	SK extends SurfaceKindFor<L> = SurfaceKindFor<L>,
 	LK extends LemmaKindForSurfaceKind<L, SK> = LemmaKindForSurfaceKind<L, SK>,
 	LSK extends LemmaSubKindFor<L, LK> = LemmaSubKindFor<L, LK>,
 > = L extends ConcreteLanguage
 	? ConcreteSelectionFor<
 			L & ConcreteLanguage,
-			OS,
 			SK & SurfaceKindFor<L & ConcreteLanguage>,
 			LK &
 				LemmaKindForSurfaceKind<
@@ -201,7 +197,7 @@ export type Selection<
 						>
 				>
 		>
-	: PlaceholderSelection<L, OS, SK, LK, LSK>;
+	: PlaceholderSelection<L, SK, LK, LSK>;
 
 /**
  * Attestation wrapper for a Selection in sentence context.
@@ -299,11 +295,9 @@ export type FeatureValue<
 		: never
 	: never;
 
-export type SelectionOptionsFor<OS extends OrthographicStatus> = {
-	orthographicStatus?: OS;
-	selectionCoverage?: SelectionCoverage;
+export type SelectionOptionsFor = {
+	selectionFeatures?: SelectionFeatures;
 	spelledSelection?: string;
-	spellingRelation?: SpellingRelation;
 };
 
 export type {
@@ -349,6 +343,7 @@ type PlaceholderSurface<
 	language: L;
 	normalizedFullSurface: string;
 	surfaceKind: SK;
+	surfaceFeatures?: SurfaceFeatures;
 	lemma: Lemma<L, LK, LSK>;
 } & (SK extends "Inflection"
 	? {
@@ -375,31 +370,25 @@ type ConcreteSurfaceFor<
 
 type PlaceholderSelection<
 	L extends SupportedLanguage,
-	OS extends OrthographicStatus,
 	SK extends SurfaceKindFor<L>,
 	LK extends LemmaKindForSurfaceKind<L, SK>,
 	LSK extends LemmaSubKindFor<L, LK>,
 > = {
 	language: L;
-	orthographicStatus: OS;
-	selectionCoverage: SelectionCoverage;
+	selectionFeatures?: SelectionFeatures;
 	spelledSelection: string;
-	spellingRelation: SpellingRelation;
 	surface: Surface<L, SK, LK, LSK>;
 };
 
 type ConcreteSelectionFor<
 	L extends ConcreteLanguage,
-	OS extends OrthographicStatus,
 	SK extends SurfaceKindFor<L>,
 	LK extends LemmaKindForSurfaceKind<L, SK>,
 	LSK extends LemmaSubKindFor<L, LK>,
-> = OS extends keyof LanguageSelectionByOrthographicStatusMap[L]
-	? SK extends keyof LanguageSelectionByOrthographicStatusMap[L][OS]
-		? LK extends keyof LanguageSelectionByOrthographicStatusMap[L][OS][SK]
-			? LSK extends keyof LanguageSelectionByOrthographicStatusMap[L][OS][SK][LK]
-				? LanguageSelectionByOrthographicStatusMap[L][OS][SK][LK][LSK]
-				: never
+> = SK extends keyof LanguageSelectionByKindMap[L]
+	? LK extends keyof LanguageSelectionByKindMap[L][SK]
+		? LSK extends keyof LanguageSelectionByKindMap[L][SK][LK]
+			? LanguageSelectionByKindMap[L][SK][LK][LSK]
 			: never
 		: never
 	: never;

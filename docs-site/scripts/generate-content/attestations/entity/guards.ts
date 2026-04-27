@@ -10,7 +10,9 @@ export function isRecord(value: unknown): value is Record<string, unknown> {
 	return value !== null && typeof value === "object";
 }
 
-export function isSupportedLanguage(value: unknown): value is SupportedLanguage {
+export function isSupportedLanguage(
+	value: unknown,
+): value is SupportedLanguage {
 	return value === "de" || value === "en" || value === "he";
 }
 

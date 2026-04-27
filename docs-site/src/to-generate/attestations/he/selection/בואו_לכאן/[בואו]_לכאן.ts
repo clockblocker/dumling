@@ -2,10 +2,8 @@ import type { AttestedSelection, Selection } from "dumling/types";
 
 const boUImperativeSelection = {
 	language: "he",
-	orthographicStatus: "Standard",
-	selectionCoverage: "Full",
 	spelledSelection: "בואו",
-	spellingRelation: "Canonical",
+
 	surface: {
 		language: "he",
 		normalizedFullSurface: "בואו",
@@ -26,10 +24,11 @@ const boUImperativeSelection = {
 			meaningInEmojis: "👋",
 		},
 	},
-} satisfies Selection<"he", "Standard", "Inflection", "Lexeme", "VERB">;
+} satisfies Selection<"he", "Inflection", "Lexeme", "VERB">;
 
 export const attestation = {
 	selection: boUImperativeSelection,
 	sentenceMarkdown: "[בואו] לכאן.",
-	classifierNotes: "בואו is an imperative plural form with mood Imp and no tense.",
+	classifierNotes:
+		"בואו is an imperative plural form with mood Imp and no tense.",
 } as const satisfies AttestedSelection;

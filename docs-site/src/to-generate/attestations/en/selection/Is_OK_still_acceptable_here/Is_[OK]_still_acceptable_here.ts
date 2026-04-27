@@ -2,10 +2,9 @@ import type { AttestedSelection, Selection } from "dumling/types";
 
 const okVariantSelection = {
 	language: "en",
-	orthographicStatus: "Standard",
-	selectionCoverage: "Full",
+	selectionFeatures: { spelling: "Variant" },
 	spelledSelection: "OK",
-	spellingRelation: "Variant",
+
 	surface: {
 		language: "en",
 		normalizedFullSurface: "OK",
@@ -19,10 +18,11 @@ const okVariantSelection = {
 			meaningInEmojis: "👌",
 		},
 	},
-} satisfies Selection<"en", "Standard", "Citation", "Lexeme", "INTJ">;
+} satisfies Selection<"en", "Citation", "Lexeme", "INTJ">;
 
 export const attestation = {
 	selection: okVariantSelection,
 	sentenceMarkdown: "Is [OK] still acceptable here?",
-	classifierNotes: "OK is treated as a standard spelling variant of the canonical lemma okay.",
+	classifierNotes:
+		"OK is treated as a standard spelling variant of the canonical lemma okay.",
 } as const satisfies AttestedSelection;

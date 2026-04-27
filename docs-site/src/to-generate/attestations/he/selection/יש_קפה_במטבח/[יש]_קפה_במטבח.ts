@@ -2,10 +2,8 @@ import type { AttestedSelection, Selection } from "dumling/types";
 
 const yeshExistentialSelection = {
 	language: "he",
-	orthographicStatus: "Standard",
-	selectionCoverage: "Full",
 	spelledSelection: "יש",
-	spellingRelation: "Canonical",
+
 	surface: {
 		language: "he",
 		normalizedFullSurface: "יש",
@@ -21,10 +19,11 @@ const yeshExistentialSelection = {
 			meaningInEmojis: "✅",
 		},
 	},
-} satisfies Selection<"he", "Standard", "Citation", "Lexeme", "VERB">;
+} satisfies Selection<"he", "Citation", "Lexeme", "VERB">;
 
 export const attestation = {
 	selection: yeshExistentialSelection,
 	sentenceMarkdown: "[יש] קפה במטבח.",
-	classifierNotes: "יש is modeled as an existential verb, not as an adverb or particle.",
+	classifierNotes:
+		"יש is modeled as an existential verb, not as an adverb or particle.",
 } as const satisfies AttestedSelection;

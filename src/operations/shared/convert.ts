@@ -1,36 +1,28 @@
 import type {
 	Lemma,
-	OrthographicStatus,
 	Selection,
+	SelectionFeatures,
 	SupportedLanguage,
 	Surface,
 } from "../../types/public-types";
 import type { LanguageApi } from "../api-shape";
 
-type SelectionOptions<TStatus extends OrthographicStatus = OrthographicStatus> =
-	{
-		orthographicStatus?: TStatus;
-		selectionCoverage?: Selection<SupportedLanguage>["selectionCoverage"];
-		spelledSelection?: string;
-		spellingRelation?: Selection<SupportedLanguage>["spellingRelation"];
-	};
+type SelectionOptions = {
+	selectionFeatures?: SelectionFeatures;
+	spelledSelection?: string;
+};
 
-function buildSelectionFromSurface<
-	L extends SupportedLanguage,
-	TStatus extends OrthographicStatus = "Standard",
->(
+function buildSelectionFromSurface<L extends SupportedLanguage>(
 	surface: Surface<L>,
-	options: SelectionOptions<TStatus> = {},
-): Selection<L, TStatus> {
+	options: SelectionOptions = {},
+): Selection<L> {
 	return {
 		language: surface.language,
-		orthographicStatus: options.orthographicStatus ?? "Standard",
-		selectionCoverage: options.selectionCoverage ?? "Full",
+		selectionFeatures: options.selectionFeatures,
 		spelledSelection:
 			options.spelledSelection ?? surface.normalizedFullSurface,
-		spellingRelation: options.spellingRelation ?? "Canonical",
 		surface,
-	} as unknown as Selection<L, TStatus>;
+	} as unknown as Selection<L>;
 }
 
 export function buildConvertOperations<L extends SupportedLanguage>(

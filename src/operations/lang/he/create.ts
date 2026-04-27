@@ -4,8 +4,7 @@ type HeCreateOperations = LanguageApi<"he">["create"];
 type HeCreateLemma = HeCreateOperations["lemma"];
 type HeCreateCitationSurface = HeCreateOperations["surface"]["citation"];
 type HeCreateInflectionSurface = HeCreateOperations["surface"]["inflection"];
-type HeCreateStandardSelection = HeCreateOperations["selection"]["standard"];
-type HeCreateTypoSelection = HeCreateOperations["selection"]["typo"];
+type HeCreateSelection = HeCreateOperations["selection"];
 
 export function buildHeCreateOperations(): LanguageApi<"he">["create"] {
 	const createLemma: HeCreateLemma = (input) =>
@@ -23,6 +22,7 @@ export function buildHeCreateOperations(): LanguageApi<"he">["create"] {
 			language: input.lemma.language,
 			normalizedFullSurface: input.normalizedFullSurface,
 			surfaceKind: "Citation",
+			surfaceFeatures: input.surfaceFeatures,
 			lemma: input.lemma,
 		}) as never;
 
@@ -31,27 +31,16 @@ export function buildHeCreateOperations(): LanguageApi<"he">["create"] {
 			language: input.lemma.language,
 			normalizedFullSurface: input.normalizedFullSurface,
 			surfaceKind: "Inflection",
+			surfaceFeatures: input.surfaceFeatures,
 			lemma: input.lemma,
 			inflectionalFeatures: input.inflectionalFeatures,
 		}) as never;
 
-	const createStandardSelection: HeCreateStandardSelection = (input) =>
+	const createSelection: HeCreateSelection = (input) =>
 		({
 			language: input.surface.language,
-			orthographicStatus: "Standard",
-			selectionCoverage: input.selectionCoverage,
+			selectionFeatures: input.selectionFeatures,
 			spelledSelection: input.spelledSelection,
-			spellingRelation: input.spellingRelation,
-			surface: input.surface,
-		}) as never;
-
-	const createTypoSelection: HeCreateTypoSelection = (input) =>
-		({
-			language: input.surface.language,
-			orthographicStatus: "Typo",
-			selectionCoverage: input.selectionCoverage,
-			spelledSelection: input.spelledSelection,
-			spellingRelation: input.spellingRelation,
 			surface: input.surface,
 		}) as never;
 
@@ -61,9 +50,6 @@ export function buildHeCreateOperations(): LanguageApi<"he">["create"] {
 			citation: createCitationSurface,
 			inflection: createInflectionSurface,
 		},
-		selection: {
-			standard: createStandardSelection,
-			typo: createTypoSelection,
-		},
+		selection: createSelection,
 	};
 }

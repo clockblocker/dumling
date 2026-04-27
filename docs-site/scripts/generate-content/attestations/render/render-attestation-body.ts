@@ -1,4 +1,5 @@
 import type { AttestationSource } from "../../shared/types";
+import { isSelection, isSurface } from "../entity/guards";
 import {
 	camelCaseIdentifier,
 	entityKindFor,
@@ -7,7 +8,6 @@ import {
 	surfaceForEntity,
 } from "../entity/helpers";
 import { renderTsValue } from "../entity/render-ts-value";
-import { isSelection, isSurface } from "../entity/guards";
 import { typeExpressionForEntity } from "./type-expression";
 
 export function renderAttestationBody(

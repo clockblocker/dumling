@@ -2,10 +2,8 @@ import type { AttestedSelection, Selection } from "dumling/types";
 
 const bestAdverbSelection = {
 	language: "en",
-	orthographicStatus: "Standard",
-	selectionCoverage: "Full",
 	spelledSelection: "best",
-	spellingRelation: "Canonical",
+
 	surface: {
 		language: "en",
 		normalizedFullSurface: "best",
@@ -22,10 +20,11 @@ const bestAdverbSelection = {
 			meaningInEmojis: "🎯",
 		},
 	},
-} satisfies Selection<"en", "Standard", "Inflection", "Lexeme", "ADV">;
+} satisfies Selection<"en", "Inflection", "Lexeme", "ADV">;
 
 export const attestation = {
 	selection: bestAdverbSelection,
 	sentenceMarkdown: "She performed [best] under pressure.",
-	classifierNotes: "Best is modeled as a superlative adverb here, not an adjective, because it modifies performed.",
+	classifierNotes:
+		"Best is modeled as a superlative adverb here, not an adjective, because it modifies performed.",
 } as const satisfies AttestedSelection;

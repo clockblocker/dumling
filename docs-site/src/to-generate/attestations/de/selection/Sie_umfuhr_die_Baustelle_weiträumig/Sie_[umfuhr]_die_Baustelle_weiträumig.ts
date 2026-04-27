@@ -2,10 +2,8 @@ import type { AttestedSelection, Selection } from "dumling/types";
 
 const deSelection016 = {
 	language: "de",
-	orthographicStatus: "Standard",
-	selectionCoverage: "Full",
 	spelledSelection: "umfuhr",
-	spellingRelation: "Canonical",
+
 	surface: {
 		language: "de",
 		normalizedFullSurface: "umfuhr",
@@ -26,11 +24,12 @@ const deSelection016 = {
 			meaningInEmojis: "🚗",
 		},
 	},
-} satisfies Selection<"de", "Standard", "Inflection", "Lexeme", "VERB">;
+} satisfies Selection<"de", "Inflection", "Lexeme", "VERB">;
 
 export const attestation = {
 	selection: deSelection016,
 	sentenceMarkdown: "Sie [umfuhr] die Baustelle weiträumig.",
-	classifierNotes: "This is inseparable umfahren in the past finite form, so there is no separable-prefix feature.",
+	classifierNotes:
+		"This is inseparable umfahren in the past finite form, so there is no separable-prefix feature.",
 	isVerified: true,
 } as const satisfies AttestedSelection;

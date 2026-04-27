@@ -84,20 +84,18 @@ const seeSurface = dumling.de.create.surface.citation({
 The `Selection` is the exact observed highlight in the learner's text:
 
 ```ts
-const seeSelection = dumling.de.create.selection.standard({
-	selectionCoverage: "Full",
+const seeSelection = dumling.de.create.selection({
 	spelledSelection: "See",
-	spellingRelation: "Canonical",
 	surface: seeSurface,
-}) satisfies Selection<"de", "Standard", "Citation", "Lexeme", "NOUN">;
+}) satisfies Selection<"de", "Citation", "Lexeme", "NOUN">;
 ```
 
 For that same `Selection`, the readable CSV ID and the tiny CSV payload inside the base64url ID are:
 
 ```ts
 const seeSelectionReadableCsv =
-	"Selection,Standard,Full,See,Canonical,Surface,Citation,see,Lemma,de,Lexeme,NOUN,see,🌊,gender=Masc";
-const seeSelectionTinyCsv = "v1,x,st,f,See,c,s,c,see,l,de,l,n,see,🌊,g=m";
+	"Selection,See,Surface,Citation,see,Lemma,de,Lexeme,NOUN,see,🌊,gender=Masc";
+const seeSelectionTinyCsv = "v1,x,See,s,c,see,l,de,l,n,see,🌊,g=m";
 ```
 
 ## Quickstart
@@ -163,7 +161,7 @@ descriptorCsv satisfies PackageDumlingDescriptorCsv<"de", "Selection">;
 extractedLemma satisfies PackageLemma<"de">;
 gender satisfies "Masc";
 
-packageSchemas.de.entity.Selection.Standard.Citation.Lexeme.NOUN().parse(
+packageSchemas.de.entity.Selection.Citation.Lexeme.NOUN().parse(
 	decoded.data.selection,
 );
 ```

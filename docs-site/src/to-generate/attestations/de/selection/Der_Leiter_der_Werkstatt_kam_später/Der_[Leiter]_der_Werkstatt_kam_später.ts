@@ -2,10 +2,8 @@ import type { AttestedSelection, Selection } from "dumling/types";
 
 const deSelection006 = {
 	language: "de",
-	orthographicStatus: "Standard",
-	selectionCoverage: "Full",
 	spelledSelection: "Leiter",
-	spellingRelation: "Canonical",
+
 	surface: {
 		language: "de",
 		normalizedFullSurface: "Leiter",
@@ -21,11 +19,12 @@ const deSelection006 = {
 			meaningInEmojis: "🧑‍💼",
 		},
 	},
-} satisfies Selection<"de", "Standard", "Citation", "Lexeme", "NOUN">;
+} satisfies Selection<"de", "Citation", "Lexeme", "NOUN">;
 
 export const attestation = {
 	selection: deSelection006,
 	sentenceMarkdown: "Der [Leiter] der Werkstatt kam später.",
-	classifierNotes: "Leiter is the person-role sense here, with masculine gender.",
+	classifierNotes:
+		"Leiter is the person-role sense here, with masculine gender.",
 	isVerified: true,
 } as const satisfies AttestedSelection;

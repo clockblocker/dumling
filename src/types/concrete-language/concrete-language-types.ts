@@ -4,7 +4,7 @@ import type {
 	AbstractSelection,
 	AbstractSurface,
 } from "../abstract/entities";
-import type { LemmaKind, OrthographicStatus } from "../core/enums";
+import type { LemmaKind } from "../core/enums";
 import type { Replace, ReplaceMany } from "../core/helpers";
 import type {
 	ConcreteLanguage,
@@ -97,22 +97,20 @@ type ConcreteInflectionSurfaceForLanguage<
 
 type ConcreteCitationSelectionForLanguage<
 	L extends ConcreteLanguage,
-	OS extends OrthographicStatus,
 	LK extends LemmaKindForLanguage<L>,
 	LSK extends LemmaSubKindForLanguage<L, LK>,
 > = Replace<
-	AbstractSelection<L, OS, "Citation", LK, LSK>,
+	AbstractSelection<L, "Citation", LK, LSK>,
 	"surface",
 	ConcreteCitationSurfaceForLanguage<L, LK, LSK>
 >;
 
 type ConcreteInflectionSelectionForLanguage<
 	L extends ConcreteLanguage,
-	OS extends OrthographicStatus,
 	LK extends LemmaKindForLanguage<L>,
 	LSK extends InflectableLemmaSubKindsForLanguage<L, LK>,
 > = Replace<
-	AbstractSelection<L, OS, "Inflection", LK, LSK>,
+	AbstractSelection<L, "Inflection", LK, LSK>,
 	"surface",
 	ConcreteInflectionSurfaceForLanguage<L, LK, LSK>
 >;
@@ -174,41 +172,27 @@ export type SurfaceByKindForLanguage<L extends ConcreteLanguage> = {
 	Inflection: InflectionSurfaceByKindForLanguage<L>;
 };
 
-type CitationSelectionByKindForLanguage<
-	L extends ConcreteLanguage,
-	OS extends OrthographicStatus,
-> = {
+type CitationSelectionByKindForLanguage<L extends ConcreteLanguage> = {
 	[LK in LemmaKindForLanguage<L>]: {
 		[LSK in LemmaSubKindForLanguage<
 			L,
 			LK
-		>]: ConcreteCitationSelectionForLanguage<L, OS, LK, LSK>;
+		>]: ConcreteCitationSelectionForLanguage<L, LK, LSK>;
 	};
 };
 
-type InflectionSelectionByKindForLanguage<
-	L extends ConcreteLanguage,
-	OS extends OrthographicStatus,
-> = {
+type InflectionSelectionByKindForLanguage<L extends ConcreteLanguage> = {
 	[LK in InflectableLemmaKindsForLanguage<L>]: {
 		[LSK in InflectableLemmaSubKindsForLanguage<
 			L,
 			LK
-		>]: ConcreteInflectionSelectionForLanguage<L, OS, LK, LSK>;
+		>]: ConcreteInflectionSelectionForLanguage<L, LK, LSK>;
 	};
 };
 
-export type SelectionByOrthographicStatusForLanguage<
-	L extends ConcreteLanguage,
-> = {
-	Standard: {
-		Citation: CitationSelectionByKindForLanguage<L, "Standard">;
-		Inflection: InflectionSelectionByKindForLanguage<L, "Standard">;
-	};
-	Typo: {
-		Citation: CitationSelectionByKindForLanguage<L, "Typo">;
-		Inflection: InflectionSelectionByKindForLanguage<L, "Typo">;
-	};
+export type SelectionByKindForLanguage<L extends ConcreteLanguage> = {
+	Citation: CitationSelectionByKindForLanguage<L>;
+	Inflection: InflectionSelectionByKindForLanguage<L>;
 };
 
 export type LanguageLemmaUnionMap = {
@@ -221,12 +205,12 @@ export type LanguageSurfaceUnionMap = {
 	>;
 };
 
-export type LanguageSelectionByOrthographicStatusMap = {
-	[L in ConcreteLanguage]: SelectionByOrthographicStatusForLanguage<L>;
+export type LanguageSelectionByKindMap = {
+	[L in ConcreteLanguage]: SelectionByKindForLanguage<L>;
 };
 
 export type LanguageSelectionUnionMap = {
-	[L in ConcreteLanguage]: UnionFromFourLevelMap<
-		SelectionByOrthographicStatusForLanguage<L>
+	[L in ConcreteLanguage]: UnionFromThreeLevelMap<
+		SelectionByKindForLanguage<L>
 	>;
 };

@@ -2,10 +2,8 @@ import type { AttestedSelection, Selection } from "dumling/types";
 
 const deSelection042 = {
 	language: "de",
-	orthographicStatus: "Standard",
-	selectionCoverage: "Full",
 	spelledSelection: "zu",
-	spellingRelation: "Canonical",
+
 	surface: {
 		language: "de",
 		normalizedFullSurface: "zu",
@@ -21,11 +19,12 @@ const deSelection042 = {
 			meaningInEmojis: "🔧",
 		},
 	},
-} satisfies Selection<"de", "Standard", "Citation", "Lexeme", "PART">;
+} satisfies Selection<"de", "Citation", "Lexeme", "PART">;
 
 export const attestation = {
 	selection: deSelection042,
 	sentenceMarkdown: "Das ist schwer [zu] erklären.",
-	classifierNotes: "Infinitival zu is PART with partType Inf, distinct from prepositional zu.",
+	classifierNotes:
+		"Infinitival zu is PART with partType Inf, distinct from prepositional zu.",
 	isVerified: true,
 } as const satisfies AttestedSelection;

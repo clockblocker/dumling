@@ -2,10 +2,8 @@ import type { AttestedSelection, Selection } from "dumling/types";
 
 const biglalAdpositionSelection = {
 	language: "he",
-	orthographicStatus: "Standard",
-	selectionCoverage: "Full",
 	spelledSelection: "בגלל",
-	spellingRelation: "Canonical",
+
 	surface: {
 		language: "he",
 		normalizedFullSurface: "בגלל",
@@ -19,10 +17,11 @@ const biglalAdpositionSelection = {
 			meaningInEmojis: "☔",
 		},
 	},
-} satisfies Selection<"he", "Standard", "Citation", "Lexeme", "ADP">;
+} satisfies Selection<"he", "Citation", "Lexeme", "ADP">;
 
 export const attestation = {
 	selection: biglalAdpositionSelection,
 	sentenceMarkdown: "נשארנו בבית [בגלל] הגשם.",
-	classifierNotes: "בגלל is a causal adposition without an additional case feature in the current schema.",
+	classifierNotes:
+		"בגלל is a causal adposition without an additional case feature in the current schema.",
 } as const satisfies AttestedSelection;

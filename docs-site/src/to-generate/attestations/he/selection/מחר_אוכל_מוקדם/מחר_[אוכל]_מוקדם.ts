@@ -2,10 +2,8 @@ import type { AttestedSelection, Selection } from "dumling/types";
 
 const ochalVerbSelection = {
 	language: "he",
-	orthographicStatus: "Standard",
-	selectionCoverage: "Full",
 	spelledSelection: "אוכל",
-	spellingRelation: "Canonical",
+
 	surface: {
 		language: "he",
 		normalizedFullSurface: "אוכל",
@@ -26,10 +24,11 @@ const ochalVerbSelection = {
 			meaningInEmojis: "🍽️",
 		},
 	},
-} satisfies Selection<"he", "Standard", "Inflection", "Lexeme", "VERB">;
+} satisfies Selection<"he", "Inflection", "Lexeme", "VERB">;
 
 export const attestation = {
 	selection: ochalVerbSelection,
 	sentenceMarkdown: "מחר [אוכל] מוקדם.",
-	classifierNotes: "אוכל is the future first-person verb from אכל, separated from the noun homograph.",
+	classifierNotes:
+		"אוכל is the future first-person verb from אכל, separated from the noun homograph.",
 } as const satisfies AttestedSelection;

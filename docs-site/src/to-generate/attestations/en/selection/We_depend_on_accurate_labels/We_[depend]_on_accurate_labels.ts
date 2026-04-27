@@ -2,10 +2,9 @@ import type { AttestedSelection, Selection } from "dumling/types";
 
 const dependOnGovernedPrepSelection = {
 	language: "en",
-	orthographicStatus: "Standard",
-	selectionCoverage: "Partial",
+	selectionFeatures: { coverage: "Partial" },
 	spelledSelection: "depend",
-	spellingRelation: "Canonical",
+
 	surface: {
 		language: "en",
 		normalizedFullSurface: "depend on",
@@ -21,10 +20,11 @@ const dependOnGovernedPrepSelection = {
 			meaningInEmojis: "🔗",
 		},
 	},
-} satisfies Selection<"en", "Standard", "Citation", "Lexeme", "VERB">;
+} satisfies Selection<"en", "Citation", "Lexeme", "VERB">;
 
 export const attestation = {
 	selection: dependOnGovernedPrepSelection,
 	sentenceMarkdown: "We [depend] on accurate labels.",
-	classifierNotes: "Depend on uses hasGovPrep rather than phrasal because on is governed by the verb.",
+	classifierNotes:
+		"Depend on uses hasGovPrep rather than phrasal because on is governed by the verb.",
 } as const satisfies AttestedSelection;

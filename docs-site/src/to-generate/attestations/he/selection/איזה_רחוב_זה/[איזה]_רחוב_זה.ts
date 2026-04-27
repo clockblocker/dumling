@@ -2,10 +2,8 @@ import type { AttestedSelection, Selection } from "dumling/types";
 
 const eizeDeterminerSelection = {
 	language: "he",
-	orthographicStatus: "Standard",
-	selectionCoverage: "Full",
 	spelledSelection: "איזה",
-	spellingRelation: "Canonical",
+
 	surface: {
 		language: "he",
 		normalizedFullSurface: "איזה",
@@ -25,10 +23,11 @@ const eizeDeterminerSelection = {
 			meaningInEmojis: "❓",
 		},
 	},
-} satisfies Selection<"he", "Standard", "Inflection", "Lexeme", "DET">;
+} satisfies Selection<"he", "Inflection", "Lexeme", "DET">;
 
 export const attestation = {
 	selection: eizeDeterminerSelection,
 	sentenceMarkdown: "[איזה] רחוב זה?",
-	classifierNotes: "איזה is an interrogative determiner rather than a pronoun because it modifies רחוב.",
+	classifierNotes:
+		"איזה is an interrogative determiner rather than a pronoun because it modifies רחוב.",
 } as const satisfies AttestedSelection;

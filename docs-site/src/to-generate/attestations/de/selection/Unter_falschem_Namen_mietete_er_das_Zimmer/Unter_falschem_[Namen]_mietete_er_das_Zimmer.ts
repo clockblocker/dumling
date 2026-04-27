@@ -2,10 +2,8 @@ import type { AttestedSelection, Selection } from "dumling/types";
 
 const deSelection015 = {
 	language: "de",
-	orthographicStatus: "Standard",
-	selectionCoverage: "Full",
 	spelledSelection: "Namen",
-	spellingRelation: "Canonical",
+
 	surface: {
 		language: "de",
 		normalizedFullSurface: "Namen",
@@ -25,11 +23,12 @@ const deSelection015 = {
 			meaningInEmojis: "🏷️",
 		},
 	},
-} satisfies Selection<"de", "Standard", "Inflection", "Lexeme", "NOUN">;
+} satisfies Selection<"de", "Inflection", "Lexeme", "NOUN">;
 
 export const attestation = {
 	selection: deSelection015,
 	sentenceMarkdown: "Unter falschem [Namen] mietete er das Zimmer.",
-	classifierNotes: "Namen is dative singular of the weak masculine noun Name, even though the surface could be plural elsewhere.",
+	classifierNotes:
+		"Namen is dative singular of the weak masculine noun Name, even though the surface could be plural elsewhere.",
 	isVerified: true,
 } as const satisfies AttestedSelection;

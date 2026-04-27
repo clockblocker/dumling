@@ -2,10 +2,8 @@ import type { AttestedSelection, Selection } from "dumling/types";
 
 const katavVerbSelection = {
 	language: "he",
-	orthographicStatus: "Standard",
-	selectionCoverage: "Full",
 	spelledSelection: "כתב",
-	spellingRelation: "Canonical",
+
 	surface: {
 		language: "he",
 		normalizedFullSurface: "כתב",
@@ -27,10 +25,11 @@ const katavVerbSelection = {
 			meaningInEmojis: "✍️",
 		},
 	},
-} satisfies Selection<"he", "Standard", "Inflection", "Lexeme", "VERB">;
+} satisfies Selection<"he", "Inflection", "Lexeme", "VERB">;
 
 export const attestation = {
 	selection: katavVerbSelection,
 	sentenceMarkdown: "הוא [כתב] מהר.",
-	classifierNotes: "כתב is the verb inflection here, distinct from both the root morpheme and noun-like uses.",
+	classifierNotes:
+		"כתב is the verb inflection here, distinct from both the root morpheme and noun-like uses.",
 } as const satisfies AttestedSelection;

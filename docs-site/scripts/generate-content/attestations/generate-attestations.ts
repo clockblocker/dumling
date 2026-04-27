@@ -1,5 +1,5 @@
-import { join } from "node:path";
 import { existsSync, mkdirSync, readFileSync, rmSync } from "node:fs";
+import { join } from "node:path";
 import { getLanguageApi } from "../../../../src/index.ts";
 import { parseFrontmatter } from "../docs/frontmatter";
 import { publicMarkdownPathForRouteId } from "../docs/routes";
@@ -65,7 +65,9 @@ function removeGeneratedAttestationOutputs(): void {
 			}
 
 			rmSync(generatedPath, { force: true });
-			rmSync(publicMarkdownPathForRouteId(frontmatter.routeId), { force: true });
+			rmSync(publicMarkdownPathForRouteId(frontmatter.routeId), {
+				force: true,
+			});
 		}
 	}
 }

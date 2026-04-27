@@ -2,10 +2,8 @@ import type { AttestedSelection, Selection } from "dumling/types";
 
 const deSelection038 = {
 	language: "de",
-	orthographicStatus: "Standard",
-	selectionCoverage: "Full",
 	spelledSelection: "entlang",
-	spellingRelation: "Canonical",
+
 	surface: {
 		language: "de",
 		normalizedFullSurface: "entlang",
@@ -22,11 +20,12 @@ const deSelection038 = {
 			meaningInEmojis: "🛤️",
 		},
 	},
-} satisfies Selection<"de", "Standard", "Citation", "Lexeme", "ADP">;
+} satisfies Selection<"de", "Citation", "Lexeme", "ADP">;
 
 export const attestation = {
 	selection: deSelection038,
 	sentenceMarkdown: "Wir liefen den Fluss [entlang].",
-	classifierNotes: "Entlang is treated as a postposition rather than an adverb because of its syntactic relation to den Fluss.",
+	classifierNotes:
+		"Entlang is treated as a postposition rather than an adverb because of its syntactic relation to den Fluss.",
 	isVerified: true,
 } as const satisfies AttestedSelection;

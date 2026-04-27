@@ -1,6 +1,6 @@
+import type { AttestedSelection } from "../../../../../src/types/public-types.ts";
 import type { TypedDocsGenerationConfig } from "./config";
 import type { RuleDocument } from "./load-typed-doc-source";
-import type { AttestedSelection } from "../../../../../src/types/public-types.ts";
 
 function renderRuleExample(
 	example: AttestedSelection,
@@ -34,11 +34,7 @@ export function renderRuleDocument(
 			[
 				"Examples:",
 				...document.examples.map((example) =>
-					renderRuleExample(
-						example,
-						config,
-						document.meta.title,
-					),
+					renderRuleExample(example, config, document.meta.title),
 				),
 			].join("\n"),
 		);
@@ -61,11 +57,7 @@ export function renderRuleDocument(
 				[
 					"Examples:",
 					...subsection.examples.map((example) =>
-						renderRuleExample(
-							example,
-							config,
-							document.meta.title,
-						),
+						renderRuleExample(example, config, document.meta.title),
 					),
 				].join("\n"),
 			);
