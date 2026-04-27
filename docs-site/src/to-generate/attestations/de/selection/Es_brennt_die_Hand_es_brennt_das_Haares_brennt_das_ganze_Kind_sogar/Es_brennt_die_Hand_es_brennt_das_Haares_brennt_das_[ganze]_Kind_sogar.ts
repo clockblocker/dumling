@@ -33,4 +33,5 @@ export const attestation = {
 es brennt das [ganze] Kind sogar.`,
 	classifierNotes:
 		"Ganze is an attributive adjective modifying Kind. The surface form is syncretic between neuter nominative and accusative singular after das; I chose nominative because in this rhyme das ganze Kind reads as the postposed subject of brennt.",
+	isVerified: true,
 } as const satisfies AttestedSelection;

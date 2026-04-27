@@ -24,7 +24,7 @@ const esPronounSelection = {
 				person: "3",
 				pronType: "Prs",
 			},
-			meaningInEmojis: "👉",
+			meaningInEmojis: "🫥",
 		},
 	},
 } satisfies Selection<"de", "Standard", "Inflection", "Lexeme", "PRON">;
@@ -34,5 +34,6 @@ export const attestation = {
 	sentenceMarkdown: `[Es] brennt die Hand, es brennt das Haar,
 es brennt das ganze Kind sogar.`,
 	classifierNotes:
-		"Sentence-initial Es is capitalized in spelledSelection but normalizedFullSurface stays lowercase. I treated it as nominative personal-pronoun es in an expletive or impersonal use rather than as a referential neuter pronoun.",
+		"Sentence-initial Es is capitalized in spelledSelection but normalizedFullSurface stays lowercase. I treated it as nominative personal-pronoun es in an expletive or presentational use with a postponed nominative subject, rather than as a referential neuter pronoun.",
+	isVerified: true,
 } as const satisfies AttestedSelection;

@@ -32,6 +32,7 @@
   Examples:
     - `[Am] nächsten Morgen war alles anders.` -> `🌅`
     - `Er vergaß [seinen] Schlüssel im Büro.` -> `🔑`
+    - `[Wegen] dem Regen kamen wir zu spät.` -> `🌧️`
 - `spellingRelation` set to `"Variant"` for sentence-initial fusions.
   Examples:
     - `[Am] nächsten Morgen war alles anders.` -> `{ spellingRelation: "Variant" }
