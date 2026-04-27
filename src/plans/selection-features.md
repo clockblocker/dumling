@@ -207,9 +207,16 @@ unnecessary.
 
 Target direction:
 
-- replace the `standard` / `typo` split with one selection creator
+- replace the `standard` / `typo` split with one callable
+  `create.selection(...)`
 - accept `selectionFeatures?: SelectionFeatures`
 - treat omitted features as defaults
+
+Explicit decision:
+
+- do not keep `create.selection` as a namespace object with one remaining
+  method
+- make `create.selection` itself the single creation entrypoint
 
 ### Selection schemas
 
@@ -300,6 +307,37 @@ In other words:
 This matches the semantic goal of the redesign: default values should disappear
 from serialized selection and surface identities rather than survive as empty
 structure.
+
+### Empty bag canonicality
+
+Empty feature bags are non-canonical and should be rejected.
+
+- `selectionFeatures: {}` => reject
+- `surfaceFeatures: {}` => reject
+
+If a feature bag is present, it must contain at least one non-default value.
+Otherwise the bag should be omitted entirely.
+
+This rule should hold consistently across:
+
+- create APIs
+- parse APIs
+- readable CSV decoding
+- tiny CSV and base64url decoding
+
+This keeps round-tripping canonical and aligned with the sparse-row policy.
+
+### Codec strictness
+
+The break is complete.
+
+New decoders should reject:
+
+- legacy fixed-width selection rows using
+  `orthographicStatus,selectionCoverage,spellingRelation`
+- legacy selection IDs and tiny CSV payloads based on that shape
+
+They should not silently translate legacy payloads into the new model.
 
 ## Migration Order
 
