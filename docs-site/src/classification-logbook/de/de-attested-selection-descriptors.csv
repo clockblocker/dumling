@@ -120,9 +120,9 @@ Unter falschem [Namen] mietete er das Zimmer.,Namen,Standard,Inflection,Lexeme,N
 "Verbrannt ist alles [ganz] und gar, das arme Kind mit Haut und Haar;",ganz und gar,Standard,Citation,Phraseme,Idiom
 "Verbrannt ist alles ganz [und] gar, das arme Kind mit Haut und Haar;",ganz und gar,Standard,Citation,Phraseme,Idiom
 "Verbrannt ist alles ganz und [gar], das arme Kind mit Haut und Haar;",ganz und gar,Standard,Citation,Phraseme,Idiom
-"Verbrannt ist alles ganz und gar, das arme Kind mit [Haut] und Haar;",mit Haut und Haar,Standard,Citation,Phraseme,Idiom
-"Verbrannt ist alles ganz und gar, das arme Kind mit Haut [und] Haar;",mit Haut und Haar,Standard,Citation,Phraseme,Idiom
-"Verbrannt ist alles ganz und gar, das arme Kind mit Haut und [Haar];",mit Haut und Haar,Standard,Citation,Phraseme,Idiom
+"Verbrannt ist alles ganz und gar, das arme Kind mit [Haut] und Haar;",Haut,Standard,Inflection,Lexeme,NOUN
+"Verbrannt ist alles ganz und gar, das arme Kind mit Haut [und] Haar;",und,Standard,Citation,Lexeme,CCONJ
+"Verbrannt ist alles ganz und gar, das arme Kind mit Haut und [Haar];",Haar,Standard,Inflection,Lexeme,NOUN
 Viele [deutschsprachigen] Quellen fehlen noch.,deutschsprachigen,Standard,Inflection,Lexeme,ADJ
 [Viele] kamen zu spät.,viele,Standard,Inflection,Lexeme,PRON
 [Wegen] dem Regen kamen wir zu spät.,wegen,Standard,Citation,Lexeme,ADP

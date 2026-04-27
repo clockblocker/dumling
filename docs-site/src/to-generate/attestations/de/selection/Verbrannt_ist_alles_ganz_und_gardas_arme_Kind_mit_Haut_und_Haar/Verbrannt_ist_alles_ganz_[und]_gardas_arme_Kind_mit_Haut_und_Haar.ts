@@ -27,4 +27,5 @@ export const attestation = {
 das arme Kind mit Haut und Haar;`,
 	classifierNotes:
 		"The tempting word-level analysis would be CCONJ und, but here und is internal to the frozen intensifier ganz und gar. I therefore kept the learner-facing unit as a partial idiom selection.",
+	isVerified: true,
 } as const satisfies AttestedSelection;

@@ -1,30 +1,39 @@
 import type { AttestedSelection, Selection } from "dumling/types";
 
-const mitHautUndHaarIdiomSelection = {
+const deSelection = {
 	language: "de",
 	orthographicStatus: "Standard",
-	selectionCoverage: "Partial",
+	selectionCoverage: "Full",
 	spelledSelection: "Haut",
 	spellingRelation: "Canonical",
 	surface: {
 		language: "de",
-		normalizedFullSurface: "mit Haut und Haar",
-		surfaceKind: "Citation",
+		normalizedFullSurface: "Haut",
+		surfaceKind: "Inflection",
+		inflectionalFeatures: {
+			case: "Dat",
+			number: "Sing",
+		},
 		lemma: {
 			language: "de",
-			canonicalLemma: "mit Haut und Haar",
-			lemmaKind: "Phraseme",
-			lemmaSubKind: "Idiom",
-			inherentFeatures: {},
-			meaningInEmojis: "💯",
+			canonicalLemma: "Haut",
+			lemmaKind: "Lexeme",
+			lemmaSubKind: "NOUN",
+			inherentFeatures: {
+				gender: "Fem",
+			},
+			meaningInEmojis: "🧍",
 		},
 	},
-} satisfies Selection<"de", "Standard", "Citation", "Phraseme", "Idiom">;
+} satisfies Selection<"de", "Standard", "Inflection", "Lexeme", "NOUN">;
 
 export const attestation = {
-	selection: mitHautUndHaarIdiomSelection,
+	selection: deSelection,
 	sentenceMarkdown: `Verbrannt ist alles ganz und gar,
 das arme Kind mit [Haut] und Haar;`,
 	classifierNotes:
-		"This line invites a literal body-part reading because the child is actually burning, but the fixed phrase mit Haut und Haar is also the meaning-bearing unit meaning wholly or completely. I therefore attached Haut to the idiom rather than to the standalone noun lexeme.",
+		"Haut is classified word-by-word here because this occurrence is used literally, not idiomatically. The noun is dative singular after mit, even though the attested form is identical to the citation form.",
+	classificationMistakes:
+		"Do not keep a literally used idiom as a phraseme. The earlier mistake here was classifying Haut as a Partial selection of the idiom mit Haut und Haar instead of as the standalone noun Haut in dative singular.",
+	isVerified: true,
 } as const satisfies AttestedSelection;

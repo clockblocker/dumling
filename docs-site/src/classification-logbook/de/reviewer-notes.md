@@ -52,10 +52,11 @@
     - `Am nächsten Morgen war alles [anders].`
     - `Er war am fünften Tage [tot].`
     - `Die schoß das Häschen ganz [entzwei].`
-- Participles are stored as inflections of `VERB`, even in stative or passive-like clauses, unless there is a stronger reason to treat the form as a fully lexicalized adjective.
+- Participles are stored as inflections of `VERB`, even in stative, passive-like, or adjective-leaning predicative clauses, unless there is a stronger reason to treat the form as a fully lexicalized adjective.
   Examples:
     - `Auf der Karte sind drei Seen [eingezeichnet].`
     - `Sie wurde um Geduld [gebeten].`
+    - `[Verbrannt] ist alles ganz und gar, das arme Kind mit Haut und Haar.`
 - Finite German modals split by whether they auxiliary-mark an overt infinitive. Use `AUX` when the modal combines with an overt infinitive, and use `VERB` when the modal stands as the clause's main predicate in an elliptical clause with no overt infinitive.
   Examples:
     - `Er [muss] heute arbeiten.` -> `AUX`
@@ -64,6 +65,11 @@
   Examples:
     - `Das muss heute noch [raus].` -> `ADV` lemma `heraus`
     - `Die Kinder sind schon [drin].` -> `ADV` lemma `drinnen`
+- Standalone German intensifiers and scalar-focus items stay `Lexeme/ADV` unless the selected token is clearly part of a fixed learner-facing expression that should be modeled as a larger unit.
+  Examples:
+    - `Und Minz und Maunz, die schreien [gar] jämmerlich zu zweien.` -> standalone `ADV`
+    - `Es brennt das ganze Kind [sogar].` -> standalone `ADV`
+    - `Verbrannt ist alles ganz und [gar].` -> partial `Phraseme/Idiom` for `ganz und gar`
 - Free prepositions heading ordinary prepositional phrases stay standalone `ADP` entries and are not pulled into the verb. Only lexically governed prepositions or true separable prefixes belong on the verb analysis.
   Examples:
     - `Das rote Band lag [auf] dem Geschenk.` -> standalone `ADP`

@@ -27,4 +27,5 @@ export const attestation = {
 das arme Kind mit Haut und Haar;`,
 	classifierNotes:
 		"Gar can often be a standalone intensifying adverb, and there is another attestation in the repo where that is the best choice. Here I preferred a partial selection of the fixed phrase ganz und gar because the phrase as a whole carries the intended meaning.",
+	isVerified: true,
 } as const satisfies AttestedSelection;

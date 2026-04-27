@@ -27,4 +27,5 @@ export const attestation = {
 das arme Kind mit Haut und Haar;`,
 	classifierNotes:
 		"I treated ganz as a partial selection of the fixed intensifying idiom ganz und gar, not as the standalone adjective or adverb lexeme. In this line the learner-relevant meaning-bearing unit is the whole phrase meaning completely.",
+	isVerified: true,
 } as const satisfies AttestedSelection;

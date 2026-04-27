@@ -1,30 +1,33 @@
 import type { AttestedSelection, Selection } from "dumling/types";
 
-const mitHautUndHaarIdiomSelection = {
+const deSelection = {
 	language: "de",
 	orthographicStatus: "Standard",
-	selectionCoverage: "Partial",
+	selectionCoverage: "Full",
 	spelledSelection: "und",
 	spellingRelation: "Canonical",
 	surface: {
 		language: "de",
-		normalizedFullSurface: "mit Haut und Haar",
+		normalizedFullSurface: "und",
 		surfaceKind: "Citation",
 		lemma: {
 			language: "de",
-			canonicalLemma: "mit Haut und Haar",
-			lemmaKind: "Phraseme",
-			lemmaSubKind: "Idiom",
+			canonicalLemma: "und",
+			lemmaKind: "Lexeme",
+			lemmaSubKind: "CCONJ",
 			inherentFeatures: {},
-			meaningInEmojis: "💯",
+			meaningInEmojis: "➕",
 		},
 	},
-} satisfies Selection<"de", "Standard", "Citation", "Phraseme", "Idiom">;
+} satisfies Selection<"de", "Standard", "Citation", "Lexeme", "CCONJ">;
 
 export const attestation = {
-	selection: mitHautUndHaarIdiomSelection,
+	selection: deSelection,
 	sentenceMarkdown: `Verbrannt ist alles ganz und gar,
 das arme Kind mit Haut [und] Haar;`,
 	classifierNotes:
-		"At the token level this could be ordinary coordination, but inside mit Haut und Haar the conjunction is part of a conventional idiom. I kept the larger idiomatic unit because that is the learner-relevant lexical answer here.",
+		"Und is classified word-by-word here because the phrase is being used literally, not as an idiom. In this line it is the ordinary coordinating conjunction linking the two literal nouns Haut and Haar.",
+	classificationMistakes:
+		"Do not keep a literally used idiom as a phraseme. The earlier mistake here was classifying und as a Partial selection of the idiom mit Haut und Haar instead of as the standalone coordinating conjunction und.",
+	isVerified: true,
 } as const satisfies AttestedSelection;

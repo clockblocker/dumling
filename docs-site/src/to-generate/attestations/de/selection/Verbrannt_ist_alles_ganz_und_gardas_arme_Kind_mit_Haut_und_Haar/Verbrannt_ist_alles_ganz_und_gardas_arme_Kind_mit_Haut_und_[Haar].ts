@@ -1,30 +1,39 @@
 import type { AttestedSelection, Selection } from "dumling/types";
 
-const mitHautUndHaarIdiomSelection = {
+const deSelection = {
 	language: "de",
 	orthographicStatus: "Standard",
-	selectionCoverage: "Partial",
+	selectionCoverage: "Full",
 	spelledSelection: "Haar",
 	spellingRelation: "Canonical",
 	surface: {
 		language: "de",
-		normalizedFullSurface: "mit Haut und Haar",
-		surfaceKind: "Citation",
+		normalizedFullSurface: "Haar",
+		surfaceKind: "Inflection",
+		inflectionalFeatures: {
+			case: "Dat",
+			number: "Sing",
+		},
 		lemma: {
 			language: "de",
-			canonicalLemma: "mit Haut und Haar",
-			lemmaKind: "Phraseme",
-			lemmaSubKind: "Idiom",
-			inherentFeatures: {},
-			meaningInEmojis: "💯",
+			canonicalLemma: "Haar",
+			lemmaKind: "Lexeme",
+			lemmaSubKind: "NOUN",
+			inherentFeatures: {
+				gender: "Neut",
+			},
+			meaningInEmojis: "💇",
 		},
 	},
-} satisfies Selection<"de", "Standard", "Citation", "Phraseme", "Idiom">;
+} satisfies Selection<"de", "Standard", "Inflection", "Lexeme", "NOUN">;
 
 export const attestation = {
-	selection: mitHautUndHaarIdiomSelection,
+	selection: deSelection,
 	sentenceMarkdown: `Verbrannt ist alles ganz und gar,
 das arme Kind mit Haut und [Haar];`,
 	classifierNotes:
-		"Like Haut in the same phrase, Haar could be read literally in context, but I still classified it as a partial selection of the idiom mit Haut und Haar because the larger phrase contributes the lexical meaning completely.",
+		"Haar is classified word-by-word here because the line uses the body-part phrase literally. The noun is dative singular after mit, although the surface form is syncretic with the citation form.",
+	classificationMistakes:
+		"Do not keep a literally used idiom as a phraseme. The earlier mistake here was classifying Haar as a Partial selection of the idiom mit Haut und Haar instead of as the standalone noun Haar in dative singular.",
+	isVerified: true,
 } as const satisfies AttestedSelection;
