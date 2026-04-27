@@ -1,4 +1,5 @@
 import type { LanguageApi } from "../../../types/public-types";
+import { requireNonEmptyFeatureBag } from "../../shared/feature-bags";
 
 type DeCreateOperations = LanguageApi<"de">["create"];
 type DeCreateLemma = DeCreateOperations["lemma"];
@@ -22,7 +23,10 @@ export function buildDeCreateOperations(): LanguageApi<"de">["create"] {
 			language: input.lemma.language,
 			normalizedFullSurface: input.normalizedFullSurface,
 			surfaceKind: "Citation",
-			surfaceFeatures: input.surfaceFeatures,
+			surfaceFeatures: requireNonEmptyFeatureBag(
+				input.surfaceFeatures,
+				"surfaceFeatures",
+			),
 			lemma: input.lemma,
 		}) as never;
 
@@ -31,7 +35,10 @@ export function buildDeCreateOperations(): LanguageApi<"de">["create"] {
 			language: input.lemma.language,
 			normalizedFullSurface: input.normalizedFullSurface,
 			surfaceKind: "Inflection",
-			surfaceFeatures: input.surfaceFeatures,
+			surfaceFeatures: requireNonEmptyFeatureBag(
+				input.surfaceFeatures,
+				"surfaceFeatures",
+			),
 			lemma: input.lemma,
 			inflectionalFeatures: input.inflectionalFeatures,
 		}) as never;
@@ -39,7 +46,10 @@ export function buildDeCreateOperations(): LanguageApi<"de">["create"] {
 	const createSelection: DeCreateSelection = (input) =>
 		({
 			language: input.surface.language,
-			selectionFeatures: input.selectionFeatures,
+			selectionFeatures: requireNonEmptyFeatureBag(
+				input.selectionFeatures,
+				"selectionFeatures",
+			),
 			spelledSelection: input.spelledSelection,
 			surface: input.surface,
 		}) as never;

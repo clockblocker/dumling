@@ -5,7 +5,7 @@ import { lemmaForEntity } from "../entity/helpers";
 export function typeExpressionForEntity(entity: EntityValue): string {
 	const lemma = lemmaForEntity(entity);
 	if (isSelection(entity)) {
-		return `Selection<"${entity.language}", "${entity.orthographicStatus}", "${entity.surface.surfaceKind}", "${lemma.lemmaKind}", "${lemma.lemmaSubKind}">`;
+		return `Selection<"${entity.language}", "${entity.surface.surfaceKind}", "${lemma.lemmaKind}", "${lemma.lemmaSubKind}">`;
 	}
 	if (isSurface(entity)) {
 		return `Surface<"${entity.language}", "${entity.surfaceKind}", "${lemma.lemmaKind}", "${lemma.lemmaSubKind}">`;

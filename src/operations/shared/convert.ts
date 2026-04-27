@@ -6,6 +6,7 @@ import type {
 	Surface,
 } from "../../types/public-types";
 import type { LanguageApi } from "../api-shape";
+import { requireNonEmptyFeatureBag } from "./feature-bags";
 
 type SelectionOptions = {
 	selectionFeatures?: SelectionFeatures;
@@ -18,7 +19,10 @@ function buildSelectionFromSurface<L extends SupportedLanguage>(
 ): Selection<L> {
 	return {
 		language: surface.language,
-		selectionFeatures: options.selectionFeatures,
+		selectionFeatures: requireNonEmptyFeatureBag(
+			options.selectionFeatures,
+			"selectionFeatures",
+		),
 		spelledSelection:
 			options.spelledSelection ?? surface.normalizedFullSurface,
 		surface,

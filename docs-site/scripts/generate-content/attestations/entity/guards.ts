@@ -44,10 +44,10 @@ export function isSelection(
 	return (
 		isRecord(value) &&
 		isSupportedLanguage(value.language) &&
-		typeof value.orthographicStatus === "string" &&
-		typeof value.selectionCoverage === "string" &&
 		typeof value.spelledSelection === "string" &&
-		typeof value.spellingRelation === "string" &&
+		(!("selectionFeatures" in value) ||
+			value.selectionFeatures === undefined ||
+			isRecord(value.selectionFeatures)) &&
 		isSurface(value.surface)
 	);
 }

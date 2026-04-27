@@ -125,6 +125,65 @@ describe("API", () => {
 		expect(fromSurface).toEqual(fromLemma);
 	});
 
+	it("rejects empty public feature bags in create and convert operations", () => {
+		const lemma = dumling.de.create.lemma({
+			canonicalLemma: "See",
+			lemmaKind: "Lexeme",
+			lemmaSubKind: "NOUN",
+			inherentFeatures: {},
+			meaningInEmojis: "🌊",
+		});
+		const citationSurface = dumling.de.create.surface.citation({
+			lemma,
+			normalizedFullSurface: "See",
+		});
+		const verbLemma = dumling.de.create.lemma({
+			canonicalLemma: "gehen",
+			lemmaKind: "Lexeme",
+			lemmaSubKind: "VERB",
+			inherentFeatures: {},
+			meaningInEmojis: "🚶",
+		});
+
+		expect(() =>
+			dumling.de.create.surface.citation({
+				lemma,
+				normalizedFullSurface: "See",
+				surfaceFeatures: {},
+			}),
+		).toThrow("surfaceFeatures must contain at least one marked value");
+		expect(() =>
+			dumling.de.create.surface.inflection({
+				lemma: verbLemma,
+				normalizedFullSurface: "geht",
+				surfaceFeatures: {},
+				inflectionalFeatures: {
+					number: "Sing",
+					person: "3",
+					tense: "Pres",
+					verbForm: "Fin",
+				},
+			}),
+		).toThrow("surfaceFeatures must contain at least one marked value");
+		expect(() =>
+			dumling.de.create.selection({
+				surface: citationSurface,
+				spelledSelection: "See",
+				selectionFeatures: {},
+			}),
+		).toThrow("selectionFeatures must contain at least one marked value");
+		expect(() =>
+			dumling.de.convert.lemma.toSelection(lemma, {
+				selectionFeatures: {},
+			}),
+		).toThrow("selectionFeatures must contain at least one marked value");
+		expect(() =>
+			dumling.de.convert.surface.toSelection(citationSurface, {
+				selectionFeatures: {},
+			}),
+		).toThrow("selectionFeatures must contain at least one marked value");
+	});
+
 	it("encodes citation surfaces to the readable ID CSV row shape", () => {
 		const lemma = dumling.de.create.lemma({
 			canonicalLemma: "See",

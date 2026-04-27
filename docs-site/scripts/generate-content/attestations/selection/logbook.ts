@@ -205,7 +205,7 @@ export function writeSelectionLogbookCsv(
 			),
 		];
 		const descriptorLines = [
-			"sentence_markdown,normalizedFullSurface,orthographicStatus,surfaceKind,lemmaKind,lemmaSubKind",
+			"sentence_markdown,normalizedFullSurface,surfaceKind,lemmaKind,lemmaSubKind",
 			...selectionsForLanguage.map((selection) => {
 				const language = selection.entity.language;
 				const languageApi = getLanguageApi(language);
@@ -217,14 +217,12 @@ export function writeSelectionLogbookCsv(
 				const [
 					_entityKind,
 					_descriptorLanguage,
-					orthographicStatus,
 					surfaceKind,
 					lemmaKind,
 					lemmaSubKind,
 				] = descriptorFields;
 
 				if (
-					orthographicStatus === undefined ||
 					surfaceKind === undefined ||
 					lemmaKind === undefined ||
 					lemmaSubKind === undefined
@@ -239,7 +237,6 @@ export function writeSelectionLogbookCsv(
 						sentenceMarkdownCsvValue(selection.sentenceMarkdown),
 					),
 					csvCell(selection.entity.surface.normalizedFullSurface),
-					csvCell(orthographicStatus),
 					csvCell(surfaceKind),
 					csvCell(lemmaKind),
 					csvCell(lemmaSubKind),
