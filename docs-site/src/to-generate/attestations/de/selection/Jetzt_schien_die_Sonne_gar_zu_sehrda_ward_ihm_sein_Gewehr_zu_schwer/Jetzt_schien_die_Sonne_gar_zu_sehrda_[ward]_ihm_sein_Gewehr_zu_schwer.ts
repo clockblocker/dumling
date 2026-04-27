@@ -21,17 +21,20 @@ const deSelection = {
 			language: "de",
 			canonicalLemma: "werden",
 			lemmaKind: "Lexeme",
-			lemmaSubKind: "AUX",
+			lemmaSubKind: "VERB",
 			inherentFeatures: {},
 			meaningInEmojis: "🔄",
 		},
 	},
-} satisfies Selection<"de", "Standard", "Inflection", "Lexeme", "AUX">;
+} satisfies Selection<"de", "Standard", "Inflection", "Lexeme", "VERB">;
 
 export const attestation = {
 	selection: deSelection,
 	sentenceMarkdown: `Jetzt schien die Sonne gar zu sehr,
 da [ward] ihm sein Gewehr zu schwer.`,
 	classifierNotes:
-		"I treated `ward` as the archaic 3sg past finite of `werden`. I went with AUX rather than VERB because this is a copular `become` use with the predicative adjective phrase `zu schwer`, but that AUX/VERB boundary is the only real uncertainty here.",
+		"I treated `ward` as the archaic 3sg past finite of `werden` and analyzed it as `VERB` because it carries the clause's change-of-state meaning with the predicative complement `zu schwer`, rather than auxiliary-marking another verbal form. We may eventually want an `isArch` flag on `Selection` for forms like `ward`, but for now this attestation stays otherwise unchanged.",
+	classificationMistakes:
+		"Do not default finite `werden` to `AUX` just because it takes a predicative complement. The earlier mistake here was classifying `ward` as `AUX` instead of lexical `VERB` in a change-of-state use.",
+	isVerified: true,
 } as const satisfies AttestedSelection;

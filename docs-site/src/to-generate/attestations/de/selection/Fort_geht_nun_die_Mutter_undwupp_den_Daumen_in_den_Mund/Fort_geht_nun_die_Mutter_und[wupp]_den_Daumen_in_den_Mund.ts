@@ -28,4 +28,5 @@ export const attestation = {
 `,
 	classifierNotes:
 		"Wupp looks like an exclamatory sound-effect item, so I treated it as a plain interjection. I did not model it as a discourse formula because there is no larger fixed phrase to recover, and I did not force `partType: Res` because this is an expressive exclamation rather than a response particle.",
+	isVerified: true,
 } as const satisfies AttestedSelection;

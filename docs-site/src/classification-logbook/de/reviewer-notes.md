@@ -68,9 +68,10 @@
   Examples:
     - `Das muss heute noch [raus].` -> `ADV` lemma `heraus`
     - `Die Kinder sind schon [drin].` -> `ADV` lemma `drinnen`
-- When a motion verb plus directional item can be read either as a lexicalized separable verb or as plain `Verb + directional adverb`, lean to the compositional analysis unless the form itself clearly disambiguates toward the separable verb.
+- When a motion verb plus directional item can be read either as a lexicalized separable verb or as plain `Verb + directional adverb`, lean to the compositional analysis unless the form itself clearly disambiguates toward the separable verb. Fronting the directional item alone does not force a separable-verb reading.
   Examples:
     - `Er lief erst nach links und dann [hinaus].` -> standalone `ADV` lemma `hinaus`
+    - `[Fort] geht nun die Mutter und wupp! den Daumen in den Mund.` -> standalone `ADV` lemma `fort`
     - `nahm Ranzen, Pulverhorn und Flint und lief [hinaus] ins Feld geschwind` -> standalone `ADV` lemma `hinaus`
     - `Er versucht, [hinauszulaufen].` -> inflected `VERB` lemma `hinauslaufen`
 - Colloquial reduced `mal` stays a standalone `Lexeme/ADV` with canonical lemma `einmal`. Treat it as `Variant` spelling rather than collapsing imperative-plus-`mal` frames into a `Phraseme`, unless the whole formula itself is the learner-facing unit.
@@ -95,12 +96,23 @@
 - When a selected token is clearly just an internal component of an idiom, classify the idiom as the learner-facing unit rather than the token's standalone POS.
   Example:
     - `Bei dieser Formel verstehe ich nur [Bahnhof].`
+- Conventional multiword discourse formulas stay `Phraseme/DiscourseFormula` when the learner-facing meaning belongs to the fixed formula rather than to the selected word in isolation. If only one component is selected, keep `selectionCoverage: "Partial"` and still point to the full citation-form formula. Fall back to standalone `INTJ`, `PART`, or other token-level POS only when no larger fixed formula is recoverable.
+  Examples:
+    - `[Na ja], ganz überzeugt bin ich nicht.` -> full `Phraseme/DiscourseFormula`
+    - `Na [ja], ganz überzeugt bin ich nicht.` -> partial `Phraseme/DiscourseFormula` for `na ja`
+    - `Die schoß das Häschen ganz entzwei; da rief die Frau: »O [wei]! O wei!«` -> partial `Phraseme/DiscourseFormula` for `o wei`
+    - `Sieh einmal, hier steht er, [pfui], der Struwwelpeter!` -> standalone `Lexeme/INTJ`
 - Split `tut ... leid` by use, not by string shape alone. Use `Phraseme/DiscourseFormula` only when the expression itself performs a live apology; use `Lexeme/VERB` lemma `leidtun` when the clause predicates regret in an ordinary reportable/embeddable way.
   Examples:
     - `[Tut mir leid], das war mein Fehler.` -> `Phraseme/DiscourseFormula`
     - `Es tut ihm [leid].` -> `Lexeme/VERB` lemma `leidtun`
     - `Mark sagt, dass es ihm [leid] tut.` -> `Lexeme/VERB` lemma `leidtun`
     - `[Tut] mir leid.` can still be `Partial` `Phraseme/DiscourseFormula` if the utterance is still functioning as a direct apology rather than as a reported predicate.
+- German `es` stays a single pronoun lemma across referential and nonreferential uses. Do not create separate lemma IDs or ID-bearing feature splits for referential, expletive, presentational, anticipatory, or formal-subject `es`; if the clause-level use matters, capture it only in `classifierNotes`.
+  Examples:
+    - `Ich trinke Bier. [Es] ist gut.` -> same lemma `es`
+    - `[Es] regnet.` -> same lemma `es`
+    - `[Es] zog der wilde Jägersmann sein grasgrün neues Röcklein an;` -> same lemma `es`
 - `Phraseme` is citation-only in the public DTO.
 - Citation-only `Construction/PairedFrame` keeps `canonicalLemma` identical to citation `normalizedFullSurface`, using the plain spaced citation form rather than an internal delimiter spelling.
   Example:

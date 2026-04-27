@@ -33,4 +33,5 @@ export const attestation = {
 	selection: deSelection048,
 	sentenceMarkdown: "[Guten Tag], ich habe einen Termin.",
 	classifierNotes: "Guten Tag is treated as a greeting formula rather than as a compositional adjective plus noun phrase.",
+	isVerified: true,
 } as const satisfies AttestedSelection;

@@ -27,4 +27,5 @@ export const attestation = {
 es brennt das ganze Kind [sogar].`,
 	classifierNotes:
 		"Sogar is the scalar focus item here. The current dumling inventory does not give German focus particles a dedicated subtype, so I classified it as ADV rather than inventing a particle-specific analysis.",
+	isVerified: true,
 } as const satisfies AttestedSelection;

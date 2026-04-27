@@ -32,7 +32,8 @@ const deSelection = {
 export const attestation = {
 	selection: deSelection,
 	sentenceMarkdown: `[Es] zog der wilde Jägersmann
-	sein grasgrün neues Röcklein an;`,
+		sein grasgrün neues Röcklein an;`,
 	classifierNotes:
 		"I treated sentence-initial `Es` as the personal pronoun lemma `es` with nominative neuter singular inflection. In this poetic inversion it may function as expletive or presentational `es`, but the current schema has no dedicated expletive feature, so plain PRON is the closest Dumling fit.",
+	isVerified: true,
 } as const satisfies AttestedSelection;

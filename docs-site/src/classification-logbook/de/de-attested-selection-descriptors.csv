@@ -81,7 +81,7 @@ Ich suche einen [besseren] Ansatz.,besseren,Standard,Inflection,Lexeme,ADJ
 Im Heft stand [Filosofie] statt Philosophie.,Filosofie,Typo,Inflection,Lexeme,NOUN
 In [ge]lacht markieren ge- und -t zusammen das Partizip.,ge-...-t,Standard,Citation,Morpheme,Circumfix
 "Jetzt schien die Sonne gar zu sehr, [da] ward ihm sein Gewehr zu schwer.",da,Standard,Citation,Lexeme,ADV
-"Jetzt schien die Sonne gar zu sehr, da [ward] ihm sein Gewehr zu schwer.",ward,Standard,Inflection,Lexeme,AUX
+"Jetzt schien die Sonne gar zu sehr, da [ward] ihm sein Gewehr zu schwer.",ward,Standard,Inflection,Lexeme,VERB
 Meine [Mutter] ruft jeden Sonntag an.,Mutter,Standard,Citation,Lexeme,NOUN
 Mit den [Kindern] ist es nie langweilig.,Kindern,Standard,Inflection,Lexeme,NOUN
 Mit [keinem] Wort erwähnte sie den Plan.,keinem,Standard,Inflection,Lexeme,DET

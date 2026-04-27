@@ -25,4 +25,5 @@ export const attestation = {
 	selection: deSelection044,
 	sentenceMarkdown: "Genau da liegt der [Hase] im Pfeffer.",
 	classifierNotes: "This is a partial selection inside an opaque idiom; the selected token is not classified as the lexical noun Hase.",
+	isVerified: true,
 } as const satisfies AttestedSelection;
