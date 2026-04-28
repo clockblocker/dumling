@@ -775,7 +775,41 @@ function gravitationalFeatureChildren(scope: Scope) {
 	}));
 }
 
-function mirrorPage(page: DocCitePageDocument): DocCitePageDocument {
+function rewriteMirroredLinks(
+	markdown: string | undefined,
+	routeRewrites: ReadonlyMap<string, string>,
+): string | undefined {
+	if (markdown === undefined) {
+		return undefined;
+	}
+
+	let rewritten = markdown;
+	const routesByDescendingLength = [...routeRewrites.entries()].toSorted(
+		([left], [right]) => right.length - left.length,
+	);
+	for (const [fromRoute, toRoute] of routesByDescendingLength) {
+		rewritten = rewritten.replaceAll(`(${fromRoute})`, `(${toRoute})`);
+		rewritten = rewritten.replaceAll(`](${fromRoute})`, `](${toRoute})`);
+	}
+
+	return rewritten;
+}
+
+function shouldShowMirrorNotice(page: DocCitePageDocument): boolean {
+	return !(
+		page.doc.family === "scope" ||
+		page.doc.family === "entity" ||
+		page.doc.family === "surface" ||
+		page.doc.family === "kind" ||
+		page.doc.family === "feature-selection" ||
+		page.doc.family === "feature-surface"
+	);
+}
+
+function mirrorPage(
+	page: DocCitePageDocument,
+	routeRewrites: ReadonlyMap<string, string>,
+): DocCitePageDocument {
 	const deDocId = page.doc.docId;
 	const deHtmlRoute = page.doc.htmlRoute;
 	const mirroredDocId = deDocId.replace(/^de(?=\/|$)/u, "u");
@@ -787,11 +821,17 @@ function mirrorPage(page: DocCitePageDocument): DocCitePageDocument {
 		deHtmlRoute,
 		deHtmlRoute,
 	)}.`;
-	const baseBody = page.body?.trim() ?? "";
+	const baseBody =
+		rewriteMirroredLinks(page.body, routeRewrites)?.trim() ?? "";
+	const mirroredBody = shouldShowMirrorNotice(page)
+		? baseBody.length === 0
+			? mirrorNotice
+			: `${mirrorNotice}\n\n${baseBody}`
+		: baseBody;
 
 	return {
 		...page,
-		body: baseBody.length === 0 ? mirrorNotice : `${mirrorNotice}\n\n${baseBody}`,
+		body: mirroredBody,
 		doc: {
 			...page.doc,
 			docId: mirroredDocId,
@@ -803,6 +843,10 @@ function mirrorPage(page: DocCitePageDocument): DocCitePageDocument {
 			...page.meta,
 			order: (page.meta.order ?? 0) + scopeOffset("u"),
 		},
+		subsections: page.subsections?.map((subsection) => ({
+			...subsection,
+			body: rewriteMirroredLinks(subsection.body, routeRewrites),
+		})),
 	};
 }
 
@@ -863,8 +907,14 @@ function buildGermanPages(): DocCitePageDocument[] {
 }
 
 const germanPages = buildGermanPages();
+const mirroredRouteRewrites = new Map(
+	germanPages.map((page) => [
+		page.doc.htmlRoute,
+		page.doc.htmlRoute.replace(/^\/de(?=\/|\.html$)/u, "/u"),
+	]),
+);
 
 export const docCitePages: readonly DocCitePageDocument[] = [
 	...germanPages,
-	...germanPages.map((page) => mirrorPage(page)),
+	...germanPages.map((page) => mirrorPage(page, mirroredRouteRewrites)),
 ];
