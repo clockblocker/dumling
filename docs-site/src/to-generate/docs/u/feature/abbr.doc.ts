@@ -10,19 +10,15 @@ const document = defineUniversalConceptPage({
 	subject: "Abbr",
 	title: "Abbr",
 	body: `
-\`Abbr\` marks that a lexical item is an abbreviation.
+\`Abbr\` marks that a [\`Lemma\`](/u/entity/lemma/) is an abbreviation.
 
-It is a [UD-complient](https://universaldependencies.org/u/feat/Abbr.html) feature with one public value.
+It is a [UD-compliant](https://universaldependencies.org/u/feat/Abbr.html) feature with one public value and belongs in \`lemma.inherentFeatures\`.
 
 ## Values
 
-- \`Yes\`: the token is an abbreviation
+- \`Yes\`: the lemma is marked as an abbreviation
 
-## Dumling Layer
-
-\`Abbr\` belongs on the **Lemma** layer in dumling, inside \`inherentFeatures\`.
-
-If a selection points to \`BVG\` or \`צה"ל\`, the abbreviated status belongs to the underlying lexical item itself, so dumling stores it on the lemma.
+If \`lemma.inherentFeatures.abbr\` is absent or \`undefined\`, the lemma is not marked as not an abbreviation.
 `,
 	examples: [bvgAbbreviation, tzahalAbbreviation],
 	subsections: [
