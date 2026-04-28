@@ -18,7 +18,7 @@ It is a [UD-compliant](https://universaldependencies.org/u/feat/Abbr.html) featu
 
 - \`Yes\`: the lemma is marked as an abbreviation
 
-If \`lemma.inherentFeatures.abbr\` is absent or \`undefined\`, the lemma is not marked as not an abbreviation.
+If \`lemma.inherentFeatures.abbr\` is absent or \`undefined\`, the lemma is marked as not an abbreviation.
 `,
 	examples: [bvgAbbreviation, tzahalAbbreviation],
 	subsections: [
@@ -27,7 +27,7 @@ If \`lemma.inherentFeatures.abbr\` is absent or \`undefined\`, the lemma is not 
 			body: `
 Use \`abbr: "Yes"\` when the lemma is itself an abbreviated form of a word or multi-word name.
 
-The abbreviated item normally still has its ordinary lexical category, such as \`PROPN\`, rather than being forced into a catch-all part of speech just because its surface form is short or opaque.
+The abbreviated item normally still has its ordinary lexical category, such as [\`PROPN\`](/u/entity/lemma/lexeme/propn/), rather than being forced into a catch-all part of speech just because its surface form is short or opaque.
 `,
 		},
 	],
