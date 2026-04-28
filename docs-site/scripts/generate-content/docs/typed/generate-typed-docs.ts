@@ -10,14 +10,16 @@ export async function discoverTypedDocs(
 	config: TypedDocsGenerationConfig,
 ): Promise<DocsOutput[]> {
 	const entrypoints = listTypedDocEntrypoints();
-	const sources = await Promise.all(
+	const sourceGroups = await Promise.all(
 		entrypoints.map((sourcePath) => loadTypedDocSource(sourcePath)),
 	);
+	const sources = sourceGroups.flat();
 
 	return sources.map((source) => ({
 		body: renderRuleDocument(source.document, config),
 		frontmatter: source.frontmatter,
 		generatedPath: source.generatedPath,
+		htmlRoute: source.htmlRoute,
 		publicPath: source.publicPath,
 		routeId: source.routeId,
 		sourcePath: source.sourcePath,

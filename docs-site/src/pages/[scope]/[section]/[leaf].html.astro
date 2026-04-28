@@ -1,7 +1,7 @@
 ---
 import { getCollection, render } from "astro:content";
-import DocsLayout from "../layouts/DocsLayout.astro";
-import { hrefForPage, navItemsForDocs, routeIdForPage } from "../lib/navigation";
+import DocsLayout from "../../../layouts/DocsLayout.astro";
+import { hrefForPage, navItemsForDocs, routeIdForPage } from "../../../lib/navigation";
 
 export async function getStaticPaths() {
 	const docs = await getCollection("docs");
@@ -11,13 +11,16 @@ export async function getStaticPaths() {
 	return pages
 		.filter(
 			(page) =>
-				routeIdForPage(page) !== "index" &&
-				page.data.htmlRoute === undefined,
+				page.data.htmlRoute !== undefined &&
+				routeIdForPage(page).split("/").length === 3,
 		)
-		.map((page) => ({
-			params: { slug: routeIdForPage(page) },
-			props: { page },
-		}));
+		.map((page) => {
+			const [scope, section, leaf] = routeIdForPage(page).split("/");
+			return {
+				params: { leaf, scope, section },
+				props: { page },
+			};
+		});
 }
 
 const { page } = Astro.props;

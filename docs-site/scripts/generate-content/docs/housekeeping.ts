@@ -4,7 +4,6 @@ import { listMarkdownFiles, listTypeScriptFiles } from "../shared/fs";
 import { handWrittenDocsDir, sourceTypedDocsDir } from "../shared/paths";
 import { parseFrontmatter } from "./frontmatter";
 import { routeIdForHandWrittenSourcePath } from "./routes";
-import { normalizeTypedDocSources } from "./typed/normalize-typed-doc-sources";
 
 function normalizeRelativePath(path: string): string {
 	return path.replaceAll("\\", "/");
@@ -87,6 +86,5 @@ function validateHandWrittenSectionIndexes(): void {
 export async function runDocsHousekeeping(): Promise<void> {
 	assertTypedDocsTreeContainsNoMarkdown();
 	assertHandWrittenTreeContainsNoTypeScript();
-	await normalizeTypedDocSources();
 	validateHandWrittenSectionIndexes();
 }

@@ -5,6 +5,7 @@ import { generatedDocsDir, publicDir } from "../shared/paths";
 import { parseFrontmatter } from "./frontmatter";
 import {
 	generatedRouteIdForPath,
+	htmlRouteForRouteId,
 	publicMarkdownPathForRouteId,
 } from "./routes";
 
@@ -32,9 +33,10 @@ export function writeNavFiles(): void {
 			);
 		})
 		.map((page) => ({
-			href: page.routeId === "index" ? "/" : `/${page.routeId}/`,
+			href: page.frontmatter.htmlRoute ?? htmlRouteForRouteId(page.routeId),
 			mdHref:
 				page.routeId === "index" ? "/index.md" : `/${page.routeId}.md`,
+			routeId: page.frontmatter.routeId ?? page.routeId,
 			title: page.frontmatter.title,
 		}));
 

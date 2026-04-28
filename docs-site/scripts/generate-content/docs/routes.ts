@@ -22,6 +22,10 @@ export function normalizeRouteId(routeId: string): string {
 		: normalized;
 }
 
+export function htmlRouteForRouteId(routeId: string): string {
+	return routeId === "index" ? "/" : `/${routeId}/`;
+}
+
 export function routeIdForHandWrittenSourcePath(sourcePath: string): string {
 	return normalizeRouteId(
 		relative(handWrittenDocsDir, sourcePath).replace(/\.md$/u, ""),
@@ -50,19 +54,10 @@ export function generatedPathForHandWrittenDoc(sourcePath: string): string {
 	return join(generatedDocsDir, relative(handWrittenDocsDir, sourcePath));
 }
 
-export function generatedPathForTypedDoc(
-	sourcePath: string,
-	slug: string,
-): string {
-	const relativeDir = relative(sourceTypedDocsDir, dirname(sourcePath));
-	return join(generatedDocsDir, relativeDir, `${slug}.md`);
-}
-
-export function canonicalTypedDocEntrypointPath(
-	sourcePath: string,
-	slug: string,
-): string {
-	return join(dirname(sourcePath), `${slug}.doc.ts`);
+export function generatedPathForTypedDoc(routeId: string): string {
+	return routeId === "index"
+		? join(generatedDocsDir, "index.md")
+		: join(generatedDocsDir, `${routeId}.md`);
 }
 
 export function publicMarkdownPathForRouteId(routeId: string): string {

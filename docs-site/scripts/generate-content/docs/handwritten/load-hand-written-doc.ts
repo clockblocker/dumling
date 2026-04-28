@@ -7,6 +7,7 @@ import { pathRelativeToSiteRoot, readmeExamplesDir } from "../../shared/paths";
 import { parseFrontmatter } from "../frontmatter";
 import {
 	generatedPathForHandWrittenDoc,
+	htmlRouteForRouteId,
 	publicMarkdownPathForRouteId,
 	routeIdForHandWrittenSourcePath,
 } from "../routes";
@@ -43,9 +44,11 @@ export function loadHandWrittenDoc(sourcePath: string): DocsOutput {
 			description: frontmatter.description,
 			generatedFrom: pathRelativeToSiteRoot(sourcePath),
 			order: frontmatter.order,
+			routeId,
 			title: frontmatter.title,
 		},
 		generatedPath: generatedPathForHandWrittenDoc(sourcePath),
+		htmlRoute: htmlRouteForRouteId(routeId),
 		publicPath: publicMarkdownPathForRouteId(routeId),
 		routeId,
 		sourcePath,

@@ -3,7 +3,7 @@ import { attestation as keinem } from "../../../../attestations/de/selection/Mit
 import { attestation as einmal } from "../../../../attestations/de/selection/Sieh_einmal_hier_steht_er_pfui_der_Struwwelpeter/Sieh_[einmal]_hier_steht_er_pfui_der_Struwwelpeter.ts";
 import { attestation as zweien } from "../../../../attestations/de/selection/Und_Minz_und_Maunz_die_schreiengar_jämmerlich_zu_zweien/Und_Minz_und_Maunz_die_schreiengar_jämmerlich_zu_[zweien].ts";
 import { attestation as viele } from "../../../../attestations/de/selection/Viele_kamen_zu_spät/[Viele]_kamen_zu_spät.ts";
-import type { RuleDocument } from "./rule.ts";
+import type { LegacyRuleDocument } from "../../../document-shapes.ts";
 
 const document = {
 	body: "Follow UD precisely when classifying.",
@@ -21,6 +21,6 @@ const document = {
 		order: 111,
 		title: "What To Do With Numerals",
 	},
-} satisfies RuleDocument;
+} satisfies LegacyRuleDocument;
 
 export default document;

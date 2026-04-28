@@ -17,14 +17,25 @@ export function routeIdForPage(
 	return page.data.routeId ?? routeIdForDocId(page.id);
 }
 
-export function hrefForRouteId(routeId: string): string {
+export function htmlRouteForRouteId(routeId: string): string {
 	return routeId === "index" ? "/" : `/${routeId}/`;
 }
 
 export function hrefForPage(
 	page: CollectionEntry<"docs"> | CollectionEntry<"entities">,
 ): string {
-	return hrefForRouteId(routeIdForPage(page));
+	return page.data.htmlRoute ?? htmlRouteForRouteId(routeIdForPage(page));
+}
+
+export function paramsSlugForPage(
+	page: CollectionEntry<"docs"> | CollectionEntry<"entities">,
+): string {
+	const href = hrefForPage(page);
+	if (href === "/") {
+		return "";
+	}
+
+	return href.replace(/^\/+/u, "").replace(/\/+$/u, "");
 }
 
 export function mdHrefForRouteId(routeId: string): string {

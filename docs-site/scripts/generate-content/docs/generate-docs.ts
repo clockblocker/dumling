@@ -12,15 +12,24 @@ import { removeGeneratedDocOutputs, writeNavFiles } from "./write-nav";
 
 function assertUniqueRouteIds(outputs: DocsOutput[]): void {
 	const routeIds = new Map<string, string>();
+	const htmlRoutes = new Map<string, string>();
 
 	for (const output of outputs) {
 		const existing = routeIds.get(output.routeId);
 		if (existing !== undefined) {
 			throw new Error(
-				`Docs route collision: ${existing} and ${output.sourcePath} both resolve to /${output.routeId}/.`,
+				`Docs routeId collision: ${existing} and ${output.sourcePath} both resolve to ${output.routeId}.`,
 			);
 		}
 		routeIds.set(output.routeId, output.sourcePath);
+
+		const existingHtmlRoute = htmlRoutes.get(output.htmlRoute);
+		if (existingHtmlRoute !== undefined) {
+			throw new Error(
+				`Docs htmlRoute collision: ${existingHtmlRoute} and ${output.sourcePath} both resolve to ${output.htmlRoute}.`,
+			);
+		}
+		htmlRoutes.set(output.htmlRoute, output.sourcePath);
 	}
 }
 

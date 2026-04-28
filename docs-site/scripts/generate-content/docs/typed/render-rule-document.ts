@@ -25,15 +25,16 @@ export function renderRuleDocument(
 	config: TypedDocsGenerationConfig,
 ): string {
 	const sections = [`# ${document.meta.title}`];
+	const examples = document.examples ?? [];
 
 	if (document.body !== undefined && document.body.trim().length > 0) {
 		sections.push(document.body.trim());
 	}
-	if (document.examples.length > 0) {
+	if (examples.length > 0) {
 		sections.push(
 			[
 				"Examples:",
-				...document.examples.map((example) =>
+				...examples.map((example) =>
 					renderRuleExample(example, config, document.meta.title),
 				),
 			].join("\n"),
@@ -52,11 +53,12 @@ export function renderRuleDocument(
 		) {
 			sections.push(subsection.body.trim());
 		}
-		if (subsection.examples.length > 0) {
+		const subsectionExamples = subsection.examples ?? [];
+		if (subsectionExamples.length > 0) {
 			sections.push(
 				[
 					"Examples:",
-					...subsection.examples.map((example) =>
+					...subsectionExamples.map((example) =>
 						renderRuleExample(example, config, document.meta.title),
 					),
 				].join("\n"),
