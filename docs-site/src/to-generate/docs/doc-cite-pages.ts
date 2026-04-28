@@ -1,83 +1,23 @@
 import {
 	ConstructionKind,
+	LemmaKind,
 	MorphemeKind,
 	Pos,
 	PhrasemeKind,
 	SurfaceKind,
 } from "../../../../src/types/core/enums.ts";
+import { concreteFeatureSchemaInventory } from "../../../../src/operations/shared/id-codec/schema-inventory.ts";
 import { deSubtree } from "../../../../src/schemas/concrete-language/features/de/de-subtree.ts";
 import type {
 	DocCitePageDocument,
 	DocCitePageFamily,
 } from "./document-shapes.ts";
 
-const selectionFeatureKeys = [
-	"coverage",
-	"orthography",
-	"spelling",
-] as const;
-
-const surfaceFeatureKeys = ["historical-status"] as const;
-
-const grammaticalFeatureKeys = [
-	"abbr",
-	"adpType",
-	"aspect",
-	"case",
-	"conjType",
-	"definite",
-	"degree",
-	"discourseFormulaRole",
-	"extPos",
-	"foreign",
-	"gender",
-	"gender[psor]",
-	"governedCase",
-	"hasGovPrep",
-	"hasSepPrefix",
-	"hyph",
-	"lexicallyReflexive",
-	"mood",
-	"number",
-	"number[psor]",
-	"numType",
-	"partType",
-	"person",
-	"polarity",
-	"polite",
-	"poss",
-	"pronType",
-	"punctType",
-	"reflex",
-	"tense",
-	"variant",
-	"verbForm",
-	"verbType",
-	"voice",
-] as const;
-
 const entityKinds = ["Lemma", "Surface", "Selection"] as const;
-const lemmaKinds = ["Lexeme", "Morpheme", "Phraseme", "Construction"] as const;
+const lemmaKinds = LemmaKind.options;
 const posValues = Pos.options;
-const morphemeKinds = [
-	"Circumfix",
-	"Clitic",
-	"Duplifix",
-	"Infix",
-	"Interfix",
-	"Prefix",
-	"Root",
-	"Suffix",
-	"Suffixoid",
-	"ToneMarking",
-	"Transfix",
-] as const satisfies readonly (typeof MorphemeKind.options)[number][];
-const phrasemeKinds = [
-	"DiscourseFormula",
-	"Aphorism",
-	"Proverb",
-	"Idiom",
-] as const satisfies readonly (typeof PhrasemeKind.options)[number][];
+const morphemeKinds = MorphemeKind.options;
+const phrasemeKinds = PhrasemeKind.options;
 const constructionKinds = ConstructionKind.options;
 
 type Scope = "de" | "u";
@@ -139,7 +79,7 @@ const lemmaKindDescriptions: Record<LemmaKindName, string> = {
 		"konstruktionsartige Lemma-Typen mit Unterseiten unter /construction",
 };
 
-const selectionFeatureDescriptions: Record<(typeof selectionFeatureKeys)[number], string> = {
+const selectionFeatureDescriptions: Record<string, string> = {
 	coverage:
 		"`coverage` markiert, dass nur ein Teil der aufgelösten Surface im Satz ausgewählt wurde.",
 	orthography:
@@ -148,8 +88,8 @@ const selectionFeatureDescriptions: Record<(typeof selectionFeatureKeys)[number]
 		"`spelling` markiert, dass die Auswahl eine zugelassene nichtkanonische Schreibvariante der aufgelösten Surface ist.",
 };
 
-const surfaceFeatureDescriptions: Record<(typeof surfaceFeatureKeys)[number], string> = {
-	"historical-status":
+const surfaceFeatureDescriptions: Record<string, string> = {
+	historicalStatus:
 		"`historical-status` markiert, dass die normalisierte Surface historisch oder archaisch gekennzeichnet ist.",
 };
 
@@ -185,6 +125,10 @@ function publicFeatureName(featureKey: string): string {
 
 function publicFeatureRouteSegment(featureKey: string): string {
 	return publicFeatureName(featureKey).replace(/\[([^\]]+)\]/gu, "-$1");
+}
+
+function publicBagFeatureName(featureKey: string): string {
+	return featureKey.replace(/[A-Z]/gu, (letter) => `-${letter.toLowerCase()}`);
 }
 
 function unwrapZodObject(schema: unknown): Zodish | undefined {
@@ -251,6 +195,51 @@ function featureUsageMap(): Map<string, FeatureUsage[]> {
 
 const featureUsages = featureUsageMap();
 
+function firstSchemaInFamilyTree(tree: unknown): unknown {
+	if (tree === null || typeof tree !== "object") {
+		return undefined;
+	}
+
+	for (const value of Object.values(tree as Record<string, unknown>)) {
+		if (value !== null && typeof value === "object") {
+			const schema = unwrapZodObject(value);
+			if (schema !== undefined) {
+				return value;
+			}
+
+			const nested = firstSchemaInFamilyTree(value);
+			if (nested !== undefined) {
+				return nested;
+			}
+		}
+	}
+
+	return undefined;
+}
+
+function sortFeatureKeysByPublicName(featureKeys: readonly string[]): string[] {
+	return [...featureKeys].sort((left, right) =>
+		publicFeatureName(left).localeCompare(publicFeatureName(right)),
+	);
+}
+
+const selectionFeatureKeys = featureKeysFromSchema(
+	unwrapZodObject(firstSchemaInFamilyTree(deSubtree.Selection))?.shape
+		?.selectionFeatures,
+);
+
+const surfaceFeatureKeys = featureKeysFromSchema(
+	unwrapZodObject(firstSchemaInFamilyTree(deSubtree.Surface))?.shape
+		?.surfaceFeatures,
+);
+
+const grammaticalFeatureKeys = concreteFeatureSchemaInventory.featureNames.filter(
+	(featureKey) =>
+		featureUsages.has(featureKey) &&
+		!selectionFeatureKeys.includes(featureKey) &&
+		!surfaceFeatureKeys.includes(featureKey),
+);
+
 function dedupeFeatureUsages(usages: readonly FeatureUsage[]): FeatureUsage[] {
 	const seen = new Set<string>();
 	return usages.filter((usage) => {
@@ -304,7 +293,7 @@ function describeUsage(scope: Scope, usage: FeatureUsage): string {
 }
 
 function relatedFeatureLinks(scope: Scope, lemmaKind: LemmaKindName, subkind: string): string[] {
-	return grammaticalFeatureKeys
+	return sortFeatureKeysByPublicName(grammaticalFeatureKeys)
 		.filter((featureKey) =>
 			dedupeFeatureUsages(featureUsages.get(featureKey) ?? []).some(
 				(usage) =>
@@ -604,7 +593,7 @@ function buildSelectionFeaturePages(scope: Scope): DocCitePageDocument[] {
 	const overview = buildOverviewPage({
 		children: selectionFeatureKeys.map((featureKey) => ({
 			href: htmlRouteFor(scope, "feature", "selection", featureKey),
-			label: featureKey,
+			label: publicBagFeatureName(featureKey),
 			summary: selectionFeatureDescriptions[featureKey],
 		})),
 		description: "Überblick über Selection-Features im öffentlichen doc-cite-Baum.",
@@ -628,14 +617,24 @@ Die Elternseite ${htmlLink(
 				"Selection Features",
 				htmlRouteFor(scope, "feature", "selection"),
 			)} ordnet dieses Merkmal innerhalb der Selection-spezifischen Markierungen ein.`,
-			description: `${featureKey}-Seite für öffentliche Selection-Features.`,
-			docId: docIdFor(scope, "feature", "selection", featureKey),
+			description: `${publicBagFeatureName(featureKey)}-Seite für öffentliche Selection-Features.`,
+			docId: docIdFor(
+				scope,
+				"feature",
+				"selection",
+				publicBagFeatureName(featureKey),
+			),
 			family: "feature-selection",
-			htmlRoute: htmlRouteFor(scope, "feature", "selection", featureKey),
+			htmlRoute: htmlRouteFor(
+				scope,
+				"feature",
+				"selection",
+				publicBagFeatureName(featureKey),
+			),
 			order: orderBaseByFamily["feature-selection"] + index + 1,
 			scope,
 			subject: featureKey,
-			title: featureKey,
+			title: publicBagFeatureName(featureKey),
 		}),
 	);
 
@@ -645,8 +644,13 @@ Die Elternseite ${htmlLink(
 function buildSurfaceFeaturePages(scope: Scope): DocCitePageDocument[] {
 	const overview = buildOverviewPage({
 		children: surfaceFeatureKeys.map((featureKey) => ({
-			href: htmlRouteFor(scope, "feature", "surface", featureKey),
-			label: featureKey,
+			href: htmlRouteFor(
+				scope,
+				"feature",
+				"surface",
+				publicBagFeatureName(featureKey),
+			),
+			label: publicBagFeatureName(featureKey),
 			summary: surfaceFeatureDescriptions[featureKey],
 		})),
 		description: "Überblick über Surface-Features im öffentlichen doc-cite-Baum.",
@@ -670,14 +674,24 @@ Die Elternseite ${htmlLink(
 				"Surface Features",
 				htmlRouteFor(scope, "feature", "surface"),
 			)} erklärt, warum dieses Merkmal an Surfaces und nicht an Selections hängt.`,
-			description: `${featureKey}-Seite für öffentliche Surface-Features.`,
-			docId: docIdFor(scope, "feature", "surface", featureKey),
+			description: `${publicBagFeatureName(featureKey)}-Seite für öffentliche Surface-Features.`,
+			docId: docIdFor(
+				scope,
+				"feature",
+				"surface",
+				publicBagFeatureName(featureKey),
+			),
 			family: "feature-surface",
-			htmlRoute: htmlRouteFor(scope, "feature", "surface", featureKey),
+			htmlRoute: htmlRouteFor(
+				scope,
+				"feature",
+				"surface",
+				publicBagFeatureName(featureKey),
+			),
 			order: orderBaseByFamily["feature-surface"] + index + 1,
 			scope,
 			subject: featureKey,
-			title: featureKey,
+			title: publicBagFeatureName(featureKey),
 		}),
 	);
 
@@ -713,7 +727,7 @@ function buildGrammaticalFeaturePages(scope: Scope): DocCitePageDocument[] {
 			"Das hält die öffentlichen URLs stabil, auch wenn ein Merkmal je nach Lemma-Subkind inhärent, flektionsgetragen oder beides sein kann.",
 	});
 
-	const leaves = grammaticalFeatureKeys.map((featureKey, index) => {
+	const leaves = sortFeatureKeysByPublicName(grammaticalFeatureKeys).map((featureKey, index) => {
 		const usages = dedupeFeatureUsages(featureUsages.get(featureKey) ?? []);
 		return makePage({
 			body: `\`${publicFeatureName(featureKey)}\` ist eine flache grammatische Feature-Seite im deutschen Pack.
@@ -754,7 +768,7 @@ ${bulletList([
 }
 
 function gravitationalFeatureChildren(scope: Scope) {
-	return grammaticalFeatureKeys.map((featureKey) => ({
+	return sortFeatureKeysByPublicName(grammaticalFeatureKeys).map((featureKey) => ({
 		href: featureRouteFor(scope, featureKey),
 		label: publicFeatureName(featureKey),
 		summary: `Grammatische Route für ${publicFeatureName(featureKey)} im deutschen Pack.`,
