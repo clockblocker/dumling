@@ -99,6 +99,7 @@ type Zodish = {
 };
 
 const orderBaseByFamily: Record<DocCitePageFamily, number> = {
+	scope: 100,
 	entity: 1000,
 	surface: 2000,
 	kind: 3000,
@@ -180,6 +181,10 @@ function publicFeatureName(featureKey: string): string {
 
 	const base = featureKey.slice(0, bracketIndex);
 	return `${base[0]?.toUpperCase() ?? ""}${base.slice(1)}${featureKey.slice(bracketIndex)}`;
+}
+
+function publicFeatureRouteSegment(featureKey: string): string {
+	return publicFeatureName(featureKey).replace(/\[([^\]]+)\]/gu, "-$1");
 }
 
 function unwrapZodObject(schema: unknown): Zodish | undefined {
@@ -285,7 +290,7 @@ function familyOverviewRouteForLemmaKind(scope: Scope, lemmaKind: LemmaKindName)
 }
 
 function featureRouteFor(scope: Scope, featureKey: string): string {
-	return htmlRouteFor(scope, "feature", publicFeatureName(featureKey));
+	return htmlRouteFor(scope, "feature", publicFeatureRouteSegment(featureKey));
 }
 
 function describeUsage(scope: Scope, usage: FeatureUsage): string {
@@ -413,6 +418,34 @@ Die Elternseite ${htmlLink("Entity", htmlRouteFor(scope, "entity"))} erklärt, w
 	);
 
 	return [overview, ...leaves];
+}
+
+function buildScopeOverviewPage(scope: Scope): DocCitePageDocument {
+	return makePage({
+		body: `Diese Überblicksseite bündelt die öffentlichen doc-cite-Routen für den Scope \`${scope}\`.
+
+Die Familienseiten darunter trennen Entity-Ebenen, Lemma-Kategorien, konkrete Inventare und öffentliche Feature-Routen, damit jede URL genau eine Navigationsaufgabe übernimmt.
+
+Unterseiten:
+${bulletList([
+			`${htmlLink("Entity", htmlRouteFor(scope, "entity"))}: Überblick über Lemma, Surface und Selection als öffentliche Entity-Arten.`,
+			`${htmlLink("Surface", htmlRouteFor(scope, "surface"))}: Überblick über Citation- und Inflection-Surfaces.`,
+			`${htmlLink("Kind", htmlRouteFor(scope, "kind"))}: Überblick über die vier Lemma-Kategorien.`,
+			`${htmlLink("POS", htmlRouteFor(scope, "pos"))}: Inventarseiten für lexemische Wortarten.`,
+			`${htmlLink("Morpheme", htmlRouteFor(scope, "morpheme"))}: Inventarseiten für Morphem-Untertypen.`,
+			`${htmlLink("Phraseme", htmlRouteFor(scope, "phraseme"))}: Inventarseiten für formelhafte Lemmas.`,
+			`${htmlLink("Construction", htmlRouteFor(scope, "construction"))}: Inventarseiten für konstruktionale Lemmas.`,
+			`${htmlLink("Feature", htmlRouteFor(scope, "feature"))}: Überblick über grammatische, Selection- und Surface-Features.`,
+		])}`,
+		description: `Root-Überblick für den öffentlichen ${scope}-doc-cite-Baum.`,
+		docId: docIdFor(scope),
+		family: "scope",
+		htmlRoute: htmlRouteFor(scope),
+		order: scopeOffset(scope) + orderBaseByFamily.scope,
+		scope,
+		subject: scope,
+		title: scope,
+	});
 }
 
 function buildSurfacePages(scope: Scope): DocCitePageDocument[] {
@@ -731,8 +764,11 @@ function gravitationalFeatureChildren(scope: Scope) {
 function mirrorPage(page: DocCitePageDocument): DocCitePageDocument {
 	const deDocId = page.doc.docId;
 	const deHtmlRoute = page.doc.htmlRoute;
-	const mirroredDocId = deDocId.replace(/^de\//u, "u/");
-	const mirroredHtmlRoute = deHtmlRoute.replace(/^\/de\//u, "/u/") as `/${string}.html`;
+	const mirroredDocId = deDocId.replace(/^de(?=\/|$)/u, "u");
+	const mirroredHtmlRoute = deHtmlRoute.replace(
+		/^\/de(?=\/|\.html$)/u,
+		"/u",
+	) as `/${string}.html`;
 	const mirrorNotice = `> Phase 1: Diese \`/u/...\`-Seite spiegelt vorläufig die deutsche Autorenseite ${htmlLink(
 		deHtmlRoute,
 		deHtmlRoute,
@@ -758,6 +794,7 @@ function mirrorPage(page: DocCitePageDocument): DocCitePageDocument {
 
 function buildGermanPages(): DocCitePageDocument[] {
 	return [
+		buildScopeOverviewPage("de"),
 		...buildEntityPages("de"),
 		...buildSurfacePages("de"),
 		...buildKindPages("de"),

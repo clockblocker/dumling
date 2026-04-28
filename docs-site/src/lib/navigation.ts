@@ -38,6 +38,21 @@ export function paramsSlugForPage(
 	return href.replace(/^\/+/u, "").replace(/\/+$/u, "");
 }
 
+export function htmlRouteSegmentsForPage(
+	page: CollectionEntry<"docs"> | CollectionEntry<"entities">,
+): string[] {
+	const href = hrefForPage(page);
+	if (href === "/") {
+		return [];
+	}
+
+	const segments = href.replace(/^\/+/u, "").replace(/\/+$/u, "").split("/");
+	const lastIndex = segments.length - 1;
+	return segments.map((segment, index) =>
+		index === lastIndex ? segment.replace(/\.html$/u, "") : segment,
+	);
+}
+
 export function mdHrefForRouteId(routeId: string): string {
 	return routeId === "index" ? "/index.md" : `/${routeId}.md`;
 }

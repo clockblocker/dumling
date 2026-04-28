@@ -9,6 +9,7 @@ export type DocPageMeta = {
 };
 
 export type DocCitePageFamily =
+	| "scope"
 	| "entity"
 	| "surface"
 	| "kind"

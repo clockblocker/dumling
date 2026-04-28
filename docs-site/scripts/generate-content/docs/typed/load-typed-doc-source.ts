@@ -135,6 +135,7 @@ function parseDocPageFamily(
 	sourcePath: string,
 ): DocCitePageFamily {
 	if (
+		value !== "scope" &&
 		value !== "entity" &&
 		value !== "surface" &&
 		value !== "kind" &&
