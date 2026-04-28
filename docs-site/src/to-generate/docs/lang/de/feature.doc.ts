@@ -1,7 +1,7 @@
 import { defineLanguageOverlayPage } from "../../source-mirrored-doc-pages.ts";
 
 const document = defineLanguageOverlayPage({
-  description: "Überblick über grammatische, Selection- und Surface-Feature-Seiten.",
+  description: "Overview of grammatical, selection, and surface feature pages.",
   family: "feature",
   order: 8000,
   subject: "feature",

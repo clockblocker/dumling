@@ -1,7 +1,7 @@
 import { defineLanguageOverlayPage } from "../../../source-mirrored-doc-pages.ts";
 
 const document = defineLanguageOverlayPage({
-  description: "Überblick über Selection-Features im öffentlichen doc-cite-Baum.",
+  description: "Overview of selection features in the public doc-cite tree.",
   family: "feature-selection",
   order: 8100,
   subject: "selection-features",

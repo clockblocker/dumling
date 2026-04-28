@@ -1,7 +1,7 @@
 import { defineLanguageOverlayPage } from "../../../source-mirrored-doc-pages.ts";
 
 const document = defineLanguageOverlayPage({
-  description: "Überblick über Surface-Features im öffentlichen doc-cite-Baum.",
+  description: "Overview of surface features in the public doc-cite tree.",
   family: "feature-surface",
   order: 8200,
   subject: "surface-features",

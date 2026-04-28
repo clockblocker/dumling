@@ -1,7 +1,7 @@
 import { defineLanguageOverlayPage } from "../../../../source-mirrored-doc-pages.ts";
 
 const document = defineLanguageOverlayPage({
-  description: "Überblick über die Phraseme-Unterseiten des deutschen Packs.",
+  description: "Overview of phraseme subpages in the German pack.",
   family: "phraseme",
   order: 6000,
   subject: "phraseme",

@@ -1,7 +1,7 @@
 import { defineLanguageOverlayPage } from "../../../../source-mirrored-doc-pages.ts";
 
 const document = defineLanguageOverlayPage({
-  description: "Überblick über die Morphem-Unterseiten des deutschen Packs.",
+  description: "Overview of morpheme subpages in the German pack.",
   family: "morpheme",
   order: 5000,
   subject: "morpheme",

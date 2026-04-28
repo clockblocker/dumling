@@ -1,7 +1,7 @@
 import { defineLanguageOverlayPage } from "../../../../source-mirrored-doc-pages.ts";
 
 const document = defineLanguageOverlayPage({
-  description: "Überblick über die Construction-Unterseiten des deutschen Packs.",
+  description: "Overview of construction subpages in the German pack.",
   family: "construction",
   order: 7000,
   subject: "construction",

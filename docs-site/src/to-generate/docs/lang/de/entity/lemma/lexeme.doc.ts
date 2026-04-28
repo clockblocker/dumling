@@ -1,7 +1,7 @@
 import { defineLanguageOverlayPage } from "../../../../source-mirrored-doc-pages.ts";
 
 const document = defineLanguageOverlayPage({
-	description: "Überblick über die öffentlichen Lexem-Untertypen des deutschen Packs.",
+	description: "Overview of public lexeme subtypes in the German pack.",
 	family: "pos",
 	order: 4000,
 	subject: "lexeme",
