@@ -1,6 +1,6 @@
-import { defineStubDocPage } from "../../source-mirrored-doc-pages.ts";
+import { defineUniversalConceptStubPage } from "../../source-mirrored-doc-pages.ts";
 
-const document = defineStubDocPage({
+const document = defineUniversalConceptStubPage({
   description: "Poss-Seite im öffentlichen Feature-Baum.",
   family: "feature",
   leaf: "Poss",

@@ -1,11 +1,16 @@
-import { defineStubDocPage } from "./source-mirrored-doc-pages.ts";
+import { defineUniversalConceptPage } from "./source-mirrored-doc-pages.ts";
 
-const document = defineStubDocPage({
-  description: "Root-Überblick für den öffentlichen de-doc-cite-Baum.",
-  family: "scope",
-  order: 10100,
-  subject: "de",
-  title: "de"
+const document = defineUniversalConceptPage({
+	description: "Root overview for the universal public concept tree.",
+	family: "scope",
+	order: 10100,
+	subject: "u",
+	title: "Universal",
+	body: `
+This is the universal public concept tree.
+
+Every language-specific public tree under \`/{lang}/**\` mirrors a strict subset of this hierarchy, inheriting universal content before adding local commentary.
+`,
 });
 
 export default document;

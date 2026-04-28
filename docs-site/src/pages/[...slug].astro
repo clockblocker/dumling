@@ -9,11 +9,7 @@ export async function getStaticPaths() {
 	const pages = [...docs, ...entities];
 
 	return pages
-		.filter(
-			(page) =>
-				routeIdForPage(page) !== "index" &&
-				page.data.htmlRoute === undefined,
-		)
+		.filter((page) => routeIdForPage(page) !== "index")
 		.map((page) => ({
 			params: { slug: routeIdForPage(page) },
 			props: { page },

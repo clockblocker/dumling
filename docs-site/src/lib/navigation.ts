@@ -17,14 +17,14 @@ export function routeIdForPage(
 	return page.data.routeId ?? routeIdForDocId(page.id);
 }
 
-export function htmlRouteForRouteId(routeId: string): string {
+export function publicHrefForRouteId(routeId: string): string {
 	return routeId === "index" ? "/" : `/${routeId}/`;
 }
 
 export function hrefForPage(
 	page: CollectionEntry<"docs"> | CollectionEntry<"entities">,
 ): string {
-	return page.data.htmlRoute ?? htmlRouteForRouteId(routeIdForPage(page));
+	return publicHrefForRouteId(routeIdForPage(page));
 }
 
 export function paramsSlugForPage(
@@ -36,21 +36,6 @@ export function paramsSlugForPage(
 	}
 
 	return href.replace(/^\/+/u, "").replace(/\/+$/u, "");
-}
-
-export function htmlRouteSegmentsForPage(
-	page: CollectionEntry<"docs"> | CollectionEntry<"entities">,
-): string[] {
-	const href = hrefForPage(page);
-	if (href === "/") {
-		return [];
-	}
-
-	const segments = href.replace(/^\/+/u, "").replace(/\/+$/u, "").split("/");
-	const lastIndex = segments.length - 1;
-	return segments.map((segment, index) =>
-		index === lastIndex ? segment.replace(/\.html$/u, "") : segment,
-	);
 }
 
 export function mdHrefForRouteId(routeId: string): string {
@@ -76,6 +61,6 @@ export function navItemsForDocs(docs: CollectionEntry<"docs">[]): NavItem[] {
 			href: hrefForPage(doc),
 			mdHref: mdHrefForPage(doc),
 			routeId: routeIdForPage(doc),
-			title: doc.data.title,
+			title: doc.data.navTitle ?? doc.data.title,
 		}));
 }

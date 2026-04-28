@@ -1,10 +1,5 @@
-import { dirname, join, relative } from "node:path";
-import {
-	generatedDocsDir,
-	handWrittenDocsDir,
-	publicDir,
-	sourceTypedDocsDir,
-} from "../shared/paths";
+import { join, relative } from "node:path";
+import { generatedDocsDir, publicDir, sourceTypedDocsDir } from "../shared/paths";
 
 function normalizePathSegments(path: string): string {
 	return path.replaceAll("\\", "/");
@@ -22,36 +17,21 @@ export function normalizeRouteId(routeId: string): string {
 		: normalized;
 }
 
-export function htmlRouteForRouteId(routeId: string): string {
+export function publicHrefForRouteId(routeId: string): string {
 	return routeId === "index" ? "/" : `/${routeId}/`;
 }
 
-export function routeIdForHandWrittenSourcePath(sourcePath: string): string {
-	return normalizeRouteId(
-		relative(handWrittenDocsDir, sourcePath).replace(/\.md$/u, ""),
+export function routeIdForGeneratedDocSourcePath(sourcePath: string): string {
+	const relativePath = normalizePathSegments(
+		relative(sourceTypedDocsDir, sourcePath).replace(/\.doc\.ts$/u, ""),
 	);
-}
-
-export function routeIdForTypedDocSourcePath(
-	sourcePath: string,
-	slug: string,
-): string {
-	const relativeDir = normalizePathSegments(
-		relative(sourceTypedDocsDir, dirname(sourcePath)),
-	);
-	return normalizeRouteId(
-		relativeDir === "" ? slug : `${relativeDir}/${slug}`,
-	);
+	return normalizeRouteId(relativePath);
 }
 
 export function generatedRouteIdForPath(sourcePath: string): string {
 	return normalizeRouteId(
 		relative(generatedDocsDir, sourcePath).replace(/\.md$/u, ""),
 	);
-}
-
-export function generatedPathForHandWrittenDoc(sourcePath: string): string {
-	return join(generatedDocsDir, relative(handWrittenDocsDir, sourcePath));
 }
 
 export function generatedPathForTypedDoc(routeId: string): string {

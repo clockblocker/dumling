@@ -6,7 +6,7 @@ import type {
 export interface Frontmatter {
 	description?: string;
 	generatedFrom?: string;
-	htmlRoute?: string;
+	navTitle?: string;
 	order: number;
 	routeId?: string;
 	title: string;

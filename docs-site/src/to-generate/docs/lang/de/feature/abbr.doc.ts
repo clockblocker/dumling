@@ -1,6 +1,6 @@
-import { defineSourceMirroredDocPage } from "../../../source-mirrored-doc-pages.ts";
+import { defineLanguageOverlayPage } from "../../../source-mirrored-doc-pages.ts";
 
-const document = defineSourceMirroredDocPage({
+const document = defineLanguageOverlayPage({
   description: "Abbr-Seite im öffentlichen Feature-Baum.",
   family: "feature",
   leaf: "Abbr",
@@ -10,12 +10,12 @@ const document = defineSourceMirroredDocPage({
   body: "`Abbr` ist eine flache grammatische Feature-Seite im deutschen Pack.\n\nDoc-cite verwendet genau eine öffentliche Route pro Feature-Namen, auch wenn das Merkmal je nach Lemma-Subkind an unterschiedlichen Stellen im Modell auftaucht.",
   subsections: [
     {
-      body: "Im deutschen Pack verwendet von:\n- [Lexeme / ADJ](/de/pos/ADJ.html) verwendet das Merkmal inhärent.\n- [Lexeme / ADP](/de/pos/ADP.html) verwendet das Merkmal inhärent.\n- [Lexeme / NUM](/de/pos/NUM.html) verwendet das Merkmal inhärent.\n- [Lexeme / PART](/de/pos/PART.html) verwendet das Merkmal inhärent.\n- [Lexeme / PROPN](/de/pos/PROPN.html) verwendet das Merkmal inhärent.\n- [Lexeme / X](/de/pos/X.html) verwendet das Merkmal inhärent.",
+      body: "Im deutschen Pack verwendet von:\n- [Lexeme / ADJ](/de/entity/lemma/lexeme/adj/) verwendet das Merkmal inhärent.\n- [Lexeme / ADP](/de/entity/lemma/lexeme/adp/) verwendet das Merkmal inhärent.\n- [Lexeme / NUM](/de/entity/lemma/lexeme/num/) verwendet das Merkmal inhärent.\n- [Lexeme / PART](/de/entity/lemma/lexeme/part/) verwendet das Merkmal inhärent.\n- [Lexeme / PROPN](/de/entity/lemma/lexeme/propn/) verwendet das Merkmal inhärent.\n- [Lexeme / X](/de/entity/lemma/lexeme/x/) verwendet das Merkmal inhärent.",
       examples: [],
       heading: "Verwendung im deutschen Pack"
     },
     {
-      body: "Verwandte Überblicksseiten:\n- [Feature](/de/feature.html)\n- [Kind](/de/kind.html)",
+      body: "Verwandte Überblicksseiten:\n- [Feature](/de/feature/)\n- [Kind](/de/entity/lemma/)",
       examples: [],
       heading: "Einordnung"
     }

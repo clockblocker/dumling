@@ -1,6 +1,6 @@
-import { defineStubDocPage } from "../source-mirrored-doc-pages.ts";
+import { defineUniversalConceptStubPage } from "../source-mirrored-doc-pages.ts";
 
-const document = defineStubDocPage({
+const document = defineUniversalConceptStubPage({
   description: "Überblick über grammatische, Selection- und Surface-Feature-Seiten.",
   family: "feature",
   order: 18000,

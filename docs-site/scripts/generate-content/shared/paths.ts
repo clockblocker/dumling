@@ -9,7 +9,6 @@ export const sourceAttestationsDir = join(
 	"src/to-generate/attestations",
 );
 export const sourceTypedDocsDir = join(siteRoot, "src/to-generate/docs");
-export const handWrittenDocsDir = join(siteRoot, "src/hand-written");
 export const classificationLogbookDir = join(
 	siteRoot,
 	"src/classification-logbook",

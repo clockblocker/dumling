@@ -1,6 +1,6 @@
-import { defineStubDocPage } from "../../source-mirrored-doc-pages.ts";
+import { defineUniversalConceptStubPage } from "../../source-mirrored-doc-pages.ts";
 
-const document = defineStubDocPage({
+const document = defineUniversalConceptStubPage({
   description: "Number[psor]-Seite im öffentlichen Feature-Baum.",
   family: "feature",
   leaf: {

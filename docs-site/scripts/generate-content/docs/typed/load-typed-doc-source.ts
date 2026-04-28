@@ -2,28 +2,22 @@ import { relative } from "node:path";
 import { pathToFileURL } from "node:url";
 import type { AttestedSelection } from "../../../../../src/types/public-types.ts";
 import type {
-	DocCitePageDocument,
-	DocCitePageFamily,
-	DocPageMeta,
-	DocSection,
-	LegacyRuleDocument,
-	SourceMirroredDocCitePageDefinition,
+	GeneratedDocPageDocument,
+	LanguageOverlayPageDocument,
 	TypedDocDocument,
 	TypedDocExport,
+	UniversalConceptPageDocument,
 } from "../../../../src/to-generate/docs/document-shapes.ts";
-import { sourceMirroredDocPageMarker } from "../../../../src/to-generate/docs/document-shapes.ts";
-import { pathRelativeToSiteRoot, sourceTypedDocsDir } from "../../shared/paths";
-import type { Frontmatter } from "../../shared/types";
 import {
-	canonicalSlugForDocMeta,
-	frontmatterForDocMeta,
-	parseDocPageMeta,
-} from "../metadata";
+	generatedDocPageMarker,
+	languageOverlayPageMarker,
+	universalConceptPageMarker,
+} from "../../../../src/to-generate/docs/document-shapes.ts";
+import { sourceTypedDocsDir } from "../../shared/paths";
+import { parseDocPageMeta } from "../metadata";
 import {
-	generatedPathForTypedDoc,
-	htmlRouteForRouteId,
-	publicMarkdownPathForRouteId,
-	routeIdForTypedDocSourcePath,
+	normalizeRouteId,
+	routeIdForGeneratedDocSourcePath,
 } from "../routes";
 
 export type RuleBlock = {
@@ -34,15 +28,52 @@ export type RuleBlock = {
 
 export type RuleDocument = TypedDocDocument;
 
-export type TypedDocSource = {
-	document: RuleDocument;
-	frontmatter: Frontmatter;
-	generatedPath: string;
-	htmlRoute: string;
-	publicPath: string;
+export type GeneratedDocSource = {
+	document: GeneratedDocPageDocument;
+	kind: "generated-page";
 	routeId: string;
 	sourcePath: string;
 };
+
+export type UniversalConceptSource = {
+	document: UniversalConceptPageDocument;
+	kind: "universal-concept-page";
+	relativeConceptPath: string;
+	routeId: string;
+	sourcePath: string;
+};
+
+export type LanguageOverlaySource = {
+	document: LanguageOverlayPageDocument;
+	kind: "language-overlay-page";
+	lang: string;
+	relativeConceptPath: string;
+	routeId: string;
+	sourcePath: string;
+};
+
+export type TypedDocSource =
+	| GeneratedDocSource
+	| UniversalConceptSource
+	| LanguageOverlaySource;
+
+function isGeneratedDocPageDocument(
+	document: TypedDocDocument,
+): document is GeneratedDocPageDocument {
+	return generatedDocPageMarker in document;
+}
+
+function isUniversalConceptPageDocument(
+	document: TypedDocDocument,
+): document is UniversalConceptPageDocument {
+	return universalConceptPageMarker in document;
+}
+
+function isLanguageOverlayPageDocument(
+	document: TypedDocDocument,
+): document is LanguageOverlayPageDocument {
+	return languageOverlayPageMarker in document;
+}
 
 function isRecord(value: unknown): value is Record<string, unknown> {
 	return typeof value === "object" && value !== null && !Array.isArray(value);
@@ -133,100 +164,39 @@ function parseDocumentBody(
 	return value;
 }
 
-function parseDocPageFamily(
-	value: unknown,
-	sourcePath: string,
-): DocCitePageFamily {
-	if (
-		value !== "scope" &&
-		value !== "entity" &&
-		value !== "surface" &&
-		value !== "kind" &&
-		value !== "pos" &&
-		value !== "morpheme" &&
-		value !== "phraseme" &&
-		value !== "construction" &&
-		value !== "feature" &&
-		value !== "feature-selection" &&
-		value !== "feature-surface"
-	) {
-		throw new Error(`${sourcePath} has an invalid doc.family value.`);
-	}
-
-	return value;
-}
-
-function parseNonEmptyString(
-	value: unknown,
-	fieldName: string,
-	sourcePath: string,
-): string {
-	if (typeof value !== "string" || value.trim().length === 0) {
-		throw new Error(`${sourcePath} is missing ${fieldName}.`);
-	}
-
-	return value.trim();
-}
-
-function normalizeDocRouteId(docId: string): string {
-	return docId
-		.replaceAll("\\", "/")
-		.replace(/^\/+/u, "")
-		.replace(/\/+$/u, "");
-}
-
-function normalizeHtmlRoute(htmlRoute: string, sourcePath: string): `/${string}` {
-	const normalized = `/${htmlRoute
-		.replaceAll("\\", "/")
-		.replace(/^\/+/u, "")
-		.replace(/\/+$/u, "")}`;
-
-	if (!normalized.endsWith(".html")) {
-		throw new Error(
-			`${sourcePath} has invalid doc.htmlRoute "${htmlRoute}". Public doc-cite routes must end in .html.`,
-		);
-	}
-
-	return normalized as `/${string}`;
-}
-
-function parseDocCiteSection(
+function parseBaseDocumentFields(
 	value: Record<string, unknown>,
 	sourcePath: string,
 ): {
 	body?: string;
 	examples: readonly AttestedSelection[];
-	meta: DocPageMeta;
-	subsections?: readonly DocSection[];
+	meta: ReturnType<typeof parseDocPageMeta>;
+	subsections?: readonly RuleBlock[];
 } {
-	const meta = parseDocPageMeta(value.meta, sourcePath);
-	const body = parseDocumentBody(value.body, sourcePath);
-	const examples =
-		value.examples === undefined
-			? []
-			: Array.isArray(value.examples)
-				? value.examples.map((example) =>
-						parseRuleExample(example, sourcePath),
-					)
-				: (() => {
-						throw new Error(`${sourcePath} must export examples as an array.`);
-					})();
-
 	return {
-		body,
-		examples,
-		meta,
+		body: parseDocumentBody(value.body, sourcePath),
+		examples:
+			value.examples === undefined
+				? []
+				: Array.isArray(value.examples)
+					? value.examples.map((example) =>
+							parseRuleExample(example, sourcePath),
+						)
+					: (() => {
+							throw new Error(`${sourcePath} must export examples as an array.`);
+						})(),
+		meta: parseDocPageMeta(value.meta, sourcePath),
 		subsections: parseRuleBlocks(value.subsections, sourcePath),
 	};
 }
 
-function parseLegacyRuleDocument(
+function parseGeneratedDocPageDocument(
 	value: Record<string, unknown>,
 	sourcePath: string,
-): LegacyRuleDocument {
-	const parsed = parseDocCiteSection(value, sourcePath);
-
+): GeneratedDocPageDocument {
+	const parsed = parseBaseDocumentFields(value, sourcePath);
 	return {
+		[generatedDocPageMarker]: true,
 		body: parsed.body,
 		examples: parsed.examples,
 		meta: parsed.meta,
@@ -234,172 +204,34 @@ function parseLegacyRuleDocument(
 	};
 }
 
-function parseDocCitePageDocument(
+function parseUniversalConceptPageDocument(
 	value: Record<string, unknown>,
 	sourcePath: string,
-): DocCitePageDocument {
-	if (!isRecord(value.doc)) {
-		throw new Error(`${sourcePath} must export a doc object.`);
-	}
-
-	const parsed = parseDocCiteSection(value, sourcePath);
-	const docId = normalizeDocRouteId(
-		parseNonEmptyString(value.doc.docId, "doc.docId", sourcePath),
-	);
-	const htmlRoute = normalizeHtmlRoute(
-		parseNonEmptyString(value.doc.htmlRoute, "doc.htmlRoute", sourcePath),
-		sourcePath,
-	);
-	const scope = parseNonEmptyString(value.doc.scope, "doc.scope", sourcePath);
-
-	const mirrorsDocId =
-		value.doc.mirrorsDocId === undefined
-			? undefined
-			: normalizeDocRouteId(
-					parseNonEmptyString(
-						value.doc.mirrorsDocId,
-						"doc.mirrorsDocId",
-						sourcePath,
-					),
-				);
-
+): UniversalConceptPageDocument {
+	const parsed = parseBaseDocumentFields(value, sourcePath);
 	return {
+		[universalConceptPageMarker]: true,
 		body: parsed.body,
-		doc: {
-			docId,
-			family: parseDocPageFamily(value.doc.family, sourcePath),
-			htmlRoute: htmlRoute as `/${string}.html`,
-			mirrorsDocId,
-			scope,
-			subject: parseNonEmptyString(
-				value.doc.subject,
-				"doc.subject",
-				sourcePath,
-			),
-		},
+		doc: isRecord(value.doc)
+			? (value.doc as UniversalConceptPageDocument["doc"])
+			: undefined,
 		examples: parsed.examples,
 		meta: parsed.meta,
 		subsections: parsed.subsections,
 	};
 }
 
-function isSourceMirroredDocPageDefinition(
-	value: Record<string, unknown>,
-): value is SourceMirroredDocCitePageDefinition {
-	return value[sourceMirroredDocPageMarker] === true;
-}
-
-function parseSourceMirroredLeaf(
-	value: unknown,
-	sourcePath: string,
-): { docId: string; html: string } | undefined {
-	if (value === undefined) {
-		return undefined;
-	}
-	if (typeof value === "string") {
-		const parsed = parseNonEmptyString(value, "doc.leaf", sourcePath);
-		return {
-			docId: parsed,
-			html: parsed,
-		};
-	}
-	if (!isRecord(value)) {
-		throw new Error(`${sourcePath} has an invalid doc.leaf value.`);
-	}
-
-	return {
-		docId: parseNonEmptyString(value.docId, "doc.leaf.docId", sourcePath),
-		html: parseNonEmptyString(value.html, "doc.leaf.html", sourcePath),
-	};
-}
-
-function normalizeSourceRelativePath(path: string): string {
-	return path.replaceAll("\\", "/");
-}
-
-function parseSourceMirroredRoute(
-	sourcePath: string,
-	leaf: { docId: string; html: string } | undefined,
-): {
-	derivedScope: string;
-	docId: string;
-	htmlRoute: `/${string}.html`;
-} {
-	const relativePath = normalizeSourceRelativePath(
-		relative(sourceTypedDocsDir, sourcePath).replace(/\.doc\.ts$/u, ""),
-	);
-	const segments = relativePath.split("/").filter((segment) => segment.length > 0);
-
-	if (segments.length === 0) {
-		throw new Error(`${sourcePath} could not be resolved relative to typed docs root.`);
-	}
-
-	let derivedScope: string;
-	let baseSegments: string[];
-
-	if (segments[0] === "u") {
-		derivedScope = "u";
-		baseSegments = segments.slice(1);
-	} else if (segments[0] === "lang" && segments.length >= 2) {
-		derivedScope = segments[1] ?? "";
-		baseSegments = segments.slice(2);
-	} else {
-		throw new Error(
-			`${sourcePath} must live under src/to-generate/docs/u or src/to-generate/docs/lang/{lang} to use defineSourceMirroredDocPage.`,
-		);
-	}
-
-	if (derivedScope.trim().length === 0) {
-		throw new Error(`${sourcePath} could not derive a public scope from its source path.`);
-	}
-
-	const docIdSegments =
-		leaf === undefined
-			? baseSegments
-			: [...baseSegments.slice(0, -1), normalizeDocRouteId(leaf.docId)];
-	const htmlSegments =
-		leaf === undefined
-			? baseSegments
-			: [...baseSegments.slice(0, -1), normalizeDocRouteId(leaf.html)];
-
-	const docId = normalizeDocRouteId([derivedScope, ...docIdSegments].join("/"));
-	const htmlRoute = normalizeHtmlRoute(
-		`/${[derivedScope, ...htmlSegments].filter((segment) => segment.length > 0).join("/")}.html`,
-		sourcePath,
-	) as `/${string}.html`;
-
-	return {
-		derivedScope,
-		docId,
-		htmlRoute,
-	};
-}
-
-function parseSourceMirroredDocCitePageDefinition(
+function parseLanguageOverlayPageDocument(
 	value: Record<string, unknown>,
 	sourcePath: string,
-): DocCitePageDocument {
-	if (!isRecord(value.doc)) {
-		throw new Error(`${sourcePath} must export a doc object.`);
-	}
-
-	const parsed = parseDocCiteSection(value, sourcePath);
-	const leaf = parseSourceMirroredLeaf(value.doc.leaf, sourcePath);
-	const route = parseSourceMirroredRoute(sourcePath, leaf);
-
+): LanguageOverlayPageDocument {
+	const parsed = parseBaseDocumentFields(value, sourcePath);
 	return {
+		[languageOverlayPageMarker]: true,
 		body: parsed.body,
-		doc: {
-			docId: route.docId,
-			family: parseDocPageFamily(value.doc.family, sourcePath),
-			htmlRoute: route.htmlRoute,
-			scope: route.derivedScope,
-			subject: parseNonEmptyString(
-				value.doc.subject,
-				"doc.subject",
-				sourcePath,
-			),
-		},
+		doc: isRecord(value.doc)
+			? (value.doc as LanguageOverlayPageDocument["doc"])
+			: undefined,
 		examples: parsed.examples,
 		meta: parsed.meta,
 		subsections: parsed.subsections,
@@ -416,13 +248,19 @@ function parseTypedDocDocument(
 		);
 	}
 
-	if (isSourceMirroredDocPageDefinition(value)) {
-		return parseSourceMirroredDocCitePageDefinition(value, sourcePath);
+	if (value[generatedDocPageMarker] === true) {
+		return parseGeneratedDocPageDocument(value, sourcePath);
+	}
+	if (value[universalConceptPageMarker] === true) {
+		return parseUniversalConceptPageDocument(value, sourcePath);
+	}
+	if (value[languageOverlayPageMarker] === true) {
+		return parseLanguageOverlayPageDocument(value, sourcePath);
 	}
 
-	return "doc" in value
-		? parseDocCitePageDocument(value, sourcePath)
-		: parseLegacyRuleDocument(value, sourcePath);
+	throw new Error(
+		`${sourcePath} must use defineGeneratedDocPage, defineUniversalConceptPage, or defineLanguageOverlayPage.`,
+	);
 }
 
 function parseTypedDocExport(
@@ -435,42 +273,88 @@ function parseTypedDocExport(
 		: [parseTypedDocDocument(exported, sourcePath)];
 }
 
-function typedDocOutputForDocument(
+function normalizeSourceRelativePath(path: string): string {
+	return path.replaceAll("\\", "/");
+}
+
+function loadUniversalRouteInfo(sourcePath: string): {
+	relativeConceptPath: string;
+	routeId: string;
+} {
+	const relativePath = normalizeSourceRelativePath(
+		relative(sourceTypedDocsDir, sourcePath).replace(/\.doc\.ts$/u, ""),
+	);
+	const routeId = normalizeRouteId(relativePath);
+	if (routeId !== "u" && !routeId.startsWith("u/")) {
+		throw new Error(
+			`${sourcePath} must live under src/to-generate/docs/u to use defineUniversalConceptPage.`,
+		);
+	}
+
+	return {
+		relativeConceptPath: routeId === "u" ? "" : routeId.slice("u/".length),
+		routeId,
+	};
+}
+
+function loadLanguageOverlayRouteInfo(sourcePath: string): {
+	lang: string;
+	relativeConceptPath: string;
+	routeId: string;
+} {
+	const relativePath = normalizeSourceRelativePath(
+		relative(sourceTypedDocsDir, sourcePath).replace(/\.doc\.ts$/u, ""),
+	);
+	const segments = relativePath.split("/");
+	if (segments[0] !== "lang" || segments.length < 2) {
+		throw new Error(
+			`${sourcePath} must live under src/to-generate/docs/lang/{lang} to use defineLanguageOverlayPage.`,
+		);
+	}
+
+	const lang = (segments[1] ?? "").trim();
+	if (lang.length === 0) {
+		throw new Error(`${sourcePath} could not derive a language from its source path.`);
+	}
+
+	const routeId = normalizeRouteId([lang, ...segments.slice(2)].join("/"));
+	return {
+		lang,
+		relativeConceptPath: routeId === lang ? "" : routeId.slice(lang.length + 1),
+		routeId,
+	};
+}
+
+function typedDocSourceForDocument(
 	document: TypedDocDocument,
 	sourcePath: string,
 ): TypedDocSource {
-	if ("doc" in document) {
-		const routeId = document.doc.docId;
+	if (isGeneratedDocPageDocument(document)) {
 		return {
 			document,
-			frontmatter: {
-				...frontmatterForDocMeta(document.meta),
-				generatedFrom: pathRelativeToSiteRoot(sourcePath),
-				htmlRoute: document.doc.htmlRoute,
-				routeId,
-			},
-			generatedPath: generatedPathForTypedDoc(routeId),
-			htmlRoute: document.doc.htmlRoute,
-			publicPath: publicMarkdownPathForRouteId(routeId),
-			routeId,
+			kind: "generated-page",
+			routeId: routeIdForGeneratedDocSourcePath(sourcePath),
 			sourcePath,
 		};
 	}
 
-	const slug = canonicalSlugForDocMeta(document.meta, sourcePath);
-	const routeId = routeIdForTypedDocSourcePath(sourcePath, slug);
+	if (isUniversalConceptPageDocument(document)) {
+		return {
+			document,
+			kind: "universal-concept-page",
+			...loadUniversalRouteInfo(sourcePath),
+			sourcePath,
+		};
+	}
+
+	if (!isLanguageOverlayPageDocument(document)) {
+		throw new Error(`${sourcePath} could not be classified as a typed doc source.`);
+	}
 
 	return {
 		document,
-		frontmatter: {
-			...frontmatterForDocMeta(document.meta),
-			generatedFrom: pathRelativeToSiteRoot(sourcePath),
-			routeId,
-		},
-		generatedPath: generatedPathForTypedDoc(routeId),
-		htmlRoute: htmlRouteForRouteId(routeId),
-		publicPath: publicMarkdownPathForRouteId(routeId),
-		routeId,
+		kind: "language-overlay-page",
+		...loadLanguageOverlayRouteInfo(sourcePath),
 		sourcePath,
 	};
 }
@@ -484,6 +368,6 @@ export async function loadTypedDocSource(
 	const documents = parseTypedDocExport(moduleExports.default, sourcePath);
 
 	return documents.map((document) =>
-		typedDocOutputForDocument(document, sourcePath),
+		typedDocSourceForDocument(document, sourcePath),
 	);
 }

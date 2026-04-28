@@ -2,6 +2,7 @@ import type { Frontmatter } from "../shared/types";
 
 export interface DocPageMeta {
 	description?: string;
+	navTitle?: string;
 	order?: number;
 	slug?: string;
 	title: string;
@@ -62,6 +63,10 @@ export function frontmatterForDocMeta(meta: DocPageMeta): Frontmatter {
 			meta.description.trim().length > 0
 				? meta.description.trim()
 				: undefined,
+		navTitle:
+			typeof meta.navTitle === "string" && meta.navTitle.trim().length > 0
+				? meta.navTitle.trim()
+				: undefined,
 		order:
 			typeof meta.order === "number" && Number.isFinite(meta.order)
 				? meta.order
@@ -85,6 +90,10 @@ export function parseDocPageMeta(
 		meta.description.trim().length > 0
 			? meta.description.trim()
 			: undefined;
+	const navTitle =
+		typeof meta.navTitle === "string" && meta.navTitle.trim().length > 0
+			? meta.navTitle.trim()
+			: undefined;
 	const slug =
 		typeof meta.slug === "string" && meta.slug.trim().length > 0
 			? meta.slug.trim()
@@ -96,6 +105,7 @@ export function parseDocPageMeta(
 
 	return {
 		description,
+		navTitle,
 		order,
 		slug,
 		title,

@@ -1,6 +1,6 @@
-import { defineSourceMirroredDocPage } from "../../../source-mirrored-doc-pages.ts";
+import { defineLanguageOverlayPage } from "../../../source-mirrored-doc-pages.ts";
 
-const document = defineSourceMirroredDocPage({
+const document = defineLanguageOverlayPage({
   description: "Degree-Seite im öffentlichen Feature-Baum.",
   family: "feature",
   leaf: "Degree",
@@ -10,12 +10,12 @@ const document = defineSourceMirroredDocPage({
   body: "`Degree` ist eine flache grammatische Feature-Seite im deutschen Pack.\n\nDoc-cite verwendet genau eine öffentliche Route pro Feature-Namen, auch wenn das Merkmal je nach Lemma-Subkind an unterschiedlichen Stellen im Modell auftaucht.",
   subsections: [
     {
-      body: "Im deutschen Pack verwendet von:\n- [Lexeme / ADJ](/de/pos/ADJ.html) verwendet das Merkmal flektionsgetragen.\n- [Lexeme / ADV](/de/pos/ADV.html) verwendet das Merkmal flektionsgetragen.\n- [Lexeme / DET](/de/pos/DET.html) verwendet das Merkmal flektionsgetragen.",
+      body: "Im deutschen Pack verwendet von:\n- [Lexeme / ADJ](/de/entity/lemma/lexeme/adj/) verwendet das Merkmal flektionsgetragen.\n- [Lexeme / ADV](/de/entity/lemma/lexeme/adv/) verwendet das Merkmal flektionsgetragen.\n- [Lexeme / DET](/de/entity/lemma/lexeme/det/) verwendet das Merkmal flektionsgetragen.",
       examples: [],
       heading: "Verwendung im deutschen Pack"
     },
     {
-      body: "Verwandte Überblicksseiten:\n- [Feature](/de/feature.html)\n- [Kind](/de/kind.html)",
+      body: "Verwandte Überblicksseiten:\n- [Feature](/de/feature/)\n- [Kind](/de/entity/lemma/)",
       examples: [],
       heading: "Einordnung"
     }

@@ -1,6 +1,6 @@
-import { defineStubDocPage } from "../../../source-mirrored-doc-pages.ts";
+import { defineUniversalConceptStubPage } from "../../../source-mirrored-doc-pages.ts";
 
-const document = defineStubDocPage({
+const document = defineUniversalConceptStubPage({
   description: "coverage-Seite für öffentliche Selection-Features.",
   family: "feature-selection",
   leaf: "coverage",

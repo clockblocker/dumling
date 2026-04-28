@@ -4,7 +4,6 @@ export interface DocsOutput {
 	body: string;
 	frontmatter: Frontmatter;
 	generatedPath: string;
-	htmlRoute: string;
 	publicPath: string;
 	routeId: string;
 	sourcePath: string;

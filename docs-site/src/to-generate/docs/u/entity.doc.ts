@@ -1,6 +1,6 @@
-import { defineStubDocPage } from "../source-mirrored-doc-pages.ts";
+import { defineUniversalConceptStubPage } from "../source-mirrored-doc-pages.ts";
 
-const document = defineStubDocPage({
+const document = defineUniversalConceptStubPage({
   description: "Überblick über die öffentlichen Entity-Kategorien von doc-cite.",
   family: "entity",
   order: 11000,

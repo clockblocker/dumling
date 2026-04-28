@@ -3,12 +3,15 @@ import type { Prettify } from "../../../helper-types";
 
 export type DocPageMeta = {
 	description?: string;
+	navTitle?: string;
 	order?: number;
 	slug?: string;
 	title: string;
 };
 
-export const sourceMirroredDocPageMarker = "source-mirrored-doc-page";
+export const generatedDocPageMarker = "generated-doc-page";
+export const universalConceptPageMarker = "universal-concept-page";
+export const languageOverlayPageMarker = "language-overlay-page";
 
 export type DocCitePageFamily =
 	| "scope"
@@ -29,53 +32,45 @@ export type DocSection = {
 	heading?: string;
 };
 
-export type LegacyRuleDocument = Prettify<
-	DocSection & {
-		meta: DocPageMeta;
-		subsections?: readonly DocSection[];
+type SharedTypedDocFields = DocSection & {
+	meta: DocPageMeta;
+	subsections?: readonly DocSection[];
+};
+
+export type GeneratedDocPageDocument = Prettify<
+	SharedTypedDocFields & {
+		[generatedDocPageMarker]: true;
 	}
 >;
 
-export type DocCitePageDocument = Prettify<
-	DocSection & {
-		doc: {
-			docId: string;
-			family: DocCitePageFamily;
-			htmlRoute: `/${string}.html`;
-			mirrorsDocId?: string;
-			scope: string;
-			subject: string;
-		};
-		meta: DocPageMeta;
-		subsections?: readonly DocSection[];
-	}
+type LegacyMirroredPageFields = {
+	doc?: {
+		family: DocCitePageFamily;
+		leaf?: string | { docId: string; html: string };
+		subject: string;
+	};
+};
+
+export type UniversalConceptPageDocument = Prettify<
+	SharedTypedDocFields &
+		LegacyMirroredPageFields & {
+			[universalConceptPageMarker]: true;
+		}
 >;
 
-export type SourceMirroredLeaf =
-	| string
-	| {
-			docId: string;
-			html: string;
-	  };
-
-export type SourceMirroredDocCitePageDefinition = Prettify<
-	DocSection & {
-		doc: {
-			family: DocCitePageFamily;
-			leaf?: SourceMirroredLeaf;
-			subject: string;
-		};
-		meta: DocPageMeta;
-		subsections?: readonly DocSection[];
-		[sourceMirroredDocPageMarker]: true;
-	}
+export type LanguageOverlayPageDocument = Prettify<
+	SharedTypedDocFields &
+		LegacyMirroredPageFields & {
+			[languageOverlayPageMarker]: true;
+		}
 >;
 
-export type TypedDocDocument = LegacyRuleDocument | DocCitePageDocument;
+export type TypedDocDocument =
+	| GeneratedDocPageDocument
+	| UniversalConceptPageDocument
+	| LanguageOverlayPageDocument;
 
-export type TypedDocSourceDefinition =
-	| TypedDocDocument
-	| SourceMirroredDocCitePageDefinition;
+export type TypedDocSourceDefinition = TypedDocDocument;
 
 export type TypedDocExport =
 	| TypedDocSourceDefinition
