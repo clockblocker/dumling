@@ -1,4 +1,4 @@
-import { defineLanguageOverlayPage } from "../../source-mirrored-doc-pages.ts";
+import { defineLanguageOverlayPage } from "../../../../lib/docs/source-mirrored-doc-pages.ts";
 
 const document = defineLanguageOverlayPage({
   description: "Overview of the public entity categories in doc-cite.",

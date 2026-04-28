@@ -1,4 +1,4 @@
-import { defineUniversalConceptPage } from "./source-mirrored-doc-pages.ts";
+import { defineUniversalConceptPage } from "../../lib/docs/source-mirrored-doc-pages.ts";
 
 const document = defineUniversalConceptPage({
 	description: "Root overview for the universal public concept tree.",

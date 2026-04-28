@@ -1,4 +1,4 @@
-import { defineUniversalConceptStubPage } from "../../source-mirrored-doc-pages.ts";
+import { defineUniversalConceptStubPage } from "../../../../lib/docs/source-mirrored-doc-pages.ts";
 
 const document = defineUniversalConceptStubPage({
   family: "feature-surface",

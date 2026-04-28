@@ -1,4 +1,4 @@
-import { defineGeneratedDocPage } from "../source-mirrored-doc-pages.ts";
+import { defineGeneratedDocPage } from "../../../lib/docs/source-mirrored-doc-pages.ts";
 
 const document = defineGeneratedDocPage({
 	description: "Runtime API namespaces and package entrypoints.",

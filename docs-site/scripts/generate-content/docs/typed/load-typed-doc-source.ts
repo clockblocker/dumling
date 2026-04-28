@@ -7,12 +7,12 @@ import type {
 	TypedDocDocument,
 	TypedDocExport,
 	UniversalConceptPageDocument,
-} from "../../../../src/to-generate/docs/document-shapes.ts";
+} from "../../../../src/lib/docs/document-shapes.ts";
 import {
 	generatedDocPageMarker,
 	languageOverlayPageMarker,
 	universalConceptPageMarker,
-} from "../../../../src/to-generate/docs/document-shapes.ts";
+} from "../../../../src/lib/docs/document-shapes.ts";
 import { sourceTypedDocsDir } from "../../shared/paths";
 import { parseDocPageMeta } from "../metadata";
 import {
