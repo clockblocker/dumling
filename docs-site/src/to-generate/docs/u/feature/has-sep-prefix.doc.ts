@@ -13,7 +13,7 @@ const document = defineUniversalConceptPage({
 	body: `
 \`HasSepPrefix\` records the canonical separable prefix associated with a [\`Lemma\`](/u/entity/lemma/).
 
-It is a Dumling-specific feature, not a UD feature. The value is a non-empty string and belongs in \`lemma.inherentFeatures\`.
+It is a Dumling-specific feature. The value is a non-empty string and belongs in \`lemma.inherentFeatures\`.
 
 ## Values
 
