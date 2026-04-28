@@ -24,11 +24,12 @@
     - `Am nächsten Morgen war alles [anders].`
     - `Er war am fünften Tage [tot].`
     - `Die schoß das Häschen ganz [entzwei].`
-- Participles are stored as inflections of `VERB`, even in stative, passive-like, or adjective-leaning predicative clauses, unless there is a stronger reason to treat the form as a fully lexicalized adjective.
+- Participial classification splits by use. Attributive participles modifying a noun and carrying adjectival agreement are stored as `ADJ`; bare or predicative Partizip-II forms stay `VERB`, even in stative, passive-like, or adjective-leaning clauses, unless there is a stronger reason to treat the item as a fully lexicalized adjective.
   Examples:
-    - `Auf der Karte sind drei Seen [eingezeichnet].`
-    - `Sie wurde um Geduld [gebeten].`
-    - `[Verbrannt] ist alles ganz und gar, das arme Kind mit Haut und Haar.`
+    - `die [eingezeichneten] Seen` -> `ADJ`
+    - `Auf der Karte sind drei Seen [eingezeichnet].` -> `VERB`
+    - `Sie wurde um Geduld [gebeten].` -> `VERB`
+    - `[Verbrannt] ist alles ganz und gar, das arme Kind mit Haut und Haar.` -> `VERB`
 - Finite German modals split by whether they auxiliary-mark an overt infinitive. Use `AUX` when the modal combines with an overt infinitive, and use `VERB` when the modal stands as the clause's main predicate in an elliptical clause with no overt infinitive.
   Examples:
     - `Er [muss] heute arbeiten.` -> `AUX`

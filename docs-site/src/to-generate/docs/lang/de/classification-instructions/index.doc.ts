@@ -115,7 +115,7 @@ The German pack does not try to encode every imaginable grammatical distinction.
 
 German noun-like entries use \`gender\` as an inherent lexical feature and commonly use \`case\` and \`number\` as inflectional features.
 
-Agreement categories such as \`ADJ\`, \`DET\`, \`PRON\`, and some participles may also carry inflectional \`case\`, \`number\`, and \`gender\`.
+Agreement categories such as \`ADJ\`, \`DET\`, \`PRON\`, and attributive participles may also carry inflectional \`case\`, \`number\`, and \`gender\`.
 
 Because German morphology is often syncretic, these features should be encoded only when the attested form or the local syntax really licenses them.
 
@@ -144,6 +144,12 @@ The German pack also uses a small set of custom verbal features that matter a lo
 - \`hasSepPrefix\`
 - \`lexicallyReflexive\`
 - \`verbType: "Mod"\`
+
+For participles, keep the layer distinction sharp:
+
+- attributive participles with adjectival agreement normally classify as \`ADJ\`
+- bare or predicative Partizip-II forms normally classify as \`VERB\`
+- fully lexicalized adjectives can still stay \`ADJ\` regardless of historical participial origin
 
 ### German-Specific And Layered Features
 
