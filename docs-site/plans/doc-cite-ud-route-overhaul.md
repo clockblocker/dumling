@@ -30,6 +30,30 @@ This mirrors UD:
 - `https://universaldependencies.org/u/pos/`
 - `https://universaldependencies.org/en/pos/`
 
+For entity and lemma-model pages, the public tree should follow the actual
+model hierarchy rather than the current flattened file buckets.
+
+Canonical examples:
+
+- `/u/entity/selection/`
+- `/u/entity/surface/citation/`
+- `/u/entity/surface/inflection/`
+- `/u/entity/lemma/lexeme/noun/`
+- `/u/entity/lemma/morpheme/prefix/`
+- `/u/entity/lemma/phraseme/idiom/`
+- `/u/entity/lemma/construction/fusion/`
+
+Same shape for `/{lang}/...`.
+
+Public route stance:
+
+- keep `entity` as a real root
+- keep `lemma` inside `entity`
+- treat `lexeme`, `morpheme`, `phraseme`, and `construction` as lemma branches
+- treat `citation` and `inflection` as surface branches
+- do not keep parallel public roots such as `/u/pos/`, `/u/morpheme/`,
+  `/u/phraseme/`, `/u/construction/`, `/u/kind/`, or top-level `/u/surface/`
+
 ### Source of truth
 
 `u/**` is authoritative.
@@ -110,6 +134,9 @@ Files under `u/**` define:
 - optional universal examples
 
 They generate public `/u/...` pages.
+
+The source tree should be reorganized to match the public route tree. Do not
+preserve the current flattened buckets just because they already exist on disk.
 
 ### 2. Language overlay pages
 
@@ -196,6 +223,16 @@ shared helpers later if repeated code appears.
 Move concept-defining prose out of `lang/{lang}` and into `u/**`.
 
 Keep language-local commentary and examples in `lang/{lang}`.
+
+Reshape the source tree around the chosen route hierarchy:
+
+- `entity/selection`
+- `entity/surface/citation`
+- `entity/surface/inflection`
+- `entity/lemma/lexeme/*`
+- `entity/lemma/morpheme/*`
+- `entity/lemma/phraseme/*`
+- `entity/lemma/construction/*`
 
 Move the meaningful German numerals guidance into:
 
