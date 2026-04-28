@@ -8,6 +8,8 @@ export type DocPageMeta = {
 	title: string;
 };
 
+export const sourceMirroredDocPageMarker = "source-mirrored-doc-page";
+
 export type DocCitePageFamily =
 	| "scope"
 	| "entity"
@@ -41,7 +43,7 @@ export type DocCitePageDocument = Prettify<
 			family: DocCitePageFamily;
 			htmlRoute: `/${string}.html`;
 			mirrorsDocId?: string;
-			scope: "de" | "u";
+			scope: string;
 			subject: string;
 		};
 		meta: DocPageMeta;
@@ -49,8 +51,32 @@ export type DocCitePageDocument = Prettify<
 	}
 >;
 
+export type SourceMirroredLeaf =
+	| string
+	| {
+			docId: string;
+			html: string;
+	  };
+
+export type SourceMirroredDocCitePageDefinition = Prettify<
+	DocSection & {
+		doc: {
+			family: DocCitePageFamily;
+			leaf?: SourceMirroredLeaf;
+			subject: string;
+		};
+		meta: DocPageMeta;
+		subsections?: readonly DocSection[];
+		[sourceMirroredDocPageMarker]: true;
+	}
+>;
+
 export type TypedDocDocument = LegacyRuleDocument | DocCitePageDocument;
 
-export type TypedDocExport =
+export type TypedDocSourceDefinition =
 	| TypedDocDocument
-	| readonly TypedDocDocument[];
+	| SourceMirroredDocCitePageDefinition;
+
+export type TypedDocExport =
+	| TypedDocSourceDefinition
+	| readonly TypedDocSourceDefinition[];

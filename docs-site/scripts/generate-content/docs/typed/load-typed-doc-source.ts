@@ -1,3 +1,4 @@
+import { relative } from "node:path";
 import { pathToFileURL } from "node:url";
 import type { AttestedSelection } from "../../../../../src/types/public-types.ts";
 import type {
@@ -6,10 +7,12 @@ import type {
 	DocPageMeta,
 	DocSection,
 	LegacyRuleDocument,
+	SourceMirroredDocCitePageDefinition,
 	TypedDocDocument,
 	TypedDocExport,
 } from "../../../../src/to-generate/docs/document-shapes.ts";
-import { pathRelativeToSiteRoot } from "../../shared/paths";
+import { sourceMirroredDocPageMarker } from "../../../../src/to-generate/docs/document-shapes.ts";
+import { pathRelativeToSiteRoot, sourceTypedDocsDir } from "../../shared/paths";
 import type { Frontmatter } from "../../shared/types";
 import {
 	canonicalSlugForDocMeta,
@@ -249,10 +252,6 @@ function parseDocCitePageDocument(
 	);
 	const scope = parseNonEmptyString(value.doc.scope, "doc.scope", sourcePath);
 
-	if (scope !== "de" && scope !== "u") {
-		throw new Error(`${sourcePath} has an invalid doc.scope value.`);
-	}
-
 	const mirrorsDocId =
 		value.doc.mirrorsDocId === undefined
 			? undefined
@@ -284,6 +283,129 @@ function parseDocCitePageDocument(
 	};
 }
 
+function isSourceMirroredDocPageDefinition(
+	value: Record<string, unknown>,
+): value is SourceMirroredDocCitePageDefinition {
+	return value[sourceMirroredDocPageMarker] === true;
+}
+
+function parseSourceMirroredLeaf(
+	value: unknown,
+	sourcePath: string,
+): { docId: string; html: string } | undefined {
+	if (value === undefined) {
+		return undefined;
+	}
+	if (typeof value === "string") {
+		const parsed = parseNonEmptyString(value, "doc.leaf", sourcePath);
+		return {
+			docId: parsed,
+			html: parsed,
+		};
+	}
+	if (!isRecord(value)) {
+		throw new Error(`${sourcePath} has an invalid doc.leaf value.`);
+	}
+
+	return {
+		docId: parseNonEmptyString(value.docId, "doc.leaf.docId", sourcePath),
+		html: parseNonEmptyString(value.html, "doc.leaf.html", sourcePath),
+	};
+}
+
+function normalizeSourceRelativePath(path: string): string {
+	return path.replaceAll("\\", "/");
+}
+
+function parseSourceMirroredRoute(
+	sourcePath: string,
+	leaf: { docId: string; html: string } | undefined,
+): {
+	derivedScope: string;
+	docId: string;
+	htmlRoute: `/${string}.html`;
+} {
+	const relativePath = normalizeSourceRelativePath(
+		relative(sourceTypedDocsDir, sourcePath).replace(/\.doc\.ts$/u, ""),
+	);
+	const segments = relativePath.split("/").filter((segment) => segment.length > 0);
+
+	if (segments.length === 0) {
+		throw new Error(`${sourcePath} could not be resolved relative to typed docs root.`);
+	}
+
+	let derivedScope: string;
+	let baseSegments: string[];
+
+	if (segments[0] === "u") {
+		derivedScope = "u";
+		baseSegments = segments.slice(1);
+	} else if (segments[0] === "lang" && segments.length >= 2) {
+		derivedScope = segments[1] ?? "";
+		baseSegments = segments.slice(2);
+	} else {
+		throw new Error(
+			`${sourcePath} must live under src/to-generate/docs/u or src/to-generate/docs/lang/{lang} to use defineSourceMirroredDocPage.`,
+		);
+	}
+
+	if (derivedScope.trim().length === 0) {
+		throw new Error(`${sourcePath} could not derive a public scope from its source path.`);
+	}
+
+	const docIdSegments =
+		leaf === undefined
+			? baseSegments
+			: [...baseSegments.slice(0, -1), normalizeDocRouteId(leaf.docId)];
+	const htmlSegments =
+		leaf === undefined
+			? baseSegments
+			: [...baseSegments.slice(0, -1), normalizeDocRouteId(leaf.html)];
+
+	const docId = normalizeDocRouteId([derivedScope, ...docIdSegments].join("/"));
+	const htmlRoute = normalizeHtmlRoute(
+		`/${[derivedScope, ...htmlSegments].filter((segment) => segment.length > 0).join("/")}.html`,
+		sourcePath,
+	) as `/${string}.html`;
+
+	return {
+		derivedScope,
+		docId,
+		htmlRoute,
+	};
+}
+
+function parseSourceMirroredDocCitePageDefinition(
+	value: Record<string, unknown>,
+	sourcePath: string,
+): DocCitePageDocument {
+	if (!isRecord(value.doc)) {
+		throw new Error(`${sourcePath} must export a doc object.`);
+	}
+
+	const parsed = parseDocCiteSection(value, sourcePath);
+	const leaf = parseSourceMirroredLeaf(value.doc.leaf, sourcePath);
+	const route = parseSourceMirroredRoute(sourcePath, leaf);
+
+	return {
+		body: parsed.body,
+		doc: {
+			docId: route.docId,
+			family: parseDocPageFamily(value.doc.family, sourcePath),
+			htmlRoute: route.htmlRoute,
+			scope: route.derivedScope,
+			subject: parseNonEmptyString(
+				value.doc.subject,
+				"doc.subject",
+				sourcePath,
+			),
+		},
+		examples: parsed.examples,
+		meta: parsed.meta,
+		subsections: parsed.subsections,
+	};
+}
+
 function parseTypedDocDocument(
 	value: unknown,
 	sourcePath: string,
@@ -292,6 +414,10 @@ function parseTypedDocDocument(
 		throw new Error(
 			`${sourcePath} must default-export a typed document object or document array.`,
 		);
+	}
+
+	if (isSourceMirroredDocPageDefinition(value)) {
+		return parseSourceMirroredDocCitePageDefinition(value, sourcePath);
 	}
 
 	return "doc" in value
