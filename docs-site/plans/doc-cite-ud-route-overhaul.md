@@ -16,6 +16,12 @@ meaningful existing source to preserve is
 `docs-site/src/to-generate/docs/lang/de/rules/numerals.doc.ts`, which should be
 relocated into `de/classification-instructions/`.
 
+This also completes the migration to one rule for docs content:
+
+- all public pages are generated
+- all doc sources live under `docs-site/src/to-generate/docs/**`
+- `docs-site/src/hand-written` goes away
+
 ## Fixed Rules
 
 ### Public routes
@@ -95,6 +101,12 @@ inventories.
 First pass: do not over-engineer this. Use direct generated data, not a strict
 typed helper framework yet.
 
+This includes non-`u` and non-`{lang}` pages such as:
+
+- `/`
+- `/general/api/`
+- other current `src/hand-written/**` pages
+
 ### Route contract
 
 Remove the special doc-cite `.html` route contract.
@@ -137,6 +149,9 @@ They generate public `/u/...` pages.
 
 The source tree should be reorganized to match the public route tree. Do not
 preserve the current flattened buckets just because they already exist on disk.
+
+Outside the universal and language trees, generated `*.doc.ts` pages should also
+cover site-level and general docs such as the root index and `/general/api/`.
 
 ### 2. Language overlay pages
 
@@ -190,6 +205,13 @@ typed-doc source kinds:
 - universal concept page
 - language overlay page
 
+Alongside those, keep ordinary generated doc pages for non-mirrored routes such
+as:
+
+- `index.doc.ts`
+- `general/api.doc.ts`
+- other current general docs
+
 Keep the first version simple. The language overlay is additive only.
 
 ### Phase 3. Compose universal and language pages
@@ -238,6 +260,16 @@ Move the meaningful German numerals guidance into:
 
 - `lang/de/classification-instructions/how-to-numerals.doc.ts`
 
+Move the current handwritten docs into generated `*.doc.ts` sources, including:
+
+- `src/hand-written/index.md` -> `src/to-generate/docs/index.doc.ts`
+- `src/hand-written/general/api.md` -> `src/to-generate/docs/general/api.doc.ts`
+- the remaining `src/hand-written/general/**` and `src/hand-written/lang/**`
+  pages into generated typed-doc sources
+
+After that, delete the handwritten-doc pipeline and remove
+`docs-site/src/hand-written`.
+
 Delete the current stub content after the new structure is in place.
 
 ## Validation
@@ -277,11 +309,19 @@ Routing cleanup:
 - `docs-site/src/pages/[...slug].astro`
 - remove the dedicated `.html.astro` doc-cite routes once no longer needed
 
+Delete handwritten-doc support:
+
+- `docs-site/scripts/generate-content/docs/handwritten/load-hand-written-doc.ts`
+- `docs-site/scripts/generate-content/docs/handwritten/copy-hand-written-docs.ts`
+- handwritten-doc wiring in
+  `docs-site/scripts/generate-content/docs/generate-docs.ts`
+
 Content migration:
 
 - `docs-site/src/to-generate/docs/u/**`
 - `docs-site/src/to-generate/docs/lang/{lang}/**`
 - `docs-site/src/to-generate/docs/lang/de/rules/numerals.doc.ts`
+- `docs-site/src/hand-written/**`
 
 ## First-Pass Stance
 
@@ -294,3 +334,4 @@ That means:
 - no strict helper framework for overview prose yet
 - generated child lists implemented directly where needed
 - one explicit language-only exception section and no more
+- generated `*.doc.ts` as the only public docs source format
