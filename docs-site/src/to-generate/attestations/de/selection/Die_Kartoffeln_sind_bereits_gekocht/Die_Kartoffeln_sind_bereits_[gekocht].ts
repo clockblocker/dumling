@@ -7,22 +7,26 @@ const deSelection = {
 	surface: {
 		language: "de",
 		normalizedFullSurface: "gekocht",
-		surfaceKind: "Citation",
+		surfaceKind: "Inflection",
+		inflectionalFeatures: {
+			aspect: "Perf",
+			verbForm: "Part",
+		},
 		lemma: {
 			language: "de",
-			canonicalLemma: "gekocht",
+			canonicalLemma: "kochen",
 			lemmaKind: "Lexeme",
-			lemmaSubKind: "ADJ",
+			lemmaSubKind: "VERB",
 			inherentFeatures: {},
 			meaningInEmojis: "🍳",
 		},
 	},
-} satisfies Selection<"de", "Citation", "Lexeme", "ADJ">;
+} satisfies Selection<"de", "Inflection", "Lexeme", "VERB">;
 
 export const attestation = {
 	selection: deSelection,
 	sentenceMarkdown: "Die Kartoffeln sind bereits [gekocht].",
 	classifierNotes:
-		"Here gekocht is best treated as a citation-shaped adjective in predicative position: it is the complement of sind and describes the potatoes' resulting state, with bereits reinforcing that stative reading rather than a verbal perfect/passive parse.",
+		"Gekocht is a bare predicative Partizip-II form of kochen. Even though the clause describes a resulting state, the current German participle rule keeps non-attributive participles of lexical verbs under VERB rather than shifting them to ADJ.",
 	isVerified: true,
 } as const satisfies AttestedSelection;

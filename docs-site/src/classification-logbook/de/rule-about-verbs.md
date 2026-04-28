@@ -12,29 +12,25 @@ The main danger zone is participles. German lets the same surface look verbal, a
 - Substantivized infinitives and participles classify as `NOUN`.
 - Fully lexicalized adjectives of participial origin can stay `ADJ`.
 
-## Edge Cases We Want To Test
+## Verified Attestation Examples
 
 ### Attributive `P1` -> `ADJ`
 
-These modify a noun and behave like adjectives.
-
-- `der [lachende] Junge`
-- `die [schlafenden] Kinder`
+- `Der [lachende] Junge winkte uns zu.`
+- `Die [schlafenden] Kinder wurden nicht geweckt.`
 
 ### Non-attributive `P1` -> `VERB`
-
-These remain verbal rather than adjectival because they do not modify a noun attributively.
 
 - `Sie kam [lachend] herein.`
 - `Er saß [schweigend] am Fenster.`
 
 ### Attributive `P2` -> `ADJ`
 
-These are participles, but in Dumling they should go to `ADJ` because they are noun-modifying agreement forms.
+These are participles, but in Dumling they go to `ADJ` because they are noun-modifying agreement forms.
 
-- `die [eingezeichneten] Seen`
-- `der [geschriebene] Brief`
-- `die [gekochten] Kartoffeln`
+- `Die [eingezeichneten] Seen sind jetzt besser zu sehen.`
+- `Der [geschriebene] Brief lag auf dem Tisch.`
+- `Die [gekochten] Kartoffeln standen schon bereit.`
 
 ### Predicative Or Bare `P2` Of Lexical Verbs -> `VERB`
 
@@ -46,10 +42,7 @@ These remain verbal, even when the clause has a stative or result-state reading.
 
 ### `P2` Of Auxiliaries -> `AUX`
 
-The important probe here is `gewesen`.
-
 - `Das wäre schön [gewesen].`
-- `Er ist zu spät gekommen [gewesen].`
 
 ## Nominalized Verb Forms
 
@@ -63,17 +56,18 @@ The important probe here is `gewesen`.
 
 These are useful probes because they still look participial on the surface.
 
-- `der [Reisende]`
-- `die [Angestellten]`
-- `ein [Verletzter]`
+- `Der [Reisende] wartete draußen.`
+- `Die [Angestellten] streikten gestern.`
+- `Ein [Verletzter] lag am Straßenrand.`
 
 ## Lexicalization Override
 
 Some forms are historically participial but synchronically behave like ordinary adjectives for learners. These should be allowed to stay `ADJ`.
 
-- `ein [interessierter] Leser`
-- `sie ist [verheiratet]`
-- `die Tür ist [geschlossen]`
+- `Ein [interessierter] Leser fragte nach.`
+- `Sie ist [verheiratet].`
+- `Die Tür ist [geschlossen].`
+- `Die Aufgabe bleibt [ungelöst].`
 
 This is the dangerous class. These forms can tempt a default verbal analysis, so the classifier needs an explicit lexicalization override instead of a blind participle-first rule.
 

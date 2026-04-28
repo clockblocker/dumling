@@ -17,6 +17,7 @@ const deSelection = {
 			canonicalLemma: "schreiben",
 			lemmaKind: "Lexeme",
 			lemmaSubKind: "VERB",
+			inherentFeatures: {},
 			meaningInEmojis: "✍️",
 		},
 	},

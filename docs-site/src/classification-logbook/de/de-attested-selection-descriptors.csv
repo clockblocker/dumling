@@ -11,6 +11,7 @@ Das ist [nicht] mein Problem.,nicht,Citation,Lexeme,PART
 Das ist schwer [zu] erklären.,zu,Citation,Lexeme,PART
 Das [muss] heute noch raus.,muss,Inflection,Lexeme,VERB
 Das muss heute noch [raus].,raus,Citation,Lexeme,ADV
+Das [Rennen] hat Spaß gemacht.,Rennen,Citation,Lexeme,NOUN
 Das rote [Band] lag auf dem Geschenk.,Band,Citation,Lexeme,NOUN
 Das rote Band [lag] auf dem Geschenk.,lag,Inflection,Lexeme,VERB
 Das rote Band lag [auf] dem Geschenk.,auf,Citation,Lexeme,ADP
@@ -20,16 +21,26 @@ Das [Un]- in Unkosten wirkt historisch irritierend.,un-,Citation,Morpheme,Prefix
 Das [wäre] fast schief gewesen.,wäre,Inflection,Lexeme,AUX
 Das wäre [fast] schief gewesen.,fast,Citation,Lexeme,ADV
 Das wäre fast schief [gewesen].,gewesen,Inflection,Lexeme,AUX
+Das wäre schön [gewesen].,gewesen,Inflection,Lexeme,AUX
 "Der Autor, [dessen] Buch fehlt, wartet draußen.",dessen,Inflection,Lexeme,PRON
+Der Brief ist schon [geschrieben].,geschrieben,Inflection,Lexeme,VERB
 Der dritte [Band] ist längst vergriffen.,Band,Citation,Lexeme,NOUN
 Der Fährmann hat uns [übergesetzt].,übergesetzt,Inflection,Lexeme,VERB
+Der [geschriebene] Brief lag auf dem Tisch.,geschriebene,Inflection,Lexeme,ADJ
 Der hockte da im grünen Gras; dem [floß] der Kaffee auf die Nas.,floß,Inflection,Lexeme,VERB
 Der hockte da im grünen Gras; dem floß der Kaffee [auf] die Nas.,auf,Citation,Lexeme,ADP
 Der [Kiefer] schmerzte nach der Operation.,Kiefer,Citation,Lexeme,NOUN
+Der [lachende] Junge winkte uns zu.,lachende,Inflection,Lexeme,ADJ
 Der Laster [fuhr] das Schild um.,fuhr um,Inflection,Lexeme,VERB
 Der [Leiter] der Werkstatt kam später.,Leiter,Citation,Lexeme,NOUN
+Der [Reisende] wartete draußen.,Reisende,Citation,Lexeme,NOUN
 Die alte [Kiefer] steht am Hang.,Kiefer,Citation,Lexeme,NOUN
+Die [Angestellten] streikten gestern.,Angestellten,Inflection,Lexeme,NOUN
+Die Aufgabe bleibt [ungelöst].,ungelöst,Citation,Lexeme,ADJ
 Die [Band] spielt heute im Kellerclub.,Band,Citation,Lexeme,NOUN
+Die [eingezeichneten] Seen sind jetzt besser zu sehen.,eingezeichneten,Inflection,Lexeme,ADJ
+Die [gekochten] Kartoffeln standen schon bereit.,gekochten,Inflection,Lexeme,ADJ
+Die Kartoffeln sind bereits [gekocht].,gekocht,Inflection,Lexeme,VERB
 Die [Leiter] wackelte auf dem nassen Boden.,Leiter,Citation,Lexeme,NOUN
 Die [linke] Hand zitterte.,linke,Inflection,Lexeme,ADJ
 Die [Mutter] passt nicht auf diese Schraube.,Mutter,Citation,Lexeme,NOUN
@@ -45,10 +56,14 @@ Die Peitsche hat er mitgebracht und nimmt sie [sorglich] sehr in acht.,sorglich,
 Die Peitsche hat er mitgebracht und nimmt sie sorglich [sehr] in acht.,sehr,Citation,Lexeme,ADV
 Die Peitsche hat er mitgebracht und nimmt sie sorglich sehr [in] acht.,in acht nehmen,Citation,Phraseme,Idiom
 Die Peitsche hat er mitgebracht und nimmt sie sorglich sehr in [acht].,in acht nehmen,Citation,Phraseme,Idiom
+Die [schlafenden] Kinder wurden nicht geweckt.,schlafenden,Inflection,Lexeme,ADJ
 Die schoß das Häschen ganz [entzwei]; da rief die Frau: »O wei! O wei!«,entzwei,Citation,Lexeme,ADJ
 Die schoß das Häschen ganz entzwei; da rief die Frau: »[O] wei! O wei!«,o wei,Citation,Phraseme,DiscourseFormula
 Die schoß das Häschen ganz entzwei; da rief die Frau: »O [wei]! O wei!«,o wei,Citation,Phraseme,DiscourseFormula
+Die Tür ist [geschlossen].,geschlossen,Citation,Lexeme,ADJ
 "Die Zeugin, [deren] Aussage zählt, bleibt anonym.",deren,Inflection,Lexeme,PRON
+Ein [interessierter] Leser fragte nach.,interessierter,Inflection,Lexeme,ADJ
+Ein [Verletzter] lag am Straßenrand.,Verletzter,Citation,Lexeme,NOUN
 [Einst] ging er an Ufers Rand mit der Mappe in der Hand.,einst,Citation,Lexeme,ADV
 Einst [ging] er an Ufers Rand mit der Mappe in der Hand.,ging,Inflection,Lexeme,VERB
 Einst ging er [an] Ufers Rand mit der Mappe in der Hand.,an,Citation,Lexeme,ADP
@@ -57,6 +72,7 @@ Einst ging er an Ufers [Rand] mit der Mappe in der Hand.,Rand,Citation,Lexeme,NO
 Er ging [zum] Bahnhof.,zum,Citation,Construction,Fusion
 Er lief erst nach links und dann [hinaus].,hinaus,Citation,Lexeme,ADV
 Er [muss] heute arbeiten.,muss,Inflection,Lexeme,AUX
+Er saß [schweigend] am Fenster.,schweigend,Inflection,Lexeme,VERB
 Er vergaß [seinen] Schlüssel im Büro.,seinen,Inflection,Lexeme,DET
 "Er versucht, [hinauszulaufen].",hinauszulaufen,Inflection,Lexeme,VERB
 Er [wartet] auf den Nachtbus.,wartet,Inflection,Lexeme,VERB
@@ -98,8 +114,12 @@ Nach [manchem] Fehler lernt man schneller.,manchem,Inflection,Lexeme,DET
 Pass [auf] dich auf!,pass auf,Inflection,Lexeme,VERB
 Pass auf [dich] auf!,dich,Inflection,Lexeme,PRON
 Pass auf dich [auf]!,pass auf,Inflection,Lexeme,VERB
+[Schwimmen] ist gesund.,Schwimmen,Citation,Lexeme,NOUN
+Sein ständiges [Meckern] nervt.,Meckern,Citation,Lexeme,NOUN
 Sie [erinnert] sich an den Geruch.,erinnert,Inflection,Lexeme,VERB
 Sie folgte ihrem [Herzen].,Herzen,Inflection,Lexeme,NOUN
+Sie ist [verheiratet].,verheiratet,Citation,Lexeme,ADJ
+Sie kam [lachend] herein.,lachend,Inflection,Lexeme,VERB
 Sie sprang [ins] kalte Wasser.,ins,Citation,Construction,Fusion
 Sie [übersetzt] den Vertrag ins Deutsche.,übersetzt,Inflection,Lexeme,VERB
 Sie [umfuhr] die Baustelle weiträumig.,umfuhr,Inflection,Lexeme,VERB
