@@ -1,7 +1,6 @@
 import { defineUniversalConceptStubPage } from "../../../source-mirrored-doc-pages.ts";
 
 const document = defineUniversalConceptStubPage({
-  description: "Überblick über die Construction-Unterseiten des deutschen Packs.",
   family: "construction",
   order: 17000,
   subject: "construction",

@@ -1,7 +1,6 @@
 import { defineUniversalConceptStubPage } from "../../../source-mirrored-doc-pages.ts";
 
 const document = defineUniversalConceptStubPage({
-  description: "coverage-Seite für öffentliche Selection-Features.",
   family: "feature-selection",
   leaf: "coverage",
   order: 18101,

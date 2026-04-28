@@ -1,7 +1,6 @@
 import { defineUniversalConceptStubPage } from "../../../../source-mirrored-doc-pages.ts";
 
 const document = defineUniversalConceptStubPage({
-  description: "ADP-Seite im öffentlichen POS-Baum.",
   family: "pos",
   leaf: "ADP",
   order: 14007,

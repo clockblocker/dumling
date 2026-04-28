@@ -1,7 +1,6 @@
 import { defineUniversalConceptStubPage } from "../../../../source-mirrored-doc-pages.ts";
 
 const document = defineUniversalConceptStubPage({
-  description: "PairedFrame-Seite im öffentlichen Construction-Baum.",
   family: "construction",
   leaf: "PairedFrame",
   order: 17002,
