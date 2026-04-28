@@ -51,6 +51,15 @@ Canonical examples:
 
 Same shape for `/{lang}/...`.
 
+All public path segments should be lowercase slash-style slugs.
+
+Examples:
+
+- `ADJ` -> `/adj/`
+- `NOUN` -> `/noun/`
+- `Case` -> `/case/`
+- `Gender-psor` -> `/gender-psor/`
+
 Public route stance:
 
 - keep `entity` as a real root
@@ -81,6 +90,13 @@ For a mirrored language page:
 
 There is no visible separator by default. The language content continues the
 page naturally.
+
+Metadata rule for mirrored `/{lang}/...` pages:
+
+- route identity and tree position come from the universal concept
+- `title`, `description`, nav label, and `order` inherit from `u/**`
+- if the language overlay defines those metadata fields, the language values
+  override the inherited ones
 
 ### Examples
 
@@ -167,6 +183,17 @@ universal concept at the same relative path.
 They generate public `/{lang}/...` pages by composition with the universal
 source.
 
+Sparse language subsets should stay navigable.
+
+If a language defines a deep mirrored leaf but omits one or more mirrored
+ancestors, the missing ancestors should be auto-emitted from `u/**` so the
+language subtree remains connected.
+
+The effective language tree is therefore:
+
+- all explicitly mirrored language pages
+- plus the required ancestor closure from the universal tree
+
 ### 3. Classification instructions
 
 Files under `lang/{lang}/classification-instructions/**` are language-only.
@@ -179,10 +206,15 @@ the section.
 `lang/{lang}/classification-instructions/index.doc.ts` renders:
 
 1. the universal classification-instructions index content
-2. a generated list of all local `how-to-*` instruction pages
+2. optional local authored index prose, if the language index exists
+3. a generated list of all local `how-to-*` instruction pages
 
 `lang/{lang}/classification-instructions/how-to-*.doc.ts` are the only allowed
 language-only leaves in this section.
+
+If the language has local `how-to-*` pages but no language index source, the
+index should still be auto-emitted from the universal intro plus the generated
+local how-to list.
 
 ## Implementation
 
@@ -290,7 +322,8 @@ Generation must guarantee:
   second
 - `/{lang}/...` pages do not render universal examples
 - `/{lang}/classification-instructions/` renders the universal section intro
-  plus the generated local how-to list
+  plus optional local index prose and the generated local how-to list
+- sparse language subtrees remain navigable through auto-emitted ancestors
 
 ## Code Areas To Change
 
