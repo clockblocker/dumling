@@ -8,6 +8,17 @@ order: 110
 
 German is available at `dumling.de`, `getLanguageApi("de")`, and `schemasFor.de`.
 
+## Doc-Cite Tree
+
+The new doc-cite route tree for German lives under [`/de.html`](/de.html).
+
+Use these overview pages when you want the public classification taxonomy rather than the broader language-pack notes on this page:
+
+- [`/de/entity.html`](/de/entity.html) for `Lemma`, `Surface`, and `Selection`
+- [`/de/kind.html`](/de/kind.html) for the four lemma families
+- [`/de/pos.html`](/de/pos.html), [`/de/morpheme.html`](/de/morpheme.html), [`/de/phraseme.html`](/de/phraseme.html), and [`/de/construction.html`](/de/construction.html) for concrete inventories
+- [`/de/feature.html`](/de/feature.html) and [`/de/feature/selection.html`](/de/feature/selection.html) for public feature routes
+
 ## Supported Lemma Families
 
 | `lemmaKind` | `lemmaSubKind` values |

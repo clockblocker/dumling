@@ -6,6 +6,18 @@ order: 110
 
 # German Rules
 
+## Route Bridge
+
+This handbook section predates the doc-cite route overhaul.
+
+When you want the public note tree that mirrors client-facing categories, start with:
+
+- [`/de.html`](/de.html) for the German doc-cite root
+- [`/de/entity.html`](/de/entity.html) for `Selection`, `Surface`, and `Lemma`
+- [`/de/kind.html`](/de/kind.html) for lemma-family distinctions
+- [`/de/surface.html`](/de/surface.html) and [`/de/feature/selection.html`](/de/feature/selection.html) for ingest-facing surface and selection concepts
+- [`/de/feature.html`](/de/feature.html) for grammatical feature pages such as [`Case`](/de/feature/Case.html) and [`NumType`](/de/feature/NumType.html)
+
 ## Relation To UD
 
 dumling is UD-inspired, not UD-complete.

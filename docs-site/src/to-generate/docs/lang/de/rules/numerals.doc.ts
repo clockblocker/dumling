@@ -6,12 +6,16 @@ import { attestation as viele } from "../../../../attestations/de/selection/Viel
 import type { LegacyRuleDocument } from "../../../document-shapes.ts";
 
 const document = {
-	body: "Follow UD precisely when classifying.",
+	body: `Follow UD precisely when classifying.
+
+For the public doc-cite route tree, use [\`/de/pos/NUM.html\`](/de/pos/NUM.html) as the numeral anchor, then branch to neighboring inventory pages such as [\`/de/pos/DET.html\`](/de/pos/DET.html) and [\`/de/pos/PRON.html\`](/de/pos/PRON.html) when a numeral-adjacent form is really determiner- or pronoun-like.
+
+Related feature pages live under [\`/de/feature.html\`](/de/feature.html), especially [\`NumType\`](/de/feature/NumType.html), [\`Case\`](/de/feature/Case.html), and [\`Degree\`](/de/feature/Degree.html) where those distinctions matter.`,
 	examples: [zweien, fuenften, einmal],
 
 	subsections: [
 		{
-			body: "Numeral-adjacent quantifiers can still be `DET` or `PRON` when that is their real behavior.",
+			body: "Numeral-adjacent quantifiers can still be `DET` or `PRON` when that is their real behavior. In the new route tree, that means this page should be read alongside [`DET`](/de/pos/DET.html) and [`PRON`](/de/pos/PRON.html), not as an isolated `NUM` rule.",
 			examples: [keinem, viele],
 		},
 	],
