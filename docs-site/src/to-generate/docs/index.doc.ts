@@ -5,7 +5,7 @@ const document = defineGeneratedDocPage({
 	order: 0,
 	title: "dumling docs",
 	body: `
-**dumling** is a UD-inspired, learner-facing, meaning-focused lexical classification framework.
+**dumling** is a UD-inspired, learner-facing, lexi-semantic classification framework.
 
 It provides a language-independent structure for answering questions like this:
 
