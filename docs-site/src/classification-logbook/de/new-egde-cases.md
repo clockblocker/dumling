@@ -7,7 +7,7 @@ This note tracks the valuable German follow-up cases that are still not properly
 We have several good local examples, but we still need tighter contrast sets where the same lexical family appears across multiple categories.
 
 - `Die [geschlossene] Tür blieb den ganzen Abend zu.` -> likely `ADJ`
-- `Die Tür ist [geschlossen].` -> current override `ADJ`
+- `Die Tür ist [geschlossen].` -> `VERB`
 - `Der Laden wurde [geschlossen].` -> `VERB`
 
 Why this matters:

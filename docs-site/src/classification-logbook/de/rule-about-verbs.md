@@ -39,6 +39,7 @@ These remain verbal, even when the clause has a stative or result-state reading.
 - `Auf der Karte sind drei Seen [eingezeichnet].`
 - `Der Brief ist schon [geschrieben].`
 - `Die Kartoffeln sind bereits [gekocht].`
+- `Die Tür ist [geschlossen].`
 
 ### `P2` Of Auxiliaries -> `AUX`
 
@@ -66,7 +67,6 @@ Some forms are historically participial but synchronically behave like ordinary 
 
 - `Ein [interessierter] Leser fragte nach.`
 - `Sie ist [verheiratet].`
-- `Die Tür ist [geschlossen].`
 - `Die Aufgabe bleibt [ungelöst].`
 
 This is the dangerous class. These forms can tempt a default verbal analysis, so the classifier needs an explicit lexicalization override instead of a blind participle-first rule.
