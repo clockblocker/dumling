@@ -4,5 +4,5 @@ const deSelection = {} satisfies Selection;
 
 export const attestation = {
 	selection: deSelection,
-	sentenceMarkdown: "Der [Reisende] wartete draußen.",
+	sentenceMarkdown: "Der [reisende] Händler wartete draußen.",
 } as const satisfies AttestedSelection;
