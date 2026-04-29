@@ -7,13 +7,9 @@ const document = defineGeneratedDocPage({
 	body: `
 **dumling** is a UD-inspired, learner-facing, lexi-semantic classification framework.
 
-It provides a language-independent structure for answering questions like this:
-
----
-
-Teacher, what is [give] in:
-
-- _"See," he explained to Aunt Petunia through a mouthful of nails, "if they can't deliver them they'll just [give] up."?_
+It's goal is to provides a language-independent structure for answering questions like:
+"Teacher, what is '[give]' in `If they can't deliver them they'll just [give] up`?"
+in the most dummy-friendly way possible, while stil being strict and consistent.
 
 ---
 
