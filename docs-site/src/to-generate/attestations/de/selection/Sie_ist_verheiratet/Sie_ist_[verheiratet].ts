@@ -7,22 +7,26 @@ const deSelection = {
 	surface: {
 		language: "de",
 		normalizedFullSurface: "verheiratet",
-		surfaceKind: "Citation",
+		surfaceKind: "Inflection",
+		inflectionalFeatures: {
+			aspect: "Perf",
+			verbForm: "Part",
+		},
 		lemma: {
 			language: "de",
-			canonicalLemma: "verheiratet",
+			canonicalLemma: "verheiraten",
 			lemmaKind: "Lexeme",
-			lemmaSubKind: "ADJ",
+			lemmaSubKind: "VERB",
 			inherentFeatures: {},
 			meaningInEmojis: "💍",
 		},
 	},
-} satisfies Selection<"de", "Citation", "Lexeme", "ADJ">;
+} satisfies Selection<"de", "Inflection", "Lexeme", "VERB">;
 
 export const attestation = {
 	selection: deSelection,
 	sentenceMarkdown: "Sie ist [verheiratet].",
 	classifierNotes:
-		"Verheiratet is treated here as a lexicalized predicative adjective rather than as the participle of verheiraten. In this bare complement of ist, the project rulebook marks sie ist verheiratet as an explicit ADJ override, so the form is stored as a citation-shaped adjective.",
+		"Verheiratet is treated here as a bare predicative Partizip-II form of verheiraten. Under the stricter German participle rule, non-attributive participles of lexical verbs stay VERB even when the clause expresses a stable resulting state.",
 	isVerified: true,
 } as const satisfies AttestedSelection;

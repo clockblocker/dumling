@@ -10,7 +10,6 @@ The main danger zone is participles. German lets the same surface look verbal, a
 - Non-attributive participles of lexical verbs classify as `VERB`.
 - Participles of auxiliaries classify as `AUX`.
 - Substantivized infinitives and participles classify as `NOUN`.
-- Fully lexicalized adjectives of participial origin can stay `ADJ`.
 
 ## Verified Attestation Examples
 
@@ -40,6 +39,8 @@ These remain verbal, even when the clause has a stative or result-state reading.
 - `Der Brief ist schon [geschrieben].`
 - `Die Kartoffeln sind bereits [gekocht].`
 - `Die Tür ist [geschlossen].`
+- `Sie ist [verheiratet].`
+- `Die Aufgabe bleibt [ungelöst].`
 
 ### `P2` Of Auxiliaries -> `AUX`
 
@@ -61,15 +62,16 @@ These are useful probes because they still look participial on the surface.
 - `Die [Angestellten] streikten gestern.`
 - `Ein [Verletzter] lag am Straßenrand.`
 
-## Lexicalization Override
+## No Predicative Override
 
-Some forms are historically participial but synchronically behave like ordinary adjectives for learners. These should be allowed to stay `ADJ`.
+For this rule set, bare predicative `P2` does not flip to `ADJ` just because the clause feels stative, lexicalized, or resultative. If the form is not attributive and not an auxiliary participle, keep it under `VERB`.
 
-- `Ein [interessierter] Leser fragte nach.`
-- `Sie ist [verheiratet].`
-- `Die Aufgabe bleibt [ungelöst].`
+By this policy:
 
-This is the dangerous class. These forms can tempt a default verbal analysis, so the classifier needs an explicit lexicalization override instead of a blind participle-first rule.
+- `Die Tür ist [geschlossen].` -> `VERB`
+- `Sie ist [verheiratet].` -> `VERB`
+- `Die Aufgabe bleibt [ungelöst].` -> `VERB`
+- `Ein [interessierter] Leser fragte nach.` -> still `ADJ`, because the form is attributive and declined as an adjective
 
 ## Practical Summary
 
@@ -81,4 +83,3 @@ The actual split we want is:
 - non-attributive participles of lexical verbs -> `VERB`
 - participles of auxiliaries -> `AUX`
 - substantivized verb forms -> `NOUN`
-- lexicalized participial adjectives -> `ADJ`

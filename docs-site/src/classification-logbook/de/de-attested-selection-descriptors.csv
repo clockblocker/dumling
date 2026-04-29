@@ -36,7 +36,7 @@ Der [Leiter] der Werkstatt kam später.,Leiter,Citation,Lexeme,NOUN
 Der [Reisende] wartete draußen.,Reisende,Citation,Lexeme,NOUN
 Die alte [Kiefer] steht am Hang.,Kiefer,Citation,Lexeme,NOUN
 Die [Angestellten] streikten gestern.,Angestellten,Inflection,Lexeme,NOUN
-Die Aufgabe bleibt [ungelöst].,ungelöst,Citation,Lexeme,ADJ
+Die Aufgabe bleibt [ungelöst].,ungelöst,Inflection,Lexeme,VERB
 Die [Band] spielt heute im Kellerclub.,Band,Citation,Lexeme,NOUN
 Die [eingezeichneten] Seen sind jetzt besser zu sehen.,eingezeichneten,Inflection,Lexeme,ADJ
 Die [gekochten] Kartoffeln standen schon bereit.,gekochten,Inflection,Lexeme,ADJ
@@ -118,7 +118,7 @@ Pass auf dich [auf]!,pass auf,Inflection,Lexeme,VERB
 Sein ständiges [Meckern] nervt.,Meckern,Citation,Lexeme,NOUN
 Sie [erinnert] sich an den Geruch.,erinnert,Inflection,Lexeme,VERB
 Sie folgte ihrem [Herzen].,Herzen,Inflection,Lexeme,NOUN
-Sie ist [verheiratet].,verheiratet,Citation,Lexeme,ADJ
+Sie ist [verheiratet].,verheiratet,Inflection,Lexeme,VERB
 Sie kam [lachend] herein.,lachend,Inflection,Lexeme,VERB
 Sie sprang [ins] kalte Wasser.,ins,Citation,Construction,Fusion
 Sie [übersetzt] den Vertrag ins Deutsche.,übersetzt,Inflection,Lexeme,VERB

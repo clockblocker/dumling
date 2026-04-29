@@ -7,22 +7,26 @@ const deSelection = {
 	surface: {
 		language: "de",
 		normalizedFullSurface: "ungelöst",
-		surfaceKind: "Citation",
+		surfaceKind: "Inflection",
+		inflectionalFeatures: {
+			aspect: "Perf",
+			verbForm: "Part",
+		},
 		lemma: {
 			language: "de",
-			canonicalLemma: "ungelöst",
+			canonicalLemma: "lösen",
 			lemmaKind: "Lexeme",
-			lemmaSubKind: "ADJ",
+			lemmaSubKind: "VERB",
 			inherentFeatures: {},
 			meaningInEmojis: "🧩",
 		},
 	},
-} satisfies Selection<"de", "Citation", "Lexeme", "ADJ">;
+} satisfies Selection<"de", "Inflection", "Lexeme", "VERB">;
 
 export const attestation = {
 	selection: deSelection,
 	sentenceMarkdown: "Die Aufgabe bleibt [ungelöst].",
 	classifierNotes:
-		"I treated ungelöst as a lexicalized adjective rather than as the participle of lösen. In Die Aufgabe bleibt ungelöst, it functions as a predicative state adjective, and with no overt adjectival inflection the surface is stored as citation-shaped ADJ.",
+		"Ungelöst is treated here as a bare predicative Partizip-II form of lösen. Even though bleibt ungelöst strongly suggests a state reading, the stricter German participle rule keeps non-attributive participles of lexical verbs under VERB rather than shifting them to ADJ.",
 	isVerified: true,
 } as const satisfies AttestedSelection;

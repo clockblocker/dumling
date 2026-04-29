@@ -6,14 +6,14 @@ This note tracks the valuable German follow-up cases that are still not properly
 
 We have several good local examples, but we still need tighter contrast sets where the same lexical family appears across multiple categories.
 
-- `Die [geschlossene] Tür blieb den ganzen Abend zu.` -> likely `ADJ`
+- `Die [geschlossene] Tür blieb den ganzen Abend zu.` -> `ADJ`
 - `Die Tür ist [geschlossen].` -> `VERB`
 - `Der Laden wurde [geschlossen].` -> `VERB`
 
 Why this matters:
 
 - it tests whether the rule is genuinely stable across uses
-- it forces us to separate lexicalized-adjective overrides from default participial `VERB`
+- it forces us to separate attributive `ADJ` uses from default predicative participial `VERB`
 
 ## Participles With Verbal Dependents
 
@@ -32,8 +32,6 @@ Why this matters:
 
 We covered `eingezeichnet` and `eingezeichneten`, but only for one separable-verb family.
 
-- `Der [aufgeschriebene] Name stand noch auf dem Zettel.`
-- `Der Name ist [aufgeschrieben].`
 - `Die [mitgebrachten] Unterlagen lagen schon im Büro.`
 - `Er hat alles [mitgebracht].`
 
@@ -52,7 +50,7 @@ We covered auxiliary `gewesen`, but not the most canonical German passive shape.
 
 Why this matters:
 
-- it sharpens the difference between passive verbal participles and lexicalized predicative adjectives
+- it sharpens the difference between passive verbal participles and bare predicative `P2` forms with state readings
 - it gives a cleaner test than only using `sein + P2`
 
 ## `zu`-Infinitives As Verbal Forms
@@ -79,34 +77,6 @@ Why this matters:
 
 - same family, different category
 - very efficient test of whether the classifier is reading syntax rather than just memorizing the string
-
-## Nominalized Infinitive Vs Ordinary Verb
-
-We already have nominalized infinitives, but not a direct control pair from the same lemma.
-
-- `[Schwimmen] ist gesund.` -> `NOUN`
-- `Wir wollen [schwimmen].` -> `VERB`
-- `Das [Rennen] hat Spaß gemacht.` -> `NOUN`
-- `Die Kinder [rennen] nach Hause.` -> `VERB`
-
-Why this matters:
-
-- it isolates nominalization as the decisive factor
-- it helps catch classifiers that lean too hard on capitalization or surface familiarity alone
-
-## Lexicalization Override Pairs
-
-We already have good override examples, but we still need sharper pairings against non-overrides in similar slots.
-
-- `Sie ist [verheiratet].` -> override `ADJ`
-- `Der Brief ist [geschrieben].` -> default `VERB`
-- `Die Aufgabe bleibt [ungelöst].` -> override `ADJ`
-- `Die Kartoffeln sind [gekocht].` -> default `VERB`
-
-Why this matters:
-
-- this is where the rule is most likely to drift into intuition instead of policy
-- paired examples make the override boundary easier to explain and audit
 
 ## Syncretic Attributive Participles
 
